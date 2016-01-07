@@ -15,3 +15,11 @@
 /log/*
 !/log/.keep
 /tmp
+
+# Project-specific
+/_dev
+.project
+
+# Ignore application configuration
+/config/application.yml
+/config/database.yml

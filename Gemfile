@@ -3,8 +3,11 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+
+# Use PostgreSQL as the database for Active Record
+gem 'pg'
+gem 'pg_search'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -26,8 +29,19 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-# Use Unicorn as the app server
-# gem 'unicorn'
+# Back-end App is treated mostly as a JSON API. Read more: https://github.com/rails-api/rails-api
+gem 'rails-api'
+
+# To serialize ActiveModel/ActiveRecord objects into JSON. Read more: https://github.com/rails-api/active_model_serializers
+gem 'active_model_serializers'
+
+# Simple Rails app configuration. Read more: https://github.com/laserlemon/figaro
+gem 'figaro'
+
+# Use unicorn on linux only
+platforms :ruby do # linux
+  gem 'unicorn'
+end
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -44,4 +58,3 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
-
