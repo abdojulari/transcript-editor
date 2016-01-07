@@ -1,0 +1,7 @@
+{
+  "name": "TranscriptEditor",
+  "dependencies": {
+    "gulp": "^3.8.x",
+    "gulp-sass": "^2.1.x"
+  }
+}
