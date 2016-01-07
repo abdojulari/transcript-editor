@@ -1,7 +1,9 @@
 var gulp = require('gulp');
-var sass = require('gulp-sass');
-var liveReload  = require('gulp-livereload');
 var config = require('./config');
+
+// Sass compilation
+
+var sass = require('gulp-sass');
 
 gulp.task('sass', function () {
   gulp.src(config.sass.src)
@@ -10,8 +12,21 @@ gulp.task('sass', function () {
     .pipe(gulp.dest(config.sass.dest));
 });
 
-gulp.task('sass:watch', function () {
-  gulp.watch(config.sass.src, ['sass']);
+// Coffeescript compilation
+
+var coffee = require("gulp-coffee");
+
+gulp.task('coffee', function () {
+    gulp.src(config.coffee.src)
+    .pipe(coffee(config.coffee.opt).on('error', function(err){}))
+    .pipe(gulp.dest(config.coffee.dest));
 });
 
-gulp.task('default', ['sass:watch', 'sass']);
+// Watchers
+gulp.task('watch', function () {
+  gulp.watch(config.sass.src, ['sass']);
+  gulp.watch(config.coffee.src, ['coffee'])
+});
+
+
+gulp.task('default', ['watch', 'sass', 'coffee']);
