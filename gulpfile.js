@@ -12,21 +12,23 @@ gulp.task('sass', function () {
     .pipe(gulp.dest(config.sass.dest));
 });
 
-// Coffeescript compilation
+// Javascript compilation
 
-var coffee = require("gulp-coffee");
+var uglify = require('gulp-uglify');
+var concat = require('gulp-concat');
 
-gulp.task('coffee', function () {
-    gulp.src(config.coffee.src)
-    .pipe(coffee(config.coffee.opt).on('error', function(err){}))
-    .pipe(gulp.dest(config.coffee.dest));
+gulp.task('js', function() {
+  gulp.src(config.uglify.src)
+    .pipe(concat(config.uglify.outputFile))
+    .pipe(uglify(config.uglify.opt).on('error', console.error.bind(console)))
+    .pipe(gulp.dest(config.uglify.dest));
 });
 
 // Watchers
 gulp.task('watch', function () {
   gulp.watch(config.sass.src, ['sass']);
-  gulp.watch(config.coffee.src, ['coffee'])
+  gulp.watch(config.uglify.src, ['js']);
 });
 
 
-gulp.task('default', ['watch', 'sass', 'coffee']);
+gulp.task('default', ['watch', 'sass', 'js']);

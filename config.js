@@ -2,9 +2,10 @@ var publicAssets = "./public/assets";
 var sourceFiles  = "./gulp/assets";
 
 module.exports = {
-  coffee: {
-    src: sourceFiles + '/js/app.coffee',
-    dest: publicAssets + '/js',
+  uglify: {
+    src: sourceFiles + '/js/**/*.js',
+    dest: publicAssets + '/js/',
+    outputFile: 'app.js',
     opt: {}
   },
   sass: {
