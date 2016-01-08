@@ -33,7 +33,7 @@ gulp.task('md', function() {
   gulp.src(config.markdown.src)
     .pipe(markdown(config.markdown.opt).on('error', console.error.bind(console))) // convert markdown to html
     .pipe(wrapper({
-      header: '<div class="page" id="page-${filename}">\n', // wrap html in div
+      header: '<div class="page" id="${filename}">\n', // wrap html in div
       footer: '</div>\n'
     }))
     .pipe(concat(config.markdown.outputFile)) // put it all in one file
@@ -45,7 +45,7 @@ gulp.task('md', function() {
 gulp.task('mustache', function() {
   gulp.src(config.mustache.src)
     .pipe(wrapper({
-      header: '<script id="template-${filename}" type="x-tmpl-mustache">\n', // wrap html in script
+      header: '<script id="${filename}" type="x-tmpl-mustache">\n', // wrap html in script
       footer: '</script>\n'
     }))
     .pipe(concat(config.mustache.outputFile)) // put it all in one file
