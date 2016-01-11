@@ -29,7 +29,15 @@ module.exports = {
     opt: {outputStyle: 'compressed'}
   },
   uglify: {
-    src: sourceAssets + '/js/**/*.js',
+    src: [
+      sourceAssets + '/js/vendor/jquery-1.12.0.min.js',
+      sourceAssets + '/js/vendor/underscore-min.js',
+      sourceAssets + '/js/vendor/backbone-min.js',
+      sourceAssets + '/js/vendor/mustache.min.js',
+      sourceAssets + '/js/utilities.js',
+      sourceAssets + '/js/app.js',
+      sourceAssets + '/js/router.js'
+    ],
     dest: publicAssets + '/js/',
     outputFile: 'app.js',
     opt: {}

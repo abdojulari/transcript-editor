@@ -3,27 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Transcript Editor</title>
-  <meta name="description" content="">
+  <title>@@name</title>
+  <meta name="description" content="@@description">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" href="assets/css/app.css">
 </head>
 <body>
 
-  <!-- generated from: ./gulp/pages/ -->
+  <div id="main" class="loading"></div>
 
-  <p>Hello world!</p>
-
-  <!-- generated from: ./gulp/content/ -->
   @@include('./public/assets/html/content.html')
 
-  <!-- generated from: ./gulp/templates/ -->
   @@include('./public/assets/html/templates.html')
 
-  <script>
-  window.root_url = ''; // change this if API is on separate server
-  </script>
+  <script src="assets/js/config.js"></script>
   <script src="assets/js/app.js"></script>
 </body>
 </html>

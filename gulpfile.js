@@ -1,5 +1,10 @@
 var gulp = require('gulp');
+
+// config
 var config = require('./config');
+var project = require('./project');
+
+// utilities
 var concat = require('gulp-concat');
 var wrapper = require('gulp-wrapper');
 
@@ -54,11 +59,14 @@ gulp.task('mustache', function() {
 
 // File includes
 
-var fileinclude = require('gulp-file-include');
+var fileinclude = require('gulp-file-include'),
+    fileinclude_opt = config.fileinclude.opt;
+    // pass in project info
+    fileinclude_opt.context = project;
 
 gulp.task('fileinclude', function() {
   gulp.src(config.fileinclude.src)
-    .pipe(fileinclude(config.fileinclude.opt).on('error', console.error.bind(console)))
+    .pipe(fileinclude(fileinclude_opt).on('error', console.error.bind(console)))
     .pipe(gulp.dest(config.fileinclude.dest));
 });
 

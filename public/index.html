@@ -4,32 +4,26 @@
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>Transcript Editor</title>
-  <meta name="description" content="">
+  <meta name="description" content="A web app for fixing transcripts that were automatically generated from speech-to-text software">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" href="assets/css/app.css">
 </head>
 <body>
 
-  <!-- generated from: ./gulp/pages/ -->
+  <div id="main" class="loading"></div>
 
-  <p>Hello world!</p>
-
-  <!-- generated from: ./gulp/content/ -->
   <div class="page" id="intro.html">
 <h1 id="introduction">Introduction</h1>
 </div>
 
 
-  <!-- generated from: ./gulp/templates/ -->
   <script id="message.mustache" type="x-tmpl-mustache">
 Hello {{ name }}!
 </script>
 
 
-  <script>
-  window.root_url = ''; // change this if API is on separate server
-  </script>
+  <script src="assets/js/config.js"></script>
   <script src="assets/js/app.js"></script>
 </body>
 </html>
