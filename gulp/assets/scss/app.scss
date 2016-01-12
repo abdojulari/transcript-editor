@@ -1,8 +1,38 @@
 @import "mixins";
 @import "variables";
 
-@import "vendor/normalize.css";
+@import "normalize";
 
-body {
-
+html {
+  background: $white;
+  color: $black;
+  font-size: 1em;
+  line-height: 1.4;
 }
+
+::-moz-selection,
+::selection {
+  text-shadow: none;
+}
+
+ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+a {
+  color: $blue;
+  text-decoration: none;
+  &:hover {
+    color: lighten($blue, 10%);
+  }
+}
+
+.container {
+  position: relative;
+  width: auto;
+  height: auto;
+}
+
+@import "header";
+@import "page";

@@ -11,15 +11,18 @@
 </head>
 <body>
 
-  <div id="main" class="loading"></div>
+  <div id="app" class="container">
+    <div id="header" class="loading"></div>
+    <div id="main" class="loading"></div>
+  </div>
 
   <div class="page" id="intro.html">
 <h1 id="introduction">Introduction</h1>
 </div>
 
 
-  <script id="message.mustache" type="x-tmpl-mustache">
-Hello {{ name }}!
+  <script id="header.ejs" type="text/ejs">
+<h1><%= project.name %></h1>
 </script>
 
 

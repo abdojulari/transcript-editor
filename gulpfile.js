@@ -2,11 +2,12 @@ var gulp = require('gulp');
 
 // config
 var config = require('./config');
-var project = require('./project');
+var project = require('./project.json');
 
 // utilities
 var concat = require('gulp-concat');
 var wrapper = require('gulp-wrapper');
+var rename = require("gulp-rename");
 
 // Sass compilation
 
@@ -30,6 +31,18 @@ gulp.task('js', function() {
     .pipe(gulp.dest(config.uglify.dest));
 });
 
+// Put project config in a javascript file for front-end app to use
+
+gulp.task('project', function() {
+  gulp.src(config.project.src)
+    .pipe(wrapper({
+      header: 'window.'+config.project.variable+' = ', // wrap json in javascript variable
+      footer: ';\n'
+    }))
+    .pipe(rename(config.project.outputFile)) // rename file
+    .pipe(gulp.dest(config.project.dest));
+});
+
 // Markdown to HTML
 
 var markdown = require('gulp-markdown');
@@ -45,16 +58,16 @@ gulp.task('md', function() {
     .pipe(gulp.dest(config.markdown.dest));
 });
 
-// Mustache templates
+// Templates
 
-gulp.task('mustache', function() {
-  gulp.src(config.mustache.src)
+gulp.task('templates', function() {
+  gulp.src(config.templates.src)
     .pipe(wrapper({
-      header: '<script id="${filename}" type="x-tmpl-mustache">\n', // wrap html in script
+      header: '<script id="${filename}" type="text/ejs">\n', // wrap html in script
       footer: '</script>\n'
     }))
-    .pipe(concat(config.mustache.outputFile)) // put it all in one file
-    .pipe(gulp.dest(config.mustache.dest));
+    .pipe(concat(config.templates.outputFile)) // put it all in one file
+    .pipe(gulp.dest(config.templates.dest));
 });
 
 // File includes
@@ -76,8 +89,9 @@ gulp.task('watch', function () {
   gulp.watch(config.sass.src, ['sass']);
   gulp.watch(config.uglify.src, ['js']);
   gulp.watch(config.markdown.src, ['md', 'fileinclude']);
-  gulp.watch(config.mustache.src, ['mustache', 'fileinclude']);
+  gulp.watch(config.templates.src, ['templates', 'fileinclude']);
+  gulp.watch(config.project.src, ['project']);
   gulp.watch(config.fileinclude.src, ['fileinclude']);
 });
 
-gulp.task('default', ['watch', 'sass', 'js', 'md', 'mustache', 'fileinclude']);
+gulp.task('default', ['watch', 'sass', 'js', 'md', 'templates', 'project', 'fileinclude']);

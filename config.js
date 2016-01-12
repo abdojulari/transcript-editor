@@ -5,7 +5,7 @@ var publicAssets = publicRoot + "/assets";
 
 module.exports = {
   fileinclude: {
-    src: sourceRoot + "/pages/**/*.html",
+    src: sourceRoot + "/layouts/**/*.html",
     dest: publicRoot + "/",
     opt: {
       basepath: "@root"
@@ -17,10 +17,11 @@ module.exports = {
     outputFile: 'content.html',
     opt: {}
   },
-  mustache: {
-    src: sourceRoot + "/templates/**/*.mustache",
-    dest: publicAssets + "/html/",
-    outputFile: 'templates.html',
+  project: {
+    src: './project.json',
+    dest: publicAssets + '/js/',
+    outputFile: 'config.js',
+    variable: 'PROJECT',
     opt: {}
   },
   sass: {
@@ -28,15 +29,23 @@ module.exports = {
     dest: publicAssets + "/css",
     opt: {outputStyle: 'compressed'}
   },
+  templates: {
+    src: sourceRoot + "/templates/**/*.ejs",
+    dest: publicAssets + "/html/",
+    outputFile: 'templates.html',
+    opt: {}
+  },
   uglify: {
     src: [
       sourceAssets + '/js/vendor/jquery-1.12.0.min.js',
       sourceAssets + '/js/vendor/underscore-min.js',
       sourceAssets + '/js/vendor/backbone-min.js',
-      sourceAssets + '/js/vendor/mustache.min.js',
       sourceAssets + '/js/utilities.js',
       sourceAssets + '/js/app.js',
-      sourceAssets + '/js/router.js'
+      sourceAssets + '/js/router.js',
+      sourceAssets + '/js/models/*.js',
+      sourceAssets + '/js/collections/*.js',
+      sourceAssets + '/js/views/**/*.js'
     ],
     dest: publicAssets + '/js/',
     outputFile: 'app.js',

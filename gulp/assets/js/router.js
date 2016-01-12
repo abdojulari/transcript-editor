@@ -7,7 +7,7 @@ app.routers.MainRouter = Backbone.Router.extend({
   },
 
   index: function() {
-    console.log('Route: index');
+    this._loadHeader();
     // app.views.main = new app.views.TranscriptIndex();
   },
 
@@ -17,6 +17,10 @@ app.routers.MainRouter = Backbone.Router.extend({
 
   transcriptShow: function(id) {
     console.log('Route: show ' + id);
+  },
+
+  _loadHeader: function(){
+    app.views.header = new app.views.CommonHeader();
   }
 
 });
