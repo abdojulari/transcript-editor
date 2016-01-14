@@ -7,8 +7,9 @@ require 'redcarpet'
 namespace :project do
 
   desc "Load project by key: Builds main index.html and project.js which contains all project data (metadata, pages, templates)"
-  task :load, [:project_key] => :environment do |task, args|
+  task :load, [:project_key, :scope] => :environment do |task, args|
     args.with_defaults project_key: 'sample'
+    args.with_defaults scope: 'all'
 
     # Validate project
     project_path = Rails.root.join('project', args[:project_key], '/')
@@ -31,11 +32,15 @@ namespace :project do
     # Write project data to file
     save_project(project)
 
-    # Copy assets
-    copy_assets(args[:project_key])
+    if args[:scope] == "all"
 
-    # Write layouts
-    load_layouts(project, args[:project_key])
+      # Copy assets
+      copy_assets(args[:project_key])
+
+      # Write layouts
+      load_layouts(project, args[:project_key])
+
+    end
   end
 
   def copy_assets(project_key)
