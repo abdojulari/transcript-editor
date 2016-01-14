@@ -2,7 +2,7 @@ var AccountView = HeaderView.extend({
 
   el: '#account',
 
-  template: _.template($('#header\\/account\\.ejs').html()),
+  template: _.template(PROJECT['templates']['account.ejs']),
 
   events: {
     "click .auth-link": "doAuthFromLink",

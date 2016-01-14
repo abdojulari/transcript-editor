@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Transcript Editor</title>
-  <meta name="description" content="A web app for fixing transcripts that were automatically generated from speech-to-text software">
+  <title>Oral History Transcript Editor</title>
+  <meta name="description" content="A web app for fixing oral history transcripts that were automatically generated from speech-to-text software">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" href="assets/css/app.css">
@@ -20,36 +20,7 @@
     <div id="footer" class="footer"></div>
   </div>
 
-  <div class="page" id="intro.html">
-<h1 id="introduction">Introduction</h1>
-</div>
-
-
-  <script id="header/account.ejs" type="text/ejs">
-<% if (user.signedIn) { %>
-
-  <div class="user">
-    Hello, <%= user.name %> (<a href="#sign-out" class="sign-out-link">sign out</a>)
-  </div>
-
-<% } else { %>
-
-  Sign in with:
-  <ul>
-    <% for(var i=0; i < project.auth_providers.length; i++) { %>
-      <li><a href="#sign-in-with-<%= project.auth_providers[i].name %>" data-provider="<%= project.auth_providers[i].name %>" class="auth-link"><%= project.auth_providers[i].label %></a></li>
-    <% } %>
-  </ul>
-
-<% } %>
-</script>
-
-<script id="header/navigation.ejs" type="text/ejs">
-<h1><%= project.name %></h1>
-</script>
-
-
-  <script src="assets/js/config.js"></script>
+  <script src="assets/js/project.js"></script>
   <script src="assets/js/app.js"></script>
 </body>
 </html>

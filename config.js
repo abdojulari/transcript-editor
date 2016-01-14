@@ -1,39 +1,13 @@
 var sourceRoot = "./gulp";
 var publicRoot = "./public";
-var sourceAssets  = sourceRoot + "/assets";
+var sourceAssets  = sourceRoot;
 var publicAssets = publicRoot + "/assets";
 
 module.exports = {
-  fileinclude: {
-    src: sourceRoot + "/layouts/**/*.html",
-    dest: publicRoot + "/",
-    opt: {
-      basepath: "@root"
-    }
-  },
-  markdown: {
-    src: sourceRoot + "/content/**/*.md",
-    dest: publicAssets + "/html/",
-    outputFile: 'content.html',
-    opt: {}
-  },
-  project: {
-    src: './project.json',
-    dest: publicAssets + '/js/',
-    outputFile: 'config.js',
-    variable: 'PROJECT',
-    opt: {}
-  },
   sass: {
     src: sourceAssets + "/scss/**/*.scss",
     dest: publicAssets + "/css",
     opt: {outputStyle: 'compressed'}
-  },
-  templates: {
-    src: sourceRoot + "/templates/**/*.ejs",
-    dest: publicAssets + "/html/",
-    outputFile: 'templates.html',
-    opt: {}
   },
   uglify: {
     src: [

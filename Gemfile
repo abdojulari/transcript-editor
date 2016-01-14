@@ -25,6 +25,11 @@ gem 'figaro'
 gem 'devise_token_auth'
 gem 'omniauth-google-oauth2'
 
+# Parsers
+gem 'redcarpet'
+gem 'ejs'
+gem 'execjs'
+
 # Use unicorn on linux only
 platforms :ruby do # linux
   gem 'unicorn'
