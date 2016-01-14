@@ -31,8 +31,22 @@ namespace :project do
     # Write project data to file
     save_project(project)
 
+    # Copy assets
+    copy_assets(args[:project_key])
+
     # Write layouts
     load_layouts(project, args[:project_key])
+  end
+
+  def copy_assets(project_key)
+    src_dir = Rails.root.join('project', project_key, 'assets/')
+    dest_dir = Rails.root.join('public', 'project', 'assets/')
+
+    # empty the destination dir
+    FileUtils.rm_rf("#{dest_dir}.", secure: true)
+
+    # copy file tree over
+    FileUtils.copy_entry src_dir, dest_dir
   end
 
   def get_pages(project_key)
