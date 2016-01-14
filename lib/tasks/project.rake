@@ -25,10 +25,6 @@ namespace :project do
     pages = get_pages(args[:project_key])
     project['pages'] = pages
 
-    # Add templates
-    templates = get_templates(args[:project_key])
-    project['templates'] = templates
-
     # Write project data to file
     save_project(project)
 
@@ -81,18 +77,6 @@ namespace :project do
 
     # Parse project file
     JSON.parse(project_file)
-  end
-
-  def get_templates(project_key)
-    template_files = Rails.root.join('project', project_key, 'templates', '**/*.ejs')
-    templates = {}
-
-    Dir.glob(template_files).each do |template_file|
-      content = File.read(template_file)
-      templates[File.basename(template_file)] = content
-    end
-
-    return templates
   end
 
   def load_layouts(project, project_key)

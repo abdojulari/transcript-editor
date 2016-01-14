@@ -2,7 +2,7 @@ var NavigationView = HeaderView.extend({
 
   el: '#navigation',
 
-  template: _.template(PROJECT['templates']['navigation.ejs']),
+  template: _.template(TEMPLATES['navigation.ejs']),
 
   initialize: function(data){
     this.data = data;

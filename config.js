@@ -9,6 +9,13 @@ module.exports = {
     dest: publicAssets + "/css",
     opt: {outputStyle: 'compressed'}
   },
+  templates: {
+    src: sourceAssets + "/templates/**/*.ejs",
+    dest: publicAssets + '/js/',
+    outputFile: 'templates.js',
+    variable: 'TEMPLATES',
+    opt: {}
+  },
   uglify: {
     src: [
       sourceAssets + '/js/vendor/jquery-1.12.0.min.js',
