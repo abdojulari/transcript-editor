@@ -12,8 +12,12 @@
 <body>
 
   <div id="app" class="container">
-    <div id="header" class="loading"></div>
-    <div id="main" class="loading"></div>
+    <div id="header" class="header">
+      <div id="navigation" class="navigation"></div>
+      <div id="account" class="account loading"></div>
+    </div>
+    <div id="main" class="body loading"></div>
+    <div id="footer" class="footer"></div>
   </div>
 
   <div class="page" id="intro.html">
@@ -21,7 +25,26 @@
 </div>
 
 
-  <script id="header.ejs" type="text/ejs">
+  <script id="header/account.ejs" type="text/ejs">
+<% if (user.signedIn) { %>
+
+  <div class="user">
+    Hello, <%= user.name %> (<a href="#sign-out" class="sign-out-link">sign out</a>)
+  </div>
+
+<% } else { %>
+
+  Sign in with:
+  <ul>
+    <% for(var i=0; i < project.auth_providers.length; i++) { %>
+      <li><a href="#sign-in-with-<%= project.auth_providers[i].name %>" data-provider="<%= project.auth_providers[i].name %>" class="auth-link"><%= project.auth_providers[i].label %></a></li>
+    <% } %>
+  </ul>
+
+<% } %>
+</script>
+
+<script id="header/navigation.ejs" type="text/ejs">
 <h1><%= project.name %></h1>
 </script>
 

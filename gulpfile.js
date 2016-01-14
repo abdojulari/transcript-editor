@@ -27,7 +27,7 @@ var uglify = require('gulp-uglify');
 gulp.task('js', function() {
   gulp.src(config.uglify.src)
     .pipe(concat(config.uglify.outputFile))
-    .pipe(uglify(config.uglify.opt).on('error', console.error.bind(console)))
+    //.pipe(uglify(config.uglify.opt).on('error', console.error.bind(console)))
     .pipe(gulp.dest(config.uglify.dest));
 });
 

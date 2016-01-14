@@ -1,1 +1,7 @@
 SECRET_KEY_BASE: xxx
+development:
+  GOOGLE_CLIENT_ID: xxx
+  GOOGLE_CLIENT_SECRET: xxx
+production:
+  GOOGLE_CLIENT_ID: xxx
+  GOOGLE_CLIENT_SECRET: xxx

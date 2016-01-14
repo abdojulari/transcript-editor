@@ -1,11 +1,27 @@
+window.API_URL = PROJECT.api_url || window.location.protocol + '//' + window.location.hostname;
+if (window.location.port && !PROJECT.api_url) window.API_URL += ':' + window.location.port
+
 window.app = {
   models: {},
   collections: {},
   views: {},
   routers: {},
   initialize: function(){
+    // init auth
+    var auth_provider_paths = _.object(_.map(PROJECT.auth_providers, function(provider) { return [provider.name, provider.path]; }));
+    $.auth.configure({
+      apiUrl: API_URL,
+      authProviderPaths: auth_provider_paths
+    });
+
+    // Debug
+    console.log("Project", PROJECT);
+    PubSub.subscribe('auth.validation.success', function(ev, user) {
+      console.log('User', user);
+    });
+
     // load the main router
-    app.routers.main = new app.routers.MainRouter();
+    app.routers.main = new MainRouter();
 
     // Enable pushState for compatible browsers
     var enablePushState = true;

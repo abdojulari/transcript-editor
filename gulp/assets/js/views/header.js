@@ -1,18 +1,16 @@
-app.views.CommonHeader = Backbone.View.extend({
+var HeaderView = BaseView.extend({
 
   el: '#header',
 
-  template: _.template($('#header\\.ejs').html()),
+  initialize: function(data){
+    this.data = data;
 
-  initialize: function(){
     this.render();
   },
 
   render: function() {
-    var attr = {
-      project: PROJECT
-    };
-    this.$el.html(this.template(attr));
+    app.views.navigation = new NavigationView(this.data);
+    app.views.account = new AccountView(this.data);
     return this;
   }
 

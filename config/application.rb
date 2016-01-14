@@ -25,5 +25,8 @@ module TranscriptEditor
 
     # Disable assets
     config.assets.enabled = false
+
+    # API
+    config.api_only = false
   end
 end
