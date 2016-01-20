@@ -7,7 +7,7 @@ class CreateTranscripts < ActiveRecord::Migration
       t.string :url
       t.string :audio_url
       t.string :image_url
-      t.integer :collection_id, :null => false, :default => 0
+      t.string :collection, :null => false, :default => ""
       t.string :vendor, :null => false, :default => ""
       t.string :vendor_identifier, :null => false, :default => ""
       t.integer :duration, :null => false, :default => 0
@@ -24,7 +24,7 @@ class CreateTranscripts < ActiveRecord::Migration
     end
 
     add_index :transcripts, :uid, :unique => true
-    add_index :transcripts, :collection_id
+    add_index :transcripts, :collection
     add_index :transcripts, :transcript_status
     add_index :transcripts, :vendor
     add_index :transcripts, [:vendor, :vendor_identifier], :unique => true

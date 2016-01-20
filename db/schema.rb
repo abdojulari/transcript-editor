@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 20160120205946) do
     t.string   "url"
     t.string   "audio_url"
     t.string   "image_url"
-    t.integer  "collection_id",           default: 0,             null: false
+    t.string   "collection",              default: "",            null: false
     t.string   "vendor",                  default: "",            null: false
     t.string   "vendor_identifier",       default: "",            null: false
     t.integer  "duration",                default: 0,             null: false
@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 20160120205946) do
     t.datetime "updated_at",                                      null: false
   end
 
-  add_index "transcripts", ["collection_id"], name: "index_transcripts_on_collection_id", using: :btree
+  add_index "transcripts", ["collection"], name: "index_transcripts_on_collection", using: :btree
   add_index "transcripts", ["duration"], name: "index_transcripts_on_duration", using: :btree
   add_index "transcripts", ["transcript_status"], name: "index_transcripts_on_transcript_status", using: :btree
   add_index "transcripts", ["uid"], name: "index_transcripts_on_uid", unique: true, using: :btree

@@ -15,7 +15,6 @@ user_roles = UserRole.create([
 ])
 
 # Seed Vendors
-
 vendors = Vendor.create([
   { uid: 'pop_up_archive', name: 'Pop Up Archive', description: 'Pop Up Archive makes sound searchable using cutting edge speech-to-text technology', url: 'https://popuparchive.com/' }
 ])
