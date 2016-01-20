@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160120201427) do
+ActiveRecord::Schema.define(version: 20160120202304) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,16 @@ ActiveRecord::Schema.define(version: 20160120201427) do
   add_index "collections", ["uid"], name: "index_collections_on_uid", unique: true, using: :btree
   add_index "collections", ["vendor_id", "vendor_identifier"], name: "index_collections_on_vendor_id_and_vendor_identifier", using: :btree
   add_index "collections", ["vendor_id"], name: "index_collections_on_vendor_id", using: :btree
+
+  create_table "transcript_statuses", force: :cascade do |t|
+    t.string   "name",        default: "", null: false
+    t.integer  "progress",    default: 0,  null: false
+    t.string   "description"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "transcript_statuses", ["name"], name: "index_transcript_statuses_on_name", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "provider",               default: "email", null: false
