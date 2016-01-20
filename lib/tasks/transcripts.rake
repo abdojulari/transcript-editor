@@ -1,5 +1,6 @@
 require 'csv'
 require 'fileutils'
+require 'popuparchive'
 require 'securerandom'
 
 namespace :transcripts do
@@ -23,7 +24,7 @@ namespace :transcripts do
 
     # Get transcripts to upload
     transcripts = get_transcripts_from_file(file_path)
-    puts "Retrieved #{transcripts.length} from file"
+    puts "Retrieved #{transcripts.length} rows from file"
 
     # Write to database
     transcripts.each do |transcript|
@@ -37,32 +38,44 @@ namespace :transcripts do
     puts "Wrote #{transcripts.length} transcripts to database"
   end
 
-  task :upload => :environment do |task, args|
+  desc "Upload the unprocessed audio to Pop Up Archive"
+  task :upload_pua => :environment do |task, args|
 
-    # Retrieve transcripts from database
+    # Retrieve transcripts that have Pop Up Archive as its vendor
+    transcripts = get_transcripts_by_vendor('pop_up_archive')
+    puts "Retrieved #{transcripts.length} transcripts from collections with Pop Up Archive as its vendor"
 
     # Retrieve transcripts from Popup Archive
+    pua_transcripts = get_transcripts_from_pua()
 
     # Look for any transcripts in database that is not in Popup Archive; upload
   end
 
-  task :download => :environment do |task, args|
+  desc "Download new transcripts from Pop Up Archive"
+  task :download_pua => :environment do |task, args|
 
     # Retrieve transcripts from database
+    transcripts = get_transcripts_by_vendor('pop_up_archive')
+    puts "Retrieved #{transcripts.length} transcripts from collections with Pop Up Archive as its vendor"
 
     # Retrieve transcripts from Popup Archive
+    pua_transcripts = get_transcripts_from_pua()
 
     # Look for any new transcripts not in database; update
   end
 
-  def get_transcripts_from_file(file_path)
-    transcripts = []
+  def get_transcripts_by_vendor(vendor)
+    Transcript.joins('INNER JOIN collections ON transcripts.collection = collections.uid').where(:collections => {:vendor => vendor})
+  end
 
+  def get_transcripts_from_file(file_path)
     csv_body = File.read(file_path)
     csv = CSV.new(csv_body, :headers => true, :header_converters => :symbol, :converters => [:all])
-    transcripts = csv.to_a.map {|row| row.to_hash }
+    csv.to_a.map {|row| row.to_hash }
+  end
 
-    transcripts
+  def get_transcripts_from_pua()
+    []
   end
 
 end
