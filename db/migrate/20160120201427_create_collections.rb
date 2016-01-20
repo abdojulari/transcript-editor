@@ -6,14 +6,14 @@ class CreateCollections < ActiveRecord::Migration
       t.text :description
       t.string :url
       t.string :image_url
-      t.integer :vendor_id
-      t.string :vendor_identifier
+      t.string :vendor, :null => false, :default => ""
+      t.string :vendor_identifier, :null => false, :default => ""
 
       t.timestamps null: false
     end
 
     add_index :collections, :uid, :unique => true
-    add_index :collections, :vendor_id
-    add_index :collections, [:vendor_id, :vendor_identifier], :unique => true
+    add_index :collections, :vendor
+    add_index :collections, [:vendor, :vendor_identifier], :unique => true
   end
 end
