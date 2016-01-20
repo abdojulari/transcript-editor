@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160120203025) do
+ActiveRecord::Schema.define(version: 20160120205946) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,16 @@ ActiveRecord::Schema.define(version: 20160120203025) do
   add_index "transcripts", ["vendor_id", "vendor_identifier"], name: "index_transcripts_on_vendor_id_and_vendor_identifier", unique: true, using: :btree
   add_index "transcripts", ["vendor_id"], name: "index_transcripts_on_vendor_id", using: :btree
 
+  create_table "user_roles", force: :cascade do |t|
+    t.string   "name",        default: "", null: false
+    t.integer  "hiearchy",    default: 0,  null: false
+    t.string   "description"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "user_roles", ["name"], name: "index_user_roles_on_name", unique: true, using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "provider",               default: "email", null: false
     t.string   "uid",                    default: "",      null: false
@@ -95,6 +105,7 @@ ActiveRecord::Schema.define(version: 20160120203025) do
     t.json     "tokens"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "user_role",              default: "user",  null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree
