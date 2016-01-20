@@ -25,10 +25,13 @@ gem 'figaro'
 gem 'devise_token_auth'
 gem 'omniauth-google-oauth2'
 
-# Parsers
+# Parsers for project asset precompilation
 gem 'redcarpet'
 gem 'ejs'
 gem 'execjs'
+
+# For audio transcripts
+gem 'popuparchive'
 
 # Use unicorn on linux only
 platforms :ruby do # linux
