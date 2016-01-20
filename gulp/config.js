@@ -26,11 +26,11 @@ module.exports = {
       sourceAssets + '/js/vendor/pubsub.min.js',
       sourceAssets + '/js/vendor/jquery.j-toker.min.js',
       sourceAssets + '/js/utilities.js',
+      sourceAssets + '/js/app.js',
       sourceAssets + '/js/router.js',
       sourceAssets + '/js/models/*.js',
       sourceAssets + '/js/collections/*.js',
-      sourceAssets + '/js/views/**/*.js',
-      sourceAssets + '/js/app.js'
+      sourceAssets + '/js/views/**/*.js'
     ],
     dest: publicAssets + '/js/',
     outputFile: 'app.js',

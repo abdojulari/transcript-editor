@@ -315,7 +315,49 @@ n.cssHooks[b]=Ua(l.pixelPosition,function(a,c){return c?(c=Sa(a,b),Oa.test(c)?n(
 
 })();
 
-var MainRouter = Backbone.Router.extend({
+window.API_URL = PROJECT.api_url || window.location.protocol + '//' + window.location.hostname;
+if (window.location.port && !PROJECT.api_url) window.API_URL += ':' + window.location.port
+
+window.app = {
+  models: {},
+  collections: {},
+  views: {},
+  routers: {},
+  initialize: function(){
+    // init auth
+    var auth_provider_paths = _.object(_.map(PROJECT.auth_providers, function(provider) { return [provider.name, provider.path]; }));
+    $.auth.configure({
+      apiUrl: API_URL,
+      authProviderPaths: auth_provider_paths
+    });
+
+    // Debug
+    console.log("Project", PROJECT);
+    PubSub.subscribe('auth.validation.success', function(ev, user) {
+      console.log('User', user);
+    });
+
+    // load the main router
+    var mainRouter = new app.routers.DefaultRouter();
+
+    // Enable pushState for compatible browsers
+    var enablePushState = true;
+    var pushState = !!(enablePushState && window.history && window.history.pushState);
+
+    // Start backbone history
+    Backbone.history = Backbone.history || new Backbone.History({});
+    Backbone.history.start({
+      pushState:pushState
+    });
+  }
+};
+
+// Init backbone app
+$(function(){
+  app.initialize();
+});
+
+app.routers.DefaultRouter = Backbone.Router.extend({
 
   routes: {
     "":                     "index",
@@ -346,16 +388,16 @@ var MainRouter = Backbone.Router.extend({
 
   _loadHeader: function(data){
     data = this._getData(data);
-    app.views.header = new HeaderView(data);
+    var header = new app.views.Header(data);
   }
 
 });
 
-var BaseView = Backbone.View.extend({
+app.views.Base = Backbone.View.extend({
 
 });
 
-var HeaderView = BaseView.extend({
+app.views.Header = app.views.Base.extend({
 
   el: '#header',
 
@@ -366,14 +408,14 @@ var HeaderView = BaseView.extend({
   },
 
   render: function() {
-    app.views.navigation = new NavigationView(this.data);
-    app.views.account = new AccountView(this.data);
+    var navigation = new app.views.Navigation(this.data);
+    var account = new app.views.Account(this.data);
     return this;
   }
 
 });
 
-var AccountView = HeaderView.extend({
+app.views.Account = app.views.Base.extend({
 
   el: '#account',
 
@@ -449,7 +491,7 @@ var AccountView = HeaderView.extend({
 
 });
 
-var NavigationView = HeaderView.extend({
+app.views.Navigation = app.views.Base.extend({
 
   el: '#navigation',
 
@@ -466,46 +508,4 @@ var NavigationView = HeaderView.extend({
     return this;
   }
 
-});
-
-window.API_URL = PROJECT.api_url || window.location.protocol + '//' + window.location.hostname;
-if (window.location.port && !PROJECT.api_url) window.API_URL += ':' + window.location.port
-
-window.app = {
-  models: {},
-  collections: {},
-  views: {},
-  routers: {},
-  initialize: function(){
-    // init auth
-    var auth_provider_paths = _.object(_.map(PROJECT.auth_providers, function(provider) { return [provider.name, provider.path]; }));
-    $.auth.configure({
-      apiUrl: API_URL,
-      authProviderPaths: auth_provider_paths
-    });
-
-    // Debug
-    console.log("Project", PROJECT);
-    PubSub.subscribe('auth.validation.success', function(ev, user) {
-      console.log('User', user);
-    });
-
-    // load the main router
-    app.routers.main = new MainRouter();
-
-    // Enable pushState for compatible browsers
-    var enablePushState = true;
-    var pushState = !!(enablePushState && window.history && window.history.pushState);
-
-    // Start backbone history
-    Backbone.history = Backbone.history || new Backbone.History({});
-    Backbone.history.start({
-      pushState:pushState
-    });
-  }
-};
-
-// Init backbone app
-$(function(){
-  app.initialize();
 });

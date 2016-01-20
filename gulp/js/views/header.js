@@ -1,4 +1,4 @@
-var HeaderView = BaseView.extend({
+app.views.Header = app.views.Base.extend({
 
   el: '#header',
 
@@ -9,8 +9,8 @@ var HeaderView = BaseView.extend({
   },
 
   render: function() {
-    app.views.navigation = new NavigationView(this.data);
-    app.views.account = new AccountView(this.data);
+    var navigation = new app.views.Navigation(this.data);
+    var account = new app.views.Account(this.data);
     return this;
   }
 

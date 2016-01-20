@@ -21,7 +21,7 @@ window.app = {
     });
 
     // load the main router
-    app.routers.main = new MainRouter();
+    var mainRouter = new app.routers.DefaultRouter();
 
     // Enable pushState for compatible browsers
     var enablePushState = true;

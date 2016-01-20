@@ -1,3 +1,3 @@
-var BaseView = Backbone.View.extend({
+app.views.Base = Backbone.View.extend({
 
 });

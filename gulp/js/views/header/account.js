@@ -1,4 +1,4 @@
-var AccountView = HeaderView.extend({
+app.views.Account = app.views.Base.extend({
 
   el: '#account',
 

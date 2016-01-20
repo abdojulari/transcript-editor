@@ -1,4 +1,4 @@
-var NavigationView = HeaderView.extend({
+app.views.Navigation = app.views.Base.extend({
 
   el: '#navigation',
 

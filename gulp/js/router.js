@@ -1,4 +1,4 @@
-var MainRouter = Backbone.Router.extend({
+app.routers.DefaultRouter = Backbone.Router.extend({
 
   routes: {
     "":                     "index",
@@ -29,7 +29,7 @@ var MainRouter = Backbone.Router.extend({
 
   _loadHeader: function(data){
     data = this._getData(data);
-    app.views.header = new HeaderView(data);
+    var header = new app.views.Header(data);
   }
 
 });

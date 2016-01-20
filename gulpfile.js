@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 
 // config
-var config = require('./config');
+var config = require('./gulp/config');
 
 // utilities
 var concat = require('gulp-concat');
