@@ -14,6 +14,6 @@ class CreateCollections < ActiveRecord::Migration
 
     add_index :collections, :uid, :unique => true
     add_index :collections, :vendor_id
-    add_index :collections, [:vendor_id, :vendor_identifier]
+    add_index :collections, [:vendor_id, :vendor_identifier], :unique => true
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160120202304) do
+ActiveRecord::Schema.define(version: 20160120203025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20160120202304) do
   end
 
   add_index "collections", ["uid"], name: "index_collections_on_uid", unique: true, using: :btree
-  add_index "collections", ["vendor_id", "vendor_identifier"], name: "index_collections_on_vendor_id_and_vendor_identifier", using: :btree
+  add_index "collections", ["vendor_id", "vendor_identifier"], name: "index_collections_on_vendor_id_and_vendor_identifier", unique: true, using: :btree
   add_index "collections", ["vendor_id"], name: "index_collections_on_vendor_id", using: :btree
 
   create_table "transcript_statuses", force: :cascade do |t|
@@ -41,6 +41,36 @@ ActiveRecord::Schema.define(version: 20160120202304) do
   end
 
   add_index "transcript_statuses", ["name"], name: "index_transcript_statuses_on_name", unique: true, using: :btree
+
+  create_table "transcripts", force: :cascade do |t|
+    t.string   "uid",                     default: "",        null: false
+    t.string   "title"
+    t.text     "description"
+    t.string   "url"
+    t.string   "audio_url"
+    t.string   "image_url"
+    t.integer  "collection_id",           default: 0,         null: false
+    t.integer  "vendor_id",               default: 0,         null: false
+    t.string   "vendor_identifier"
+    t.integer  "duration",                default: 0,         null: false
+    t.integer  "lines",                   default: 0,         null: false
+    t.text     "notes"
+    t.integer  "transcript_status_id",    default: 1,         null: false
+    t.integer  "order",                   default: 0,         null: false
+    t.integer  "created_by",              default: 0,         null: false
+    t.string   "batch_id",                default: "unknown", null: false
+    t.datetime "transcript_retrieved_at"
+    t.datetime "transcript_processed_at"
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+  end
+
+  add_index "transcripts", ["collection_id"], name: "index_transcripts_on_collection_id", using: :btree
+  add_index "transcripts", ["duration"], name: "index_transcripts_on_duration", using: :btree
+  add_index "transcripts", ["transcript_status_id"], name: "index_transcripts_on_transcript_status_id", using: :btree
+  add_index "transcripts", ["uid"], name: "index_transcripts_on_uid", unique: true, using: :btree
+  add_index "transcripts", ["vendor_id", "vendor_identifier"], name: "index_transcripts_on_vendor_id_and_vendor_identifier", unique: true, using: :btree
+  add_index "transcripts", ["vendor_id"], name: "index_transcripts_on_vendor_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "provider",               default: "email", null: false
