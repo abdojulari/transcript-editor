@@ -19,6 +19,8 @@
 # Project-specific
 /_dev
 .project
+/public/assets/js/project.js
+/public/index.html
 
 # Ignore application configuration
 /config/application.yml
