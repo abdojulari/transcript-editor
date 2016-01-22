@@ -48,6 +48,7 @@ namespace :project do
 
     # copy file tree over
     FileUtils.copy_entry src_dir, dest_dir
+    FileUtils.touch("#{dest_dir}.keep")
   end
 
   def get_pages(project_key)
