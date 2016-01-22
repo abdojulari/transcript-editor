@@ -1,1 +1,0 @@
-window.PROJECT = {"name":"Oral History Transcript Editor","description":"A web app for fixing oral history transcripts that were automatically generated from speech-to-text software","api_url":"","auth_providers":[{"name":"google","label":"Google","path":"/auth/google_oauth2"}],"pages":{"intro.md":"\u003ch1\u003eIntroduction\u003c/h1\u003e\n"}};
