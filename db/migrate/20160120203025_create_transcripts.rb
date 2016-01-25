@@ -13,7 +13,7 @@ class CreateTranscripts < ActiveRecord::Migration
       t.integer :duration, :null => false, :default => 0
       t.integer :lines, :null => false, :default => 0
       t.text :notes
-      t.integer :transcript_status_id, :null => false, :default => 0
+      t.integer :transcript_status_id, :null => false, :default => 1
       t.integer :order, :null => false, :default => 0
       t.integer :created_by, :null => false, :default => 0
       t.string :batch_id, :null => false, :default => "unknown"
