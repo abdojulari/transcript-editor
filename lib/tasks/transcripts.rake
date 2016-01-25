@@ -59,11 +59,7 @@ namespace :transcripts do
     pua_client = Pua.new
 
     transcripts.find_each do |transcript|
-      new_item = pua_client.createItem(transcript)
-
-      # Update transcript with vendor identifier
-      transcript_status = TranscriptStatus.find_by_name("audio_uploaded")
-      transcript.update(vendor_identifier: new_item["id"], transcript_status_id: transcript_status[:id])
+      item = pua_client.createItem(transcript)
     end
 
   end
