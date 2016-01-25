@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160125212629) do
+ActiveRecord::Schema.define(version: 20160125220949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,16 @@ ActiveRecord::Schema.define(version: 20160125212629) do
   add_index "collections", ["uid"], name: "index_collections_on_uid", unique: true, using: :btree
   add_index "collections", ["vendor_id", "vendor_identifier"], name: "index_collections_on_vendor_id_and_vendor_identifier", unique: true, using: :btree
   add_index "collections", ["vendor_id"], name: "index_collections_on_vendor_id", using: :btree
+
+  create_table "pg_search_documents", force: :cascade do |t|
+    t.text     "content"
+    t.integer  "searchable_id"
+    t.string   "searchable_type"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "pg_search_documents", ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id", using: :btree
 
   create_table "transcript_lines", force: :cascade do |t|
     t.integer  "transcript_id",        default: 0,  null: false

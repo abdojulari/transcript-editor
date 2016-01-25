@@ -1,5 +1,8 @@
 class Transcript < ActiveRecord::Base
 
+  include PgSearch
+  multisearchable :against => [:title, :description]
+
   belongs_to :collection
   belongs_to :vendor
   belongs_to :transcript_status
