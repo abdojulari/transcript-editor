@@ -10,6 +10,6 @@ class CreateUserRoles < ActiveRecord::Migration
 
     add_index :user_roles, :name, :unique => true
 
-    add_column :users, :user_role, :string, :null => false, :default => "user"
+    add_column :users, :user_role_id, :integer, :null => false, :default => 0
   end
 end
