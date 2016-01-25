@@ -1,4 +1,6 @@
 SECRET_KEY_BASE: xxx
+PUA_CLIENT_ID: xxx
+PUA_CLIENT_SECRET: xxx
 development:
   GOOGLE_CLIENT_ID: xxx
   GOOGLE_CLIENT_SECRET: xxx

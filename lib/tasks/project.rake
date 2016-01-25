@@ -6,6 +6,7 @@ require 'redcarpet'
 
 namespace :project do
 
+  # Usage: rake project:load['oral-history']
   desc "Load project by key: Builds main index.html and project.js which contains all project data (metadata, pages, templates)"
   task :load, [:project_key, :scope] => :environment do |task, args|
     args.with_defaults project_key: 'sample'

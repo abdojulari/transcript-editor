@@ -1,10 +1,12 @@
 require 'csv'
 require 'fileutils'
+require 'json'
 require 'popuparchive'
 require 'securerandom'
 
 namespace :transcripts do
 
+  # Usage rake transcripts:load['oral-history','transcripts_seeds.csv']
   desc "Load transcripts by project key and csv file"
   task :load, [:project_key, :filename] => :environment do |task, args|
 
@@ -28,9 +30,16 @@ namespace :transcripts do
 
     # Write to database
     transcripts.each do |transcript|
-      unless transcript.key?(:vendor) && transcript.key?(:vendor_identifier)
-        transcript[:vendor] = 'none'
+      # Check for vendor
+      if transcript.key?(:vendor) && transcript.key?(:vendor_identifier)
+        transcript[:vendor] = Vendor.find_by_uid(transcript[:vendor])
+      else
+        transcript[:vendor_id] = 0
         transcript[:vendor_identifier] = SecureRandom.hex
+      end
+      # Check for collection
+      if transcript.key?(:collection)
+        transcript[:collection] = Collection.find_by_uid(transcript[:collection])
       end
       Transcript.create(transcript)
     end
@@ -38,44 +47,67 @@ namespace :transcripts do
     puts "Wrote #{transcripts.length} transcripts to database"
   end
 
+  # Usage: rake transcripts:upload_pua
   desc "Upload the unprocessed audio to Pop Up Archive"
-  task :upload_pua => :environment do |task, args|
+  task :upload_pua, [:project_key] => :environment do |task, args|
 
-    # Retrieve transcripts that have Pop Up Archive as its vendor
-    transcripts = get_transcripts_by_vendor('pop_up_archive')
-    puts "Retrieved #{transcripts.length} transcripts from collections with Pop Up Archive as its vendor"
+    # Retrieve transcripts that have Pop Up Archive as its vendor and are empty
+    transcripts = Transcript.getForUploadByVendor('pop_up_archive')
+    puts "Retrieved #{transcripts.length} transcripts from collections with Pop Up Archive as its vendor that are empty"
 
-    # Retrieve transcripts from Popup Archive
-    pua_transcripts = get_transcripts_from_pua()
+    # Init a Pop Up Archive client
+    pua_client = Pua.new
 
-    # Look for any transcripts in database that is not in Popup Archive; upload
+    transcripts.find_each do |transcript|
+      new_item = pua_client.createItem(transcript)
+
+      # Update transcript with vendor identifier
+      transcript_status = TranscriptStatus.find_by_name("audio_uploaded")
+      transcript.update(vendor_identifier: new_item["id"], transcript_status_id: transcript_status[:id])
+    end
+
   end
 
+  # Usage: rake transcripts:download_pua['oral-history']
   desc "Download new transcripts from Pop Up Archive"
-  task :download_pua => :environment do |task, args|
+  task :download_pua, [:project_key] => :environment do |task, args|
 
-    # Retrieve transcripts from database
-    transcripts = get_transcripts_by_vendor('pop_up_archive')
-    puts "Retrieved #{transcripts.length} transcripts from collections with Pop Up Archive as its vendor"
+    # Retrieve transcripts that have Pop Up Archive as its vendor and are empty
+    transcripts = Transcript.getForDownloadByVendor('pop_up_archive')
+    puts "Retrieved #{transcripts.length} transcripts from collections with Pop Up Archive as its vendor that are empty"
 
-    # Retrieve transcripts from Popup Archive
-    pua_transcripts = get_transcripts_from_pua()
+    # Init a Pop Up Archive client
+    pua_client = Pua.new
 
-    # Look for any new transcripts not in database; update
-  end
+    transcripts.find_each do |transcript|
 
-  def get_transcripts_by_vendor(vendor)
-    Transcript.joins('INNER JOIN collections ON transcripts.collection = collections.uid').where(:collections => {:vendor => vendor})
+      # Check if transcript already exists in project directory
+      transcript_file = Rails.root.join('project', args[:project_key], 'transcripts', 'pop_up_archive', "#{transcript[:vendor_identifier]}.json")
+      contents = ""
+      if File.exist? transcript_file
+        puts "Found transcript in project folder: #{transcript_file}"
+        file = File.read(transcript_file)
+        contents = JSON.parse(file)
+
+      # Otherwise retrieve it fresh from Pop Up Archive
+      else
+        contents = pua_client.getItem(transcript)
+        puts "Retrieved #{contents["id"]} from Pop Up Archive"
+      end
+
+      # Parse the contents
+      unless contents.empty?
+        transcript.updateFromHash(contents)
+      end
+
+    end
+
   end
 
   def get_transcripts_from_file(file_path)
     csv_body = File.read(file_path)
     csv = CSV.new(csv_body, :headers => true, :header_converters => :symbol, :converters => [:all])
     csv.to_a.map {|row| row.to_hash }
-  end
-
-  def get_transcripts_from_pua()
-    []
   end
 
 end

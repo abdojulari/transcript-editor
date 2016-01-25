@@ -21,7 +21,13 @@ Notice: This codebase is currently in deep and rapid development and won't have 
 ## Setup
 
 1. In the project's directory, run `bundle`
-2. Run `rake db:create db:migrate` to setup the database based on `config/database.yml`
+2. Run `rake db:setup` to setup the database based on `config/database.yml`
+
+## Load A Project
+
+1. Load a project: `rake project:load['oral-history']` - Loads the project config and assets
+2. Load a project's collections: `rake collections:load['oral-history','collections_seeds.csv']` - Seeds a project's collections
+3. Load a project's transcripts: `rake transcripts:load['oral-history','transcripts_seeds.csv']` - Seeds a project's transcripts
 
 ## Development
 
