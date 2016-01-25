@@ -6,7 +6,7 @@ Notice: This codebase is currently in deep and rapid development and won't have 
 
 - Ruby
 - Rails
-- PostgreSQL Database
+- PostgreSQL Database 
 - Node.js (only required for front-end development)
 - Google account (for auth via google)
 - [Pop-up Archive](https://popuparchive.com/) account (for transcript generation)
