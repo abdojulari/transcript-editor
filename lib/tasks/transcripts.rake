@@ -41,6 +41,8 @@ namespace :transcripts do
       if transcript.key?(:collection)
         transcript[:collection] = Collection.find_by_uid(transcript[:collection])
       end
+      # Make the filename the batch id
+      transcript[:batch_id] = args[:filename]
       Transcript.create(transcript)
     end
 

@@ -6,7 +6,7 @@ Notice: This codebase is currently in deep and rapid development and won't have 
 
 - Ruby
 - Rails
-- PostgreSQL Database 
+- PostgreSQL Database
 - Node.js (only required for front-end development)
 - Google account (for auth via google)
 - [Pop-up Archive](https://popuparchive.com/) account (for transcript generation)
@@ -26,8 +26,10 @@ Notice: This codebase is currently in deep and rapid development and won't have 
 ## Load A Project
 
 1. Load a project: `rake project:load['oral-history']` - Loads the project config and assets
-2. Load a project's collections: `rake collections:load['oral-history','collections_seeds.csv']` - Seeds a project's collections
-3. Load a project's transcripts: `rake transcripts:load['oral-history','transcripts_seeds.csv']` - Seeds a project's transcripts
+2. Load a project's collections from csv file: `rake collections:load['oral-history','collections_seeds.csv']` - Seeds a project's collections
+3. Load a project's transcripts from csv file: `rake transcripts:load['oral-history','transcripts_seeds.csv']` - Seeds a project's transcripts
+4. Upload audio files to Pop Up Archive: `rake transcripts:upload_pua` - Creates a Pop Up Archive item and uploads a remote audio file for each transcript
+5. Download transcripts from Pop Up Archive or project folder: `rake transcripts:download_pua['oral-history']` - Downloads transcripts that are ready
 
 ## Development
 
