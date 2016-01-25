@@ -7,6 +7,7 @@ class Transcript < ActiveRecord::Base
   belongs_to :vendor
   belongs_to :transcript_status
   has_many :transcript_lines
+  has_many :transcript_edits
 
   def self.getForDownloadByVendor(vendor_uid)
     vendor = Vendor.find_by_uid(vendor_uid)

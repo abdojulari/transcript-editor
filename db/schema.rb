@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160125220949) do
+ActiveRecord::Schema.define(version: 20160125233337) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,23 @@ ActiveRecord::Schema.define(version: 20160125220949) do
   end
 
   add_index "pg_search_documents", ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id", using: :btree
+
+  create_table "transcript_edits", force: :cascade do |t|
+    t.integer  "transcript_id"
+    t.integer  "transcript_line_id"
+    t.integer  "user_id"
+    t.integer  "session_id"
+    t.string   "text"
+    t.integer  "weight"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "transcript_edits", ["session_id", "transcript_line_id"], name: "index_transcript_edits_on_session_id_and_transcript_line_id", unique: true, using: :btree
+  add_index "transcript_edits", ["session_id"], name: "index_transcript_edits_on_session_id", using: :btree
+  add_index "transcript_edits", ["transcript_id"], name: "index_transcript_edits_on_transcript_id", using: :btree
+  add_index "transcript_edits", ["transcript_line_id"], name: "index_transcript_edits_on_transcript_line_id", using: :btree
+  add_index "transcript_edits", ["user_id"], name: "index_transcript_edits_on_user_id", using: :btree
 
   create_table "transcript_lines", force: :cascade do |t|
     t.integer  "transcript_id",        default: 0,  null: false
