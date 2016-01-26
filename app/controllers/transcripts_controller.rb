@@ -4,9 +4,7 @@ class TranscriptsController < ApplicationController
   # GET /transcripts
   # GET /transcripts.json
   def index
-    @transcripts = Transcript.all
-
-    render json: @transcripts
+    @transcripts = Transcript.getForHomepage(params[:page])
   end
 
   # GET /transcripts/1

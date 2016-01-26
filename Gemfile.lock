@@ -168,6 +168,7 @@ GEM
       raindrops (~> 0.7)
     warden (1.2.4)
       rack (>= 1.0)
+    will_paginate (3.1.0)
     xml-simple (1.1.5)
 
 PLATFORMS
@@ -188,6 +189,7 @@ DEPENDENCIES
   rails-api
   redcarpet
   unicorn
+  will_paginate
 
 BUNDLED WITH
    1.11.2

@@ -6,6 +6,7 @@ gem 'rails', '4.2.5'
 # Use PostgreSQL as the database for Active Record
 gem 'pg'
 gem 'pg_search'
+gem 'will_paginate'
 
 # Disabling assets; replaced with Gulp
 # gem 'sass-rails', '~> 5.0'

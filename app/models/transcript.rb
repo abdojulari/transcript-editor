@@ -9,6 +9,12 @@ class Transcript < ActiveRecord::Base
   has_many :transcript_lines
   has_many :transcript_edits
 
+  self.per_page = 100
+
+  def self.getForHomepage(page)
+    Transcript.where("lines > 0").paginate(:page => page).order(:title)
+  end
+
   def self.getForDownloadByVendor(vendor_uid)
     vendor = Vendor.find_by_uid(vendor_uid)
     Transcript.joins(:collection)
