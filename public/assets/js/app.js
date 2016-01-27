@@ -471,8 +471,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
 
   routes: {
     "":                     "index",
-    "transcript/:id/edit":  "transcriptEdit",
-    "transcript/:id":       "transcriptShow",
+    "transcripts/:id":      "transcriptEdit",
     "page/:id":             "pageShow"
   },
 
@@ -489,11 +488,11 @@ app.routers.DefaultRouter = Backbone.Router.extend({
   },
 
   transcriptEdit: function(id) {
-    console.log('Route: edit ' + id);
-  },
+    var data = this._getData(data);
+    var header = new app.views.Header(data);
 
-  transcriptShow: function(id) {
-    console.log('Route: show ' + id);
+    var transcript_model = new app.models.Transcript({id: id});
+    var main = new app.views.TranscriptEdit(_.extend({}, data, {el: '#main', model: transcript_model}));
   },
 
   _getData: function(data){
@@ -507,6 +506,14 @@ app.routers.DefaultRouter = Backbone.Router.extend({
 });
 
 app.models.Transcript = Backbone.Model.extend({
+
+  parse: function(resp){
+    return resp;
+  },
+
+  url: function(){
+    return API_URL + '/transcripts/'+this.id+'.json';
+  }
 
 });
 
@@ -707,6 +714,44 @@ app.views.Page = app.views.Base.extend({
   render: function() {
     this.$el.html(this.template(this.data));
     return this;
+  }
+
+});
+
+app.views.TranscriptEdit = app.views.Base.extend({
+
+  template_lines: _.template(TEMPLATES['transcript_lines.ejs']),
+  template_line: _.template(TEMPLATES['transcript_line.ejs']),
+
+  events: {
+  },
+
+  initialize: function(data){
+    this.data = data;
+
+    this.loadTranscript();
+  },
+
+  loadTranscript: function(){
+    var _this = this;
+
+    this.model.fetch({
+      success: function(model, response, options){
+        _this.onLoad(model);
+      },
+      error: function(model, response, options){
+        $(window).trigger('alert', ['Whoops! We seem to have trouble loading this transcript. Please try again by refreshing your browser or come back later!']);
+      }
+    });
+  },
+
+  onLoad: function(transcript){
+    console.log(transcript.toJSON());
+    this.render();
+  },
+
+  render: function(){
+    this.$el.html('');
   }
 
 });

@@ -2,8 +2,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
 
   routes: {
     "":                     "index",
-    "transcript/:id/edit":  "transcriptEdit",
-    "transcript/:id":       "transcriptShow",
+    "transcripts/:id":      "transcriptEdit",
     "page/:id":             "pageShow"
   },
 
@@ -20,11 +19,11 @@ app.routers.DefaultRouter = Backbone.Router.extend({
   },
 
   transcriptEdit: function(id) {
-    console.log('Route: edit ' + id);
-  },
+    var data = this._getData(data);
+    var header = new app.views.Header(data);
 
-  transcriptShow: function(id) {
-    console.log('Route: show ' + id);
+    var transcript_model = new app.models.Transcript({id: id});
+    var main = new app.views.TranscriptEdit(_.extend({}, data, {el: '#main', model: transcript_model}));
   },
 
   _getData: function(data){

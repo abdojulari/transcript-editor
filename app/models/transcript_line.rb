@@ -6,4 +6,6 @@ class TranscriptLine < ActiveRecord::Base
   belongs_to :transcript
   has_many :transcript_edits
 
+  default_scope { order(:sequence) }
+
 end

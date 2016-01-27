@@ -10,7 +10,7 @@ class TranscriptsController < ApplicationController
   # GET /transcripts/1
   # GET /transcripts/1.json
   def show
-    render json: @transcript
+
   end
 
   # POST /transcripts
