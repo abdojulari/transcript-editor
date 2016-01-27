@@ -21,7 +21,7 @@ app.views.Account = app.views.Base.extend({
     $.auth
       .oAuthSignIn({provider: provider})
       .fail(function(resp) {
-        alert('Authentication failure: ' + resp.errors.join(' '));
+        $(window).trigger('alert', ['Authentication failure: ' + resp.errors.join(' ')]);
       });
   },
 
@@ -37,7 +37,7 @@ app.views.Account = app.views.Base.extend({
     // check auth sign in
     PubSub.subscribe('auth.oAuthSignIn.success', function(ev, msg) {
       _this.onValidationSuccess($.auth.user);
-      alert('Successfully signed in!');
+      $(window).trigger('alert', ['Successfully signed in as '+$.auth.user.name+'!', true]);
     });
 
     // check auth validation
@@ -48,6 +48,7 @@ app.views.Account = app.views.Base.extend({
     // check sign out
     PubSub.subscribe('auth.signOut.success', function(ev, msg) {
       _this.onSignOutSuccess();
+      $(window).trigger('alert', ['Successfully signed out!', true]);
     });
   },
 

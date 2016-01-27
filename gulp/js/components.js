@@ -6,6 +6,33 @@ var COMPONENTS = (function() {
 
   COMPONENTS.prototype.init = function(){
     this.selectInit();
+    this.alertInit();
+  };
+
+  COMPONENTS.prototype.alert = function(message, flash, target, flashDelay){
+    target = target || '#primary-alert';
+    flashDelay = flashDelay || 3000;
+
+    var $target = $(target);
+    $target.html('<div>'+message+'</div>').addClass('active');
+
+    if (flash) {
+      setTimeout(function(){
+        $target.removeClass('active');
+      }, flashDelay);
+    }
+  };
+
+  COMPONENTS.prototype.alertInit = function(){
+    var _this = this;
+
+    $(window).on('alert', function(e, message, flash, target, flashDelay){
+      _this.alert(message, flash, target, flashDelay);
+    });
+
+    $('.alert').on('click', function(){
+      $(this).removeClass('active');
+    });
   };
 
   COMPONENTS.prototype.select = function($selectOption){

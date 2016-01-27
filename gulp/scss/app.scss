@@ -2,6 +2,7 @@
 @import "variables";
 
 @import "normalize";
+@import "animations";
 
 html {
   background: $white;
@@ -15,6 +16,9 @@ html {
   text-shadow: none;
 }
 
+p {
+  line-height: 1.6;
+}
 ul, li {
   margin: 0;
   padding: 0;

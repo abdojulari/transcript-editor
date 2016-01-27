@@ -323,6 +323,33 @@ var COMPONENTS = (function() {
 
   COMPONENTS.prototype.init = function(){
     this.selectInit();
+    this.alertInit();
+  };
+
+  COMPONENTS.prototype.alert = function(message, flash, target, flashDelay){
+    target = target || '#primary-alert';
+    flashDelay = flashDelay || 3000;
+
+    var $target = $(target);
+    $target.html('<div>'+message+'</div>').addClass('active');
+
+    if (flash) {
+      setTimeout(function(){
+        $target.removeClass('active');
+      }, flashDelay);
+    }
+  };
+
+  COMPONENTS.prototype.alertInit = function(){
+    var _this = this;
+
+    $(window).on('alert', function(e, message, flash, target, flashDelay){
+      _this.alert(message, flash, target, flashDelay);
+    });
+
+    $('.alert').on('click', function(){
+      $(this).removeClass('active');
+    });
   };
 
   COMPONENTS.prototype.select = function($selectOption){
@@ -504,82 +531,6 @@ app.views.Home = app.views.Base.extend({
 
 });
 
-app.views.Account = app.views.Base.extend({
-
-  el: '#account-container',
-
-  template: _.template(TEMPLATES['account.ejs']),
-
-  events: {
-    "click .auth-link": "doAuthFromLink",
-    "click .sign-out-link": "signOut"
-  },
-
-  initialize: function(data){
-    this.data = data;
-
-    this.listenForAuth();
-
-    this.render();
-  },
-
-  doAuth: function(provider){
-    $.auth
-      .oAuthSignIn({provider: provider})
-      .fail(function(resp) {
-        alert('Authentication failure: ' + resp.errors.join(' '));
-      });
-  },
-
-  doAuthFromLink: function(e){
-    e.preventDefault();
-    var provider = $(e.currentTarget).attr('data-provider');
-    this.doAuth(provider);
-  },
-
-  listenForAuth: function(){
-    var _this = this;
-
-    // check auth sign in
-    PubSub.subscribe('auth.oAuthSignIn.success', function(ev, msg) {
-      _this.onValidationSuccess($.auth.user);
-      alert('Successfully signed in!');
-    });
-
-    // check auth validation
-    PubSub.subscribe('auth.validation.success', function(ev, user) {
-      _this.onValidationSuccess(user);
-    });
-
-    // check sign out
-    PubSub.subscribe('auth.signOut.success', function(ev, msg) {
-      _this.onSignOutSuccess();
-    });
-  },
-
-  onSignOutSuccess: function(){
-    this.data.user = {};
-    this.render();
-  },
-
-  onValidationSuccess: function(user){
-    this.data.user = user;
-    this.render();
-  },
-
-  render: function() {
-    this.$el.html(this.template(this.data));
-    return this;
-  },
-
-  signOut: function(e){
-    e && e.preventDefault();
-
-    $.auth.signOut();
-  }
-
-});
-
 app.views.Menu = app.views.Base.extend({
 
   template: _.template(TEMPLATES['menu.ejs']),
@@ -610,6 +561,83 @@ app.views.Page = app.views.Base.extend({
   render: function() {
     this.$el.html(this.template(this.data));
     return this;
+  }
+
+});
+
+app.views.Account = app.views.Base.extend({
+
+  el: '#account-container',
+
+  template: _.template(TEMPLATES['account.ejs']),
+
+  events: {
+    "click .auth-link": "doAuthFromLink",
+    "click .sign-out-link": "signOut"
+  },
+
+  initialize: function(data){
+    this.data = data;
+
+    this.listenForAuth();
+
+    this.render();
+  },
+
+  doAuth: function(provider){
+    $.auth
+      .oAuthSignIn({provider: provider})
+      .fail(function(resp) {
+        $(window).trigger('alert', ['Authentication failure: ' + resp.errors.join(' ')]);
+      });
+  },
+
+  doAuthFromLink: function(e){
+    e.preventDefault();
+    var provider = $(e.currentTarget).attr('data-provider');
+    this.doAuth(provider);
+  },
+
+  listenForAuth: function(){
+    var _this = this;
+
+    // check auth sign in
+    PubSub.subscribe('auth.oAuthSignIn.success', function(ev, msg) {
+      _this.onValidationSuccess($.auth.user);
+      $(window).trigger('alert', ['Successfully signed in as '+$.auth.user.name+'!', true]);
+    });
+
+    // check auth validation
+    PubSub.subscribe('auth.validation.success', function(ev, user) {
+      _this.onValidationSuccess(user);
+    });
+
+    // check sign out
+    PubSub.subscribe('auth.signOut.success', function(ev, msg) {
+      _this.onSignOutSuccess();
+      $(window).trigger('alert', ['Successfully signed out!', true]);
+    });
+  },
+
+  onSignOutSuccess: function(){
+    this.data.user = {};
+    this.render();
+  },
+
+  onValidationSuccess: function(user){
+    this.data.user = user;
+    this.render();
+  },
+
+  render: function() {
+    this.$el.html(this.template(this.data));
+    return this;
+  },
+
+  signOut: function(e){
+    e && e.preventDefault();
+
+    $.auth.signOut();
   }
 
 });
