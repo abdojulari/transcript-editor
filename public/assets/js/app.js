@@ -431,14 +431,16 @@ window.app = {
     var mainRouter = new app.routers.DefaultRouter();
 
     // Enable pushState for compatible browsers
-    var enablePushState = true;
-    var pushState = !!(enablePushState && window.history && window.history.pushState);
+    // var enablePushState = true;
+    // var pushState = !!(enablePushState && window.history && window.history.pushState);
+    //
+    // // Start backbone history
+    // Backbone.history = Backbone.history || new Backbone.History({});
+    // Backbone.history.start({
+    //   pushState:pushState
+    // });
 
-    // Start backbone history
-    Backbone.history = Backbone.history || new Backbone.History({});
-    Backbone.history.start({
-      pushState:pushState
-    });
+    Backbone.history.start();
   }
 };
 
@@ -452,13 +454,20 @@ app.routers.DefaultRouter = Backbone.Router.extend({
   routes: {
     "":                     "index",
     "transcript/:id/edit":  "transcriptEdit",
-    "transcript/:id":       "transcriptShow"
+    "transcript/:id":       "transcriptShow",
+    "page/:id":             "pageShow"
   },
 
   index: function() {
     var data = this._getData(data);
     var header = new app.views.Header(data);
     var main = new app.views.Home(data);
+  },
+
+  pageShow: function(id){
+    var data = this._getData(data);
+    var header = new app.views.Header(data);
+    var main = new app.views.Page(_.extend({}, data, {el: '#main', page_key: id}));
   },
 
   transcriptEdit: function(id) {
@@ -521,45 +530,10 @@ app.views.Home = app.views.Base.extend({
   },
 
   render: function() {
-    this.$el.empty();
 
     // write page contents
     var home_page = new app.views.Page(_.extend({}, this.data, {el: this.el, page_key: 'home.md'}));
 
-    return this;
-  }
-
-});
-
-app.views.Menu = app.views.Base.extend({
-
-  template: _.template(TEMPLATES['menu.ejs']),
-
-  initialize: function(data){
-    this.data = data;
-
-    this.render();
-  },
-
-  render: function() {
-    this.$el.html(this.template(this.data));
-    return this;
-  }
-
-});
-
-app.views.Page = app.views.Base.extend({
-
-  template: _.template(TEMPLATES['page.ejs']),
-
-  initialize: function(data){
-    this.data = data;
-
-    this.render();
-  },
-
-  render: function() {
-    this.$el.html(this.template(this.data));
     return this;
   }
 
@@ -638,6 +612,40 @@ app.views.Account = app.views.Base.extend({
     e && e.preventDefault();
 
     $.auth.signOut();
+  }
+
+});
+
+app.views.Menu = app.views.Base.extend({
+
+  template: _.template(TEMPLATES['menu.ejs']),
+
+  initialize: function(data){
+    this.data = data;
+
+    this.render();
+  },
+
+  render: function() {
+    this.$el.html(this.template(this.data));
+    return this;
+  }
+
+});
+
+app.views.Page = app.views.Base.extend({
+
+  template: _.template(TEMPLATES['page.ejs']),
+
+  initialize: function(data){
+    this.data = data;
+
+    this.render();
+  },
+
+  render: function() {
+    this.$el.html(this.template(this.data));
+    return this;
   }
 
 });
