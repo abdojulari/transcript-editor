@@ -7,8 +7,9 @@ app.routers.DefaultRouter = Backbone.Router.extend({
   },
 
   index: function() {
-    this._loadHeader();
-    // app.views.main = new app.views.TranscriptIndex();
+    var data = this._getData(data);
+    var header = new app.views.Header(data);
+    var main = new app.views.Home(data);
   },
 
   transcriptEdit: function(id) {
@@ -25,11 +26,6 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     data = $.extend({}, {project: PROJECT, user: {}}, data);
 
     return data;
-  },
-
-  _loadHeader: function(data){
-    data = this._getData(data);
-    var header = new app.views.Header(data);
   }
 
 });

@@ -1,3 +1,16 @@
 .page {
-  display: none;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.home\.md.page {
+  text-align: center;
+
+  h1 {
+    font-size: 2.6em;
+  }
+
+  p {
+    font-size: 1.5em;
+  }
 }
