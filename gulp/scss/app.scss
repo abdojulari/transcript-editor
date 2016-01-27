@@ -33,6 +33,10 @@ a {
   }
 }
 
+.body {
+  margin: 10px;
+}
+
 .container {
   position: relative;
   width: auto;
@@ -42,3 +46,4 @@ a {
 @import "components";
 @import "header";
 @import "page";
+@import "transcripts";

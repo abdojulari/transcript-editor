@@ -9,7 +9,7 @@ class Transcript < ActiveRecord::Base
   has_many :transcript_lines
   has_many :transcript_edits
 
-  self.per_page = 100
+  self.per_page = 500
 
   def self.getForHomepage(page)
     Transcript.where("lines > 0").paginate(:page => page).order(:title)

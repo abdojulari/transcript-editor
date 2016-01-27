@@ -7,6 +7,7 @@ var COMPONENTS = (function() {
   COMPONENTS.prototype.init = function(){
     this.selectInit();
     this.alertInit();
+    this.scrollInit();
   };
 
   COMPONENTS.prototype.alert = function(message, flash, target, flashDelay){
@@ -33,6 +34,23 @@ var COMPONENTS = (function() {
     $('.alert').on('click', function(){
       $(this).removeClass('active');
     });
+  };
+
+  COMPONENTS.prototype.scrollInit = function(){
+    var _this = this;
+
+    $(window).on('scroll-to', function(e, $el, offset, delay){
+      _this.scrollTo($el, offset, delay);
+    });
+  };
+
+  COMPONENTS.prototype.scrollTo = function($el, offset, delay) {
+    offset = offset || 0;
+    delay = delay || 2000;
+
+    $('html, body').animate({
+        scrollTop: $el.offset().top - offset
+    }, 2000);
   };
 
   COMPONENTS.prototype.select = function($selectOption){

@@ -324,6 +324,7 @@ var COMPONENTS = (function() {
   COMPONENTS.prototype.init = function(){
     this.selectInit();
     this.alertInit();
+    this.scrollInit();
   };
 
   COMPONENTS.prototype.alert = function(message, flash, target, flashDelay){
@@ -350,6 +351,23 @@ var COMPONENTS = (function() {
     $('.alert').on('click', function(){
       $(this).removeClass('active');
     });
+  };
+
+  COMPONENTS.prototype.scrollInit = function(){
+    var _this = this;
+
+    $(window).on('scroll-to', function(e, $el, offset, delay){
+      _this.scrollTo($el, offset, delay);
+    });
+  };
+
+  COMPONENTS.prototype.scrollTo = function($el, offset, delay) {
+    offset = offset || 0;
+    delay = delay || 2000;
+
+    $('html, body').animate({
+        scrollTop: $el.offset().top - offset
+    }, 2000);
   };
 
   COMPONENTS.prototype.select = function($selectOption){
@@ -488,6 +506,45 @@ app.routers.DefaultRouter = Backbone.Router.extend({
 
 });
 
+app.models.Transcript = Backbone.Model.extend({
+
+});
+
+app.collections.Transcripts = Backbone.Collection.extend({
+
+  initialize: function() {
+    this.page = 0;
+  },
+
+  getPage: function(){
+    return this.page;
+  },
+
+  hasMorePages: function(){
+    return (this.page * this.per_page < this.total);
+  },
+
+  nextPage: function(){
+    this.page += 1;
+  },
+
+  parse: function(resp){
+    this.page = resp.current_page;
+    this.per_page = resp.per_page;
+    this.total = resp.total_entries;
+    return resp.entries;
+  },
+
+  url: function() {
+    var params = '';
+    if (this.page > 0) {
+      params = '?' + $.param({page: this.page})
+    }
+    return API_URL + '/transcripts.json' + params;
+  }
+
+});
+
 app.views.Base = Backbone.View.extend({
 
 });
@@ -533,6 +590,10 @@ app.views.Home = app.views.Base.extend({
 
     // write page contents
     var home_page = new app.views.Page(_.extend({}, this.data, {el: this.el, page_key: 'home.md'}));
+
+    // get transcripts
+    var transcript_collection = new app.collections.Transcripts();
+    var transcripts_view = new app.views.TranscriptsIndex(_.extend({}, this.data, {el: this.el, collection: transcript_collection}));
 
     return this;
   }
@@ -646,6 +707,54 @@ app.views.Page = app.views.Base.extend({
   render: function() {
     this.$el.html(this.template(this.data));
     return this;
+  }
+
+});
+
+app.views.TranscriptsIndex = app.views.Base.extend({
+
+  template_list: _.template(TEMPLATES['transcript_list.ejs']),
+  template_item: _.template(TEMPLATES['transcript_item.ejs']),
+
+  events: {
+    'click .list-next': 'nextPage'
+  },
+
+  initialize: function(data){
+    this.data = data;
+
+    this.loadTranscripts();
+  },
+
+  addList: function(transcripts){
+    var list = this.template_list({transcripts: transcripts.toJSON(), template_item: this.template_item, has_more: transcripts.hasMorePages()});
+    var $list = $(list);
+
+    this.$el.append($list);
+
+    if (transcripts.getPage() > 1) {
+      $(window).trigger('scroll-to', [$list, 60]);
+    }
+  },
+
+  loadTranscripts: function(){
+    var _this = this;
+
+    this.collection.fetch({
+      success: function(collection, response, options){
+        _this.addList(collection);
+      },
+      error: function(collection, response, options){
+        $(window).trigger('alert', ['Whoops! We seem to have trouble loading our transcripts. Please try again by refreshing your browser or come back later!']);
+      }
+    });
+  },
+
+  nextPage: function(e){
+    e.preventDefault();
+    $(e.currentTarget).remove();
+    this.collection.nextPage();
+    this.loadTranscripts();
   }
 
 });

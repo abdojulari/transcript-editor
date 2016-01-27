@@ -1,6 +1,27 @@
 @import "mixins";
 @import "variables";
 
+/* Button */
+.button {
+  display: inline-block;
+  padding: 0.2em 0.8em;
+  background: $link-color;
+  color: $white;
+
+  &:hover {
+    background: $link-hover-color;
+    color: $white;
+  }
+
+  &.list-next {
+    font-size: 2em;
+    margin: 1em auto;
+    display: block;
+    max-width: 300px;
+    text-align: center;
+  }
+}
+
 /* Menu */
 .menu {
   .menu-item {
