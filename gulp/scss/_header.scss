@@ -1,2 +1,61 @@
 @import "mixins";
 @import "variables";
+
+body {
+
+}
+.header {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  width: 100%;
+  @include box-sizing();
+  @include clearfix();
+
+  .navigation {
+    max-height: $header-nav-height;
+    @include clearfix();
+  }
+
+  .title-container {
+    float: left;
+
+    .title {
+      display: block;
+      padding: 5px;
+    }
+
+    .logo {
+      display: block;
+      max-height: $header-nav-height - 10px;
+      width: auto;
+    }
+  }
+  .menu-container {
+    float: right;
+    margin-right: 10px;
+
+    .menu-item {
+      height: $header-nav-height;
+      line-height: $header-nav-height;
+      padding-top: 0;
+      padding-bottom: 0;
+
+      &:hover {
+        background: lighten($inverse-background-color, 10%);
+      }
+    }
+  }
+  .account-container {
+    float: right;
+
+    .select {
+      display: block;
+      height: $header-nav-height;
+      line-height: $header-nav-height;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+}

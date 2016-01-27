@@ -21,10 +21,11 @@ ul, li {
   list-style: none;
 }
 a {
-  color: $blue;
+  color: $link-color;
   text-decoration: none;
+
   &:hover {
-    color: lighten($blue, 10%);
+    color: $link-hover-color;
   }
 }
 
@@ -34,5 +35,6 @@ a {
   height: auto;
 }
 
+@import "components";
 @import "header";
 @import "page";

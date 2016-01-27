@@ -1,6 +1,6 @@
 app.views.Account = app.views.Base.extend({
 
-  el: '#account',
+  el: '#account-container',
 
   template: _.template(TEMPLATES['account.ejs']),
 

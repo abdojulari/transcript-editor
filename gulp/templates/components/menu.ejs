@@ -1,0 +1,7 @@
+<% if (project.menus && project.menus[menu_key] && project.menus[menu_key].length) { %>
+  <div class="<%= menu_key %>-menu menu">
+    <% _.each(project.menus[menu_key], function(item) { %>
+      <a href="<%= item.url %>" class="menu-item"><%= item.label %></a>
+    <% }) %>
+  </div>
+<% } %>

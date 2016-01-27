@@ -1,0 +1,5 @@
+<% if (project.logo) { %>
+  <a href="/" title="<%= project.name %>" class="title"><img src="<%= project.logo %>" alt="" class="logo" /></a>
+<% } else { %>
+  <h1 class="title"><a href="/"><%= project.name %></a></h1>
+<% } %>

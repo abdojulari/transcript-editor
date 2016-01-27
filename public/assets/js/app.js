@@ -315,6 +315,69 @@ n.cssHooks[b]=Ua(l.pixelPosition,function(a,c){return c?(c=Sa(a,b),Oa.test(c)?n(
 
 })();
 
+// COMPONENTS
+var COMPONENTS = (function() {
+  function COMPONENTS() {
+    this.init();
+  }
+
+  COMPONENTS.prototype.init = function(){
+    this.selectInit();
+  };
+
+  COMPONENTS.prototype.select = function($selectOption){
+    var $menu = $selectOption.closest('.select'),
+        $active = $menu.find('.select-active'),
+        $options = $menu.find('.select-option'),
+        activeText = $selectOption.attr('data-active') || $selectOption.text();
+
+    $options.removeClass('selected');
+    $selectOption.addClass('selected');
+    $active.text(activeText);
+    $menu.removeClass('active');
+  };
+
+  COMPONENTS.prototype.selectInit = function(){
+    var _this = this;
+
+    // select box
+    $(document).on('click', '.select-active', function(){
+      _this.selectMenu($(this).closest('.select'));
+    });
+
+    // select option
+    $(document).on('click', '.select-option', function(){
+      _this.select($(this));
+    });
+
+    // click away
+    $(document).on('click', function(e){
+
+      // select box
+      if (!$(e.target).closest('.select').length) {
+        _this.selectMenusHide();
+      }
+
+    });
+  };
+
+  COMPONENTS.prototype.selectMenu = function($selectMenu){
+    $selectMenu.addClass('active');
+  };
+
+  COMPONENTS.prototype.selectMenusHide = function(){
+    $('.select').removeClass('active');
+  };
+
+  return COMPONENTS;
+
+})();
+
+// Load app on ready
+$(function() {
+  var components = new COMPONENTS();
+});
+
 window.API_URL = PROJECT.api_url || window.location.protocol + '//' + window.location.hostname;
 if (window.location.port && !PROJECT.api_url) window.API_URL += ':' + window.location.port
 
@@ -401,6 +464,8 @@ app.views.Header = app.views.Base.extend({
 
   el: '#header',
 
+  title_template: _.template(TEMPLATES['title.ejs']),
+
   initialize: function(data){
     this.data = data;
 
@@ -408,8 +473,32 @@ app.views.Header = app.views.Base.extend({
   },
 
   render: function() {
-    var navigation = new app.views.Navigation(this.data);
+    // render the title
+    this.$el.find('#header-title').html(this.title_template(this.data));
+
+    // render the primary menu
+    var primary_menu = new app.views.Menu(_.extend({}, this.data, {el: '#primary-menu-container', menu_key: 'header'}));
+
+    // render the account
     var account = new app.views.Account(this.data);
+
+    return this;
+  }
+
+});
+
+app.views.Menu = app.views.Base.extend({
+
+  template: _.template(TEMPLATES['menu.ejs']),
+
+  initialize: function(data){
+    this.data = data;
+
+    this.render();
+  },
+
+  render: function() {
+    this.$el.html(this.template(this.data));
     return this;
   }
 
@@ -417,7 +506,7 @@ app.views.Header = app.views.Base.extend({
 
 app.views.Account = app.views.Base.extend({
 
-  el: '#account',
+  el: '#account-container',
 
   template: _.template(TEMPLATES['account.ejs']),
 
@@ -487,25 +576,6 @@ app.views.Account = app.views.Base.extend({
     e && e.preventDefault();
 
     $.auth.signOut();
-  }
-
-});
-
-app.views.Navigation = app.views.Base.extend({
-
-  el: '#navigation',
-
-  template: _.template(TEMPLATES['navigation.ejs']),
-
-  initialize: function(data){
-    this.data = data;
-
-    this.render();
-  },
-
-  render: function() {
-    this.$el.html(this.template(this.data));
-    return this;
   }
 
 });

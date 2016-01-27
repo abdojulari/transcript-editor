@@ -1,8 +1,6 @@
-app.views.Navigation = app.views.Base.extend({
+app.views.Menu = app.views.Base.extend({
 
-  el: '#navigation',
-
-  template: _.template(TEMPLATES['navigation.ejs']),
+  template: _.template(TEMPLATES['menu.ejs']),
 
   initialize: function(data){
     this.data = data;

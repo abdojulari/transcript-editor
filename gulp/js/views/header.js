@@ -2,6 +2,8 @@ app.views.Header = app.views.Base.extend({
 
   el: '#header',
 
+  title_template: _.template(TEMPLATES['title.ejs']),
+
   initialize: function(data){
     this.data = data;
 
@@ -9,8 +11,15 @@ app.views.Header = app.views.Base.extend({
   },
 
   render: function() {
-    var navigation = new app.views.Navigation(this.data);
+    // render the title
+    this.$el.find('#header-title').html(this.title_template(this.data));
+
+    // render the primary menu
+    var primary_menu = new app.views.Menu(_.extend({}, this.data, {el: '#primary-menu-container', menu_key: 'header'}));
+
+    // render the account
     var account = new app.views.Account(this.data);
+
     return this;
   }
 

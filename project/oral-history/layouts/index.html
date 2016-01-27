@@ -7,17 +7,26 @@
   <meta name="description" content="<%= project["description"] %>">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="assets/css/app.css">
   <link rel="stylesheet" href="project/assets/css/styles.css">
 </head>
 <body>
 
   <div id="app" class="container">
+
     <div id="header" class="header">
-      <div id="navigation" class="navigation"></div>
-      <div id="account" class="account loading"></div>
+      <nav id="primary-navigation" class="navigation inverse">
+        <div id="header-title" class="title-container"></div>
+        <div id="account-container" class="account-container"></div>
+        <div id="primary-menu-container" class="menu-container"></div>
+      </nav>
+      <nav id="secondary-navigation" class="navigation secondary"></nav>
+      <div id="primary-alert" class="alert"></div>
     </div>
+
     <div id="main" class="body loading"></div>
+
     <div id="footer" class="footer"></div>
   </div>
 
