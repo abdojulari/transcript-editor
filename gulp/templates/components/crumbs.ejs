@@ -1,0 +1,18 @@
+<% _.each(crumbs, function(crumb){ %>
+  <% if (crumb.url) { %>
+    <a href="<%= crumb.url %>" class="crumb">
+  <% } else { %>
+    <div class="crumb">
+  <% } %>
+
+    <% if (crumb.image) { %>
+      <div class="crumb-image"><img src="<%= crumb.image %>" alt="<%= crumb.label %> Icon" /></div>
+    <% } %>
+    <div class="crumb-label"><%= crumb.label %></div>
+
+  <% if (crumb.url) { %>
+    </a>
+  <% } else { %>
+    </div>
+  <% } %>
+<% }) %>

@@ -30,6 +30,29 @@
   }
 }
 
+/* Crumbs */
+.crumb {
+  display: inline-block;
+  padding: 0.2em 0.8em;
+
+  &:before {
+    @include icon("\f105");
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+
+  .crumb-image {
+    display: inline-block;
+    margin-right: 5px;
+  }
+
+  .crumb-label {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+/* Loading */
 .loading {
   &:after {
     content: ' ';
@@ -135,6 +158,7 @@
   }
 }
 
+/* Inverse */
 .inverse {
   background: $inverse-background-color;
   color: $white;

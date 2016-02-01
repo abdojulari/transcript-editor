@@ -565,7 +565,7 @@ app.views.Header = app.views.Base.extend({
 
   el: '#header',
 
-  title_template: _.template(TEMPLATES['title.ejs']),
+  title_template: _.template(TEMPLATES['header_title.ejs']),
 
   initialize: function(data){
     this.data = data;
@@ -575,7 +575,10 @@ app.views.Header = app.views.Base.extend({
 
   render: function() {
     // render the title
-    this.$el.find('#header-title').html(this.title_template(this.data));
+    this.renderTitle();
+
+    // render the header crumbs
+    var header_crumbs = new app.views.Crumbs(_.extend({}, this.data, {el: '#header-crumbs'}));
 
     // render the primary menu
     var primary_menu = new app.views.Menu(_.extend({}, this.data, {el: '#primary-menu-container', menu_key: 'header'}));
@@ -584,6 +587,10 @@ app.views.Header = app.views.Base.extend({
     var account = new app.views.Account(this.data);
 
     return this;
+  },
+
+  renderTitle: function(){
+    this.$el.find('#header-title').html(this.title_template(this.data));
   }
 
 });
@@ -689,6 +696,41 @@ app.views.Account = app.views.Base.extend({
 
 });
 
+app.views.Crumbs = app.views.Base.extend({
+
+  template: _.template(TEMPLATES['crumbs.ejs']),
+
+  initialize: function(data){
+    this.data = data;
+
+    this.data.crumbs = this.data.crumbs || [];
+
+    this.listenForCrumbs();
+
+    if (this.data.crumbs.length) this.render();
+  },
+
+  listenForCrumbs: function(){
+    var _this = this;
+
+    // check for transcript load
+    PubSub.subscribe('transcript.load', function(ev, data) {
+      var crumb = {'label': data.label || data.transcript.title};
+      if (data.transcript.image_url) crumb.image = data.transcript.image_url;
+      _this.data.crumbs = [crumb];
+      _this.render();
+    });
+
+
+  },
+
+  render: function() {
+    this.$el.html(this.template(this.data));
+    return this;
+  }
+
+});
+
 app.views.Menu = app.views.Base.extend({
 
   template: _.template(TEMPLATES['menu.ejs']),
@@ -723,6 +765,7 @@ app.views.Page = app.views.Base.extend({
 
 });
 
+
 app.views.TranscriptEdit = app.views.Base.extend({
 
   template_lines: _.template(TEMPLATES['transcript_lines.ejs']),
@@ -751,7 +794,11 @@ app.views.TranscriptEdit = app.views.Base.extend({
   },
 
   onLoad: function(transcript){
-    console.log(transcript.toJSON());
+    console.log("Transcrpt", transcript.toJSON());
+    PubSub.publish('transcript.load', {
+      transcript: transcript.toJSON(),
+      label: 'Editing Transcript: ' + transcript.get('title')
+    });
     this.render();
   },
 

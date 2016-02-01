@@ -33,6 +33,41 @@ body {
       width: auto;
     }
   }
+
+  .crumbs-container {
+    float: left;
+
+    .crumb {
+      height: $header-nav-height;
+      line-height: $header-nav-height;
+      padding-top: 0;
+      padding-bottom: 0;
+
+      &:before {
+        vertical-align: top;
+        height: $header-nav-height;
+        line-height: $header-nav-height;
+        font-size: 1.4em;
+      }
+    }
+
+    .crumb-image {
+      height: $header-nav-height;
+      line-height: $header-nav-height;
+    }
+
+    .crumb-label {
+      vertical-align: top;
+    }
+
+    img {
+      display: inline-block;
+      max-height: $header-nav-height - 10px;
+      width: auto;
+      margin-top: 5px;
+    }
+  }
+
   .menu-container {
     float: right;
     margin-right: 10px;

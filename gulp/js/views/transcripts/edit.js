@@ -26,7 +26,11 @@ app.views.TranscriptEdit = app.views.Base.extend({
   },
 
   onLoad: function(transcript){
-    console.log(transcript.toJSON());
+    console.log("Transcrpt", transcript.toJSON());
+    PubSub.publish('transcript.load', {
+      transcript: transcript.toJSON(),
+      label: 'Editing Transcript: ' + transcript.get('title')
+    });
     this.render();
   },
 
