@@ -2,7 +2,7 @@
 @import "variables";
 
 body {
-  padding-top: $header-nav-height + $secondary-header-nav-height + 40px;
+  padding-top: $header-nav-height + $secondary-header-nav-height * 3;
 }
 .header {
   position: fixed;
