@@ -30,6 +30,20 @@
   }
 }
 
+.loading {
+  &:after {
+    content: ' ';
+    display: block;
+    position: relative;
+    width: 60px;
+    height: 60px;
+    margin: 40px auto;
+    background-color: $coolgray-color;
+    border-radius: 100%;
+    @include animation(pulseScaleOut 1.0s infinite ease-in-out);
+  }
+}
+
 /* Alert */
 .alert {
   background: $highlight-dark-color;

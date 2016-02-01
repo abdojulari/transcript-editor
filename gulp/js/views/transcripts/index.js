@@ -18,6 +18,7 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     var $list = $(list);
 
     this.$el.append($list);
+    this.$el.removeClass('loading');
 
     if (transcripts.getPage() > 1) {
       $(window).trigger('scroll-to', [$list, 60]);
@@ -26,6 +27,8 @@ app.views.TranscriptsIndex = app.views.Base.extend({
 
   loadTranscripts: function(){
     var _this = this;
+
+    this.$el.addClass('loading');
 
     this.collection.fetch({
       success: function(collection, response, options){
