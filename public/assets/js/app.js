@@ -497,8 +497,13 @@ app.routers.DefaultRouter = Backbone.Router.extend({
 
   _getData: function(data){
 
+    var user = {};
+    if ($.auth.user && $.auth.user.signedIn) {
+      user = $.auth.user;
+    }
+
     data = data || {};
-    data = $.extend({}, {project: PROJECT, user: {}}, data);
+    data = $.extend({}, {project: PROJECT, user: user}, data);
 
     return data;
   }
