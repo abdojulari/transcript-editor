@@ -9,7 +9,53 @@ app.views.TranscriptEdit = app.views.Base.extend({
     this.loadTranscript();
   },
 
-  loadListeners: function(){},
+  lineNext: function(){},
+
+  linePrevious: function(){},
+
+  lineSelect: function(i){
+    $('.line.active').removeClass('active');
+    $('.line[sequence="'+i+'"]').addClass('active');
+  },
+
+  lineSubmit: function(){},
+
+  loadListeners: function(){
+    var _this = this,
+        controls = this.data.project.controls;
+
+    // add link listeners
+    $('.control').on('click', function(e){
+      e.preventDefault();
+      var $el = $(this);
+
+      _.each(controls, function(control){
+        if ($el.hasClass(control.id)) {
+          _this[control.action]();
+        }
+      })
+
+    });
+
+    // add keyboard listeners
+    $(window).keydown(function(e){
+      _.each(controls, function(control){
+        if (control.keyCode == e.keyCode && (control.shift && e.shiftKey || !control.shift)) {
+          e.preventDefault();
+          _this[control.action]();
+          return false;
+        }
+      });
+    });
+
+    // add line listener
+    $('.line').on('click', function(e){
+      e.preventDefault();
+      _this.lineSelect(parseInt($(this).attr('sequence')));
+    });
+
+
+  },
 
   loadPageContent: function(){
     this.data.page_content = '';
@@ -49,16 +95,20 @@ app.views.TranscriptEdit = app.views.Base.extend({
     this.data.transcript = transcript.toJSON();
     this.loadPageContent();
     this.render();
-  },
-
-  play: function(e){
-    e && e.preventDefault();
-
-
+    this.loadListeners();
   },
 
   render: function(){
     this.$el.html(this.template(this.data));
-  }
+  },
+
+  togglePlay: function(){
+
+
+  },
+
+  wordPrevious: function(){},
+
+  wordNext: function(){}
 
 });
