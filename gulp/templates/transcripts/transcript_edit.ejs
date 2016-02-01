@@ -1,0 +1,11 @@
+<% if (page_content) { %>
+<div class="transcript-page">
+  <%= page_content %>
+</div>
+<% } %>
+
+<div class="transcript-lines">
+  <% _.each(transcript.transcript_lines, function(line) { %>
+    <%= template_line(line) %>
+  <% }) %>
+</div>

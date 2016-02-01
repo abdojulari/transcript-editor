@@ -136,3 +136,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+@mixin user-select($params: none) {
+  -webkit-user-select: $params;
+  -moz-user-select: $params;
+  -ms-user-select: $params;
+  user-select: $params;
+}

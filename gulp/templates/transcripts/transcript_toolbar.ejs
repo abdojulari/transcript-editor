@@ -1,0 +1,21 @@
+<div class="transcript-toolbar">
+  <div class="mode">
+    <label>Continous Play</label>
+    <div class="onoffswitch">
+      <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="continuous-play-switch">
+      <label class="onoffswitch-label" for="continuous-play-switch">
+        <span class="onoffswitch-inner"></span>
+        <span class="onoffswitch-switch"></span>
+      </label>
+    </div>
+  </div>
+  <div class="notifications">Loading transcript...</div>
+  <div class="controls">
+    <% _.each(controls, function(control){ %>
+      <div class="control <%= control.id %>">
+        <div class="key" title="<%= control.keyLabel %>"><%= control.key %></div>
+        <div class="label"><%= control.label %></div>
+      </div>
+    <% }) %>
+  </div>
+</div>

@@ -43,7 +43,7 @@
   }
 }
 
-@keyframes keyframes(pulseScaleOut) {
+@include keyframes(pulseScaleOut) {
   0% {
     opacity: 1;
     @include transform(scale(0));

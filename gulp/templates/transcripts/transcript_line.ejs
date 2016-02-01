@@ -1,0 +1,10 @@
+<div class="line">
+  <div class="time"><%= UTIL.formatTimeMs(start_time) %></div>
+  <% if (text) { %>
+    <div class="text final"><%= text %></div>
+  <% } else if (hasOwnProperty("user_text")) { %>
+    <div class="text user"><input type="text" value="<%= user_text %>" /></div>
+  <% } else { %>
+    <div class="text"><input type="text" value="<%= original_text %>" /></div>
+  <% } %>
+</div>

@@ -15,5 +15,13 @@
       {"label": "Introduction", "url": "/#/page/intro.md"}
     ],
     "footer": []
-  }
+  },
+  "controls": [
+    {"id": "toggle-play", "action": "togglePlay", "label": "Play/Pause/Re-play", "keycode": 9, "key": "tab", "keyLabel": "Tab key"},
+    {"id": "submit-line", "action": "lineSubmit", "label": "Submit &amp; Continue", "keycode": 13, "key": "enter", "keyLabel": "Enter/Return key"},
+    {"id": "previous-line", "action": "linePrevious", "label": "Prev Line", "keycode": 38, "key": "&#8593;", "keyLabel": "Up arrow key"},
+    {"id": "next-line", "action": "lineNext", "label": "Next Line", "keycode": 40, "key": "&#8595;", "keyLabel": "Down arrow key"},
+    {"id": "previous-word", "action": "wordPrevious", "label": "Prev Word", "keycode": 37, "key": "&#8592;", "keyLabel": "Left arrow key", "shift": true},
+    {"id": "next-word", "action": "wordNext", "label": "Next Word", "keycode": 39, "key": "&#8594;", "keyLabel": "Right arrow key", "shift": true}
+  ]
 }

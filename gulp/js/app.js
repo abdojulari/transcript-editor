@@ -1,6 +1,8 @@
 window.API_URL = PROJECT.api_url || window.location.protocol + '//' + window.location.hostname;
 if (window.location.port && !PROJECT.api_url) window.API_URL += ':' + window.location.port
 
+window.DEBUG = true;
+
 window.app = {
   models: {},
   collections: {},
@@ -15,9 +17,9 @@ window.app = {
     });
 
     // Debug
-    console.log("Project", PROJECT);
+    DEBUG && console.log("Project", PROJECT);
     PubSub.subscribe('auth.validation.success', function(ev, user) {
-      console.log('User', user);
+      DEBUG && console.log('User', user);
     });
 
     // load the main router

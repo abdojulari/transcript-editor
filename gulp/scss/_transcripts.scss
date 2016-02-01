@@ -52,3 +52,173 @@
     @include box-sizing();
   }
 }
+
+.transcript-page {
+  max-width: 800px;
+  margin: 0 auto 40px;
+
+  h1, h2 {
+    margin: 0;
+    text-align: center;
+  }
+
+  h2 {
+    color: $coolgray-dark-color;
+  }
+
+  p {
+    font-size: 1.2em;
+  }
+}
+
+$transcript-line-height: 56px;
+
+.transcript-lines {
+  margin-left: -10px;
+  margin-right: -10px;
+  border-top: 10px solid $coolgray-color;
+
+  .line {
+    position: relative;
+    width: 100%;
+    height: $transcript-line-height;
+    line-height: $transcript-line-height;
+    background: $coolgray-color;
+    color: darken($coolgray-dark-color, 15%);
+    @include clearfix();
+
+    &:hover {
+      background: lighten($coolgray-color, 5%);
+    }
+
+    &,
+    input {
+      cursor: pointer;
+    }
+
+    .time {
+      border-right: 6px solid darken($coolgray-color, 5%);
+    }
+
+    &.active {
+      cursor: default;
+
+      &,
+      &:hover {
+        color: $black;
+        background: $white;
+      }
+
+      input {
+        cursor: text;
+      }
+
+      .time {
+        border-right: 6px solid $green-color;
+      }
+    }
+  }
+  .time {
+    width: 90px;
+    float: left;
+    padding-left: 10px;
+    font-size: $transcript-line-height - 36px;
+    background: rgba($black, 0.05);
+    @include box-sizing();
+  }
+  .text {
+    margin-left: 100px;
+    width: auto;
+    @include box-sizing();
+  }
+  input {
+    display: block;
+    width: 100%;
+    border: none;
+    padding: 0px;
+    font-size: $transcript-line-height - 24px;
+    height: $transcript-line-height;
+    line-height: $transcript-line-height;
+    background: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+$toolbar-mode-width: 188px;
+$toolbar-notifications-width: 200px;
+
+.transcript-toolbar {
+  width: 100%;
+  min-height: $secondary-header-nav-height;
+  line-height: $secondary-header-nav-height;
+  background: lighten($coolgray-color, 20%);
+  @include clearfix();
+
+  .controls {
+    margin-right: $toolbar-mode-width + $toolbar-notifications-width;
+    width: auto;
+
+    .control {
+      display: inline-block;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+
+    .key {
+      display: inline-block;
+      height: $secondary-header-nav-height - 16px;
+      line-height: $secondary-header-nav-height - 16px;
+      margin-top: 8px;
+      font-size: 0.9em;
+      padding: 0 0.4em;
+      background: $link-color;
+      color: $white;
+      vertical-align: center;
+    }
+
+    .label {
+      display: inline-block;
+      font-size: 0.95em;
+    }
+
+    .control:hover {
+      .key {
+        background: $link-hover-color;
+      }
+
+      .label {
+        color: $charcoal;
+      }
+    }
+  }
+
+  .notifications {
+    width: $toolbar-notifications-width;
+    float: right;
+    font-size: 0.9em;
+    font-style: italic;
+    color: lighten($charcoal, 20%);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .mode {
+    width: $toolbar-mode-width;
+    float: right;
+
+    > label {
+      display: inline-block;
+      font-size: 0.8em;
+    }
+
+    .onoffswitch {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+  }
+}

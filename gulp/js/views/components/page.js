@@ -5,7 +5,7 @@ app.views.Page = app.views.Base.extend({
   initialize: function(data){
     this.data = data;
 
-    this.render();
+    if (this.el) this.render();
   },
 
   render: function() {

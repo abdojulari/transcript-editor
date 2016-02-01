@@ -39,6 +39,10 @@
     return string;
   };
 
+  UTIL.formatTimeMs = function(milliseconds, dec) {
+    return UTIL.formatTime(milliseconds*0.001, dec);
+  };
+
   // Convert hh:mm:ss -> seconds
   UTIL.getSeconds = function(string, dec) {
     var parts = string.split(':').reverse(),

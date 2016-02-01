@@ -290,6 +290,10 @@ n.cssHooks[b]=Ua(l.pixelPosition,function(a,c){return c?(c=Sa(a,b),Oa.test(c)?n(
     return string;
   };
 
+  UTIL.formatTimeMs = function(milliseconds, dec) {
+    return UTIL.formatTime(milliseconds*0.001, dec);
+  };
+
   // Convert hh:mm:ss -> seconds
   UTIL.getSeconds = function(string, dec) {
     var parts = string.split(':').reverse(),
@@ -426,6 +430,8 @@ $(function() {
 window.API_URL = PROJECT.api_url || window.location.protocol + '//' + window.location.hostname;
 if (window.location.port && !PROJECT.api_url) window.API_URL += ':' + window.location.port
 
+window.DEBUG = true;
+
 window.app = {
   models: {},
   collections: {},
@@ -440,9 +446,9 @@ window.app = {
     });
 
     // Debug
-    console.log("Project", PROJECT);
+    DEBUG && console.log("Project", PROJECT);
     PubSub.subscribe('auth.validation.success', function(ev, user) {
-      console.log('User', user);
+      DEBUG && console.log('User', user);
     });
 
     // load the main router
@@ -490,6 +496,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
   transcriptEdit: function(id) {
     var data = this._getData(data);
     var header = new app.views.Header(data);
+    var toolbar = new app.views.TranscriptToolbar(_.extend({}, data, {el: '#secondary-navigation'}));
 
     var transcript_model = new app.models.Transcript({id: id});
     var main = new app.views.TranscriptEdit(_.extend({}, data, {el: '#main', model: transcript_model}));
@@ -503,7 +510,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     }
 
     data = data || {};
-    data = $.extend({}, {project: PROJECT, user: user}, data);
+    data = $.extend({}, {project: PROJECT, user: user, debug: DEBUG}, data);
 
     return data;
   }
@@ -755,7 +762,7 @@ app.views.Page = app.views.Base.extend({
   initialize: function(data){
     this.data = data;
 
-    this.render();
+    if (this.el) this.render();
   },
 
   render: function() {
@@ -765,23 +772,49 @@ app.views.Page = app.views.Base.extend({
 
 });
 
+app.views.TranscriptToolbar = app.views.Base.extend({
 
-app.views.TranscriptEdit = app.views.Base.extend({
-
-  template_lines: _.template(TEMPLATES['transcript_lines.ejs']),
-  template_line: _.template(TEMPLATES['transcript_line.ejs']),
-
-  events: {
-  },
+  template: _.template(TEMPLATES['transcript_toolbar.ejs']),
 
   initialize: function(data){
     this.data = data;
+    this.data.controls = this.data.project.controls;
 
+    this.render();
+  },
+
+  render: function(){
+    this.$el.html(this.template(this.data));
+  }
+
+});
+
+app.views.TranscriptEdit = app.views.Base.extend({
+
+  template: _.template(TEMPLATES['transcript_edit.ejs']),
+  template_line: _.template(TEMPLATES['transcript_line.ejs']),
+
+  initialize: function(data){
+    this.data = data;
+    this.data.template_line = this.template_line;
     this.loadTranscript();
+  },
+
+  loadListeners: function(){},
+
+  loadPageContent: function(){
+    this.data.page_content = '';
+
+    if (this.data.project.pages['transcript_edit.md']) {
+      var page_template = _.template(this.data.project.pages['transcript_edit.md']);
+      this.data.page_content = page_template(this.data);
+    }
   },
 
   loadTranscript: function(){
     var _this = this;
+
+    this.$el.addClass('loading');
 
     this.model.fetch({
       success: function(model, response, options){
@@ -794,16 +827,29 @@ app.views.TranscriptEdit = app.views.Base.extend({
   },
 
   onLoad: function(transcript){
-    console.log("Transcrpt", transcript.toJSON());
+    this.data.debug && console.log("Transcript", transcript.toJSON());
+
+    this.$el.removeClass('loading');
+
     PubSub.publish('transcript.load', {
       transcript: transcript.toJSON(),
+      action: 'edit',
       label: 'Editing Transcript: ' + transcript.get('title')
     });
+
+    this.data.transcript = transcript.toJSON();
+    this.loadPageContent();
     this.render();
   },
 
+  play: function(e){
+    e && e.preventDefault();
+
+
+  },
+
   render: function(){
-    this.$el.html('');
+    this.$el.html(this.template(this.data));
   }
 
 });

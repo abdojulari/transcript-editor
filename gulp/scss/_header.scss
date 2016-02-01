@@ -15,7 +15,18 @@ body {
   @include clearfix();
 
   .navigation {
-    max-height: $header-nav-height;
+    position: relative;
+    z-index: 1000;
+    clear: both;
+
+    &.primary {
+      max-height: $header-nav-height;
+      z-index: 2000;
+    }
+
+    > div {
+      width: 100%;
+    }
     @include clearfix();
   }
 
@@ -36,6 +47,7 @@ body {
 
   .crumbs-container {
     float: left;
+    height: $header-nav-height;
 
     .crumb {
       height: $header-nav-height;

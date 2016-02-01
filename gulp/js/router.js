@@ -21,6 +21,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
   transcriptEdit: function(id) {
     var data = this._getData(data);
     var header = new app.views.Header(data);
+    var toolbar = new app.views.TranscriptToolbar(_.extend({}, data, {el: '#secondary-navigation'}));
 
     var transcript_model = new app.models.Transcript({id: id});
     var main = new app.views.TranscriptEdit(_.extend({}, data, {el: '#main', model: transcript_model}));
@@ -34,7 +35,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     }
 
     data = data || {};
-    data = $.extend({}, {project: PROJECT, user: user}, data);
+    data = $.extend({}, {project: PROJECT, user: user, debug: DEBUG}, data);
 
     return data;
   }
