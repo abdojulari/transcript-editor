@@ -12,8 +12,8 @@
   <div class="notifications">Loading transcript...</div>
   <div class="controls">
     <% _.each(controls, function(control){ %>
-      <div class="control <%= control.id %>">
-        <div class="key" title="<%= control.keyLabel %>"><%= control.key %></div>
+      <div class="control <%= control.id %>" aria-label="<%= control.keyLabel %>" title="<%= control.keyLabel %>">
+        <div class="key"><%= control.key %></div>
         <div class="label"><%= control.label %></div>
       </div>
     <% }) %>
