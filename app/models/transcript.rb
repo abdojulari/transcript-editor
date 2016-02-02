@@ -22,6 +22,13 @@ class Transcript < ActiveRecord::Base
       {vendor_id: vendor[:id], empty: ""})
   end
 
+  def self.getForUpdateByVendor(vendor_uid)
+    vendor = Vendor.find_by_uid(vendor_uid)
+    Transcript.joins(:collection)
+      .where("transcripts.vendor_id = :vendor_id AND collections.vendor_id = :vendor_id AND collections.vendor_identifier != :empty AND transcripts.vendor_identifier != :empty",
+      {vendor_id: vendor[:id], empty: ""})
+  end
+
   def self.getForUploadByVendor(vendor_uid)
     vendor = Vendor.find_by_uid(vendor_uid)
     Transcript.joins(:collection)
@@ -29,7 +36,7 @@ class Transcript < ActiveRecord::Base
       {vendor_id: vendor[:id], empty: ""})
   end
 
-  def updateFromHash(contents)
+  def loadFromHash(contents)
     transcript_lines = _getLinesFromHash(contents)
     if transcript_lines.length > 0
       # remove existing lines
@@ -47,12 +54,18 @@ class Transcript < ActiveRecord::Base
     # transcript is still processing
     elsif contents["audio_files"] && contents["audio_files"].length > 0
       transcript_status = TranscriptStatus.find_by_name("transcript_processing")
-      update_attribute(transcript_status_id: transcript_status[:id])
+      update_attributes(transcript_status_id: transcript_status[:id])
       puts "Transcript #{uid} still processing with status: #{contents["audio_files"][0]["current_status"]}"
 
     # no audio recognized
     else
       puts "Transcript #{uid} still processing (no audio file found)"
+    end
+  end
+
+  def updateFromHash(contents)
+    if contents["audio_files"] && contents["audio_files"].length > 0
+      update_attributes(vendor_audio_urls: contents["audio_files"][0]["url"].to_json)
     end
   end
 

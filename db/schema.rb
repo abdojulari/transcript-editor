@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160125233337) do
+ActiveRecord::Schema.define(version: 20160202181726) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(version: 20160125233337) do
     t.datetime "transcript_processed_at"
     t.datetime "created_at",                                  null: false
     t.datetime "updated_at",                                  null: false
+    t.jsonb    "vendor_audio_urls",       default: [],        null: false
   end
 
   add_index "transcripts", ["collection_id"], name: "index_transcripts_on_collection_id", using: :btree

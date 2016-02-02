@@ -3,6 +3,7 @@
   "description": "A web app for fixing oral history transcripts that were automatically generated from speech-to-text software",
   "logo": "/project/assets/img/logo.png",
   "api_url": "",
+  "use_vendor_audio": true,
   "auth_providers": [
     {
       "name": "google",
