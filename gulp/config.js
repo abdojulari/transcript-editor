@@ -21,6 +21,7 @@ module.exports = {
       sourceAssets + '/js/vendor/jquery-1.12.0.min.js',
       sourceAssets + '/js/vendor/underscore-min.js',
       sourceAssets + '/js/vendor/backbone-min.js',
+      sourceAssets + '/js/vendor/backbone.routefilter.min.js',
       sourceAssets + '/js/vendor/jquery.cookie.js',
       sourceAssets + '/js/vendor/jquery-deparam.js',
       sourceAssets + '/js/vendor/pubsub.min.js',

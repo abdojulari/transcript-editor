@@ -6,6 +6,12 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     "page/:id":             "pageShow"
   },
 
+  before: function( route, params ) {},
+
+  after: function( route, params ) {
+    window.scrollTo(0, 0);
+  },
+
   index: function() {
     var data = this._getData(data);
     var header = new app.views.Header(data);
