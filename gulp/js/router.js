@@ -42,8 +42,13 @@ app.routers.DefaultRouter = Backbone.Router.extend({
       user = $.auth.user;
     }
 
+    if (!$.cookie('session_id')) {
+      $.cookie('session_id', UTIL.randomNumber(9));
+    }
+    var session_id = parseInt($.cookie('session_id'));
+
     data = data || {};
-    data = $.extend({}, {project: PROJECT, user: user, debug: DEBUG}, data);
+    data = $.extend({}, {project: PROJECT, user: user, session_id: session_id, debug: DEBUG}, data);
 
     return data;
   }

@@ -25,6 +25,10 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
     return text;
   };
 
+  UTIL.randomNumber = function(length){
+    return Math.floor(Math.pow(10, length-1) + Math.random() * 9 * Math.pow(10, length-1));
+  };
+
   // Round to decimal
   UTIL.round = function(num, dec) {
     num = parseFloat(num);

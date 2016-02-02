@@ -18,11 +18,35 @@ class TranscriptEditsController < ApplicationController
   # POST /transcript_edits
   # POST /transcript_edits.json
   def create
-    @transcript_edit = TranscriptEdit.new(transcript_edit_params)
+    @transcript_edit = nil
 
-    if @transcript_edit.save
-      render json: @transcript_edit, status: :created, location: @transcript_edit
+    # Retrieve existing edit for user or session
+    if user_signed_in?
+      params[:user_id] = current_user.id
+      @transcript_edit = TranscriptEdit.find_by user_id: params[:user_id], transcript_line_id: params[:transcript_line_id]
     else
+      @transcript_edit = TranscriptEdit.find_by session_id: params[:session_id], transcript_line_id: params[:transcript_line_id]
+    end
+
+    success = false
+    # This is a new edit
+    if @transcript_edit.nil?
+      @transcript_edit = TranscriptEdit.new(transcript_edit_params)
+      if @transcript_edit.save
+        render json: @transcript_edit, status: :created, location: @transcript_edit
+        success = true
+      end
+
+    # This is an existing edit
+    else
+      if @transcript_edit.update(transcript_edit_params)
+        head :no_content
+        success = true
+      end
+    end
+
+    # An error occurred
+    unless success
       render json: @transcript_edit.errors, status: :unprocessable_entity
     end
   end

@@ -53,10 +53,25 @@ app.views.TranscriptEdit = app.views.Base.extend({
     this.lineSelect(this.current_line_i - 1);
   },
 
+  lineSave: function(i){
+    if (i < 0) return false;
+
+    var $input = $('.line[sequence="'+i+'"] input').first(),
+        text = $input.val();
+
+    if (text != $input.attr('last-value')) {
+      var line = this.data.transcript.lines[i]
+      $input.attr('last-value', text);
+      this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text});
+    }
+  },
+
   lineSelect: function(i){
     // check if in bounds
     var lines = this.data.transcript.lines;
     if (i < 0 || i >= lines.length) return false;
+
+    this.lineSave(this.current_line_i);
 
     // select line
     this.current_line_i = i;
@@ -75,12 +90,6 @@ app.views.TranscriptEdit = app.views.Base.extend({
   },
 
   lineSubmit: function(){
-    if (this.current_line_i < 0) {
-      this.lineSelect(0);
-      this.playerPlay();
-      return false;
-    }
-
     this.lineNext();
   },
 
@@ -121,7 +130,7 @@ app.views.TranscriptEdit = app.views.Base.extend({
     // wait for it to load
     this.player.oncanplay = function(){
       if (_this.player_loaded) {
-        _this.message('');
+        _this.messageHide('Buffering audio...');
       } else {
         _this.player_loaded = true;
         _this.data.debug && console.log("Loaded audio files");
@@ -207,6 +216,12 @@ app.views.TranscriptEdit = app.views.Base.extend({
 
   message: function(text){
     $('#transcript-notifications').text(text);
+  },
+
+  messageHide: function(text){
+    if ($('#transcript-notifications').text()==text) {
+      $('#transcript-notifications').text('');
+    }
   },
 
   onAudioLoad: function(){
@@ -304,6 +319,18 @@ app.views.TranscriptEdit = app.views.Base.extend({
 
   start: function(){
     this.lineSelect(0);
+  },
+
+  submitEdit: function(data){
+    var _this = this;
+    this.message('Saving changes...');
+
+    data.session_id = this.data.session_id;
+
+    $.post("/transcript_edits.json", data, function(resp) {
+      console.log(resp);
+      _this.message('Changes saved.');
+    });
   },
 
   wordPrevious: function(){
