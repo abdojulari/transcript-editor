@@ -17,7 +17,6 @@ gem 'will_paginate'
 # Back-end App is treated mostly as a JSON API
 gem 'jbuilder', '~> 2.0' # Build JSON APIs with ease
 gem 'rails-api' # pare down rails to act like an API; disabling unnecessary middleware
-gem 'active_model_serializers' # To serialize ActiveModel/ActiveRecord objects into JSON.
 
 # Rails app configuration / ENV management
 gem 'figaro'
