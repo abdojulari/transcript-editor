@@ -17,8 +17,12 @@ var COMPONENTS = (function() {
     var $target = $(target);
     $target.html('<div>'+message+'</div>').addClass('active');
 
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
+
     if (flash) {
-      setTimeout(function(){
+      this.timeout = setTimeout(function(){
         $target.removeClass('active');
       }, flashDelay);
     }

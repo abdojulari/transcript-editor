@@ -6,7 +6,9 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     "page/:id":             "pageShow"
   },
 
-  before: function( route, params ) {},
+  before: function( route, params ) {
+    $('#main').empty().addClass('loading');
+  },
 
   after: function( route, params ) {
     window.scrollTo(0, 0);

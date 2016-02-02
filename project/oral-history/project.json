@@ -18,7 +18,7 @@
     "footer": []
   },
   "controls": [
-    {"id": "toggle-play", "action": "togglePlay", "label": "Play/Pause/Re-play", "keyCode": 9, "key": "tab", "keyLabel": "Press tab key to play, pause, or re-play a line"},
+    {"id": "toggle-play", "action": "lineToggle", "label": "Play/Pause/Re-play", "keyCode": 9, "key": "tab", "keyLabel": "Press tab key to play, pause, or re-play a line"},
     {"id": "submit-line", "action": "lineSubmit", "label": "Submit &amp; Continue", "keyCode": 13, "key": "enter", "keyLabel": "Press enter key to submit current line and continue"},
     {"id": "previous-line", "action": "linePrevious", "label": "Prev Line", "keyCode": 38, "key": "&#8593;", "keyLabel": "Press up arrow key to go to previous line"},
     {"id": "next-line", "action": "lineNext", "label": "Next Line", "keyCode": 40, "key": "&#8595;", "keyLabel": "Press down arrow key to go to next line"},

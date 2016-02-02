@@ -147,8 +147,8 @@ $transcript-line-height: 56px;
   }
 }
 
-$toolbar-mode-width: 188px;
-$toolbar-notifications-width: 200px;
+$toolbar-mode-width: 0px; // 188px
+$toolbar-notifications-width: 300px; // 200px
 
 .transcript-toolbar {
   width: 100%;
@@ -204,11 +204,15 @@ $toolbar-notifications-width: 200px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    text-align: right;
+    padding: 0 20px;
+    @include box-sizing();
   }
 
   .mode {
     width: $toolbar-mode-width;
     float: right;
+    display: none;
 
     > label {
       display: inline-block;
