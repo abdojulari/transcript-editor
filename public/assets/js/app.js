@@ -537,6 +537,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var data = this._getData(data);
     var header = new app.views.Header(data);
     var main = new app.views.Page(_.extend({}, data, {el: '#main', page_key: id}));
+    main.$el.removeClass('loading');
   },
 
   transcriptEdit: function(id) {
@@ -790,6 +791,8 @@ app.views.Menu = app.views.Base.extend({
 
   initialize: function(data){
     this.data = data;
+
+    this.data.fragment = Backbone.history.getFragment() ? '/#/' + Backbone.history.getFragment() : '/';
 
     this.render();
   },

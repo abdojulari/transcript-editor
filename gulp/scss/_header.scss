@@ -93,6 +93,14 @@ body {
       &:hover {
         background: lighten($inverse-background-color, 10%);
       }
+
+      &.active {
+        color: $white;
+        cursor: default;
+        &:hover {
+          background: none;
+        }
+      }
     }
   }
   .account-container {

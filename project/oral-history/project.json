@@ -1,5 +1,5 @@
 {
-  "name": "Oral History Transcript Editor",
+  "name": "Together We Listen @ NYPL",
   "description": "A web app for fixing oral history transcripts that were automatically generated from speech-to-text software",
   "logo": "/project/assets/img/logo.png",
   "api_url": "",
@@ -13,6 +13,7 @@
   ],
   "menus": {
     "header": [
+      {"label": "Browse", "url": "/"},
       {"label": "Introduction", "url": "/#/page/intro.md"}
     ],
     "footer": []
