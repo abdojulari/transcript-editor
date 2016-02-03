@@ -970,6 +970,11 @@ app.views.TranscriptEdit = app.views.Base.extend({
   },
 
   loadAudio: function(){
+    // Audio already loaded
+    if (this.player) {
+      $(this.player).remove();
+    }
+
     var _this = this,
       audio_urls = this.data.project.use_vendor_audio && this.data.transcript.vendor_audio_urls.length ? this.data.transcript.vendor_audio_urls : [this.data.transcript.audio_url];
 
@@ -986,7 +991,6 @@ app.views.TranscriptEdit = app.views.Base.extend({
     // create audio object
     var $audio = $(audio_string);
     this.player = $audio[0];
-    this.player_loaded = false;
 
     // wait for it to load
     this.player.oncanplay = function(){
@@ -1008,14 +1012,21 @@ app.views.TranscriptEdit = app.views.Base.extend({
     this.player.onwaiting = function(){
       _this.message('Buffering audio...');
     };
+
   },
 
   loadListeners: function(){
     var _this = this,
         controls = this.data.project.controls;
 
+    // remove existing listeners
+    $('.control').off('click.transcript');
+    $(window).off('keydown.transcript');
+    this.$el.off('click.transcript', '.line');
+    this.$el.off('click.transcript', '.start-play');
+
     // add link listeners
-    $('.control').on('click', function(e){
+    $('.control').on('click.transcript', function(e){
       e.preventDefault();
       var $el = $(this);
 
@@ -1023,12 +1034,12 @@ app.views.TranscriptEdit = app.views.Base.extend({
         if ($el.hasClass(control.id)) {
           _this[control.action]();
         }
-      })
+      });
 
     });
 
     // add keyboard listeners
-    $(window).keydown(function(e){
+    $(window).on('keydown.transcript', function(e){
       _.each(controls, function(control){
         if (control.keyCode == e.keyCode && (control.shift && e.shiftKey || !control.shift)) {
           e.preventDefault();
@@ -1039,14 +1050,15 @@ app.views.TranscriptEdit = app.views.Base.extend({
     });
 
     // add line listener
-    this.$el.on('click', '.line', function(e){
+    this.$el.on('click.transcript', '.line', function(e){
       e.preventDefault();
       if (!$(this).hasClass('active')) {
         _this.lineSelect(parseInt($(this).attr('sequence')));
       }
     });
 
-    this.$el.on('click', '.start-play', function(e){
+    // add start listener
+    this.$el.on('click.transcript', '.start-play', function(e){
       e.preventDefault();
       _this.start();
     });
@@ -1106,12 +1118,8 @@ app.views.TranscriptEdit = app.views.Base.extend({
 
     this.data.transcript = transcript.toJSON();
     this.parseTranscript();
-    if (!this.loaded) {
-      this.loadPageContent();
-      this.loadAudio();
-    } else {
-      this.render();
-    }
+    this.loadPageContent();
+    this.loadAudio();
   },
 
   onTimeUpdate: function(){
