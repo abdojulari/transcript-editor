@@ -36,3 +36,39 @@ Notice: This codebase is currently in deep and rapid development and won't have 
 1. In the project's directory, run `npm install`
 2. Run `gulp`
 3. Run `rails s` and go to http://localhost:3000 to view the app
+
+## Deployment on heroku
+
+Assumes you have [Heroku Toolbelt](https://toolbelt.heroku.com/)
+
+1. Create a new [Heroku](https://heroku.com) app:
+
+   ```
+   heroku apps:create my-app-name
+   heroku git:remote -a my-app-name
+   ```
+
+2. Provision a PostgreSQL database:
+
+   ```
+   heroku addons:create heroku-postgresql:hobby-dev
+   heroku pg:wait
+   heroku config -s | grep HEROKU_POSTGRESQL
+   ```
+
+3. Update your environment variables
+
+   ```
+   figaro heroku:set -e production
+   ```
+
+4. Deploy the code and run rake tasks
+
+   ```
+   git push heroku master
+   heroku run rake db:migrate
+   heroku run rake db:seed
+   heroku run rake collections:load['oral-history','collections_seeds.csv']
+   heroku run rake transcripts:load['oral-history','transcripts_seeds.csv']
+   heroku run rake pua:download['oral-history']
+   ```
