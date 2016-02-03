@@ -15,4 +15,8 @@ class TranscriptEdit < ActiveRecord::Base
     TranscriptEdit.where(transcript_id: transcript_id, user_id: user_id)
   end
 
+  def self.updateUserSessions(session_id, user_id)
+    TranscriptEdit.where(session_id: session_id).update_all(user_id: user_id)
+  end
+
 end
