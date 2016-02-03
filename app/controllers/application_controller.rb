@@ -11,4 +11,11 @@ class ApplicationController < ActionController::API
   # include ActionController::Caching
   # self.perform_caching = true
   # self.cache_store = ActionController::Base.cache_store
+
+  before_filter :touch_session
+
+  # Ensure a session id is available for all!
+  def touch_session
+    session[:touched] = 1
+  end
 end
