@@ -33,6 +33,9 @@ gem 'execjs'
 # For audio transcripts
 gem 'popuparchive'
 
+# Error logging
+gem 'rails_12factor'
+
 # Use unicorn on linux only
 platforms :ruby do # linux
   gem 'unicorn'
