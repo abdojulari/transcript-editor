@@ -847,6 +847,8 @@ app.views.TranscriptEdit = app.views.Base.extend({
     this.current_line_i = -1;
 
     this.loadTranscript();
+
+    this.listenForAuth();
   },
 
   centerOn: function($el){
@@ -950,6 +952,20 @@ app.views.TranscriptEdit = app.views.Base.extend({
     }
   },
 
+  listenForAuth: function(){
+    var _this = this;
+
+    // check auth sign in
+    PubSub.subscribe('auth.oAuthSignIn.success', function(ev, msg) {
+      _this.refresh();
+    });
+
+    // check sign out
+    PubSub.subscribe('auth.signOut.success', function(ev, msg) {
+      _this.refresh();
+    });
+  },
+
   loadAudio: function(){
     var _this = this,
       audio_urls = this.data.project.use_vendor_audio && this.data.transcript.vendor_audio_urls.length ? this.data.transcript.vendor_audio_urls : [this.data.transcript.audio_url];
@@ -1020,14 +1036,14 @@ app.views.TranscriptEdit = app.views.Base.extend({
     });
 
     // add line listener
-    $('.line').on('click', function(e){
+    this.$el.on('click', '.line', function(e){
       e.preventDefault();
       if (!$(this).hasClass('active')) {
         _this.lineSelect(parseInt($(this).attr('sequence')));
       }
     });
 
-    $('.start-play').on('click', function(e){
+    this.$el.on('click', '.start-play', function(e){
       e.preventDefault();
       _this.start();
     });
@@ -1073,6 +1089,7 @@ app.views.TranscriptEdit = app.views.Base.extend({
     this.$el.removeClass('loading');
     this.loadListeners();
     this.message('Loaded transcript');
+    if (!this.loaded) this.loaded = true;
   },
 
   onTranscriptLoad: function(transcript){
@@ -1086,8 +1103,12 @@ app.views.TranscriptEdit = app.views.Base.extend({
 
     this.data.transcript = transcript.toJSON();
     this.parseTranscript();
-    this.loadPageContent();
-    this.loadAudio();
+    if (!this.loaded) {
+      this.loadPageContent();
+      this.loadAudio();
+    } else {
+      this.render();
+    }
   },
 
   onTimeUpdate: function(){
@@ -1112,6 +1133,12 @@ app.views.TranscriptEdit = app.views.Base.extend({
         _this.data.transcript.lines[i].user_text = user_edits_map[""+line.id];
       }
     });
+  },
+
+  refresh: function(){
+    this.current_line_i = -1;
+
+    this.loadTranscript();
   },
 
   render: function(){
