@@ -56,13 +56,15 @@ app.views.TranscriptEdit = app.views.Base.extend({
   lineSave: function(i){
     if (i < 0) return false;
 
-    var $input = $('.line[sequence="'+i+'"] input').first(),
-        text = $input.val();
+    var $input = $('.line[sequence="'+i+'"] input').first();
+    if (!$input.length) return false;
 
-    if (text != $input.attr('last-value')) {
-      var line = this.data.transcript.lines[i]
-      $input.attr('last-value', text);
+    var text = $input.val();
+    if (text != $input.attr('user-value')) {
+      var line = this.data.transcript.lines[i];
+      $input.attr('user-value', text);
       this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text});
+      $input.closest('.text').addClass('user-edited');
     }
   },
 
@@ -82,7 +84,10 @@ app.views.TranscriptEdit = app.views.Base.extend({
     var $active = $('.line[sequence="'+i+'"]').first();
     $active.addClass('active');
     this.centerOn($active);
-    $active.find('input').focus();
+
+    // focus on input
+    var $input = $active.find('input');
+    if ($input.length) $input.focus();
 
     // play audio
     this.pause_at_time = this.current_line.end_time * 0.001;
@@ -180,7 +185,9 @@ app.views.TranscriptEdit = app.views.Base.extend({
     // add line listener
     $('.line').on('click', function(e){
       e.preventDefault();
-      _this.lineSelect(parseInt($(this).attr('sequence')));
+      if (!$(this).hasClass('active')) {
+        _this.lineSelect(parseInt($(this).attr('sequence')));
+      }
     });
 
     $('.start-play').on('click', function(e){
@@ -206,7 +213,7 @@ app.views.TranscriptEdit = app.views.Base.extend({
 
     this.model.fetch({
       success: function(model, response, options){
-        _this.onLoad(model);
+        _this.onTranscriptLoad(model);
       },
       error: function(model, response, options){
         $(window).trigger('alert', ['Whoops! We seem to have trouble loading this transcript. Please try again by refreshing your browser or come back later!']);
@@ -231,7 +238,7 @@ app.views.TranscriptEdit = app.views.Base.extend({
     this.message('Loaded transcript');
   },
 
-  onLoad: function(transcript){
+  onTranscriptLoad: function(transcript){
     this.data.debug && console.log("Transcript", transcript.toJSON());
 
     PubSub.publish('transcript.load', {
@@ -241,6 +248,7 @@ app.views.TranscriptEdit = app.views.Base.extend({
     });
 
     this.data.transcript = transcript.toJSON();
+    this.parseTranscript();
     this.loadPageContent();
     this.loadAudio();
   },
@@ -249,6 +257,24 @@ app.views.TranscriptEdit = app.views.Base.extend({
     if (this.pause_at_time !== undefined && this.player.currentTime >= this.pause_at_time) {
       this.playerPause();
     }
+  },
+
+  parseTranscript: function(){
+    var _this = this,
+        lines = this.data.transcript.lines,
+        user_edits = this.data.transcript.user_edits;
+
+    // make object for easy lookup
+    var user_edits_map = _.object(_.map(user_edits, function(edit) {
+      return [""+edit.transcript_line_id, edit.text]
+    }));
+
+    // add user text to lines
+    _.each(lines, function(line, i){
+      if (_.has(user_edits_map, ""+line.id)) {
+        _this.data.transcript.lines[i].user_text = user_edits_map[""+line.id];
+      }
+    });
   },
 
   render: function(){
@@ -294,6 +320,13 @@ app.views.TranscriptEdit = app.views.Base.extend({
         start = 0,
         end = 0;
 
+    // default to select where the cursor is
+    if (sel_index < 0) {
+      var cursor_pos = $input.getCursorPosition(),
+          sub_text = text.substring(0, cursor_pos);
+      sel_index = sub_text.split(' ').length - 2;
+    }
+
     // determine word selection
     sel_index += increment;
     if (sel_index >= words.length) {
@@ -325,10 +358,7 @@ app.views.TranscriptEdit = app.views.Base.extend({
     var _this = this;
     this.message('Saving changes...');
 
-    data.session_id = this.data.session_id;
-
-    $.post("/transcript_edits.json", data, function(resp) {
-      console.log(resp);
+    $.post(API_URL + "/transcript_edits.json", {transcript_edit: data}, function(resp) {
       _this.message('Changes saved.');
     });
   },

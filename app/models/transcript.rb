@@ -48,7 +48,9 @@ class Transcript < ActiveRecord::Base
       # update transcript
       transcript_status = TranscriptStatus.find_by_name("transcript_downloaded")
       transcript_duration = _getDurationFromHash(contents)
-      update_attributes(lines: transcript_lines.length, transcript_status_id: transcript_status[:id], duration: transcript_duration, transcript_retrieved_at: DateTime.now)
+      vendor_audio_urls = _getAudioUrlsFromHash(contents)
+
+      update_attributes(lines: transcript_lines.length, transcript_status_id: transcript_status[:id], duration: transcript_duration, vendor_audio_urls: vendor_audio_urls, transcript_retrieved_at: DateTime.now)
       puts "Created #{transcript_lines.length} lines from transcript #{uid}"
 
     # transcript is still processing
@@ -64,9 +66,16 @@ class Transcript < ActiveRecord::Base
   end
 
   def updateFromHash(contents)
+    vendor_audio_urls = _getAudioUrlsFromHash(contents)
+    update_attributes(vendor_audio_urls: vendor_audio_urls)
+  end
+
+  def _getAudioUrlsFromHash(contents)
+    audio_urls = []
     if contents["audio_files"] && contents["audio_files"].length > 0
-      update_attributes(vendor_audio_urls: contents["audio_files"][0]["url"].to_json)
+      audio_urls = contents["audio_files"][0]["url"].to_json
     end
+    audio_urls
   end
 
   def _getDurationFromHash(contents)

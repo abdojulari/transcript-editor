@@ -19,13 +19,15 @@ class TranscriptEditsController < ApplicationController
   # POST /transcript_edits.json
   def create
     @transcript_edit = nil
+    params[:transcript_edit][:session_id] = session.id
+    t = params[:transcript_edit]
 
     # Retrieve existing edit for user or session
     if user_signed_in?
-      params[:user_id] = current_user.id
-      @transcript_edit = TranscriptEdit.find_by user_id: params[:user_id], transcript_line_id: params[:transcript_line_id]
+      params[:transcript_edit][:user_id] = current_user.id
+      @transcript_edit = TranscriptEdit.find_by user_id: current_user.id, transcript_line_id: t[:transcript_line_id]
     else
-      @transcript_edit = TranscriptEdit.find_by session_id: params[:session_id], transcript_line_id: params[:transcript_line_id]
+      @transcript_edit = TranscriptEdit.find_by session_id: t[:session_id], transcript_line_id: t[:transcript_line_id]
     end
 
     success = false

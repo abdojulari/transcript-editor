@@ -10,7 +10,13 @@ class TranscriptsController < ApplicationController
   # GET /transcripts/1
   # GET /transcripts/1.json
   def show
-
+    @user_edits = []
+    
+    if user_signed_in?
+      @user_edits = TranscriptEdit.getByTranscriptUser(params[:id], current_user.id)
+    else
+      @user_edits = TranscriptEdit.getByTranscriptSession(params[:id], session.id)
+    end
   end
 
   # POST /transcripts

@@ -4,7 +4,7 @@ class CreateTranscriptEdits < ActiveRecord::Migration
       t.integer :transcript_id, :null => false, :default => 0
       t.integer :transcript_line_id, :null => false, :default => 0
       t.integer :user_id, :null => false, :default => 0
-      t.integer :session_id, :null => false, :default => 0
+      t.string :session_id, :null => false, :default => ""
       t.string :text
       t.integer :weight, :null => false, :default => 0
 

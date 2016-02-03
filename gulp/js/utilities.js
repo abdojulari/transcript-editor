@@ -1,40 +1,32 @@
-// Plugins
+// Plugin: add "playing" property for media
 Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
   get: function(){
     return !!(this.currentTime > 0 && !this.paused && !this.ended && this.readyState > 2);
   }
 });
 
+// Plugin: get cursor position (http://stackoverflow.com/a/2897510/5578115)
+(function($) {
+  $.fn.getCursorPosition = function() {
+    var input = this.get(0);
+    if (!input) return; // No (input) element found
+    if ('selectionStart' in input) {
+      // Standard-compliant browsers
+      return input.selectionStart;
+    } else if (document.selection) {
+      // IE
+      input.focus();
+      var sel = document.selection.createRange();
+      var selLen = document.selection.createRange().text.length;
+      sel.moveStart('character', -input.value.length);
+      return sel.text.length - selLen;
+    }
+  }
+})(jQuery);
+
 // Utility functions
 (function() {
   window.UTIL = {};
-
-  // Make a random id
-  UTIL.makeId = function(length){
-    var text = "",
-        alpha = "abcdefghijklmnopqrstuvwxyz",
-        alphanum = "abcdefghijklmnopqrstuvwxyz0123456789",
-    length = length || 8;
-    for(var i=0; i < length; i++) {
-      if (i <= 0) { // must start with letter
-        text += alpha.charAt(Math.floor(Math.random() * alpha.length));
-      } else {
-        text += alphanum.charAt(Math.floor(Math.random() * alphanum.length));
-      }
-    }
-    return text;
-  };
-
-  UTIL.randomNumber = function(length){
-    return Math.floor(Math.pow(10, length-1) + Math.random() * 9 * Math.pow(10, length-1));
-  };
-
-  // Round to decimal
-  UTIL.round = function(num, dec) {
-    num = parseFloat(num);
-    dec = dec || 0;
-    return Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
-  };
 
   // Format seconds -> hh:mm:ss
   UTIL.formatTime = function(seconds, dec) {
@@ -75,6 +67,33 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
       }
     }
     return UTIL.round(seconds, dec);
+  };
+
+  // Make a random id
+  UTIL.makeId = function(length){
+    var text = "",
+        alpha = "abcdefghijklmnopqrstuvwxyz",
+        alphanum = "abcdefghijklmnopqrstuvwxyz0123456789",
+    length = length || 8;
+    for(var i=0; i < length; i++) {
+      if (i <= 0) { // must start with letter
+        text += alpha.charAt(Math.floor(Math.random() * alpha.length));
+      } else {
+        text += alphanum.charAt(Math.floor(Math.random() * alphanum.length));
+      }
+    }
+    return text;
+  };
+
+  UTIL.randomNumber = function(length){
+    return Math.floor(Math.pow(10, length-1) + Math.random() * 9 * Math.pow(10, length-1));
+  };
+
+  // Round to decimal
+  UTIL.round = function(num, dec) {
+    num = parseFloat(num);
+    dec = dec || 0;
+    return Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
   };
 
 })();

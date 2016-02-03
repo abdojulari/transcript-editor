@@ -43,14 +43,14 @@ ActiveRecord::Schema.define(version: 20160202181726) do
   add_index "pg_search_documents", ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id", using: :btree
 
   create_table "transcript_edits", force: :cascade do |t|
-    t.integer  "transcript_id",      default: 0, null: false
-    t.integer  "transcript_line_id", default: 0, null: false
-    t.integer  "user_id",            default: 0, null: false
-    t.integer  "session_id",         default: 0, null: false
+    t.integer  "transcript_id",      default: 0,  null: false
+    t.integer  "transcript_line_id", default: 0,  null: false
+    t.integer  "user_id",            default: 0,  null: false
+    t.string   "session_id",         default: "", null: false
     t.string   "text"
-    t.integer  "weight",             default: 0, null: false
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.integer  "weight",             default: 0,  null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
   end
 
   add_index "transcript_edits", ["session_id", "transcript_line_id"], name: "index_transcript_edits_on_session_id_and_transcript_line_id", unique: true, using: :btree

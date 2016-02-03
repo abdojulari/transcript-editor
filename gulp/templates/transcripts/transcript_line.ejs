@@ -3,8 +3,8 @@
   <% if (text) { %>
     <div class="text final"><%= text %></div>
   <% } else if (hasOwnProperty("user_text")) { %>
-    <div class="text user"><input type="text" value="<%= user_text %>" last-value="<%= user_text %>" /></div>
+    <div class="text user-edited"><input type="text" value="<%= user_text %>" user-value="<%= user_text %>" /></div>
   <% } else { %>
-    <div class="text"><input type="text" value="<%= original_text %>" last-value="<%= original_text %>" /></div>
+    <div class="text"><input type="text" value="<%= original_text %>" user-value="" /></div>
   <% } %>
 </div>
