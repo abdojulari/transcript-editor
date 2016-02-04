@@ -47,22 +47,24 @@ app.views.TranscriptEdit = app.views.Base.extend({
 
   },
 
-  lineNext: function(){
-    this.lineSelect(this.current_line_i + 1);
+  lineNext: function(implicitSave){
+    this.lineSelect(this.current_line_i + 1, implicitSave);
   },
 
-  linePrevious: function(){
-    this.lineSelect(this.current_line_i - 1);
+  linePrevious: function(implicitSave){
+    this.lineSelect(this.current_line_i - 1, implicitSave);
   },
 
-  lineSave: function(i){
+  lineSave: function(i, implicitSave){
     if (i < 0) return false;
 
     var $input = $('.line[sequence="'+i+'"] input').first();
     if (!$input.length) return false;
 
     var text = $input.val();
-    if (text != $input.attr('user-value')) {
+    if (text != $input.attr('user-value') && $input.attr('user-value') // user has edited text
+          || text != $input.attr('user-value') && implicitSave) // implicit save; save even when user has not edited original text
+    {
       var line = this.data.transcript.lines[i];
       $input.attr('user-value', text);
       this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text});
@@ -70,12 +72,12 @@ app.views.TranscriptEdit = app.views.Base.extend({
     }
   },
 
-  lineSelect: function(i){
+  lineSelect: function(i, implicitSave){
     // check if in bounds
     var lines = this.data.transcript.lines;
     if (i < 0 || i >= lines.length) return false;
 
-    this.lineSave(this.current_line_i);
+    this.lineSave(this.current_line_i, implicitSave);
 
     // select line
     this.current_line_i = i;
@@ -97,7 +99,7 @@ app.views.TranscriptEdit = app.views.Base.extend({
   },
 
   lineSubmit: function(){
-    this.lineNext();
+    this.lineNext(true);
   },
 
   lineToggle: function(){
