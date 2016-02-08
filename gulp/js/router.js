@@ -31,6 +31,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var data = this._getData(data);
     var header = new app.views.Header(data);
     var toolbar = new app.views.TranscriptToolbar(_.extend({}, data, {el: '#secondary-navigation'}));
+    var modals = new app.views.Modals(data);
 
     var transcript_model = new app.models.Transcript({id: id});
     var main = new app.views.TranscriptEdit(_.extend({}, data, {el: '#main', model: transcript_model}));
@@ -44,9 +45,39 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     }
 
     data = data || {};
-    data = $.extend({}, {project: PROJECT, user: user, debug: DEBUG}, data);
+    data = $.extend({}, {project: PROJECT, user: user, debug: DEBUG, route: this._getRouteData()}, data);
+
+    DEBUG && console.log('Route', data.route);
 
     return data;
+  },
+
+  _getRouteData: function(){
+    var Router = this,
+        fragment = Backbone.history.fragment,
+        routes = _.pairs(Router.routes),
+        route = null, action = null, params = null, matched, path;
+
+    matched = _.find(routes, function(handler) {
+      action = _.isRegExp(handler[0]) ? handler[0] : Router._routeToRegExp(handler[0]);
+      return action.test(fragment);
+    });
+
+    if(matched) {
+      params = Router._extractParameters(action, fragment);
+      route = matched[0];
+      action = matched[1];
+    }
+
+    path = fragment ? '/#/' + fragment : '/';
+
+    return {
+      route: route,
+      action: action,
+      fragment : fragment,
+      path: path,
+      params : params
+    };
   }
 
 });

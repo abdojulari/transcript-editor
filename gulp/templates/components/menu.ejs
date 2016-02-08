@@ -1,7 +1,13 @@
 <% if (project.menus && project.menus[menu_key] && project.menus[menu_key].length) { %>
   <div class="<%= menu_key %>-menu menu">
     <% _.each(project.menus[menu_key], function(item) { %>
-      <a href="<%= item.url %>" class="menu-item <%= item.url==fragment ? 'active': '' %>"><%= item.label %></a>
+      <% if (!item.validRoutes || item.validRoutes.indexOf(route.route) > -1) { %>
+        <% if (item.modal) { %>
+          <a data-modal="<%= item.modal %>" class="menu-item modal-invoke"><%= item.label %></a>
+        <% } else { %>
+          <a href="<%= item.url %>" class="menu-item <%= item.url==route.path ? 'active': '' %>"><%= item.label %></a>
+        <% } %>
+      <% } %>
     <% }) %>
   </div>
 <% } %>

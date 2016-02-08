@@ -1,5 +1,5 @@
-window.API_URL = PROJECT.api_url || window.location.protocol + '//' + window.location.hostname;
-if (window.location.port && !PROJECT.api_url) window.API_URL += ':' + window.location.port
+window.API_URL = PROJECT.apiUrl || window.location.protocol + '//' + window.location.hostname;
+if (window.location.port && !PROJECT.apiUrl) window.API_URL += ':' + window.location.port
 
 window.DEBUG = true;
 
@@ -10,7 +10,7 @@ window.app = {
   routers: {},
   initialize: function(){
     // init auth
-    var auth_provider_paths = _.object(_.map(PROJECT.auth_providers, function(provider) { return [provider.name, provider.path]; }));
+    var auth_provider_paths = _.object(_.map(PROJECT.authProviders, function(provider) { return [provider.name, provider.path]; }));
     $.auth.configure({
       apiUrl: API_URL,
       authProviderPaths: auth_provider_paths

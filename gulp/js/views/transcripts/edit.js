@@ -138,7 +138,7 @@ app.views.TranscriptEdit = app.views.Base.extend({
     }
 
     var _this = this,
-      audio_urls = this.data.project.use_vendor_audio && this.data.transcript.vendor_audio_urls.length ? this.data.transcript.vendor_audio_urls : [this.data.transcript.audio_url];
+      audio_urls = this.data.project.useVendorAudio && this.data.transcript.vendor_audio_urls.length ? this.data.transcript.vendor_audio_urls : [this.data.transcript.audio_url];
 
     // build audio string
     var audio_string = '<audio preload>';

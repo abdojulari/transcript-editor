@@ -89,6 +89,7 @@ body {
       line-height: $header-nav-height;
       padding-top: 0;
       padding-bottom: 0;
+      cursor: pointer;
 
       &:hover {
         background: lighten($inverse-background-color, 10%);

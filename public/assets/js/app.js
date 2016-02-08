@@ -465,8 +465,8 @@ $(function() {
   var components = new COMPONENTS();
 });
 
-window.API_URL = PROJECT.api_url || window.location.protocol + '//' + window.location.hostname;
-if (window.location.port && !PROJECT.api_url) window.API_URL += ':' + window.location.port
+window.API_URL = PROJECT.apiUrl || window.location.protocol + '//' + window.location.hostname;
+if (window.location.port && !PROJECT.apiUrl) window.API_URL += ':' + window.location.port
 
 window.DEBUG = true;
 
@@ -477,7 +477,7 @@ window.app = {
   routers: {},
   initialize: function(){
     // init auth
-    var auth_provider_paths = _.object(_.map(PROJECT.auth_providers, function(provider) { return [provider.name, provider.path]; }));
+    var auth_provider_paths = _.object(_.map(PROJECT.authProviders, function(provider) { return [provider.name, provider.path]; }));
     $.auth.configure({
       apiUrl: API_URL,
       authProviderPaths: auth_provider_paths
@@ -544,6 +544,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var data = this._getData(data);
     var header = new app.views.Header(data);
     var toolbar = new app.views.TranscriptToolbar(_.extend({}, data, {el: '#secondary-navigation'}));
+    var modals = new app.views.Modals(data);
 
     var transcript_model = new app.models.Transcript({id: id});
     var main = new app.views.TranscriptEdit(_.extend({}, data, {el: '#main', model: transcript_model}));
@@ -557,9 +558,39 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     }
 
     data = data || {};
-    data = $.extend({}, {project: PROJECT, user: user, debug: DEBUG}, data);
+    data = $.extend({}, {project: PROJECT, user: user, debug: DEBUG, route: this._getRouteData()}, data);
+
+    DEBUG && console.log('Route', data.route);
 
     return data;
+  },
+
+  _getRouteData: function(){
+    var Router = this,
+        fragment = Backbone.history.fragment,
+        routes = _.pairs(Router.routes),
+        route = null, action = null, params = null, matched, path;
+
+    matched = _.find(routes, function(handler) {
+      action = _.isRegExp(handler[0]) ? handler[0] : Router._routeToRegExp(handler[0]);
+      return action.test(fragment);
+    });
+
+    if(matched) {
+      params = Router._extractParameters(action, fragment);
+      route = matched[0];
+      action = matched[1];
+    }
+
+    path = fragment ? '/#/' + fragment : '/';
+
+    return {
+      route: route,
+      action: action,
+      fragment : fragment,
+      path: path,
+      params : params
+    };
   }
 
 });
@@ -667,6 +698,61 @@ app.views.Home = app.views.Base.extend({
     // get transcripts
     var transcript_collection = new app.collections.Transcripts();
     var transcripts_view = new app.views.TranscriptsIndex(_.extend({}, this.data, {el: this.el, collection: transcript_collection}));
+
+    return this;
+  }
+
+});
+
+app.views.Modals = app.views.Base.extend({
+
+  el: '#app',
+
+  events: {
+    "click .modal-dismiss": "dismissModals",
+    "click .modal-invoke": "invokeModalFromLink"
+  },
+
+  initialize: function(data){
+    this.data = data;
+
+    this.render();
+  },
+
+  dismissModals: function(){
+    this.$('.modal').removeClass('active');
+  },
+
+  invokeModal: function(id){
+    this.$('#'+id).find('.modal').addClass('active');
+  },
+
+  invokeModalFromLink: function(e){
+    e.preventDefault();
+
+    this.invokeModal($(e.currentTarget).attr('data-modal'));
+  },
+
+  render: function() {
+    // modals have already been rendered
+    if (this.$('.modal').length) return this;
+
+    var _this = this,
+        pages = this.data.project.pages;
+
+    _.each(this.data.project.modals, function(modal, id){
+      var modal_pages = modal.page ? [modal.page] : modal.pages;
+
+      // retrieve page contents
+      _.each(modal_pages, function(page, i){
+        modal_pages[i]['contents'] = pages[page.file];
+      });
+
+      // render modal
+      var data = _.extend({}, modal, {id: id, pages: modal_pages});
+      var modal = new app.views.Modal(data);
+      _this.$el.append(modal.$el);
+    });
 
     return this;
   }
@@ -792,8 +878,40 @@ app.views.Menu = app.views.Base.extend({
   initialize: function(data){
     this.data = data;
 
-    this.data.fragment = Backbone.history.getFragment() ? '/#/' + Backbone.history.getFragment() : '/';
+    this.render();
+  },
 
+  render: function() {
+    this.$el.html(this.template(this.data));
+    return this;
+  }
+
+});
+
+app.views.Modal = app.views.Base.extend({
+
+  tagName: "div",
+  className: "modal-wrapper",
+
+  template: _.template(TEMPLATES['modal.ejs']),
+
+  events: {
+    "click .modal-tab": "tab"
+  },
+
+  initialize: function(data){
+    this.data = _.extend({}, data);
+
+    this.data.active_page = 0;
+    this.data.active = false;
+
+    this.render();
+  },
+
+  tab: function(e){
+    var $tab = $(e.currentTarget);
+    this.data.active_page = parseInt($tab.attr('data-tab'));
+    this.data.active = true;
     this.render();
   },
 
@@ -978,7 +1096,7 @@ app.views.TranscriptEdit = app.views.Base.extend({
     }
 
     var _this = this,
-      audio_urls = this.data.project.use_vendor_audio && this.data.transcript.vendor_audio_urls.length ? this.data.transcript.vendor_audio_urls : [this.data.transcript.audio_url];
+      audio_urls = this.data.project.useVendorAudio && this.data.transcript.vendor_audio_urls.length ? this.data.transcript.vendor_audio_urls : [this.data.transcript.audio_url];
 
     // build audio string
     var audio_string = '<audio preload>';

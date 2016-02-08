@@ -2,9 +2,9 @@
   "name": "Together We Listen @ NYPL",
   "description": "A web app for fixing oral history transcripts that were automatically generated from speech-to-text software",
   "logo": "/project/assets/img/logo.png",
-  "api_url": "",
-  "use_vendor_audio": true,
-  "auth_providers": [
+  "apiUrl": "",
+  "useVendorAudio": true,
+  "authProviders": [
     {
       "name": "google",
       "label": "Google",
@@ -14,9 +14,21 @@
   "menus": {
     "header": [
       {"label": "Browse", "url": "/"},
-      {"label": "Introduction", "url": "/#/page/intro.md"}
+      {"label": "Intro", "url": "/#/page/intro.md"},
+      {"label": "Help", "validRoutes": ["transcripts/:id"], "modal": "editor_tutorial_modal"}
     ],
     "footer": []
+  },
+  "modals": {
+    "editor_tutorial_modal": {
+      "title": "Transcript Editor Tutorial",
+      "displayMethod": "once",
+      "doneLabel": "Finished",
+      "pages": [
+        {"label": "Step 1", "file": "ed_tutorial_1.md"},
+        {"label": "Step 2", "file": "ed_tutorial_2.md"}
+      ]
+    }
   },
   "controls": [
     {"id": "toggle-play", "action": "lineToggle", "label": "Play/Pause/Re-play", "keyCode": 9, "key": "tab", "keyLabel": "Press tab key to play, pause, or re-play a line"},

@@ -5,8 +5,6 @@ app.views.Menu = app.views.Base.extend({
   initialize: function(data){
     this.data = data;
 
-    this.data.fragment = Backbone.history.getFragment() ? '/#/' + Backbone.history.getFragment() : '/';
-
     this.render();
   },
 

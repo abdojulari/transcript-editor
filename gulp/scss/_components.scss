@@ -245,3 +245,202 @@ p.text-center {
     }
   }
 }
+
+/* Modal */
+$modal-max-width: 650px;
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  @include transform(translate3d(0, 100%, 0));
+
+  // Show modal when requested
+  &.active {
+    @include transform(none);
+    width: auto;
+    height: auto;
+    opacity: 1;
+  }
+
+  // Content Area
+  .modal-inner {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    z-index: 20;
+    margin-left: ($modal-max-width / 2) * -1;
+    width: $modal-max-width;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; // Native style momentum scrolling
+    background: $white;
+    padding: 20px;
+
+    > img,
+    > video {
+      width: 100%;
+      height: auto;
+      min-height: 300px;
+    }
+
+    > img {
+      width: auto;
+      max-width: 100%;
+    }
+  }
+
+  // Header
+  header {
+    color: $coolgray-color;
+    font-size: 0.8em;
+    margin-top: -10px;
+  }
+
+  // Content
+  .modal-content {
+    position: relative;
+    max-height: 600px;
+    max-height: 80vh;
+    margin-bottom: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+
+    > * {
+      max-width: 100%;
+    }
+
+    .modal-page {
+      display: none;
+
+      h1, h2, h3, h4, p {
+        margin: 0.4em 0;
+      }
+
+      &.active {
+        display: block;
+      }
+    }
+  }
+
+  // Tabs
+  .modal-tabs {
+    text-align: center;
+    background: darken($coolgray-dark-color, 10%);
+    padding: 0 20px;
+    margin: 0 -20px;
+
+    .modal-tab {
+      display: inline-block;
+      margin: 0 10px;
+      cursor: pointer;
+      color: $link-inverse-color;
+      position: relative;
+      padding: 10px 10px 4px;
+
+      &:hover {
+        color: $link-inverse-hover-color;
+      }
+
+      &.active {
+        color: $white;
+        cursor: default;
+
+        &:after {
+          content: ' ';
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 50%;
+          width: 0px;
+          height: 0px;
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+          border-top: 6px solid $white;
+          margin-left: -6px;
+        }
+      }
+    }
+  }
+
+  // Footer
+  footer {
+    padding: 10px 20px;
+    background: lighten($coolgray-color, 20%);
+    margin: -20px;
+    margin-top: 0;
+    text-align: left;
+    @include clearfix();
+
+    .button {
+      font-size: 1.4em;
+      margin-right: 10px;
+
+      &.pull-right {
+        float: right;
+        margin-right: 0;
+      }
+    }
+  }
+
+  // A close button
+  .modal-close {
+    display: block;
+    height: 1px; // Prevent close element to appear
+    clip: rect(0 0 0 0);
+    margin: -1px;
+    overflow: hidden;
+
+    &:focus:after {
+      outline: none;
+    }
+
+    // Background as close
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 10;
+      background: rgba($charcoal, 0.9);
+    }
+
+    // Actual close button on modal
+    &:after {
+      content: '\00d7';
+      position: absolute;
+      top: 56px;
+      right: 50%;
+      z-index: 1001;
+      margin-right: -($modal-max-width / 2) - 30px;
+      cursor: pointer;
+      font-size: 2em;
+    }
+  }
+}
+
+// When screen isn't as wide as the modal anymore
+@media screen and (max-width: $modal-max-width + 40) {
+  .modal-inner {
+    width: auto;
+    left: 20px;
+    right: 20px;
+    margin-left: 0;
+  }
+
+  .modal-close {
+    &:after {
+      margin-right: 0 !important;
+      right: 20px;
+    }
+  }
+}
