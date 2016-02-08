@@ -25,8 +25,9 @@
       "displayMethod": "once",
       "doneLabel": "Finished",
       "pages": [
-        {"label": "Step 1", "file": "ed_tutorial_1.md"},
-        {"label": "Step 2", "file": "ed_tutorial_2.md"}
+        {"label": "Editing", "file": "ed_tutorial_1.md"},
+        {"label": "Conventions", "file": "ed_tutorial_2.md"},
+        {"label": "Commands", "file": "ed_tutorial_3.md"}
       ]
     }
   },
