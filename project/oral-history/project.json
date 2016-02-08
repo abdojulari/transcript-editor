@@ -14,7 +14,7 @@
   "menus": {
     "header": [
       {"label": "Browse", "url": "/"},
-      {"label": "Intro", "url": "/#/page/intro.md"},
+      {"label": "About", "url": "/#/page/about.md"},
       {"label": "Help", "validRoutes": ["transcripts/:id"], "modal": "tutorial_edit"}
     ],
     "footer": []

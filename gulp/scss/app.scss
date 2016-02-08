@@ -27,6 +27,7 @@ ul, li {
 a {
   color: $link-color;
   text-decoration: none;
+  cursor: pointer;
 
   &:hover {
     color: $link-hover-color;
