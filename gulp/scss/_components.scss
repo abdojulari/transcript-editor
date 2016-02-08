@@ -33,6 +33,12 @@ p.text-center {
     max-width: 300px;
     text-align: center;
   }
+
+  &.disabled {
+    cursor: default;
+    opacity: 0.3;
+    background: $coolgray-color;
+  }
 }
 
 /* Menu */
@@ -259,7 +265,6 @@ $modal-max-width: 650px;
   width: 0;
   height: 0;
   overflow: hidden;
-  opacity: 0;
   @include transform(translate3d(0, 100%, 0));
 
   // Show modal when requested
@@ -267,7 +272,6 @@ $modal-max-width: 650px;
     @include transform(none);
     width: auto;
     height: auto;
-    opacity: 1;
   }
 
   // Content Area
@@ -322,6 +326,12 @@ $modal-max-width: 650px;
 
       h1, h2, h3, h4, p {
         margin: 0.4em 0;
+      }
+
+      > h1, > h2, > h3, > h4 {
+        &:first-child {
+          margin-top: 0;
+        }
       }
 
       &.active {

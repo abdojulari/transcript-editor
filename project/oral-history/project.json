@@ -15,12 +15,12 @@
     "header": [
       {"label": "Browse", "url": "/"},
       {"label": "Intro", "url": "/#/page/intro.md"},
-      {"label": "Help", "validRoutes": ["transcripts/:id"], "modal": "editor_tutorial_modal"}
+      {"label": "Help", "validRoutes": ["transcripts/:id"], "modal": "tutorial_edit"}
     ],
     "footer": []
   },
   "modals": {
-    "editor_tutorial_modal": {
+    "tutorial_edit": {
       "title": "Transcript Editor Tutorial",
       "displayMethod": "once",
       "doneLabel": "Finished",

@@ -9,22 +9,37 @@ app.views.Modals = app.views.Base.extend({
 
   initialize: function(data){
     this.data = data;
+    this.lastInvoked = false;
 
+    this.loadListeners();
     this.render();
   },
 
   dismissModals: function(){
     this.$('.modal').removeClass('active');
+
+    if (this.lastInvoked) {
+      PubSub.publish('modal.dismiss.'+this.lastInvoked, true);
+    }
   },
 
   invokeModal: function(id){
     this.$('#'+id).find('.modal').addClass('active');
+    this.lastInvoked = id;
   },
 
   invokeModalFromLink: function(e){
     e.preventDefault();
 
     this.invokeModal($(e.currentTarget).attr('data-modal'));
+  },
+
+  loadListeners: function(){
+    var _this = this;
+
+    PubSub.subscribe('modal.invoke', function(ev, id) {
+      _this.invokeModal(id);
+    });
   },
 
   render: function() {

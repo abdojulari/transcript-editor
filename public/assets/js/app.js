@@ -715,22 +715,37 @@ app.views.Modals = app.views.Base.extend({
 
   initialize: function(data){
     this.data = data;
+    this.lastInvoked = false;
 
+    this.loadListeners();
     this.render();
   },
 
   dismissModals: function(){
     this.$('.modal').removeClass('active');
+
+    if (this.lastInvoked) {
+      PubSub.publish('modal.dismiss.'+this.lastInvoked, true);
+    }
   },
 
   invokeModal: function(id){
     this.$('#'+id).find('.modal').addClass('active');
+    this.lastInvoked = id;
   },
 
   invokeModalFromLink: function(e){
     e.preventDefault();
 
     this.invokeModal($(e.currentTarget).attr('data-modal'));
+  },
+
+  loadListeners: function(){
+    var _this = this;
+
+    PubSub.subscribe('modal.invoke', function(ev, id) {
+      _this.invokeModal(id);
+    });
   },
 
   render: function() {
@@ -968,6 +983,7 @@ app.views.TranscriptEdit = app.views.Base.extend({
     this.current_line_i = -1;
 
     this.loadTranscript();
+    this.loadTutorial();
 
     this.listenForAuth();
   },
@@ -1209,6 +1225,31 @@ app.views.TranscriptEdit = app.views.Base.extend({
     });
   },
 
+  loadTutorial: function(){
+    var _this = this,
+        tutorial = this.data.project.modals['tutorial_edit'];
+
+    // show the tutorial if it hasn't been seen yet or should always be seen
+    if (tutorial && (tutorial.displayMethod=="always" || !$.cookie('tutorial_edit-tutorial'))) {
+      PubSub.publish('modal.invoke', 'tutorial_edit');
+      $.cookie('tutorial_edit-tutorial', 1);
+    }
+
+    // listen for tutorial close
+    PubSub.subscribe('modal.dismiss.tutorial_edit', function(ev, msg) {
+      // ignore if user already started
+      if (_this.current_line_i >= 0) return false;
+      // start if loaded
+      if (_this.loaded) {
+        _this.start();
+
+      // queue start otherwise
+      } else {
+        _this.queue_start = true;
+      }
+    });
+  },
+
   message: function(text){
     $('#transcript-notifications').text(text);
   },
@@ -1225,6 +1266,8 @@ app.views.TranscriptEdit = app.views.Base.extend({
     this.loadListeners();
     this.message('Loaded transcript');
     if (!this.loaded) this.loaded = true;
+    if (this.queue_start) this.start();
+    this.queue_start = false;
   },
 
   onTranscriptLoad: function(transcript){
@@ -1346,6 +1389,7 @@ app.views.TranscriptEdit = app.views.Base.extend({
   },
 
   start: function(){
+    this.$('.start-play').addClass('disabled');
     this.lineSelect(0);
   },
 
