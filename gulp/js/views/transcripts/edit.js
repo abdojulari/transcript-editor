@@ -232,8 +232,8 @@ app.views.TranscriptEdit = app.views.Base.extend({
     this.data.page_content = '';
 
     if (this.data.project.pages['transcript_edit.md']) {
-      var page_template = _.template(this.data.project.pages['transcript_edit.md']);
-      this.data.page_content = page_template(this.data);
+      var page = new app.views.Page(_.extend({}, this.data, {page_key: 'transcript_edit.md'}))
+      this.data.page_content = page.toString();
     }
   },
 

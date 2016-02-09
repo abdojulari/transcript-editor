@@ -30,7 +30,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
   transcriptEdit: function(id) {
     var data = this._getData(data);
     var header = new app.views.Header(data);
-    var toolbar = new app.views.TranscriptToolbar(_.extend({}, data, {el: '#secondary-navigation'}));
+    var toolbar = new app.views.TranscriptToolbar(_.extend({}, data, {el: '#secondary-navigation', menu: 'transcript_edit'}));
     var modals = new app.views.Modals(data);
 
     var transcript_model = new app.models.Transcript({id: id});

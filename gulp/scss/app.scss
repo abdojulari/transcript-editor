@@ -33,6 +33,19 @@ a {
     color: $link-hover-color;
   }
 }
+table {
+  border: 1px solid $coolgray-color;
+  margin: 1em 0;
+
+  th {
+    font-weight: bold;
+  }
+
+  td {
+    padding: 0.2em 0.6em;
+  }
+}
+
 
 .body {
   margin: 10px;

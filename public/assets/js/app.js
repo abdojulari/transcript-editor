@@ -543,7 +543,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
   transcriptEdit: function(id) {
     var data = this._getData(data);
     var header = new app.views.Header(data);
-    var toolbar = new app.views.TranscriptToolbar(_.extend({}, data, {el: '#secondary-navigation'}));
+    var toolbar = new app.views.TranscriptToolbar(_.extend({}, data, {el: '#secondary-navigation', menu: 'transcript_edit'}));
     var modals = new app.views.Modals(data);
 
     var transcript_model = new app.models.Transcript({id: id});
@@ -756,15 +756,8 @@ app.views.Modals = app.views.Base.extend({
         pages = this.data.project.pages;
 
     _.each(this.data.project.modals, function(modal, id){
-      var modal_pages = modal.page ? [modal.page] : modal.pages;
-
-      // retrieve page contents
-      _.each(modal_pages, function(page, i){
-        modal_pages[i]['contents'] = pages[page.file];
-      });
-
       // render modal
-      var data = _.extend({}, modal, {id: id, pages: modal_pages});
+      var data = _.extend({}, modal, {id: id, project: _this.data.project});
       var modal = new app.views.Modal(data);
       _this.$el.append(modal.$el);
     });
@@ -862,7 +855,7 @@ app.views.Crumbs = app.views.Base.extend({
 
     this.listenForCrumbs();
 
-    if (this.data.crumbs.length) this.render();
+    this.render();
   },
 
   listenForCrumbs: function(){
@@ -892,13 +885,26 @@ app.views.Menu = app.views.Base.extend({
 
   initialize: function(data){
     this.data = data;
+    this.data.menu_key = this.data.menu_key || '';
+
+    var menus = this.data.project.menus || {},
+        key = this.data.menu_key;
+
+    this.data.menu = [];
+    if (key && menus[key]) {
+      this.data.menu = menus[key];
+    }
 
     this.render();
   },
 
   render: function() {
-    this.$el.html(this.template(this.data));
+    this.$el.html(this.toString());
     return this;
+  },
+
+  toString: function(){
+    return this.template(this.data);
   }
 
 });
@@ -920,7 +926,26 @@ app.views.Modal = app.views.Base.extend({
     this.data.active_page = 0;
     this.data.active = false;
 
+    this.loadContents();
     this.render();
+  },
+
+  loadContents: function(){
+    var _this = this,
+        modal_pages = this.data.page ? [this.data.page] : this.data.pages;
+
+    // retrieve page contents
+    _.each(modal_pages, function(page, i){
+      var pageView = new app.views.Page(_.extend({}, _this.data, {page_key: page.file}));
+      modal_pages[i]['contents'] = pageView.toString();
+    });
+
+    this.data.pages = modal_pages;
+  },
+
+  render: function() {
+    this.$el.html(this.template(this.data));
+    return this;
   },
 
   tab: function(e){
@@ -928,11 +953,6 @@ app.views.Modal = app.views.Base.extend({
     this.data.active_page = parseInt($tab.attr('data-tab'));
     this.data.active = true;
     this.render();
-  },
-
-  render: function() {
-    this.$el.html(this.template(this.data));
-    return this;
   }
 
 });
@@ -942,14 +962,37 @@ app.views.Page = app.views.Base.extend({
   template: _.template(TEMPLATES['page.ejs']),
 
   initialize: function(data){
-    this.data = data;
+    this.data = _.extend({}, data);
+
+    this.data.content = this.data.content || '';
+
+    this.getPageContent();
 
     if (this.el) this.render();
   },
 
+  getPageContent: function(){
+    var page_key = this.data.page_key;
+    var pages = this.data.project.pages;
+
+    if (!page_key) return false;
+    
+    // add .md extension if we can't find the page
+    if (!pages[page_key]) page_key += '.md';
+
+    if (pages[page_key]) {
+      var template = _.template(pages[page_key]);
+      this.data.content = template(this.data);
+    }
+  },
+
   render: function() {
-    this.$el.html(this.template(this.data));
+    this.$el.html(this.toString());
     return this;
+  },
+
+  toString: function(){
+    return this.template(this.data);
   }
 
 });
@@ -959,10 +1002,25 @@ app.views.TranscriptToolbar = app.views.Base.extend({
   template: _.template(TEMPLATES['transcript_toolbar.ejs']),
 
   initialize: function(data){
-    this.data = data;
-    this.data.controls = this.data.project.controls;
+    this.data = _.extend({}, data);
 
+    this.data.controls = this.data.controls || this.data.project.controls;
+
+    this.loadMenu();
     this.render();
+  },
+
+  loadMenu: function(){
+    var menu = this.data.menu,
+        menus = this.data.project.menus;
+
+    this.data.menu = "";
+
+    if (menu && menus[menu]) {
+      var data = _.extend({}, this.data, {tagName: "div", menu_key: "transcript_edit"});
+      var menuView = new app.views.Menu(data);
+      this.data.menu = menuView.toString();
+    }
   },
 
   render: function(){
@@ -1205,8 +1263,8 @@ app.views.TranscriptEdit = app.views.Base.extend({
     this.data.page_content = '';
 
     if (this.data.project.pages['transcript_edit.md']) {
-      var page_template = _.template(this.data.project.pages['transcript_edit.md']);
-      this.data.page_content = page_template(this.data);
+      var page = new app.views.Page(_.extend({}, this.data, {page_key: 'transcript_edit.md'}))
+      this.data.page_content = page.toString();
     }
   },
 

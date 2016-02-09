@@ -9,7 +9,7 @@ app.views.Crumbs = app.views.Base.extend({
 
     this.listenForCrumbs();
 
-    if (this.data.crumbs.length) this.render();
+    this.render();
   },
 
   listenForCrumbs: function(){

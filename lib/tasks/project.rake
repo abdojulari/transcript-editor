@@ -60,7 +60,7 @@ namespace :project do
       content = File.read(page_file)
       html = markdown.render(content)
       # preserve .ejs markup
-      html.gsub! '&lt;%=', '<%='
+      html.gsub! '&lt;%', '<%'
       html.gsub! '%&gt;', '%>'
       pages[File.basename(page_file)] = html
     end

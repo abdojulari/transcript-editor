@@ -12,10 +12,11 @@
   <div id="transcript-notifications" class="notifications">Loading transcript...</div>
   <div class="controls">
     <% _.each(controls, function(control){ %>
-      <div class="control <%= control.id %>" aria-label="<%= control.keyLabel %>" title="<%= control.keyLabel %>">
+      <div class="control <%= control.id %>" aria-label="<%= control.keyDescription %>" title="<%= control.keyDescription %>">
         <div class="key"><%= control.key %></div>
         <div class="label"><%= control.label %></div>
       </div>
     <% }) %>
   </div>
+  <div class="transcript-menu"><%= menu %></div>
 </div>

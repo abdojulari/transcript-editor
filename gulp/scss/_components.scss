@@ -311,7 +311,7 @@ $modal-max-width: 650px;
   .modal-content {
     position: relative;
     max-height: 400px;
-    max-height: 60vh;
+    max-height: 66vh;
     margin-bottom: 20px;
     overflow-x: hidden;
     overflow-y: auto;
@@ -325,7 +325,7 @@ $modal-max-width: 650px;
       display: none;
 
       h1, h2, h3, h4, p {
-        margin: 0.4em 0;
+        margin: 0.6em 0;
       }
 
       > h1, > h2, > h3, > h4 {

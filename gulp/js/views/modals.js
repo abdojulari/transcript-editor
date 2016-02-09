@@ -50,15 +50,8 @@ app.views.Modals = app.views.Base.extend({
         pages = this.data.project.pages;
 
     _.each(this.data.project.modals, function(modal, id){
-      var modal_pages = modal.page ? [modal.page] : modal.pages;
-
-      // retrieve page contents
-      _.each(modal_pages, function(page, i){
-        modal_pages[i]['contents'] = pages[page.file];
-      });
-
       // render modal
-      var data = _.extend({}, modal, {id: id, pages: modal_pages});
+      var data = _.extend({}, modal, {id: id, project: _this.data.project});
       var modal = new app.views.Modal(data);
       _this.$el.append(modal.$el);
     });
