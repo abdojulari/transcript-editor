@@ -36,24 +36,24 @@ app.views.Transcript = app.views.Base.extend({
 
   },
 
-  lineNext: function(implicitSave){
-    this.lineSelect(this.current_line_i + 1, implicitSave);
+  lineNext: function(){
+    this.lineSelect(this.current_line_i + 1);
   },
 
-  linePrevious: function(implicitSave){
-    this.lineSelect(this.current_line_i - 1, implicitSave);
+  linePrevious: function(){
+    this.lineSelect(this.current_line_i - 1);
   },
 
-  lineSave: function(i, implicitSave){
+  lineSave: function(i){
     // override me
   },
 
-  lineSelect: function(i, implicitSave){
+  lineSelect: function(i){
     // check if in bounds
     var lines = this.data.transcript.lines;
     if (i < 0 || i >= lines.length) return false;
 
-    this.lineSave(this.current_line_i, implicitSave);
+    this.lineSave(this.current_line_i);
 
     // select line
     this.current_line_i = i;

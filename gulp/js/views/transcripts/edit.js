@@ -12,16 +12,16 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.listenForAuth();
   },
 
-  lineSave: function(i, implicitSave){
+  lineSave: function(i){
     if (i < 0) return false;
 
     var $input = $('.line[sequence="'+i+'"] input').first();
     if (!$input.length) return false;
 
     var text = $input.val();
-    if (text != $input.attr('user-value') && $input.attr('user-value') // user has edited text
-          || text != $input.attr('user-value') && implicitSave) // implicit save; save even when user has not edited original text
-    {
+    var userText = $input.attr('user-value');
+    // implicit save; save even when user has not edited original text
+    if (text != userText) {
       var line = this.data.transcript.lines[i];
       $input.attr('user-value', text);
       this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text});
@@ -133,18 +133,42 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     var $input = $('.line.active input').first();
     if (!$input.length) return false;
 
-    var sel_index = $input.attr('data-sel-index') ? parseInt($input.attr('data-sel-index')) : -1,
-        input = $input[0],
-        text = input.value,
-        words = text.split(' '),
+    var input = $input[0],
+        text = input.value.replace(/\s{2,}/g, ' ').trim(),
+        words = text.split(/\ +/),
         start = 0,
         end = 0;
 
+    // remove multiple spaces
+    if (text.length != input.value.length) {
+      var cursorPos = $input.getInputSelection().start;
+      $input.val(text);
+      $input.setInputPosition(cursorPos);
+    }
+
     // default to select where the cursor is
-    if (sel_index < 0) {
-      var cursor_pos = $input.getCursorPosition(),
-          sub_text = text.substring(0, cursor_pos);
-      sel_index = sub_text.split(' ').length - 2;
+    var selection = $input.getInputSelection(),
+        sub_text = text.substring(0, selection.start),
+        sel_index = sub_text.split(/\ +/).length - 2;
+
+    // text is selected
+    if (selection.end > selection.start) {
+      sel_index++;
+
+    // no text selected
+    } else {
+
+      // moving left
+      if (increment < 0) sel_index+=2;
+
+      // if beginning of word
+      if (selection.start <= 0 || text.charAt(selection.start-1)==' ') {
+        if (increment < 0) sel_index--;
+
+      // if end of word
+      } else if (selection.start >= text.length-1 || text.charAt(selection.start)==' ') {
+        if (increment > 0) sel_index++;
+      }
     }
 
     // determine word selection
@@ -156,6 +180,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
       sel_index = words.length - 1;
     }
 
+    // determine start/end of current word
     $.each(words, function(i, w){
       if (i==sel_index) {
         end = start + w.length;
@@ -166,7 +191,6 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
 
     if (input.setSelectionRange){
       input.setSelectionRange(start, end);
-      $input.attr('data-sel-index', sel_index);
     }
   },
 

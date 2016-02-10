@@ -260,21 +260,44 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
   }
 });
 
-// Plugin: get cursor position (http://stackoverflow.com/a/2897510/5578115)
+// Plugin: get input selection (http://stackoverflow.com/a/2897510/5578115)
 (function($) {
-  $.fn.getCursorPosition = function() {
+  $.fn.getInputSelection = function() {
     var input = this.get(0);
+    var selection = {start: 0, end: 0, text: ''};
     if (!input) return; // No (input) element found
     if ('selectionStart' in input) {
       // Standard-compliant browsers
-      return input.selectionStart;
+      selection.start = input.selectionStart;
+      selection.end = input.selectionEnd;
+      selection.text = input.value.substring(selection.start, selection.end);
     } else if (document.selection) {
       // IE
       input.focus();
       var sel = document.selection.createRange();
       var selLen = document.selection.createRange().text.length;
       sel.moveStart('character', -input.value.length);
-      return sel.text.length - selLen;
+      selection.start = sel.text.length - selLen;
+      selection.end = selection.start + selLen;
+      selection.text = sel.text;
+    }
+    return selection;
+  }
+})(jQuery);
+
+(function($) {
+  $.fn.setInputPosition = function(position) {
+    var input = this.get(0);
+    if (!input) return; // No (input) element found
+    input.focus();
+    if ('selectionStart' in input) {
+      // Standard-compliant browsers
+      input.setSelectionRange(position, position);
+    } else if (input.createTextRange) {
+      // IE
+      var sel = input.createTextRange();
+      sel.move('character', position);
+      sel.select();
     }
   }
 })(jQuery);
@@ -801,24 +824,24 @@ app.views.Transcript = app.views.Base.extend({
 
   },
 
-  lineNext: function(implicitSave){
-    this.lineSelect(this.current_line_i + 1, implicitSave);
+  lineNext: function(){
+    this.lineSelect(this.current_line_i + 1);
   },
 
-  linePrevious: function(implicitSave){
-    this.lineSelect(this.current_line_i - 1, implicitSave);
+  linePrevious: function(){
+    this.lineSelect(this.current_line_i - 1);
   },
 
-  lineSave: function(i, implicitSave){
+  lineSave: function(i){
     // override me
   },
 
-  lineSelect: function(i, implicitSave){
+  lineSelect: function(i){
     // check if in bounds
     var lines = this.data.transcript.lines;
     if (i < 0 || i >= lines.length) return false;
 
-    this.lineSave(this.current_line_i, implicitSave);
+    this.lineSave(this.current_line_i);
 
     // select line
     this.current_line_i = i;
@@ -1321,16 +1344,16 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.listenForAuth();
   },
 
-  lineSave: function(i, implicitSave){
+  lineSave: function(i){
     if (i < 0) return false;
 
     var $input = $('.line[sequence="'+i+'"] input').first();
     if (!$input.length) return false;
 
     var text = $input.val();
-    if (text != $input.attr('user-value') && $input.attr('user-value') // user has edited text
-          || text != $input.attr('user-value') && implicitSave) // implicit save; save even when user has not edited original text
-    {
+    var userText = $input.attr('user-value');
+    // implicit save; save even when user has not edited original text
+    if (text != userText) {
       var line = this.data.transcript.lines[i];
       $input.attr('user-value', text);
       this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text});
@@ -1442,18 +1465,42 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     var $input = $('.line.active input').first();
     if (!$input.length) return false;
 
-    var sel_index = $input.attr('data-sel-index') ? parseInt($input.attr('data-sel-index')) : -1,
-        input = $input[0],
-        text = input.value,
-        words = text.split(' '),
+    var input = $input[0],
+        text = input.value.replace(/\s{2,}/g, ' ').trim(),
+        words = text.split(/\ +/),
         start = 0,
         end = 0;
 
+    // remove multiple spaces
+    if (text.length != input.value.length) {
+      var cursorPos = $input.getInputSelection().start;
+      $input.val(text);
+      $input.setInputPosition(cursorPos);
+    }
+
     // default to select where the cursor is
-    if (sel_index < 0) {
-      var cursor_pos = $input.getCursorPosition(),
-          sub_text = text.substring(0, cursor_pos);
-      sel_index = sub_text.split(' ').length - 2;
+    var selection = $input.getInputSelection(),
+        sub_text = text.substring(0, selection.start),
+        sel_index = sub_text.split(/\ +/).length - 2;
+
+    // text is selected
+    if (selection.end > selection.start) {
+      sel_index++;
+
+    // no text selected
+    } else {
+
+      // moving left
+      if (increment < 0) sel_index+=2;
+
+      // if beginning of word
+      if (selection.start <= 0 || text.charAt(selection.start-1)==' ') {
+        if (increment < 0) sel_index--;
+
+      // if end of word
+      } else if (selection.start >= text.length-1 || text.charAt(selection.start)==' ') {
+        if (increment > 0) sel_index++;
+      }
     }
 
     // determine word selection
@@ -1465,6 +1512,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
       sel_index = words.length - 1;
     }
 
+    // determine start/end of current word
     $.each(words, function(i, w){
       if (i==sel_index) {
         end = start + w.length;
@@ -1475,7 +1523,6 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
 
     if (input.setSelectionRange){
       input.setSelectionRange(start, end);
-      $input.attr('data-sel-index', sel_index);
     }
   },
 
