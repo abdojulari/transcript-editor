@@ -17,10 +17,6 @@ app.views.Modals = app.views.Base.extend({
 
   dismissModals: function(){
     this.$('.modal').removeClass('active');
-
-    if (this.lastInvoked) {
-      PubSub.publish('modal.dismiss.'+this.lastInvoked, true);
-    }
   },
 
   invokeModal: function(id){

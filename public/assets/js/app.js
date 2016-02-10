@@ -723,10 +723,6 @@ app.views.Modals = app.views.Base.extend({
 
   dismissModals: function(){
     this.$('.modal').removeClass('active');
-
-    if (this.lastInvoked) {
-      PubSub.publish('modal.dismiss.'+this.lastInvoked, true);
-    }
   },
 
   invokeModal: function(id){
@@ -1409,20 +1405,6 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
       PubSub.publish('modal.invoke', 'tutorial_edit');
       $.cookie('tutorial_edit-tutorial', 1);
     }
-
-    // listen for tutorial close
-    PubSub.subscribe('modal.dismiss.tutorial_edit', function(ev, msg) {
-      // ignore if user already started
-      if (_this.current_line_i >= 0) return false;
-      // start if loaded
-      if (_this.loaded) {
-        _this.start();
-
-      // queue start otherwise
-      } else {
-        _this.queue_start = true;
-      }
-    });
   },
 
   onAudioLoad: function(){
