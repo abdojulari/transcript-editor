@@ -109,7 +109,7 @@ class TranscriptLine < ActiveRecord::Base
     end
 
     {
-      edit: best_edit
+      edit: best_edit,
       group: best_group
     }
   end
