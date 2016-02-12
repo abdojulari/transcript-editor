@@ -7,6 +7,9 @@ require 'redcarpet'
 namespace :project do
 
   # Usage: rake project:load['oral-history']
+  #        rake project:load['oral-history','db']
+  #        rake project:load['oral-history','ui']
+  #        rake project:load['oral-history','assets']
   desc "Load project by key: Builds main index.html and project.js which contains all project data (metadata, pages, templates)"
   task :load, [:project_key, :scope] => :environment do |task, args|
     args.with_defaults project_key: 'sample'
@@ -20,23 +23,32 @@ namespace :project do
     end
 
     # Get project
-    project = get_project(args[:project_key])
+    project_json = get_project_json(args[:project_key])
 
-    # Add pages (parse markdown -> html)
-    pages = get_pages(args[:project_key])
-    project['pages'] = pages
+    # Updates database
+    if args[:scope] == "db" || args[:scope] == "all"
+      save_project(args[:project_key], project_json)
+    end
 
-    # Write project data to file
-    save_project(project)
+    # Updates html and config in public folder
+    if args[:scope] == "ui" || args[:scope] == "all"
 
-    if args[:scope] == "all"
+      # Add pages (parse markdown -> html)
+      pages = get_pages(args[:project_key])
+      project_json['pages'] = pages
+
+      # Write project data to file
+      save_project_to_file(project_json)
+
+      # Write layouts
+      load_layouts(project_json, args[:project_key])
+    end
+
+    # Copies assets to public folder
+    if args[:scope] == "assets" || args[:scope] == "all"
 
       # Copy assets
       copy_assets(args[:project_key])
-
-      # Write layouts
-      load_layouts(project, args[:project_key])
-
     end
   end
 
@@ -68,7 +80,7 @@ namespace :project do
     return pages
   end
 
-  def get_project(project_key)
+  def get_project_json(project_key)
     # Validate project file
     project_file = Rails.root.join('project', project_key, 'project.json')
     if !File.exist? project_file
@@ -95,7 +107,14 @@ namespace :project do
 
   end
 
-  def save_project(project)
+  def save_project(project_key, project_json)
+    Project.update_all active: false
+    project = Project.find_or_initialize_by(uid: project_key)
+
+    project.update(data: project_json, active: true)
+  end
+
+  def save_project_to_file(project)
     json_string = project.to_json
     js_string = "window.PROJECT = #{json_string};"
     project_js_file = Rails.root.join('public', 'assets', 'js', 'project.js')
