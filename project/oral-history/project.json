@@ -2,9 +2,9 @@
   "name": "Together We Listen @ NYPL",
   "description": "A web app for fixing oral history transcripts that were automatically generated from speech-to-text software",
   "logo": "/project/assets/img/logo.png",
-  "api_url": "",
-  "use_vendor_audio": true,
-  "auth_providers": [
+  "apiUrl": "",
+  "useVendorAudio": true,
+  "authProviders": [
     {
       "name": "google",
       "label": "Google",
@@ -14,16 +14,37 @@
   "menus": {
     "header": [
       {"label": "Browse", "url": "/"},
-      {"label": "Introduction", "url": "/#/page/intro.md"}
+      {"label": "About", "url": "/#/page/about"}
+    ],
+    "transcript_edit": [
+      {"label": "Help", "modal": "tutorial_edit"},
+      {"label": "Cheat Sheet", "modal": "transcription_cheat_sheet"}
     ],
     "footer": []
   },
+  "modals": {
+    "transcription_cheat_sheet": {
+      "title": "Transcription Cheat Sheet",
+      "doneLabel": "Close",
+      "page": {"file": "transcription-cheat-sheet.md"}
+    },
+    "tutorial_edit": {
+      "title": "Transcript Editor Tutorial",
+      "displayMethod": "once",
+      "doneLabel": "Finished",
+      "pages": [
+        {"label": "Editing", "file": "ed_tutorial_1.md"},
+        {"label": "Conventions", "file": "ed_tutorial_2.md"},
+        {"label": "Commands", "file": "ed_tutorial_3.md"}
+      ]
+    }
+  },
   "controls": [
-    {"id": "toggle-play", "action": "lineToggle", "label": "Play/Pause/Re-play", "keyCode": 9, "key": "tab", "keyLabel": "Press tab key to play, pause, or re-play a line"},
-    {"id": "submit-line", "action": "lineSubmit", "label": "Submit &amp; Continue", "keyCode": 13, "key": "enter", "keyLabel": "Press enter key to submit current line and continue"},
-    {"id": "previous-line", "action": "linePrevious", "label": "Prev Line", "keyCode": 38, "key": "&#8593;", "keyLabel": "Press up arrow key to go to previous line"},
-    {"id": "next-line", "action": "lineNext", "label": "Next Line", "keyCode": 40, "key": "&#8595;", "keyLabel": "Press down arrow key to go to next line"},
-    {"id": "previous-word", "action": "wordPrevious", "label": "Prev Word", "keyCode": 37, "key": "Shift + &#8592;", "keyLabel": "Hold shift and press left arrow key to move to previous word", "shift": true},
-    {"id": "next-word", "action": "wordNext", "label": "Next Word", "keyCode": 39, "key": "Shift + &#8594;", "keyLabel": "Hold shift and press right arrow key to move to next word", "shift": true}
+    {"id": "toggle-play", "action": "lineToggle", "label": "Play/Pause/Re-play", "keyCode": 9, "key": "tab", "keyLabel": "Tab Key", "keyDescription": "Press tab key to play, pause, or re-play a line"},
+    {"id": "submit-line", "action": "lineSubmit", "label": "Submit &amp; Continue", "keyCode": 13, "key": "enter", "keyLabel": "Enter Key", "keyDescription": "Press enter key to submit current line and continue"},
+    {"id": "previous-line", "action": "linePrevious", "label": "Prev Line", "keyCode": 38, "key": "&#8593;", "keyLabel": "Up Arrow", "keyDescription": "Press up arrow key to go to previous line"},
+    {"id": "next-line", "action": "lineNext", "label": "Next Line", "keyCode": 40, "key": "&#8595;", "keyLabel": "Down Arrow", "keyDescription": "Press down arrow key to go to next line"},
+    {"id": "previous-word", "action": "wordPrevious", "label": "Prev Word", "keyCode": 37, "key": "Shift + &#8592;", "keyLabel": "Shift + Left Arrow", "keyDescription": "Hold shift and press left arrow key to move to previous word", "shift": true},
+    {"id": "next-word", "action": "wordNext", "label": "Next Word", "keyCode": 39, "key": "Shift + &#8594;", "keyLabel": "Shift + Right Arrow", "keyDescription": "Hold shift and press right arrow key to move to next word", "shift": true}
   ]
 }

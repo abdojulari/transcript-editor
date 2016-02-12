@@ -1,0 +1,37 @@
+<section class="modal <%= active ? 'active': '' %>" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+
+  <div class="modal-inner">
+    <% if (hasOwnProperty("title")) { %>
+      <header id="modal-label"><%= title %></header>
+    <% } %>
+    <div class="modal-content">
+      <% _.each(pages, function(page, i){ %>
+        <div class="modal-page <%= page.file ? page.file : '' %> <%= active_page==i ? 'active': '' %>">
+          <%= page.contents %>
+        </div>
+      <% }) %>
+    </div>
+    <% if (pages.length > 1) { %>
+      <div class="modal-tabs">
+        <% _.each(pages, function(page, i){ %>
+          <a class="modal-tab <%= active_page==i ? 'active': '' %>" data-tab="<%= i %>"><%= i+1 %>. <%= page.label %></a>
+        <% }) %>
+      </div>
+    <% } %>
+    <footer>
+      <% if (active_page > 0) { %>
+        <a class="button modal-tab" data-tab="<%= active_page-1 %>">Previous</a>
+      <% } %>
+
+      <% if (active_page >= pages.length-1) { %>
+        <a class="button pull-right modal-dismiss"><%= hasOwnProperty("doneLabel") ? doneLabel : "Finished" %></a>
+      <% } else if (pages.length > 1) { %>
+        <a class="button pull-right modal-tab" data-tab="<%= active_page+1 %>">Next</a>
+      <% } %>
+
+    </footer>
+  </div>
+
+  <a class="modal-close modal-dismiss" title="Close this modal">x</a>
+
+</section>

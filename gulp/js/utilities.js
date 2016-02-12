@@ -5,21 +5,44 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
   }
 });
 
-// Plugin: get cursor position (http://stackoverflow.com/a/2897510/5578115)
+// Plugin: get input selection (http://stackoverflow.com/a/2897510/5578115)
 (function($) {
-  $.fn.getCursorPosition = function() {
+  $.fn.getInputSelection = function() {
     var input = this.get(0);
+    var selection = {start: 0, end: 0, text: ''};
     if (!input) return; // No (input) element found
     if ('selectionStart' in input) {
       // Standard-compliant browsers
-      return input.selectionStart;
+      selection.start = input.selectionStart;
+      selection.end = input.selectionEnd;
+      selection.text = input.value.substring(selection.start, selection.end);
     } else if (document.selection) {
       // IE
       input.focus();
       var sel = document.selection.createRange();
       var selLen = document.selection.createRange().text.length;
       sel.moveStart('character', -input.value.length);
-      return sel.text.length - selLen;
+      selection.start = sel.text.length - selLen;
+      selection.end = selection.start + selLen;
+      selection.text = sel.text;
+    }
+    return selection;
+  }
+})(jQuery);
+
+(function($) {
+  $.fn.setInputPosition = function(position) {
+    var input = this.get(0);
+    if (!input) return; // No (input) element found
+    input.focus();
+    if ('selectionStart' in input) {
+      // Standard-compliant browsers
+      input.setSelectionRange(position, position);
+    } else if (input.createTextRange) {
+      // IE
+      var sel = input.createTextRange();
+      sel.move('character', position);
+      sel.select();
     }
   }
 })(jQuery);
