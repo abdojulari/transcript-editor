@@ -11,13 +11,19 @@
       "path": "/auth/google_oauth2"
     }
   ],
+  "consensus": {
+    "maxLineEdits": 5,
+    "minLinesForConsensus": 3,
+    "minPercentConsensus": 0.5,
+    "lineDisplayMehod": "guess"
+  },
   "menus": {
     "header": [
+      {"label": "Help", "modal": "tutorial_edit"},
       {"label": "Browse", "url": "/"},
       {"label": "About", "url": "/#/page/about"}
     ],
     "transcript_edit": [
-      {"label": "Help", "modal": "tutorial_edit"},
       {"label": "Cheat Sheet", "modal": "transcription_cheat_sheet"}
     ],
     "footer": []

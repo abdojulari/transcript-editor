@@ -1,4 +1,5 @@
 class TranscriptEdit < ActiveRecord::Base
+
   belongs_to :transcript
   belongs_to :transcript_line
 
@@ -6,6 +7,10 @@ class TranscriptEdit < ActiveRecord::Base
   validates :transcript_id, numericality: { only_integer: true }, presence: true
   validates :transcript_line_id, numericality: { only_integer: true }, presence: true
   validates :text, presence: true
+
+  def normalizedText
+    text.downcase.gsub(/[^0-9a-z ]/i, '')
+  end
 
   def self.getByTranscriptSession(transcript_id, session_id)
     TranscriptEdit.where(transcript_id: transcript_id, session_id: session_id)
