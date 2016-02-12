@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160202181726) do
+ActiveRecord::Schema.define(version: 20160212182735) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,24 +59,32 @@ ActiveRecord::Schema.define(version: 20160202181726) do
   add_index "transcript_edits", ["transcript_line_id"], name: "index_transcript_edits_on_transcript_line_id", using: :btree
   add_index "transcript_edits", ["user_id"], name: "index_transcript_edits_on_user_id", using: :btree
 
+  create_table "transcript_line_statuses", force: :cascade do |t|
+    t.string  "name",        default: "", null: false
+    t.integer "progress",    default: 0,  null: false
+    t.string  "description"
+  end
+
+  add_index "transcript_line_statuses", ["name"], name: "index_transcript_line_statuses_on_name", unique: true, using: :btree
+
   create_table "transcript_lines", force: :cascade do |t|
-    t.integer  "transcript_id",        default: 0,  null: false
-    t.integer  "start_time",           default: 0,  null: false
-    t.integer  "end_time",             default: 0,  null: false
-    t.integer  "speaker_id",           default: 0,  null: false
-    t.string   "original_text",        default: "", null: false
-    t.string   "text",                 default: "", null: false
-    t.integer  "sequence",             default: 0,  null: false
-    t.integer  "transcript_status_id", default: 1,  null: false
+    t.integer  "transcript_id",             default: 0,  null: false
+    t.integer  "start_time",                default: 0,  null: false
+    t.integer  "end_time",                  default: 0,  null: false
+    t.integer  "speaker_id",                default: 0,  null: false
+    t.string   "original_text",             default: "", null: false
+    t.string   "text",                      default: "", null: false
+    t.integer  "sequence",                  default: 0,  null: false
+    t.integer  "transcript_line_status_id", default: 1,  null: false
     t.string   "notes"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
   end
 
   add_index "transcript_lines", ["speaker_id"], name: "index_transcript_lines_on_speaker_id", using: :btree
   add_index "transcript_lines", ["transcript_id", "sequence"], name: "index_transcript_lines_on_transcript_id_and_sequence", unique: true, using: :btree
   add_index "transcript_lines", ["transcript_id"], name: "index_transcript_lines_on_transcript_id", using: :btree
-  add_index "transcript_lines", ["transcript_status_id"], name: "index_transcript_lines_on_transcript_status_id", using: :btree
+  add_index "transcript_lines", ["transcript_line_status_id"], name: "index_transcript_lines_on_transcript_line_status_id", using: :btree
 
   create_table "transcript_statuses", force: :cascade do |t|
     t.string   "name",        default: "", null: false
