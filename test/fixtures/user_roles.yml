@@ -1,17 +1,16 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-guest:
-  name: guest
-  hiearchy: 0
-
-registered:
-  name: user
-  hiearchy: 10
-
-moderator:
-  name: moderator
-  hiearchy: 50
-
-admin:
-  name: admin
-  hiearchy: 100
+#
+# guest:
+#   name: guest
+#   hiearchy: 0
+#
+# registered:
+#   name: user
+#   hiearchy: 10
+#
+# moderator:
+#   name: moderator
+#   hiearchy: 50
+#
+# admin:
+#   name: admin
+#   hiearchy: 100

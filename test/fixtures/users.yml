@@ -1,17 +1,4 @@
 <% 5.times do |n| %>
-guest_<%= n %>:
-  uid: <%= "guest_#{n}" %>
-  user_role: guest
-
-registered_<%= n %>:
-  uid: <%= "registered_#{n}" %>
-  user_role: registered
-
-moderator_<%= n %>:
-  uid: <%= "moderator_#{n}" %>
-  user_role: moderator
-
-admin_<%= n %>:
-  uid: <%= "admin_#{n}" %>
-  user_role: admin
+user_<%= n %>:
+  uid: <%= "user_#{n}" %>
 <% end %>

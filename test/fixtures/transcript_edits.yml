@@ -24,7 +24,7 @@ two_1:
   transcript: lucy
   transcript_line_id: two
   session_id: two_1
-  text: With tanjereen treez and marmalade skyz
+  text: With tangerine trees and marmalade skies
 
 two_2:
   transcript: lucy
@@ -36,7 +36,7 @@ two_3:
   transcript: lucy
   transcript_line_id: two
   session_id: two_3
-  text: With tangerine trees and marmalade skies
+  text: With tanjereen treez and marmalade skyz
 
 two_4:
   transcript: lucy
@@ -50,7 +50,7 @@ three_1:
   transcript: lucy
   transcript_line_id: three
   session_id: three_1
-  user: registered_0
+  user: user_0
   text: Somebody calls you, you answer quite slowly
 
 three_2:
@@ -111,7 +111,7 @@ six_1:
   transcript: lucy
   transcript_line_id: six
   session_id: six_1
-  user: registered_1
+  user: user_1
   text: Towering over your head
 
 six_2:
