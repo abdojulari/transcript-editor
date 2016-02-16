@@ -17,6 +17,7 @@ class TranscriptLine < ActiveRecord::Base
     # Init status & text
     status_id = 1
     best_guess_text = original_text
+    final_text = ""
 
     # Filter out blank text or text that is the original text
     edits_filtered = []
@@ -52,6 +53,7 @@ class TranscriptLine < ActiveRecord::Base
         if percent_agree >= consensus["minPercentConsensus"]
           completed_status = statuses.find{|s| s[:name]=="completed"}
           status_id = completed_status[:id]
+          final_text = best_guess_text
         end
       end
     end
@@ -70,7 +72,7 @@ class TranscriptLine < ActiveRecord::Base
 
     # Update line if it has changed
     if status_id != transcript_line_status_id || best_guess_text != guess_text
-      update_attributes(transcript_line_status_id: status_id, guess_text: best_guess_text)
+      update_attributes(transcript_line_status_id: status_id, guess_text: best_guess_text, text: final_text)
     end
   end
 
