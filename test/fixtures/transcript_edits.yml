@@ -1,17 +1,199 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# Consensus: three edits, all agree
 
-one:
-  transcript_id: 1
-  transcript_line_id: 1
-  user_id: 1
-  session_id: 1
-  text: MyString
-  weight: 1
+one_1:
+  transcript: lucy
+  transcript_line_id: one
+  session_id: one_1
+  text: Picture yourself in a boat on a river
 
-two:
-  transcript_id: 1
-  transcript_line_id: 1
-  user_id: 1
-  session_id: 1
-  text: MyString
-  weight: 1
+one_2:
+  transcript: lucy
+  transcript_line_id: one
+  session_id: one_2
+  text: Picture yourself in a boat on a river
+
+one_3:
+  transcript: lucy
+  transcript_line_id: one
+  session_id: one_3
+  text: Picture yourself in a boat on a river
+
+# Consensus: four edits, one is original text, two agree; choose the one with two
+
+two_1:
+  transcript: lucy
+  transcript_line_id: two
+  session_id: two_1
+  text: With tanjereen treez and marmalade skyz
+
+two_2:
+  transcript: lucy
+  transcript_line_id: two
+  session_id: two_2
+  text: With tangerine trees and marmalade skies
+
+two_3:
+  transcript: lucy
+  transcript_line_id: two
+  session_id: two_3
+  text: With tangerine trees and marmalade skies
+
+two_4:
+  transcript: lucy
+  transcript_line_id: two
+  session_id: two_4
+  text: With tanjereen trees and marmalade skies
+
+# Consensus: three edits, all agree (with normalized text); choose the one with registered user
+
+three_1:
+  transcript: lucy
+  transcript_line_id: three
+  session_id: three_1
+  user: registered_0
+  text: Somebody calls you, you answer quite slowly
+
+three_2:
+  transcript: lucy
+  transcript_line_id: three
+  session_id: three_2
+  text: somebody calls you you answer quite slowly
+
+three_3:
+  transcript: lucy
+  transcript_line_id: three
+  session_id: three_3
+  text: Somebody calls YOU; you answer quite slowly.
+
+# Consensus: three edits, all agree (with normalized text); choose the one with capitalization
+
+four_1:
+  transcript: lucy
+  transcript_line_id: four
+  session_id: four_1
+  text: A girl with kaleidoscope eyes
+
+four_2:
+  transcript: lucy
+  transcript_line_id: four
+  session_id: four_2
+  text: a girl with kaleidoscope eyes
+
+four_3:
+  transcript: lucy
+  transcript_line_id: four
+  session_id: four_3
+  text: a girl with kaleidoscope eyes
+
+# Consensus: three edits, two agree (with normalized text); choose the one with punctuation
+
+seven_1:
+  transcript: lucy
+  transcript_line_id: seven
+  session_id: seven_1
+  text: Cellophane flowers, of yellow and green
+
+seven_2:
+  transcript: lucy
+  transcript_line_id: seven
+  session_id: seven_2
+  text: Cellophane flowers of yellow and green
+
+seven_3:
+  transcript: lucy
+  transcript_line_id: seven
+  session_id: seven_3
+  text: Cellophane flowerz of yellow and green
+
+# Guess: three edits, nobody agrees; choose the one with a registered user
+
+six_1:
+  transcript: lucy
+  transcript_line_id: six
+  session_id: six_1
+  user: registered_1
+  text: Towering over your head
+
+six_2:
+  transcript: lucy
+  transcript_line_id: six
+  session_id: six_2
+  text: Towering over ure head
+
+six_3:
+  transcript: lucy
+  transcript_line_id: six
+  session_id: six_3
+  text: Towering over your hed
+
+# Guess: three edits, nobody agrees; choose the one with punctuation
+
+seven_1:
+  transcript: lucy
+  transcript_line_id: seven
+  session_id: seven_1
+  text: Look for the girl with the sun in her eyes.
+
+seven_2:
+  transcript: lucy
+  transcript_line_id: seven
+  session_id: seven_2
+  text: Look fer the girl with the son in her eyez
+
+seven_3:
+  transcript: lucy
+  transcript_line_id: seven
+  session_id: seven_3
+  text: Look fer the gurl with the sun in her eyes
+
+# Guess: three edits, nobody agrees; choose the one with numbers
+
+eight_1:
+  transcript: lucy
+  transcript_line_id: eight
+  session_id: eight_1
+  text: And shes 4 gone
+
+eight_2:
+  transcript: lucy
+  transcript_line_id: eight
+  session_id: eight_2
+  text: And shes gun
+
+eight_3:
+  transcript: lucy
+  transcript_line_id: eight
+  session_id: eight_3
+  text: And she is gawn
+
+# Review: five edits, nobody agrees; make into "review" status
+
+nine_1:
+  transcript: lucy
+  transcript_line_id: nine
+  session_id: nine_1
+  text: Loosie in the sky wit diamondz
+
+nine_2:
+  transcript: lucy
+  transcript_line_id: nine
+  session_id: nine_2
+  text: Loosie in the skie with diamondz
+
+nine_3:
+  transcript: lucy
+  transcript_line_id: nine
+  session_id: nine_3
+  text: Loosie in the skie wit diamonds
+
+nine_4:
+  transcript: lucy
+  transcript_line_id: nine
+  session_id: nine_4
+  text: Lucy in the skie wit diamondz
+
+nine_5:
+  transcript: lucy
+  transcript_line_id: nine
+  session_id: nine_5
+  text: Lucy in the sky with diamonds

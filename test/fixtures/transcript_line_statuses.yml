@@ -1,0 +1,18 @@
+
+initialized:
+  name: initialized
+
+editing:
+  name: editing
+
+reviewing:
+  name: reviewing
+
+completed:
+  name: completed
+
+flagged:
+  name: flagged
+
+archived:
+  name: archived

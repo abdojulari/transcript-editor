@@ -1,11 +1,28 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
-  progress: 1
-  description: MyString
+initialized:
+  name: initialized
 
-two:
-  name: MyString
-  progress: 1
-  description: MyString
+audio_uploaded:
+  name: audio_uploaded
+
+transcript_processing:
+  name: transcript_processing
+
+transcript_downloaded:
+  name: transcript_downloaded
+
+transcript_editing:
+  name: transcript_editing
+
+transcript_reviewing:
+  name: transcript_reviewing
+
+transcript_complete:
+  name: transcript_complete
+
+transcript_problematic:
+  name: transcript_problematic
+
+transcript_archived:
+  name: transcript_archived

@@ -1,11 +1,17 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
-  hiearchy: 1
-  description: MyString
+guest:
+  name: guest
+  hiearchy: 0
 
-two:
-  name: MyString
-  hiearchy: 1
-  description: MyString
+registered:
+  name: user
+  hiearchy: 10
+
+moderator:
+  name: moderator
+  hiearchy: 50
+
+admin:
+  name: admin
+  hiearchy: 100
