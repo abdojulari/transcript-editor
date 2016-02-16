@@ -14,7 +14,7 @@
   "consensus": {
     "maxLineEdits": 5,
     "minLinesForConsensus": 3,
-    "minPercentConsensus": 0.5,
+    "minPercentConsensus": 0.34,
     "lineDisplayMehod": "guess"
   },
   "menus": {

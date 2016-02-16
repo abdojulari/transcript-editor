@@ -94,8 +94,14 @@ class TranscriptLine < ActiveRecord::Base
       groups = groups.sort_by { |group| group[:count] * -1 }
       best_group = groups[0]
 
-      # Retrieve the edits based on the best group's text
-      best_edits = edits.select { |edit| edit.normalizedText==best_group[:text] }
+      # No group has more than one edit; treat them all the same
+      best_edits = edits.select {|edit| true }
+      # There's a group that has more than one edit, choose the one with the most
+      if best_group[:count] > 1
+        # Retrieve the edits based on the best group's text
+        best_edits = edits.select { |edit| edit.normalizedText==best_group[:text] }
+      end
+
       # Sort the edits
       best_edits = best_edits.sort_by { |edit|
         score = 0
