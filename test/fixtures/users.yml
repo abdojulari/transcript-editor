@@ -1,4 +1,0 @@
-<% 5.times do |n| %>
-user_<%= n %>:
-  uid: <%= "user_#{n}" %>
-<% end %>
