@@ -3,10 +3,24 @@ class TranscriptLine < ActiveRecord::Base
   include PgSearch
   multisearchable :against => [:original_text, :text]
 
+  belongs_to :transcript_line_status
   belongs_to :transcript
   has_many :transcript_edits
 
   default_scope { order(:sequence) }
+
+  def self.getEdited
+    TranscriptLine.joins(:transcript_edits).distinct
+  end
+
+  def self.getEditedByTranscriptId(transcript_id)
+    TranscriptLine.joins(:transcript_edits).where(transcript_lines:{transcript_id: transcript_id}).distinct
+  end
+
+  def self.recalculateById(transcript_line_id)
+    line = TranscriptLine.find transcript_line_id
+    line.recalculate if line
+  end
 
   # Update the line's status and best-guess text based on contributed edits
   def recalculate(edits=nil, project=nil)
@@ -22,13 +36,12 @@ class TranscriptLine < ActiveRecord::Base
 
     # Filter out blank text or text that is the original text
     edits_filtered = []
-    if edits.length > 1
+    if edits.length > 0
       edits_filtered = edits.select { |edit| !edit[:text].blank? && edit[:text] != original_text }
     end
 
-    best_edit = chooseBestEdit(edits_filtered, project)
-
     # Set best guess text
+    best_edit = chooseBestEdit(edits_filtered, project)
     unless best_edit.nil? || best_edit[:edit].nil?
       best_guess_text = best_edit[:edit][:text]
     end

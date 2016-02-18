@@ -91,6 +91,19 @@ $transcript-line-height: 56px;
       background: lighten($coolgray-color, 5%);
     }
 
+    &.editing,
+    &.reviewing {
+      background: #ada87c;
+    }
+
+    &.user-edited {
+      background: rgba($green-color, 0.3);
+    }
+
+    &.completed {
+      background: rgba($green-color, 0.6);
+    }
+
     &,
     input {
       cursor: pointer;
@@ -132,12 +145,11 @@ $transcript-line-height: 56px;
     padding-left: 10px;
     @include box-sizing();
 
-    &.final {
-      background: rgba($green-color, 0.6);
-    }
-
-    &.user-edited {
-      background: rgba($green-color, 0.3);
+    > div {
+      font-size: $transcript-line-height - 24px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
   input {

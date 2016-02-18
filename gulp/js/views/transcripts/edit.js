@@ -25,7 +25,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
       var line = this.data.transcript.lines[i];
       $input.attr('user-value', text);
       this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text});
-      $input.closest('.text').addClass('user-edited');
+      $input.closest('.line').addClass('user-edited');
     }
   },
 

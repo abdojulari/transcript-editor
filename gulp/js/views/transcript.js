@@ -211,18 +211,46 @@ app.views.Transcript = app.views.Base.extend({
   parseTranscript: function(){
     var _this = this,
         lines = this.data.transcript.lines,
-        user_edits = this.data.transcript.user_edits;
+        user_edits = this.data.transcript.user_edits,
+        line_statuses = this.data.transcript.transcript_line_statuses;
 
-    // make object for easy lookup
+    // map edits for easy lookup
     var user_edits_map = _.object(_.map(user_edits, function(edit) {
       return [""+edit.transcript_line_id, edit.text]
     }));
 
-    // add user text to lines
+    // map statuses for easy lookup
+    var line_statuses_map = _.object(_.map(line_statuses, function(status) {
+      return [""+status.id, status]
+    }));
+
+    // process each line
     _.each(lines, function(line, i){
+      // add user text to lines
+      var user_text = "";
       if (_.has(user_edits_map, ""+line.id)) {
-        _this.data.transcript.lines[i].user_text = user_edits_map[""+line.id];
+        user_text = user_edits_map[""+line.id];
       }
+      _this.data.transcript.lines[i].user_text = user_text;
+
+      // add statuses to lines
+      var status = line_statuses[0];
+      if (_.has(line_statuses_map, ""+line.transcript_line_status_id)) {
+        status = line_statuses_map[""+line.transcript_line_status_id];
+      }
+      _this.data.transcript.lines[i].status = status;
+
+      // determine display text; default to original
+      var display_text = line.original_text;
+      // show final text if final
+      if (line.text && status.name=="completed") display_text = line.text;
+      // otherwise, show user's text
+      else if (user_text) display_text = user_text;
+      // otherwise show guess text
+      else if (PROJECT.consensus.lineDisplayMehod=="guess" && line.guess_text) display_text = line.guess_text;
+      // set the display text
+      _this.data.transcript.lines[i].display_text = display_text;
+
     });
   },
 

@@ -21,6 +21,21 @@ class TranscriptEditsController < ApplicationController
     @transcript_edit = nil
     params[:transcript_edit][:session_id] = session.id
     t = params[:transcript_edit]
+    line = TranscriptLine.find t[:transcript_line_id]
+    project = Project.getActive
+
+    unless line
+      head :no_content
+      return
+    end
+
+    # If line is completed, reviewing, flagged, or archived
+    # And user not signed in or doesn't have the right permissions
+    # Ignore this submission
+    if line.transcript_line_status_id>0 && line.transcript_line_status && line.transcript_line_status.progress >= 50 && (!user_signed_in? || !current_user.user_role || current_user.user_role.hiearchy < project[:data]["consensus"]["minUserHiearchyOverride"])
+      head :no_content
+      return
+    end
 
     # Retrieve existing edit for user or session
     if user_signed_in?
@@ -35,6 +50,7 @@ class TranscriptEditsController < ApplicationController
     if @transcript_edit.nil?
       @transcript_edit = TranscriptEdit.new(transcript_edit_params)
       if @transcript_edit.save
+        line.recalculate(nil, project)
         render json: @transcript_edit, status: :created, location: @transcript_edit
         success = true
       end
@@ -42,6 +58,7 @@ class TranscriptEditsController < ApplicationController
     # This is an existing edit
     else
       if @transcript_edit.update(transcript_edit_params)
+        line.recalculate(nil, project)
         head :no_content
         success = true
       end

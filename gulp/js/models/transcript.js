@@ -5,7 +5,8 @@ app.models.Transcript = Backbone.Model.extend({
   },
 
   url: function(){
-    return API_URL + '/transcripts/'+this.id+'.json';
+    var id = this.get('uid') || this.id;
+    return API_URL + '/transcripts/'+id+'.json';
   }
 
 });

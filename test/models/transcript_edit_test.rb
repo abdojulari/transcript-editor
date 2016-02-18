@@ -252,4 +252,18 @@ class TranscriptEditTest < ActiveSupport::TestCase
     assert line.guess_text == correct_text, "Correct guess chosen"
     assert line.transcript_line_status_id == @status_completed.id, "Correct status: completed"
   end
+
+  # Guess: one edit, the guess should be that one
+  test "guess four" do
+    line = seedLine({transcript_id: @transcript.id, sequence: 12, original_text: 'Every1 smiles as you drift passed da flowerz', guess_text: '', text: '', transcript_line_status_id: 1})
+    seedEdits([
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'twelve_1', text: 'Everyone smiles as you drift past the flowers'}
+    ])
+    line.recalculate(nil, @project)
+    correct_text = "Everyone smiles as you drift past the flowers"
+
+    assert line.text.blank?, "Text is not yet final"
+    assert line.guess_text == correct_text, "Correct guess chosen"
+    assert line.transcript_line_status_id == @status_editing.id, "Correct status: editing"
+  end
 end

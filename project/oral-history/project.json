@@ -52,7 +52,7 @@
     }
   },
   "controls": [
-    {"id": "toggle-play", "action": "lineToggle", "label": "Play/Pause/Re-play", "keyCode": 9, "key": "tab", "keyLabel": "Tab Key", "keyDescription": "Press tab key to play, pause, or re-play a line"},
+    {"id": "toggle-play", "action": "lineToggle", "label": "Play/Pause", "keyCode": 32, "key": "Shift + Space", "keyLabel": "Shift + Space Bar", "keyDescription": "Hold shift and press space bar to play, pause, or re-play a line", "shift": true},
     {"id": "submit-line", "action": "lineSubmit", "label": "Submit &amp; Continue", "keyCode": 13, "key": "enter", "keyLabel": "Enter Key", "keyDescription": "Press enter key to submit current line and continue"},
     {"id": "previous-line", "action": "linePrevious", "label": "Prev Line", "keyCode": 38, "key": "&#8593;", "keyLabel": "Up Arrow", "keyDescription": "Press up arrow key to go to previous line"},
     {"id": "next-line", "action": "lineNext", "label": "Next Line", "keyCode": 40, "key": "&#8595;", "keyLabel": "Down Arrow", "keyDescription": "Press down arrow key to go to next line"},
