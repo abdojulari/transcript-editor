@@ -10,7 +10,7 @@ class TranscriptLine < ActiveRecord::Base
 
   # Update the line's status and best-guess text based on contributed edits
   def recalculate(edits=nil, project=nil)
-    edits ||= TranscriptEdit.where(transcript_line_id: id)
+    edits ||= TranscriptEdit.getByLine(id)
     project ||= Project.getActive
     statuses = TranscriptLineStatus.allCached
 
@@ -18,6 +18,7 @@ class TranscriptLine < ActiveRecord::Base
     status_id = 1
     best_guess_text = original_text
     final_text = ""
+    consensus = project[:data]["consensus"]
 
     # Filter out blank text or text that is the original text
     edits_filtered = []
@@ -25,18 +26,22 @@ class TranscriptLine < ActiveRecord::Base
       edits_filtered = edits.select { |edit| !edit[:text].blank? && edit[:text] != original_text }
     end
 
-    best_edit = chooseBestEdit(edits_filtered)
+    best_edit = chooseBestEdit(edits_filtered, project)
 
     # Set best guess text
     unless best_edit.nil? || best_edit[:edit].nil?
       best_guess_text = best_edit[:edit][:text]
     end
 
-    # Retrieve consensus settings
-    consensus = project[:data]["consensus"]
+    # Admins and moderators override all others
+    if status_id <= 1 && !best_edit.nil? && !best_edit[:edit].nil? && best_edit[:edit][:user_hiearchy] >= consensus["minUserHiearchyOverride"]
+      completed_status = statuses.find{|s| s[:name]=="completed"}
+      status_id = completed_status[:id]
+      final_text = best_guess_text
+    end
 
     # Candidate for consensus
-    if edits_filtered.length >= consensus["minLinesForConsensus"]
+    if status_id <= 1 && edits_filtered.length >= consensus["minLinesForConsensus"]
       unless best_edit.nil? || best_edit[:group].nil?
         # Determine what percent agree
         percent_agree = 1.0 * best_edit[:group][:count] / edits_filtered.length
@@ -65,14 +70,27 @@ class TranscriptLine < ActiveRecord::Base
     # Update line if it has changed
     if status_id != transcript_line_status_id || best_guess_text != guess_text
       update_attributes(transcript_line_status_id: status_id, guess_text: best_guess_text, text: final_text)
+
+      # TODO: update transcript status if line status has changed
     end
   end
 
   private
 
-  def chooseBestEdit(edits)
+  def chooseBestEdit(edits, project)
     best_group = nil
     best_edit = nil
+    consensus = project[:data]["consensus"]
+
+    # Check if there's any edits by priority users (e.g. moderators, admins)
+    if edits.length > 0
+      edits_priority = edits.select { |edit| edit[:user_hiearchy] >= consensus["minUserHiearchyOverride"] }
+      if edits_priority.length > 0
+        edits = edits_priority.select { |edit| true }
+        best_group = {text: edits[0].normalizedText, count: 1}
+        best_edit = edits[0]
+      end
+    end
 
     # Init to selecting the first
     best_group = {text: edits[0].normalizedText, count: 1} if edits.length > 0
@@ -102,7 +120,7 @@ class TranscriptLine < ActiveRecord::Base
         score -= 1 if edit[:text] =~ /\d/ # Plus 1 if contains a number
         score -= 1 if edit[:text] =~ /[A-Z]/ # Plus 1 if contains uppercase
         score -= 1 if edit[:text] =~ /[^0-9A-Za-z ]/ # Plus 1 if contains punctuation
-        score -= 4 if edit[:user_id] > 0 # Give a preference to signed-in users
+        score -= edit[:user_hiearchy] # Give a preference users with higher hiearchy
         score
       }
       # puts "Best Edits #{best_edits}"

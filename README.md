@@ -13,8 +13,8 @@ Notice: This codebase is currently in deep and rapid development and won't have 
 
 ## Configure
 
-1. Create `config/database.yml` based on [config/database.yml.sample](config/database.yml.sample)
-2. Create `config/application.yml` based on [config/application.yml.sample](config/application.yml.sample) - contains config variables for Google, Pop-up Archive, etc. Run `rake secret` to generate new secret tokens
+1. Create `config/database.yml` based on [config/database.sample.yml](config/database.sample.yml)
+2. Create `config/application.yml` based on [config/application.sample.yml](config/application.sample.yml) - contains config variables for Google, Pop-up Archive, etc. Run `rake secret` to generate new secret tokens
    - For Google, to-do...
    - For Pop-up Archive, to-do...
 

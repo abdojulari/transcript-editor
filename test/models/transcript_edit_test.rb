@@ -32,7 +32,8 @@ class TranscriptEditTest < ActiveSupport::TestCase
       consensus: {
         maxLineEdits: 5,
         minLinesForConsensus: 3,
-        minPercentConsensus: 0.34
+        minPercentConsensus: 0.34,
+        minUserHiearchyOverride: 50
       }
     }}
     @project = Project.find_or_initialize_by(uid: attributes[:uid])
@@ -218,5 +219,37 @@ class TranscriptEditTest < ActiveSupport::TestCase
     assert line.text.blank?, "Text is not yet final"
     assert !line.guess_text.blank?, "A guess has been made"
     assert line.transcript_line_status_id == @status_reviewing.id, "Correct status: reviewing"
+  end
+
+  # Consensus: three edits, two agree, one is an admin; choose the one by an admin
+  test "consensus six" do
+    line = seedLine({transcript_id: @transcript.id, sequence: 10, original_text: 'Follow er down to a bridge bye a fountane', guess_text: '', text: '', transcript_line_status_id: 1})
+    seedEdits([
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'ten_1', text: 'Follow her down to a bridge by a fountain', user_id: @admin_user.id},
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'ten_2', text: 'Follow her down to a bridge, bye a fountane'},
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'ten_3', text: 'Follow her down to a bridge, bye a fountane'}
+    ])
+    line.recalculate(nil, @project)
+    correct_text = "Follow her down to a bridge by a fountain"
+
+    assert line.text == correct_text, "Correct text chosen"
+    assert line.guess_text == correct_text, "Correct guess chosen"
+    assert line.transcript_line_status_id == @status_completed.id, "Correct status: completed"
+  end
+
+  # Consensus: three edits, nobody agrees, one is an admin; choose the one by an admin
+  test "consensus seven" do
+    line = seedLine({transcript_id: @transcript.id, sequence: 11, original_text: 'wear rocking horse ppl eat marshmellow piez', guess_text: '', text: '', transcript_line_status_id: 1})
+    seedEdits([
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'eleven_1', text: 'Where rocking horse people eat marshmallow pies', user_id: @admin_user.id},
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'eleven_2', text: 'wear rocking horse pepole eat marshmellow pies?'},
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'eleven_3', text: 'Where rocking horse ppl eat marshmellow piez'}
+    ])
+    line.recalculate(nil, @project)
+    correct_text = "Where rocking horse people eat marshmallow pies"
+
+    assert line.text == correct_text, "Correct text chosen"
+    assert line.guess_text == correct_text, "Correct guess chosen"
+    assert line.transcript_line_status_id == @status_completed.id, "Correct status: completed"
   end
 end

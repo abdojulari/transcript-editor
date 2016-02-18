@@ -15,7 +15,8 @@
     "maxLineEdits": 5,
     "minLinesForConsensus": 3,
     "minPercentConsensus": 0.34,
-    "lineDisplayMehod": "guess"
+    "lineDisplayMehod": "guess",
+    "minUserHiearchyOverride": 50
   },
   "menus": {
     "header": [

@@ -13,6 +13,13 @@ class TranscriptEdit < ActiveRecord::Base
     text.downcase.gsub(/[^0-9a-z ]/i, '').gsub(/\s+/, ' ').strip
   end
 
+  def self.getByLine(transcript_line_id)
+    TranscriptEdit
+      .select('transcript_edits.*, COALESCE(user_roles.name, \'guest\') as user_role, COALESCE(user_roles.hiearchy, 0) as user_hiearchy')
+      .joins('LEFT OUTER JOIN users ON users.id = transcript_edits.user_id LEFT OUTER JOIN user_roles ON user_roles.id = users.user_role_id')
+      .where(transcript_line_id: transcript_line_id)
+  end
+
   def self.getByTranscriptSession(transcript_id, session_id)
     TranscriptEdit.where(transcript_id: transcript_id, session_id: session_id)
   end
