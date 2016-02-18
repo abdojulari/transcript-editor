@@ -11,6 +11,10 @@ class Transcript < ActiveRecord::Base
 
   self.per_page = 500
 
+  def to_param
+    uid
+  end
+
   def self.getForHomepage(page)
     Transcript.where("lines > 0").paginate(:page => page).order(:title)
   end

@@ -1,25 +1,23 @@
 class TranscriptsController < ApplicationController
   before_action :set_transcript, only: [:show, :update, :destroy]
 
-  # GET /transcripts
   # GET /transcripts.json
   def index
     @transcripts = Transcript.getForHomepage(params[:page])
   end
 
-  # GET /transcripts/1
-  # GET /transcripts/1.json
+  # GET /transcripts/the-uid.json
   def show
     @user_edits = []
-    
+    @transcript_line_statuses = TranscriptLineStatus.allCached
+
     if user_signed_in?
-      @user_edits = TranscriptEdit.getByTranscriptUser(params[:id], current_user.id)
+      @user_edits = TranscriptEdit.getByTranscriptUser(@transcript.id, current_user.id)
     else
-      @user_edits = TranscriptEdit.getByTranscriptSession(params[:id], session.id)
+      @user_edits = TranscriptEdit.getByTranscriptSession(@transcript.id, session.id)
     end
   end
 
-  # POST /transcripts
   # POST /transcripts.json
   def create
     @transcript = Transcript.new(transcript_params)
@@ -31,10 +29,8 @@ class TranscriptsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /transcripts/1
-  # PATCH/PUT /transcripts/1.json
+  # PATCH/PUT /transcripts/the-uid.json
   def update
-    @transcript = Transcript.find(params[:id])
 
     if @transcript.update(transcript_params)
       head :no_content
@@ -43,8 +39,7 @@ class TranscriptsController < ApplicationController
     end
   end
 
-  # DELETE /transcripts/1
-  # DELETE /transcripts/1.json
+  # DELETE /transcripts/the-uid.json
   def destroy
     @transcript.destroy
 
@@ -54,10 +49,10 @@ class TranscriptsController < ApplicationController
   private
 
     def set_transcript
-      @transcript = Transcript.find(params[:id])
+      @transcript = Transcript.find_by(uid: params[:id])
     end
 
     def transcript_params
-      params.require(:transcript).permit(:uid, :title, :description, :url, :audio_url, :image_url, :collection_id, :vendor_id, :vendor_identifier, :duration, :lines, :notes, :transcript_status_id, :order, :created_by, :batch_id, :transcript_retrieved_at, :transcript_processed_at)
+      params.require(:transcript).permit(:title, :description, :url, :audio_url, :image_url, :collection_id, :notes, :transcript_status_id)
     end
 end
