@@ -4,6 +4,11 @@
   "logo": "/project/assets/img/logo.png",
   "apiUrl": "",
   "useVendorAudio": true,
+  "adminEmails": [
+    "brianfoo@nypl.org",
+    "willaarmstrong@nypl.org",
+    "alexandrakelly@nypl.org"
+  ],
   "authProviders": [
     {
       "name": "google",

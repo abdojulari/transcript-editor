@@ -51,7 +51,7 @@ class TranscriptEditTest < ActiveSupport::TestCase
     puts "Seeding users..."
 
     # registered user
-    user_role = UserRole.find_by! name: 'user'
+    user_role = UserRole.find_by name: 'user'
     @registered_user = User.new(:email => 'registered_user_1@test.com', :password => 'password', :password_confirmation => 'password', user_role_id: user_role.id)
     @registered_user.save
 
