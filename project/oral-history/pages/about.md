@@ -1,3 +1,7 @@
+# Contact Information
+
+Questions? Comments? Contact us at <a href="mailto:oralhistory@nypl.org?Subject=Transcript%20Tool" target="_top">oralhistory@nypl.org</a> or reach out to us on [Twitter](https://twitter.com/nypl_labs).
+
 # Intro
 
 Today thousands of libraries and public media organizations publish large digital audio collections online. Most of these, however, lack transcripts or basic metadata, rendering them invisible to search engines and impenetrable to prospective users. Recent advances in speech-to-text technologies have made great progress in opening audio to the web, but lack total accuracy, keywords, and qualitative, topic-based description.
@@ -5,8 +9,6 @@ Today thousands of libraries and public media organizations publish large digita
 [The New York Public Library (NYPL)](http://nypl.org/) and [The Moth](http://themoth.org/) — both curators of rich and ongoing personal storytelling archives — propose to combine the innovative auto-transcription services of [Pop Up Archive](https://popuparchive.com/) with a community engagement model focused on correcting and enriching transcripts in collaboration with the public.
 
 Audio will be transcribed using Pop Up Archive’s software and then presented to communities in an interactive editor developed by [NYPL Labs](http://www.nypl.org/collections/labs). The Moth will engage its online listener base to edit transcripts of over 800 recorded stage stories; NYPL will build an in-person participation model at its branch libraries to work on 1,000+ stories from its ongoing [Community Oral History Project](http://oralhistory.nypl.org/).
-
-The prototyping period will culminate in a public hackathon and oral storytelling celebration where participants can explore the enriched data sets and create new tools for discovery, analysis, and education.
 
 # Tool
 
@@ -22,7 +24,27 @@ There are transcription conventions for reference. <span class="highlight">All y
 
 You may log in using a Google account to keep track of all your edits. <a href="http://twl-nypl.herokuapp.com/">Browse the Oral Histories</a> and select one to get started.
 
-<!--# Data
+# Oral History Project
+
+Since 2013, The New York Public Library has been running the [Community Oral History Project](oralhistory.nypl.org).
+
+# Credits
+
+#### [NYPL Labs](http://www.nypl.org/collections/labs)
+
+* **Brian Foo**: Applications Developer (Designer/Developer)
+
+<!--# Frequently Asked Questions
+#### Why Pop Up Archive?
+
+#### Can I edit my own recording?
+This project is based on the Open Transcript Tool, an open source code base available on Github. Anyone can pick up this codebase and create their own instance of the tool.
+
+#### Rights
+
+
+
+# Data
 
 By editing transcripts, you're helping to create accurate transcripts helping to share 1,000+ stories from the ongoing [Community Oral History Project](http://oralhistory.nypl.org/). These transcripts improve accessibility options for patrons browsing the collected stories and provide material for future tools to create rich data sets. How? Take for example the interview of Frank Senior.
 <div><img src="/project/assets/img/transcript_data_1.png" alt="Screenshot of a transcript expert from Frank Senior's Oral History."></div>
