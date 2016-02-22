@@ -1,0 +1,174 @@
+@import "mixins";
+@import "variables";
+
+.transcript_edit\.md.page {
+  max-width: 800px;
+  margin: 0 auto 40px;
+
+  h1, h2 {
+    margin: 0;
+    text-align: center;
+  }
+
+  h2 {
+    color: $coolgray-dark-color;
+  }
+
+  p {
+    font-size: 1.2em;
+  }
+}
+
+$transcript-line-height: 56px;
+
+.transcript-lines {
+  margin-left: -10px;
+  margin-right: -10px;
+  border-top: 10px solid $coolgray-color;
+
+  .line {
+    position: relative;
+    width: 100%;
+    height: $transcript-line-height;
+    line-height: $transcript-line-height;
+    background: $coolgray-color;
+    color: darken($coolgray-dark-color, 15%);
+    @include clearfix();
+
+    &:hover {
+      background: lighten($coolgray-color, 5%);
+    }
+
+    // &.editing,
+    &.reviewing {
+      background: #ada87c;
+    }
+    &.user-edited {
+      background: rgba($green-color, 0.3);
+    }
+    &.completed {
+      background: rgba($green-color, 0.6);
+    }
+
+    &:hover {
+      &.reviewing {
+        background: lighten(#ada87c, 5%);
+      }
+      &.user-edited {
+        background: rgba($green-color, 0.2);
+      }
+      &.completed {
+        background: rgba($green-color, 0.5);
+      }
+    }
+
+    &,
+    input {
+      cursor: pointer;
+    }
+
+    &.active {
+      cursor: default;
+
+      &,
+      &:hover {
+        color: $black;
+        background: $white;
+      }
+
+      input {
+        cursor: text;
+      }
+    }
+  }
+  .time {
+    width: 80px;
+    float: left;
+    padding-left: 10px;
+    font-size: $transcript-line-height - 36px;
+    // background: rgba($black, 0.05);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    @include box-sizing();
+  }
+  .status {
+    width: 34px;
+    height: $transcript-line-height;
+    line-height: $transcript-line-height;
+    float: left;
+    background: rgba($black, 0.05);
+    text-align: center;
+    position: relative;
+    @include box-sizing();
+
+    &:before {
+      @include icon("\f10c");
+      font-size: 1.5em;
+      vertical-align: middle;
+      color: $coolgray-dark-color;
+    }
+
+    &:after {
+      content: attr(data-description);
+      display: none;
+      position: absolute;
+      top: -20%;
+      left: -70px;
+      text-align: center;
+      background-color: rgba($white, 0.9);
+      height: 20px;
+      line-height: 20px;
+      white-space: nowrap;
+      padding-left: 5px;
+      padding-right: 5px;
+      font-size: 15px;
+    }
+
+    &:hover:after {
+      display: block;
+    }
+  }
+  .line.completed .status:before {
+    content: "\f058";
+    color: darken($green-color, 5%);
+  }
+  .line.reviewing .status:before {
+    content: "\f042";
+    color: #9b8242;
+  }
+  .line.user-edited .status:before {
+    content: "\f111";
+    color: lighten($green-color, 5%);
+  }
+  .line.user-edited .status:after {
+    content: "You have edited this line";
+  }
+  .text {
+    margin-left: 80px + 34px;
+    width: auto;
+    padding-left: 10px;
+    @include box-sizing();
+
+    > div {
+      font-size: $transcript-line-height - 24px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  input {
+    display: block;
+    width: 100%;
+    border: none;
+    padding: 0px;
+    font-size: $transcript-line-height - 24px;
+    height: $transcript-line-height;
+    line-height: $transcript-line-height;
+    background: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

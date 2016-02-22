@@ -1001,7 +1001,9 @@ app.views.Transcript = app.views.Base.extend({
     var _this = this,
         lines = this.data.transcript.lines,
         user_edits = this.data.transcript.user_edits,
-        line_statuses = this.data.transcript.transcript_line_statuses;
+        line_statuses = this.data.transcript.transcript_line_statuses,
+        minUserHiearchyOverride = PROJECT.consensus.minUserHiearchyOverride,
+        user_role = this.data.transcript.user_role;
 
     // map edits for easy lookup
     var user_edits_map = _.object(_.map(user_edits, function(edit) {
@@ -1039,6 +1041,14 @@ app.views.Transcript = app.views.Base.extend({
       else if (PROJECT.consensus.lineDisplayMehod=="guess" && line.guess_text) display_text = line.guess_text;
       // set the display text
       _this.data.transcript.lines[i].display_text = display_text;
+
+      // determine if text is editable
+      var is_editable = true;
+      // input is locked when reviewing/completed/flagged/archived
+      if (_.contains(["reviewing","completed","flagged","archived"], status.name)) is_editable = false;
+      // admins/mods can always edit
+      if (user_role && user_role.hiearchy >= minUserHiearchyOverride) is_editable = true;
+      _this.data.transcript.lines[i].is_editable = is_editable;
 
     });
   },
