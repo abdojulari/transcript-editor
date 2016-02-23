@@ -26,7 +26,9 @@ $transcript-line-status-width: 34px;
 .transcript-lines {
   margin-left: -10px;
   margin-right: -10px;
+  margin-bottom: 400px;
   border-top: 10px solid $coolgray-color;
+  border-bottom: 10px solid $coolgray-color;
 
   .line {
     position: relative;
@@ -150,10 +152,6 @@ $transcript-line-status-width: 34px;
       display: block;
     }
   }
-  .line.completed .status:before {
-    content: "\f058";
-    color: darken($green-color, 5%);
-  }
   .line.reviewing .status:before {
     content: "\f042";
     color: #9b8242;
@@ -162,8 +160,15 @@ $transcript-line-status-width: 34px;
     content: "\f111";
     color: lighten($green-color, 5%);
   }
+  .line.completed .status:before {
+    content: "\f058";
+    color: darken($green-color, 5%);
+  }
   .line.user-edited .status .status-description:before {
     content: "You have edited this line";
+  }
+  .line.completed .status .status-description:before {
+    content: attr(data-description);
   }
   .line.not-editable .status .status-description {
     background: $highlight-color;

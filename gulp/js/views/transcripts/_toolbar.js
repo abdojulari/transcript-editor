@@ -5,10 +5,39 @@ app.views.TranscriptToolbar = app.views.Base.extend({
   initialize: function(data){
     this.data = _.extend({}, data);
 
-    this.data.controls = this.data.controls || this.data.project.controls;
 
-    this.loadMenu();
+    this.loadControls();
+    this.loadListeners();
+    // this.loadMenu();
+
     this.render();
+  },
+
+  loadControls: function(){
+    var controls = this.data.controls || this.data.project.controls;
+    this.data.controls = _.map(controls, _.clone);
+
+    this.data.controls = _.map(this.data.controls, function(control){
+      var key = control.key;
+      // change brackets to spans
+      if (key.indexOf('[') >= 0 && key.indexOf(']') >= 0) {
+        control.key = control.key.replace(/\[/g, '<span>').replace(/\]/g, '</span>');
+      } else {
+        control.key = '<span>' + control.key + '</span>';
+      }
+      return control;
+    });
+
+    this.data.control_width_percent = 1.0 / this.data.controls.length * 100;
+  },
+
+  loadListeners: function(){
+    var _this = this;
+
+    // listen for player state change
+    PubSub.subscribe('player.state.change', function(ev, state) {
+      _this.$el.attr('state', state);
+    });
   },
 
   loadMenu: function(){

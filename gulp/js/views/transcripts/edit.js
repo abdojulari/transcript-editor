@@ -124,6 +124,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
   },
 
   onTimeUpdate: function(){
+    if (this.player.playing) this.playerState('playing');
     if (this.pause_at_time !== undefined && this.player.currentTime >= this.pause_at_time) {
       this.playerPause();
     }

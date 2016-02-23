@@ -155,6 +155,7 @@ app.views.Transcript = app.views.Base.extend({
     // check for buffer time
     this.player.onwaiting = function(){
       _this.message('Buffering audio...');
+      _this.playerState('buffering');
     };
 
   },
@@ -187,13 +188,13 @@ app.views.Transcript = app.views.Base.extend({
   },
 
   message: function(text){
-    $('#transcript-notifications').text(text);
+    // $('#transcript-notifications').text(text);
   },
 
   messageHide: function(text){
-    if ($('#transcript-notifications').text()==text) {
-      $('#transcript-notifications').text('');
-    }
+    // if ($('#transcript-notifications').text()==text) {
+    //   $('#transcript-notifications').text('');
+    // }
   },
 
   onAudioLoad: function(){
@@ -264,20 +265,11 @@ app.views.Transcript = app.views.Base.extend({
     });
   },
 
-  refresh: function(){
-    this.current_line_i = -1;
-
-    this.loadTranscript();
-  },
-
-  render: function(){
-    this.$el.html(this.template(this.data));
-  },
-
   playerPause: function(){
     if (this.player.playing) {
       this.player.pause();
       this.message('Paused');
+      this.playerState('paused');
     }
   },
 
@@ -293,6 +285,13 @@ app.views.Transcript = app.views.Base.extend({
     }
   },
 
+  playerState: function(state) {
+    if (this.state==state) return false;
+    this.state = state;
+    this.$el.attr('state', state);
+    PubSub.publish('player.state.change', state);
+  },
+
   playerToggle: function(){
     if (this.player.playing) {
       this.playerPause();
@@ -300,6 +299,16 @@ app.views.Transcript = app.views.Base.extend({
     } else {
       this.playerPlay();
     }
+  },
+
+  refresh: function(){
+    this.current_line_i = -1;
+
+    this.loadTranscript();
+  },
+
+  render: function(){
+    this.$el.html(this.template(this.data));
   },
 
   start: function(){

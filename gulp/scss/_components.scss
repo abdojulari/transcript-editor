@@ -36,10 +36,10 @@ p.text-center {
   }
 }
 
-@import "buttons";
-@import "menu";
-@import "crumbs";
-@import "alert";
-@import "select";
-// @import "switch";
-@import "modal";
+@import "components/button";
+@import "components/menu";
+@import "components/crumbs";
+@import "components/alert";
+@import "components/select";
+// @import "components/switch";
+@import "components/modal";

@@ -944,6 +944,7 @@ app.views.Transcript = app.views.Base.extend({
     // check for buffer time
     this.player.onwaiting = function(){
       _this.message('Buffering audio...');
+      _this.playerState('buffering');
     };
 
   },
@@ -976,13 +977,13 @@ app.views.Transcript = app.views.Base.extend({
   },
 
   message: function(text){
-    $('#transcript-notifications').text(text);
+    // $('#transcript-notifications').text(text);
   },
 
   messageHide: function(text){
-    if ($('#transcript-notifications').text()==text) {
-      $('#transcript-notifications').text('');
-    }
+    // if ($('#transcript-notifications').text()==text) {
+    //   $('#transcript-notifications').text('');
+    // }
   },
 
   onAudioLoad: function(){
@@ -1053,20 +1054,11 @@ app.views.Transcript = app.views.Base.extend({
     });
   },
 
-  refresh: function(){
-    this.current_line_i = -1;
-
-    this.loadTranscript();
-  },
-
-  render: function(){
-    this.$el.html(this.template(this.data));
-  },
-
   playerPause: function(){
     if (this.player.playing) {
       this.player.pause();
       this.message('Paused');
+      this.playerState('paused');
     }
   },
 
@@ -1082,6 +1074,13 @@ app.views.Transcript = app.views.Base.extend({
     }
   },
 
+  playerState: function(state) {
+    if (this.state==state) return false;
+    this.state = state;
+    this.$el.attr('state', state);
+    PubSub.publish('player.state.change', state);
+  },
+
   playerToggle: function(){
     if (this.player.playing) {
       this.playerPause();
@@ -1089,6 +1088,16 @@ app.views.Transcript = app.views.Base.extend({
     } else {
       this.playerPlay();
     }
+  },
+
+  refresh: function(){
+    this.current_line_i = -1;
+
+    this.loadTranscript();
+  },
+
+  render: function(){
+    this.$el.html(this.template(this.data));
   },
 
   start: function(){
@@ -1344,10 +1353,39 @@ app.views.TranscriptToolbar = app.views.Base.extend({
   initialize: function(data){
     this.data = _.extend({}, data);
 
-    this.data.controls = this.data.controls || this.data.project.controls;
 
-    this.loadMenu();
+    this.loadControls();
+    this.loadListeners();
+    // this.loadMenu();
+
     this.render();
+  },
+
+  loadControls: function(){
+    var controls = this.data.controls || this.data.project.controls;
+    this.data.controls = _.map(controls, _.clone);
+
+    this.data.controls = _.map(this.data.controls, function(control){
+      var key = control.key;
+      // change brackets to spans
+      if (key.indexOf('[') >= 0 && key.indexOf(']') >= 0) {
+        control.key = control.key.replace(/\[/g, '<span>').replace(/\]/g, '</span>');
+      } else {
+        control.key = '<span>' + control.key + '</span>';
+      }
+      return control;
+    });
+
+    this.data.control_width_percent = 1.0 / this.data.controls.length * 100;
+  },
+
+  loadListeners: function(){
+    var _this = this;
+
+    // listen for player state change
+    PubSub.subscribe('player.state.change', function(ev, state) {
+      _this.$el.attr('state', state);
+    });
   },
 
   loadMenu: function(){
@@ -1495,6 +1533,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
   },
 
   onTimeUpdate: function(){
+    if (this.player.playing) this.playerState('playing');
     if (this.pause_at_time !== undefined && this.player.currentTime >= this.pause_at_time) {
       this.playerPause();
     }
