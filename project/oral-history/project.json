@@ -25,7 +25,7 @@
   },
   "menus": {
     "header": [
-      {"label": "Help", "modal": "tutorial_edit"},
+      {"label": "Help", "modal": "tutorial_edit", "validRoutes": ["transcripts/:id"]},
       {"label": "Browse", "url": "/"},
       {"label": "About", "url": "/#/page/about"}
     ],
