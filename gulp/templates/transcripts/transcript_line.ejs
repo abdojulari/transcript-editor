@@ -1,7 +1,7 @@
-<div sequence="<%= sequence %>" class="line <%= status.name %> <%= user_text ? 'user-edited' : '' %>">
+<div sequence="<%= sequence %>" class="line <%= status.name %> <%= is_editable ? '' : 'not-editable' %> <%= user_text ? 'user-edited' : '' %>">
   <div class="time"><%= UTIL.formatTimeMs(start_time) %></div>
-  <div class="status <%= status.name %>" data-description="<%= status.description %>">
-
+  <div class="status <%= status.name %>">
+    <div class="status-description" data-description="<%= status.description %>"></div>
   </div>
   <div class="text">
     <% if (is_editable) { %>

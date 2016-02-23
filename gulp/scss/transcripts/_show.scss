@@ -20,6 +20,8 @@
 }
 
 $transcript-line-height: 56px;
+$transcript-line-time-width: 80px;
+$transcript-line-status-width: 34px;
 
 .transcript-lines {
   margin-left: -10px;
@@ -40,11 +42,11 @@ $transcript-line-height: 56px;
     }
 
     // &.editing,
-    &.reviewing {
-      background: #ada87c;
-    }
     &.user-edited {
       background: rgba($green-color, 0.3);
+    }
+    &.reviewing {
+      background: #ada87c;
     }
     &.completed {
       background: rgba($green-color, 0.6);
@@ -67,6 +69,11 @@ $transcript-line-height: 56px;
       cursor: pointer;
     }
 
+    &.not-editable input,
+    &.not-editable .text > div {
+      cursor: not-allowed;
+    }
+
     &.active {
       cursor: default;
 
@@ -82,7 +89,7 @@ $transcript-line-height: 56px;
     }
   }
   .time {
-    width: 80px;
+    width: $transcript-line-time-width;
     float: left;
     padding-left: 10px;
     font-size: $transcript-line-height - 36px;
@@ -93,7 +100,7 @@ $transcript-line-height: 56px;
     @include box-sizing();
   }
   .status {
-    width: 34px;
+    width: $transcript-line-status-width;
     height: $transcript-line-height;
     line-height: $transcript-line-height;
     float: left;
@@ -109,12 +116,11 @@ $transcript-line-height: 56px;
       color: $coolgray-dark-color;
     }
 
-    &:after {
-      content: attr(data-description);
+    .status-description {
       display: none;
       position: absolute;
-      top: -20%;
-      left: -70px;
+      top: -18%;
+      left: 10px - $transcript-line-time-width;
       text-align: center;
       background-color: rgba($white, 0.9);
       height: 20px;
@@ -123,9 +129,24 @@ $transcript-line-height: 56px;
       padding-left: 5px;
       padding-right: 5px;
       font-size: 15px;
+
+      &:before {
+        content: attr(data-description);
+      }
+      &:after {
+        content: ' ';
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 6px solid rgba($white, 0.9);
+        position: absolute;
+        bottom: -6px;
+        left: $transcript-line-time-width + $transcript-line-status-width / 2 - 16px;
+      }
     }
 
-    &:hover:after {
+    &:hover .status-description {
       display: block;
     }
   }
@@ -141,11 +162,20 @@ $transcript-line-height: 56px;
     content: "\f111";
     color: lighten($green-color, 5%);
   }
-  .line.user-edited .status:after {
+  .line.user-edited .status .status-description:before {
     content: "You have edited this line";
   }
+  .line.not-editable .status .status-description {
+    background: $highlight-color;
+    &:after {
+      border-top-color: $highlight-color;
+    }
+  }
+  .line.not-editable:hover .status .status-description {
+    display: block;
+  }
   .text {
-    margin-left: 80px + 34px;
+    margin-left: $transcript-line-time-width + $transcript-line-status-width;
     width: auto;
     padding-left: 10px;
     @include box-sizing();

@@ -41,9 +41,9 @@ end
 
 # Seed Transcript Statuses
 transcript_line_statuses = [
-  { name: 'initialized', progress: 0,    description: 'Line contains unedited computer-generated text' },
-  { name: 'editing',     progress: 25,   description: 'Line has been edited by others and still can be edited' },
-  { name: 'reviewing',   progress: 50,   description: 'Line has multiple edits that are being reviewed by others' },
+  { name: 'initialized', progress: 0,    description: 'Line contains unedited computer-generated text. Please edit!' },
+  { name: 'editing',     progress: 25,   description: 'Line has been edited by others and still can be further edited' },
+  { name: 'reviewing',   progress: 50,   description: 'Line is being reviewed and is no longer editable' },
   { name: 'completed',   progress: 100,  description: 'Line has been completed and is no longer editable' },
   { name: 'flagged',     progress: 150,  description: 'Line has been marked as incorrect or problematic' },
   { name: 'archived',    progress: 200,  description: 'Line has been archived' }
