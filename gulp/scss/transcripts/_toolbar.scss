@@ -75,17 +75,17 @@ $toolbar-notifications-width: 0px; // 200px
   content: 'Pause';
 }
 
-// $transcript-menu-height: 30px;
-// .transcript-menu {
-//   height: $transcript-menu-height;
-//   line-height: $transcript-menu-height;
-//   position: absolute;
-//   right: 0;
-//   bottom: -$transcript-menu-height;
-//
-//   .menu-item {
-//     background: $green-color;
-//     color: $white;
-//     padding: 0 0.6em;
-//   }
-// }
+$transcript-menu-height: 30px;
+.transcript_edit-menu {
+  height: $transcript-menu-height;
+  line-height: $transcript-menu-height;
+  margin-top: 5px;
+  text-align: right;
+
+  .menu-item {
+    background: $green-color;
+    color: $white;
+    padding: 0 0.6em;
+    margin-right: 5px;
+  }
+}

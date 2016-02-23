@@ -55,11 +55,12 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
         styles = {
           fontWeight: this.css('font-weight'),
           fontSize: this.css('font-size'),
-          fontFamily: this.css('font-family')
+          fontFamily: this.css('font-family'),
+          display: 'none'
         };
     if (!$tag.length) {
       $tag = $('<span id="' + id + '">' + text + '</span>');
-      $tag.css(styles)
+      $tag.css(styles);
       $('body').append($tag);
     } else {
       $tag.css(styles).html(text);

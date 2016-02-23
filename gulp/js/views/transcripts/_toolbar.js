@@ -8,7 +8,7 @@ app.views.TranscriptToolbar = app.views.Base.extend({
 
     this.loadControls();
     this.loadListeners();
-    // this.loadMenu();
+    this.loadMenu();
 
     this.render();
   },
