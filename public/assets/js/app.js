@@ -1002,7 +1002,7 @@ app.views.Transcript = app.views.Base.extend({
         lines = this.data.transcript.lines,
         user_edits = this.data.transcript.user_edits,
         line_statuses = this.data.transcript.transcript_line_statuses,
-        minUserHiearchyOverride = PROJECT.consensus.minUserHiearchyOverride,
+        superUserHiearchy = PROJECT.consensus.superUserHiearchy,
         user_role = this.data.transcript.user_role;
 
     // map edits for easy lookup
@@ -1047,7 +1047,7 @@ app.views.Transcript = app.views.Base.extend({
       // input is locked when reviewing/completed/flagged/archived
       if (_.contains(["reviewing","completed","flagged","archived"], status.name)) is_editable = false;
       // admins/mods can always edit
-      if (user_role && user_role.hiearchy >= minUserHiearchyOverride) is_editable = true;
+      if (user_role && user_role.hiearchy >= superUserHiearchy) is_editable = true;
       _this.data.transcript.lines[i].is_editable = is_editable;
 
     });

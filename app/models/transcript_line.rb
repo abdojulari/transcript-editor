@@ -34,10 +34,15 @@ class TranscriptLine < ActiveRecord::Base
     final_text = ""
     consensus = project[:data]["consensus"]
 
-    # Filter out blank text or text that is the original text
+    # Filter out blank text or text that is the original text unless they are submitted by super users
     edits_filtered = []
     if edits.length > 0
-      edits_filtered = edits.select { |edit| !edit[:text].blank? && edit[:text] != original_text }
+      edits_filtered = edits.select { |edit| !edit[:text].blank? && edit[:text] != original_text || edit[:user_hiearchy] >= consensus["superUserHiearchy"] }
+    end
+
+    # Only original or blank text was found; use all edits
+    unless edits_filtered.length > 0
+      edits_filtered = edits.select { |edit| true }
     end
 
     # Set best guess text
@@ -46,8 +51,8 @@ class TranscriptLine < ActiveRecord::Base
       best_guess_text = best_edit[:edit][:text]
     end
 
-    # Admins and moderators override all others
-    if status_id <= 1 && !best_edit.nil? && !best_edit[:edit].nil? && best_edit[:edit][:user_hiearchy] >= consensus["minUserHiearchyOverride"]
+    # Super users override all others
+    if status_id <= 1 && !best_edit.nil? && !best_edit[:edit].nil? && best_edit[:edit][:user_hiearchy] >= consensus["superUserHiearchy"]
       completed_status = statuses.find{|s| s[:name]=="completed"}
       status_id = completed_status[:id]
       final_text = best_guess_text
@@ -97,7 +102,7 @@ class TranscriptLine < ActiveRecord::Base
 
     # Check if there's any edits by priority users (e.g. moderators, admins)
     if edits.length > 0
-      edits_priority = edits.select { |edit| edit[:user_hiearchy] >= consensus["minUserHiearchyOverride"] }
+      edits_priority = edits.select { |edit| edit[:user_hiearchy] >= consensus["superUserHiearchy"] }
       if edits_priority.length > 0
         edits = edits_priority.select { |edit| true }
         best_group = {text: edits[0].normalizedText, count: 1}

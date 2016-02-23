@@ -32,7 +32,7 @@ class TranscriptEditsController < ApplicationController
     # If line is completed, reviewing, flagged, or archived
     # And user not signed in or doesn't have the right permissions
     # Ignore this submission
-    if line.transcript_line_status_id>0 && line.transcript_line_status && line.transcript_line_status.progress >= 50 && (!user_signed_in? || !current_user.user_role || current_user.user_role.hiearchy < project[:data]["consensus"]["minUserHiearchyOverride"])
+    if line.transcript_line_status_id>0 && line.transcript_line_status && line.transcript_line_status.progress >= 50 && (!user_signed_in? || !current_user.user_role || current_user.user_role.hiearchy < project[:data]["consensus"]["superUserHiearchy"])
       head :no_content
       return
     end

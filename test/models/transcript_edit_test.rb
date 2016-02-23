@@ -33,7 +33,7 @@ class TranscriptEditTest < ActiveSupport::TestCase
         maxLineEdits: 5,
         minLinesForConsensus: 3,
         minPercentConsensus: 0.34,
-        minUserHiearchyOverride: 50
+        superUserHiearchy: 50
       }
     }}
     @project = Project.find_or_initialize_by(uid: attributes[:uid])
@@ -265,5 +265,37 @@ class TranscriptEditTest < ActiveSupport::TestCase
     assert line.text.blank?, "Text is not yet final"
     assert line.guess_text == correct_text, "Correct guess chosen"
     assert line.transcript_line_status_id == @status_editing.id, "Correct status: editing"
+  end
+
+  # Consensus: three edits, all are original text; choose the original text
+  test "consensus eight" do
+    line = seedLine({transcript_id: @transcript.id, sequence: 13, original_text: 'That grow so incredibly high', guess_text: '', text: '', transcript_line_status_id: 1})
+    seedEdits([
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'thirteen_1', text: 'That grow so incredibly high'},
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'thirteen_2', text: 'That grow so incredibly high'},
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'thirteen_3', text: 'That grow so incredibly high'}
+    ])
+    line.recalculate(nil, @project)
+    correct_text = "That grow so incredibly high"
+
+    assert line.text == correct_text, "Correct text chosen"
+    assert line.guess_text == correct_text, "Correct guess chosen"
+    assert line.transcript_line_status_id == @status_completed.id, "Correct status: completed"
+  end
+
+  # Consensus: three edits, one original text by admin, two others not original; choose the one by the admin
+  test "consensus nine" do
+    line = seedLine({transcript_id: @transcript.id, sequence: 14, original_text: 'Newspaper taxis appear on the shore', guess_text: '', text: '', transcript_line_status_id: 1})
+    seedEdits([
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'fourteen_1', text: 'Newspaper taxiz appear on the sure'},
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'fourteen_2', text: 'Newspaper taxiz appear on the sure'},
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'fourteen_3', text: 'Newspaper taxis appear on the shore', user_id: @admin_user.id}
+    ])
+    line.recalculate(nil, @project)
+    correct_text = "Newspaper taxis appear on the shore"
+
+    assert line.text == correct_text, "Correct text chosen"
+    assert line.guess_text == correct_text, "Correct guess chosen"
+    assert line.transcript_line_status_id == @status_completed.id, "Correct status: completed"
   end
 end

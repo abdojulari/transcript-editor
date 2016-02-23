@@ -21,7 +21,7 @@
     "minLinesForConsensus": 3,
     "minPercentConsensus": 0.34,
     "lineDisplayMehod": "guess",
-    "minUserHiearchyOverride": 50
+    "superUserHiearchy": 50
   },
   "menus": {
     "header": [
