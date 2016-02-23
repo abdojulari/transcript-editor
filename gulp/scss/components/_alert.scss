@@ -1,0 +1,35 @@
+@import "mixins";
+@import "variables";
+
+/* Alert */
+.alert {
+  background: $highlight-dark-color;
+  max-width: 50%;
+  margin: 10px auto;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  max-height: 0px;
+  overflow: hidden;
+  opacity: 0;
+  @include transition-list(max-height 0.5s, opacity 0.5s);
+
+  > div {
+    padding: 5px 30px;
+  }
+
+  &:after {
+    content: 'x';
+    display: block;
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    font-weight: bold;
+  }
+
+  &.active {
+    opacity: 1;
+    max-height: 1000px;
+    overflow: visible;
+  }
+}
