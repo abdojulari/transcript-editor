@@ -302,6 +302,30 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
   }
 })(jQuery);
 
+(function($) {
+  $.fn.getTextSize = function() {
+    var id = 'text-width-tester',
+        text = this.val(),
+        $tag = $('#' + id),
+        styles = {
+          fontWeight: this.css('font-weight'),
+          fontSize: this.css('font-size'),
+          fontFamily: this.css('font-family')
+        };
+    if (!$tag.length) {
+      $tag = $('<span id="' + id + '">' + text + '</span>');
+      $tag.css(styles)
+      $('body').append($tag);
+    } else {
+      $tag.css(styles).html(text);
+    }
+    return {
+      width: $tag.width(),
+      height: $tag.height()
+    }
+  }
+})(jQuery);
+
 // Utility functions
 (function() {
   window.UTIL = {};
@@ -825,6 +849,30 @@ app.views.Transcript = app.views.Base.extend({
 
   },
 
+  fitInput: function($input){
+    var fontSize = parseInt($input.css('font-size')),
+        maxWidth = $input.width() + 5;
+
+    // store the original font size
+    if (!$input.attr('original-font-size')) $input.attr('original-font-size', fontSize);
+
+    // see how big the text is at the default size
+    var textWidth = $input.getTextSize().width;
+    if (textWidth > maxWidth) {
+        // the extra .9 here makes up for some over-measures
+        fontSize = fontSize * maxWidth / textWidth * 0.9;
+    }
+
+    $input.css({fontSize: fontSize + 'px'});
+  },
+
+  fitInputReset: function($input){
+    // store the original font size
+    if ($input.attr('original-font-size')) {
+      $input.css({fontSize: $input.attr('original-font-size') + 'px'});
+    }
+  },
+
   lineNext: function(){
     this.lineSelect(this.current_line_i + 1);
   },
@@ -842,7 +890,7 @@ app.views.Transcript = app.views.Base.extend({
     var lines = this.data.transcript.lines;
     if (i < 0 || i >= lines.length) return false;
 
-    this.lineSave(this.current_line_i);
+    this.onLineOff(this.current_line_i);
 
     // select line
     this.current_line_i = i;
@@ -857,6 +905,9 @@ app.views.Transcript = app.views.Base.extend({
     // focus on input
     var $input = $active.find('input');
     if ($input.length) $input.first().focus();
+
+    // fit input
+    this.fitInput($input);
 
     // play audio
     this.pause_at_time = this.current_line.end_time * 0.001;
@@ -988,6 +1039,15 @@ app.views.Transcript = app.views.Base.extend({
 
   onAudioLoad: function(){
     // override me
+  },
+
+  onLineOff: function(i){
+    // save line always
+    this.lineSave(i);
+
+    // reset input
+    var $input = $('.line[sequence="'+i+'"] input').first();
+    this.fitInputReset($input);
   },
 
   onTranscriptLoad: function(transcript){

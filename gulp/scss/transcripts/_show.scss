@@ -71,6 +71,10 @@ $transcript-line-status-width: 34px;
       cursor: pointer;
     }
 
+    input {
+      @include transition(font-size 0.4s);
+    }
+
     &.not-editable input,
     &.not-editable .text > div {
       cursor: not-allowed;
