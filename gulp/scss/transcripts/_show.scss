@@ -171,7 +171,14 @@ $transcript-line-status-width: 34px;
       border-top-color: $highlight-color;
     }
   }
-  .line.not-editable:hover .status .status-description {
+  .line:hover .status .status-description {
+    display: block;
+  }
+  .line.active:hover .status .status-description {
+    display: none;
+  }
+  .line.active.not-editable:hover .status .status-description,
+  .line.active:hover .status:hover .status-description {
     display: block;
   }
   .text {
