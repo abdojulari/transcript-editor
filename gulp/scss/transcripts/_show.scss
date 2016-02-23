@@ -90,7 +90,8 @@ $transcript-line-status-width: 34px;
       }
     }
   }
-  .time {
+  .time,
+  .controls {
     width: $transcript-line-time-width;
     float: left;
     padding-left: 10px;
@@ -100,6 +101,14 @@ $transcript-line-status-width: 34px;
     white-space: nowrap;
     text-overflow: ellipsis;
     @include box-sizing();
+  }
+  .controls {
+    display: none;
+    font-size: $transcript-line-height - 20px;
+
+    .control:before {
+      @include icon("\f144");
+    }
   }
   .status {
     width: $transcript-line-status-width;
@@ -186,6 +195,12 @@ $transcript-line-status-width: 34px;
   .line.active:hover .status:hover .status-description {
     display: block;
   }
+  .line.active .time {
+    display: none;
+  }
+  .line.active .controls {
+    display: block;
+  }
   .text {
     margin-left: $transcript-line-time-width + $transcript-line-status-width;
     width: auto;
@@ -213,4 +228,14 @@ $transcript-line-status-width: 34px;
       outline: none;
     }
   }
+}
+
+// Update controls for player states
+.body[state=playing] .transcript-lines .controls .control:before {
+  content: "\f28b";
+}
+.body[state=buffering] .transcript-lines .controls .control:before {
+  content: "\f110";
+  color: $coolgray-color;
+  @include animation(spin 2s infinite linear);
 }
