@@ -2,7 +2,9 @@ json.extract! @transcript, :id, :uid, :title, :description, :url, :audio_url, :i
 
 json.transcript_status @transcript.transcript_status, :id, :name, :progress, :description
 
-json.collection @transcript.collection, :id, :uid, :title, :description, :url, :image_url
+unless @transcript.collection.nil?
+  json.collection @transcript.collection, :id, :uid, :title, :description, :url, :image_url
+end
 
 json.lines @transcript.transcript_lines, :id, :start_time, :end_time, :original_text, :text, :guess_text, :sequence, :transcript_line_status_id
 

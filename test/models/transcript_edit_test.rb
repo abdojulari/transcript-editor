@@ -42,7 +42,7 @@ class TranscriptEditTest < ActiveSupport::TestCase
 
   def seedTranscript
     puts "Seeding transcript..."
-    attributes = {uid: 'lucy', title: 'Lucy in the Sky with Diamonds', lines: 9}
+    attributes = {uid: 'lucy', title: 'Lucy in the Sky with Diamonds'}
     @transcript = Transcript.find_or_initialize_by(uid: attributes[:uid])
     @transcript.update(attributes)
   end
