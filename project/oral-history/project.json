@@ -25,13 +25,10 @@
   },
   "menus": {
     "header": [
-      {"label": "Help", "modal": "tutorial_edit", "validRoutes": ["transcripts/:id"]},
       {"label": "Browse", "url": "/"},
       {"label": "About", "url": "/#/page/about"}
     ],
-    "transcript_edit": [
-      {"label": "Cheat Sheet", "modal": "transcription_cheat_sheet"}
-    ],
+    "transcript_edit": [],
     "footer": []
   },
   "modals": {

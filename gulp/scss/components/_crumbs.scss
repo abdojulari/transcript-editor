@@ -20,5 +20,9 @@
   .crumb-label {
     display: inline-block;
     vertical-align: middle;
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

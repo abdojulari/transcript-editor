@@ -8,6 +8,7 @@ var COMPONENTS = (function() {
     this.selectInit();
     this.alertInit();
     this.scrollInit();
+    this.toggleInit();
   };
 
   COMPONENTS.prototype.alert = function(message, flash, target, flashDelay){
@@ -99,6 +100,19 @@ var COMPONENTS = (function() {
 
   COMPONENTS.prototype.selectMenusHide = function(){
     $('.select').removeClass('active');
+  };
+
+  COMPONENTS.prototype.toggle = function(el){
+    $(el).toggleClass('active');
+  };
+
+  COMPONENTS.prototype.toggleInit = function(){
+    var _this = this;
+
+    // toggle button
+    $(document).on('click', '.toggle-active', function(){
+      _this.toggle($(this).attr('data-target'));
+    });
   };
 
   return COMPONENTS;

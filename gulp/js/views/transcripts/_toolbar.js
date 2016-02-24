@@ -46,7 +46,7 @@ app.views.TranscriptToolbar = app.views.Base.extend({
 
     this.data.menu = "";
 
-    if (menu && menus[menu]) {
+    if (menu && menus[menu] && menus[menu].length) {
       var data = _.extend({}, this.data, {tagName: "div", menu_key: "transcript_edit"});
       var menuView = new app.views.Menu(data);
       this.data.menu = menuView.toString();

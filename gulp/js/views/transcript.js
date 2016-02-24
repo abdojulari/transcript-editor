@@ -187,6 +187,15 @@ app.views.Transcript = app.views.Base.extend({
 
   },
 
+  loadConventions: function(){
+    this.data.page_conventions = '';
+
+    if (this.data.project.pages['transcription_conventions.md']) {
+      var page = new app.views.Page(_.extend({}, this.data, {page_key: 'transcription_conventions.md'}))
+      this.data.page_conventions = page.toString();
+    }
+  },
+
   loadListeners: function(){
     // override me
   },

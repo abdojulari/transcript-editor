@@ -411,6 +411,7 @@ var COMPONENTS = (function() {
     this.selectInit();
     this.alertInit();
     this.scrollInit();
+    this.toggleInit();
   };
 
   COMPONENTS.prototype.alert = function(message, flash, target, flashDelay){
@@ -502,6 +503,19 @@ var COMPONENTS = (function() {
 
   COMPONENTS.prototype.selectMenusHide = function(){
     $('.select').removeClass('active');
+  };
+
+  COMPONENTS.prototype.toggle = function(el){
+    $(el).toggleClass('active');
+  };
+
+  COMPONENTS.prototype.toggleInit = function(){
+    var _this = this;
+
+    // toggle button
+    $(document).on('click', '.toggle-active', function(){
+      _this.toggle($(this).attr('data-target'));
+    });
   };
 
   return COMPONENTS;
@@ -1001,6 +1015,15 @@ app.views.Transcript = app.views.Base.extend({
 
   },
 
+  loadConventions: function(){
+    this.data.page_conventions = '';
+
+    if (this.data.project.pages['transcription_conventions.md']) {
+      var page = new app.views.Page(_.extend({}, this.data, {page_key: 'transcription_conventions.md'}))
+      this.data.page_conventions = page.toString();
+    }
+  },
+
   loadListeners: function(){
     // override me
   },
@@ -1455,7 +1478,7 @@ app.views.TranscriptToolbar = app.views.Base.extend({
 
     this.data.menu = "";
 
-    if (menu && menus[menu]) {
+    if (menu && menus[menu] && menus[menu].length) {
       var data = _.extend({}, this.data, {tagName: "div", menu_key: "transcript_edit"});
       var menuView = new app.views.Menu(data);
       this.data.menu = menuView.toString();
@@ -1477,8 +1500,9 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.data = data;
     this.data.template_line = this.template_line;
 
+    this.loadConventions();
     this.loadTranscript();
-    this.loadTutorial();
+    // this.loadTutorial();
     this.listenForAuth();
   },
 
@@ -1584,7 +1608,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     PubSub.publish('transcript.load', {
       transcript: transcript.toJSON(),
       action: 'edit',
-      label: 'Editing Transcript: ' + transcript.get('title')
+      label: transcript.get('title')
     });
 
     this.data.transcript = transcript.toJSON();

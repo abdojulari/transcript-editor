@@ -7,8 +7,9 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.data = data;
     this.data.template_line = this.template_line;
 
+    this.loadConventions();
     this.loadTranscript();
-    this.loadTutorial();
+    // this.loadTutorial();
     this.listenForAuth();
   },
 
@@ -114,7 +115,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     PubSub.publish('transcript.load', {
       transcript: transcript.toJSON(),
       action: 'edit',
-      label: 'Editing Transcript: ' + transcript.get('title')
+      label: transcript.get('title')
     });
 
     this.data.transcript = transcript.toJSON();

@@ -5,7 +5,7 @@
 .alert {
   background: $highlight-dark-color;
   max-width: 50%;
-  margin: 10px auto;
+  margin: 0 auto;
   text-align: center;
   cursor: pointer;
   position: relative;
@@ -31,5 +31,6 @@
     opacity: 1;
     max-height: 1000px;
     overflow: visible;
+    margin: 10px auto;
   }
 }

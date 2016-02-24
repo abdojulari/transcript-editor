@@ -24,11 +24,14 @@ p.text-center {
 /* Loading */
 .loading {
   &:after {
-    content: ' ';
+    content: 'loading';
+    text-align: center;
     display: block;
     position: relative;
     width: 100px;
     height: 100px;
+    line-height: 100px;
+    font-size: 1.4em;
     margin: 40px auto;
     background-color: $coolgray-color;
     border-radius: 100%;
@@ -43,3 +46,4 @@ p.text-center {
 @import "components/select";
 // @import "components/switch";
 @import "components/modal";
+@import "components/sticky";
