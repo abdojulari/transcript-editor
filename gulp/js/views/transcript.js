@@ -358,7 +358,19 @@ app.views.Transcript = app.views.Base.extend({
 
   start: function(){
     this.$('.start-play').addClass('disabled');
-    this.lineSelect(0);
+
+    var selectLine = 0,
+        lines = this.data.transcript.lines;
+
+    // Find the first line that is editable
+    $.each(lines, function(i, line){
+      if (line.is_editable) {
+        selectLine = i;
+        return false;
+      }
+    });
+
+    this.lineSelect(selectLine);
   },
 
   submitEdit: function(data){

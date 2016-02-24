@@ -102,6 +102,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
   onAudioLoad: function(){
     this.render();
     this.$el.removeClass('loading');
+    this.$('.start-play').removeClass('disabled');
     this.loadListeners();
     this.message('Loaded transcript');
     if (!this.loaded) this.loaded = true;
