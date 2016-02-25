@@ -1,7 +1,7 @@
 {
   "name": "Together We Listen @ NYPL",
   "description": "A web app for fixing oral history transcripts that were automatically generated from speech-to-text software",
-  "logo": "/project/assets/img/logo.png",
+  "logo": "/oral-history/assets/img/logo.png",
   "apiUrl": "",
   "useVendorAudio": true,
   "adminEmails": [

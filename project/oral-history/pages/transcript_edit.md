@@ -3,7 +3,7 @@
 
 The following transcript was automatically generated using speech-to-text software, so there are probably errors. This tool will allow you to listen while you edit the transcript. For your convenience (we hope), the audio will automatically pause after each line.
 
-<video src="/project/assets/img/transcript_edit_screencast.mp4" preload="auto" autoplay loop></video>
+<video src="/oral-history/assets/img/transcript_edit_screencast.mp4" preload="auto" autoplay loop></video>
 
 Use the keyboard shortcuts or buttons in the toolbar below to navigate the transcript and audio. <span class="highlight">All your edits will be automatically saved</span> but may not be immediately visible by others. Once enough people agree on the text of a particular line, that line will be visible to all and no longer editable.
 
