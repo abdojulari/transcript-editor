@@ -120,10 +120,9 @@ namespace :project do
   end
 
   def save_project(project_key, project_json)
-    Project.update_all active: false
     project = Project.find_or_initialize_by(uid: project_key)
 
-    project.update(data: project_json, active: true)
+    project.update(data: project_json)
   end
 
   def save_project_to_file(project_key, project)

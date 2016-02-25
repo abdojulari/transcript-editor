@@ -17,8 +17,12 @@ class Transcript < ActiveRecord::Base
     uid
   end
 
-  def self.getForHomepage(page)
-    Transcript.where("lines > 0").paginate(:page => page).order(:title)
+  def self.getForHomepage(page, options={})
+    options[:order] ||= "title"
+
+    Rails.cache.fetch("#{ENV['PROJECT_ID']}/transcripts/#{page}/#{options[:order]}", expires_in: 10.minutes) do
+      Transcript.where("lines > 0 AND project_uid = :project_uid", {project_uid: ENV['PROJECT_ID']}).paginate(:page => page).order(:title)
+    end
   end
 
   def self.getForDownloadByVendor(vendor_uid)

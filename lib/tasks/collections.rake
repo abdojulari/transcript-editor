@@ -3,7 +3,7 @@ require 'fileutils'
 
 namespace :collections do
 
-  # Usage rake transcripts:load['oral-history','collections_seeds.csv']
+  # Usage rake collections:load['oral-history','collections_seeds.csv']
   desc "Load collections by project key and csv file"
   task :load, [:project_key, :filename] => :environment do |task, args|
 
@@ -26,12 +26,13 @@ namespace :collections do
     puts "Retrieved #{collections.length} from file"
 
     # Write to database
-    collections.each do |collection|
-      collection[:vendor] = Vendor.find_by_uid(collection[:vendor])
-      # puts collection
-      Collection.create(collection)
+    collections.each do |attributes|
+      attributes[:vendor] = Vendor.find_by_uid(attributes[:vendor])
+      attributes[:project_uid] = args[:project_key]
+      # puts attributes
+      collection = Collection.find_or_initialize_by(uid: attributes[:uid])
+      collection.update(attributes)
     end
-
 
     puts "Wrote #{collections.length} collections to database"
   end
