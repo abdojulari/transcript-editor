@@ -1,9 +1,12 @@
-class Project < ActiveRecord::Base
+class Project
 
   def self.getActive
-    Rails.cache.fetch("project/#{ENV['PROJECT_ID']}", expires_in: 1.hour) do
-      Project.find_by uid: ENV['PROJECT_ID']
-    end
+    project_file = Rails.root.join('project', ENV['PROJECT_ID'], 'project.json')
+    project_data = File.read(project_file)
+    {
+      uid: ENV['PROJECT_ID'],
+      data: JSON.parse(project_data)
+    }
   end
 
 end
