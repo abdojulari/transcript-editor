@@ -7,7 +7,6 @@ require 'redcarpet'
 namespace :project do
 
   # Usage: rake project:load['oral-history']
-  #        rake project:load['oral-history','db']
   #        rake project:load['oral-history','ui']
   #        rake project:load['oral-history','assets']
   desc "Load project by key: Builds main index.html and project.js which contains all project data (metadata, pages, templates)"
@@ -35,11 +34,6 @@ namespace :project do
     public_assets_path = Rails.root.join('public', args[:project_key], 'assets')
     unless File.directory?(public_assets_path)
       FileUtils.mkdir_p(public_assets_path)
-    end
-
-    # Updates database
-    if args[:scope] == "db" || args[:scope] == "all"
-      save_project(args[:project_key], project_json)
     end
 
     # Updates html and config in public folder
@@ -117,12 +111,6 @@ namespace :project do
       File.open(target_file, 'w') { |file| file.write(compiled) }
     end
 
-  end
-
-  def save_project(project_key, project_json)
-    project = Project.find_or_initialize_by(uid: project_key)
-
-    project.update(data: project_json)
   end
 
   def save_project_to_file(project_key, project)
