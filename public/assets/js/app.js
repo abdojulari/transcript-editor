@@ -1123,7 +1123,7 @@ app.views.Transcript = app.views.Base.extend({
       // otherwise, show user's text
       else if (user_text) display_text = user_text;
       // otherwise show guess text
-      else if (PROJECT.consensus.lineDisplayMehod=="guess" && line.guess_text) display_text = line.guess_text;
+      else if (PROJECT.consensus.lineDisplayMethod=="guess" && line.guess_text) display_text = line.guess_text;
       // set the display text
       _this.data.transcript.lines[i].display_text = display_text;
 
