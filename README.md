@@ -85,7 +85,7 @@ If you are using Pop Up Archive, you must update your account credentials in the
 
 ### Creating a manifest file
 
-New audio files and transcripts can be added to this app by creating manifest files in .csv format. These manifest files will contain basic information about your audio, e.g. an internal id, title, description, url to audio file, etc. These files will be read by a number of scripts that perform a number of tasks such as uploading new audio for transcription, download processed transcripts, and updating information about your audio.
+New audio files and transcripts can be added to this app by creating manifest files in .csv format. These manifest files will contain basic information about your audio, e.g. an internal id, title, description, url to audio file, etc. These files will be used to perform a number of tasks such as uploading new audio for transcription, download processed transcripts, and updating information about your audio.
 
 In your project folder, you should find an empty .csv file: [project/my-project/data/transcripts_seeds.csv](project/sample-project/data/transcripts_seeds.csv). It contains the following columns:
 
@@ -96,7 +96,7 @@ In your project folder, you should find an empty .csv file: [project/my-project/
 | description | a description that will be displayed for this audio file | No | *This is basically teh best podcast about cats; no dogs allowed* |
 | url | a URL that will link back to where the audio is being presented on your website | No | *http://mywebsite.com/podcast-123* |
 | audio_url | a public URL to your audio file | Yes, unless you already uploaded audio to Pop Up Archive or already have transcripts | *http://mywebsite.com/podcast-123.mp3* |
-| image_url | a public URL to an image representing your audio; square and ~400px is preferred | No | *http://mywebsite/podcast-123.jpg* |
+| image_url | a public URL to an image representing your audio; square and ~400px is preferred | No | *http://mywebsite.com/podcast-123.jpg* |
 | collection | the unique identifier for the collection this audio belongs to (see below for more on this) | No | *cat-collection* |
 | vendor | the vendor that will be doing the transcription | Yes, unless you already produced transcripts yourself | *pop_up_archive* |
 | vendor_identifier | if already uploaded the audio to Pop Up Archive, put the item id here | Only if you already uploaded audio to Pop Up Archive | *41326* |
@@ -112,7 +112,7 @@ Replace `my-project` with your project id and `transcripts_seeds.csv` if you are
 
 ### Making Collections/Groups
 
-Sometimes you may want to group your audio in different ways for the user. If you are using Pop Up Archive, this step is required since they requires all your audio files to belong to a *collection*. You can create collections similar to how you create transcripts--with a manifest file.
+Sometimes you may want to group your audio in different ways for the user. If you are using Pop Up Archive, this step is required since Pop Up requires all your audio files to belong to a *collection*. You can create collections similar to how you create transcripts--with a manifest file.
 
 In your project folder, you should find an empty .csv file: [project/my-project/data/collections_seeds.csv](project/sample-project/data/collections_seeds.csv). It contains almost the same columns as the transcript manifest file. If you are using Pop Up Archive, you must fill out the last two columns (*vendor*, *vendor_identifier*) as *pop_up_archive* and the Pop Up Archive collection id respectively. The collection id can be found by clicking on a collection in your Pop Up Archive dashboard and look at the URL (e.g. https://www.popuparchive.com/collections/1234), in which case the collection id is *1234*
 
