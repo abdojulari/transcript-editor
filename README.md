@@ -79,6 +79,10 @@ This section will assume that you do not have transcripts yet, just audio files 
   - Here are [some examples](https://en.wikipedia.org/wiki/Comparison_of_file_hosting_services) of file hosting services
   - The following file formats are supported: *'aac', 'aif', 'aiff', 'alac', 'flac', 'm4a', 'm4p', 'mp2', 'mp3', 'mp4', 'ogg', 'raw', 'spx', 'wav', 'wma'*
 
+### Update your credentials
+
+If you are using Pop Up Archive, you must update your account credentials in the `config/application.yml` file. There are two values (**PUA_CLIENT_ID** and **PUA_CLIENT_SECRET**) which refer to your Pop Up Archive Client ID and Client Secret respectively. You can find these values by logging into you Pop Up Archive account and visiting [https://www.popuparchive.com/oauth/applications](https://www.popuparchive.com/oauth/applications)
+
 ### Creating a manifest file
 
 New audio files and transcripts can be added to this app by creating manifest files in .csv format. These manifest files will contain basic information about your audio, e.g. an internal id, title, description, url to audio file, etc. These files will be read by a number of scripts that perform a number of tasks such as uploading new audio for transcription, download processed transcripts, and updating information about your audio.
