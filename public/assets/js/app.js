@@ -991,16 +991,21 @@ app.views.Transcript = app.views.Base.extend({
     var $audio = $(audio_string);
     this.player = $audio[0];
 
-    // wait for it to load
-    this.player.oncanplay = function(){
-      if (_this.player_loaded) {
-        _this.messageHide('Buffering audio...');
-      } else {
+    // wait for audio to start to load
+    this.player.onloadstart = function(){
+      if (!_this.player_loaded) {
         _this.player_loaded = true;
-        _this.data.debug && console.log("Loaded audio files");
         _this.onAudioLoad();
       }
     };
+
+    // wait for it to load
+    // this.player.oncanplay = function(){
+    //   if (!_this.player_loaded) {
+    //     _this.player_loaded = true;
+    //     _this.onAudioLoad();
+    //   }
+    // };
 
     // check for time update
     this.player.ontimeupdate = function() {
@@ -1605,6 +1610,8 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
   },
 
   onAudioLoad: function(){
+    this.data.debug && console.log("Loaded audio files");
+
     this.render();
     this.$el.removeClass('loading');
     this.$('.start-play').removeClass('disabled');

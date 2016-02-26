@@ -100,6 +100,8 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
   },
 
   onAudioLoad: function(){
+    this.data.debug && console.log("Loaded audio files");
+
     this.render();
     this.$el.removeClass('loading');
     this.$('.start-play').removeClass('disabled');
