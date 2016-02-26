@@ -27,7 +27,12 @@ namespace :collections do
 
     # Write to database
     collections.each do |attributes|
-      attributes[:vendor] = Vendor.find_by_uid(attributes[:vendor])
+      if attributes.key?(:vendor)
+        attributes[:vendor] = Vendor.find_by_uid(attributes[:vendor])
+      end
+      if attributes[:vendor].blank?
+        attributes.delete(:vendor)
+      end
       attributes[:project_uid] = args[:project_key]
       # puts attributes
       collection = Collection.find_or_initialize_by(uid: attributes[:uid])

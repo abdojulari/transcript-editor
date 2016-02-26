@@ -32,13 +32,16 @@ namespace :transcripts do
       # Check for vendor
       if attributes.key?(:vendor) && attributes.key?(:vendor_identifier)
         attributes[:vendor] = Vendor.find_by_uid(attributes[:vendor])
-      else
-        attributes[:vendor_id] = 0
-        attributes[:vendor_identifier] = SecureRandom.hex
+      end
+      if attributes[:vendor].blank?
+        attributes.delete(:vendor)
       end
       # Check for collection
       if attributes.key?(:collection)
         attributes[:collection] = Collection.find_by_uid(attributes[:collection])
+      end
+      if attributes[:collection].blank?
+        attributes.delete(:collection)
       end
       # Make the filename the batch id
       attributes[:batch_id] = args[:filename]
