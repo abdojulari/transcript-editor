@@ -4,12 +4,12 @@ require 'popuparchive'
 
 namespace :pua do
 
-  # Usage: rake pua:upload
+  # Usage: rake pua:upload['oral-history']
   desc "Upload the unprocessed audio to Pop Up Archive"
   task :upload, [:project_key] => :environment do |task, args|
 
     # Retrieve transcripts that have Pop Up Archive as its vendor and are empty
-    transcripts = Transcript.getForUploadByVendor('pop_up_archive')
+    transcripts = Transcript.getForUploadByVendor('pop_up_archive', args[:project_key])
     puts "Retrieved #{transcripts.length} transcripts from collections with Pop Up Archive as its vendor that are empty"
 
     # Init a Pop Up Archive client
@@ -26,7 +26,7 @@ namespace :pua do
   task :download, [:project_key] => :environment do |task, args|
 
     # Retrieve transcripts that have Pop Up Archive as its vendor and are empty
-    transcripts = Transcript.getForDownloadByVendor('pop_up_archive')
+    transcripts = Transcript.getForDownloadByVendor('pop_up_archive', args[:project_key])
     puts "Retrieved #{transcripts.length} transcripts from collections with Pop Up Archive as its vendor that are empty"
 
     # Init a Pop Up Archive client
@@ -61,7 +61,7 @@ namespace :pua do
   desc "Update metadata from Pop Up Archive"
   task :update, [:project_key] => :environment do |task, args|
     # Retrieve transcripts that have Pop Up Archive as its vendor and are empty
-    transcripts = Transcript.getForUpdateByVendor('pop_up_archive')
+    transcripts = Transcript.getForUpdateByVendor('pop_up_archive', args[:project_key])
     puts "Retrieved #{transcripts.length} transcripts from collections with Pop Up Archive as its vendor that are empty"
 
     # Init a Pop Up Archive client
