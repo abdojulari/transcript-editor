@@ -17,6 +17,16 @@ class Pua
     end
   end
 
+  def createCollection(collection)
+    resp = post("/collections", {
+      title: collection[:title],
+      description: collection[:description],
+      items_visible_by_default: false
+    })
+    collection.update(vendor_identifier: resp["id"])
+    collection
+  end
+
   def createItem(transcript)
     # get collection
     collection = pua_client.get_collection(transcript.collection[:vendor_identifier])
@@ -49,8 +59,23 @@ class Pua
     item
   end
 
+  def get(path, params={})
+    resp = @client.get(path, params)
+    resp.http_resp.body
+  end
+
+  def getCollections
+    resp = get('/collections')
+    resp["collections"]
+  end
+
   def getItem(transcript)
     @client.get_item(transcript.collection[:vendor_identifier], transcript[:vendor_identifier])
+  end
+
+  def post(path, data)
+    resp = @client.post(path, JSON.generate(data))
+    resp.http_resp.body
   end
 
   def _getClient()

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160226211151) do
+ActiveRecord::Schema.define(version: 20160229203846) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,7 +31,6 @@ ActiveRecord::Schema.define(version: 20160226211151) do
 
   add_index "collections", ["project_uid"], name: "index_collections_on_project_uid", using: :btree
   add_index "collections", ["uid"], name: "index_collections_on_uid", unique: true, using: :btree
-  add_index "collections", ["vendor_id", "vendor_identifier"], name: "index_collections_on_vendor_id_and_vendor_identifier", unique: true, using: :btree
   add_index "collections", ["vendor_id"], name: "index_collections_on_vendor_id", using: :btree
 
   create_table "pg_search_documents", force: :cascade do |t|
@@ -129,7 +128,6 @@ ActiveRecord::Schema.define(version: 20160226211151) do
   add_index "transcripts", ["project_uid"], name: "index_transcripts_on_project_uid", using: :btree
   add_index "transcripts", ["transcript_status_id"], name: "index_transcripts_on_transcript_status_id", using: :btree
   add_index "transcripts", ["uid"], name: "index_transcripts_on_uid", unique: true, using: :btree
-  add_index "transcripts", ["vendor_id", "vendor_identifier"], name: "index_transcripts_on_vendor_id_and_vendor_identifier", unique: true, using: :btree
   add_index "transcripts", ["vendor_id"], name: "index_transcripts_on_vendor_id", using: :btree
 
   create_table "user_roles", force: :cascade do |t|

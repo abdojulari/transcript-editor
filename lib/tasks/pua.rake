@@ -4,6 +4,41 @@ require 'popuparchive'
 
 namespace :pua do
 
+  # Usage: rake pua:list_collections
+  desc "List collections in Pop Up Archive"
+  task :list_collections => :environment do |task, args|
+    # Init a Pop Up Archive client
+    pua_client = Pua.new
+
+    collections = pua_client.getCollections
+
+    collections.each do |collection|
+      puts "ID: #{collection["id"]}, TITLE: #{collection["title"]}, COUNT: #{collection["number_of_items"]}"
+    end
+  end
+
+  # Usage: rake pua:create_collections['oral-history']
+  desc "Create collections in Pop Up Archive"
+  task :create_collections, [:project_key] => :environment do |task, args|
+    collections = Collection.getForUploadByVendor('pop_up_archive', args[:project_key])
+
+    # Init a Pop Up Archive client
+    pua_client = Pua.new
+
+    # Do a match against existing collection titles
+    existing_collections = pua_client.getCollections
+    existing_collection_titles = existing_collections.map{|c| c["title"]}
+
+    collections.find_each do |collection|
+      if existing_collection_titles.include? collection[:title]
+        puts "Skipping #{collection[:title]} as title already exists"
+      else
+        collection = pua_client.createCollection(collection)
+        puts "Created collection #{collection[:vendor_identifier]}"
+      end
+    end
+  end
+
   # Usage: rake pua:upload['oral-history']
   desc "Upload the unprocessed audio to Pop Up Archive"
   task :upload, [:project_key] => :environment do |task, args|
