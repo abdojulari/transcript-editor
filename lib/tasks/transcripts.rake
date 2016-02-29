@@ -36,6 +36,9 @@ namespace :transcripts do
       if attributes[:vendor].blank?
         attributes.delete(:vendor)
       end
+      if attributes[:vendor_identifier].blank?
+        attributes.delete(:vendor_identifier)
+      end
       # Check for collection
       if attributes.key?(:collection)
         attributes[:collection] = Collection.find_by_uid(attributes[:collection])
@@ -54,10 +57,53 @@ namespace :transcripts do
     puts "Wrote #{transcripts.length} transcripts to database"
   end
 
+  # Usage rake transcripts:update_file['oral-history','transcripts_seeds.csv']
+  desc "Update a csv file based on data in database"
+  task :update_file, [:project_key, :filename] => :environment do |task, args|
+
+    # Validate project
+    project_path = Rails.root.join('project', args[:project_key], '/')
+    if !File.directory?(project_path)
+      puts "No project directory found for: #{args[:project_key]}"
+      exit
+    end
+
+    # Validate file
+    file_path = Rails.root.join('project', args[:project_key], 'data', args[:filename])
+    if !File.exist? file_path
+      puts "No collection file found: #{file_path}"
+      exit
+    end
+
+    # Get collections from file
+    transcripts_from_file = get_transcripts_from_file(file_path)
+    transcripts_from_file.each_with_index do |attributes, i|
+      transcript = Transcript.find_by uid: attributes[:uid]
+
+      # If collection found in DB, update appropriate fields
+      if transcript
+        transcripts_from_file[i][:vendor_identifier] = transcript[:vendor_identifier]
+      end
+    end
+
+    # Update the file
+    update_transcripts_to_file(file_path, transcripts_from_file)
+    puts "Updated #{transcripts_from_file.length} transcripts in file"
+  end
+
   def get_transcripts_from_file(file_path)
     csv_body = File.read(file_path)
     csv = CSV.new(csv_body, :headers => true, :header_converters => :symbol, :converters => [:all])
     csv.to_a.map {|row| row.to_hash }
+  end
+
+  def update_transcripts_to_file(file_path, transcripts)
+    CSV.open(file_path, "wb") do |csv|
+      csv << transcripts.first.keys # adds the attributes name on the first line
+      transcripts.each do |hash|
+        csv << hash.values
+      end
+    end
   end
 
 end
