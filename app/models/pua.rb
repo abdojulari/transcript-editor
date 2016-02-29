@@ -29,8 +29,8 @@ class Pua
 
   def createItem(transcript)
     # get collection
-    collection = pua_client.get_collection(transcript.collection[:vendor_identifier])
-    item = False
+    collection = @client.get_collection(transcript.collection[:vendor_identifier])
+    item = nil
 
     # create a new Pop Up Archive item if identifier does not exist
     if transcript[:vendor_identifier].empty?
@@ -41,7 +41,7 @@ class Pua
 
       # update transcript vendor identifier
       transcript.update(vendor_identifier: item["id"])
-      puts "Created new item in Pop Up Archive with id: #{item["id"]}"
+      puts "Created new item #{transcript[:title]} in Pop Up Archive with id: #{item["id"]}"
 
       # attempt to upload file
       createAudioFile(transcript, item)
@@ -52,6 +52,7 @@ class Pua
 
       # upload audio file if no audio files found
       if item && item["audio_files"].length <= 0
+        puts "No audio files found; submitting audio files for #{item["id"]}"
         createAudioFile(transcript, item)
       end
     end

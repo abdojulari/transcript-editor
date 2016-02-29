@@ -25,7 +25,7 @@ end
 # Seed Transcript Statuses
 transcript_statuses = [
   { name: 'initialized',            progress: 0,    description: 'Transcript initialized' },
-  { name: 'audio_uploaded ',        progress: 10,   description: 'Audio has been uploaded' },
+  { name: 'audio_uploaded',         progress: 10,   description: 'Audio has been uploaded' },
   { name: 'transcript_processing',  progress: 20,   description: 'Transcript is being processed' },
   { name: 'transcript_downloaded',  progress: 30,   description: 'Transcript has been downloaded' },
   { name: 'transcript_editing',     progress: 40,   description: 'Transcript is being edited' },
