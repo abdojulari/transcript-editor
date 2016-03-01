@@ -24,6 +24,20 @@ There are transcription conventions for reference. <span class="highlight">All y
 
 You may log in using a Google account to keep track of all your edits. <a href="http://twl-nypl.herokuapp.com/">Browse the Oral Histories</a> and select one to get started.
 
+# How Does It Work  
+
+1. A community member records and Oral History or Memory Circle, typically with a zoom recorder or a smart phone app.  
+2. The Library processes the story and now has an audio file and some basic metadata.  
+3. We send the audio file to Pop Up Archive  
+    [Pop Up Archive](https://www.popuparchive.com/about) timestamps the audio file into lines of about 6 seconds and generates transcript text using speech to text technologies. The computer-generated transcripts are synced with the audio timestamps.
+4. NYPL loads the audio and transcripts into the Transcript Corrector Tool.
+5. YOU listen and make your edits to the transcript, correcting it.
+6. After five people have listened, the tool compares the edits.
+7. If at least three people agree on the corrected text, the tool calculates the most correct line and it is locked. (The best line is calculated by comparing the use of punctuation, capitalization, and numerals.)
+8. If no consensus is reached, a line goes into review mode where users vote on the most correct version of the line.
+
+
+
 # Oral History Project
 
 Since 2013, The New York Public Library has been running the [Community Oral History Project](oralhistory.nypl.org).
