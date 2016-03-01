@@ -7,8 +7,9 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.data = data;
     this.data.template_line = this.template_line;
 
+    this.loadConventions();
     this.loadTranscript();
-    this.loadTutorial();
+    // this.loadTutorial();
     this.listenForAuth();
   },
 
@@ -99,8 +100,11 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
   },
 
   onAudioLoad: function(){
+    this.data.debug && console.log("Loaded audio files");
+
     this.render();
     this.$el.removeClass('loading');
+    this.$('.start-play').removeClass('disabled');
     this.loadListeners();
     this.message('Loaded transcript');
     if (!this.loaded) this.loaded = true;
@@ -114,7 +118,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     PubSub.publish('transcript.load', {
       transcript: transcript.toJSON(),
       action: 'edit',
-      label: 'Editing Transcript: ' + transcript.get('title')
+      label: transcript.get('title')
     });
 
     this.data.transcript = transcript.toJSON();
@@ -124,6 +128,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
   },
 
   onTimeUpdate: function(){
+    if (this.player.playing) this.playerState('playing');
     if (this.pause_at_time !== undefined && this.player.currentTime >= this.pause_at_time) {
       this.playerPause();
     }

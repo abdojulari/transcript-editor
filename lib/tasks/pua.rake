@@ -4,12 +4,47 @@ require 'popuparchive'
 
 namespace :pua do
 
-  # Usage: rake pua:upload
+  # Usage: rake pua:list_collections
+  desc "List collections in Pop Up Archive"
+  task :list_collections => :environment do |task, args|
+    # Init a Pop Up Archive client
+    pua_client = Pua.new
+
+    collections = pua_client.getCollections
+
+    collections.each do |collection|
+      puts "ID: #{collection["id"]}, TITLE: #{collection["title"]}, COUNT: #{collection["number_of_items"]}"
+    end
+  end
+
+  # Usage: rake pua:create_collections['oral-history']
+  desc "Create collections in Pop Up Archive"
+  task :create_collections, [:project_key] => :environment do |task, args|
+    collections = Collection.getForUploadByVendor('pop_up_archive', args[:project_key])
+
+    # Init a Pop Up Archive client
+    pua_client = Pua.new
+
+    # Do a match against existing collection titles
+    existing_collections = pua_client.getCollections
+    existing_collection_titles = existing_collections.map{|c| c["title"]}
+
+    collections.find_each do |collection|
+      if existing_collection_titles.include? collection[:title]
+        puts "Skipping #{collection[:title]} as title already exists"
+      else
+        collection = pua_client.createCollection(collection)
+        puts "Created collection #{collection[:vendor_identifier]}"
+      end
+    end
+  end
+
+  # Usage: rake pua:upload['oral-history']
   desc "Upload the unprocessed audio to Pop Up Archive"
   task :upload, [:project_key] => :environment do |task, args|
 
     # Retrieve transcripts that have Pop Up Archive as its vendor and are empty
-    transcripts = Transcript.getForUploadByVendor('pop_up_archive')
+    transcripts = Transcript.getForUploadByVendor('pop_up_archive', args[:project_key])
     puts "Retrieved #{transcripts.length} transcripts from collections with Pop Up Archive as its vendor that are empty"
 
     # Init a Pop Up Archive client
@@ -26,7 +61,7 @@ namespace :pua do
   task :download, [:project_key] => :environment do |task, args|
 
     # Retrieve transcripts that have Pop Up Archive as its vendor and are empty
-    transcripts = Transcript.getForDownloadByVendor('pop_up_archive')
+    transcripts = Transcript.getForDownloadByVendor('pop_up_archive', args[:project_key])
     puts "Retrieved #{transcripts.length} transcripts from collections with Pop Up Archive as its vendor that are empty"
 
     # Init a Pop Up Archive client
@@ -61,7 +96,7 @@ namespace :pua do
   desc "Update metadata from Pop Up Archive"
   task :update, [:project_key] => :environment do |task, args|
     # Retrieve transcripts that have Pop Up Archive as its vendor and are empty
-    transcripts = Transcript.getForUpdateByVendor('pop_up_archive')
+    transcripts = Transcript.getForUpdateByVendor('pop_up_archive', args[:project_key])
     puts "Retrieved #{transcripts.length} transcripts from collections with Pop Up Archive as its vendor that are empty"
 
     # Init a Pop Up Archive client

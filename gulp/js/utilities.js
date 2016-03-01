@@ -47,6 +47,31 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
   }
 })(jQuery);
 
+(function($) {
+  $.fn.getTextSize = function() {
+    var id = 'text-width-tester',
+        text = this.val(),
+        $tag = $('#' + id),
+        styles = {
+          fontWeight: this.css('font-weight'),
+          fontSize: this.css('font-size'),
+          fontFamily: this.css('font-family'),
+          display: 'none'
+        };
+    if (!$tag.length) {
+      $tag = $('<span id="' + id + '">' + text + '</span>');
+      $tag.css(styles);
+      $('body').append($tag);
+    } else {
+      $tag.css(styles).html(text);
+    }
+    return {
+      width: $tag.width(),
+      height: $tag.height()
+    }
+  }
+})(jQuery);
+
 // Utility functions
 (function() {
   window.UTIL = {};

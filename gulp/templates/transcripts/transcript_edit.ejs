@@ -1,3 +1,10 @@
+<% if (page_conventions) { %>
+<div id="conventions-page" class="conventions-page sticky">
+  <%= page_conventions %>
+  <a class="tab toggle-active" data-target="#conventions-page" label-active="Hide Conventions" label-inactive="Show Conventions"></a>
+</div>
+<% } %>
+
 <% if (page_content) { %>
 <div class="transcript-page">
   <%= page_content %>

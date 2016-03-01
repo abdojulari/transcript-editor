@@ -8,11 +8,13 @@ class TranscriptsController < ApplicationController
 
   # GET /transcripts/the-uid.json
   def show
+    @user_role = nil
     @user_edits = []
     @transcript_line_statuses = TranscriptLineStatus.allCached
 
     if user_signed_in?
       @user_edits = TranscriptEdit.getByTranscriptUser(@transcript.id, current_user.id)
+      @user_role = current_user.user_role
     else
       @user_edits = TranscriptEdit.getByTranscriptSession(@transcript.id, session.id)
     end

@@ -4,6 +4,11 @@
 .page {
   max-width: 800px;
   margin: 0 auto;
+
+  video {
+    width: 100%;
+    height: auto;
+  }
 }
 
 .home\.md.page {
@@ -35,18 +40,22 @@
   }
 }
 
-.cheat-sheet {
-  width: 96%;
+.table-conventions {
+  width: 100%;
 
   td, th {
     box-sizing: border-box;
   }
 
-  td {
+  td, th {
     width: 40%;
   }
 
-  td:first-child {
+  th:first-child {
+    width: 60%;
+  }
+
+  td:first-child  {
     width: 20%;
     font-weight: bold;
   }
@@ -62,10 +71,102 @@
   th {
     background: $coolgray-dark-color;
     color: $white;
+    text-align: left;
+  }
+
+  tr:nth-child(even) td {
+    background: $white;
   }
 
   tr:nth-child(odd) td {
     background: lighten($coolgray-color, 25%);
   }
 
+}
+
+.transcription_conventions\.md.page {
+  max-width: none;
+  background: lighten($coolgray-color, 25%);
+
+  .table-conventions {
+    display: none;
+    width: 100%;
+    margin: 0;
+    border: none;
+    border-bottom: 2px solid $coolgray-dark-color;
+
+    thead,
+    thead tr,
+    thead th,
+    tbody {
+      display: block;
+    }
+    thead,
+    thead tr {
+      width: 100%;
+    }
+    thead tr {
+      @include clearfix();
+    }
+    thead th {
+      float: left;
+    }
+    tbody {
+      overflow: hidden;
+      overflow-y: auto;
+      height: 20vh;
+      min-height: 80px;
+      max-height: 200px;
+    }
+
+  }
+}
+.conventions-page {
+  .page {
+    max-height: 0;
+    overflow: hidden;
+    @include transition(max-height 0.5s);
+
+    .table-conventions {
+      display: table;
+    }
+  }
+  .tab {
+    display: block;
+    width: 200px;
+    height: 28px;
+    line-height: 28px;
+    position: absolute;
+    bottom: -28px;
+    left: 50%;
+    margin-left: -100px;
+    text-align: center;
+    background: $link-color;
+    color: $white;
+    cursor: pointer;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    @include box-shadow(0 2px 4px rgba(0,0,0,.4));
+    @include animation(fadeInDown 1s);
+    @include animation-delay(1s);
+
+    &:before {
+      content: attr(label-inactive);
+    }
+
+    &:hover {
+      background: $link-hover-color;
+    }
+  }
+
+  &.active {
+
+    .page {
+      max-height: 300px;
+    }
+
+    .tab:before {
+      content: attr(label-active);
+    }
+  }
 }

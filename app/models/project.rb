@@ -1,9 +1,12 @@
-class Project < ActiveRecord::Base
+class Project
 
   def self.getActive
-    Rails.cache.fetch("active_project", expires_in: 1.hour) do
-      Project.where(active: true).first
-    end
+    project_file = Rails.root.join('project', ENV['PROJECT_ID'], 'project.json')
+    project_data = File.read(project_file)
+    {
+      uid: ENV['PROJECT_ID'],
+      data: JSON.parse(project_data)
+    }
   end
 
 end

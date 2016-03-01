@@ -36,6 +36,30 @@ app.views.Transcript = app.views.Base.extend({
 
   },
 
+  fitInput: function($input){
+    var fontSize = parseInt($input.css('font-size')),
+        maxWidth = $input.width() + 5;
+
+    // store the original font size
+    if (!$input.attr('original-font-size')) $input.attr('original-font-size', fontSize);
+
+    // see how big the text is at the default size
+    var textWidth = $input.getTextSize().width;
+    if (textWidth > maxWidth) {
+        // the extra .9 here makes up for some over-measures
+        fontSize = fontSize * maxWidth / textWidth * 0.9;
+    }
+
+    $input.css({fontSize: fontSize + 'px'});
+  },
+
+  fitInputReset: function($input){
+    // store the original font size
+    if ($input.attr('original-font-size')) {
+      $input.css({fontSize: $input.attr('original-font-size') + 'px'});
+    }
+  },
+
   lineNext: function(){
     this.lineSelect(this.current_line_i + 1);
   },
@@ -53,7 +77,7 @@ app.views.Transcript = app.views.Base.extend({
     var lines = this.data.transcript.lines;
     if (i < 0 || i >= lines.length) return false;
 
-    this.lineSave(this.current_line_i);
+    this.onLineOff(this.current_line_i);
 
     // select line
     this.current_line_i = i;
@@ -68,6 +92,9 @@ app.views.Transcript = app.views.Base.extend({
     // focus on input
     var $input = $active.find('input');
     if ($input.length) $input.first().focus();
+
+    // fit input
+    this.fitInput($input);
 
     // play audio
     this.pause_at_time = this.current_line.end_time * 0.001;
@@ -136,16 +163,21 @@ app.views.Transcript = app.views.Base.extend({
     var $audio = $(audio_string);
     this.player = $audio[0];
 
-    // wait for it to load
-    this.player.oncanplay = function(){
-      if (_this.player_loaded) {
-        _this.messageHide('Buffering audio...');
-      } else {
+    // wait for audio to start to load
+    this.player.onloadstart = function(){
+      if (!_this.player_loaded) {
         _this.player_loaded = true;
-        _this.data.debug && console.log("Loaded audio files");
         _this.onAudioLoad();
       }
     };
+
+    // wait for it to load
+    // this.player.oncanplay = function(){
+    //   if (!_this.player_loaded) {
+    //     _this.player_loaded = true;
+    //     _this.onAudioLoad();
+    //   }
+    // };
 
     // check for time update
     this.player.ontimeupdate = function() {
@@ -155,8 +187,18 @@ app.views.Transcript = app.views.Base.extend({
     // check for buffer time
     this.player.onwaiting = function(){
       _this.message('Buffering audio...');
+      _this.playerState('buffering');
     };
 
+  },
+
+  loadConventions: function(){
+    this.data.page_conventions = '';
+
+    if (this.data.project.pages['transcription_conventions.md']) {
+      var page = new app.views.Page(_.extend({}, this.data, {page_key: 'transcription_conventions.md'}))
+      this.data.page_conventions = page.toString();
+    }
   },
 
   loadListeners: function(){
@@ -187,17 +229,26 @@ app.views.Transcript = app.views.Base.extend({
   },
 
   message: function(text){
-    $('#transcript-notifications').text(text);
+    // $('#transcript-notifications').text(text);
   },
 
   messageHide: function(text){
-    if ($('#transcript-notifications').text()==text) {
-      $('#transcript-notifications').text('');
-    }
+    // if ($('#transcript-notifications').text()==text) {
+    //   $('#transcript-notifications').text('');
+    // }
   },
 
   onAudioLoad: function(){
     // override me
+  },
+
+  onLineOff: function(i){
+    // save line always
+    this.lineSave(i);
+
+    // reset input
+    var $input = $('.line[sequence="'+i+'"] input').first();
+    this.fitInputReset($input);
   },
 
   onTranscriptLoad: function(transcript){
@@ -212,7 +263,9 @@ app.views.Transcript = app.views.Base.extend({
     var _this = this,
         lines = this.data.transcript.lines,
         user_edits = this.data.transcript.user_edits,
-        line_statuses = this.data.transcript.transcript_line_statuses;
+        line_statuses = this.data.transcript.transcript_line_statuses,
+        superUserHiearchy = PROJECT.consensus.superUserHiearchy,
+        user_role = this.data.transcript.user_role;
 
     // map edits for easy lookup
     var user_edits_map = _.object(_.map(user_edits, function(edit) {
@@ -247,27 +300,26 @@ app.views.Transcript = app.views.Base.extend({
       // otherwise, show user's text
       else if (user_text) display_text = user_text;
       // otherwise show guess text
-      else if (PROJECT.consensus.lineDisplayMehod=="guess" && line.guess_text) display_text = line.guess_text;
+      else if (PROJECT.consensus.lineDisplayMethod=="guess" && line.guess_text) display_text = line.guess_text;
       // set the display text
       _this.data.transcript.lines[i].display_text = display_text;
 
+      // determine if text is editable
+      var is_editable = true;
+      // input is locked when reviewing/completed/flagged/archived
+      if (_.contains(["reviewing","completed","flagged","archived"], status.name)) is_editable = false;
+      // admins/mods can always edit
+      if (user_role && user_role.hiearchy >= superUserHiearchy) is_editable = true;
+      _this.data.transcript.lines[i].is_editable = is_editable;
+
     });
-  },
-
-  refresh: function(){
-    this.current_line_i = -1;
-
-    this.loadTranscript();
-  },
-
-  render: function(){
-    this.$el.html(this.template(this.data));
   },
 
   playerPause: function(){
     if (this.player.playing) {
       this.player.pause();
       this.message('Paused');
+      this.playerState('paused');
     }
   },
 
@@ -283,6 +335,13 @@ app.views.Transcript = app.views.Base.extend({
     }
   },
 
+  playerState: function(state) {
+    if (this.state==state) return false;
+    this.state = state;
+    this.$el.attr('state', state);
+    PubSub.publish('player.state.change', state);
+  },
+
   playerToggle: function(){
     if (this.player.playing) {
       this.playerPause();
@@ -292,9 +351,31 @@ app.views.Transcript = app.views.Base.extend({
     }
   },
 
+  refresh: function(){
+    this.current_line_i = -1;
+
+    this.loadTranscript();
+  },
+
+  render: function(){
+    this.$el.html(this.template(this.data));
+  },
+
   start: function(){
     this.$('.start-play').addClass('disabled');
-    this.lineSelect(0);
+
+    var selectLine = 0,
+        lines = this.data.transcript.lines;
+
+    // Find the first line that is editable
+    $.each(lines, function(i, line){
+      if (line.is_editable) {
+        selectLine = i;
+        return false;
+      }
+    });
+
+    this.lineSelect(selectLine);
   },
 
   submitEdit: function(data){

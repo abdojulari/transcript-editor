@@ -17,29 +17,33 @@ class Transcript < ActiveRecord::Base
     uid
   end
 
-  def self.getForHomepage(page)
-    Transcript.where("lines > 0").paginate(:page => page).order(:title)
+  def self.getForHomepage(page, options={})
+    options[:order] ||= "title"
+
+    Rails.cache.fetch("#{ENV['PROJECT_ID']}/transcripts/#{page}/#{options[:order]}", expires_in: 10.minutes) do
+      Transcript.where("lines > 0 AND project_uid = :project_uid", {project_uid: ENV['PROJECT_ID']}).paginate(:page => page).order(:title)
+    end
   end
 
-  def self.getForDownloadByVendor(vendor_uid)
+  def self.getForDownloadByVendor(vendor_uid, project_uid)
     vendor = Vendor.find_by_uid(vendor_uid)
     Transcript.joins(:collection)
-      .where("transcripts.vendor_id = :vendor_id AND collections.vendor_id = :vendor_id AND transcripts.lines <= 0 AND collections.vendor_identifier != :empty AND transcripts.vendor_identifier != :empty",
-      {vendor_id: vendor[:id], empty: ""})
+      .where("transcripts.vendor_id = :vendor_id AND collections.vendor_id = :vendor_id AND transcripts.lines <= 0 AND collections.vendor_identifier != :empty AND transcripts.vendor_identifier != :empty AND transcripts.project_uid = :project_uid",
+      {vendor_id: vendor[:id], empty: "", project_uid: project_uid})
   end
 
-  def self.getForUpdateByVendor(vendor_uid)
+  def self.getForUpdateByVendor(vendor_uid, project_uid)
     vendor = Vendor.find_by_uid(vendor_uid)
     Transcript.joins(:collection)
-      .where("transcripts.vendor_id = :vendor_id AND collections.vendor_id = :vendor_id AND collections.vendor_identifier != :empty AND transcripts.vendor_identifier != :empty",
-      {vendor_id: vendor[:id], empty: ""})
+      .where("transcripts.vendor_id = :vendor_id AND collections.vendor_id = :vendor_id AND collections.vendor_identifier != :empty AND transcripts.vendor_identifier != :empty AND transcripts.project_uid = :project_uid",
+      {vendor_id: vendor[:id], empty: "", project_uid: project_uid})
   end
 
-  def self.getForUploadByVendor(vendor_uid)
+  def self.getForUploadByVendor(vendor_uid, project_uid)
     vendor = Vendor.find_by_uid(vendor_uid)
     Transcript.joins(:collection)
-      .where("transcripts.vendor_id = :vendor_id AND collections.vendor_id = :vendor_id AND transcripts.lines <= 0 AND collections.vendor_identifier != :empty",
-      {vendor_id: vendor[:id], empty: ""})
+      .where("transcripts.vendor_id = :vendor_id AND transcripts.vendor_identifier = :empty AND collections.vendor_id = :vendor_id AND transcripts.lines <= 0 AND collections.vendor_identifier != :empty AND transcripts.project_uid = :project_uid",
+      {vendor_id: vendor[:id], empty: "", project_uid: project_uid})
   end
 
   def loadFromHash(contents)

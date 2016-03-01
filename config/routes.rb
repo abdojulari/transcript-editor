@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   resources :collections, only: [:index, :show]
   mount_devise_token_auth_for 'User', at: 'auth', controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
 
+  root :to => 'default#index'
 end

@@ -1,0 +1,60 @@
+@import "mixins";
+@import "variables";
+
+/* Select Box */
+.select {
+  display: inline-block;
+  position: relative;
+  background: $link-color;
+  color: $white;
+  cursor: pointer;
+  padding: 0.2em 0.8em;
+  white-space: nowrap;
+  @include box-sizing();
+
+  &:hover {
+    background: $link-hover-color;
+  }
+
+  .select-active {
+
+    &:after {
+      margin-left: 5px;
+      @include icon("\f0d7"); // http://fortawesome.github.io/Font-Awesome/icon/caret-down/
+    }
+  }
+
+  .select-options {
+    display: none;
+    position: absolute;
+    width: 100%;
+    top: 100%;
+    left: 0;
+    border-top: none;
+    background: darken($link-color, 10%);
+    @include box-sizing();
+  }
+
+  .select-option {
+    display: block;
+    padding: 0.4em;
+    line-height: 1;
+    color: $white;
+
+    &:hover {
+      color: $white;
+      background: darken($link-color, 5%);
+    }
+
+    &.selected:after {
+      margin-left: 5px;
+      @include icon("\f00c"); // http://fortawesome.github.io/Font-Awesome/icon/check/
+    }
+  }
+
+  &.active {
+    .select-options {
+      display: block;
+    }
+  }
+}

@@ -17,10 +17,20 @@ class Pua
     end
   end
 
+  def createCollection(collection)
+    resp = post("/collections", {
+      title: collection[:title],
+      description: collection[:description],
+      items_visible_by_default: false
+    })
+    collection.update(vendor_identifier: resp["id"])
+    collection
+  end
+
   def createItem(transcript)
     # get collection
-    collection = pua_client.get_collection(transcript.collection[:vendor_identifier])
-    item = False
+    collection = @client.get_collection(transcript.collection[:vendor_identifier])
+    item = nil
 
     # create a new Pop Up Archive item if identifier does not exist
     if transcript[:vendor_identifier].empty?
@@ -31,7 +41,7 @@ class Pua
 
       # update transcript vendor identifier
       transcript.update(vendor_identifier: item["id"])
-      puts "Created new item in Pop Up Archive with id: #{item["id"]}"
+      puts "Created new item #{transcript[:title]} in Pop Up Archive with id: #{item["id"]}"
 
       # attempt to upload file
       createAudioFile(transcript, item)
@@ -42,6 +52,7 @@ class Pua
 
       # upload audio file if no audio files found
       if item && item["audio_files"].length <= 0
+        puts "No audio files found; submitting audio files for #{item["id"]}"
         createAudioFile(transcript, item)
       end
     end
@@ -49,8 +60,23 @@ class Pua
     item
   end
 
+  def get(path, params={})
+    resp = @client.get(path, params)
+    resp.http_resp.body
+  end
+
+  def getCollections
+    resp = get('/collections')
+    resp["collections"]
+  end
+
   def getItem(transcript)
     @client.get_item(transcript.collection[:vendor_identifier], transcript[:vendor_identifier])
+  end
+
+  def post(path, data)
+    resp = @client.post(path, JSON.generate(data))
+    resp.http_resp.body
   end
 
   def _getClient()

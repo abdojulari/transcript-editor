@@ -16,9 +16,7 @@ This tool will allow you to listen to the oral history while you edit its transc
 
 You will listen to the audio one line at a time (the audio will automatically pause for you). Select the first line and to start editing the transcript directly in the browser. The tool bar at the top of the page displays shortcuts for navigating the tool.
 
-<!-- <div class="video-wrapper">
- <video loop autoplay src="/project/assets/img/transcribe-edit.mp4" alt="Screenshot of a transcript being edited."></video>
-</div> -->
+<video src="/oral-history/assets/img/transcript_edit_screencast.mp4" preload="auto" autoplay loop></video>
 
 There are transcription conventions for reference. <span class="highlight">All your edits will be automatically saved.</span> Once enough editors agree on a corrected transcript line, we'll lock that line for editing and have it displayed in our official transcripts.
 

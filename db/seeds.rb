@@ -25,7 +25,7 @@ end
 # Seed Transcript Statuses
 transcript_statuses = [
   { name: 'initialized',            progress: 0,    description: 'Transcript initialized' },
-  { name: 'audio_uploaded ',        progress: 10,   description: 'Audio has been uploaded' },
+  { name: 'audio_uploaded',         progress: 10,   description: 'Audio has been uploaded' },
   { name: 'transcript_processing',  progress: 20,   description: 'Transcript is being processed' },
   { name: 'transcript_downloaded',  progress: 30,   description: 'Transcript has been downloaded' },
   { name: 'transcript_editing',     progress: 40,   description: 'Transcript is being edited' },
@@ -41,10 +41,10 @@ end
 
 # Seed Transcript Statuses
 transcript_line_statuses = [
-  { name: 'initialized', progress: 0,    description: 'Line contains original computer-generated text' },
-  { name: 'editing',     progress: 25,   description: 'Line has been edited by others and still can be edited' },
-  { name: 'reviewing',   progress: 50,   description: 'Line has been edited as being reviewed by others' },
-  { name: 'completed',   progress: 100,  description: 'Line has been completed' },
+  { name: 'initialized', progress: 0,    description: 'Line contains unedited computer-generated text. Please edit if incorrect!' },
+  { name: 'editing',     progress: 25,   description: 'Line has been edited by others. Please edit if incorrect!' },
+  { name: 'reviewing',   progress: 50,   description: 'Line is being reviewed and is no longer editable' },
+  { name: 'completed',   progress: 100,  description: 'Line has been completed and is no longer editable' },
   { name: 'flagged',     progress: 150,  description: 'Line has been marked as incorrect or problematic' },
   { name: 'archived',    progress: 200,  description: 'Line has been archived' }
 ]

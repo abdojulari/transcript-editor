@@ -1,22 +1,11 @@
-<div class="transcript-toolbar">
-  <div class="mode">
-    <label>Continous Play</label>
-    <div class="onoffswitch">
-      <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="continuous-play-switch">
-      <label class="onoffswitch-label" for="continuous-play-switch">
-        <span class="onoffswitch-inner"></span>
-        <span class="onoffswitch-switch"></span>
-      </label>
-    </div>
-  </div>
-  <div id="transcript-notifications" class="notifications">Loading transcript...</div>
+<div class="transcript-toolbar inverse">
   <div class="controls">
     <% _.each(controls, function(control){ %>
-      <div class="control <%= control.id %>" aria-label="<%= control.keyDescription %>" title="<%= control.keyDescription %>">
+      <div class="control <%= control.id %>" aria-label="<%= control.keyDescription %>" title="<%= control.keyDescription %>" style="width: <%= control_width_percent %>%">
+        <div class="label" data-label="<%= control.label %>"></div>
         <div class="key"><%= control.key %></div>
-        <div class="label"><%= control.label %></div>
       </div>
     <% }) %>
   </div>
-  <div class="transcript-menu"><%= menu %></div>
 </div>
+<%= menu %>
