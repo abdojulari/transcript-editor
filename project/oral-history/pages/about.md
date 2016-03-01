@@ -34,8 +34,6 @@ You may log in using a Google account to keep track of all your edits. <a href="
 7. If at least three people agree on the corrected text, the tool calculates the most correct line and it is locked. (The best line is calculated by comparing the use of punctuation, capitalization, and numerals.)
 8. If no consensus is reached, a line goes into review mode where users vote on the most correct version of the line.
 
-
-
 # Oral History Project
 
 Since 2013, The New York Public Library has been running the [Community Oral History Project](oralhistory.nypl.org).
