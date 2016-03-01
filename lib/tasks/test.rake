@@ -2,6 +2,7 @@ namespace :test do
 
   # Usage:
   #     rake test:seed
+  #     rake test:seed[1]
   desc "Seed a transcript for testing various stages of transcripts"
   task :seed, [:edits]  => :environment do |task, args|
     do_edits = (args[:edits] || false)
@@ -12,23 +13,54 @@ namespace :test do
     transcript = seedTranscript
 
     # seed lines
-    seedLines(transcript)
+    lines = seedLines(transcript)
 
     if do_edits
-      seedEdits(transcript)
+      seedEdits(transcript, lines)
     end
 
   end
 
-  def seedEdits(transcript)
+  def seedEdit(attributes)
+    TranscriptEdit.create attributes
+  end
+
+  def seedEdits(transcript, lines)
     # Remove existing edits
     TranscriptEdit.where(:transcript => transcript.id).destroy_all
 
-    # seed edits: editing
-    # seed edits: reviewing
-    # seed edits: completed
-    # seed edits: editing
-    # seed edits: flagged
+    seedEditsEditing(lines[0]) if lines[0]
+    seedEditsReviewing(lines[1]) if lines[1]
+    seedEditsCompleted(lines[2]) if lines[2]
+  end
+
+  def seedEditsEditing(line)
+    # Just one edit
+    seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'one_1', text: 'Picture yourself in a boat on a river'})
+
+    line.recalculate()
+  end
+
+  def seedEditsReviewing(line)
+    # Many edits, none agree
+    seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'two_1', text: 'With tangerine trees and marmalade skies'})
+    seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'two_2', text: 'With tangereen trees and marmalade skies'})
+    seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'two_3', text: 'With tanjereen treez and marmalade skies'})
+    seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'two_4', text: 'With tanjereen trees and marmalade skiez'})
+    seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'two_5', text: 'With tanjereen treez and marmalade skiez'})
+
+    line.recalculate()
+  end
+
+  def seedEditsCompleted(line)
+    # Many edits, all agree
+    seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'three_1', text: 'Somebody calls you, you answer quite slowly'})
+    seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'three_2', text: 'Somebody calls you, you answer quite slowly'})
+    seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'three_3', text: 'Somebody calls you, you answer quite slowly'})
+    seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'three_4', text: 'Somebody calls you, you answer quite slowly'})
+    seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'three_5', text: 'Somebody calls you, you answer quite slowly'})
+
+    line.recalculate()
   end
 
   def seedLine(attributes)
