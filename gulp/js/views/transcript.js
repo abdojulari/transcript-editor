@@ -75,7 +75,7 @@ app.views.Transcript = app.views.Base.extend({
   lineSelect: function(i){
     // check if in bounds
     var lines = this.data.transcript.lines;
-    if (i < 0 || i >= lines.length) return false;
+    if (i < 0 || i >= lines.length || i==this.current_line_i) return false;
 
     this.onLineOff(this.current_line_i);
 
@@ -102,7 +102,7 @@ app.views.Transcript = app.views.Base.extend({
   },
 
   lineSubmit: function(){
-    this.lineNext(true);
+    this.lineNext();
   },
 
   lineToggle: function(){
@@ -359,6 +359,24 @@ app.views.Transcript = app.views.Base.extend({
 
   render: function(){
     this.$el.html(this.template(this.data));
+    this.renderLines();
+  },
+
+  renderLines: function(){
+    var $container = this.$el.find('#transcript-lines'),
+        $lines = $('<div>');
+
+    if (!$container.length) return false;
+    $container.empty();
+
+    _.each(this.data.transcript.lines, function(line) {
+      var lineView = new app.views.TranscriptLine({
+        line: line,
+        verifyView: '#'
+      });
+      $lines.append(lineView.$el);
+    });
+    $container.append($lines);
   },
 
   start: function(){

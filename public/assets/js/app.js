@@ -608,6 +608,9 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var toolbar = new app.views.TranscriptToolbar(_.extend({}, data, {el: '#secondary-navigation', menu: 'transcript_edit'}));
     var modals = new app.views.Modals(data);
 
+    var verifyView = new app.views.TranscriptLineVerify(data);
+    modals.addModal(verifyView.$el);
+
     var transcript_model = new app.models.Transcript({id: id});
     var main = new app.views.TranscriptEdit(_.extend({}, data, {el: '#main', model: transcript_model}));
   },
@@ -784,6 +787,10 @@ app.views.Modals = app.views.Base.extend({
     this.render();
   },
 
+  addModal: function($modal){
+    this.$el.append($modal);
+  },
+
   dismissModals: function(){
     this.$('.modal').removeClass('active');
   },
@@ -804,6 +811,10 @@ app.views.Modals = app.views.Base.extend({
 
     PubSub.subscribe('modal.invoke', function(ev, id) {
       _this.invokeModal(id);
+    });
+
+    PubSub.subscribe('modals.dismiss', function(ev, data) {
+      _this.dismissModals();
     });
   },
 
@@ -903,7 +914,7 @@ app.views.Transcript = app.views.Base.extend({
   lineSelect: function(i){
     // check if in bounds
     var lines = this.data.transcript.lines;
-    if (i < 0 || i >= lines.length) return false;
+    if (i < 0 || i >= lines.length || i==this.current_line_i) return false;
 
     this.onLineOff(this.current_line_i);
 
@@ -930,7 +941,7 @@ app.views.Transcript = app.views.Base.extend({
   },
 
   lineSubmit: function(){
-    this.lineNext(true);
+    this.lineNext();
   },
 
   lineToggle: function(){
@@ -1187,6 +1198,24 @@ app.views.Transcript = app.views.Base.extend({
 
   render: function(){
     this.$el.html(this.template(this.data));
+    this.renderLines();
+  },
+
+  renderLines: function(){
+    var $container = this.$el.find('#transcript-lines'),
+        $lines = $('<div>');
+
+    if (!$container.length) return false;
+    $container.empty();
+
+    _.each(this.data.transcript.lines, function(line) {
+      var lineView = new app.views.TranscriptLine({
+        line: line,
+        verifyView: '#'
+      });
+      $lines.append(lineView.$el);
+    });
+    $container.append($lines);
   },
 
   start: function(){
@@ -1447,6 +1476,92 @@ app.views.Page = app.views.Base.extend({
 
 });
 
+app.views.TranscriptLine = app.views.Base.extend({
+
+  template: _.template(TEMPLATES['transcript_line.ejs']),
+
+  events: {
+    "click": "select",
+    "click .star": "star",
+    "click .flag": "flag",
+    "click .verify": "verify"
+  },
+
+  initialize: function(data){
+    this.data = _.extend({}, data);
+    this.line = this.data.line || {};
+    this.edits = this.data.edits || [];
+    this.render();
+  },
+
+  flag: function(e){
+    e.preventDefault();
+    $(e.currentTarget).toggleClass('active');
+  },
+
+  loadEdits: function(onSuccess){
+    var _this = this;
+    $.getJSON("/transcript_edits.json", {transcript_line_id: this.line.id}, function(data) {
+      if (data.length) {
+        _this.edits = _this.parseEdits(data);
+        onSuccess && onSuccess();
+      }
+    });
+  },
+
+  parseEdits: function(_edits){
+    var line = this.line,
+        edits = [],
+        texts = [];
+
+    _.each(_edits, function(edit, i){
+      if (!_.contains(texts, edit.text)) {
+        if (line.user_text == edit.text) {
+          edit.active = true;
+        }
+        texts.push(edit.text);
+        edits.push(edit);
+      }
+    });
+
+    return edits;
+  },
+
+  render: function(){
+    this.$el.html(this.template(this.line));
+  },
+
+  select: function(e){
+    e && e.preventDefault();
+    PubSub.publish('transcript.line.select', this.line);
+  },
+
+  star: function(e){
+    e.preventDefault();
+    $(e.currentTarget).toggleClass('active');
+  },
+
+  verify: function(e){
+    e && e.preventDefault();
+    this.select();
+
+    var _this = this;
+
+    if (!this.edits.length) {
+      this.loadEdits(function(){
+        _this.verify();
+      });
+      return false;
+    }
+
+    PubSub.publish('transcript.edits.load', {
+      edits: this.edits,
+      line: this.line
+    });
+  }
+
+});
+
 app.views.TranscriptToolbar = app.views.Base.extend({
 
   template: _.template(TEMPLATES['transcript_toolbar.ejs']),
@@ -1508,14 +1623,99 @@ app.views.TranscriptToolbar = app.views.Base.extend({
 
 });
 
+app.views.TranscriptLineVerify = app.views.Base.extend({
+
+  id: "transcript-line-verify",
+  className: "modal-wrapper",
+
+  template: _.template(TEMPLATES['transcript_line_verify.ejs']),
+
+  events: {
+    "click .option": "select",
+    "click .submit": "submit",
+    "click .none-correct": "noneCorrect"
+  },
+
+  initialize: function(data){
+    var _this = this;
+
+    this.data = _.extend({}, data);
+    this.data.title = this.data.title || "Choose the best transcription";
+    this.data.active = this.data.active || false;
+
+    PubSub.subscribe('transcript.edits.load', function(ev, data) {
+      _this.data.line = data.line;
+      _this.showEdits(data.edits);
+    });
+  },
+
+  closeAndSubmit: function(){
+    PubSub.publish('modals.dismiss', true);
+    PubSub.publish('transcript.line.submit', true);
+  },
+
+  noneCorrect: function(e){
+    e.preventDefault();
+    var _this = this;
+
+    this.$el.find('.option').removeClass('active');
+
+    setTimeout(function(){
+      _this.closeAndSubmit();
+    }, 1000);
+  },
+
+  render: function(){
+    this.$el.html(this.template(this.data));
+  },
+
+  select: function(e){
+    e.preventDefault();
+
+    var line = this.data.line,
+        $options = this.$el.find('.option'),
+        $option = $(e.currentTarget),
+        edit_id = parseInt($option.attr('edit-id'));
+
+    $options.not('[edit-id="'+edit_id+'"]').removeClass('active');
+    $option.toggleClass('active');
+
+    // set selected edit as active
+    this.data.edits = _.map(this.data.edits, function(edit){
+      edit.active = false;
+      if (edit.id == edit_id && $option.hasClass('active')) {
+        edit.active = true;
+      }
+      return edit;
+    });
+
+    PubSub.publish('transcript.line.verify', {
+      line: line,
+      text: $option.text(),
+      is_active: $option.hasClass('active') ? 1 : 0
+    });
+  },
+
+  showEdits: function(edits){
+    this.data.edits = edits;
+    this.render();
+    PubSub.publish('modal.invoke', this.id);
+  },
+
+  submit: function(e){
+    e.preventDefault();
+
+    this.closeAndSubmit();
+  }
+
+});
+
 app.views.TranscriptEdit = app.views.Transcript.extend({
 
   template: _.template(TEMPLATES['transcript_edit.ejs']),
-  template_line: _.template(TEMPLATES['transcript_line.ejs']),
 
   initialize: function(data){
     this.data = data;
-    this.data.template_line = this.template_line;
 
     this.loadConventions();
     this.loadTranscript();
@@ -1523,13 +1723,31 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.listenForAuth();
   },
 
+  lineEditDelete: function(i){
+    if (i < 0) return false;
+
+    var $input = $('.line[sequence="'+i+'"] .text-input').first();
+    if (!$input.length) return false;
+
+    // TODO: delete edit
+
+    var original_value = $input.attr('original-value');
+    if (original_value) {
+      $input.attr('value', original_value);
+      if ($input.hasClass('not-editable')) $input.text(original_value);
+    }
+
+    $input.attr('user-value', '');
+    $input.closest('.line').removeClass('user-edited');
+  },
+
   lineSave: function(i){
     if (i < 0) return false;
 
-    var $input = $('.line[sequence="'+i+'"] input').first();
+    var $input = $('.line[sequence="'+i+'"] .text-input').first();
     if (!$input.length) return false;
 
-    var text = $input.val();
+    var text = $input.attr('value');
     var userText = $input.attr('user-value');
     // implicit save; save even when user has not edited original text
     if (text != userText) {
@@ -1540,6 +1758,24 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     }
   },
 
+  lineVerify: function(data){
+    var is_active = data.is_active,
+        line = data.line,
+        text = data.text;
+
+    var $input = $('.line[sequence="'+line.sequence+'"] .text-input').first();
+    if (!$input.length) return false;
+
+    if (is_active) {
+      $input.attr('value', text);
+      if ($input.hasClass('not-editable')) $input.text(text);
+      this.lineSave(line.sequence);
+
+    } else {
+      this.lineEditDelete(line.sequence);
+    }
+  },
+
   loadListeners: function(){
     var _this = this,
         controls = this.data.project.controls;
@@ -1547,7 +1783,9 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     // remove existing listeners
     $('.control').off('click.transcript');
     $(window).off('keydown.transcript');
-    this.$el.off('click.transcript', '.line');
+    PubSub.unsubscribe('transcript.line.select');
+    PubSub.unsubscribe('transcript.line.submit');
+    PubSub.unsubscribe('transcript.line.verify');
     this.$el.off('click.transcript', '.start-play');
 
     // add link listeners
@@ -1574,12 +1812,17 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
       });
     });
 
-    // add line listener
-    this.$el.on('click.transcript', '.line', function(e){
-      e.preventDefault();
-      if (!$(this).hasClass('active')) {
-        _this.lineSelect(parseInt($(this).attr('sequence')));
-      }
+    // add line listeners
+    PubSub.subscribe('transcript.line.select', function(ev, line) {
+      _this.lineSelect(line.sequence);
+    });
+    PubSub.subscribe('transcript.line.submit', function(ev, data){
+      _this.lineSubmit();
+    });
+
+    // add verify listener
+    PubSub.subscribe('transcript.line.verify', function(ev, data) {
+      _this.lineVerify(data);
     });
 
     // add start listener

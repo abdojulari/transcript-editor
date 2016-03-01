@@ -1,0 +1,29 @@
+@import "mixins";
+@import "variables";
+
+#transcript-line-verify {
+
+  header {
+    font-size: 1.8em;
+  }
+
+  .option {
+    display: block;
+    background: $coolgray-dark-color;
+    color: $white;
+    padding: 0.2em 0.4em;
+    font-size: 1.4em;
+    margin: 0.2em 0 0;
+
+    &:hover,
+    &.active {
+      background: $green-color;
+    }
+
+    &.active:before {
+      @include icon("\f00c");
+      margin-right: 5px;
+    }
+  }
+
+}

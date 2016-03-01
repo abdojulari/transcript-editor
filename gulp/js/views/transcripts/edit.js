@@ -1,11 +1,9 @@
 app.views.TranscriptEdit = app.views.Transcript.extend({
 
   template: _.template(TEMPLATES['transcript_edit.ejs']),
-  template_line: _.template(TEMPLATES['transcript_line.ejs']),
 
   initialize: function(data){
     this.data = data;
-    this.data.template_line = this.template_line;
 
     this.loadConventions();
     this.loadTranscript();
@@ -13,13 +11,31 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.listenForAuth();
   },
 
+  lineEditDelete: function(i){
+    if (i < 0) return false;
+
+    var $input = $('.line[sequence="'+i+'"] .text-input').first();
+    if (!$input.length) return false;
+
+    // TODO: delete edit
+
+    var original_value = $input.attr('original-value');
+    if (original_value) {
+      $input.attr('value', original_value);
+      if ($input.hasClass('not-editable')) $input.text(original_value);
+    }
+
+    $input.attr('user-value', '');
+    $input.closest('.line').removeClass('user-edited');
+  },
+
   lineSave: function(i){
     if (i < 0) return false;
 
-    var $input = $('.line[sequence="'+i+'"] input').first();
+    var $input = $('.line[sequence="'+i+'"] .text-input').first();
     if (!$input.length) return false;
 
-    var text = $input.val();
+    var text = $input.attr('value');
     var userText = $input.attr('user-value');
     // implicit save; save even when user has not edited original text
     if (text != userText) {
@@ -30,6 +46,24 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     }
   },
 
+  lineVerify: function(data){
+    var is_active = data.is_active,
+        line = data.line,
+        text = data.text;
+
+    var $input = $('.line[sequence="'+line.sequence+'"] .text-input').first();
+    if (!$input.length) return false;
+
+    if (is_active) {
+      $input.attr('value', text);
+      if ($input.hasClass('not-editable')) $input.text(text);
+      this.lineSave(line.sequence);
+
+    } else {
+      this.lineEditDelete(line.sequence);
+    }
+  },
+
   loadListeners: function(){
     var _this = this,
         controls = this.data.project.controls;
@@ -37,7 +71,9 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     // remove existing listeners
     $('.control').off('click.transcript');
     $(window).off('keydown.transcript');
-    this.$el.off('click.transcript', '.line');
+    PubSub.unsubscribe('transcript.line.select');
+    PubSub.unsubscribe('transcript.line.submit');
+    PubSub.unsubscribe('transcript.line.verify');
     this.$el.off('click.transcript', '.start-play');
 
     // add link listeners
@@ -64,12 +100,17 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
       });
     });
 
-    // add line listener
-    this.$el.on('click.transcript', '.line', function(e){
-      e.preventDefault();
-      if (!$(this).hasClass('active')) {
-        _this.lineSelect(parseInt($(this).attr('sequence')));
-      }
+    // add line listeners
+    PubSub.subscribe('transcript.line.select', function(ev, line) {
+      _this.lineSelect(line.sequence);
+    });
+    PubSub.subscribe('transcript.line.submit', function(ev, data){
+      _this.lineSubmit();
+    });
+
+    // add verify listener
+    PubSub.subscribe('transcript.line.verify', function(ev, data) {
+      _this.lineVerify(data);
     });
 
     // add start listener

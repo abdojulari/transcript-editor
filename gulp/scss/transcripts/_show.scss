@@ -22,6 +22,8 @@
 $transcript-line-height: 56px;
 $transcript-line-time-width: 80px;
 $transcript-line-status-width: 34px;
+$transcript-line-options-width: 80px;
+$transcript-line-options-reviewing-width: 138px;
 
 .transcript-lines {
   margin-left: -10px;
@@ -207,6 +209,7 @@ $transcript-line-status-width: 34px;
   }
   .text {
     margin-left: $transcript-line-time-width + $transcript-line-status-width;
+    margin-right: $transcript-line-options-width;
     width: auto;
     padding-left: 10px;
     @include box-sizing();
@@ -231,6 +234,81 @@ $transcript-line-status-width: 34px;
     &:focus {
       outline: none;
     }
+  }
+  .options {
+    width: $transcript-line-options-width;
+    float: right;
+    padding-left: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    @include box-sizing();
+
+    .button {
+      padding: 0 0.2em;
+      height: $transcript-line-height / 2;
+      line-height: $transcript-line-height / 2;
+      visibility: hidden;
+    }
+
+    .verify {
+      padding: 0 0.4em;
+    }
+
+    .star,
+    .flag {
+      background: none;
+      font-size: 1.4em;
+      color: $coolgray-dark-color;
+      border: none;
+      &.active {
+        color: $green-dark-color;
+      }
+    }
+
+    .star {
+      &:before {
+        @include icon("\f006");
+      }
+      &:hover:before,
+      &.active:before {
+        content: "\f005";
+      }
+    }
+
+    .flag {
+      &:before {
+        @include icon("\f11d");
+      }
+      &:hover:before,
+      &.active:before {
+        content: "\f024";
+      }
+      &.active {
+        color: $red-color;
+      }
+    }
+  }
+  .line:hover,
+  .line.active {
+    .button {
+      visibility: visible;
+    }
+  }
+  .line .button.active {
+    visibility: visible;
+    opacity: 0.5;
+  }
+  .line:hover,
+  .line.active {
+    .button.active {
+      opacity: 1;
+    }
+  }
+  .line.reviewing .options {
+    width: $transcript-line-options-reviewing-width;
+  }
+  .line.reviewing .text {
+    margin-right: $transcript-line-options-reviewing-width;
   }
 }
 

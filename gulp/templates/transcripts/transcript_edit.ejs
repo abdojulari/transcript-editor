@@ -11,8 +11,4 @@
 </div>
 <% } %>
 
-<div class="transcript-lines">
-  <% _.each(transcript.lines, function(line) { %>
-    <%= template_line(line) %>
-  <% }) %>
-</div>
+<div id="transcript-lines" class="transcript-lines"></div>

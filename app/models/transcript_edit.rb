@@ -20,6 +20,10 @@ class TranscriptEdit < ActiveRecord::Base
       .where(transcript_line_id: transcript_line_id)
   end
 
+  def self.getByLineForDisplay(transcript_line_id)
+    TranscriptEdit.where(transcript_line_id: transcript_line_id)
+  end
+
   def self.getByTranscriptSession(transcript_id, session_id)
     TranscriptEdit.where(transcript_id: transcript_id, session_id: session_id)
   end

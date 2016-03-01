@@ -1,21 +1,19 @@
 class TranscriptEditsController < ApplicationController
   before_action :set_transcript_edit, only: [:show, :update, :destroy]
 
-  # GET /transcript_edits
-  # GET /transcript_edits.json
+  # GET /transcript_edits.json?transcript_line_id=1
   def index
-    @transcript_edits = TranscriptEdit.all
+    @transcript_edits = []
 
-    render json: @transcript_edits
+    if params[:transcript_line_id]
+      @transcript_edits = TranscriptEdit.getByLineForDisplay(params[:transcript_line_id])
+    end
   end
 
-  # GET /transcript_edits/1
   # GET /transcript_edits/1.json
   def show
-    render json: @transcript_edit
   end
 
-  # POST /transcript_edits
   # POST /transcript_edits.json
   def create
     @transcript_edit = nil
@@ -70,7 +68,6 @@ class TranscriptEditsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /transcript_edits/1
   # PATCH/PUT /transcript_edits/1.json
   def update
     @transcript_edit = TranscriptEdit.find(params[:id])
@@ -82,7 +79,6 @@ class TranscriptEditsController < ApplicationController
     end
   end
 
-  # DELETE /transcript_edits/1
   # DELETE /transcript_edits/1.json
   def destroy
     @transcript_edit.destroy

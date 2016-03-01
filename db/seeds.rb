@@ -43,7 +43,7 @@ end
 transcript_line_statuses = [
   { name: 'initialized', progress: 0,    description: 'Line contains unedited computer-generated text. Please edit if incorrect!' },
   { name: 'editing',     progress: 25,   description: 'Line has been edited by others. Please edit if incorrect!' },
-  { name: 'reviewing',   progress: 50,   description: 'Line is being reviewed and is no longer editable' },
+  { name: 'reviewing',   progress: 50,   description: 'Line is being reviewed and is no longer editable. Click \'Verify\' to review.' },
   { name: 'completed',   progress: 100,  description: 'Line has been completed and is no longer editable' },
   { name: 'flagged',     progress: 150,  description: 'Line has been marked as incorrect or problematic' },
   { name: 'archived',    progress: 200,  description: 'Line has been archived' }
