@@ -93,6 +93,6 @@ class TranscriptEditsController < ApplicationController
     end
 
     def transcript_edit_params
-      params.require(:transcript_edit).permit(:transcript_id, :transcript_line_id, :user_id, :session_id, :text, :weight)
+      params.require(:transcript_edit).permit(:transcript_id, :transcript_line_id, :user_id, :session_id, :text, :is_deleted)
     end
 end

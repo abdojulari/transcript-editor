@@ -15,10 +15,15 @@ namespace :test do
     # seed lines
     lines = seedLines(transcript)
 
+    deleteEdits(transcript)
     if do_edits
       seedEdits(transcript, lines)
     end
 
+  end
+
+  def deleteEdits(transcript)
+    TranscriptEdit.where(:transcript => transcript.id).destroy_all
   end
 
   def seedEdit(attributes)
@@ -26,9 +31,6 @@ namespace :test do
   end
 
   def seedEdits(transcript, lines)
-    # Remove existing edits
-    TranscriptEdit.where(:transcript => transcript.id).destroy_all
-
     seedEditsEditing(lines[0]) if lines[0]
     seedEditsReviewing(lines[1]) if lines[1]
     seedEditsCompleted(lines[2]) if lines[2]
