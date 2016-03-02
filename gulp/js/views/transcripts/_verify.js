@@ -24,20 +24,23 @@ app.views.TranscriptLineVerify = app.views.Base.extend({
     });
   },
 
-  closeAndSubmit: function(){
-    PubSub.publish('modals.dismiss', true);
-    PubSub.publish('transcript.line.submit', true);
-  },
-
   noneCorrect: function(e){
     e.preventDefault();
-    var _this = this;
+    var _this = this,
+        line = this.data.line;
 
+    PubSub.publish('transcript.edit.delete', line);
+
+    // make all edits inactive
     this.$el.find('.option').removeClass('active');
+    this.data.edits = _.map(this.data.edits, function(edit){
+      edit.active = false;
+      return edit;
+    });
 
     setTimeout(function(){
-      _this.closeAndSubmit();
-    }, 1000);
+      _this.submit();
+    }, 800);
   },
 
   render: function(){
@@ -64,11 +67,14 @@ app.views.TranscriptLineVerify = app.views.Base.extend({
       return edit;
     });
 
-    PubSub.publish('transcript.line.verify', {
-      line: line,
-      text: $option.text(),
-      is_active: $option.hasClass('active') ? 1 : 0
-    });
+    // edit is selected
+    if ($option.hasClass('active')) {
+      PubSub.publish('transcript.line.verify', {line: line, text: $option.text()});
+
+    // edit is deleted
+    } else {
+      PubSub.publish('transcript.edit.delete', line);
+    }
   },
 
   showEdits: function(edits){
@@ -78,9 +84,9 @@ app.views.TranscriptLineVerify = app.views.Base.extend({
   },
 
   submit: function(e){
-    e.preventDefault();
+    e && e.preventDefault();
 
-    this.closeAndSubmit();
+    PubSub.publish('transcript.line.submit', true);
   }
 
 });

@@ -1082,6 +1082,9 @@ app.views.Transcript = app.views.Base.extend({
   },
 
   onLineOff: function(i){
+    // close all modals
+    PubSub.publish('modals.dismiss', true);
+
     // save line always
     this.lineSave(i);
 
@@ -1649,20 +1652,23 @@ app.views.TranscriptLineVerify = app.views.Base.extend({
     });
   },
 
-  closeAndSubmit: function(){
-    PubSub.publish('modals.dismiss', true);
-    PubSub.publish('transcript.line.submit', true);
-  },
-
   noneCorrect: function(e){
     e.preventDefault();
-    var _this = this;
+    var _this = this,
+        line = this.data.line;
 
+    PubSub.publish('transcript.edit.delete', line);
+
+    // make all edits inactive
     this.$el.find('.option').removeClass('active');
+    this.data.edits = _.map(this.data.edits, function(edit){
+      edit.active = false;
+      return edit;
+    });
 
     setTimeout(function(){
-      _this.closeAndSubmit();
-    }, 1000);
+      _this.submit();
+    }, 800);
   },
 
   render: function(){
@@ -1689,11 +1695,14 @@ app.views.TranscriptLineVerify = app.views.Base.extend({
       return edit;
     });
 
-    PubSub.publish('transcript.line.verify', {
-      line: line,
-      text: $option.text(),
-      is_active: $option.hasClass('active') ? 1 : 0
-    });
+    // edit is selected
+    if ($option.hasClass('active')) {
+      PubSub.publish('transcript.line.verify', {line: line, text: $option.text()});
+
+    // edit is deleted
+    } else {
+      PubSub.publish('transcript.edit.delete', line);
+    }
   },
 
   showEdits: function(edits){
@@ -1703,9 +1712,9 @@ app.views.TranscriptLineVerify = app.views.Base.extend({
   },
 
   submit: function(e){
-    e.preventDefault();
+    e && e.preventDefault();
 
-    this.closeAndSubmit();
+    PubSub.publish('transcript.line.submit', true);
   }
 
 });
@@ -1728,17 +1737,18 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
 
     var $input = $('.line[sequence="'+i+'"] .text-input').first();
     if (!$input.length) return false;
+    var line = this.data.transcript.lines[i];
 
-    // TODO: delete edit
+    // display the original text
+    $input.attr('value', line.display_text);
+    if ($input.hasClass('not-editable')) $input.text(line.display_text);
 
-    var original_value = $input.attr('original-value');
-    if (original_value) {
-      $input.attr('value', original_value);
-      if ($input.hasClass('not-editable')) $input.text(original_value);
-    }
-
+    // update UI
     $input.attr('user-value', '');
     $input.closest('.line').removeClass('user-edited');
+
+    // submit edit
+    this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: '', is_deleted: 1});
   },
 
   lineSave: function(i){
@@ -1747,33 +1757,38 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     var $input = $('.line[sequence="'+i+'"] .text-input').first();
     if (!$input.length) return false;
 
+    var line = this.data.transcript.lines[i];
     var text = $input.attr('value');
     var userText = $input.attr('user-value');
+
     // implicit save; save even when user has not edited original text
-    if (text != userText) {
-      var line = this.data.transcript.lines[i];
+    // only save if line is editable
+    if (text != userText && line.is_editable) {
+
+      // update UI
       $input.attr('user-value', text);
-      this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text});
       $input.closest('.line').addClass('user-edited');
+
+      // submit edit
+      this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text, is_deleted: 0});
     }
   },
 
   lineVerify: function(data){
-    var is_active = data.is_active,
-        line = data.line,
+    var line = data.line,
         text = data.text;
 
     var $input = $('.line[sequence="'+line.sequence+'"] .text-input').first();
     if (!$input.length) return false;
 
-    if (is_active) {
-      $input.attr('value', text);
-      if ($input.hasClass('not-editable')) $input.text(text);
-      this.lineSave(line.sequence);
+    // update UI
+    $input.attr('value', text);
+    $input.attr('user-value', text);
+    if ($input.hasClass('not-editable')) $input.text(text);
+    $input.closest('.line').addClass('user-edited');
 
-    } else {
-      this.lineEditDelete(line.sequence);
-    }
+    // submit edit
+    this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text, is_deleted: 0});
   },
 
   loadListeners: function(){
@@ -1786,6 +1801,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     PubSub.unsubscribe('transcript.line.select');
     PubSub.unsubscribe('transcript.line.submit');
     PubSub.unsubscribe('transcript.line.verify');
+    PubSub.unsubscribe('transcript.edit.delete');
     this.$el.off('click.transcript', '.start-play');
 
     // add link listeners
@@ -1823,6 +1839,11 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     // add verify listener
     PubSub.subscribe('transcript.line.verify', function(ev, data) {
       _this.lineVerify(data);
+    });
+
+    // add edit delete listener
+    PubSub.subscribe('transcript.edit.delete', function(ev, line) {
+      _this.lineEditDelete(line.sequence);
     });
 
     // add start listener

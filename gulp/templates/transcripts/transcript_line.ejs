@@ -9,15 +9,16 @@
   <div class="options">
     <% if (status.name == 'reviewing') { %>
       <a class="button verify" title="Choose the best submitted edit">Verify</a>
+    <% } else if (status.name == 'completed') { %>
+      <!-- <a class="button flag" title="Flag this line as incorrect"></a> -->
     <% } %>
-    <a class="button star" title="Star this line"></a>
-    <a class="button flag" title="Flag this line"></a>
+    <!-- <a class="button star" title="Star this line"></a> -->
   </div>
   <div class="text">
     <% if (is_editable) { %>
       <input class="text-input" type="text" value="<%= display_text %>" user-value="<%= user_text %>"  />
     <% } else { %>
-      <div class="text-input not-editable" value="<%= display_text %>" user-value="<%= user_text %>" original-value="<%= display_text %>"><%= display_text %></div>
+      <div class="text-input not-editable" value="<%= display_text %>" user-value="<%= user_text %>"><%= display_text %></div>
     <% } %>
   </div>
 </div>

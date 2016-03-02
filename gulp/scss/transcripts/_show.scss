@@ -23,7 +23,7 @@ $transcript-line-height: 56px;
 $transcript-line-time-width: 80px;
 $transcript-line-status-width: 34px;
 $transcript-line-options-width: 80px;
-$transcript-line-options-reviewing-width: 138px;
+$transcript-line-options-reviewing-width: 80px;
 
 .transcript-lines {
   margin-left: -10px;
@@ -238,7 +238,8 @@ $transcript-line-options-reviewing-width: 138px;
   .options {
     width: $transcript-line-options-width;
     float: right;
-    padding-left: 10px;
+    padding-right: 20px;
+    text-align: right;
     overflow: hidden;
     white-space: nowrap;
     @include box-sizing();

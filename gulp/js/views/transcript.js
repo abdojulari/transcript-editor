@@ -243,6 +243,9 @@ app.views.Transcript = app.views.Base.extend({
   },
 
   onLineOff: function(i){
+    // close all modals
+    PubSub.publish('modals.dismiss', true);
+
     // save line always
     this.lineSave(i);
 

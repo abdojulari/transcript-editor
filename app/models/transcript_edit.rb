@@ -6,7 +6,7 @@ class TranscriptEdit < ActiveRecord::Base
   validates :session_id, presence: true
   validates :transcript_id, numericality: { only_integer: true }, presence: true
   validates :transcript_line_id, numericality: { only_integer: true }, presence: true
-  validates :text, presence: true
+  # validates :text, presence: true
 
   def normalizedText
     # downcase; remove punctuation; remove extra whitespace; trim
