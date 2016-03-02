@@ -1537,6 +1537,12 @@ app.views.TranscriptLine = app.views.Base.extend({
   select: function(e){
     e && e.preventDefault();
     PubSub.publish('transcript.line.select', this.line);
+
+    // invoke verify task if reviewing
+    if (e && !$(e.currentTarget).hasClass('verify') && this.line.status.name == 'reviewing') {
+      this.verify();
+    }
+
   },
 
   star: function(e){

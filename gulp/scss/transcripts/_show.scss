@@ -82,6 +82,10 @@ $transcript-line-options-reviewing-width: 80px;
       cursor: not-allowed;
     }
 
+    &.not-editable.reviewing .text > div {
+      cursor: pointer;
+    }
+
     &.active {
       cursor: default;
 
