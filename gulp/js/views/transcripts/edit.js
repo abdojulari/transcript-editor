@@ -125,6 +125,11 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
       _this.lineEditDelete(line.sequence);
     });
 
+    // add edit delete listener
+    PubSub.subscribe('player.toggle-play', function(ev, data) {
+      _this.lineToggle();
+    });
+
     // add start listener
     this.$el.on('click.transcript', '.start-play', function(e){
       e.preventDefault();

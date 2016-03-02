@@ -26,4 +26,17 @@
     }
   }
 
+  .toggle-play:before {
+    @include icon("\f144");
+  }
+
+}
+
+#app[state=playing] #transcript-line-verify .toggle-play:before {
+  content: "\f28b";
+}
+#app[state=buffering] #transcript-line-verify .toggle-play:before {
+  content: "\f110";
+  color: $coolgray-color;
+  @include animation(spin 2s infinite linear);
 }

@@ -8,7 +8,8 @@ app.views.TranscriptLineVerify = app.views.Base.extend({
   events: {
     "click .option": "select",
     "click .submit": "submit",
-    "click .none-correct": "noneCorrect"
+    "click .none-correct": "noneCorrect",
+    "click .toggle-play": "togglePlay"
   },
 
   initialize: function(data){
@@ -87,6 +88,12 @@ app.views.TranscriptLineVerify = app.views.Base.extend({
     e && e.preventDefault();
 
     PubSub.publish('transcript.line.submit', true);
+  },
+
+  togglePlay: function(e){
+    e && e.preventDefault();
+
+    PubSub.publish('player.toggle-play', true);
   }
 
 });

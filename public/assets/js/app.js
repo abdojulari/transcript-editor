@@ -816,6 +816,11 @@ app.views.Modals = app.views.Base.extend({
     PubSub.subscribe('modals.dismiss', function(ev, data) {
       _this.dismissModals();
     });
+
+    // listen for player state change
+    PubSub.subscribe('player.state.change', function(ev, state) {
+      _this.$el.attr('state', state);
+    });
   },
 
   render: function() {
@@ -1578,7 +1583,6 @@ app.views.TranscriptToolbar = app.views.Base.extend({
   initialize: function(data){
     this.data = _.extend({}, data);
 
-
     this.loadControls();
     this.loadListeners();
     this.loadMenu();
@@ -1642,7 +1646,8 @@ app.views.TranscriptLineVerify = app.views.Base.extend({
   events: {
     "click .option": "select",
     "click .submit": "submit",
-    "click .none-correct": "noneCorrect"
+    "click .none-correct": "noneCorrect",
+    "click .toggle-play": "togglePlay"
   },
 
   initialize: function(data){
@@ -1721,6 +1726,12 @@ app.views.TranscriptLineVerify = app.views.Base.extend({
     e && e.preventDefault();
 
     PubSub.publish('transcript.line.submit', true);
+  },
+
+  togglePlay: function(e){
+    e && e.preventDefault();
+
+    PubSub.publish('player.toggle-play', true);
   }
 
 });
@@ -1850,6 +1861,11 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     // add edit delete listener
     PubSub.subscribe('transcript.edit.delete', function(ev, line) {
       _this.lineEditDelete(line.sequence);
+    });
+
+    // add edit delete listener
+    PubSub.subscribe('player.toggle-play', function(ev, data) {
+      _this.lineToggle();
     });
 
     // add start listener

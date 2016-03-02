@@ -5,7 +5,6 @@ app.views.TranscriptToolbar = app.views.Base.extend({
   initialize: function(data){
     this.data = _.extend({}, data);
 
-
     this.loadControls();
     this.loadListeners();
     this.loadMenu();
