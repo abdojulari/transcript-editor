@@ -17,10 +17,10 @@
     }
   ],
   "consensus": {
-    "maxLineEdits": 5,
+    "maxLineEdits": 3,
     "minLinesForConsensus": 3,
     "minPercentConsensus": 0.34,
-    "lineDisplayMethod": "guess",
+    "lineDisplayMethod": "original",
     "superUserHiearchy": 50
   },
   "menus": {
