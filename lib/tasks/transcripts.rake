@@ -57,6 +57,28 @@ namespace :transcripts do
     puts "Wrote #{transcripts.length} transcripts to database"
   end
 
+  # Usage:
+  #     rake transcripts:recalculate['adrian-wagner-nxr3fk']
+  #     rake transcripts:recalculate
+  desc "Recalculate a transcript, or all transcript"
+  task :recalculate, [:transcript_uid] => :environment do |task, args|
+    args.with_defaults transcript_uid: false
+
+    transcripts = []
+
+    if !args[:transcript_uid].blank?
+      transcripts = Transcript.where(uid: args[:transcript_uid])
+
+    else
+      transcripts = Transcript.getEdited
+    end
+
+    transcripts.each do |transcript|
+      transcript.recalculate
+    end
+
+  end
+
   # Usage rake transcripts:update_file['oral-history','transcripts_seeds.csv']
   desc "Update a csv file based on data in database"
   task :update_file, [:project_key, :filename] => :environment do |task, args|

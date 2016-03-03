@@ -17,6 +17,10 @@ class Transcript < ActiveRecord::Base
     uid
   end
 
+  def self.getEdited
+    Transcript.joins(:transcript_edits).distinct
+  end
+
   def self.getForHomepage(page, options={})
     options[:order] ||= "title"
 
@@ -46,6 +50,49 @@ class Transcript < ActiveRecord::Base
       {vendor_id: vendor[:id], empty: "", project_uid: project_uid})
   end
 
+  # Incrementally update transcript stats based on line delta
+  def delta(line_status_id_before, line_status_id_after, statuses=nil)
+    return if lines <= 0
+
+    statuses ||= TranscriptLineStatus.allCached
+
+    # initialize stats
+    changed = false
+    new_lines_completed = lines_completed
+    new_lines_edited = lines_edited
+    new_percent_completed = percent_completed
+    new_percent_edited = percent_edited
+
+    # retrieve statuses
+    before_status = statuses.find{|s| s[:id]==line_status_id_before}
+    after_status = statuses.find{|s| s[:id]==line_status_id_after}
+
+    # Case: initialized before, something else after, increment lines edited
+    if (!before_status || before_status.name=="initialized") && after_status && after_status.name!="initialized"
+      new_lines_edited += 1
+      changed = true
+    end
+
+    # Case: not completed before, completed after
+    if (!before_status || before_status.name!="completed") && after_status && after_status.name=="completed"
+      new_lines_completed += 1
+      changed = true
+
+    # Case: completed before, not completed after
+    elsif before_status && before_status.name=="completed" && (!after_status || after_status.name!="completed")
+      new_lines_completed -= 1
+      changed = true
+    end
+
+    # Update
+    if changed
+      new_percent_edited = (1.0 * new_lines_edited / lines * 100).round.to_i
+      new_percent_completed = (1.0 * new_lines_completed / lines * 100).round.to_i
+
+      update_attributes(lines_edited: new_lines_edited, lines_completed: new_lines_completed, percent_edited: new_percent_edited, percent_completed: new_percent_completed)
+    end
+  end
+
   def loadFromHash(contents)
     transcript_lines = _getLinesFromHash(contents)
     if transcript_lines.length > 0
@@ -73,6 +120,26 @@ class Transcript < ActiveRecord::Base
     else
       puts "Transcript #{uid} still processing (no audio file found)"
     end
+  end
+
+  def recalculate
+    return if lines <= 0
+
+    # Find all the edited lines
+    edited_lines = TranscriptLine.getEditedByTranscriptId(id)
+
+    # And all the completed lines
+    completed_status = TranscriptLineStatus.find_by name: "completed"
+    completed_lines = edited_lines.select{|s| s[:transcript_line_status_id]==completed_status.id}
+
+    # Calculate
+    _lines_edited = edited_lines.length
+    _lines_completed = completed_lines.length
+    _percent_edited = (1.0 * _lines_edited / lines * 100).round.to_i
+    _percent_completed = (1.0 * _lines_completed / lines * 100).round.to_i
+
+    # Update
+    update_attributes(lines_edited: _lines_edited, lines_completed: _lines_completed, percent_edited: _percent_edited, percent_completed: _percent_completed)
   end
 
   def updateFromHash(contents)

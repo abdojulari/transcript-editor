@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160302184845) do
+ActiveRecord::Schema.define(version: 20160303183400) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,6 +122,10 @@ ActiveRecord::Schema.define(version: 20160302184845) do
     t.datetime "updated_at",                                  null: false
     t.jsonb    "vendor_audio_urls",       default: [],        null: false
     t.string   "project_uid",             default: "",        null: false
+    t.integer  "percent_completed",       default: 0,         null: false
+    t.integer  "lines_completed",         default: 0,         null: false
+    t.integer  "percent_edited",          default: 0,         null: false
+    t.integer  "lines_edited",            default: 0,         null: false
   end
 
   add_index "transcripts", ["collection_id"], name: "index_transcripts_on_collection_id", using: :btree

@@ -86,10 +86,16 @@ class TranscriptLine < ActiveRecord::Base
     end
 
     # Update line if it has changed
-    if status_id != transcript_line_status_id || best_guess_text != guess_text
+    status_changed = (status_id != transcript_line_status_id)
+    old_status_id = transcript_line_status_id
+    if status_changed || best_guess_text != guess_text
       update_attributes(transcript_line_status_id: status_id, guess_text: best_guess_text, text: final_text)
 
-      # TODO: update transcript status if line status has changed
+      # Update transcript if line status has changed
+      if status_changed
+        transcript = Transcript.find(transcript_id)
+        transcript.delta(old_status_id, status_id, statuses)
+      end
     end
   end
 
