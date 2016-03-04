@@ -90,6 +90,22 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
     return string;
   };
 
+  // Format seconds -> 1h 20m
+  UTIL.formatTimeAlt = function(seconds) {
+    var s = seconds || 0,
+        h = parseInt(s / 3600) % 24,
+        m = parseInt(s / 60) % 60,
+        s = UTIL.round(s % 60),
+        string;
+    // create format 1h 20m
+    if (m > 0) {
+      string = (h > 0 ? h + 'h ' : '') + m + 'm';
+    } else {
+      string = s + 's';
+    }
+    return string;
+  };
+
   UTIL.formatTimeMs = function(milliseconds, dec) {
     return UTIL.formatTime(milliseconds*0.001, dec);
   };

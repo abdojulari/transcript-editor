@@ -11,8 +11,6 @@ class Transcript < ActiveRecord::Base
   has_many :transcript_lines
   has_many :transcript_edits
 
-  self.per_page = 500
-
   def to_param
     uid
   end
@@ -21,11 +19,20 @@ class Transcript < ActiveRecord::Base
     Transcript.joins(:transcript_edits).distinct
   end
 
-  def self.getForHomepage(page, options={})
+  def self.getForHomepage(page=1, options={})
+    page ||= 1
     options[:order] ||= "title"
+    project = Project.getActive
 
-    Rails.cache.fetch("#{ENV['PROJECT_ID']}/transcripts/#{page}/#{options[:order]}", expires_in: 10.minutes) do
-      Transcript.where("lines > 0 AND project_uid = :project_uid", {project_uid: ENV['PROJECT_ID']}).paginate(:page => page).order(:title)
+    per_page = 500
+    per_page = project[:data]["transcriptsPerPage"].to_i if project && project[:data]["transcriptsPerPage"]
+
+    Rails.cache.fetch("#{ENV['PROJECT_ID']}/transcripts/#{page}/#{per_page}/#{options[:order]}", expires_in: 10.minutes) do
+      Transcript
+        .select('transcripts.*, COALESCE(collections.title, \'\') as collection_title')
+        .joins('LEFT OUTER JOIN collections ON collections.id = transcripts.collection_id')
+        .where("transcripts.lines > 0 AND transcripts.project_uid = :project_uid", {project_uid: ENV['PROJECT_ID']})
+        .paginate(:page => page, :per_page => per_page).order("transcripts.#{options[:order]}")
     end
   end
 

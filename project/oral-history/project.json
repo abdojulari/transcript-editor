@@ -4,6 +4,7 @@
   "logo": "/oral-history/assets/img/logo.png",
   "apiUrl": "",
   "useVendorAudio": true,
+  "transcriptsPerPage": 1000,
   "adminEmails": [
     "brianfoo@nypl.org",
     "willaarmstrong@nypl.org",

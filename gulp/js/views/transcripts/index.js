@@ -14,6 +14,11 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   },
 
   addList: function(transcripts){
+    // this.collection.add(transcripts);
+    this.addListToUI(transcripts);
+  },
+
+  addListToUI: function(transcripts){
     var list = this.template_list({transcripts: transcripts.toJSON(), template_item: this.template_item, has_more: transcripts.hasMorePages()});
     var $list = $(list);
 

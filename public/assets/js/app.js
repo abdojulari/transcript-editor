@@ -345,6 +345,22 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
     return string;
   };
 
+  // Format seconds -> 1h 20m
+  UTIL.formatTimeAlt = function(seconds) {
+    var s = seconds || 0,
+        h = parseInt(s / 3600) % 24,
+        m = parseInt(s / 60) % 60,
+        s = UTIL.round(s % 60),
+        string;
+    // create format 1h 20m
+    if (m > 0) {
+      string = (h > 0 ? h + 'h ' : '') + m + 'm';
+    } else {
+      string = s + 's';
+    }
+    return string;
+  };
+
   UTIL.formatTimeMs = function(milliseconds, dec) {
     return UTIL.formatTime(milliseconds*0.001, dec);
   };
@@ -681,6 +697,10 @@ app.collections.Transcripts = Backbone.Collection.extend({
 
   getPage: function(){
     return this.page;
+  },
+
+  hasAllPages: function(){
+    return !this.hasMorePages();
   },
 
   hasMorePages: function(){
@@ -2030,6 +2050,11 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   },
 
   addList: function(transcripts){
+    // this.collection.add(transcripts);
+    this.addListToUI(transcripts);
+  },
+
+  addListToUI: function(transcripts){
     var list = this.template_list({transcripts: transcripts.toJSON(), template_item: this.template_item, has_more: transcripts.hasMorePages()});
     var $list = $(list);
 

@@ -4,6 +4,7 @@
   "logo": "",
   "apiUrl": "",
   "useVendorAudio": true,
+  "transcriptsPerPage": 500,
   "adminEmails": [
     "admin@email.org"
   ],
