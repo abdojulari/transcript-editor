@@ -84,7 +84,9 @@ namespace :pua do
       end
 
       # Parse the contents
-      unless contents.empty?
+      if contents.empty?
+        puts "Warning: contents of #{contents["id"]} is empty"
+      else
         transcript.loadFromHash(contents)
       end
 
