@@ -1544,7 +1544,7 @@ app.views.TranscriptLine = app.views.Base.extend({
     PubSub.publish('transcript.line.select', this.line);
 
     // invoke verify task if reviewing
-    if (e && !$(e.currentTarget).hasClass('verify') && this.line.status.name == 'reviewing') {
+    if (e && !$(e.currentTarget).hasClass('verify') && this.line.status.name == 'reviewing' && !this.line.is_editable) {
       this.verify();
     }
 
@@ -1757,8 +1757,12 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     var line = this.data.transcript.lines[i];
 
     // display the original text
-    $input.attr('value', line.display_text);
-    if ($input.hasClass('not-editable')) $input.text(line.display_text);
+    if ($input.is("input")) {
+      $input.val(line.display_text);
+    } else {
+      $input.attr('value', line.display_text);
+      $input.text(line.display_text);
+    }
 
     // update UI
     $input.attr('user-value', '');
@@ -1776,6 +1780,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
 
     var line = this.data.transcript.lines[i];
     var text = $input.attr('value');
+    if ($input.is("input")) text = $input.val();
     var userText = $input.attr('user-value');
 
     // implicit save; save even when user has not edited original text
@@ -1799,9 +1804,13 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     if (!$input.length) return false;
 
     // update UI
-    $input.attr('value', text);
+    if ($input.is("input")) {
+      $input.val(text);
+    } else {
+      $input.attr('value', text);
+      $input.text(text);
+    }
     $input.attr('user-value', text);
-    if ($input.hasClass('not-editable')) $input.text(text);
     $input.closest('.line').addClass('user-edited');
 
     // submit edit

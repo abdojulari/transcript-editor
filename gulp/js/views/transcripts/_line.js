@@ -58,7 +58,7 @@ app.views.TranscriptLine = app.views.Base.extend({
     PubSub.publish('transcript.line.select', this.line);
 
     // invoke verify task if reviewing
-    if (e && !$(e.currentTarget).hasClass('verify') && this.line.status.name == 'reviewing') {
+    if (e && !$(e.currentTarget).hasClass('verify') && this.line.status.name == 'reviewing' && !this.line.is_editable) {
       this.verify();
     }
 
