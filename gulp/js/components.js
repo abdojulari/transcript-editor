@@ -113,19 +113,12 @@ var COMPONENTS = (function() {
 
     $stickies.each(function(){
       var $el = $(this),
-          elTop = 0;
-
-      if ($el.hasClass('sticky')) {
-        elTop = parseFloat($el.attr('offset-top')) || $el.offset().top;
-      } else {
-        elTop = $el.offset().top;
-        $el.attr('offset-top', elTop);
-      }
+          elTop = $el.offset().top;
 
       if (windowTop > elTop-offsetTop) {
-        $(this).addClass('sticky');
+        $($el.attr('data-sticky')).addClass('sticky');
       } else {
-        $(this).removeClass('sticky');
+        $($el.attr('data-sticky')).removeClass('sticky');
       }
     });
   };
