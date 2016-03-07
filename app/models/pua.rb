@@ -70,8 +70,16 @@ class Pua
     resp["collections"]
   end
 
+  def getCollection(collection)
+    @client.get_collection(collection[:vendor_identifier])
+  end
+
   def getItem(transcript)
-    @client.get_item(transcript.collection[:vendor_identifier], transcript[:vendor_identifier])
+    getItemByIds(transcript.collection[:vendor_identifier], transcript[:vendor_identifier])
+  end
+
+  def getItemByIds(collection_vendor_identifier, transcript_vendor_identifier)
+    @client.get_item(collection_vendor_identifier, transcript_vendor_identifier)
   end
 
   def post(path, data)
