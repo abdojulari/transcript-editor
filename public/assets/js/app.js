@@ -427,6 +427,7 @@ var COMPONENTS = (function() {
     this.selectInit();
     this.alertInit();
     this.scrollInit();
+    this.stickyInit();
     this.toggleInit();
   };
 
@@ -519,6 +520,51 @@ var COMPONENTS = (function() {
 
   COMPONENTS.prototype.selectMenusHide = function(){
     $('.select').removeClass('active');
+  };
+
+  COMPONENTS.prototype.sticky = function(header){
+    var $stickies = $('.sticky-on-scroll');
+
+    if (!$stickies.length) return false;
+
+    var offsetTop = header ? $(header).height() : 0;
+    var windowTop = $(window).scrollTop();
+
+    $stickies.each(function(){
+      var $el = $(this),
+          elTop = 0;
+
+      if ($el.hasClass('sticky')) {
+        elTop = parseFloat($el.attr('offset-top')) || $el.offset().top;
+      } else {
+        elTop = $el.offset().top;
+        $el.attr('offset-top', elTop);
+      }
+
+      if (windowTop > elTop-offsetTop) {
+        $(this).addClass('sticky');
+      } else {
+        $(this).removeClass('sticky');
+      }
+    });
+  };
+
+  COMPONENTS.prototype.stickyInit = function(){
+    var _this = this;
+
+    $(window).on('sticky-on', function(e, header){
+      _this.stickyOn(header);
+    });
+  };
+
+  COMPONENTS.prototype.stickyOn = function(header){
+    if (this.sticky_is_on) return false;
+    this.sticky_is_on = true;
+    var _this = this;
+
+    $(window).on('scroll', function(){
+      _this.sticky(header);
+    });
   };
 
   COMPONENTS.prototype.toggle = function(el){
@@ -689,6 +735,14 @@ app.models.Transcript = Backbone.Model.extend({
 
 });
 
+app.collections.Collections = Backbone.Collection.extend({
+
+  url: function() {
+    return API_URL + '/collections.json';
+  }
+
+});
+
 app.collections.Transcripts = Backbone.Collection.extend({
 
   initialize: function() {
@@ -779,11 +833,16 @@ app.views.Home = app.views.Base.extend({
   render: function() {
 
     // write page contents
-    var home_page = new app.views.Page(_.extend({}, this.data, {el: this.el, page_key: 'home.md'}));
+    var home_page = new app.views.Page(_.extend({}, this.data, {page_key: 'home.md'}));
 
     // get transcripts
     var transcript_collection = new app.collections.Transcripts();
-    var transcripts_view = new app.views.TranscriptsIndex(_.extend({}, this.data, {el: this.el, collection: transcript_collection}));
+    var collection_collection = new app.collections.Collections();
+    var transcripts_view = new app.views.TranscriptsIndex(_.extend({}, this.data, {collection: transcript_collection, collections: collection_collection}));
+
+    this.$el.append(home_page.render().$el);
+    this.$el.append(transcripts_view.$el);
+    this.$el.removeClass('loading');
 
     return this;
   }
@@ -1504,6 +1563,75 @@ app.views.Page = app.views.Base.extend({
 
 });
 
+app.views.TranscriptFacets = app.views.Base.extend({
+
+  template: _.template(TEMPLATES['transcript_facets.ejs']),
+
+  events: {
+    "click .filter-by": "filterFromEl",
+    "click .sort-by": "sortFromEl"
+  },
+
+  initialize: function(data){
+    this.data = _.extend({}, data);
+
+    this.initFacets();
+
+    // turn sticky on
+    $(window).trigger('sticky-on', ['#header']);
+  },
+
+  filter: function(name, value){
+    PubSub.publish('transcripts.filter', {name: name, value: value});
+  },
+
+  filterFromEl: function(e){
+    var $el = $(e.currentTarget);
+
+    this.filter($el.attr('data-filter'), $el.attr('data-value'));
+  },
+
+  initFacets: function(){
+    // add an "all collections" options
+    if (this.data.collections.length) {
+      var all_collections = {
+        id: 'ALL',
+        title: 'All Collections',
+        active: true
+      };
+      this.data.collections.unshift(all_collections);
+      this.data.active_collection = _.findWhere(this.data.collections, {active: true});
+    }
+
+    this.data.sort_options = [
+      {id: 'title_asc', name: 'title', order: 'ASC', label: 'Title (A to Z)', active: true},
+      {id: 'title_desc', name: 'title', order: 'DESC', label: 'Title (Z to A)'},
+      {id: 'percent_completed_desc', name: 'percent_completed', order: 'DESC', label: 'Completeness (most to least)'},
+      {id: 'percent_completed_asc', name: 'percent_completed', order: 'ASC', label: 'Completeness (least to most)'},
+      {id: 'duration_asc', name: 'duration', order: 'ASC', label: 'Duration (short to long)'},
+      {id: 'duration_desc', name: 'duration', order: 'DESC', label: 'Duration (long to short)'},
+      {id: 'collection_asc', name: 'collection_id', order: 'ASC', label: 'Collection'}
+    ];
+    this.data.active_sort = _.findWhere(this.data.sort_options, {active: true});
+  },
+
+  render: function(){
+    this.$el.html(this.template(this.data));
+    return this;
+  },
+
+  sortTranscripts: function(name, order){
+    PubSub.publish('transcripts.sort', {name: name, order: order});
+  },
+
+  sortFromEl: function(e){
+    var $el = $(e.currentTarget);
+
+    this.sortTranscripts($el.attr('data-sort'), $el.attr('data-order'));
+  }
+
+});
+
 app.views.TranscriptLine = app.views.Base.extend({
 
   template: _.template(TEMPLATES['transcript_line.ejs']),
@@ -2036,8 +2164,11 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
 
 app.views.TranscriptsIndex = app.views.Base.extend({
 
+  template: _.template(TEMPLATES['transcript_index.ejs']),
   template_list: _.template(TEMPLATES['transcript_list.ejs']),
   template_item: _.template(TEMPLATES['transcript_item.ejs']),
+
+  className: 'transcripts-wrapper',
 
   events: {
     'click .list-next': 'nextPage'
@@ -2045,12 +2176,19 @@ app.views.TranscriptsIndex = app.views.Base.extend({
 
   initialize: function(data){
     this.data = data;
+    this.render();
+
+    this.$transcripts = this.$('#transcript-results');
+    this.$facets = this.$('#transcript-facets');
+    this.transcripts = [];
 
     this.loadTranscripts();
+    this.loadCollections();
+    this.loadListeners();
   },
 
   addList: function(transcripts){
-    // this.collection.add(transcripts);
+    this.transcripts = this.transcripts.concat(transcripts.toJSON());
     this.addListToUI(transcripts);
   },
 
@@ -2058,18 +2196,86 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     var list = this.template_list({transcripts: transcripts.toJSON(), template_item: this.template_item, has_more: transcripts.hasMorePages()});
     var $list = $(list);
 
-    this.$el.append($list);
-    this.$el.removeClass('loading');
+    this.$transcripts.append($list);
+    this.$transcripts.removeClass('loading');
 
     if (transcripts.getPage() > 1) {
       $(window).trigger('scroll-to', [$list, 60]);
     }
   },
 
+  facet: function(){
+    if (this.collection.hasAllPages()) {
+      this.facetOnClient();
+
+    } else {
+      this.facetOnServer();
+    }
+  },
+
+  facetOnClient: function(){
+    var _this = this,
+        filters = this.filters || {},
+        transcripts = _.map(this.transcripts, _.clone);
+
+    _.each(filters, function(value, key){
+      transcripts = _.filter(transcripts, function(transcript){ return transcript[key]==value; });
+    });
+
+    if (this.sortName){
+      transcripts = _.sortBy(transcripts, function(transcript){ return transcript[_this.sortName]; });
+      if (this.sortOrder=="DESC")
+        transcripts = transcripts.reverse();
+    }
+
+    this.renderTranscripts(transcripts);
+  },
+
+  facetOnServer: function(){
+    // TODO: request from server if not all pages are present
+
+    this.facetOnClient();
+  },
+
+  filterBy: function(name, value){
+    this.filters = this.filters || {};
+    this.filters[name] = value;
+    // omit all filters with value "ALL"
+    this.filters = _.omit(this.filters, function(value, key){ return value=='ALL'; });
+    this.facet();
+  },
+
+  loadCollections: function(){
+    var _this = this;
+
+    this.collections = this.collections || this.data.collections;
+
+    this.collections.fetch({
+      success: function(collection, response, options){
+        _this.renderFacets(collection.toJSON());
+      },
+      error: function(collection, response, options){
+        _this.renderFacets([]);
+      }
+    });
+  },
+
+  loadListeners: function(){
+    var _this = this;
+
+    PubSub.subscribe('transcripts.filter', function(ev, filter) {
+      _this.filterBy(filter.name, filter.value);
+    });
+
+    PubSub.subscribe('transcripts.sort', function(ev, sort_option) {
+      _this.sortBy(sort_option.name, sort_option.order);
+    });
+  },
+
   loadTranscripts: function(){
     var _this = this;
 
-    this.$el.addClass('loading');
+    this.$transcripts.addClass('loading');
 
     this.collection.fetch({
       success: function(collection, response, options){
@@ -2086,6 +2292,33 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     $(e.currentTarget).remove();
     this.collection.nextPage();
     this.loadTranscripts();
+  },
+
+  render: function(){
+    this.$el.html(this.template(this.data));
+    return this;
+  },
+
+  renderFacets: function(collections){
+    this.facetsView = this.facetsView || new app.views.TranscriptFacets({collections: collections});
+    this.$facets.html(this.facetsView.render().$el);
+  },
+
+  renderTranscripts: function(transcripts){
+    var list = this.template_list({transcripts: transcripts, template_item: this.template_item, has_more: false});
+    var $list = $(list);
+
+    this.$transcripts.html($list);
+    if (!transcripts.length){
+      this.$transcripts.html('<p>No transcripts found!</p>');
+    }
+    $(window).trigger('scroll-to', [$list, 110]);
+  },
+
+  sortBy: function(name, order){
+    this.sortName = name;
+    this.sortOrder = order;
+    this.facet();
   }
 
 });

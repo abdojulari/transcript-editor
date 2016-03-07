@@ -1,13 +1,19 @@
 @import "mixins";
 @import "variables";
 
+.transcript-results {
+  > p:first-child {
+    text-align: center;
+    font-style: italic;
+    color: $coolgray-dark-color;
+    font-size: 1.2em;
+  }
+
+}
+
 .transcript-list {
   text-align: center;
-  margin: 20px -10px 0;
-  margin-top: 30px;
-  padding: 30px 0;
-  background: #f1f1f1;
-  border-top: 1px solid lighten($coolgray-color, 25%);
+  position: relative;
 
   .transcript-item {
     display: inline-block;
@@ -24,6 +30,15 @@
     vertical-align: top;
     @include box-sizing();
     @include transition-transform(0.5s);
+    @include animation(fadeIn 0.5s);
+
+    &:nth-child(3n+1) {
+      @include animation-duration(0.2s);
+    }
+
+    &:nth-child(3n+2) {
+      @include animation-duration(0.8s);
+    }
 
     &:hover {
       @include transform(translateY(-6px));

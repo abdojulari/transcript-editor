@@ -8,6 +8,7 @@ var COMPONENTS = (function() {
     this.selectInit();
     this.alertInit();
     this.scrollInit();
+    this.stickyInit();
     this.toggleInit();
   };
 
@@ -100,6 +101,51 @@ var COMPONENTS = (function() {
 
   COMPONENTS.prototype.selectMenusHide = function(){
     $('.select').removeClass('active');
+  };
+
+  COMPONENTS.prototype.sticky = function(header){
+    var $stickies = $('.sticky-on-scroll');
+
+    if (!$stickies.length) return false;
+
+    var offsetTop = header ? $(header).height() : 0;
+    var windowTop = $(window).scrollTop();
+
+    $stickies.each(function(){
+      var $el = $(this),
+          elTop = 0;
+
+      if ($el.hasClass('sticky')) {
+        elTop = parseFloat($el.attr('offset-top')) || $el.offset().top;
+      } else {
+        elTop = $el.offset().top;
+        $el.attr('offset-top', elTop);
+      }
+
+      if (windowTop > elTop-offsetTop) {
+        $(this).addClass('sticky');
+      } else {
+        $(this).removeClass('sticky');
+      }
+    });
+  };
+
+  COMPONENTS.prototype.stickyInit = function(){
+    var _this = this;
+
+    $(window).on('sticky-on', function(e, header){
+      _this.stickyOn(header);
+    });
+  };
+
+  COMPONENTS.prototype.stickyOn = function(header){
+    if (this.sticky_is_on) return false;
+    this.sticky_is_on = true;
+    var _this = this;
+
+    $(window).on('scroll', function(){
+      _this.sticky(header);
+    });
   };
 
   COMPONENTS.prototype.toggle = function(el){

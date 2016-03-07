@@ -23,6 +23,8 @@
 # Ignore application configuration
 /config/application.yml
 /config/database.yml
+/config/application.*.yml
+!/config/application.sample.yml
 
 # Node
 /node_modules

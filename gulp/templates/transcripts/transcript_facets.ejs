@@ -1,0 +1,25 @@
+<% if (collections.length) { %>
+  <div class="facet">
+    <label for="filter-by-collection">Filter by Collection: </label>
+    <div name="filter-by-collection" class="select collection">
+      <div class="select-active"><%= active_collection.title %></div>
+      <div class="select-options">
+        <% _.each(collections, function(collection) { %>
+          <a data-filter="collection_id" data-value="<%= collection.id %>" class="select-option filter-by <%= active_collection.id == collection.id ? 'selected' : '' %>" data-active="<%= collection.title %>" title="<%= collection.title %><%= collection.description ? ': '+collection.description : '' %>"><%= collection.title %></a>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+<% } %>
+
+<div class="facet">
+  <label for="sort-by">Sort by: </label>
+  <div name="sort-by" class="select sort">
+    <div class="select-active"><%= active_sort.label %></div>
+    <div class="select-options">
+      <% _.each(sort_options, function(sort) { %>
+        <a data-sort="<%= sort.name %>" data-order="<%= sort.order %>" class="select-option sort-by <%= active_sort.id == sort.id ? 'selected' : '' %>" data-active="<%= sort.label %>" title="<%= sort.label %>"><%= sort.label %></a>
+      <% }) %>
+    </div>
+  </div>
+</div>
