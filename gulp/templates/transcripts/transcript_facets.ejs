@@ -1,4 +1,4 @@
-<% if (collections.length) { %>
+<% if (collections.length > 2) { %>
   <div class="facet">
     <label for="filter-by-collection">Filter by Collection: </label>
     <div name="filter-by-collection" class="select collection">
@@ -22,4 +22,11 @@
       <% }) %>
     </div>
   </div>
+</div>
+
+<div class="facet">
+  <form id="search-form" class="search-form">
+    <input name="keyword" value="" placeholder="Search Title/Description" />
+    <button type="submit" class="submit"></button>
+  </form>
 </div>

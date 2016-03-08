@@ -17,6 +17,11 @@
   .facet {
     display: inline-block;
     margin-bottom: 10px;
+    margin-left: 20px;
+
+    &:first-child {
+      margin-left: 0;
+    }
   }
 
   .select-options {
@@ -37,8 +42,51 @@
   .select.sort .select-options {
     min-width: 240px;
   }
+}
 
-  label {
-    margin-left: 10px;
+$search-height: 28px;
+
+.search-form {
+
+  input,
+  .submit {
+    vertical-align: middle;
+  }
+
+  input {
+    display: inline-block;
+    width: 200px;
+    height: $search-height;
+    line-height: $search-height;
+    border: 1px solid $coolgray-color;
+    border-right: none;
+    padding: 0 0.2em;
+    outline: none;
+
+    &:focus {
+      border-color: darken($coolgray-color, 10%);
+    }
+  }
+  .submit {
+    display: inline-block;
+    color: $white;
+    background: $link-color;
+    width: $search-height + 2px;
+    height: $search-height + 2px;
+    line-height: $search-height + 2px;
+    text-align: center;
+    border: none;
+    outline: none;
+    margin-left: -4px;
+    border: 1px solid $coolgray-color;
+    padding: 0;
+
+    &:before {
+      @include icon("\f002");
+    }
+
+    &:hover {
+      background: $link-hover-color;
+    }
   }
 }

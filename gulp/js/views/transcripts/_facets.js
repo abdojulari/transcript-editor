@@ -4,7 +4,9 @@ app.views.TranscriptFacets = app.views.Base.extend({
 
   events: {
     "click .filter-by": "filterFromEl",
-    "click .sort-by": "sortFromEl"
+    "click .sort-by": "sortFromEl",
+    "submit .search-form": "searchFromForm",
+    "keyup .search-form input": "searchFromInput"
   },
 
   initialize: function(data){
@@ -53,6 +55,31 @@ app.views.TranscriptFacets = app.views.Base.extend({
   render: function(){
     this.$el.html(this.template(this.data));
     return this;
+  },
+
+  search: function(keyword){
+    PubSub.publish('transcripts.search', keyword);
+  },
+
+  searchFromForm: function(e){
+    e.preventDefault();
+    var $form = $(e.currentTarget),
+        keyword = $form.find('input[name="keyword"]').val();
+
+    keyword = keyword.trim().toLowerCase();
+
+    this.search(keyword);
+  },
+
+  searchFromInput: function(e){
+    var $input = $(e.currentTarget),
+        keyword = $input.val();
+
+    keyword = keyword.trim();
+
+    // only submit if empty
+    if (!keyword.length)
+      this.search(keyword);
   },
 
   sortTranscripts: function(name, order){

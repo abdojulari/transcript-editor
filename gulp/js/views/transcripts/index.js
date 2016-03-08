@@ -41,9 +41,11 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   },
 
   facet: function(){
+    // we have all the data, so just facet on the client
     if (this.collection.hasAllPages()) {
       this.facetOnClient();
 
+    // we don't have all the data, we must request from server
     } else {
       this.facetOnServer();
     }
@@ -52,12 +54,33 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   facetOnClient: function(){
     var _this = this,
         filters = this.filters || {},
+        keyword = this.searchKeyword || '',
         transcripts = _.map(this.transcripts, _.clone);
 
+    // do the filters
     _.each(filters, function(value, key){
       transcripts = _.filter(transcripts, function(transcript){ return transcript[key]==value; });
     });
 
+    // do the searching
+    if (keyword.length){
+
+      // Use Fuse for fuzzy searching
+      var f = new Fuse(transcripts, { keys: ["title", "description"], threshold: 0.2 });
+      var result = f.search(keyword);
+
+      // Search description if fuzzy doesn't work
+      if (!result.length) {
+        transcripts = _.filter(transcripts, function(transcript){
+          return transcript.description.toLowerCase().indexOf(keyword) >= 0;
+        });
+      } else {
+        transcripts = result;
+      }
+
+    }
+
+    // do the sorting
     if (this.sortName){
       transcripts = _.sortBy(transcripts, function(transcript){ return transcript[_this.sortName]; });
       if (this.sortOrder=="DESC")
@@ -106,6 +129,10 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     PubSub.subscribe('transcripts.sort', function(ev, sort_option) {
       _this.sortBy(sort_option.name, sort_option.order);
     });
+
+    PubSub.subscribe('transcripts.search', function(ev, keyword) {
+      _this.search(keyword);
+    });
   },
 
   loadTranscripts: function(){
@@ -149,6 +176,11 @@ app.views.TranscriptsIndex = app.views.Base.extend({
       this.$transcripts.html('<p>No transcripts found!</p>');
     }
     $(window).trigger('scroll-to', [$list, 110]);
+  },
+
+  search: function(keyword){
+    this.searchKeyword = keyword;
+    this.facet();
   },
 
   sortBy: function(name, order){
