@@ -1681,8 +1681,8 @@ app.views.TranscriptItem = app.views.Base.extend({
   audioDelay: 500,
 
   events: {
-    'mouseover': 'on',
-    'mouseout': 'off'
+    'mouseover .item-image': 'on',
+    'mouseout .item-image': 'off'
   },
 
   initialize: function(data){
@@ -1765,6 +1765,7 @@ app.views.TranscriptItem = app.views.Base.extend({
   on: function(e){
     this.queue_pause = false;
     var _this = this;
+    if (this.timeout) clearTimeout(this.timeout);
     this.timeout = setTimeout(function(){_this.audioPlay()}, this.audioDelay);
   },
 
