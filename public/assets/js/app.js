@@ -658,9 +658,6 @@ app.routers.DefaultRouter = Backbone.Router.extend({
 
   before: function( route, params ) {
     $('#main').empty().addClass('loading');
-    PubSub.unsubscribe('transcript');
-    PubSub.unsubscribe('transcripts');
-    PubSub.unsubscribe('player');
   },
 
   after: function( route, params ) {
@@ -2215,8 +2212,6 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.$('.start-play').removeClass('disabled');
     this.loadListeners();
     this.message('Loaded transcript');
-    // attach audio to view so it destroyed when view does
-    this.$el.append($(this.player));
     if (!this.loaded) this.loaded = true;
     if (this.queue_start) this.start();
     this.queue_start = false;
