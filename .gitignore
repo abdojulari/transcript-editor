@@ -28,6 +28,7 @@
 
 # Ignore downloaded transcripts
 /project/*/transcripts/*/*.json
+!/project/oral-history/transcripts/pop_up_archive/*.json
 
 # Node
 /node_modules
