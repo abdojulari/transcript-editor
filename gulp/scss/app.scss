@@ -50,6 +50,10 @@ table {
 .body {
   margin: 10px;
   min-height: 600px;
+
+  audio {
+    display: none;
+  }
 }
 
 .container {

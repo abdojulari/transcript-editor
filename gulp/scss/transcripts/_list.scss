@@ -45,12 +45,35 @@
     }
   }
 
+  audio {
+    display: none;
+  }
+
   .item-image {
     height: 200px;
     width: 100%;
     background: $inverse-background-color center top no-repeat;
     background-size: cover;
     border-bottom: 1px solid lighten($coolgray-color, 15%);
+    @include transition(opacity 0.5s);
+  }
+  .transcript-item.buffering {
+    .item-image {
+      opacity: 0.5;
+    }
+    &:after {
+      @include icon("\f110");
+      color: rgba($white, 0.8);
+      font-size: 6em;
+      display: block;
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      margin-left: -50px;
+      text-align: center;
+      z-index: 10;
+      @include animation(spin 2s infinite linear);
+    }
   }
   .item-title,
   .item-subtitle,

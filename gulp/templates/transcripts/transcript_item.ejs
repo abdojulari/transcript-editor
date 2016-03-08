@@ -1,19 +1,17 @@
-<a href="#<%= path %>" class="transcript-item" title="<%= collection_title ? collection_title + ': ' : '' %><%= title %><%= description ? ' - '+description : '' %>">
-  <div class="item-image" style="background-image: url(<%= image_url %>)"></div>
-  <% if (collection_title) { %>
-    <div class="item-subtitle"><%= collection_title %></div>
-  <% } %>
-  <div class="item-title"><%= title %></div>
-  <% if (description) { %>
-    <div class="item-description"><%= description %></div>
-  <% } %>
-  <div class="item-info">
-    <%= UTIL.formatTimeAlt(duration) %>
-  </div>
-  <% if (percent_completed > 0) { %>
-  <div class="item-status">
-    <div class="item-status-bar" style="width: <%= percent_completed %>%"></div>
-    <div class="item-status-text"><%= percent_completed %>% completed</div>
-  </div>
-  <% } %>
-</a>
+<div class="item-image" style="background-image: url(<%= image_url %>)"></div>
+<% if (collection_title) { %>
+  <div class="item-subtitle"><%= collection_title %></div>
+<% } %>
+<div class="item-title"><%= title %></div>
+<% if (description) { %>
+  <div class="item-description"><%= description %></div>
+<% } %>
+<div class="item-info">
+  <%= UTIL.formatTimeAlt(duration) %>
+</div>
+<% if (percent_completed > 0) { %>
+<div class="item-status">
+  <div class="item-status-bar" style="width: <%= percent_completed %>%"></div>
+  <div class="item-status-text"><%= percent_completed %>% completed</div>
+</div>
+<% } %>

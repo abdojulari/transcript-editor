@@ -27,7 +27,7 @@
   "menus": {
     "header": [
       {"label": "Browse", "url": "/"},
-      {"label": "About", "url": "/#/page/about"}
+      {"label": "About", "url": "/page/about"}
     ],
     "transcript_edit": [],
     "footer": []

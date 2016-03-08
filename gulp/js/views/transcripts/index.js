@@ -25,18 +25,34 @@ app.views.TranscriptsIndex = app.views.Base.extend({
 
   addList: function(transcripts){
     this.transcripts = this.transcripts.concat(transcripts.toJSON());
-    this.addListToUI(transcripts);
+
+    this.addListToUI(transcripts.toJSON(), transcripts.hasMorePages(), true, (transcripts.getPage() > 1));
   },
 
-  addListToUI: function(transcripts){
-    var list = this.template_list({transcripts: transcripts.toJSON(), template_item: this.template_item, has_more: transcripts.hasMorePages()});
+  addListToUI: function(transcripts, has_more, append, scroll_to){
+    var list = this.template_list({has_more: has_more});
     var $list = $(list);
+    var $target = $list.first();
 
-    this.$transcripts.append($list);
+    if (append) {
+      this.$transcripts.append($list);
+    } else {
+      this.$transcripts.empty();
+      if (transcripts.length){
+        this.$transcripts.html($list);
+      } else {
+        this.$transcripts.html('<p>No transcripts found!</p>');
+      }
+    }
     this.$transcripts.removeClass('loading');
 
-    if (transcripts.getPage() > 1) {
-      $(window).trigger('scroll-to', [$list, 60]);
+    _.each(transcripts, function(transcript){
+      var transcriptView = new app.views.TranscriptItem({transcript: transcript});
+      $target.append(transcriptView.$el);
+    });
+
+    if (scroll_to) {
+      $(window).trigger('scroll-to', [$list, 110]);
     }
   },
 
@@ -168,14 +184,7 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   },
 
   renderTranscripts: function(transcripts){
-    var list = this.template_list({transcripts: transcripts, template_item: this.template_item, has_more: false});
-    var $list = $(list);
-
-    this.$transcripts.html($list);
-    if (!transcripts.length){
-      this.$transcripts.html('<p>No transcripts found!</p>');
-    }
-    $(window).trigger('scroll-to', [$list, 110]);
+    this.addListToUI(transcripts, false, false, true);
   },
 
   search: function(keyword){
