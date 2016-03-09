@@ -126,13 +126,29 @@ Similarly with transcripts, you can always re-run this script with new data and 
 
 ### Uploading your files to Pop Up Archive
 
-If you are using Pop Up Archive and have not yet uploaded your audio, run this command:
+If you are using Pop Up Archive and have not yet created [Pop Up Archive collection(s)](https://www.popuparchive.com/collections), you can run this command to create Pop Up collections from your manifest file:
+
+```
+rake pua:create_collections['my-project']
+```
+
+This will also update your database with the proper Pop Up Archive collection id in a column called `vendor_identifier`.  It will be also useful for deployment later to update your manifest file with these identifiers. You can do that by running this command:
+
+```
+rake collections:update_file['my-project,'collections_seeds.csv']
+```
+
+If you have not yet uploaded your audio to Pop Up Archive, run this command:
 
 ```
 rake pua:upload['my-project']
 ```
 
-This will look for any audio items (that were previously defined in your transcript manifest files) that have *pop_up_archive* as *vendor* but do not have a *vendor_identifier* (i.e. has not been uploaded to Pop Up Archive), and for each of those items, create a Pop Up Archive item and uploads submit your audio file for processing. It will populate the *vendor_identifier* in the app's database with the Pop Up Archive item id upon submission, so you may run this script any number of times if you add additional audio items.
+This will look for any audio items (that were previously defined in your transcript manifest files) that have *pop_up_archive* as *vendor* but do not have a *vendor_identifier* (i.e. has not been uploaded to Pop Up Archive), and for each of those items, create a Pop Up Archive item and uploads submit your audio file for processing. It will populate the *vendor_identifier* in the app's database with the Pop Up Archive item id upon submission, so you may run this script any number of times if you add additional audio items. Like with collections, you should update your manifest file with these identifiers:
+
+```
+rake transcripts:update_file['my-project','transcripts_seeds.csv']
+```
 
 ### Download processed transcripts from Pop Up Archive
 
@@ -146,7 +162,55 @@ This will look for any audio items that have been submitted to Pop Up Archive, b
 
 ## Customizing your project
 
-Coming soon... this section will walk through how you can customize the interface, content, users, and rules for consensus for your project.
+### Activating user accounts
+
+This app currently supports logging in through Google accounts (via [Google OAuth 2.0](https://developers.google.com/identity/protocols/OAuth2)).  You can activate this by the following:
+
+1. Log in to your google account and visit [https://console.developers.google.com/](https://console.developers.google.com/); complete any registration steps required
+2. Once you are logged into your Developer dashboard, [create a project](https://console.developers.google.com/project)
+3. In your project's dashboard click *enable and manage Google APIs*.  You must enable at least *Contacts API* and *Google+ API*
+4. Click the *Credentials* tab of your project dashboard, *Create credentials* for an *OAuth client ID* and select *Web application*
+5. You should make at least two credentials for your Development and Production environments (you can also create one for a Test environment)
+6. For development, enter `http://localhost:3000` (or whatever your development URI is) for your *Authorized Javascript origins* and `http://localhost:3000/omniauth/google_oauth2/callback` for your *Authorized redirect URIs*
+7. For production, enter the same values, but replace `http://localhost:3000` with your production URI e.g. `https://myproject.com`
+8. Open up your `config/application.yml`
+9. For each development and production, copy the values listed for *Client ID* and *Client secret* into the appropriate key-value entry, e.g.
+
+   ```
+   development:
+     GOOGLE_CLIENT_ID: 1234567890-abcdefghijklmnop.apps.googleusercontent.com
+     GOOGLE_CLIENT_SECRET: aAbBcCdDeEfFgGhHiIjKlLmM
+   production:
+     GOOGLE_CLIENT_ID: 0987654321-ghijklmnopabcdef.apps.googleusercontent.com
+     GOOGLE_CLIENT_SECRET: gGhHiIjKlLmMaAbBcCdDeEfF
+  ```
+
+10. Google is now enabled in the Rails app. Now we need to enable it in the UI. Open up `project/my-project/project.json`.  Under `auth_providers` enter:
+
+   ```
+   "authProviders": [
+     {
+       "name": "google",
+       "label": "Google",
+       "path": "/auth/google_oauth2"
+     }
+   ],
+   ```
+
+11. Run `rake project:load['my-project']` to refresh this config in the interface
+12. Finally, restart your server and visit `http://localhost:3000`.  Now you should see the option to sign in via Google.
+
+### Configuring consensus
+
+Coming soon... this section will walk through how you can configure the rules for transcript completion
+
+### Custom content
+
+Coming soon... this section will walk through making custom pages and menus
+
+### Custom assets, styling, and functionality
+
+Coming soon... this section will walk through customizing the look and feel of your app
 
 ## Deploying your project to production
 
@@ -198,6 +262,10 @@ This example will use [Heroku](https://www.heroku.com/) to deploy the app to pro
 ## Managing your project
 
 Coming soon... this section will walk through admin and moderator functionality
+
+### Updating your website
+
+Coming soon... this section will walk through how to update your website with recent changes to the codebase
 
 ## Retrieving your finished transcripts
 
