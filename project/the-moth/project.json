@@ -5,6 +5,7 @@
   "apiUrl": "",
   "useVendorAudio": true,
   "transcriptsPerPage": 1000,
+  "gaCode": "",
   "adminEmails": [
     "jemma@themoth.org",
     "michael@themoth.org"
