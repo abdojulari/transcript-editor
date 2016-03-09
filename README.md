@@ -32,6 +32,8 @@ git clone https://github.com/NYPL/transcript-editor.git
 cd transcript-editor
 ```
 
+If you forked this repository, replace the URL with your repository
+
 ### Configure Your Project
 
 1. Create `config/database.yml` based on [config/database.sample.yml](config/database.sample.yml) - update this file with your own database credentials
@@ -162,6 +164,14 @@ This will look for any audio items that have been submitted to Pop Up Archive, b
 
 ## Customizing your project
 
+All project customization should happen within your project directory (e.g. `/project/my-project/`). Changes made anywhere else may result in code conflicts when updating your app with new code.
+
+Whenever you make a change to your project directory, you must run the following rake task to see it in the app:
+
+```
+rake project:load['my-project']
+```
+
 ### Activating user accounts
 
 This app currently supports logging in through Google accounts (via [Google OAuth 2.0](https://developers.google.com/identity/protocols/OAuth2)).  You can activate this by the following:
@@ -200,21 +210,163 @@ This app currently supports logging in through Google accounts (via [Google OAut
 11. Run `rake project:load['my-project']` to refresh this config in the interface
 12. Finally, restart your server and visit `http://localhost:3000`.  Now you should see the option to sign in via Google.
 
-### Configuring consensus
-
-Coming soon... this section will walk through how you can configure the rules for transcript completion
-
 ### Custom content
 
-Coming soon... this section will walk through making custom pages and menus
+#### Pages
+
+This app let's you create an arbitrary number of pages that you may link from the navigation menu or within other pages.  All pages are found within:
+
+```
+project/
++-- my-project/
+|  +-- pages/
+```
+
+- All pages are written in [Markdown](https://daringfireball.net/projects/markdown/syntax), but since Markdown supports HTML, you can use HTML syntax as well.
+- If you create a page called `faq.md`, you can access it via URL `http://localhost:3000/page/faq`
+- Subdirectories are supported, but the URL will always respond to just the filename, e.g. for the file `project/my-project/pages/misc/faq.md`, the URL will still be `http://localhost:3000/page/faq`
+- You can embed assets in your markdown. For example
+  - Place an image in assets folder like `project/my-project/assets/img/graphic.jpg`
+  - You can refer to it in a page like this: `<img src="/my-project/assets/img/graphic.jpg" />`
+- There are a few pages that the app comes with:
+  - `home.md` - contains the content that shows up on the homepage
+  - `transcript_edit.md` - contains the content that shows up on the top of all transcript editor pages
+  - `transcript_conventions.md` - contains the transcript conventions that show up in the drop-down on all transcript editor pages
+
+#### Menus
+
+In your `project/my-project/project.json` file, there is an entry called `menus`.  These will contain all the available menus that will be displayed in the app.  Here are the available menus:
+
+- `header` - this is the persistent menu that shows up on the top of all pages
+- `transcript_edit` - this is the menu that shows up below the main header menu if you are on a transcript editor page
+- `footer` - this is the persistent menu that shows up on the bottom of all pages
+
+Each menu will contain a number of entries (or no entries). It may look like this:
+
+```
+"header": [
+  {"label": "Browse", "url": "/"},
+  {"label": "About", "url": "/page/about"},
+  {"label": "Main Website", "url": "http://otherwebsite.com/"}
+],
+```
+
+The `label` is what will show up in the menu, and the URL is what that label links to. It can link to a page within the app or an external page.
+
+Sometimes you only want to have a link show up on certain pages. You can accomplish this like so:
+
+```
+"header": [
+  {"label": "Browse", "url": "/"},
+  {"label": "About", "url": "/page/about"},
+  {"label": "Help", "url": "/page/help", "validRoutes": ["transcripts/:id"]}
+],
+```
+
+In the above case, the `Help` link will only show up on transcript editor pages. You can see a list of available routes in the app's [router.js file](gulp/js/router.js)
+
+#### Modals
+
+Sometimes you don't want to redirect a user to a different page, but want to have the content show up in a pop-up modal. You can define modals in your `project.json` file like this:
+
+```
+"modals": {
+  "help_modal": {
+    "title": "A Brief Guide",
+    "doneLabel": "Close",
+    "page": {"file": "help.md"}
+  },
+  "tutorial_modal": {
+    "title": "A Brief Tutorial",
+    "doneLabel": "Finished",
+    "pages": [
+      {"label": "Editing", "file": "tutorial_1.md"},
+      {"label": "Conventions", "file": "tutorial_2.md"},
+      {"label": "Commands", "file": "tutorial_3.md"}
+    ]
+  }
+},
+```
+
+This will create two modals:
+
+1. `help_modal` which contains the content of just one page: `project/my-project/pages/help.md`
+2. `tutorial_modal` which contains tabbed content of three pages
+
+You can invoke a modal from within a menu like so:
+
+```
+"menus": {
+  "header": [
+    {"label": "Browse", "url": "/"},
+    {"label": "About", "url": "/page/about"},
+    {"label": "Help", "modal": "help_modal"}
+  ],
+  ...
+},
+```
 
 ### Custom assets, styling, and functionality
 
-Coming soon... this section will walk through customizing the look and feel of your app
+You would probably want to customize the look and feel of your app. You can accomplish this by overriding the default CSS styling with a project CSS file:
+
+```
+project/
++-- my-project/
+|  +-- assets/
+|     +-- css/
+|        +-- styles.css
+```
+
+These styles will override any existing styles in the app. Similarly, you can add additional javascript functionality via custom js:
+
+```
+project/
++-- my-project/
+|  +-- assets/
+|     +-- js/
+|        +-- custom.js
+```
+
+Sometimes you may want to include additional files or tags in your app such as custom external font services, analytics, or meta tags. You can simply edit this page:
+
+```
+project/
++-- my-project/
+|  +-- layouts/
+|     +-- index.html
+```
+
+Be careful not to edit the existing app structure within the `#app` element. Also, there are a few javascript and css files that the app depends on that you shouldn't delete.
+
+Be sure to run the project rake task if you make any changes:
+
+```
+rake project:load['my-project']
+```
+
+## Transcript Consensus
+
+Coming soon. This section covers the rules for what makes a transcript or a transcript line "complete".
+
+### What is consensus?
+
+### The stages of consensus
+
+### Configuring consensus
 
 ## Deploying your project to production
 
 This example will use [Heroku](https://www.heroku.com/) to deploy the app to production, though the process would be similar for other hosting solutions. The commands assume you have [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
+
+Before you start, if you used Pop Up Archive to generate your transcripts, make sure your manifest files are up-to-date to make sure your production server knows how to download the transcripts from Pop Up Archive.  Run these commands:
+
+```
+rake collections:update_file['my-project,'collections_seeds.csv']
+rake transcripts:update_file['my-project','transcripts_seeds.csv']
+```
+
+Replace `my-project` and `.csv` files with your project key and manifest files. Commit the updated manifest files to your repository and continue.
 
 1. Create a new [Heroku](https://heroku.com) app:
 
@@ -251,7 +403,7 @@ This example will use [Heroku](https://www.heroku.com/) to deploy the app to pro
    heroku run rake db:seed
    ```
 
-   And run the scripts to seed your database with your collections/transcripts
+5. Next you'll need to populate your transcripts. The last command will download your transcripts from Pop Up Archive. You can run these commands however many times you like if you update your manifest file or transcripts become available.
 
    ```
    heroku run rake collections:load['my-project','collections_seeds.csv']
