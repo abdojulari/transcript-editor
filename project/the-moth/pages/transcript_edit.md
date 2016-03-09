@@ -1,5 +1,4 @@
-## You are now editing a transcript:
-# <%= transcript.title %>
+## Instructions
 
 The following transcript was automatically generated using speech-to-text software, so there are probably errors. This tool will allow you to listen while you edit the transcript. For your convenience (we hope), the audio will automatically pause after each line.
 

@@ -280,6 +280,9 @@ app.views.Transcript = app.views.Base.extend({
       return [""+status.id, status]
     }));
 
+    // keep track of lines that are being reviewed
+    var lines_reviewing = 0;
+
     // process each line
     _.each(lines, function(line, i){
       // add user text to lines
@@ -315,7 +318,14 @@ app.views.Transcript = app.views.Base.extend({
       if (user_role && user_role.hiearchy >= superUserHiearchy) is_editable = true;
       _this.data.transcript.lines[i].is_editable = is_editable;
 
+      // keep track of reviewing counts
+      if (status.name=="reviewing") lines_reviewing++;
+
     });
+
+    // add data about lines that are being reviewed
+    _this.data.transcript.lines_reviewing = lines_reviewing;
+    if (lines.length > 0) _this.data.transcript.percent_reviewing = Math.round(lines_reviewing / lines * 100);
   },
 
   playerPause: function(){

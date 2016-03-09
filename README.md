@@ -39,7 +39,7 @@ If you forked this repository, replace the URL with your repository
 1. Create `config/database.yml` based on [config/database.sample.yml](config/database.sample.yml) - update this file with your own database credentials
 2. Create `config/application.yml` based on [config/application.sample.yml](config/application.sample.yml) - this file contains all your private config credentials such as Pop Up Archive or Google accounts. The only required configuration to start is:
   - **SECRET_KEY_BASE**. You can generate this value by running `rake secret`
-  - **PROJECT_ID**. A project id that will be used to identify this project (e.g. my-project). Must be alphanumeric, no spaces, underscores and dashes okay
+  - **PROJECT_ID**. A project id that will be used to identify this project (e.g. my-project). Must be alphanumeric; no spaces or periods; underscores and dashes okay
 3. Copy the folder `project/sample-project` and rename it to the **PROJECT_ID** from the previous step (e.g. `project/my-project`).  This folder will contain all the configuration, content, and language for your project.
 
 #### Configure Your Project Details
@@ -93,7 +93,7 @@ In your project folder, you should find an empty .csv file: [project/my-project/
 
 | Column | Description | Required? | Example |
 | ------ | ----------- | --------- | ------- |
-| uid | a unique identifier for your audio file. Must be alphanumeric, no spaces, underscores and dashes okay. Case sensitive. | Yes | *podcast-123*, *podcast_123*, *123* |
+| uid | a unique identifier for your audio file. Must be alphanumeric; no spaces or periods; underscores and dashes okay. Case sensitive. | Yes | *podcast-123*, *podcast_123*, *123* |
 | title | the title that will be displayed for this audio file | Yes | *Podcast About Cats* |
 | description | a description that will be displayed for this audio file | No | *This is basically teh best podcast about cats; no dogs allowed* |
 | url | a URL that will link back to where the audio is being presented on your website | No | *http://mywebsite.com/podcast-123* |
