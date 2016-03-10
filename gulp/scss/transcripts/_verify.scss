@@ -30,6 +30,16 @@
     @include icon("\f144");
   }
 
+  // make room for conventions tab
+  .modal {
+    .modal-inner {
+      top: 80px;
+    }
+    .modal-close:after {
+      top: 76px;
+    }
+  }
+
 }
 
 #app[state=playing] #transcript-line-verify .toggle-play:before {

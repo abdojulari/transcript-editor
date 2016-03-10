@@ -120,14 +120,18 @@
     tbody {
       overflow: hidden;
       overflow-y: auto;
-      height: 20vh;
+      height: 25vh;
       min-height: 80px;
-      max-height: 200px;
+      max-height: 300px;
     }
 
   }
 }
 .conventions-page {
+
+  &.sticky {
+    z-index: 1200; // ensure it's above verify modal
+  }
   .page {
     max-height: 0;
     overflow: hidden;
@@ -168,7 +172,7 @@
   &.active {
 
     .page {
-      max-height: 300px;
+      max-height: 460px;
     }
 
     .tab:before {
