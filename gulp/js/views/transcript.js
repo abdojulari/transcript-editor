@@ -324,8 +324,11 @@ app.views.Transcript = app.views.Base.extend({
     });
 
     // add data about lines that are being reviewed
-    _this.data.transcript.lines_reviewing = lines_reviewing;
-    if (lines.length > 0) _this.data.transcript.percent_reviewing = Math.round(lines_reviewing / lines * 100);
+    this.data.transcript.lines_reviewing = lines_reviewing;
+    if (lines.length > 0) this.data.transcript.percent_reviewing = Math.round(lines_reviewing / lines.length * 100);
+    if (this.data.transcript.percent_reviewing > 0) this.data.transcript.hasLinesInReview = true;
+    if (this.data.transcript.percent_completed > 0) this.data.transcript.hasLinesCompleted = true;
+    console.log(this.data.transcript.hasLinesInReview, this.data.transcript.hasLinesCompleted);
   },
 
   playerPause: function(){

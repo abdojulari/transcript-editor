@@ -110,4 +110,12 @@ $transcript-content-width: 800px;
     font-size: 1.1em;
   }
 
+  .reviewing {
+    background: $orange-color;
+  }
+
+  .completed {
+    background: rgba($green-color, 0.6);
+  }
+
 }
