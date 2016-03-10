@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160303183400) do
+ActiveRecord::Schema.define(version: 20160310203858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,12 @@ ActiveRecord::Schema.define(version: 20160303183400) do
   end
 
   add_index "pg_search_documents", ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id", using: :btree
+
+  create_table "speakers", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "transcript_edits", force: :cascade do |t|
     t.integer  "transcript_id",      default: 0,  null: false
@@ -88,6 +94,17 @@ ActiveRecord::Schema.define(version: 20160303183400) do
   add_index "transcript_lines", ["transcript_id", "sequence"], name: "index_transcript_lines_on_transcript_id_and_sequence", unique: true, using: :btree
   add_index "transcript_lines", ["transcript_id"], name: "index_transcript_lines_on_transcript_id", using: :btree
   add_index "transcript_lines", ["transcript_line_status_id"], name: "index_transcript_lines_on_transcript_line_status_id", using: :btree
+
+  create_table "transcript_speakers", force: :cascade do |t|
+    t.integer  "speaker_id",    default: 0,  null: false
+    t.integer  "transcript_id", default: 0,  null: false
+    t.integer  "collection_id", default: 0,  null: false
+    t.string   "project_uid",   default: "", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "transcript_speakers", ["speaker_id", "transcript_id"], name: "index_transcript_speakers_on_speaker_id_and_transcript_id", unique: true, using: :btree
 
   create_table "transcript_statuses", force: :cascade do |t|
     t.string   "name",        default: "", null: false

@@ -8,6 +8,8 @@ end
 
 json.lines @transcript.transcript_lines, :id, :start_time, :end_time, :original_text, :text, :guess_text, :sequence, :transcript_line_status_id
 
+json.speakers @transcript_speakers, :id, :name
+
 json.transcript_line_statuses @transcript_line_statuses, :id, :name, :progress, :description
 
 json.user_edits @user_edits, :transcript_line_id, :text, :updated_at

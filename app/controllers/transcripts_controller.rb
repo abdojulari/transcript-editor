@@ -1,6 +1,6 @@
 class TranscriptsController < ApplicationController
   include ActionController::MimeResponds
-  
+
   before_action :set_transcript, only: [:show, :update, :destroy]
 
   # GET /transcripts.json
@@ -21,6 +21,7 @@ class TranscriptsController < ApplicationController
         @user_role = nil
         @user_edits = []
         @transcript_line_statuses = TranscriptLineStatus.allCached
+        @transcript_speakers = TranscriptSpeaker.getByTranscriptId(@transcript.id)
 
         if user_signed_in?
           @user_edits = TranscriptEdit.getByTranscriptUser(@transcript.id, current_user.id)

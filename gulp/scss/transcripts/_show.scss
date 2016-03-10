@@ -58,9 +58,15 @@ $transcript-content-width: 800px;
     p {
       margin-top: 0;
     }
-    .duration {
+    .duration, .speakers {
       font-style: italic;
       color: $coolgray-dark-color;
+    }
+    .speakers {
+      margin-top: -12px;
+      max-width: 500px;
+      color: $charcoal;
+      font-size: 0.9em;
     }
   }
 

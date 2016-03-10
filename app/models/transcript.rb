@@ -10,6 +10,7 @@ class Transcript < ActiveRecord::Base
   belongs_to :transcript_status
   has_many :transcript_lines
   has_many :transcript_edits
+  has_many :transcript_speakers
 
   def to_param
     uid
