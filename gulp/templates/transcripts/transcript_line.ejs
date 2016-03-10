@@ -18,7 +18,7 @@
     <% if (is_editable) { %>
       <input class="text-input" type="text" value="<%= display_text %>" user-value="<%= user_text %>"  />
     <% } else { %>
-      <div class="text-input not-editable" value="<%= display_text %>" user-value="<%= user_text %>"><%= display_text %></div>
+      <input class="text-input not-editable" type="text" value="<%= display_text %>" user-value="<%= user_text %>" disabled="true"  />
     <% } %>
   </div>
 </div>

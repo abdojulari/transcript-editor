@@ -46,8 +46,8 @@ app.views.Transcript = app.views.Base.extend({
     // see how big the text is at the default size
     var textWidth = $input.getTextSize().width;
     if (textWidth > maxWidth) {
-        // the extra .9 here makes up for some over-measures
-        fontSize = fontSize * maxWidth / textWidth * 0.9;
+        // the extra .8 here makes up for some over-measures
+        fontSize = fontSize * maxWidth / textWidth * 0.8;
     }
 
     $input.css({fontSize: fontSize + 'px'});

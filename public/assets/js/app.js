@@ -982,8 +982,8 @@ app.views.Transcript = app.views.Base.extend({
     // see how big the text is at the default size
     var textWidth = $input.getTextSize().width;
     if (textWidth > maxWidth) {
-        // the extra .9 here makes up for some over-measures
-        fontSize = fontSize * maxWidth / textWidth * 0.9;
+        // the extra .8 here makes up for some over-measures
+        fontSize = fontSize * maxWidth / textWidth * 0.8;
     }
 
     $input.css({fontSize: fontSize + 'px'});
@@ -2068,12 +2068,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     var line = this.data.transcript.lines[i];
 
     // display the original text
-    if ($input.is("input")) {
-      $input.val(line.display_text);
-    } else {
-      $input.attr('value', line.display_text);
-      $input.text(line.display_text);
-    }
+    $input.val(line.display_text);
 
     // update UI
     $input.attr('user-value', '');
@@ -2090,8 +2085,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     if (!$input.length) return false;
 
     var line = this.data.transcript.lines[i];
-    var text = $input.attr('value');
-    if ($input.is("input")) text = $input.val();
+    var text = $input.val();
     var userText = $input.attr('user-value');
 
     // implicit save; save even when user has not edited original text
@@ -2115,12 +2109,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     if (!$input.length) return false;
 
     // update UI
-    if ($input.is("input")) {
-      $input.val(text);
-    } else {
-      $input.attr('value', text);
-      $input.text(text);
-    }
+    $input.val(text);
     $input.attr('user-value', text);
     $input.closest('.line').addClass('user-edited');
 

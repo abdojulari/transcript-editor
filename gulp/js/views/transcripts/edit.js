@@ -19,12 +19,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     var line = this.data.transcript.lines[i];
 
     // display the original text
-    if ($input.is("input")) {
-      $input.val(line.display_text);
-    } else {
-      $input.attr('value', line.display_text);
-      $input.text(line.display_text);
-    }
+    $input.val(line.display_text);
 
     // update UI
     $input.attr('user-value', '');
@@ -41,8 +36,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     if (!$input.length) return false;
 
     var line = this.data.transcript.lines[i];
-    var text = $input.attr('value');
-    if ($input.is("input")) text = $input.val();
+    var text = $input.val();
     var userText = $input.attr('user-value');
 
     // implicit save; save even when user has not edited original text
@@ -66,12 +60,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     if (!$input.length) return false;
 
     // update UI
-    if ($input.is("input")) {
-      $input.val(text);
-    } else {
-      $input.attr('value', text);
-      $input.text(text);
-    }
+    $input.val(text);
     $input.attr('user-value', text);
     $input.closest('.line').addClass('user-edited');
 
