@@ -153,6 +153,19 @@ namespace :pua do
 
   end
 
+  # Usage: rake pua:list_collections
+  desc "List collections in Pop Up Archive"
+  task :list_collections => :environment do |task, args|
+    # Init a Pop Up Archive client
+    pua_client = Pua.new
+
+    collections = pua_client.getCollections
+
+    collections.each do |collection|
+      puts "ID: #{collection["id"]}, TITLE: #{collection["title"]}, COUNT: #{collection["number_of_items"]}"
+    end
+  end
+
   # Usage: rake pua:list_items['oral-history']
   desc "List items in Pop Up Archive"
   task :list_items, [:project_key]  => :environment do |task, args|
