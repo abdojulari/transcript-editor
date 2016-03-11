@@ -29,12 +29,10 @@ namespace :transcripts do
 
     # Write to database
     transcripts.each do |attributes|
-      # Check for vendor
-      if attributes.key?(:vendor) && attributes.key?(:vendor_identifier)
-        attributes[:vendor] = Vendor.find_by_uid(attributes[:vendor])
-      end
       if attributes[:vendor].blank?
         attributes.delete(:vendor)
+      else
+        attributes[:vendor] = Vendor.find_by_uid(attributes[:vendor])
       end
       if attributes[:vendor_identifier].blank?
         attributes.delete(:vendor_identifier)
