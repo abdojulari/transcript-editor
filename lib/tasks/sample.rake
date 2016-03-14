@@ -88,7 +88,7 @@ namespace :sample do
   end
 
   def seedTranscript
-    puts "Seeding transcript..."
+    puts "Seeding transcript.."
 
     attributes = {uid: 'sample-transcript', title: 'Together We Listen Sample', audio_url: '/audio/twl_sample.mp3', lines: 8, duration: 22, transcript_status_id: 1, project_uid: 'sample-project', lines_completed: 0, lines_edited: 0, percent_completed: 0, percent_edited: 0}
     transcript = Transcript.find_or_initialize_by(uid: attributes[:uid])
