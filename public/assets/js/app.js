@@ -354,10 +354,11 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
   // Format seconds -> hh:mm:ss
   UTIL.formatTime = function(seconds, dec) {
     var s = seconds || 0,
-        h = parseInt(s / 3600) % 24,
-        m = parseInt(s / 60) % 60,
+        h = parseInt(Math.floor(s / 3600)) % 24,
+        m = parseInt(Math.floor(s / 60)) % 60,
         s = UTIL.round(s % 60, dec),
         string;
+
     // create format hh:mm:ss
     string = (h > 0 ? h + ':' : '') + (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
     // remove starting zeros
@@ -368,8 +369,8 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
   // Format seconds -> 1h 20m
   UTIL.formatTimeAlt = function(seconds) {
     var s = seconds || 0,
-        h = parseInt(s / 3600) % 24,
-        m = parseInt(s / 60) % 60,
+        h = parseInt(Math.floor(s / 3600)) % 24,
+        m = parseInt(Math.floor(s / 60)) % 60,
         s = UTIL.round(s % 60),
         string;
     // create format 1h 20m
@@ -1264,7 +1265,6 @@ app.views.Transcript = app.views.Base.extend({
     if (lines.length > 0) this.data.transcript.percent_reviewing = Math.round(lines_reviewing / lines.length * 100);
     if (this.data.transcript.percent_reviewing > 0) this.data.transcript.hasLinesInReview = true;
     if (this.data.transcript.percent_completed > 0) this.data.transcript.hasLinesCompleted = true;
-    console.log(this.data.transcript.hasLinesInReview, this.data.transcript.hasLinesCompleted);
   },
 
   playerPause: function(){
