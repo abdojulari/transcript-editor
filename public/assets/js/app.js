@@ -450,6 +450,7 @@ var COMPONENTS = (function() {
     this.scrollInit();
     this.stickyInit();
     this.toggleInit();
+    this.toggleSoundInit();
   };
 
   COMPONENTS.prototype.alert = function(message, flash, target, flashDelay){
@@ -591,6 +592,25 @@ var COMPONENTS = (function() {
     // toggle button
     $(document).on('click', '.toggle-active', function(){
       _this.toggle($(this).attr('data-target'));
+    });
+  };
+
+  COMPONENTS.prototype.toggleSound = function($el){
+    var media = $el[0];
+
+    if (media && media.muted) {
+      media.muted = false;
+    } else if (media) {
+      media.muted = true;
+    }
+  };
+
+  COMPONENTS.prototype.toggleSoundInit = function(){
+    var _this = this;
+
+    $(document).on('click', '.toggle-sound', function(e){
+      e.preventDefault();
+      _this.toggleSound($(this));
     });
   };
 
