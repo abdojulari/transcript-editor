@@ -1224,6 +1224,7 @@ app.views.Transcript = app.views.Base.extend({
         lines = this.data.transcript.lines,
         user_edits = this.data.transcript.user_edits,
         line_statuses = this.data.transcript.transcript_line_statuses,
+        speakers = this.data.transcript.speakers || [],
         superUserHiearchy = PROJECT.consensus.superUserHiearchy,
         user_role = this.data.transcript.user_role;
 
@@ -1235,6 +1236,11 @@ app.views.Transcript = app.views.Base.extend({
     // map statuses for easy lookup
     var line_statuses_map = _.object(_.map(line_statuses, function(status) {
       return [""+status.id, status]
+    }));
+
+    // map speakers for easy lookup
+    var speakers_map = _.object(_.map(speakers, function(speaker) {
+      return [""+speaker.id, speaker]
     }));
 
     // keep track of lines that are being reviewed
@@ -1278,6 +1284,13 @@ app.views.Transcript = app.views.Base.extend({
       // keep track of reviewing counts
       if (status.name=="reviewing") lines_reviewing++;
 
+      // check for speaker
+      var speaker = false;
+      if (_.has(speakers_map, ""+line.speaker_id)) {
+        speaker = speakers_map[""+line.speaker_id];
+      }
+      _this.data.transcript.lines[i].speaker = speaker;
+      _this.data.transcript.lines[i].has_speakers = speakers.length > 1 ? true : false;
     });
 
     // add data about lines that are being reviewed
@@ -1341,10 +1354,13 @@ app.views.Transcript = app.views.Base.extend({
     if (!$container.length) return false;
     $container.empty();
 
+    var speakers = this.data.transcript.speakers;
+    var transcript_id = this.data.transcript.id;
     _.each(this.data.transcript.lines, function(line) {
       var lineView = new app.views.TranscriptLine({
+        transcript_id: transcript_id,
         line: line,
-        verifyView: '#'
+        speakers: speakers
       });
       $lines.append(lineView.$el);
     });
@@ -1826,13 +1842,15 @@ app.views.TranscriptLine = app.views.Base.extend({
     "click": "select",
     "click .star": "star",
     "click .flag": "flag",
-    "click .verify": "verify"
+    "click .verify": "verify",
+    "click .speaker-option": "selectSpeaker"
   },
 
   initialize: function(data){
     this.data = _.extend({}, data);
     this.line = this.data.line || {};
     this.edits = this.data.edits || [];
+    this.speakers = this.data.speakers || [];
     this.render();
   },
 
@@ -1870,7 +1888,7 @@ app.views.TranscriptLine = app.views.Base.extend({
   },
 
   render: function(){
-    this.$el.html(this.template(this.line));
+    this.$el.html(this.template(_.extend({},this.line,{speakers: this.speakers})));
   },
 
   select: function(e){
@@ -1882,6 +1900,34 @@ app.views.TranscriptLine = app.views.Base.extend({
       this.verify();
     }
 
+  },
+
+  selectSpeaker: function(e){
+    e.preventDefault();
+
+    var $option = $(e.currentTarget),
+        speaker_id = parseInt($option.attr('data-id')),
+        old_speaker_id = this.line.speaker_id;
+
+    this.$('.speaker-option, .speaker').removeClass('selected');
+
+    // didn't change, unselect
+    if (speaker_id == old_speaker_id) {
+      this.line.speaker_id = 0;
+
+    // new speaker selection
+    } else {
+      this.line.speaker_id = speaker_id;
+      $option.addClass('selected');
+      this.$('.speaker').addClass('selected');
+    }
+
+    var data = {transcript_id: this.data.transcript_id, transcript_line_id: this.line.id, speaker_id: this.line.speaker_id};
+
+    // save speaker
+    $.post(API_URL + "/transcript_speaker_edits.json", {transcript_speaker_edit: data}, function(resp) {
+      // console.log('Changes saved.')
+    });
   },
 
   star: function(e){
@@ -2145,13 +2191,13 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
         controls = this.data.project.controls;
 
     // remove existing listeners
-    $('.control').off('click.transcript');
-    $(window).off('keydown.transcript');
-    PubSub.unsubscribe('transcript.line.select');
-    PubSub.unsubscribe('transcript.line.submit');
-    PubSub.unsubscribe('transcript.line.verify');
-    PubSub.unsubscribe('transcript.edit.delete');
-    this.$el.off('click.transcript', '.start-play');
+    // $('.control').off('click.transcript');
+    // $(window).off('keydown.transcript');
+    // PubSub.unsubscribe('transcript.line.select');
+    // PubSub.unsubscribe('transcript.line.submit');
+    // PubSub.unsubscribe('transcript.line.verify');
+    // PubSub.unsubscribe('transcript.edit.delete');
+    // this.$el.off('click.transcript', '.start-play');
 
     // add link listeners
     $('.control').on('click.transcript', function(e){
@@ -2195,7 +2241,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
       _this.lineEditDelete(line.sequence);
     });
 
-    // add edit delete listener
+    // add player listener
     PubSub.subscribe('player.toggle-play', function(ev, data) {
       _this.lineToggle();
     });

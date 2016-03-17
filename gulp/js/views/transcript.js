@@ -267,6 +267,7 @@ app.views.Transcript = app.views.Base.extend({
         lines = this.data.transcript.lines,
         user_edits = this.data.transcript.user_edits,
         line_statuses = this.data.transcript.transcript_line_statuses,
+        speakers = this.data.transcript.speakers || [],
         superUserHiearchy = PROJECT.consensus.superUserHiearchy,
         user_role = this.data.transcript.user_role;
 
@@ -278,6 +279,11 @@ app.views.Transcript = app.views.Base.extend({
     // map statuses for easy lookup
     var line_statuses_map = _.object(_.map(line_statuses, function(status) {
       return [""+status.id, status]
+    }));
+
+    // map speakers for easy lookup
+    var speakers_map = _.object(_.map(speakers, function(speaker) {
+      return [""+speaker.id, speaker]
     }));
 
     // keep track of lines that are being reviewed
@@ -321,6 +327,13 @@ app.views.Transcript = app.views.Base.extend({
       // keep track of reviewing counts
       if (status.name=="reviewing") lines_reviewing++;
 
+      // check for speaker
+      var speaker = false;
+      if (_.has(speakers_map, ""+line.speaker_id)) {
+        speaker = speakers_map[""+line.speaker_id];
+      }
+      _this.data.transcript.lines[i].speaker = speaker;
+      _this.data.transcript.lines[i].has_speakers = speakers.length > 1 ? true : false;
     });
 
     // add data about lines that are being reviewed
@@ -384,10 +397,13 @@ app.views.Transcript = app.views.Base.extend({
     if (!$container.length) return false;
     $container.empty();
 
+    var speakers = this.data.transcript.speakers;
+    var transcript_id = this.data.transcript.id;
     _.each(this.data.transcript.lines, function(line) {
       var lineView = new app.views.TranscriptLine({
+        transcript_id: transcript_id,
         line: line,
-        verifyView: '#'
+        speakers: speakers
       });
       $lines.append(lineView.$el);
     });

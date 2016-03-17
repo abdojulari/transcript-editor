@@ -99,6 +99,31 @@ class TranscriptLine < ActiveRecord::Base
     end
   end
 
+  def recalculateSpeaker(edits=nil, project=nil)
+    edits ||= TranscriptSpeakerEdit.getByLine(id)
+    project ||= Project.getActive
+    consensus = project[:data]["consensus"]
+    best_speaker_id = 0
+
+    # Check if there's any edits by priority users (e.g. moderators, admins)
+    if edits.length > 0
+      edits_priority = edits.select { |edit| edit[:user_hiearchy] >= consensus["superUserHiearchy"] }
+      edits = edits_priority.select { |edit| true } if edits_priority.length > 0
+    end
+
+    if edits.length > 0
+      # Group the edits by speaker_id
+      groups = edits.group_by{|edit| edit.speaker_id}
+      # Convert groups from hash to array
+      groups = groups.collect {|group_speaker_id, group_edits| {speaker_id: group_speaker_id, count: group_edits.length} }
+      # Sort by frequency of speaker_id
+      groups = groups.sort_by { |group| group[:count] * -1 }
+      best_speaker_id = groups[0][:speaker_id]
+    end
+
+    update_attributes(speaker_id: best_speaker_id) if best_speaker_id != speaker_id
+  end
+
   private
 
   def chooseBestEdit(edits, project)

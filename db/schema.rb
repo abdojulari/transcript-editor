@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160310203858) do
+ActiveRecord::Schema.define(version: 20160317013125) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,6 +94,20 @@ ActiveRecord::Schema.define(version: 20160310203858) do
   add_index "transcript_lines", ["transcript_id", "sequence"], name: "index_transcript_lines_on_transcript_id_and_sequence", unique: true, using: :btree
   add_index "transcript_lines", ["transcript_id"], name: "index_transcript_lines_on_transcript_id", using: :btree
   add_index "transcript_lines", ["transcript_line_status_id"], name: "index_transcript_lines_on_transcript_line_status_id", using: :btree
+
+  create_table "transcript_speaker_edits", force: :cascade do |t|
+    t.integer  "transcript_id",      default: 0,  null: false
+    t.integer  "transcript_line_id", default: 0,  null: false
+    t.integer  "user_id",            default: 0,  null: false
+    t.string   "session_id",         default: "", null: false
+    t.integer  "speaker_id",         default: 0,  null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  add_index "transcript_speaker_edits", ["session_id", "transcript_line_id"], name: "index_transcript_speaker_edits_on_session_id_and_line_id", unique: true, using: :btree
+  add_index "transcript_speaker_edits", ["transcript_line_id"], name: "index_transcript_speaker_edits_on_transcript_line_id", using: :btree
+  add_index "transcript_speaker_edits", ["user_id"], name: "index_transcript_speaker_edits_on_user_id", using: :btree
 
   create_table "transcript_speakers", force: :cascade do |t|
     t.integer  "speaker_id",    default: 0,  null: false

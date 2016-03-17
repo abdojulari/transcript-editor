@@ -2,6 +2,7 @@
 @import "variables";
 
 $transcript-line-height: 56px;
+$transcript-line-speaker-width: 40px;
 $transcript-line-time-width: 80px;
 $transcript-line-status-width: 34px;
 $transcript-line-options-width: 0;
@@ -296,6 +297,85 @@ $transcript-line-options-reviewing-width: 80px;
   }
   .line.reviewing .text {
     margin-right: $transcript-line-options-reviewing-width;
+  }
+
+  .speaker {
+    display: none;
+  }
+  // speakers
+  &.has-speakers {
+    .speaker {
+      display: block;
+      position: relative;
+      width: $transcript-line-speaker-width;
+      height: $transcript-line-height;
+      line-height: $transcript-line-height;
+      float: left;
+      text-align: center;
+      font-size: 1.5em;
+    }
+    .change-speaker:before {
+      @include icon("\f234");
+      color: $coolgray-dark-color;
+    }
+    .speaker.selected {
+      .change-speaker:before {
+        content: "\f007";
+        color: $green-dark-color;
+        opacity: 0.5;
+      }
+    }
+    .speaker-options {
+      position: absolute;
+      left: 0;
+      top: 99%;
+      background: $white;
+      display: none;
+      line-height: normal;
+      text-align: left;
+      padding: 10px 8px 5px;
+      width: 240px;
+      border-top: 1px solid #ccc;
+      @include box-sizing();
+      h4 {
+        font-size: 0.6em;
+        margin: 0 0 5px 0;
+        text-transform: uppercase;
+        color: $charcoal;
+        small {
+          font-weight: normal;
+          font-size: 0.6em;
+          color: $coolgray-dark-color;
+        }
+      }
+      .speaker-option {
+        display: block;
+        font-size: 0.7em;
+        padding: 5px 0;
+
+        &.selected:before {
+          @include icon("\f00c");
+          margin-right: 4px;
+        }
+      }
+    }
+    .line.active {
+      .speaker:hover,
+      .speaker.selected {
+        .change-speaker:before {
+          content: "\f007";
+          color: $green-dark-color;
+          opacity: 1;
+        }
+      }
+      .speaker:hover .speaker-options {
+        display: block;
+        z-index: 10;
+      }
+    }
+    .text {
+      margin-left: $transcript-line-time-width + $transcript-line-status-width + $transcript-line-speaker-width;
+    }
   }
 }
 

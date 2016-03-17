@@ -73,13 +73,13 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
         controls = this.data.project.controls;
 
     // remove existing listeners
-    $('.control').off('click.transcript');
-    $(window).off('keydown.transcript');
-    PubSub.unsubscribe('transcript.line.select');
-    PubSub.unsubscribe('transcript.line.submit');
-    PubSub.unsubscribe('transcript.line.verify');
-    PubSub.unsubscribe('transcript.edit.delete');
-    this.$el.off('click.transcript', '.start-play');
+    // $('.control').off('click.transcript');
+    // $(window).off('keydown.transcript');
+    // PubSub.unsubscribe('transcript.line.select');
+    // PubSub.unsubscribe('transcript.line.submit');
+    // PubSub.unsubscribe('transcript.line.verify');
+    // PubSub.unsubscribe('transcript.edit.delete');
+    // this.$el.off('click.transcript', '.start-play');
 
     // add link listeners
     $('.control').on('click.transcript', function(e){
@@ -123,7 +123,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
       _this.lineEditDelete(line.sequence);
     });
 
-    // add edit delete listener
+    // add player listener
     PubSub.subscribe('player.toggle-play', function(ev, data) {
       _this.lineToggle();
     });
