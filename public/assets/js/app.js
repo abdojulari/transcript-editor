@@ -1242,6 +1242,7 @@ app.views.Transcript = app.views.Base.extend({
     var speakers_map = _.object(_.map(speakers, function(speaker) {
       return [""+speaker.id, speaker]
     }));
+    var speaker_ids = _.pluck(speakers, 'id');
 
     // keep track of lines that are being reviewed
     var lines_reviewing = 0;
@@ -1286,10 +1287,13 @@ app.views.Transcript = app.views.Base.extend({
 
       // check for speaker
       var speaker = false;
+      var speaker_pos = -1;
       if (_.has(speakers_map, ""+line.speaker_id)) {
         speaker = speakers_map[""+line.speaker_id];
+        speaker_pos = speaker_ids.indexOf(speaker.id);
       }
       _this.data.transcript.lines[i].speaker = speaker;
+      _this.data.transcript.lines[i].speaker_pos = speaker_pos;
       _this.data.transcript.lines[i].has_speakers = speakers.length > 1 ? true : false;
     });
 
@@ -1909,7 +1913,8 @@ app.views.TranscriptLine = app.views.Base.extend({
         speaker_id = parseInt($option.attr('data-id')),
         old_speaker_id = this.line.speaker_id;
 
-    this.$('.speaker-option, .speaker').removeClass('selected');
+    this.$('.speaker-option').removeClass('selected');
+    this.$('.speaker').removeClass('selected c0 c1 c2 c3 c4 c5 c6 c7');
 
     // didn't change, unselect
     if (speaker_id == old_speaker_id) {
@@ -1917,9 +1922,10 @@ app.views.TranscriptLine = app.views.Base.extend({
 
     // new speaker selection
     } else {
+      var position = _.pluck(this.speakers, 'id').indexOf(speaker_id);
       this.line.speaker_id = speaker_id;
       $option.addClass('selected');
-      this.$('.speaker').addClass('selected');
+      this.$('.speaker').addClass('selected c'+position);
     }
 
     var data = {transcript_id: this.data.transcript_id, transcript_line_id: this.line.id, speaker_id: this.line.speaker_id};

@@ -321,10 +321,18 @@ $transcript-line-options-reviewing-width: 80px;
     .speaker.selected {
       .change-speaker:before {
         content: "\f007";
-        color: $green-dark-color;
+        color: $charcoal;
         opacity: 0.5;
       }
     }
+    .speaker.selected.c0 .change-speaker:before { color: $red; }
+    .speaker.selected.c1 .change-speaker:before { color: $green; }
+    .speaker.selected.c2 .change-speaker:before { color: $red; }
+    .speaker.selected.c3 .change-speaker:before { color: $blue; }
+    .speaker.selected.c4 .change-speaker:before { color: $pink; }
+    .speaker.selected.c5 .change-speaker:before { color: $cyan; }
+    .speaker.selected.c6 .change-speaker:before { color: $purple; }
+    .speaker.selected.c7 .change-speaker:before { color: $indigo; }
     .speaker-options {
       position: absolute;
       left: 0;
@@ -353,6 +361,23 @@ $transcript-line-options-reviewing-width: 80px;
         font-size: 0.7em;
         padding: 5px 0;
 
+        &:after {
+          content: ' ';
+          display: inline-block;
+          margin-left: 5px;
+          width: 14px;
+          height: 14px;
+          background: $charcoal;
+          vertical-align: middle;
+        }
+        &:first-child:after { background: $red; }
+        &:nth-child(2):after { background: $green; }
+        &:nth-child(3):after { background: $orange; }
+        &:nth-child(4):after { background: $blue; }
+        &:nth-child(5):after { background: $pink; }
+        &:nth-child(6):after { background: $cyan; }
+        &:nth-child(7):after { background: $purple; }
+        &:nth-child(8):after { background: $indigo; }
         &.selected:before {
           @include icon("\f00c");
           margin-right: 4px;
@@ -364,7 +389,7 @@ $transcript-line-options-reviewing-width: 80px;
       .speaker.selected {
         .change-speaker:before {
           content: "\f007";
-          color: $green-dark-color;
+          // color: $green-dark-color;
           opacity: 1;
         }
       }

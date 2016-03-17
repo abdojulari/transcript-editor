@@ -1,12 +1,14 @@
 <div sequence="<%= sequence %>" class="line <%= status.name %> <%= is_editable ? '' : 'not-editable' %> <%= user_text ? 'user-edited' : '' %>">
   <% if (has_speakers) { %>
-    <div class="speaker<%= speaker ? ' selected' : '' %>">
+    <div class="speaker<%= speaker ? ' selected' : '' %><%= speaker_pos >= 0 ? ' c'+speaker_pos : '' %>">
       <a class="change-speaker" title="indicate a speaker change"></a>
       <div class="speaker-options">
         <h4>Choose A Speaker<br /><small>(only necessary when speaker changes)</small></h4>
+        <div>
         <% _.each(speakers, function(s) { %>
           <a data-id="<%= s.id %>" class="speaker-option<%= s.id == speaker.id ? ' selected' : '' %>"><%= s.name %></a>
         <% }); %>
+        </div>
       </div>
     </div>
   <% } %>

@@ -285,6 +285,7 @@ app.views.Transcript = app.views.Base.extend({
     var speakers_map = _.object(_.map(speakers, function(speaker) {
       return [""+speaker.id, speaker]
     }));
+    var speaker_ids = _.pluck(speakers, 'id');
 
     // keep track of lines that are being reviewed
     var lines_reviewing = 0;
@@ -329,10 +330,13 @@ app.views.Transcript = app.views.Base.extend({
 
       // check for speaker
       var speaker = false;
+      var speaker_pos = -1;
       if (_.has(speakers_map, ""+line.speaker_id)) {
         speaker = speakers_map[""+line.speaker_id];
+        speaker_pos = speaker_ids.indexOf(speaker.id);
       }
       _this.data.transcript.lines[i].speaker = speaker;
+      _this.data.transcript.lines[i].speaker_pos = speaker_pos;
       _this.data.transcript.lines[i].has_speakers = speakers.length > 1 ? true : false;
     });
 

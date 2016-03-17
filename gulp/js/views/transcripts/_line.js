@@ -73,7 +73,8 @@ app.views.TranscriptLine = app.views.Base.extend({
         speaker_id = parseInt($option.attr('data-id')),
         old_speaker_id = this.line.speaker_id;
 
-    this.$('.speaker-option, .speaker').removeClass('selected');
+    this.$('.speaker-option').removeClass('selected');
+    this.$('.speaker').removeClass('selected c0 c1 c2 c3 c4 c5 c6 c7');
 
     // didn't change, unselect
     if (speaker_id == old_speaker_id) {
@@ -81,9 +82,10 @@ app.views.TranscriptLine = app.views.Base.extend({
 
     // new speaker selection
     } else {
+      var position = _.pluck(this.speakers, 'id').indexOf(speaker_id);
       this.line.speaker_id = speaker_id;
       $option.addClass('selected');
-      this.$('.speaker').addClass('selected');
+      this.$('.speaker').addClass('selected c'+position);
     }
 
     var data = {transcript_id: this.data.transcript_id, transcript_line_id: this.line.id, speaker_id: this.line.speaker_id};
