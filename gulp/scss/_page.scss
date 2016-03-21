@@ -8,10 +8,15 @@
   video {
     width: 100%;
     height: auto;
-    border: 1px solid #ccc;
+    border: 1px solid $coolgray-color;
+    @include box-shadow(0px 2px 6px 3px rgba($black, 0.2));
 
     &.toggle-sound {
       cursor: pointer;
+    }
+
+    &.sample-video {
+      max-height: 200px;
     }
   }
 
