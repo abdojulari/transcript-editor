@@ -218,8 +218,8 @@ This app currently supports logging in through Google or Facebook accounts (via 
 2. Follow the steps to create a new app and go to the app's Dashboard
 3. In your project's dashboard click *Settings* on the left panel. Then click the *Advanced* tab.
 4. Under *Client OAuth Settings*:
-   - make sure *Client OAuth Login* and *Web OAuth Login*
-   - enter `http://localhost:3000/omniauth/facebook/callback` in *Valid OAuth redirect URIs*. You may also include your production urls here too (e.g. `http://myapp.com/omniauth/facebook/callback`)
+   - make sure *Client OAuth Login* and *Web OAuth Login* is on
+   - enter `http://localhost:3000/omniauth/facebook/callback` in *Valid OAuth redirect URIs*. Also include your production or testing urls here too (e.g. `http://myapp.com/omniauth/facebook/callback`)
    - Save your changes
 5. On the left panel, select *Test Apps*. Click *Create a Test App* and go to its dashboard after you create it.
 6. Note these two values: *App ID* and *App Secret*
