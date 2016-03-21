@@ -174,9 +174,11 @@ rake project:load['my-project']
 
 ### Activating user accounts
 
-This app currently supports logging in through Google accounts (via [Google OAuth 2.0](https://developers.google.com/identity/protocols/OAuth2)).  You can activate this by the following:
+This app currently supports logging in through Google or Facebook accounts (via [OAuth2](https://en.wikipedia.org/wiki/OAuth)).  You can activate this by the following:
 
-1. Log in to your google account and visit [https://console.developers.google.com/](https://console.developers.google.com/); complete any registration steps required
+#### Instructions for Google Account activation
+
+1. Log in to your Google account and visit [https://console.developers.google.com/](https://console.developers.google.com/); complete any registration steps required
 2. Once you are logged into your Developer dashboard, [create a project](https://console.developers.google.com/project)
 3. In your project's dashboard click *enable and manage Google APIs*.  You must enable at least *Contacts API* and *Google+ API*
 4. Click the *Credentials* tab of your project dashboard, *Create credentials* for an *OAuth client ID* and select *Web application*
@@ -195,7 +197,7 @@ This app currently supports logging in through Google accounts (via [Google OAut
      GOOGLE_CLIENT_SECRET: gGhHiIjKlLmMaAbBcCdDeEfF
   ```
 
-10. Google is now enabled in the Rails app. Now we need to enable it in the UI. Open up `project/my-project/project.json`.  Under `auth_providers` enter:
+10. Google login is now enabled in the Rails app. Now we need to enable it in the UI. Open up `project/my-project/project.json`.  Under `auth_providers` enter:
 
    ```
    "authProviders": [
@@ -209,6 +211,45 @@ This app currently supports logging in through Google accounts (via [Google OAut
 
 11. Run `rake project:load['my-project']` to refresh this config in the interface
 12. Finally, restart your server and visit `http://localhost:3000`.  Now you should see the option to sign in via Google.
+
+#### Instructions for Facebook Account activation
+
+1. Log in to your Facebook account and visit [this link](https://developers.facebook.com/quickstarts/?platform=web)
+2. Follow the steps to create a new app and go to the app's Dashboard
+3. In your project's dashboard click *Settings* on the left panel. Then click the *Advanced* tab.
+4. Under *Client OAuth Settings*:
+   - make sure *Client OAuth Login* and *Web OAuth Login*
+   - enter `http://localhost:3000/omniauth/facebook/callback` in *Valid OAuth redirect URIs*. You may also include your production urls here too (e.g. `http://myapp.com/omniauth/facebook/callback`)
+   - Save your changes
+5. On the left panel, select *Test Apps*. Click *Create a Test App* and go to its dashboard after you create it.
+6. Note these two values: *App ID* and *App Secret*
+7. Open up your `config/application.yml`
+8. For each development and production, copy the values listed for *App ID* and *App Secret* into the appropriate key-value entry, e.g.
+
+   ```
+   development:
+     FACEBOOK_APP_ID: "1234567890123456"
+     FACEBOOK_APP_SECRET: abcdefghijklmnopqrstuvwxyz123456
+   production:
+     FACEBOOK_APP_ID: "7890123456123456"
+     FACEBOOK_APP_SECRET: nopqrstuvwxyz123456abcdefghijklm
+  ```
+
+10. Facebook login is now enabled in the Rails app. Now we need to enable it in the UI. Open up `project/my-project/project.json`.  Under `auth_providers` enter:
+
+   ```
+   "authProviders": [
+     {
+       "name": "facebook",
+       "label": "Facebook",
+       "path": "/auth/facebook"
+     }
+   ],
+   ```
+
+11. Run `rake project:load['my-project']` to refresh this config in the interface
+12. Finally, restart your server and visit `http://localhost:3000`.  Now you should see the option to sign in via Facebook.
+
 
 ### Custom content
 
