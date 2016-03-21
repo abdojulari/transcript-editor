@@ -325,14 +325,14 @@ $transcript-line-options-reviewing-width: 80px;
         opacity: 0.5;
       }
     }
-    .speaker.selected.c0 .change-speaker:before { color: $red; }
-    .speaker.selected.c1 .change-speaker:before { color: $green; }
+    .speaker.selected.c0 .change-speaker:before { color: $pink; }
+    .speaker.selected.c1 .change-speaker:before { color: $indigo; }
     .speaker.selected.c2 .change-speaker:before { color: $orange; }
-    .speaker.selected.c3 .change-speaker:before { color: $blue; }
-    .speaker.selected.c4 .change-speaker:before { color: $pink; }
-    .speaker.selected.c5 .change-speaker:before { color: $cyan; }
+    .speaker.selected.c3 .change-speaker:before { color: $cyan; }
+    .speaker.selected.c4 .change-speaker:before { color: $red; }
+    .speaker.selected.c5 .change-speaker:before { color: $green; }
     .speaker.selected.c6 .change-speaker:before { color: $purple; }
-    .speaker.selected.c7 .change-speaker:before { color: $indigo; }
+    .speaker.selected.c7 .change-speaker:before { color: $blue; }
     .speaker-options {
       position: absolute;
       left: 0;
@@ -370,14 +370,14 @@ $transcript-line-options-reviewing-width: 80px;
           background: $charcoal;
           vertical-align: middle;
         }
-        &:first-child:after { background: $red; }
-        &:nth-child(2):after { background: $green; }
+        &:first-child:after { background: $pink; }
+        &:nth-child(2):after { background: $indigo; }
         &:nth-child(3):after { background: $orange; }
-        &:nth-child(4):after { background: $blue; }
-        &:nth-child(5):after { background: $pink; }
-        &:nth-child(6):after { background: $cyan; }
+        &:nth-child(4):after { background: $cyan; }
+        &:nth-child(5):after { background: $red; }
+        &:nth-child(6):after { background: $green; }
         &:nth-child(7):after { background: $purple; }
-        &:nth-child(8):after { background: $indigo; }
+        &:nth-child(8):after { background: $blue; }
         &.selected:before {
           @include icon("\f00c");
           margin-right: 4px;

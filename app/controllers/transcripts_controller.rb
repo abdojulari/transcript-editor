@@ -23,9 +23,6 @@ class TranscriptsController < ApplicationController
         @transcript_line_statuses = TranscriptLineStatus.allCached
         @transcript_speakers = TranscriptSpeaker.getByTranscriptId(@transcript.id)
 
-        # Temp hack: Add an option for multiple speakers
-        @transcript_speakers << {id: -1, name: "Multiple Speakers"}
-
         if user_signed_in?
           @user_edits = TranscriptEdit.getByTranscriptUser(@transcript.id, current_user.id)
           @user_role = current_user.user_role

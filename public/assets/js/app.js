@@ -1238,14 +1238,18 @@ app.views.Transcript = app.views.Base.extend({
       return [""+status.id, status]
     }));
 
+    // add multiple speaker option
+    var speaker_options = _.map(speakers, _.clone);
+    if (speakers.length > 1) {
+      speaker_options.push({id: -1, name: "Muliple Speakers"});
+    }
+    this.data.transcript.speaker_options = speaker_options;
+
     // map speakers for easy lookup
-    var speakers_map = _.object(_.map(speakers, function(speaker) {
+    var speakers_map = _.object(_.map(speaker_options, function(speaker) {
       return [""+speaker.id, speaker]
     }));
-    var speaker_ids = _.pluck(speakers, 'id');
-
-    // remove multiple speakers option
-    this.data.transcript.visible_speakers = _.filter(speakers, function(s){ return s.id > 0; })
+    var speaker_ids = _.pluck(speaker_options, 'id');
 
     // keep track of lines that are being reviewed
     var lines_reviewing = 0;
@@ -1361,7 +1365,7 @@ app.views.Transcript = app.views.Base.extend({
     if (!$container.length) return false;
     $container.empty();
 
-    var speakers = this.data.transcript.speakers;
+    var speakers = this.data.transcript.speaker_options;
     var transcript_id = this.data.transcript.id;
     _.each(this.data.transcript.lines, function(line) {
       var lineView = new app.views.TranscriptLine({

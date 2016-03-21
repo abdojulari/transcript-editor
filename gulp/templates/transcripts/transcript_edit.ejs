@@ -18,8 +18,8 @@
 
     <p class="duration">Duration: <%= UTIL.formatTimeAlt(transcript.duration) %></p>
 
-    <% if (transcript.visible_speakers.length) { %>
-      <p class="speakers">Participants: <%= _.pluck(transcript.visible_speakers, 'name').join(', ') %> </p>
+    <% if (transcript.speakers.length) { %>
+      <p class="speakers">Participants: <%= _.pluck(transcript.speakers, 'name').join(', ') %> </p>
     <% } %>
   </div>
   <div class="status-wrapper">
