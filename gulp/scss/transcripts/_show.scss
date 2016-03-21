@@ -77,7 +77,7 @@ $transcript-content-width: 800px;
     width: 300px;
     height: 30px;
     border: 1px solid $coolgray-color;
-    background: lighten($coolgray-color, 20%);
+    background: $white;
     @include box-sizing();
 
     .status-bar,
