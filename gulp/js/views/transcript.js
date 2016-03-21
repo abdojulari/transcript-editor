@@ -287,6 +287,9 @@ app.views.Transcript = app.views.Base.extend({
     }));
     var speaker_ids = _.pluck(speakers, 'id');
 
+    // remove multiple speakers option
+    this.data.transcript.visible_speakers = _.filter(speakers, function(s){ return s.id > 0; })
+
     // keep track of lines that are being reviewed
     var lines_reviewing = 0;
 
