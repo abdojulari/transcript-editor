@@ -1,17 +1,34 @@
-// Taken from: http://ethyl.nypl.org/
 
-$primary-color: #ED1C24;
-$secondary-color: #2799C5;
-$highlight-dark-color: #FEE24A;
-$highlight-color: #FFF0A1;
-$coolgray-dark-color: #837E77;
-$coolgray-color: #A3A19E;
-$footer-color: #54514A;
+$red-color: #bf4448;
+$blue-color: #2799C5;
 $green-dark-color: #437529;
 $green-color: #579B34;
+$yellow-dark-color: #FEE24A;
+$yellow-color: #FFF0A1;
+$orange-color: #e2b33b;
+$orange-dark-color: #ada87c;
 $charcoal: #333333;
+$coolgray-dark-color: #837E77;
+$coolgray-color: #A3A19E;
 $black: #000000;
 $white: #FFFFFF;
+
+$primary-color: $red-color;
+$secondary-color: $blue-color;
+$highlight-dark-color: $yellow-dark-color;
+$highlight-color: $yellow-color;
+
+// Material Design Colors
+// https://www.google.com/design/spec/style/color.html#color-color-palette
+
+$red: #F44336;
+$pink: #E91E63;
+$purple: #9C27B0;
+$indigo: #3F51B5;
+$blue: #2196F3;
+$cyan: #00BCD4;
+$green: #4CAF50;
+$orange: #FF9800;
 
 // Component colors
 // -------------------------

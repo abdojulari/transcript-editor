@@ -1,0 +1,19 @@
+<section class="modal <%= active ? 'active': '' %>" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+
+  <div class="modal-inner">
+    <header id="modal-label"><%= title %> <a class="control toggle-play"></a></header>
+    <div class="modal-content">
+      <% _.each(edits, function(edit, i){ %>
+        <a class="option <%= edit.active ? 'active' : '' %>" edit-id="<%= edit.id %>"><%= edit.text %></a>
+      <% }) %>
+    </div>
+    <footer>
+      <a class="button none-correct">None of these are correct</a>
+
+      <a class="button pull-right submit">Submit</a>
+    </footer>
+  </div>
+
+  <a class="modal-close modal-dismiss" title="Close this modal">x</a>
+
+</section>

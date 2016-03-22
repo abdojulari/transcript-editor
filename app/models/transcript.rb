@@ -10,18 +10,30 @@ class Transcript < ActiveRecord::Base
   belongs_to :transcript_status
   has_many :transcript_lines
   has_many :transcript_edits
-
-  self.per_page = 500
+  has_many :transcript_speakers
 
   def to_param
     uid
   end
 
-  def self.getForHomepage(page, options={})
-    options[:order] ||= "title"
+  def self.getEdited
+    Transcript.joins(:transcript_edits).distinct
+  end
 
-    Rails.cache.fetch("#{ENV['PROJECT_ID']}/transcripts/#{page}/#{options[:order]}", expires_in: 10.minutes) do
-      Transcript.where("lines > 0 AND project_uid = :project_uid", {project_uid: ENV['PROJECT_ID']}).paginate(:page => page).order(:title)
+  def self.getForHomepage(page=1, options={})
+    page ||= 1
+    options[:order] ||= "title"
+    project = Project.getActive
+
+    per_page = 500
+    per_page = project[:data]["transcriptsPerPage"].to_i if project && project[:data]["transcriptsPerPage"]
+
+    Rails.cache.fetch("#{ENV['PROJECT_ID']}/transcripts/#{page}/#{per_page}/#{options[:order]}", expires_in: 10.minutes) do
+      Transcript
+        .select('transcripts.*, COALESCE(collections.title, \'\') as collection_title')
+        .joins('LEFT OUTER JOIN collections ON collections.id = transcripts.collection_id')
+        .where("transcripts.lines > 0 AND transcripts.project_uid = :project_uid", {project_uid: ENV['PROJECT_ID']})
+        .paginate(:page => page, :per_page => per_page).order("transcripts.#{options[:order]}")
     end
   end
 
@@ -44,6 +56,49 @@ class Transcript < ActiveRecord::Base
     Transcript.joins(:collection)
       .where("transcripts.vendor_id = :vendor_id AND transcripts.vendor_identifier = :empty AND collections.vendor_id = :vendor_id AND transcripts.lines <= 0 AND collections.vendor_identifier != :empty AND transcripts.project_uid = :project_uid",
       {vendor_id: vendor[:id], empty: "", project_uid: project_uid})
+  end
+
+  # Incrementally update transcript stats based on line delta
+  def delta(line_status_id_before, line_status_id_after, statuses=nil)
+    return if lines <= 0
+
+    statuses ||= TranscriptLineStatus.allCached
+
+    # initialize stats
+    changed = false
+    new_lines_completed = lines_completed
+    new_lines_edited = lines_edited
+    new_percent_completed = percent_completed
+    new_percent_edited = percent_edited
+
+    # retrieve statuses
+    before_status = statuses.find{|s| s[:id]==line_status_id_before}
+    after_status = statuses.find{|s| s[:id]==line_status_id_after}
+
+    # Case: initialized before, something else after, increment lines edited
+    if (!before_status || before_status.name=="initialized") && after_status && after_status.name!="initialized"
+      new_lines_edited += 1
+      changed = true
+    end
+
+    # Case: not completed before, completed after
+    if (!before_status || before_status.name!="completed") && after_status && after_status.name=="completed"
+      new_lines_completed += 1
+      changed = true
+
+    # Case: completed before, not completed after
+    elsif before_status && before_status.name=="completed" && (!after_status || after_status.name!="completed")
+      new_lines_completed -= 1
+      changed = true
+    end
+
+    # Update
+    if changed
+      new_percent_edited = (1.0 * new_lines_edited / lines * 100).round.to_i
+      new_percent_completed = (1.0 * new_lines_completed / lines * 100).round.to_i
+
+      update_attributes(lines_edited: new_lines_edited, lines_completed: new_lines_completed, percent_edited: new_percent_edited, percent_completed: new_percent_completed)
+    end
   end
 
   def loadFromHash(contents)
@@ -73,6 +128,26 @@ class Transcript < ActiveRecord::Base
     else
       puts "Transcript #{uid} still processing (no audio file found)"
     end
+  end
+
+  def recalculate
+    return if lines <= 0
+
+    # Find all the edited lines
+    edited_lines = TranscriptLine.getEditedByTranscriptId(id)
+
+    # And all the completed lines
+    completed_status = TranscriptLineStatus.find_by name: "completed"
+    completed_lines = edited_lines.select{|s| s[:transcript_line_status_id]==completed_status.id}
+
+    # Calculate
+    _lines_edited = edited_lines.length
+    _lines_completed = completed_lines.length
+    _percent_edited = (1.0 * _lines_edited / lines * 100).round.to_i
+    _percent_completed = (1.0 * _lines_completed / lines * 100).round.to_i
+
+    # Update
+    update_attributes(lines_edited: _lines_edited, lines_completed: _lines_completed, percent_edited: _percent_edited, percent_completed: _percent_completed)
   end
 
   def updateFromHash(contents)

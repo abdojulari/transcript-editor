@@ -1,11 +1,9 @@
 app.views.TranscriptEdit = app.views.Transcript.extend({
 
   template: _.template(TEMPLATES['transcript_edit.ejs']),
-  template_line: _.template(TEMPLATES['transcript_line.ejs']),
 
   initialize: function(data){
     this.data = data;
-    this.data.template_line = this.template_line;
 
     this.loadConventions();
     this.loadTranscript();
@@ -13,21 +11,61 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.listenForAuth();
   },
 
+  lineEditDelete: function(i){
+    if (i < 0) return false;
+
+    var $input = $('.line[sequence="'+i+'"] .text-input').first();
+    if (!$input.length) return false;
+    var line = this.data.transcript.lines[i];
+
+    // display the original text
+    $input.val(line.display_text);
+
+    // update UI
+    $input.attr('user-value', '');
+    $input.closest('.line').removeClass('user-edited');
+
+    // submit edit
+    this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: '', is_deleted: 1});
+  },
+
   lineSave: function(i){
     if (i < 0) return false;
 
-    var $input = $('.line[sequence="'+i+'"] input').first();
+    var $input = $('.line[sequence="'+i+'"] .text-input').first();
     if (!$input.length) return false;
 
+    var line = this.data.transcript.lines[i];
     var text = $input.val();
     var userText = $input.attr('user-value');
+
     // implicit save; save even when user has not edited original text
-    if (text != userText) {
-      var line = this.data.transcript.lines[i];
+    // only save if line is editable
+    if (text != userText && line.is_editable) {
+
+      // update UI
       $input.attr('user-value', text);
-      this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text});
       $input.closest('.line').addClass('user-edited');
+
+      // submit edit
+      this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text, is_deleted: 0});
     }
+  },
+
+  lineVerify: function(data){
+    var line = data.line,
+        text = data.text;
+
+    var $input = $('.line[sequence="'+line.sequence+'"] .text-input').first();
+    if (!$input.length) return false;
+
+    // update UI
+    $input.val(text);
+    $input.attr('user-value', text);
+    $input.closest('.line').addClass('user-edited');
+
+    // submit edit
+    this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text, is_deleted: 0});
   },
 
   loadListeners: function(){
@@ -35,10 +73,13 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
         controls = this.data.project.controls;
 
     // remove existing listeners
-    $('.control').off('click.transcript');
-    $(window).off('keydown.transcript');
-    this.$el.off('click.transcript', '.line');
-    this.$el.off('click.transcript', '.start-play');
+    // $('.control').off('click.transcript');
+    // $(window).off('keydown.transcript');
+    // PubSub.unsubscribe('transcript.line.select');
+    // PubSub.unsubscribe('transcript.line.submit');
+    // PubSub.unsubscribe('transcript.line.verify');
+    // PubSub.unsubscribe('transcript.edit.delete');
+    // this.$el.off('click.transcript', '.start-play');
 
     // add link listeners
     $('.control').on('click.transcript', function(e){
@@ -64,12 +105,27 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
       });
     });
 
-    // add line listener
-    this.$el.on('click.transcript', '.line', function(e){
-      e.preventDefault();
-      if (!$(this).hasClass('active')) {
-        _this.lineSelect(parseInt($(this).attr('sequence')));
-      }
+    // add line listeners
+    PubSub.subscribe('transcript.line.select', function(ev, line) {
+      _this.lineSelect(line.sequence);
+    });
+    PubSub.subscribe('transcript.line.submit', function(ev, data){
+      _this.lineSubmit();
+    });
+
+    // add verify listener
+    PubSub.subscribe('transcript.line.verify', function(ev, data) {
+      _this.lineVerify(data);
+    });
+
+    // add edit delete listener
+    PubSub.subscribe('transcript.edit.delete', function(ev, line) {
+      _this.lineEditDelete(line.sequence);
+    });
+
+    // add player listener
+    PubSub.subscribe('player.toggle-play', function(ev, data) {
+      _this.lineToggle();
     });
 
     // add start listener

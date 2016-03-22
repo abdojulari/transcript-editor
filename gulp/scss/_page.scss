@@ -8,12 +8,28 @@
   video {
     width: 100%;
     height: auto;
+    border: 1px solid $coolgray-color;
+    @include box-shadow(0px 2px 6px 3px rgba($black, 0.2));
+
+    &.toggle-sound {
+      cursor: pointer;
+    }
+
+    &.sample-video {
+      max-height: 200px;
+    }
+  }
+
+  .caption {
+    font-size: 0.8em;
+    font-style: italic;
+    margin-top: 0;
+    color: $charcoal;
   }
 }
 
 .home\.md.page {
   text-align: center;
-  margin-bottom: 50px;
 
   h1 {
     font-size: 2.6em;
@@ -21,6 +37,10 @@
 
   p {
     font-size: 1.5em;
+
+    &.caption {
+      font-size: 0.8em;
+    }
   }
 }
 
@@ -114,14 +134,18 @@
     tbody {
       overflow: hidden;
       overflow-y: auto;
-      height: 20vh;
+      height: 25vh;
       min-height: 80px;
-      max-height: 200px;
+      max-height: 300px;
     }
 
   }
 }
 .conventions-page {
+
+  &.sticky {
+    z-index: 1200; // ensure it's above verify modal
+  }
   .page {
     max-height: 0;
     overflow: hidden;
@@ -162,7 +186,7 @@
   &.active {
 
     .page {
-      max-height: 300px;
+      max-height: 460px;
     }
 
     .tab:before {

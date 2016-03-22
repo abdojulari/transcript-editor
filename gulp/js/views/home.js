@@ -11,11 +11,16 @@ app.views.Home = app.views.Base.extend({
   render: function() {
 
     // write page contents
-    var home_page = new app.views.Page(_.extend({}, this.data, {el: this.el, page_key: 'home.md'}));
+    var home_page = new app.views.Page(_.extend({}, this.data, {page_key: 'home.md'}));
 
     // get transcripts
     var transcript_collection = new app.collections.Transcripts();
-    var transcripts_view = new app.views.TranscriptsIndex(_.extend({}, this.data, {el: this.el, collection: transcript_collection}));
+    var collection_collection = new app.collections.Collections();
+    var transcripts_view = new app.views.TranscriptsIndex(_.extend({}, this.data, {collection: transcript_collection, collections: collection_collection}));
+
+    this.$el.append(home_page.render().$el);
+    this.$el.append(transcripts_view.$el);
+    this.$el.removeClass('loading');
 
     return this;
   }

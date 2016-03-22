@@ -4,6 +4,8 @@
   "logo": "",
   "apiUrl": "",
   "useVendorAudio": true,
+  "transcriptsPerPage": 500,
+  "gaCode": "",
   "adminEmails": [
     "admin@email.org"
   ],
@@ -18,7 +20,7 @@
   "menus": {
     "header": [
       {"label": "Browse", "url": "/"},
-      {"label": "About", "url": "/#/page/about"}
+      {"label": "About", "url": "/page/about"}
     ],
     "footer": []
   },

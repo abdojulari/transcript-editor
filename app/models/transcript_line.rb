@@ -86,11 +86,42 @@ class TranscriptLine < ActiveRecord::Base
     end
 
     # Update line if it has changed
-    if status_id != transcript_line_status_id || best_guess_text != guess_text
+    status_changed = (status_id != transcript_line_status_id)
+    old_status_id = transcript_line_status_id
+    if status_changed || best_guess_text != guess_text
       update_attributes(transcript_line_status_id: status_id, guess_text: best_guess_text, text: final_text)
 
-      # TODO: update transcript status if line status has changed
+      # Update transcript if line status has changed
+      if status_changed
+        transcript = Transcript.find(transcript_id)
+        transcript.delta(old_status_id, status_id, statuses)
+      end
     end
+  end
+
+  def recalculateSpeaker(edits=nil, project=nil)
+    edits ||= TranscriptSpeakerEdit.getByLine(id)
+    project ||= Project.getActive
+    consensus = project[:data]["consensus"]
+    best_speaker_id = 0
+
+    # Check if there's any edits by priority users (e.g. moderators, admins)
+    if edits.length > 0
+      edits_priority = edits.select { |edit| edit[:user_hiearchy] >= consensus["superUserHiearchy"] }
+      edits = edits_priority.select { |edit| true } if edits_priority.length > 0
+    end
+
+    if edits.length > 0
+      # Group the edits by speaker_id
+      groups = edits.group_by{|edit| edit.speaker_id}
+      # Convert groups from hash to array
+      groups = groups.collect {|group_speaker_id, group_edits| {speaker_id: group_speaker_id, count: group_edits.length} }
+      # Sort by frequency of speaker_id
+      groups = groups.sort_by { |group| group[:count] * -1 }
+      best_speaker_id = groups[0][:speaker_id]
+    end
+
+    update_attributes(speaker_id: best_speaker_id) if best_speaker_id != speaker_id
   end
 
   private

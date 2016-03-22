@@ -46,8 +46,8 @@ app.views.Transcript = app.views.Base.extend({
     // see how big the text is at the default size
     var textWidth = $input.getTextSize().width;
     if (textWidth > maxWidth) {
-        // the extra .9 here makes up for some over-measures
-        fontSize = fontSize * maxWidth / textWidth * 0.9;
+        // the extra .8 here makes up for some over-measures
+        fontSize = fontSize * maxWidth / textWidth * 0.8;
     }
 
     $input.css({fontSize: fontSize + 'px'});
@@ -75,7 +75,7 @@ app.views.Transcript = app.views.Base.extend({
   lineSelect: function(i){
     // check if in bounds
     var lines = this.data.transcript.lines;
-    if (i < 0 || i >= lines.length) return false;
+    if (i < 0 || i >= lines.length || i==this.current_line_i) return false;
 
     this.onLineOff(this.current_line_i);
 
@@ -102,7 +102,7 @@ app.views.Transcript = app.views.Base.extend({
   },
 
   lineSubmit: function(){
-    this.lineNext(true);
+    this.lineNext();
   },
 
   lineToggle: function(){
@@ -243,6 +243,9 @@ app.views.Transcript = app.views.Base.extend({
   },
 
   onLineOff: function(i){
+    // close all modals
+    PubSub.publish('modals.dismiss', true);
+
     // save line always
     this.lineSave(i);
 
@@ -264,6 +267,7 @@ app.views.Transcript = app.views.Base.extend({
         lines = this.data.transcript.lines,
         user_edits = this.data.transcript.user_edits,
         line_statuses = this.data.transcript.transcript_line_statuses,
+        speakers = this.data.transcript.speakers || [],
         superUserHiearchy = PROJECT.consensus.superUserHiearchy,
         user_role = this.data.transcript.user_role;
 
@@ -276,6 +280,22 @@ app.views.Transcript = app.views.Base.extend({
     var line_statuses_map = _.object(_.map(line_statuses, function(status) {
       return [""+status.id, status]
     }));
+
+    // add multiple speaker option
+    var speaker_options = _.map(speakers, _.clone);
+    if (speakers.length > 1) {
+      speaker_options.push({id: -1, name: "Muliple Speakers"});
+    }
+    this.data.transcript.speaker_options = speaker_options;
+
+    // map speakers for easy lookup
+    var speakers_map = _.object(_.map(speaker_options, function(speaker) {
+      return [""+speaker.id, speaker]
+    }));
+    var speaker_ids = _.pluck(speaker_options, 'id');
+
+    // keep track of lines that are being reviewed
+    var lines_reviewing = 0;
 
     // process each line
     _.each(lines, function(line, i){
@@ -312,7 +332,26 @@ app.views.Transcript = app.views.Base.extend({
       if (user_role && user_role.hiearchy >= superUserHiearchy) is_editable = true;
       _this.data.transcript.lines[i].is_editable = is_editable;
 
+      // keep track of reviewing counts
+      if (status.name=="reviewing") lines_reviewing++;
+
+      // check for speaker
+      var speaker = false;
+      var speaker_pos = -1;
+      if (_.has(speakers_map, ""+line.speaker_id)) {
+        speaker = speakers_map[""+line.speaker_id];
+        speaker_pos = speaker_ids.indexOf(speaker.id);
+      }
+      _this.data.transcript.lines[i].speaker = speaker;
+      _this.data.transcript.lines[i].speaker_pos = speaker_pos;
+      _this.data.transcript.lines[i].has_speakers = speakers.length > 1 ? true : false;
     });
+
+    // add data about lines that are being reviewed
+    this.data.transcript.lines_reviewing = lines_reviewing;
+    if (lines.length > 0) this.data.transcript.percent_reviewing = Math.round(lines_reviewing / lines.length * 100);
+    if (this.data.transcript.percent_reviewing > 0) this.data.transcript.hasLinesInReview = true;
+    if (this.data.transcript.percent_completed > 0) this.data.transcript.hasLinesCompleted = true;
   },
 
   playerPause: function(){
@@ -359,6 +398,27 @@ app.views.Transcript = app.views.Base.extend({
 
   render: function(){
     this.$el.html(this.template(this.data));
+    this.renderLines();
+  },
+
+  renderLines: function(){
+    var $container = this.$el.find('#transcript-lines'),
+        $lines = $('<div>');
+
+    if (!$container.length) return false;
+    $container.empty();
+
+    var speakers = this.data.transcript.speaker_options;
+    var transcript_id = this.data.transcript.id;
+    _.each(this.data.transcript.lines, function(line) {
+      var lineView = new app.views.TranscriptLine({
+        transcript_id: transcript_id,
+        line: line,
+        speakers: speakers
+      });
+      $lines.append(lineView.$el);
+    });
+    $container.append($lines);
   },
 
   start: function(){

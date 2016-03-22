@@ -1,23 +1,38 @@
 class TranscriptsController < ApplicationController
+  include ActionController::MimeResponds
+
   before_action :set_transcript, only: [:show, :update, :destroy]
 
   # GET /transcripts.json
   def index
+    project = Project.getActive
+    @project_settings = project[:data]
     @transcripts = Transcript.getForHomepage(params[:page])
   end
 
+  # GET /transcripts/the-uid
   # GET /transcripts/the-uid.json
   def show
-    @user_role = nil
-    @user_edits = []
-    @transcript_line_statuses = TranscriptLineStatus.allCached
+    respond_to do |format|
+      format.html {
+        render :file => "public/#{ENV['PROJECT_ID']}/index.html"
+      }
+      format.json {
+        @user_role = nil
+        @user_edits = []
+        @transcript_line_statuses = TranscriptLineStatus.allCached
+        @transcript_speakers = TranscriptSpeaker.getByTranscriptId(@transcript.id)
 
-    if user_signed_in?
-      @user_edits = TranscriptEdit.getByTranscriptUser(@transcript.id, current_user.id)
-      @user_role = current_user.user_role
-    else
-      @user_edits = TranscriptEdit.getByTranscriptSession(@transcript.id, session.id)
+        if user_signed_in?
+          @user_edits = TranscriptEdit.getByTranscriptUser(@transcript.id, current_user.id)
+          @user_role = current_user.user_role
+        else
+          @user_edits = TranscriptEdit.getByTranscriptSession(@transcript.id, session.id)
+        end
+      }
     end
+
+
   end
 
   # POST /transcripts.json

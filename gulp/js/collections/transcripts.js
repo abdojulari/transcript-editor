@@ -8,6 +8,10 @@ app.collections.Transcripts = Backbone.Collection.extend({
     return this.page;
   },
 
+  hasAllPages: function(){
+    return !this.hasMorePages();
+  },
+
   hasMorePages: function(){
     return (this.page * this.per_page < this.total);
   },

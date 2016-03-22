@@ -15,6 +15,10 @@ app.views.Modals = app.views.Base.extend({
     this.render();
   },
 
+  addModal: function($modal){
+    this.$el.append($modal);
+  },
+
   dismissModals: function(){
     this.$('.modal').removeClass('active');
   },
@@ -35,6 +39,15 @@ app.views.Modals = app.views.Base.extend({
 
     PubSub.subscribe('modal.invoke', function(ev, id) {
       _this.invokeModal(id);
+    });
+
+    PubSub.subscribe('modals.dismiss', function(ev, data) {
+      _this.dismissModals();
+    });
+
+    // listen for player state change
+    PubSub.subscribe('player.state.change', function(ev, state) {
+      _this.$el.attr('state', state);
     });
   },
 

@@ -8,7 +8,9 @@ var COMPONENTS = (function() {
     this.selectInit();
     this.alertInit();
     this.scrollInit();
+    this.stickyInit();
     this.toggleInit();
+    this.toggleSoundInit();
   };
 
   COMPONENTS.prototype.alert = function(message, flash, target, flashDelay){
@@ -102,6 +104,44 @@ var COMPONENTS = (function() {
     $('.select').removeClass('active');
   };
 
+  COMPONENTS.prototype.sticky = function(header){
+    var $stickies = $('.sticky-on-scroll');
+
+    if (!$stickies.length) return false;
+
+    var offsetTop = header ? $(header).height() : 0;
+    var windowTop = $(window).scrollTop();
+
+    $stickies.each(function(){
+      var $el = $(this),
+          elTop = $el.offset().top;
+
+      if (windowTop > elTop-offsetTop) {
+        $($el.attr('data-sticky')).addClass('sticky');
+      } else {
+        $($el.attr('data-sticky')).removeClass('sticky');
+      }
+    });
+  };
+
+  COMPONENTS.prototype.stickyInit = function(){
+    var _this = this;
+
+    $(window).on('sticky-on', function(e, header){
+      _this.stickyOn(header);
+    });
+  };
+
+  COMPONENTS.prototype.stickyOn = function(header){
+    if (this.sticky_is_on) return false;
+    this.sticky_is_on = true;
+    var _this = this;
+
+    $(window).on('scroll', function(){
+      _this.sticky(header);
+    });
+  };
+
   COMPONENTS.prototype.toggle = function(el){
     $(el).toggleClass('active');
   };
@@ -112,6 +152,25 @@ var COMPONENTS = (function() {
     // toggle button
     $(document).on('click', '.toggle-active', function(){
       _this.toggle($(this).attr('data-target'));
+    });
+  };
+
+  COMPONENTS.prototype.toggleSound = function($el){
+    var media = $el[0];
+
+    if (media && media.muted) {
+      media.muted = false;
+    } else if (media) {
+      media.muted = true;
+    }
+  };
+
+  COMPONENTS.prototype.toggleSoundInit = function(){
+    var _this = this;
+
+    $(document).on('click', '.toggle-sound', function(e){
+      e.preventDefault();
+      _this.toggleSound($(this));
     });
   };
 

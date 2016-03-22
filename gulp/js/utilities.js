@@ -79,14 +79,31 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
   // Format seconds -> hh:mm:ss
   UTIL.formatTime = function(seconds, dec) {
     var s = seconds || 0,
-        h = parseInt(s / 3600) % 24,
-        m = parseInt(s / 60) % 60,
+        h = parseInt(Math.floor(s / 3600)) % 24,
+        m = parseInt(Math.floor(s / 60)) % 60,
         s = UTIL.round(s % 60, dec),
         string;
+
     // create format hh:mm:ss
     string = (h > 0 ? h + ':' : '') + (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
     // remove starting zeros
     if (string[0] == '0') string = string.substring(1, string.length);
+    return string;
+  };
+
+  // Format seconds -> 1h 20m
+  UTIL.formatTimeAlt = function(seconds) {
+    var s = seconds || 0,
+        h = parseInt(Math.floor(s / 3600)) % 24,
+        m = parseInt(Math.floor(s / 60)) % 60,
+        s = UTIL.round(s % 60),
+        string;
+    // create format 1h 20m
+    if (m > 0) {
+      string = (h > 0 ? h + 'h ' : '') + m + 'm';
+    } else {
+      string = s + 's';
+    }
     return string;
   };
 

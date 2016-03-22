@@ -5,14 +5,35 @@
 </div>
 <% } %>
 
+<div class="transcript-header<%= transcript.image_url ? ' has-image' : '' %>">
+  <% if (transcript.image_url) { %>
+    <div class="image" style="background-image: url(<%= transcript.image_url %>)"></div>
+  <% } %>
+  <div class="metadata">
+    <h1><%= transcript.title %></h1>
+
+    <% if (transcript.description) { %>
+      <p><%= transcript.description %></p>
+    <% } %>
+
+    <p class="duration">Duration: <%= UTIL.formatTimeAlt(transcript.duration) %></p>
+
+    <% if (transcript.speakers.length) { %>
+      <p class="speakers">Participants: <%= _.pluck(transcript.speakers, 'name').join(', ') %> </p>
+    <% } %>
+  </div>
+  <div class="status-wrapper">
+    <div class="status">
+      <div class="status-bar" style="width: <%= transcript.percent_completed %>%"></div>
+      <div class="status-text">Users have completed <%= transcript.percent_completed %>%</div>
+    </div>
+  </div>
+</div>
+
 <% if (page_content) { %>
 <div class="transcript-page">
   <%= page_content %>
 </div>
 <% } %>
 
-<div class="transcript-lines">
-  <% _.each(transcript.lines, function(line) { %>
-    <%= template_line(line) %>
-  <% }) %>
-</div>
+<div id="transcript-lines" class="transcript-lines<%= transcript.speakers && transcript.speakers.length > 1 ? ' has-speakers' : '' %>"></div>

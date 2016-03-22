@@ -4,6 +4,8 @@
   "logo": "/oral-history/assets/img/logo.png",
   "apiUrl": "",
   "useVendorAudio": true,
+  "transcriptsPerPage": 1000,
+  "gaCode": "",
   "adminEmails": [
     "brianfoo@nypl.org",
     "willaarmstrong@nypl.org",
@@ -14,19 +16,23 @@
       "name": "google",
       "label": "Google",
       "path": "/auth/google_oauth2"
+    },{
+      "name": "facebook",
+      "label": "Facebook",
+      "path": "/auth/facebook"
     }
   ],
   "consensus": {
-    "maxLineEdits": 5,
+    "maxLineEdits": 3,
     "minLinesForConsensus": 3,
     "minPercentConsensus": 0.34,
-    "lineDisplayMethod": "guess",
+    "lineDisplayMethod": "original",
     "superUserHiearchy": 50
   },
   "menus": {
     "header": [
       {"label": "Browse", "url": "/"},
-      {"label": "About", "url": "/#/page/about"}
+      {"label": "About", "url": "/page/about"}
     ],
     "transcript_edit": [],
     "footer": []

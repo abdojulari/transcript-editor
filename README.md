@@ -32,12 +32,14 @@ git clone https://github.com/NYPL/transcript-editor.git
 cd transcript-editor
 ```
 
+If you forked this repository, replace the URL with your repository
+
 ### Configure Your Project
 
 1. Create `config/database.yml` based on [config/database.sample.yml](config/database.sample.yml) - update this file with your own database credentials
 2. Create `config/application.yml` based on [config/application.sample.yml](config/application.sample.yml) - this file contains all your private config credentials such as Pop Up Archive or Google accounts. The only required configuration to start is:
   - **SECRET_KEY_BASE**. You can generate this value by running `rake secret`
-  - **PROJECT_ID**. A project id that will be used to identify this project (e.g. my-project). Must be alphanumeric, no spaces, underscores and dashes okay
+  - **PROJECT_ID**. A project id that will be used to identify this project (e.g. my-project). Must be alphanumeric; no spaces or periods; underscores and dashes okay
 3. Copy the folder `project/sample-project` and rename it to the **PROJECT_ID** from the previous step (e.g. `project/my-project`).  This folder will contain all the configuration, content, and language for your project.
 
 #### Configure Your Project Details
@@ -91,7 +93,7 @@ In your project folder, you should find an empty .csv file: [project/my-project/
 
 | Column | Description | Required? | Example |
 | ------ | ----------- | --------- | ------- |
-| uid | a unique identifier for your audio file. Must be alphanumeric, no spaces, underscores and dashes okay. Case sensitive. | Yes | *podcast-123*, *podcast_123*, *123* |
+| uid | a unique identifier for your audio file. Must be alphanumeric; no spaces or periods; underscores and dashes okay. Case sensitive. | Yes | *podcast-123*, *podcast_123*, *123* |
 | title | the title that will be displayed for this audio file | Yes | *Podcast About Cats* |
 | description | a description that will be displayed for this audio file | No | *This is basically teh best podcast about cats; no dogs allowed* |
 | url | a URL that will link back to where the audio is being presented on your website | No | *http://mywebsite.com/podcast-123* |
@@ -126,13 +128,29 @@ Similarly with transcripts, you can always re-run this script with new data and 
 
 ### Uploading your files to Pop Up Archive
 
-If you are using Pop Up Archive and have not yet uploaded your audio, run this command:
+If you are using Pop Up Archive and have not yet created [Pop Up Archive collection(s)](https://www.popuparchive.com/collections), you can run this command to create Pop Up collections from your manifest file:
+
+```
+rake pua:create_collections['my-project']
+```
+
+This will also update your database with the proper Pop Up Archive collection id in a column called `vendor_identifier`.  It will be also useful for deployment later to update your manifest file with these identifiers. You can do that by running this command:
+
+```
+rake collections:update_file['my-project,'collections_seeds.csv']
+```
+
+If you have not yet uploaded your audio to Pop Up Archive, run this command:
 
 ```
 rake pua:upload['my-project']
 ```
 
-This will look for any audio items (that were previously defined in your transcript manifest files) that have *pop_up_archive* as *vendor* but do not have a *vendor_identifier* (i.e. has not been uploaded to Pop Up Archive), and for each of those items, create a Pop Up Archive item and uploads submit your audio file for processing. It will populate the *vendor_identifier* in the app's database with the Pop Up Archive item id upon submission, so you may run this script any number of times if you add additional audio items.
+This will look for any audio items (that were previously defined in your transcript manifest files) that have *pop_up_archive* as *vendor* but do not have a *vendor_identifier* (i.e. has not been uploaded to Pop Up Archive), and for each of those items, create a Pop Up Archive item and uploads submit your audio file for processing. It will populate the *vendor_identifier* in the app's database with the Pop Up Archive item id upon submission, so you may run this script any number of times if you add additional audio items. Like with collections, you should update your manifest file with these identifiers:
+
+```
+rake transcripts:update_file['my-project','transcripts_seeds.csv']
+```
 
 ### Download processed transcripts from Pop Up Archive
 
@@ -146,11 +164,250 @@ This will look for any audio items that have been submitted to Pop Up Archive, b
 
 ## Customizing your project
 
-Coming soon... this section will walk through how you can customize the interface, content, users, and rules for consensus for your project.
+All project customization should happen within your project directory (e.g. `/project/my-project/`). Changes made anywhere else may result in code conflicts when updating your app with new code.
+
+Whenever you make a change to your project directory, you must run the following rake task to see it in the app:
+
+```
+rake project:load['my-project']
+```
+
+### Activating user accounts
+
+This app currently supports logging in through Google or Facebook accounts (via [OAuth2](https://en.wikipedia.org/wiki/OAuth)).  You can activate this by the following:
+
+#### Instructions for Google Account activation
+
+1. Log in to your Google account and visit [https://console.developers.google.com/](https://console.developers.google.com/); complete any registration steps required
+2. Once you are logged into your Developer dashboard, [create a project](https://console.developers.google.com/project)
+3. In your project's dashboard click *enable and manage Google APIs*.  You must enable at least *Contacts API* and *Google+ API*
+4. Click the *Credentials* tab of your project dashboard, *Create credentials* for an *OAuth client ID* and select *Web application*
+5. You should make at least two credentials for your Development and Production environments (you can also create one for a Test environment)
+6. For development, enter `http://localhost:3000` (or whatever your development URI is) for your *Authorized Javascript origins* and `http://localhost:3000/omniauth/google_oauth2/callback` for your *Authorized redirect URIs*
+7. For production, enter the same values, but replace `http://localhost:3000` with your production URI e.g. `https://myproject.com`
+8. Open up your `config/application.yml`
+9. For each development and production, copy the values listed for *Client ID* and *Client secret* into the appropriate key-value entry, e.g.
+
+   ```
+   development:
+     GOOGLE_CLIENT_ID: 1234567890-abcdefghijklmnop.apps.googleusercontent.com
+     GOOGLE_CLIENT_SECRET: aAbBcCdDeEfFgGhHiIjKlLmM
+   production:
+     GOOGLE_CLIENT_ID: 0987654321-ghijklmnopabcdef.apps.googleusercontent.com
+     GOOGLE_CLIENT_SECRET: gGhHiIjKlLmMaAbBcCdDeEfF
+  ```
+
+10. Google login is now enabled in the Rails app. Now we need to enable it in the UI. Open up `project/my-project/project.json`.  Under `auth_providers` enter:
+
+   ```
+   "authProviders": [
+     {
+       "name": "google",
+       "label": "Google",
+       "path": "/auth/google_oauth2"
+     }
+   ],
+   ```
+
+11. Run `rake project:load['my-project']` to refresh this config in the interface
+12. Finally, restart your server and visit `http://localhost:3000`.  Now you should see the option to sign in via Google.
+
+#### Instructions for Facebook Account activation
+
+1. Log in to your Facebook account and visit [this link](https://developers.facebook.com/quickstarts/?platform=web)
+2. Follow the steps to create a new app and go to the app's Dashboard
+3. In your project's dashboard click *Settings* on the left panel. Then click the *Advanced* tab.
+4. Under *Client OAuth Settings*:
+   - make sure *Client OAuth Login* and *Web OAuth Login* is on
+   - enter `http://localhost:3000/omniauth/facebook/callback` in *Valid OAuth redirect URIs*. Also include your production or testing urls here too (e.g. `http://myapp.com/omniauth/facebook/callback`)
+   - Save your changes
+5. On the left panel, select *Test Apps*. Click *Create a Test App* and go to its dashboard after you create it.
+6. Note these two values: *App ID* and *App Secret*
+7. Open up your `config/application.yml`
+8. For each development and production, copy the values listed for *App ID* and *App Secret* into the appropriate key-value entry, e.g.
+
+   ```
+   development:
+     FACEBOOK_APP_ID: "1234567890123456"
+     FACEBOOK_APP_SECRET: abcdefghijklmnopqrstuvwxyz123456
+   production:
+     FACEBOOK_APP_ID: "7890123456123456"
+     FACEBOOK_APP_SECRET: nopqrstuvwxyz123456abcdefghijklm
+  ```
+
+10. Facebook login is now enabled in the Rails app. Now we need to enable it in the UI. Open up `project/my-project/project.json`.  Under `auth_providers` enter:
+
+   ```
+   "authProviders": [
+     {
+       "name": "facebook",
+       "label": "Facebook",
+       "path": "/auth/facebook"
+     }
+   ],
+   ```
+
+11. Run `rake project:load['my-project']` to refresh this config in the interface
+12. Finally, restart your server and visit `http://localhost:3000`.  Now you should see the option to sign in via Facebook.
+
+
+### Custom content
+
+#### Pages
+
+This app let's you create an arbitrary number of pages that you may link from the navigation menu or within other pages.  All pages are found within:
+
+```
+project/
++-- my-project/
+|  +-- pages/
+```
+
+- All pages are written in [Markdown](https://daringfireball.net/projects/markdown/syntax), but since Markdown supports HTML, you can use HTML syntax as well.
+- If you create a page called `faq.md`, you can access it via URL `http://localhost:3000/page/faq`
+- Subdirectories are supported, but the URL will always respond to just the filename, e.g. for the file `project/my-project/pages/misc/faq.md`, the URL will still be `http://localhost:3000/page/faq`
+- You can embed assets in your markdown. For example
+  - Place an image in assets folder like `project/my-project/assets/img/graphic.jpg`
+  - You can refer to it in a page like this: `<img src="/my-project/assets/img/graphic.jpg" />`
+- There are a few pages that the app comes with:
+  - `home.md` - contains the content that shows up on the homepage
+  - `transcript_edit.md` - contains the content that shows up on the top of all transcript editor pages
+  - `transcript_conventions.md` - contains the transcript conventions that show up in the drop-down on all transcript editor pages
+
+#### Menus
+
+In your `project/my-project/project.json` file, there is an entry called `menus`.  These will contain all the available menus that will be displayed in the app.  Here are the available menus:
+
+- `header` - this is the persistent menu that shows up on the top of all pages
+- `transcript_edit` - this is the menu that shows up below the main header menu if you are on a transcript editor page
+- `footer` - this is the persistent menu that shows up on the bottom of all pages
+
+Each menu will contain a number of entries (or no entries). It may look like this:
+
+```
+"header": [
+  {"label": "Browse", "url": "/"},
+  {"label": "About", "url": "/page/about"},
+  {"label": "Main Website", "url": "http://otherwebsite.com/"}
+],
+```
+
+The `label` is what will show up in the menu, and the URL is what that label links to. It can link to a page within the app or an external page.
+
+Sometimes you only want to have a link show up on certain pages. You can accomplish this like so:
+
+```
+"header": [
+  {"label": "Browse", "url": "/"},
+  {"label": "About", "url": "/page/about"},
+  {"label": "Help", "url": "/page/help", "validRoutes": ["transcripts/:id"]}
+],
+```
+
+In the above case, the `Help` link will only show up on transcript editor pages. You can see a list of available routes in the app's [router.js file](gulp/js/router.js)
+
+#### Modals
+
+Sometimes you don't want to redirect a user to a different page, but want to have the content show up in a pop-up modal. You can define modals in your `project.json` file like this:
+
+```
+"modals": {
+  "help_modal": {
+    "title": "A Brief Guide",
+    "doneLabel": "Close",
+    "page": {"file": "help.md"}
+  },
+  "tutorial_modal": {
+    "title": "A Brief Tutorial",
+    "doneLabel": "Finished",
+    "pages": [
+      {"label": "Editing", "file": "tutorial_1.md"},
+      {"label": "Conventions", "file": "tutorial_2.md"},
+      {"label": "Commands", "file": "tutorial_3.md"}
+    ]
+  }
+},
+```
+
+This will create two modals:
+
+1. `help_modal` which contains the content of just one page: `project/my-project/pages/help.md`
+2. `tutorial_modal` which contains tabbed content of three pages
+
+You can invoke a modal from within a menu like so:
+
+```
+"menus": {
+  "header": [
+    {"label": "Browse", "url": "/"},
+    {"label": "About", "url": "/page/about"},
+    {"label": "Help", "modal": "help_modal"}
+  ],
+  ...
+},
+```
+
+### Custom assets, styling, and functionality
+
+You would probably want to customize the look and feel of your app. You can accomplish this by overriding the default CSS styling with a project CSS file:
+
+```
+project/
++-- my-project/
+|  +-- assets/
+|     +-- css/
+|        +-- styles.css
+```
+
+These styles will override any existing styles in the app. Similarly, you can add additional javascript functionality via custom js:
+
+```
+project/
++-- my-project/
+|  +-- assets/
+|     +-- js/
+|        +-- custom.js
+```
+
+Sometimes you may want to include additional files or tags in your app such as custom external font services, analytics, or meta tags. You can simply edit this page:
+
+```
+project/
++-- my-project/
+|  +-- layouts/
+|     +-- index.html
+```
+
+Be careful not to edit the existing app structure within the `#app` element. Also, there are a few javascript and css files that the app depends on that you shouldn't delete.
+
+Be sure to run the project rake task if you make any changes:
+
+```
+rake project:load['my-project']
+```
+
+## Transcript Consensus
+
+Coming soon. This section covers the rules for what makes a transcript or a transcript line "complete".
+
+### What is consensus?
+
+### The stages of consensus
+
+### Configuring consensus
 
 ## Deploying your project to production
 
 This example will use [Heroku](https://www.heroku.com/) to deploy the app to production, though the process would be similar for other hosting solutions. The commands assume you have [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
+
+Before you start, if you used Pop Up Archive to generate your transcripts, make sure your manifest files are up-to-date to make sure your production server knows how to download the transcripts from Pop Up Archive.  Run these commands:
+
+```
+rake collections:update_file['my-project,'collections_seeds.csv']
+rake transcripts:update_file['my-project','transcripts_seeds.csv']
+```
+
+Replace `my-project` and `.csv` files with your project key and manifest files. Commit the updated manifest files to your repository and continue.
 
 1. Create a new [Heroku](https://heroku.com) app:
 
@@ -187,7 +444,7 @@ This example will use [Heroku](https://www.heroku.com/) to deploy the app to pro
    heroku run rake db:seed
    ```
 
-   And run the scripts to seed your database with your collections/transcripts
+5. Next you'll need to populate your transcripts. The last command will download your transcripts from Pop Up Archive. You can run these commands however many times you like if you update your manifest file or transcripts become available.
 
    ```
    heroku run rake collections:load['my-project','collections_seeds.csv']
@@ -198,6 +455,10 @@ This example will use [Heroku](https://www.heroku.com/) to deploy the app to pro
 ## Managing your project
 
 Coming soon... this section will walk through admin and moderator functionality
+
+### Updating your website
+
+Coming soon... this section will walk through how to update your website with recent changes to the codebase
 
 ## Retrieving your finished transcripts
 

@@ -1,21 +1,15 @@
 class CollectionsController < ApplicationController
   before_action :set_collection, only: [:show, :update, :destroy]
 
-  # GET /collections
   # GET /collections.json
   def index
     @collections = Collection.all
-
-    render json: @collections
   end
 
-  # GET /collections/1
-  # GET /collections/1.json
+  # GET /collections/the-uid.json
   def show
-    render json: @collection
   end
 
-  # POST /collections
   # POST /collections.json
   def create
     @collection = Collection.new(collection_params)
@@ -27,10 +21,8 @@ class CollectionsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /collections/1
-  # PATCH/PUT /collections/1.json
+  # PATCH/PUT /collections/the-uid.json
   def update
-    @collection = Collection.find(params[:id])
 
     if @collection.update(collection_params)
       head :no_content
@@ -39,8 +31,7 @@ class CollectionsController < ApplicationController
     end
   end
 
-  # DELETE /collections/1
-  # DELETE /collections/1.json
+  # DELETE /collections//the-uid.json
   def destroy
     @collection.destroy
 
@@ -50,7 +41,7 @@ class CollectionsController < ApplicationController
   private
 
     def set_collection
-      @collection = Collection.find(params[:id])
+      @collection = Collection.find_by uid: params[:id]
     end
 
     def collection_params

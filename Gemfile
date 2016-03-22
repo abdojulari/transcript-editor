@@ -24,6 +24,7 @@ gem 'figaro'
 # User management / auth
 gem 'devise_token_auth'
 gem 'omniauth-google-oauth2'
+gem 'omniauth-facebook'
 
 # Parsers for project asset precompilation
 gem 'redcarpet'

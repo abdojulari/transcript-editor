@@ -26,6 +26,7 @@ module.exports = {
       sourceAssets + '/js/vendor/jquery-deparam.js',
       sourceAssets + '/js/vendor/pubsub.min.js',
       sourceAssets + '/js/vendor/jquery.j-toker.min.js',
+      sourceAssets + '/js/vendor/fuse.min.js',
       sourceAssets + '/js/utilities.js',
       sourceAssets + '/js/components.js',
       sourceAssets + '/js/app.js',
