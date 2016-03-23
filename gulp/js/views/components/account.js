@@ -12,7 +12,9 @@ app.views.Account = app.views.Base.extend({
   initialize: function(data){
     this.data = data;
 
-    this.listenForAuth();
+    this.data.score = 0;
+
+    this.loadListeners();
 
     this.render();
   },
@@ -52,13 +54,29 @@ app.views.Account = app.views.Base.extend({
     });
   },
 
+  loadListeners: function(){
+    var _this = this;
+
+    this.listenForAuth();
+
+    // user submitted new edit; increment
+    PubSub.subscribe('transcript.edit.submit', function(ev, data){
+      if (data.is_new && _this.data.user.signedIn) {
+        _this.data.score += 1;
+        _this.updateScore();
+      }
+    });
+  },
+
   onSignOutSuccess: function(){
     this.data.user = {};
+    this.data.score = 0;
     this.render();
   },
 
   onValidationSuccess: function(user){
     this.data.user = user;
+    this.data.score = user.lines_edited;
     this.render();
   },
 
@@ -71,6 +89,10 @@ app.views.Account = app.views.Base.extend({
     e && e.preventDefault();
 
     $.auth.signOut();
+  },
+
+  updateScore: function(){
+    this.$('.score').text(UTIL.formatNumberTiny(this.data.score)).addClass('active');
   }
 
 });

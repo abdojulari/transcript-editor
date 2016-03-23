@@ -351,6 +351,20 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
 (function() {
   window.UTIL = {};
 
+  UTIL.formatNumber = function(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  UTIL.formatNumberTiny = function(num) {
+    var formatted = num;
+    if (num > 1000000) formatted = UTIL.round(num/1000000, 1) + 'M+';
+    else if (num == 1000000) formatted = '1M';
+    else if (num > 99999) formatted = UTIL.round(num/1000) + 'K+';
+    else if (num > 1000) formatted = UTIL.round(num/1000, 1) + 'K+';
+    else if (num == 1000) formatted = '1K';
+    return formatted;
+  };
+
   // Format seconds -> hh:mm:ss
   UTIL.formatTime = function(seconds, dec) {
     var s = seconds || 0,
@@ -1429,7 +1443,9 @@ app.views.Account = app.views.Base.extend({
   initialize: function(data){
     this.data = data;
 
-    this.listenForAuth();
+    this.data.score = 0;
+
+    this.loadListeners();
 
     this.render();
   },
@@ -1469,13 +1485,29 @@ app.views.Account = app.views.Base.extend({
     });
   },
 
+  loadListeners: function(){
+    var _this = this;
+
+    this.listenForAuth();
+
+    // user submitted new edit; increment
+    PubSub.subscribe('transcript.edit.submit', function(ev, data){
+      if (data.is_new && _this.data.user.signedIn) {
+        _this.data.score += 1;
+        _this.updateScore();
+      }
+    });
+  },
+
   onSignOutSuccess: function(){
     this.data.user = {};
+    this.data.score = 0;
     this.render();
   },
 
   onValidationSuccess: function(user){
     this.data.user = user;
+    this.data.score = user.lines_edited;
     this.render();
   },
 
@@ -1488,6 +1520,10 @@ app.views.Account = app.views.Base.extend({
     e && e.preventDefault();
 
     $.auth.signOut();
+  },
+
+  updateScore: function(){
+    this.$('.score').text(UTIL.formatNumberTiny(this.data.score)).addClass('active');
   }
 
 });
@@ -2015,13 +2051,13 @@ app.views.TranscriptUserProgress = app.views.Base.extend({
       return memo + add;
     }, 0);
 
-    this.data.lines_edited = edited_lines.toLocaleString();
+    this.data.lines_edited = edited_lines;
     this.data.percent_edited = 0;
     this.data.lines_available = 0;
 
     if (available_lines > 0) {
       this.data.percent_edited = UTIL.round(edited_lines/available_lines*100, 1);
-      this.data.lines_available = available_lines.toLocaleString();
+      this.data.lines_available = available_lines;
     }
   },
 
@@ -2245,7 +2281,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     $input.closest('.line').removeClass('user-edited');
 
     // submit edit
-    this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: '', is_deleted: 1});
+    this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: '', is_deleted: 1, is_new: false});
   },
 
   lineSave: function(i){
@@ -2261,13 +2297,14 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     // implicit save; save even when user has not edited original text
     // only save if line is editable
     if (text != userText && line.is_editable) {
+      var is_new = !$input.closest('.line').hasClass('user-edited');
 
       // update UI
       $input.attr('user-value', text);
       $input.closest('.line').addClass('user-edited');
 
       // submit edit
-      this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text, is_deleted: 0});
+      this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text, is_deleted: 0, is_new: is_new});
     }
   },
 
@@ -2277,6 +2314,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
 
     var $input = $('.line[sequence="'+line.sequence+'"] .text-input').first();
     if (!$input.length) return false;
+    var is_new = !$input.closest('.line').hasClass('user-edited');
 
     // update UI
     $input.val(text);
@@ -2284,7 +2322,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     $input.closest('.line').addClass('user-edited');
 
     // submit edit
-    this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text, is_deleted: 0});
+    this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text, is_deleted: 0, is_new: is_new});
   },
 
   loadListeners: function(){

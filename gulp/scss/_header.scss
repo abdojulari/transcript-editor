@@ -115,12 +115,36 @@ body {
   .account-container {
     float: right;
 
+    .select .select-options {
+      right: 0;
+      left: auto;
+      width: auto;
+      min-width: 100%;
+    }
+
     .select {
       display: block;
       height: $header-nav-height;
       line-height: $header-nav-height;
       padding-top: 0;
       padding-bottom: 0;
+    }
+
+    .score {
+      font-size: 0.8em;
+      display: none;
+      @include border-radius(10px);
+      background: $black;
+      height: 20px;
+      line-height: 21px;
+      padding: 0 7px;
+      margin-right: 3px;
+      margin-top: -1px;
+      vertical-align: middle;
+
+      &.active {
+        display: inline-block;
+      }
     }
   }
 }

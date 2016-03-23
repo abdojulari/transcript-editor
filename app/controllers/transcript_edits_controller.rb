@@ -49,6 +49,7 @@ class TranscriptEditsController < ApplicationController
       @transcript_edit = TranscriptEdit.new(transcript_edit_params)
       if @transcript_edit.save
         line.recalculate(nil, project)
+        current_user.incrementLinesEdited if user_signed_in?
         render json: @transcript_edit, status: :created, location: @transcript_edit
         success = true
       end

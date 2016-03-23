@@ -21,6 +21,10 @@ class TranscriptEdit < ActiveRecord::Base
       .where(transcript_line_id: transcript_line_id, is_deleted: 0)
   end
 
+  def self.getByUser(user_id)
+    TranscriptEdit.where(user_id: user_id, is_deleted: 0)
+  end
+
   def self.getByLineForDisplay(transcript_line_id)
     TranscriptEdit.where(transcript_line_id: transcript_line_id, is_deleted: 0)
   end
@@ -34,7 +38,11 @@ class TranscriptEdit < ActiveRecord::Base
   end
 
   def self.updateUserSessions(session_id, user_id)
-    TranscriptEdit.where(session_id: session_id).update_all(user_id: user_id)
+    edits = TranscriptEdit.where(session_id: session_id)
+    edits.update_all(user_id: user_id)
+
+    user = User.find(user_id)
+    user.incrementLinesEdited(edits.length) if user && edits.length > 0
   end
 
 end

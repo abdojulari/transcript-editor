@@ -1,7 +1,7 @@
 <div class="progress-header">Your Progress</div>
 <div class="progress-label">In this transcript, you have edited</div>
 <div class="progress-value">
-  <span class="lines-edited"><%= lines_edited %></span> line<span class="plural<%= lines_edited > 1 ? ' active' : '' %>">s</span>
+  <span class="lines-edited"><%= UTIL.formatNumber(lines_edited) %></span> line<span class="plural<%= lines_edited > 1 ? ' active' : '' %>">s</span>
   <% if (percent_edited > 0) { %>
     <span class="percent-edited">(<%= percent_edited %>%)</span>
   <% } %>
@@ -10,5 +10,5 @@
 <div class="progress-bar"><div style="width: <%= percent_edited %>%"></div></div>
 <% } %>
 <% if (lines_available > 0) { %>
-<div class="progress-label progress-available">Out of <span><%= lines_available %></span> available lines</div>
+<div class="progress-label progress-available">Out of <span><%= UTIL.formatNumber(lines_available) %></span> available lines</div>
 <% } %>

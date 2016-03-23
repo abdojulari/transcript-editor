@@ -35,13 +35,13 @@ app.views.TranscriptUserProgress = app.views.Base.extend({
       return memo + add;
     }, 0);
 
-    this.data.lines_edited = edited_lines.toLocaleString();
+    this.data.lines_edited = edited_lines;
     this.data.percent_edited = 0;
     this.data.lines_available = 0;
 
     if (available_lines > 0) {
       this.data.percent_edited = UTIL.round(edited_lines/available_lines*100, 1);
-      this.data.lines_available = available_lines.toLocaleString();
+      this.data.lines_available = available_lines;
     }
   },
 
