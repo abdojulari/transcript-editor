@@ -4,9 +4,14 @@ class TranscriptEditsController < ApplicationController
   # GET /transcript_edits.json?transcript_line_id=1
   def index
     @transcript_edits = []
+    @transcripts = []
 
     if params[:transcript_line_id]
       @transcript_edits = TranscriptEdit.getByLineForDisplay(params[:transcript_line_id])
+
+    elsif user_signed_in?
+      @transcript_edits = TranscriptEdit.getByUser(current_user.id)
+      @transcripts = Transcript.getByUserEdited(current_user.id)
     end
   end
 

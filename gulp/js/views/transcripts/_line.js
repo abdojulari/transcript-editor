@@ -26,8 +26,8 @@ app.views.TranscriptLine = app.views.Base.extend({
   loadEdits: function(onSuccess){
     var _this = this;
     $.getJSON("/transcript_edits.json", {transcript_line_id: this.line.id}, function(data) {
-      if (data.length) {
-        _this.edits = _this.parseEdits(data);
+      if (data.edits && data.edits.length) {
+        _this.edits = _this.parseEdits(data.edits);
         onSuccess && onSuccess();
       }
     });

@@ -1,0 +1,40 @@
+<div class="dashboard page">
+  <h2>Your Recent Activity</h2>
+
+  <% if (transcripts.length <= 0) { %>
+    <p class="highlight">You don't have any transcript edits yet!</p>
+
+  <% } else { %>
+
+    <p>You have made <strong><%= edit_count %></strong> edits in <strong><%= transcripts.length %></strong> transcripts and listened to about <strong><%= UTIL.formatTimeAlt(seconds_edited) %></strong> of audio!</p>
+
+    <div class="dashboard-transcript-list">
+    <% _.each(transcripts, function(transcript){ %>
+      <div class="dashboard-transcript">
+        <div class="transcript-info">
+          <a href="<%= transcript.path %>">
+            <% if (transcript.image_url) { %><img src="<%= transcript.image_url %>" alt="Image of <%= transcript.title %>" /><% } %>
+            <%= transcript.title %>
+          </a>
+        </div>
+        <div class="transcript-stats">
+          <div class="stat">
+            <div class="stat-label">Edits Made:</div>
+            <div class="stat-value"><%= transcript.edit_count %></div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Listened to:</div>
+            <div class="stat-value small">~<%= UTIL.formatTimeAlt(transcript.seconds_edited) %> of audio</div>
+          </div>
+        </div>
+        <div class="transcript-edits">
+          <% _.each(transcript.edits, function(edit){ %>
+            <div class="transcript-edit"><%= edit.text %></div>
+          <% }) %>
+        </div>
+      </div>
+    <% }) %>
+    </div>
+
+  <% } %>
+</div>

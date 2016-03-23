@@ -3,7 +3,8 @@ app.routers.DefaultRouter = Backbone.Router.extend({
   routes: {
     "":                     "index",
     "transcripts/:id":      "transcriptEdit",
-    "page/:id":             "pageShow"
+    "page/:id":             "pageShow",
+    "dashboard":            "dashboard"
   },
 
   before: function( route, params ) {
@@ -12,6 +13,12 @@ app.routers.DefaultRouter = Backbone.Router.extend({
 
   after: function( route, params ) {
     window.scrollTo(0, 0);
+  },
+
+  dashboard: function(){
+    var data = this._getData(data);
+    var header = new app.views.Header(data);
+    var main = new app.views.Dashboard(data);
   },
 
   index: function() {
