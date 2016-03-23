@@ -3,18 +3,24 @@
 Edit and polish computer-generated transcripts of the [New York Public Library's Community Oral History Project](oralhistory.nypl.org). This community driven project will make accessible over 1,000 stories of New York City's past and present.
 
 
-### EDITS
+### EDIT
 We start by loading computer-generated transcripts into the online tool and asking you to edit the errors found in the computer-generated transcript. Edit as you hear and use your best judgement. We've included some conventions and FAQs for reference while correcting.
 
+<!--Yo Beefoo, can you center this video and it's caption. Also, where do we stick alt text?-->
 <video src="https://s3.amazonaws.com/togetherwelisten.nypl.org/video/twl_sample.mp4" preload="auto" class="toggle-sound sample-video" autoplay loop muted poster="https://s3.amazonaws.com/togetherwelisten.nypl.org/img/twl_sample.png"></video>
-<p class="caption">An example of how the transcript editor works (click for sound)</p>
+<p class="caption">An example of editing a line (click for sound)</p>
 
 After multiple people have corrected the transcript. The edits are compared. If the edited lines correspond, the tool calculates the most correct line, marks it as final, and locks it for future edits. (The best line is calculated by comparing the use of punctuation, capitalization, and numerals.)  
 
 
 ### VERIFY  
 
-If consensus on a transcribed line is not automatically reached, lines go into review mode where users vote on the most correct version of the line.  
+If consensus on a transcribed line is not automatically reached, lines go into review mode where users vote on the most correct version of the line. A line in verify mode will be highlighted in yellow and tagged "Verify." Click on the line and you will be prompted to select from several options.
+
+<!--Replace this with clip of verify. Format + add alt text-->
+<video src="https://s3.amazonaws.com/togetherwelisten.nypl.org/video/twl_sample.mp4" preload="auto" class="toggle-sound sample-video" autoplay loop muted poster="https://s3.amazonaws.com/togetherwelisten.nypl.org/img/twl_sample.png"></video>
+<p class="caption">An example of how the transcript editor works (click for sound)</p>
+
 
 ### Speaker Identification  
 
