@@ -36,6 +36,9 @@
 </div>
 <% } %>
 
-<div id="transcript-user-progress"></div>
+<div id="transcript-user-progress" class="transcript-user-progress">
+  <div class="progress-content"></div>
+  <a class="progress-toggle" title="Toggle Progress Display"></a>
+</div>
 
 <div id="transcript-lines" class="transcript-lines<%= transcript.speakers && transcript.speakers.length > 1 ? ' has-speakers' : '' %>"></div>

@@ -1981,7 +1981,8 @@ app.views.TranscriptLine = app.views.Base.extend({
 app.views.TranscriptUserProgress = app.views.Base.extend({
 
   template: _.template(TEMPLATES['transcript_user_progress.ejs']),
-  className: 'transcript-user-progress',
+
+  el: '#transcript-user-progress',
 
   events: {
     'click .progress-toggle': 'toggle'
@@ -2022,8 +2023,6 @@ app.views.TranscriptUserProgress = app.views.Base.extend({
       this.data.percent_edited = UTIL.round(edited_lines/available_lines*100, 1);
       this.data.lines_available = available_lines.toLocaleString();
     }
-
-
   },
 
   loadListeners: function(){
@@ -2047,8 +2046,7 @@ app.views.TranscriptUserProgress = app.views.Base.extend({
 
   render: function(){
     if (this.data.lines_edited > 0) this.$el.addClass('active');
-
-    this.$el.html(this.template(this.data));
+    this.$('.progress-content').html(this.template(this.data));
   },
 
   toggle: function(e){

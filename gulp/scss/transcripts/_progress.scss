@@ -86,6 +86,13 @@
     }
   }
 
+  .plural {
+    display: none;
+    &.active {
+      display: inline;
+    }
+  }
+
   &.active {
     .progress-toggle {
       @include animation(fadeIn 1s);
