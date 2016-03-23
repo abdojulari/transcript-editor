@@ -228,6 +228,12 @@ app.views.Transcript = app.views.Base.extend({
     // override me
   },
 
+  loadUserProgress: function(){
+    var availableLines = _.filter(this.data.transcript.lines, function(line){ return line.is_editable; });
+    var userProgressView = new app.views.TranscriptUserProgress({lines: availableLines});
+    this.$('#transcript-user-progress').append(userProgressView.$el);
+  },
+
   message: function(text){
     // $('#transcript-notifications').text(text);
   },
@@ -399,6 +405,7 @@ app.views.Transcript = app.views.Base.extend({
   render: function(){
     this.$el.html(this.template(this.data));
     this.renderLines();
+    this.loadUserProgress();
   },
 
   renderLines: function(){
@@ -445,6 +452,8 @@ app.views.Transcript = app.views.Base.extend({
     $.post(API_URL + "/transcript_edits.json", {transcript_edit: data}, function(resp) {
       _this.message('Changes saved.');
     });
+
+    PubSub.publish('transcript.edit.submit', data);
   }
 
 });
