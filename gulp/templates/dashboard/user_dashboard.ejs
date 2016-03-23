@@ -6,7 +6,7 @@
 
   <% } else { %>
 
-    <p>You have made <strong><%= edit_count %></strong> edits in <strong><%= transcripts.length %></strong> transcripts and listened to about <strong><%= UTIL.formatTimeAlt(seconds_edited) %></strong> of audio!</p>
+    <p>You have edited <strong><%= edit_count %></strong> lines in <strong><%= transcripts.length %></strong> transcripts and listened to about <strong><%= UTIL.formatTimeAlt(seconds_edited) %></strong> of audio!</p>
 
     <div class="dashboard-transcript-list">
     <% _.each(transcripts, function(transcript){ %>
@@ -19,7 +19,7 @@
         </div>
         <div class="transcript-stats">
           <div class="stat">
-            <div class="stat-label">Edits Made:</div>
+            <div class="stat-label">Lines edited:</div>
             <div class="stat-value"><%= transcript.edit_count %></div>
           </div>
           <div class="stat">
