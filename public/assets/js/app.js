@@ -2712,7 +2712,7 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   },
 
   facetOnServer: function(){
-    // tasks:0 request from server if not all pages are present
+    // TODO: request from server if not all pages are present
 
     this.facetOnClient();
   },

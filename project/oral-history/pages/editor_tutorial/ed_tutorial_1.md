@@ -1,11 +1,8 @@
 # Welcome!
 
-The following transcript you are about to read was generated using speech-to-text software, so there are probably errors. This tool will allow you to listen to the oral history while you edit its transcript.
+The transcript you are about to read was generated using speech-to-text software, so there are probably errors. This tool will allow you to listen to the oral history while you edit its transcript. Here's an example:
 
-You will listen to one line at a time (the audio will automatically pause for you), which will last about 4 to 7 seconds each. Simply edit the text to match what you hear.
+<video src="https://s3.amazonaws.com/togetherwelisten.nypl.org/video/twl_sample.mp4" preload="auto" class="toggle-sound sample-video" autoplay loop muted poster="https://s3.amazonaws.com/togetherwelisten.nypl.org/img/twl_sample.png"></video>
+<p class="caption">An example of how the transcript editor works (click for sound)</p>
 
-<div class="video-wrapper">
-  <video loop autoplay src="/project/assets/img/transcribe-edit.mp4" alt="Screenshot of a transcript being edited."></video>
-</div>
-
-<span class="highlight">All your edits will be automatically saved</span> but may not be immediately visible by others. Once enough editors agree on a corrected transcript line, we'll lock that line for editing and have it displayed in our official transcripts.  You may log in using a Google or Facebook account to keep track of all your edits.
+<span class="highlight">All your edits will be automatically saved</span> but may not be immediately visible by others. Once enough editors agree on a corrected transcript line, we'll lock that line for editing and have it displayed in our official transcripts.

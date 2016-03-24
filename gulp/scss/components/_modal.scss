@@ -36,16 +36,10 @@ $modal-max-width: 650px;
     background: $white;
     padding: 20px;
 
-    > img,
-    > video {
-      width: 100%;
+    img,
+    video {
+      width: 96%;
       height: auto;
-      min-height: 300px;
-    }
-
-    > img {
-      width: auto;
-      max-width: 100%;
     }
   }
 
@@ -60,7 +54,7 @@ $modal-max-width: 650px;
   .modal-content {
     position: relative;
     max-height: 400px;
-    max-height: 66vh;
+    max-height: 62vh;
     margin-bottom: 20px;
     overflow-x: hidden;
     overflow-y: auto;
