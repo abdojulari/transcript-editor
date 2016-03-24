@@ -229,7 +229,7 @@ app.views.Transcript = app.views.Base.extend({
   },
 
   loadUserProgress: function(){
-    var availableLines = _.filter(this.data.transcript.lines, function(line){ return line.is_editable; });
+    var availableLines = _.filter(this.data.transcript.lines, function(line){ return line.is_available; });
     var userProgressView = new app.views.TranscriptUserProgress({lines: availableLines});
     this.$('#transcript-user-progress').append(userProgressView.$el);
   },
@@ -337,6 +337,12 @@ app.views.Transcript = app.views.Base.extend({
       // admins/mods can always edit
       if (user_role && user_role.hiearchy >= superUserHiearchy) is_editable = true;
       _this.data.transcript.lines[i].is_editable = is_editable;
+
+      // determine if text is available
+      var is_available = true;
+      // input is available when not completed/archived
+      if (_.contains(["completed","archived"], status.name)) is_available = false;
+      _this.data.transcript.lines[i].is_available = is_available;
 
       // keep track of reviewing counts
       if (status.name=="reviewing") lines_reviewing++;
