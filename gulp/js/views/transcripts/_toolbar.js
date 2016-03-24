@@ -20,9 +20,9 @@ app.views.TranscriptToolbar = app.views.Base.extend({
       var key = control.key;
       // change brackets to spans
       if (key.indexOf('[') >= 0 && key.indexOf(']') >= 0) {
-        control.key = control.key.replace(/\[/g, '<span>').replace(/\]/g, '</span>');
+        control.key = control.key.replace(/\[/g, '<span title="'+control.keyLabel+'">').replace(/\]/g, '</span>');
       } else {
-        control.key = '<span>' + control.key + '</span>';
+        control.key = '<span title="'+control.keyLabel+'">' + control.key + '</span>';
       }
       return control;
     });

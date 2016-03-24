@@ -99,7 +99,9 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     // add keyboard listeners
     $(window).on('keydown.transcript', function(e){
       _.each(controls, function(control){
-        if (control.keyCode == e.keyCode && (control.shift && e.shiftKey || !control.shift)) {
+        var keycodes = [control.keyCode];
+        if (control.keyCode.constructor === Array) keycodes = control.keyCode;
+        if (keycodes.indexOf(e.keyCode)>=0 && (control.shift && e.shiftKey || !control.shift)) {
           e.preventDefault();
           _this[control.action] && _this[control.action]();
           return false;

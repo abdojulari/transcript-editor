@@ -56,9 +56,8 @@
   },
   "controls": [
     {"id": "toggle-play", "action": "lineToggle", "label": "Play/Pause", "keyCode": 32, "key": "[shift] + [space]", "keyLabel": "Shift + Space Bar", "keyDescription": "Hold shift and press space bar to play, pause, or re-play a line", "shift": true},
-    {"id": "submit-line", "action": "lineSubmit", "label": "Submit &amp; Continue", "keyCode": 13, "key": "enter", "keyLabel": "Enter Key", "keyDescription": "Press enter key to submit current line and continue"},
+    {"id": "next-line", "action": "lineNext", "label": "Next Line", "keyCode": [13,40], "key": "[&#8595;] OR [enter]", "keyLabel": "Down Arrow or Enter Key", "keyDescription": "Press down arrow key or enter to go to next line"},
     {"id": "previous-line", "action": "linePrevious", "label": "Prev Line", "keyCode": 38, "key": "&#8593;", "keyLabel": "Up Arrow", "keyDescription": "Press up arrow key to go to previous line"},
-    {"id": "next-line", "action": "lineNext", "label": "Next Line", "keyCode": 40, "key": "&#8595;", "keyLabel": "Down Arrow", "keyDescription": "Press down arrow key to go to next line"},
     {"id": "previous-word", "action": "wordPrevious", "label": "Prev Word", "keyCode": 37, "key": "[shift] + [&#8592;]", "keyLabel": "Shift + Left Arrow", "keyDescription": "Hold shift and press left arrow key to move to previous word", "shift": true},
     {"id": "next-word", "action": "wordNext", "label": "Next Word", "keyCode": 39, "key": "[shift] + [&#8594;]", "keyLabel": "Shift + Right Arrow", "keyDescription": "Hold shift and press right arrow key to move to next word", "shift": true}
   ]

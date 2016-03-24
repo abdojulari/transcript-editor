@@ -2183,9 +2183,9 @@ app.views.TranscriptToolbar = app.views.Base.extend({
       var key = control.key;
       // change brackets to spans
       if (key.indexOf('[') >= 0 && key.indexOf(']') >= 0) {
-        control.key = control.key.replace(/\[/g, '<span>').replace(/\]/g, '</span>');
+        control.key = control.key.replace(/\[/g, '<span title="'+control.keyLabel+'">').replace(/\]/g, '</span>');
       } else {
-        control.key = '<span>' + control.key + '</span>';
+        control.key = '<span title="'+control.keyLabel+'">' + control.key + '</span>';
       }
       return control;
     });
@@ -2422,7 +2422,9 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     // add keyboard listeners
     $(window).on('keydown.transcript', function(e){
       _.each(controls, function(control){
-        if (control.keyCode == e.keyCode && (control.shift && e.shiftKey || !control.shift)) {
+        var keycodes = [control.keyCode];
+        if (control.keyCode.constructor === Array) keycodes = control.keyCode;
+        if (keycodes.indexOf(e.keyCode)>=0 && (control.shift && e.shiftKey || !control.shift)) {
           e.preventDefault();
           _this[control.action] && _this[control.action]();
           return false;
