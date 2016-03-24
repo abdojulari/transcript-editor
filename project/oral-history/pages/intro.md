@@ -51,6 +51,8 @@ Currently the tool is configured for use on a desktop.
 
 **How long will it take to transcribe**  
 
+**Can I delete and/or create a new line in the transcript?**
+No. Transcript lines are synced with clips of audio. Some audio clips are empty; rather than delete an empty line leave it as is. Some lines contain multiple people speaking, mark these as such with the speaker identification functionality.
 
 **Can I edit my own audio?**  
 The Open Transcript Tool code-base for this tool is open source software. Developers can visit the [Github Repo](https://github.com/NYPL/transcript-editor) to get started setting up their own instance of the tool.
