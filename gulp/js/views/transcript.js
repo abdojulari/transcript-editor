@@ -228,6 +228,12 @@ app.views.Transcript = app.views.Base.extend({
     // override me
   },
 
+  loadUserProgress: function(){
+    var availableLines = _.filter(this.data.transcript.lines, function(line){ return line.is_available; });
+    var userProgressView = new app.views.TranscriptUserProgress({lines: availableLines});
+    this.$('#transcript-user-progress').append(userProgressView.$el);
+  },
+
   message: function(text){
     // $('#transcript-notifications').text(text);
   },
@@ -332,6 +338,12 @@ app.views.Transcript = app.views.Base.extend({
       if (user_role && user_role.hiearchy >= superUserHiearchy) is_editable = true;
       _this.data.transcript.lines[i].is_editable = is_editable;
 
+      // determine if text is available
+      var is_available = true;
+      // input is available when not completed/archived
+      if (_.contains(["completed","archived"], status.name)) is_available = false;
+      _this.data.transcript.lines[i].is_available = is_available;
+
       // keep track of reviewing counts
       if (status.name=="reviewing") lines_reviewing++;
 
@@ -399,6 +411,7 @@ app.views.Transcript = app.views.Base.extend({
   render: function(){
     this.$el.html(this.template(this.data));
     this.renderLines();
+    this.loadUserProgress();
   },
 
   renderLines: function(){
@@ -445,6 +458,8 @@ app.views.Transcript = app.views.Base.extend({
     $.post(API_URL + "/transcript_edits.json", {transcript_edit: data}, function(resp) {
       _this.message('Changes saved.');
     });
+
+    PubSub.publish('transcript.edit.submit', data);
   }
 
 });

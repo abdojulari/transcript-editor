@@ -20,6 +20,12 @@ class Transcript < ActiveRecord::Base
     Transcript.joins(:transcript_edits).distinct
   end
 
+  def self.getByUserEdited(user_id)
+    Transcript
+      .joins(:transcript_edits)
+      .where(transcript_edits: {user_id: user_id}).distinct
+  end
+
   def self.getForHomepage(page=1, options={})
     page ||= 1
     options[:order] ||= "title"

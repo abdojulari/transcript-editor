@@ -1,9 +1,13 @@
+@import "mixins";
+@import "variables";
+
 @import "transcripts/facets";
 @import "transcripts/list";
 @import "transcripts/show";
 @import "transcripts/lines";
 @import "transcripts/toolbar";
 @import "transcripts/verify";
+@import "transcripts/progress";
 
 .transcripts-wrapper {
   min-height: 400px;

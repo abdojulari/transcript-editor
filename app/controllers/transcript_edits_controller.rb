@@ -4,9 +4,14 @@ class TranscriptEditsController < ApplicationController
   # GET /transcript_edits.json?transcript_line_id=1
   def index
     @transcript_edits = []
+    @transcripts = []
 
     if params[:transcript_line_id]
       @transcript_edits = TranscriptEdit.getByLineForDisplay(params[:transcript_line_id])
+
+    elsif user_signed_in?
+      @transcript_edits = TranscriptEdit.getByUser(current_user.id)
+      @transcripts = Transcript.getByUserEdited(current_user.id)
     end
   end
 
@@ -49,6 +54,7 @@ class TranscriptEditsController < ApplicationController
       @transcript_edit = TranscriptEdit.new(transcript_edit_params)
       if @transcript_edit.save
         line.recalculate(nil, project)
+        current_user.incrementLinesEdited if user_signed_in?
         render json: @transcript_edit, status: :created, location: @transcript_edit
         success = true
       end

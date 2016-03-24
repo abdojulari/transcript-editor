@@ -43,6 +43,30 @@
   }
 }
 
+@include keyframes(maximizeDownLeft) {
+  0% {
+    opacity: 0;
+    @include transform(translate3d(100%, -100%, 0) scale(0));
+  }
+
+  100% {
+    opacity: 1;
+    @include transform(translate3d(0, 0, 0) scale(1));
+  }
+}
+
+@include keyframes(minimizeUpRight) {
+  0% {
+    opacity: 1;
+    @include transform(translate3d(0, 0, 0) scale(1));
+  }
+
+  100% {
+    opacity: 0;
+    @include transform(translate3d(100%, -100%, 0) scale(0));
+  }
+}
+
 @include keyframes(pulseScaleOut) {
   0% {
     opacity: 1;

@@ -26,7 +26,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     $input.closest('.line').removeClass('user-edited');
 
     // submit edit
-    this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: '', is_deleted: 1});
+    this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: '', is_deleted: 1, is_new: false});
   },
 
   lineSave: function(i){
@@ -42,13 +42,14 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     // implicit save; save even when user has not edited original text
     // only save if line is editable
     if (text != userText && line.is_editable) {
+      var is_new = !$input.closest('.line').hasClass('user-edited');
 
       // update UI
       $input.attr('user-value', text);
       $input.closest('.line').addClass('user-edited');
 
       // submit edit
-      this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text, is_deleted: 0});
+      this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text, is_deleted: 0, is_new: is_new});
     }
   },
 
@@ -58,6 +59,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
 
     var $input = $('.line[sequence="'+line.sequence+'"] .text-input').first();
     if (!$input.length) return false;
+    var is_new = !$input.closest('.line').hasClass('user-edited');
 
     // update UI
     $input.val(text);
@@ -65,7 +67,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     $input.closest('.line').addClass('user-edited');
 
     // submit edit
-    this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text, is_deleted: 0});
+    this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text, is_deleted: 0, is_new: is_new});
   },
 
   loadListeners: function(){
@@ -97,7 +99,9 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     // add keyboard listeners
     $(window).on('keydown.transcript', function(e){
       _.each(controls, function(control){
-        if (control.keyCode == e.keyCode && (control.shift && e.shiftKey || !control.shift)) {
+        var keycodes = [control.keyCode];
+        if (control.keyCode.constructor === Array) keycodes = control.keyCode;
+        if (keycodes.indexOf(e.keyCode)>=0 && (control.shift && e.shiftKey || !control.shift)) {
           e.preventDefault();
           _this[control.action] && _this[control.action]();
           return false;
