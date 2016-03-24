@@ -1,6 +1,6 @@
-# NYPL Community Oral History Project Transcript Editor
-<!-- the tag line can be smaller font or set apart from the explanatory text -->
-_Make 1,000+ NYC stories accessible. One word at a time._
+<h1><img src="/oral-history/assets/img/logo_big.png" alt="NYPL Community Oral History Project Transcript Editor" title="NYPL Community Oral History Project Transcript Editor" /></h1>
+
+## Make 1,000+ NYC stories accessible. One word at a time.
 
 <!--this explanatory text below stays the same style as it currently is -->
 Help [The New York Public Library](http://www.nypl.org/) fix computer-generated transcripts from 1,000+ hours of stories from the library's [Community Oral History Project](http://oralhistory.nypl.org/).
