@@ -16,6 +16,7 @@ app.views.TranscriptItem = app.views.Base.extend({
     this.transcript = this.data.transcript;
     this.timeout = false;
     this.player = false;
+    this.player_enabled = PROJECT.previewAudioOnHover;
     this.render();
     this.loadListeners();
   },
@@ -83,12 +84,16 @@ app.views.TranscriptItem = app.views.Base.extend({
   },
 
   off: function(e){
+    if (!this.player_enabled) return false;
+
     this.queue_pause = true;
     if (this.timeout) clearTimeout(this.timeout);
     this.audioPause();
   },
 
   on: function(e){
+    if (!this.player_enabled) return false;
+
     this.queue_pause = false;
     var _this = this;
     if (this.timeout) clearTimeout(this.timeout);

@@ -5,6 +5,7 @@
   "apiUrl": "",
   "useVendorAudio": true,
   "transcriptsPerPage": 1000,
+  "previewAudioOnHover": true,
   "gaCode": "",
   "adminEmails": [
     "brianfoo@nypl.org",
