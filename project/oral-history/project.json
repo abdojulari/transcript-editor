@@ -33,7 +33,8 @@
   "menus": {
     "header": [
       {"label": "Browse", "url": "/"},
-      {"label": "About", "url": "/page/about"}
+      {"label": "About", "url": "/page/about"},
+      {"label": "FAQs", "url": "/page/faqs"}
     ],
     "transcript_edit": [],
     "footer": []
