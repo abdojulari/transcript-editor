@@ -1,3 +1,5 @@
-json.array!(@transcript_edits) do |transcript_edit|
-  json.extract! transcript_edit, :id, :transcript_line_id, :text
+json.edits @transcript_edits, :id, :transcript_id, :transcript_line_id, :text, :updated_at
+json.transcripts @transcripts do |transcript|
+  json.extract! transcript, :id, :title, :description, :image_url
+  json.path transcript_path(transcript)
 end

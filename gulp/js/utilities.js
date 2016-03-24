@@ -76,6 +76,20 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
 (function() {
   window.UTIL = {};
 
+  UTIL.formatNumber = function(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  UTIL.formatNumberTiny = function(num) {
+    var formatted = num;
+    if (num > 1000000) formatted = UTIL.round(num/1000000, 1) + 'M+';
+    else if (num == 1000000) formatted = '1M';
+    else if (num > 99999) formatted = UTIL.round(num/1000) + 'K+';
+    else if (num > 1000) formatted = UTIL.round(num/1000, 1) + 'K+';
+    else if (num == 1000) formatted = '1K';
+    return formatted;
+  };
+
   // Format seconds -> hh:mm:ss
   UTIL.formatTime = function(seconds, dec) {
     var s = seconds || 0,

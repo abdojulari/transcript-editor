@@ -351,6 +351,20 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
 (function() {
   window.UTIL = {};
 
+  UTIL.formatNumber = function(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  UTIL.formatNumberTiny = function(num) {
+    var formatted = num;
+    if (num > 1000000) formatted = UTIL.round(num/1000000, 1) + 'M+';
+    else if (num == 1000000) formatted = '1M';
+    else if (num > 99999) formatted = UTIL.round(num/1000) + 'K+';
+    else if (num > 1000) formatted = UTIL.round(num/1000, 1) + 'K+';
+    else if (num == 1000) formatted = '1K';
+    return formatted;
+  };
+
   // Format seconds -> hh:mm:ss
   UTIL.formatTime = function(seconds, dec) {
     var s = seconds || 0,
@@ -674,7 +688,8 @@ app.routers.DefaultRouter = Backbone.Router.extend({
   routes: {
     "":                     "index",
     "transcripts/:id":      "transcriptEdit",
-    "page/:id":             "pageShow"
+    "page/:id":             "pageShow",
+    "dashboard":            "dashboard"
   },
 
   before: function( route, params ) {
@@ -683,6 +698,12 @@ app.routers.DefaultRouter = Backbone.Router.extend({
 
   after: function( route, params ) {
     window.scrollTo(0, 0);
+  },
+
+  dashboard: function(){
+    var data = this._getData(data);
+    var header = new app.views.Header(data);
+    var main = new app.views.Dashboard(data);
   },
 
   index: function() {
@@ -817,6 +838,67 @@ app.collections.Transcripts = Backbone.Collection.extend({
 });
 
 app.views.Base = Backbone.View.extend({
+
+});
+
+app.views.Dashboard = app.views.Base.extend({
+
+  template: _.template(TEMPLATES['user_dashboard.ejs']),
+
+  el: '#main',
+
+  initialize: function(data){
+    this.data = data;
+
+    this.secondsPerLine = 5;
+
+    this.loadData();
+  },
+
+  loadData: function(){
+    var _this = this;
+
+    this.data.transcripts = [];
+
+    $.getJSON("/transcript_edits.json", {user: 1}, function(data) {
+      if (data.edits && data.edits.length) {
+        _this.parseEdits(data.edits, data.transcripts);
+      }
+      _this.render();
+    });
+  },
+
+  parseEdits: function(edits, transcripts){
+    var _this = this;
+
+    edits = _.map(edits, function(edit){
+      var e = _.clone(edit);
+      e.updated_at = Date.parse(e.updated_at);
+      return e;
+    });
+
+    var transcripts = _.map(transcripts, function(transcript, i){
+      var t = _.clone(transcript);
+      t.index = i;
+      t.edits = _.filter(edits, function(e){ return e.transcript_id==transcript.id; });
+      t.edit_count = t.edits.length;
+      t.seconds_edited = t.edit_count * _this.secondsPerLine;
+      var last_edit = _.max(edits, function(e){ return e.updated_at; });
+      if (last_edit) t.updated_at = last_edit.updated_at;
+      return t;
+    });
+
+    this.data.transcripts = _.sortBy(transcripts, function(t){ return t.updated_at; });
+    this.data.edit_count = edits.length;
+    this.data.seconds_edited = this.data.edit_count * this.secondsPerLine;
+  },
+
+  render: function() {
+    this.$el.html(this.template(this.data));
+    this.$el.removeClass('loading');
+
+    return this;
+  }
 
 });
 
@@ -1185,6 +1267,12 @@ app.views.Transcript = app.views.Base.extend({
     // override me
   },
 
+  loadUserProgress: function(){
+    var availableLines = _.filter(this.data.transcript.lines, function(line){ return line.is_available; });
+    var userProgressView = new app.views.TranscriptUserProgress({lines: availableLines});
+    this.$('#transcript-user-progress').append(userProgressView.$el);
+  },
+
   message: function(text){
     // $('#transcript-notifications').text(text);
   },
@@ -1289,6 +1377,12 @@ app.views.Transcript = app.views.Base.extend({
       if (user_role && user_role.hiearchy >= superUserHiearchy) is_editable = true;
       _this.data.transcript.lines[i].is_editable = is_editable;
 
+      // determine if text is available
+      var is_available = true;
+      // input is available when not completed/archived
+      if (_.contains(["completed","archived"], status.name)) is_available = false;
+      _this.data.transcript.lines[i].is_available = is_available;
+
       // keep track of reviewing counts
       if (status.name=="reviewing") lines_reviewing++;
 
@@ -1356,6 +1450,7 @@ app.views.Transcript = app.views.Base.extend({
   render: function(){
     this.$el.html(this.template(this.data));
     this.renderLines();
+    this.loadUserProgress();
   },
 
   renderLines: function(){
@@ -1402,6 +1497,8 @@ app.views.Transcript = app.views.Base.extend({
     $.post(API_URL + "/transcript_edits.json", {transcript_edit: data}, function(resp) {
       _this.message('Changes saved.');
     });
+
+    PubSub.publish('transcript.edit.submit', data);
   }
 
 });
@@ -1420,7 +1517,9 @@ app.views.Account = app.views.Base.extend({
   initialize: function(data){
     this.data = data;
 
-    this.listenForAuth();
+    this.data.score = 0;
+
+    this.loadListeners();
 
     this.render();
   },
@@ -1460,13 +1559,29 @@ app.views.Account = app.views.Base.extend({
     });
   },
 
+  loadListeners: function(){
+    var _this = this;
+
+    this.listenForAuth();
+
+    // user submitted new edit; increment
+    PubSub.subscribe('transcript.edit.submit', function(ev, data){
+      if (data.is_new && _this.data.user.signedIn) {
+        _this.data.score += 1;
+        _this.updateScore();
+      }
+    });
+  },
+
   onSignOutSuccess: function(){
     this.data.user = {};
+    this.data.score = 0;
     this.render();
   },
 
   onValidationSuccess: function(user){
     this.data.user = user;
+    this.data.score = user.lines_edited;
     this.render();
   },
 
@@ -1479,6 +1594,10 @@ app.views.Account = app.views.Base.extend({
     e && e.preventDefault();
 
     $.auth.signOut();
+  },
+
+  updateScore: function(){
+    this.$('.score').text(UTIL.formatNumberTiny(this.data.score)).addClass('active');
   }
 
 });
@@ -1750,6 +1869,7 @@ app.views.TranscriptItem = app.views.Base.extend({
     this.transcript = this.data.transcript;
     this.timeout = false;
     this.player = false;
+    this.player_enabled = PROJECT.previewAudioOnHover;
     this.render();
     this.loadListeners();
   },
@@ -1817,12 +1937,16 @@ app.views.TranscriptItem = app.views.Base.extend({
   },
 
   off: function(e){
+    if (!this.player_enabled) return false;
+
     this.queue_pause = true;
     if (this.timeout) clearTimeout(this.timeout);
     this.audioPause();
   },
 
   on: function(e){
+    if (!this.player_enabled) return false;
+
     this.queue_pause = false;
     var _this = this;
     if (this.timeout) clearTimeout(this.timeout);
@@ -1873,8 +1997,8 @@ app.views.TranscriptLine = app.views.Base.extend({
   loadEdits: function(onSuccess){
     var _this = this;
     $.getJSON("/transcript_edits.json", {transcript_line_id: this.line.id}, function(data) {
-      if (data.length) {
-        _this.edits = _this.parseEdits(data);
+      if (data.edits && data.edits.length) {
+        _this.edits = _this.parseEdits(data.edits);
         onSuccess && onSuccess();
       }
     });
@@ -1969,6 +2093,85 @@ app.views.TranscriptLine = app.views.Base.extend({
 
 });
 
+app.views.TranscriptUserProgress = app.views.Base.extend({
+
+  template: _.template(TEMPLATES['transcript_user_progress.ejs']),
+
+  el: '#transcript-user-progress',
+
+  events: {
+    'click .progress-toggle': 'toggle'
+  },
+
+  initialize: function(data){
+    var _this = this;
+
+    this.data = {};
+
+    // create a copy with only necessary values
+    this.lines = _.map(data.lines, function(line, i){
+      return {
+        index: i,
+        id: line.id,
+        sequence: line.sequence,
+        edited: line.user_text.length > 0
+      }
+    });
+
+    this.calculate();
+    this.render();
+    this.loadListeners();
+  },
+
+  calculate: function(){
+    var available_lines = this.lines.length;
+    var edited_lines = _.reduce(this.lines, function(memo, line){
+      var add = line.edited ? 1 : 0;
+      return memo + add;
+    }, 0);
+
+    this.data.lines_edited = edited_lines;
+    this.data.percent_edited = 0;
+    this.data.lines_available = 0;
+
+    if (available_lines > 0) {
+      this.data.percent_edited = UTIL.round(edited_lines/available_lines*100, 1);
+      this.data.lines_available = available_lines;
+    }
+  },
+
+  loadListeners: function(){
+    var _this = this;
+
+    PubSub.subscribe('transcript.edit.submit', function(ev, data) {
+      _this.onLineEdit(data.transcript_line_id);
+    });
+  },
+
+  onLineEdit: function(line_id){
+    if (this.data.lines_available <= 0) return;
+
+    var line = _.find(this.lines, function(line){ return line.id == line_id; });
+    if (line && !line.edited) {
+      this.lines[line.index].edited = true;
+      this.calculate();
+      this.render();
+    }
+  },
+
+  render: function(){
+    if (this.data.lines_edited > 0) this.$el.addClass('active');
+    this.$('.progress-content').html(this.template(this.data));
+  },
+
+  toggle: function(e){
+    e.preventDefault();
+
+    this.$el.toggleClass('minimized');
+  }
+
+});
+
 app.views.TranscriptToolbar = app.views.Base.extend({
 
   template: _.template(TEMPLATES['transcript_toolbar.ejs']),
@@ -1991,9 +2194,9 @@ app.views.TranscriptToolbar = app.views.Base.extend({
       var key = control.key;
       // change brackets to spans
       if (key.indexOf('[') >= 0 && key.indexOf(']') >= 0) {
-        control.key = control.key.replace(/\[/g, '<span>').replace(/\]/g, '</span>');
+        control.key = control.key.replace(/\[/g, '<span title="'+control.keyLabel+'">').replace(/\]/g, '</span>');
       } else {
-        control.key = '<span>' + control.key + '</span>';
+        control.key = '<span title="'+control.keyLabel+'">' + control.key + '</span>';
       }
       return control;
     });
@@ -2157,7 +2360,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     $input.closest('.line').removeClass('user-edited');
 
     // submit edit
-    this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: '', is_deleted: 1});
+    this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: '', is_deleted: 1, is_new: false});
   },
 
   lineSave: function(i){
@@ -2173,13 +2376,14 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     // implicit save; save even when user has not edited original text
     // only save if line is editable
     if (text != userText && line.is_editable) {
+      var is_new = !$input.closest('.line').hasClass('user-edited');
 
       // update UI
       $input.attr('user-value', text);
       $input.closest('.line').addClass('user-edited');
 
       // submit edit
-      this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text, is_deleted: 0});
+      this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text, is_deleted: 0, is_new: is_new});
     }
   },
 
@@ -2189,6 +2393,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
 
     var $input = $('.line[sequence="'+line.sequence+'"] .text-input').first();
     if (!$input.length) return false;
+    var is_new = !$input.closest('.line').hasClass('user-edited');
 
     // update UI
     $input.val(text);
@@ -2196,7 +2401,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     $input.closest('.line').addClass('user-edited');
 
     // submit edit
-    this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text, is_deleted: 0});
+    this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text, is_deleted: 0, is_new: is_new});
   },
 
   loadListeners: function(){
@@ -2228,7 +2433,9 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     // add keyboard listeners
     $(window).on('keydown.transcript', function(e){
       _.each(controls, function(control){
-        if (control.keyCode == e.keyCode && (control.shift && e.shiftKey || !control.shift)) {
+        var keycodes = [control.keyCode];
+        if (control.keyCode.constructor === Array) keycodes = control.keyCode;
+        if (keycodes.indexOf(e.keyCode)>=0 && (control.shift && e.shiftKey || !control.shift)) {
           e.preventDefault();
           _this[control.action] && _this[control.action]();
           return false;

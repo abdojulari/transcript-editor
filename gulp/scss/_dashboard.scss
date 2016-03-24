@@ -1,0 +1,81 @@
+@import "mixins";
+@import "variables";
+
+.dashboard {
+
+  .dashboard-transcript {
+    border: 1px solid $coolgray-color;
+    margin-bottom: 20px;
+    padding: 10px;
+    @include box-shadow(0 1px 1px 1px rgba($black, 0.1));
+    @include clearfix();
+  }
+
+  .transcript-info {
+    width: 100px;
+    float: left;
+
+    img {
+      width: 100%;
+      height: auto;
+      margin-bottom: 5px;
+      border: 1px solid $coolgray-color;
+    }
+  }
+
+  .transcript-edits {
+    margin: 0 150px 0 120px;
+    max-height: 300px;
+    overflow: hidden;
+    @include transition(max-height 0.5s);
+
+    &:hover {
+      max-height: 2000px;
+    }
+  }
+
+  .transcript-edit {
+    font-size: 0.9em;
+    padding: 5px 0;
+    margin-bottom: 5px;
+    border-bottom: 1px solid lighten($coolgray-color, 20%);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .transcript-stats {
+    float: right;
+    width: 130px;
+    text-align: center;
+
+    .stat {
+      background: #eee;
+      padding: 10px 5px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+
+      &:first-child {
+        margin: 0;
+      }
+    }
+
+    .stat-label {
+      font-size: 0.8em;
+      text-transform: uppercase;
+    }
+    .stat-value {
+      font-weight: bold;
+      font-size: 1.4em;
+      margin-top: 10px;
+
+      &.small {
+        font-size: 1em;
+      }
+    }
+  }
+}

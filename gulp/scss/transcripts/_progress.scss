@@ -1,0 +1,109 @@
+@import "mixins";
+@import "variables";
+
+.transcript-user-progress {
+  position: fixed;
+  top: $header-nav-height + 20px;
+  right: 20px;
+  z-index: 500;
+  display: none;
+
+  .progress-content {
+    min-width: 200px;
+    padding: 5px;
+    background: $white;
+    border: 1px solid $coolgray-color;
+    @include box-shadow(0px 1px 1px 1px rgba($black, 0.1));
+    @include box-sizing();
+    @include animation(minimizeUpRight 0.5s);
+  }
+
+  &.active {
+    display: block;
+    .progress-content {
+      @include animation(maximizeDownLeft 0.5s);
+    }
+  }
+
+  &.minimized {
+    .progress-content {
+      @include animation(minimizeUpRight 0.5s);
+    }
+  }
+
+  .progress-header {
+    margin: -5px -5px 5px -5px;
+    background: $coolgray-dark-color;
+    color: $white;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 5px 0;
+    font-size: 0.8em;
+    letter-spacing: 1px;
+  }
+
+  .progress-label {
+    font-size: 0.9em;
+    color: $coolgray-dark-color;
+  }
+
+  .progress-value {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-top: 5px;
+
+    .percent-edited {
+      color: $charcoal;
+      font-size: 0.75em;
+    }
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 2px;
+    background: lighten($coolgray-color, 10%);
+
+    > div {
+      background: $green-color;
+      height: 2px;
+    }
+  }
+
+  .progress-available {
+    margin-top: 10px;
+  }
+
+  .progress-toggle {
+    font-size: 1.2em;
+    color: $black;
+    @include animation(fadeOut 1s);
+
+    &:before {
+      @include icon("\f146");
+      position: absolute;
+      top: -10px;
+      right: -10px;
+    }
+  }
+
+  .plural {
+    display: none;
+    &.active {
+      display: inline;
+    }
+  }
+
+  &.active {
+    .progress-toggle {
+      @include animation(fadeIn 1s);
+      @include animation-delay(0.5s);
+    }
+  }
+
+  &.minimized {
+    .progress-toggle:before {
+      content: "\f0fe";
+    }
+  }
+
+}
