@@ -21,6 +21,16 @@
     }
   }
 
+  ul {
+    list-style-type: disc;
+    margin: 1.5em 0 2.5em;
+
+    li {
+      list-style-type: disc;
+      margin-bottom: 1em;
+    }
+  }
+
   .caption {
     font-size: 0.8em;
     font-style: italic;
