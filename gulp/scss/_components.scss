@@ -2,7 +2,8 @@
 @import "variables";
 
 /* Text */
-p .highlight {
+p .highlight,
+li .highlight {
   background: $highlight-color;
 }
 p.text-center {

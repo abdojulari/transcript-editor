@@ -1,8 +1,8 @@
 ## Instructions
 
-* The following transcript was automatically generated using speech-to-text software, and contains errors.
-* This tool will allow you to listen while you edit the transcript.
-* <span class="highlight">All your edits will be automatically saved</span> but may not be immediately visible by others.
+* The following transcript was **automatically generated using speech-to-text software**, and contains errors.
+* This tool will allow you to **listen while you edit** the transcript.
+* **All your edits will be automatically saved** but may not be immediately visible by others.
 * Once enough people agree on the text of a particular line, that line will be visible to all and no longer editable.
 <% if (transcript.hasLinesInReview) { %>
 * The transcript contains lines that are "in review" (<span class="reviewing">highlighted in orange</span>) which means you cannot edit it, but can select the best transcription from a list of submitted edits.

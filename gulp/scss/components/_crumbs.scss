@@ -1,10 +1,15 @@
 @import "mixins";
 @import "variables";
 
+.crumbs-container {
+  @include clearfix;
+}
+
 /* Crumbs */
 .crumb {
-  display: inline-block;
-  padding: 0.2em 0.8em;
+  display: block;
+  padding: 0.2em 0.4em;
+  float: left;
 
   &:before {
     @include icon("\f105");

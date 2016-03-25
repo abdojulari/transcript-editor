@@ -8,7 +8,7 @@
     <% if (crumb.image) { %>
       <div class="crumb-image"><img src="<%= crumb.image %>" alt="<%= crumb.label %> Icon" /></div>
     <% } %>
-    <div class="crumb-label"><%= crumb.label %></div>
+    <div class="crumb-label"<%= crumb.title ? ' title="'+crumb.title+'"' : '' %>><%= crumb.label %></div>
 
   <% if (crumb.url) { %>
     </a>
