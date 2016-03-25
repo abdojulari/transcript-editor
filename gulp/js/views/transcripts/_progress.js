@@ -62,6 +62,10 @@ app.views.TranscriptUserProgress = app.views.Base.extend({
       this.calculate();
       this.render();
     }
+
+    if (this.data.percent_edited >= 1) {
+      PubSub.publish('transcript.finished', true);
+    }
   },
 
   render: function(){

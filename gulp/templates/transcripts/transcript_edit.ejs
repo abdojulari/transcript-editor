@@ -42,3 +42,9 @@
 </div>
 
 <div id="transcript-lines" class="transcript-lines<%= transcript.speakers && transcript.speakers.length > 1 ? ' has-speakers' : '' %>"></div>
+
+<% if (completion_content) { %>
+<div id="completion-content" class="completion-content">
+  <%= completion_content %>
+</div>
+<% } %>

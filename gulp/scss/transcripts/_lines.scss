@@ -404,6 +404,31 @@ $transcript-line-options-reviewing-width: 80px;
   }
 }
 
+.completion-content {
+  text-align: center;
+  margin-top: -360px;
+  margin-bottom: 360px;
+  display: none;
+
+  &.active {
+    display: block;
+  }
+
+  p {
+    font-size: 1.2em;
+  }
+
+  .show-when-finished {
+    max-height: 0px;
+    overflow: hidden;
+    @include transition(max-height 0.5s);
+
+    &.active {
+      max-height: 1000px;
+    }
+  }
+}
+
 // Update controls for player states
 .body[state=playing] .transcript-lines .controls .control:before {
   content: "\f28b";

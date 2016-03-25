@@ -75,7 +75,13 @@ app.views.Transcript = app.views.Base.extend({
   lineSelect: function(i){
     // check if in bounds
     var lines = this.data.transcript.lines;
-    if (i < 0 || i >= lines.length || i==this.current_line_i) return false;
+    // the last one
+    if (i >= lines.length) {
+      this.onLineOff(this.current_line_i);
+      PubSub.publish('transcript.finished', true);
+      return false;
+    }
+    if (i < 0 || i==this.current_line_i) return false;
 
     this.onLineOff(this.current_line_i);
 
@@ -192,22 +198,7 @@ app.views.Transcript = app.views.Base.extend({
 
   },
 
-  loadConventions: function(){
-    this.data.page_conventions = '';
-
-    if (this.data.project.pages['transcription_conventions.md']) {
-      var page = new app.views.Page(_.extend({}, this.data, {page_key: 'transcription_conventions.md'}))
-      this.data.page_conventions = page.toString();
-    }
-  },
-
-  loadListeners: function(){
-    // override me
-  },
-
-  loadPageContent: function(){
-    // override me
-  },
+  loadListeners: function(){ /* override me */ },
 
   loadTranscript: function(){
     var _this = this;
@@ -224,15 +215,7 @@ app.views.Transcript = app.views.Base.extend({
     });
   },
 
-  loadTutorial: function(tutorialName){
-    // override me
-  },
-
-  loadUserProgress: function(){
-    var availableLines = _.filter(this.data.transcript.lines, function(line){ return line.is_available; });
-    var userProgressView = new app.views.TranscriptUserProgress({lines: availableLines});
-    this.$('#transcript-user-progress').append(userProgressView.$el);
-  },
+  loadUserProgress: function(){ /* override me */ },
 
   message: function(text){
     // $('#transcript-notifications').text(text);
@@ -244,9 +227,7 @@ app.views.Transcript = app.views.Base.extend({
     // }
   },
 
-  onAudioLoad: function(){
-    // override me
-  },
+  onAudioLoad: function(){ /* override me */ },
 
   onLineOff: function(i){
     // close all modals
@@ -260,13 +241,9 @@ app.views.Transcript = app.views.Base.extend({
     this.fitInputReset($input);
   },
 
-  onTranscriptLoad: function(transcript){
-    // override me
-  },
+  onTranscriptLoad: function(transcript){ /* override me */ },
 
-  onTimeUpdate: function(){
-    // override me
-  },
+  onTimeUpdate: function(){ /* override me */ },
 
   parseTranscript: function(){
     var _this = this,

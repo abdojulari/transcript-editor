@@ -7,8 +7,15 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
 
     this.loadConventions();
     this.loadTranscript();
+    this.loadCompletionContent();
     // this.loadTutorial();
     this.listenForAuth();
+  },
+
+  finished: function(){
+    this.$('.transcript-finished').addClass('disabled');
+    this.$('.show-when-finished').addClass('active');
+    $(window).trigger('scroll-to', [$('#completion-content'), 100]);
   },
 
   lineEditDelete: function(i){
@@ -70,6 +77,24 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text, is_deleted: 0, is_new: is_new});
   },
 
+  loadCompletionContent: function(){
+    this.data.completion_content = '';
+
+    if (this.data.project.pages['transcript_finished.md']) {
+      var page = new app.views.Page(_.extend({}, this.data, {page_key: 'transcript_finished.md'}))
+      this.data.completion_content = page.toString();
+    }
+  },
+
+  loadConventions: function(){
+    this.data.page_conventions = '';
+
+    if (this.data.project.pages['transcription_conventions.md']) {
+      var page = new app.views.Page(_.extend({}, this.data, {page_key: 'transcription_conventions.md'}))
+      this.data.page_conventions = page.toString();
+    }
+  },
+
   loadListeners: function(){
     var _this = this,
         controls = this.data.project.controls;
@@ -127,6 +152,11 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
       _this.lineEditDelete(line.sequence);
     });
 
+    // add transcript finished listener
+    PubSub.subscribe('transcript.finished', function(ev) {
+      _this.onTranscriptFinished();
+    });
+
     // add player listener
     PubSub.subscribe('player.toggle-play', function(ev, data) {
       _this.lineToggle();
@@ -136,6 +166,12 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.$el.on('click.transcript', '.start-play', function(e){
       e.preventDefault();
       _this.start();
+    });
+
+    // add start listener
+    this.$el.on('click.transcript', '.transcript-finished', function(e){
+      e.preventDefault();
+      _this.finished();
     });
   },
 
@@ -159,6 +195,12 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     }
   },
 
+  loadUserProgress: function(){
+    var availableLines = _.filter(this.data.transcript.lines, function(line){ return line.is_available; });
+    var userProgressView = new app.views.TranscriptUserProgress({lines: availableLines});
+    this.$('#transcript-user-progress').append(userProgressView.$el);
+  },
+
   onAudioLoad: function(){
     this.data.debug && console.log("Loaded audio files");
 
@@ -170,6 +212,10 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     if (!this.loaded) this.loaded = true;
     if (this.queue_start) this.start();
     this.queue_start = false;
+  },
+
+  onTranscriptFinished: function(){
+    this.$('.completion-content').addClass('active');
   },
 
   onTranscriptLoad: function(transcript){
