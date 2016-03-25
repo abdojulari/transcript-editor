@@ -704,18 +704,21 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var data = this._getData(data);
     var header = new app.views.Header(data);
     var main = new app.views.Dashboard(data);
+    var footer = new app.views.Footer(data);
   },
 
   index: function() {
     var data = this._getData(data);
     var header = new app.views.Header(data);
     var main = new app.views.Home(data);
+    var footer = new app.views.Footer(data);
   },
 
   pageShow: function(id){
     var data = this._getData(data);
     var header = new app.views.Header(data);
     var main = new app.views.Page(_.extend({}, data, {el: '#main', page_key: id}));
+    var footer = new app.views.Footer(data);
     main.$el.removeClass('loading');
   },
 
@@ -724,6 +727,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var header = new app.views.Header(data);
     var toolbar = new app.views.TranscriptToolbar(_.extend({}, data, {el: '#secondary-navigation', menu: 'transcript_edit'}));
     var modals = new app.views.Modals(data);
+    var footer = new app.views.Footer(data);
 
     var verifyView = new app.views.TranscriptLineVerify(data);
     modals.addModal(verifyView.$el);
@@ -898,6 +902,37 @@ app.views.Dashboard = app.views.Base.extend({
     this.$el.removeClass('loading');
 
     return this;
+  }
+
+});
+
+app.views.Footer = app.views.Base.extend({
+
+  el: '#footer',
+
+  initialize: function(data){
+    this.data = _.extend({}, data);
+
+    this.render();
+  },
+
+  render: function() {
+    this.renderContent();
+    this.renderMenu();
+
+    return this;
+  },
+
+  renderContent: function(){
+    if (this.data.project.pages['footer.md']) {
+      var page = new app.views.Page(_.extend({}, this.data, {page_key: 'footer.md'}))
+      this.$el.append(page.render().$el);
+    }
+  },
+
+  renderMenu: function(){
+    // render the menu
+    var menu = new app.views.Menu(_.extend({}, this.data, {el: '#footer-menu-container', menu_key: 'footer'}));
   }
 
 });

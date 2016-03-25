@@ -19,18 +19,21 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var data = this._getData(data);
     var header = new app.views.Header(data);
     var main = new app.views.Dashboard(data);
+    var footer = new app.views.Footer(data);
   },
 
   index: function() {
     var data = this._getData(data);
     var header = new app.views.Header(data);
     var main = new app.views.Home(data);
+    var footer = new app.views.Footer(data);
   },
 
   pageShow: function(id){
     var data = this._getData(data);
     var header = new app.views.Header(data);
     var main = new app.views.Page(_.extend({}, data, {el: '#main', page_key: id}));
+    var footer = new app.views.Footer(data);
     main.$el.removeClass('loading');
   },
 
@@ -39,6 +42,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var header = new app.views.Header(data);
     var toolbar = new app.views.TranscriptToolbar(_.extend({}, data, {el: '#secondary-navigation', menu: 'transcript_edit'}));
     var modals = new app.views.Modals(data);
+    var footer = new app.views.Footer(data);
 
     var verifyView = new app.views.TranscriptLineVerify(data);
     modals.addModal(verifyView.$el);

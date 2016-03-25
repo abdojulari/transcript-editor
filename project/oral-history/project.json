@@ -1,6 +1,6 @@
 {
-  "name": "Together We Listen @ NYPL",
-  "description": "A web app for fixing oral history transcripts that were automatically generated from speech-to-text software",
+  "name": "NYPL Community Oral History Project Transcript Editor",
+  "description": "Help The New York Public Library fix computer-generated transcripts of 1,000+ NYC stories from the library’s Community Oral History Project.",
   "logo": "/oral-history/assets/img/logo.png",
   "apiUrl": "",
   "useVendorAudio": true,
@@ -38,7 +38,12 @@
       {"label": "Tutorial", "modal": "tutorial_edit", "validRoutes": ["transcripts/:id"]}
     ],
     "transcript_edit": [],
-    "footer": []
+    "footer": [
+      {"label": "Privacy Policy", "url": "http://www.nypl.org/help/about-nypl/legal-notices/privacy-policy", "target": "_blank"},
+      {"label": "Rules and Regulations", "url": "http://www.nypl.org/help/about-nypl/legal-notices/rules-and-regulations", "target": "_blank"},
+      {"label": "Policy on Patron-Generated Web Content", "url": "http://www.nypl.org/policy-patron-generated-web-content", "target": "_blank"},
+      {"label": "Terms and Conditions", "url": "http://www.nypl.org/help/about-nypl/legal-notices/website-terms-and-conditions", "target": "_blank"}
+    ]
   },
   "modals": {
     "transcription_cheat_sheet": {

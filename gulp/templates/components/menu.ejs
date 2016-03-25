@@ -4,7 +4,7 @@
       <% if (item.modal) { %>
         <a data-modal="<%= item.modal %>" class="menu-item modal-invoke"><%= item.label %></a>
       <% } else { %>
-        <a href="<%= item.url %>" class="menu-item <%= item.url==route.path ? 'active': '' %>"><%= item.label %></a>
+        <a href="<%= item.url %>" class="menu-item <%= item.url==route.path ? 'active': '' %>"<%= item.target ? ' target="'+item.target+'"' : '' %>><%= item.label %></a>
       <% } %>
     <% } %>
   <% }) %>
