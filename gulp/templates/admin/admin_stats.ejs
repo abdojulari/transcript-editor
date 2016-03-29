@@ -7,7 +7,7 @@
       <% _.each(stat.sums, function(sum){ %>
         <div class="sum">
           <div class="sum-label"><%= sum.label %></div>
-          <div class="sum-value"><%= sum.value %></div>
+          <div class="sum-value"><%= UTIL.formatNumber(sum.value) %></div>
         </div>
       <% }) %>
     </div>
