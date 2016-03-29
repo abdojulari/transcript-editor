@@ -54,7 +54,7 @@ namespace :sample do
   def seedEditsReviewing(line)
     # Many edits, none agree
     seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'two_1', text: 'Oh. April Fourth, two thousand sixteen'})
-    seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'two_2', text: 'On, um, April 4th, 2016'})
+    seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'two_2', text: 'On, um, April fourth, 2016'})
     seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'two_3', text: 'On April 4th, 2016'})
 
     line.recalculate()

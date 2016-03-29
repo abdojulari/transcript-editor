@@ -167,8 +167,9 @@ class TranscriptLine < ActiveRecord::Base
       best_edits = best_edits.sort_by { |edit|
         score = 0
         score -= 1 if edit[:text] =~ /\d/ # Plus 1 if contains a number
-        score -= 1 if edit[:text] =~ /[A-Z]/ # Plus 1 if contains uppercase
-        score -= 1 if edit[:text] =~ /[^0-9A-Za-z ]/ # Plus 1 if contains punctuation
+        score -= edit[:text].scan(/[A-Z]+/).length  # Count uppercase letters
+        score -= edit[:text].scan(/[^0-9A-Za-z ]/).length # Count puncuation
+        score -= edit[:text].scan(/\bu+h+m*\b|\bu+m+\b/).length # Count umm's, uhh's, uhhm's
         score -= edit[:user_hiearchy] # Give a preference users with higher hiearchy
         score
       }

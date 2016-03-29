@@ -10,8 +10,8 @@ class TranscriptEdit < ActiveRecord::Base
   # validates :text, presence: true
 
   def normalizedText
-    # downcase; remove punctuation; remove extra whitespace; trim
-    text.downcase.gsub(/[^0-9a-z ]/i, '').gsub(/\s+/, ' ').strip
+    # downcase; remove punctuation; remove extra whitespace; remove umm's/uhh's/uhm's, trim
+    text.downcase.gsub(/[^0-9a-z ]/i, ' ').gsub(/\bu+h+m*\b|\bu+m+\b/, ' ').gsub(/\s+/, ' ').strip
   end
 
   def self.getByLine(transcript_line_id)
