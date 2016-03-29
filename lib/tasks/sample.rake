@@ -47,6 +47,7 @@ namespace :sample do
   def seedEditsEditing(line)
     # Just one edit
     seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'one_1', text: '[laughter] Oh, really?'})
+    seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'one_2', text: '[laughing] Oh, really?'})
 
     line.recalculate()
   end

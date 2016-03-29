@@ -311,6 +311,8 @@ app.views.Transcript = app.views.Base.extend({
       var is_editable = true;
       // input is locked when reviewing/completed/flagged/archived
       if (_.contains(["reviewing","completed","flagged","archived"], status.name)) is_editable = false;
+      // in review, but user submitted, so may edit
+      if (status.name=="reviewing" && user_text) is_editable = true;
       // admins/mods can always edit
       if (user_role && user_role.hiearchy >= superUserHiearchy) is_editable = true;
       _this.data.transcript.lines[i].is_editable = is_editable;

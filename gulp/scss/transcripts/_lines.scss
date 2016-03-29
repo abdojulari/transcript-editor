@@ -28,12 +28,11 @@ $transcript-line-options-reviewing-width: 80px;
       background: lighten($coolgray-color, 5%);
     }
 
-    // &.editing,
-    &.user-edited {
-      background: rgba($green-color, 0.3);
-    }
     &.reviewing {
       background: $orange-dark-color;
+    }
+    &.user-edited {
+      background: rgba($green-color, 0.3);
     }
     &.completed {
       background: rgba($green-color, 0.6);
