@@ -25,4 +25,24 @@ class User < ActiveRecord::Base
     end
   end
 
+  def isAdmin?
+    role = user_role
+    role && role.name == "admin"
+  end
+
+  def self.getAll
+    Rails.cache.fetch("#{ENV['PROJECT_ID']}/users/all", expires_in: 10.minutes) do
+      User.all
+    end
+  end
+
+  def self.getStatsByDay
+    Rails.cache.fetch("#{ENV['PROJECT_ID']}/users/stats", expires_in: 10.minutes) do
+      User
+        .select('DATE(created_at) AS date, COUNT(*) AS count')
+        .group('DATE(created_at)')
+        .order('DATE(created_at)')
+    end
+  end
+
 end

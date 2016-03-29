@@ -18,4 +18,18 @@ class ApplicationController < ActionController::API
   def touch_session
     session[:touched] = 1
   end
+
+  def is_admin?
+    user_signed_in? && current_user.isAdmin?
+  end
+
+  def authenticate_admin!
+    unless is_admin?
+      render json: {
+        error: 1,
+        message: 'You must log in as admin to access this section'
+      }
+      return
+    end
+  end
 end

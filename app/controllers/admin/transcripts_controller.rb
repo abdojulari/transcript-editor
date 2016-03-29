@@ -1,6 +1,8 @@
 class Admin::TranscriptsController < ApplicationController
   include ActionController::MimeResponds
 
+  before_filter :authenticate_admin!
+
   # GET /admin/transcripts
   # GET /admin/transcripts.json
   def index

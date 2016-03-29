@@ -1,6 +1,8 @@
 class Admin::UsersController < ApplicationController
   include ActionController::MimeResponds
 
+  before_filter :authenticate_admin!
+
   before_action :set_user, only: [:show, :update, :destroy]
 
   # GET /admin/users
@@ -11,7 +13,7 @@ class Admin::UsersController < ApplicationController
         render :file => "public/#{ENV['PROJECT_ID']}/admin.html"
       }
       format.json {
-        @users = []
+        @users = User.getAll
       }
     end
   end

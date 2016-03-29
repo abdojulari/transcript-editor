@@ -1,6 +1,8 @@
 class Admin::StatsController < ApplicationController
   include ActionController::MimeResponds
 
+  before_filter :authenticate_admin!
+
   # GET /admin
   # GET /admin.json
   def index
@@ -9,7 +11,10 @@ class Admin::StatsController < ApplicationController
         render :file => "public/#{ENV['PROJECT_ID']}/admin.html"
       }
       format.json {
-        @stats = {}
+        @stats = [
+          {label: "User Registration Stats", data: User.getStatsByDay},
+          {label: "Transcript Edit Stats", data: TranscriptEdit.getStatsByDay}
+        ]
       }
     end
   end

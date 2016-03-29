@@ -37,6 +37,15 @@ class TranscriptEdit < ActiveRecord::Base
     TranscriptEdit.where(transcript_id: transcript_id, user_id: user_id, is_deleted: 0)
   end
 
+  def self.getStatsByDay
+    Rails.cache.fetch("#{ENV['PROJECT_ID']}/transcript_edits/stats", expires_in: 10.minutes) do
+      TranscriptEdit
+        .select('DATE(created_at) AS date, COUNT(*) AS count')
+        .group('DATE(created_at)')
+        .order('DATE(created_at)')
+    end
+  end
+
   def self.updateUserSessions(session_id, user_id)
     edits = TranscriptEdit.where(session_id: session_id)
     edits.update_all(user_id: user_id)

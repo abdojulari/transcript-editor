@@ -674,9 +674,7 @@ $(function(){
 app.routers.DefaultRouter = Backbone.Router.extend({
 
   routes: {
-    "admin":                "stats",
-    "admin/transcripts":    "transcripts",
-    "admin/users":          "users"
+    "admin":                "stats"
   },
 
   before: function(route, params) {
@@ -690,22 +688,12 @@ app.routers.DefaultRouter = Backbone.Router.extend({
   stats: function(){
     var data = this._getData(data);
     var header = new app.views.Header(data);
-    var main = new app.views.AdminStats(data);
+    var stats = new app.views.AdminStats(data);
+    var users = new app.views.AdminUsers(data);
     var footer = new app.views.Footer(data);
-  },
 
-  transcripts: function() {
-    var data = this._getData(data);
-    var header = new app.views.Header(data);
-    var main = new app.views.AdminTranscripts(data);
-    var footer = new app.views.Footer(data);
-  },
-
-  users: function(){
-    var data = this._getData(data);
-    var header = new app.views.Header(data);
-    var main = new app.views.AdminUsers(data);
-    var footer = new app.views.Footer(data);
+    $('#main').append(stats.$el);
+    $('#main').append(users.$el);
   },
 
   _getData: function(data){
@@ -1084,17 +1072,75 @@ app.views.Page = app.views.Base.extend({
 
 app.views.AdminStats = app.views.Base.extend({
 
-  el: '#main',
+  className: 'stats',
+
+  template: _.template(TEMPLATES['admin_stats.ejs']),
 
   initialize: function(data){
     this.data = _.extend({}, data);
 
+    this.loadData();
+  },
+
+  loadData: function(){
+    var _this = this;
+    $.getJSON("/admin.json", function(data) {
+      _this.parseData(data.stats);
+    });
+  },
+
+  parseData: function(stats){
+    var day = 24 * 60 * 60 * 1000;
+
+    _.each(stats, function(stat, i){
+      var data = _.map(stat.data, function(row){
+        row.date = Date.parse(row.date);
+        return row;
+      });
+
+      var sums = [];
+
+      // All time
+      sums.push({
+        label: 'All Time',
+        value: _.reduce(data, function(memo, stat){ return memo + stat.count; }, 0)
+      });
+
+      // Past 30 days
+      var thirty_days_ago = new Date().getTime() - 30 * day;
+      data = _.filter(data, function(stat){ return stat.date > thirty_days_ago; });
+      sums.push({
+        label: 'Past 30 days',
+        value: _.reduce(data, function(memo, stat){ return memo + stat.count; }, 0)
+      });
+
+      // Past 7 days
+      var seven_days_ago = new Date().getTime() - 7 * day;
+      data = _.filter(data, function(stat){ return stat.date > seven_days_ago; });
+      sums.push({
+        label: 'Past 7 days',
+        value: _.reduce(data, function(memo, stat){ return memo + stat.count; }, 0)
+      });
+
+      // Past 24 hours
+      var one_day_ago = new Date().getTime() - day;
+      data = _.filter(data, function(stat){ return stat.date > one_day_ago; });
+      sums.push({
+        label: 'Past 24 hours',
+        value: _.reduce(data, function(memo, stat){ return memo + stat.count; }, 0)
+      });
+
+      // add sums to stats
+      stats[i]['sums'] = sums;
+    });
+
+    this.data.stats = stats;
+    // console.log(stats);
     this.render();
   },
 
   render: function() {
-    // this.$el.html(this.template(this.data));
-    this.$el.html('<p>Hello Admin</p>');
+    this.$el.html(this.template(this.data));
 
     return this;
   }
@@ -1122,18 +1168,59 @@ app.views.AdminTranscripts = app.views.Base.extend({
 
 app.views.AdminUsers = app.views.Base.extend({
 
-  el: '#main',
+  template: _.template(TEMPLATES['admin_users.ejs']),
+
+  className: 'users',
 
   initialize: function(data){
     this.data = _.extend({}, data);
 
     this.render();
+    this.loadData();
+  },
+
+  loadData: function(){
+    var _this = this;
+    $.getJSON("/admin/users.json", function(data) {
+      _this.renderUsers(data.entries);
+    });
   },
 
   render: function() {
-    // this.$el.html(this.template(this.data));
-    this.$el.html('<p>Hello Admin - Users</p>');
+    this.$el.html(this.template(this.data));
 
+    return this;
+  },
+
+  renderUsers: function(users){
+    var $users = this.$('#users-container');
+
+    $users.empty();
+
+    _.each(users, function(user){
+      var userView = new app.views.UserItem({user: user});
+      $users.append(userView.$el);
+    });
+  }
+
+});
+
+app.views.UserItem = app.views.Base.extend({
+
+  template: _.template(TEMPLATES['admin_user_item.ejs']),
+
+  tagName: "tr",
+  className: "user-item",
+
+  initialize: function(data){
+    this.data = _.extend({}, data);
+    this.user = this.data.user;
+
+    this.render();
+  },
+
+  render: function(){
+    this.$el.html(this.template(this.user));
     return this;
   }
 

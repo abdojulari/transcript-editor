@@ -1,9 +1,7 @@
 app.routers.DefaultRouter = Backbone.Router.extend({
 
   routes: {
-    "admin":                "stats",
-    "admin/transcripts":    "transcripts",
-    "admin/users":          "users"
+    "admin":                "stats"
   },
 
   before: function(route, params) {
@@ -17,22 +15,12 @@ app.routers.DefaultRouter = Backbone.Router.extend({
   stats: function(){
     var data = this._getData(data);
     var header = new app.views.Header(data);
-    var main = new app.views.AdminStats(data);
+    var stats = new app.views.AdminStats(data);
+    var users = new app.views.AdminUsers(data);
     var footer = new app.views.Footer(data);
-  },
 
-  transcripts: function() {
-    var data = this._getData(data);
-    var header = new app.views.Header(data);
-    var main = new app.views.AdminTranscripts(data);
-    var footer = new app.views.Footer(data);
-  },
-
-  users: function(){
-    var data = this._getData(data);
-    var header = new app.views.Header(data);
-    var main = new app.views.AdminUsers(data);
-    var footer = new app.views.Footer(data);
+    $('#main').append(stats.$el);
+    $('#main').append(users.$el);
   },
 
   _getData: function(data){
