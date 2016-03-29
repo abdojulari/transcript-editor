@@ -5,8 +5,10 @@ var config = require('./gulp/config');
 
 // utilities
 var concat = require('gulp-concat');
+var include = require('gulp-include');
 var map = require('vinyl-map');
 var path = require('path');
+var rename = require('gulp-rename');
 
 // Sass compilation
 
@@ -24,9 +26,13 @@ gulp.task('sass', function () {
 var uglify = require('gulp-uglify');
 
 gulp.task('js', function() {
-  gulp.src(config.uglify.src)
-    .pipe(concat(config.uglify.outputFile))
-    //.pipe(uglify(config.uglify.opt).on('error', console.error.bind(console)))
+  gulp.src(config.include.src)
+    // include non-minified version
+    .pipe(include(config.include.opt).on('error', console.error.bind(console)))
+    .pipe(gulp.dest(config.include.dest))
+    // and the minified version
+    .pipe(uglify(config.uglify.opt).on('error', console.error.bind(console)))
+    .pipe(rename({ extname: '.min.js' }))
     .pipe(gulp.dest(config.uglify.dest));
 });
 

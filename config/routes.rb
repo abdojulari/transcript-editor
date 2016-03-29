@@ -10,5 +10,12 @@ Rails.application.routes.draw do
   match 'page/:id' => 'default#index', :via => [:get]
   match 'dashboard' => 'default#index', :via => [:get]
 
+  # admin
+  namespace :admin do
+    resources :users, only: [:index, :update]
+    resources :transcripts, only: [:index]
+  end
+  match 'admin' => 'admin/stats#index', :via => [:get]
+
   root :to => 'default#index'
 end
