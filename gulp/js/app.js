@@ -22,6 +22,14 @@ window.app = {
       DEBUG && console.log('User', user);
     });
 
+    // Force a hard refresh after sign in/out
+    PubSub.subscribe('auth.oAuthSignIn.success', function(ev, msg) {
+      window.location.reload(true);
+    });
+    PubSub.subscribe('auth.signOut.success', function(ev, msg) {
+      window.location.reload(true);
+    });
+
     // load the main router
     var mainRouter = new app.routers.DefaultRouter();
 

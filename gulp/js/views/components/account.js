@@ -39,7 +39,7 @@ app.views.Account = app.views.Base.extend({
     // check auth sign in
     PubSub.subscribe('auth.oAuthSignIn.success', function(ev, msg) {
       _this.onValidationSuccess($.auth.user);
-      $(window).trigger('alert', ['Successfully signed in as '+$.auth.user.name+'!', true]);
+      $(window).trigger('alert', ['Successfully signed in as '+$.auth.user.name+'!  Refreshing page...', true]);
     });
 
     // check auth validation
@@ -50,7 +50,7 @@ app.views.Account = app.views.Base.extend({
     // check sign out
     PubSub.subscribe('auth.signOut.success', function(ev, msg) {
       _this.onSignOutSuccess();
-      $(window).trigger('alert', ['Successfully signed out!', true]);
+      $(window).trigger('alert', ['Successfully signed out! Refreshing page...', true]);
     });
   },
 
