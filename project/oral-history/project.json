@@ -1,6 +1,6 @@
 {
   "name": "NYPL Community Oral History Project Transcript Editor",
-  "description": "Help The New York Public Library fix computer-generated transcripts of 1,000+ NYC stories from the library’s Community Oral History Project.",
+  "description": "Help The New York Public Library fix computer-generated transcripts of hundreds of NYC stories from the library’s Community Oral History Project.",
   "logo": "/oral-history/assets/img/logo.png",
   "apiUrl": "",
   "useVendorAudio": true,

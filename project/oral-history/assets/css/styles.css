@@ -1,3 +1,16 @@
+/*@font-face{
+  font-family: "kievit font";
+  font-style: normal;
+  font-weight: 400;
+  src:url("http://ux-static.nypl.org.s3-website-us-east-1.amazonaws.com/ff_kievit_web/KievitWeb-Light.woff") format('woff');
+}
+html,
+body {
+  font-family: "kievit font", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}*/
+
 .home\.md.page {
   max-width: none;
   margin: -68px -10px 0;
@@ -11,6 +24,7 @@
 .home\.md.page .container {
   max-width: 800px;
   margin: 0 auto;
+  position: relative;
 }
 .home\.md.page h1 {
   margin-bottom: 0;
@@ -19,4 +33,17 @@
   margin-top: 20px;
   margin-bottom: 0;
   letter-spacing: 1px;
+}
+.home\.md.page .sticker {
+  display: block;
+  position: absolute;
+  right: -150px;
+  bottom: -140px;
+}
+.home\.md.page .sticker img {
+  width: 140px;
+  height: auto;
+  -ms-transform: rotate(3deg);
+  -webkit-transform: rotate(3deg);
+  transform: rotate(3deg);
 }
