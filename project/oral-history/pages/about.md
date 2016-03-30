@@ -1,7 +1,3 @@
-# Contact Information
-
-Questions? Comments? Contact us at <a href="mailto:oralhistory@nypl.org?Subject=Transcript%20Tool" target="_top">oralhistory@nypl.org</a> or reach out to us on [Twitter](https://twitter.com/nypl_labs).
-
 # Our Goal  
 **Hello and welcome** to the NYPL Community Oral History Project Transcript Editor. Join us in editing and polishing computer-generated transcripts of the [New York Public Library's Community Oral History Project](oralhistory.nypl.org). This community driven project will make accessible over 1,000+ stories of New York City's past and present.
 
@@ -16,7 +12,6 @@ This is a community effort. In order for audio to be made more accurately search
 ## Start Contributing:
 
 NYPL Community Oral History Project Transcript Editor will allow you to listen to the oral history while you edit its transcript. Each transcript was computer generated using speech-to-text software and **will contain errors** (which is why we need your help!).
-
 
 Sound good? [Browse the Oral Histories](http://twl-nypl.herokuapp.com/) and select one to get started. An in-depth tutorial will guide you through the process with easy to reference FAQs and conventions.
 
@@ -35,6 +30,9 @@ Once we have an accurate transcript. Someone could take the transcript and extra
 That data could then be plotted on a map. A new way to interact with Senior's story and a new way of narratively mapping the city.
 <div><img src="/project/assets/img/transcript_data_3.png" alt="Screenshot of a transcript expert from Frank Senior's Oral History."></div>
 
+# Contact Information
+
+Questions? Comments? Contact us at <a href="mailto:oralhistory@nypl.org?Subject=Transcript%20Tool" target="_top">oralhistory@nypl.org</a>.
 
 # Credits
 
@@ -46,6 +44,3 @@ That data could then be plotted on a map. A new way to interact with Senior's st
 * **Willa Armstrong**: Product Lead  
 * **Mauricio Giraldo**: Manager of Product and R&D Group, NYPL Labs  
 * **Ben Vershbow**: Director NYPL Labs
-
-<!-- insert the knight foundation logo + this probably should be called out more -->
-Made possible with generous support from: The Knight Foundation
