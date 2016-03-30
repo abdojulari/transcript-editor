@@ -1,13 +1,13 @@
 # Our Goal  
-**Hello and welcome** to the NYPL Community Oral History Project Transcript Editor. Join us in editing and polishing computer-generated transcripts of the [New York Public Library's Community Oral History Project](oralhistory.nypl.org). This community driven project will make accessible over 1,000+ stories of New York City's past and present.
+**Hello and welcome** to the NYPL Community Oral History Project Transcript Editor. Join us in editing and polishing computer-generated transcripts of the [New York Public Library's Community Oral History Project](oralhistory.nypl.org). This community driven project will make accessible over 1,000 stories of New York City's past and present.
 
 # The Problem: Unsearchable, Inaccessible Audio
 
-Today thousands of libraries and public media organizations publish large digital audio collections online. Most of these, however, lack transcripts or basic metadata, leaving them invisible to search engines and inaccessible to prospective users. Recent advances in speech-to-text technologies have made great progress in opening audio to the web, but they lack total accuracy and there’s still more to be done. With generous support from the Knight Foundation, we launched [Together We Listen](http://togetherwelisten.nypl.org/) a project in partnership with [The Moth](http://themoth.org/) to start solving this problem.
+Today thousands of libraries and public media organizations publish large digital audio collections online. Most of these, however, lack transcripts or basic metadata, leaving them invisible to search engines and inaccessible to prospective users. Recent advances in speech-to-text technologies have made great progress in opening audio to the web, but they lack total accuracy and there’s still more to be done. With generous support from the [Knight Foundation](http://knightfoundation.org/), we launched [Together We Listen](http://togetherwelisten.nypl.org/) a project in partnership with [The Moth](http://themoth.org/) to start solving this problem.
 
 # The Solution: You!
 
-This is a community effort. In order for audio to be made more accurately searchable, people and computers need to work together! We’ve created transcripts of over 1,000+ stories in our ongoing Community Oral History Project using the amazing computer generated transcription services of [Pop Up Archive](https://popuparchive.com/). Now, we’re inviting the public to correct these and make them more accessible for current and future generations of users. Yes, this is where **YOU** come in!
+This is a community effort. In order for audio to be made more accurately searchable, people and computers need to work together! We’ve created transcripts of over 1,000 stories in our ongoing Community Oral History Project using the amazing computer generated transcription services of [Pop Up Archive](https://popuparchive.com/). Now, we’re inviting the public to correct these and make them more accessible for current and future generations of users. Yes, this is where **YOU** come in!
 
 # Start Contributing:
 
@@ -25,7 +25,7 @@ Since 2013, The New York Public Library has been running the [Community Oral His
 
 # What Happens After A Transcript is Complete?
 <!--Should this be on the OH About page?-->
-By editing transcripts, you're helping to create accurate transcripts helping to share 1,000+ stories from the ongoing [Community Oral History Project](http://oralhistory.nypl.org/). These transcripts improve accessibility options for patrons browsing the collected stories and provide material for future tools to create rich data sets. How? Take for example the interview of Frank Senior.
+By editing transcripts, you're helping to create accurate transcripts helping to share over 1,000 stories from the ongoing [Community Oral History Project](http://oralhistory.nypl.org/). These transcripts improve accessibility options for patrons browsing the collected stories and provide material for future tools to create rich data sets. How? Take for example the interview of Frank Senior.
 <div><img src="/project/assets/img/transcript_data_1.jpeg" alt="Screenshot of a transcript expert from Frank Senior's Oral History."></div>
 Once we have an accurate transcript. Someone could take the transcript and extract geographic information from the story.
 <div><img src="/project/assets/img/transcript_data_2.jpeg" alt="Screenshot of a transcript expert from Frank Senior's Oral History."></div>
@@ -34,7 +34,7 @@ That data could then be plotted on a map. A new way to interact with Senior's st
 
 # Contact Information
 
-Questions? Comments? Contact us at <a href="mailto:oralhistory@nypl.org?Subject=Transcript%20Tool" target="_top">togetherwelisten@nypl.org</a>.
+Questions? Comments? Contact us at <a href="mailto:oralhistory@nypl.org?Subject=Transcript%20Tool" target="_top">oralhistory@nypl.org</a>.
 
 # Credits
 
@@ -45,4 +45,5 @@ Questions? Comments? Contact us at <a href="mailto:oralhistory@nypl.org?Subject=
 * **Shana Kimball**: Manager of Public Programs and Outreach, NYPL Labs  
 * **Willa Armstrong**: Product Lead  
 * **Mauricio Giraldo**: Manager of Product and R&D Group, NYPL Labs  
-* **Ben Vershbow**: Director NYPL Labs
+* **Ben Vershbow**: Director NYPL Labs  
+* **Anita Favretto**: Associate Director, Outreach Services and Adult Programming
