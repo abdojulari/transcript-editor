@@ -14,7 +14,7 @@ This is a community effort. We display total progress made by the community in t
 Don't worry! Edit the transcription as best you can from what you hear. Several people will edit each transcript to help ensure accuracy.  
 
 **The audio repeats on two lines. Which line should I transcribe it on?**  
-Lissten closely. If a word is cut off on one line, transcribe it on the line where you can hear it completely. If a word is spoken in it's entirety on two lines, use your best judgment to transcribe it on just one line. These tricky transcriptions will be smoothed out during the verify stage.  
+Listen closely. If a word is cut off on one line, transcribe it on the line where you can hear it completely. If a word is spoken in it's entirety on two lines, use your best judgment to transcribe it on just one line. These tricky transcriptions will be smoothed out during the verify stage.  
 
 **What happens if the line is correct and we don't need to make any edits?**  
 Sometimes the speech-to-text hits it out of the park and transcribes a line perfectly. In that case, no edits are needed. When enough volunteers pass over a line without editing it, the line will reach consensus in the same manner as edited lines.

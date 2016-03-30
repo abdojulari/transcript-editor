@@ -1,6 +1,6 @@
 ## Instructions
 
-* The following transcript was **automatically generated using speech-to-text software**, and contains errors.
+* The following transcript was **computer generated using speech-to-text software**, and contains errors.
 * This tool will allow you to **listen while you edit** the transcript.
 * **All your edits will be automatically saved** but may not be immediately visible by others.
 * Once enough people agree on the text of a particular line, that line will be visible to all and no longer editable.
