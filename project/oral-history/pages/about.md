@@ -26,11 +26,11 @@ Since 2013, The New York Public Library has been running the [Community Oral His
 # What Happens After A Transcript is Complete?
 <!--Should this be on the OH About page?-->
 By editing transcripts, you're helping to create accurate transcripts helping to share 1,000+ stories from the ongoing [Community Oral History Project](http://oralhistory.nypl.org/). These transcripts improve accessibility options for patrons browsing the collected stories and provide material for future tools to create rich data sets. How? Take for example the interview of Frank Senior.
-<div><img src="/project/assets/img/transcript_data_1.jpeg" alt="Screenshot of a transcript expert from Frank Senior's Oral History."></div>
+<div><img src="/oral-history/assets/img/transcript_data_1.jpeg" alt="Screenshot of a transcript expert from Frank Senior's Oral History."></div>
 Once we have an accurate transcript. Someone could take the transcript and extract geographic information from the story.
-<div><img src="/project/assets/img/transcript_data_2.jpeg" alt="Screenshot of a transcript expert from Frank Senior's Oral History."></div>
+<div><img src="/oral-history/assets/img/transcript_data_2.jpeg" alt="Screenshot of a transcript expert from Frank Senior's Oral History."></div>
 That data could then be plotted on a map. A new way to interact with Senior's story and a new way of narratively mapping the city.
-<div><img src="/project/assets/img/transcript_data_3.jpeg" alt="Screenshot of a transcript expert from Frank Senior's Oral History."></div>
+<div><img src="/oral-history/assets/img/transcript_data_3.jpeg" alt="Screenshot of a transcript expert from Frank Senior's Oral History."></div>
 
 # Contact Information
 
