@@ -3,6 +3,7 @@
 <h1><img src="/oral-history/assets/img/logo_big.png" alt="NYPL Community Oral History Project Transcript Editor" title="NYPL Community Oral History Project Transcript Editor" /></h1>
 
 <h2>Make hundreds of NYC stories accessible. One word at a time.</h2>
+<a href="http://togetherwelisten.nypl.org/" target="_blank" class="sticker"><img src="/img/twl_sticker.png" alt="A Together We Listen Project" title="A Together We Listen Project" /></a>
 </div>
 </div>
 <div class="container">
