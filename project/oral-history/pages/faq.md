@@ -1,4 +1,4 @@
-## FREQUENTLY ASKED QUESTIONS  
+# FREQUENTLY ASKED QUESTIONS  
 _Updated: March 30, 2016_
 
 **Do I need to be logged in to contribute?**  
@@ -9,6 +9,9 @@ It's best to log in at the start of your editing session. This will help ensure 
 
 **I want to leave the page how do I save my work?**  
 All your work is automatically saved. When you come to a stopping point, you don’t need to do anything extra to save your work!  
+
+**Why are their different progress a**  
+This is a community effort. We display total progress made by the community in the transcript. Since we require several people to edit each transcript, the overall progress will appear less than your individual progress. Log in at the "Track Progress" to keep track of your individual progress through interviews.  
 
 **What happens if I make a mistake?**  
 Don't worry! Edit the transcription as best you can from what you hear. The consensus model will ensure that the line is accurate.  

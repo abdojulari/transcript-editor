@@ -1,7 +1,8 @@
 # Transcription Conventions
 
-There are many ways to transcribe an oral history, so if you're unsure, we have one general guideline: <strong class="highlight">Transcribe as you hear it.</strong>
+We have one central guideline:
+<strong class="highlight">Use your best judgment to transcribe as you hear it.</strong>
 
-Use your best judgment to **transcribe it as you hear it**. For common tricky transcriptions, we also have a list of **"Conventions"** handy. Quickly access this reference in the toolbar in the top of this page.
+For common tricky transcriptions, we have a handy list of conventions. Quickly access this reference by selecting the Conventions button on the top of the page.
 
 <video src="https://s3.amazonaws.com/togetherwelisten.nypl.org/video/twl_sample_conventions.mp4" preload="auto" class="toggle-sound sample-video" autoplay loop muted></video>
