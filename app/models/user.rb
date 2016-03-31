@@ -27,12 +27,13 @@ class User < ActiveRecord::Base
 
   def isAdmin?
     role = user_role
+    role = UserRole.find user_role_id if !role && user_role_id > 0
     role && role.name == "admin"
   end
 
   def self.getAll
     Rails.cache.fetch("#{ENV['PROJECT_ID']}/users/all", expires_in: 10.minutes) do
-      User.all
+      User.order("lines_edited DESC").limit(100)
     end
   end
 
