@@ -41,6 +41,7 @@ GEM
     bcrypt (3.1.10)
     builder (3.2.2)
     concurrent-ruby (1.0.0)
+    dalli (2.7.6)
     devise (3.5.3)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -180,6 +181,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  dalli
   devise_token_auth
   ejs
   execjs

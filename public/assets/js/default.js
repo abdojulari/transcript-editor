@@ -355,12 +355,13 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-  UTIL.formatNumberTiny = function(num) {
+  UTIL.formatNumberTiny = function(num, dec) {
+    if (!dec && dec!==0) dec = 1;
     var formatted = num;
-    if (num > 1000000) formatted = UTIL.round(num/1000000, 1) + 'M+';
+    if (num > 1000000) formatted = UTIL.round(num/1000000, dec) + 'M+';
     else if (num == 1000000) formatted = '1M';
     else if (num > 99999) formatted = UTIL.round(num/1000) + 'K+';
-    else if (num > 1000) formatted = UTIL.round(num/1000, 1) + 'K+';
+    else if (num > 1000) formatted = UTIL.round(num/1000, dec) + 'K+';
     else if (num == 1000) formatted = '1K';
     return formatted;
   };
@@ -2367,7 +2368,6 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
 
     this.loadConventions();
     this.loadTranscript();
-    this.loadCompletionContent();
     // this.loadTutorial();
     this.listenForAuth();
   },
@@ -2441,7 +2441,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.data.completion_content = '';
 
     if (this.data.project.pages['transcript_finished.md']) {
-      var page = new app.views.Page(_.extend({}, this.data, {page_key: 'transcript_finished.md'}))
+      var page = new app.views.Page(_.extend({}, {project: this.data.project, page_key: 'transcript_finished.md'}))
       this.data.completion_content = page.toString();
     }
   },
@@ -2450,7 +2450,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.data.page_conventions = '';
 
     if (this.data.project.pages['transcription_conventions.md']) {
-      var page = new app.views.Page(_.extend({}, this.data, {page_key: 'transcription_conventions.md'}))
+      var page = new app.views.Page(_.extend({}, {project: this.data.project, page_key: 'transcription_conventions.md'}))
       this.data.page_conventions = page.toString();
     }
   },
@@ -2539,7 +2539,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.data.page_content = '';
 
     if (this.data.project.pages['transcript_edit.md']) {
-      var page = new app.views.Page(_.extend({}, this.data, {page_key: 'transcript_edit.md'}))
+      var page = new app.views.Page(_.extend({}, {transcript: this.data.transcript, project: this.data.project, page_key: 'transcript_edit.md'}))
       this.data.page_content = page.toString();
     }
   },
@@ -2590,6 +2590,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.data.transcript = transcript.toJSON();
     this.parseTranscript();
     this.loadPageContent();
+    this.loadCompletionContent();
     this.loadAudio();
   },
 
