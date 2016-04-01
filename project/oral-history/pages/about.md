@@ -3,7 +3,7 @@
 
 # The Problem: Unsearchable, Inaccessible Audio
 
-Today thousands of libraries and public media organizations publish large digital audio collections online. Most of these, however, lack transcripts or basic metadata, leaving them invisible to search engines and inaccessible to prospective users. Recent advances in speech-to-text technologies have made great progress in opening audio to the web, but they lack total accuracy and there’s still more to be done. With generous support from the [Knight Foundation](http://knightfoundation.org/), we launched [Together We Listen](http://togetherwelisten.nypl.org/) a project in partnership with [The Moth](http://themoth.org/) to start solving this problem.
+Today thousands of libraries and public media organizations publish large digital audio collections online. Most of these, however, lack transcripts or basic metadata, leaving them invisible to search engines and inaccessible to prospective users. Recent advances in speech-to-text technologies have made great progress in opening audio to the web, but they lack total accuracy and there’s still more to be done. We launched [Together We Listen](http://togetherwelisten.nypl.org/) a project in partnership with [The Moth](http://themoth.org/) to start solving this problem. With generous support provided by the [Knight Prototype Fund](http://www.knightfoundation.org/grants/201551666/), an initiative of the John S. and James L. Knight Foundation.
 
 # The Solution: You!
 
@@ -24,20 +24,14 @@ Join us for Together We Listen @ NYPL! Correct transcripts together in library b
 Since 2013, The New York Public Library has been running the [Community Oral History Project](http://oralhistory.nypl.org). This NYC initiative aims to document, preserve, and celebrate the rich history of the city's unique neighborhoods by collecting the stories of people who have experienced it firsthand. To date, more than one thousand stories have been collected by community volunteers, and all recordings are available currently at [oralhistory.nypl.org](oralhistory.nypl.org), and will be archived in the Library's [Irma and Paul Milstein Division of United States History, Local History and Genealogy](http://www.nypl.org/locations/divisions/milstein) research collection.
 
 # What Happens After A Transcript is Complete?
-<!--Should this be on the OH About page?-->
-
-By editing transcripts, you're helping to create accurate transcripts helping to share over 1,000 stories from the ongoing [Community Oral History Project](http://oralhistory.nypl.org/). These transcripts improve accessibility options for patrons browsing the collected stories and provide material for future tools to create rich data sets. How? Take for example the interview of Frank Senior.
-<div><img src="/oral-history/assets/img/transcript_data_1.jpeg" alt="Screenshot of a transcript expert from Frank Senior's Oral History."></div>
-Once we have an accurate transcript. Someone could take the transcript and extract geographic information from the story.
-<div><img src="/oral-history/assets/img/transcript_data_2.jpeg" alt="Screenshot of a transcript expert from Frank Senior's Oral History."></div>
-That data could then be plotted on a map. A new way to interact with Senior's story and a new way of narratively mapping the city.
-<div><img src="/oral-history/assets/img/transcript_data_3.jpeg" alt="Screenshot of a transcript expert from Frank Senior's Oral History."></div>
+By editing transcripts, you're helping to create accurate transcripts helping to share over 1,000 stories from the ongoing [Community Oral History Project](http://oralhistory.nypl.org/). These transcripts improve accessibility options for patrons browsing the collected stories and provide material for future tools to create rich data sets. Once they have been edited with agreement from enough contributors, completed transcripts will be available to read and download at [oralhistory.nypl.org](http://oralhistory.nypl.org/), along with the audio recordings. Stay tuned!
 
 # Contact Information
 
 Questions? Comments? Contact us at <a href="mailto:oralhistory@nypl.org?Subject=Transcript%20Tool" target="_top">oralhistory@nypl.org</a>.
 
 # Credits
+In collaboration with the Outreach Services and Adult Programming Department and [NYPL Labs](http://www.nypl.org/collections/labs) at the New York Public Library.
 
 * **Brian Foo**: Applications Developer (Designer/Developer)  
 * **Alex Kelly**: Project Lead  

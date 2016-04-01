@@ -31,6 +31,9 @@ No. Transcript lines are synced with clips of audio. For audio clips where the i
 **Several people are speaking in one line. What should I do?**  
 Transcribe the audio as you hear it and tag the line as having multiple speakers.    
 
+**Can I use the tool on my phone?**  
+Currently the tool is configured for use on a desktop.  
+
 **Can I edit my own audio?**  
 The Open Transcript Tool code-base for this tool is open source software. Developers can visit the [Github Repo](https://github.com/NYPL/transcript-editor) to get started setting up their own instance of the tool.
 
