@@ -3,7 +3,6 @@ namespace :cache do
   # Usage rake cache:clear
   desc "Clear a cache fragment"
   task :clear => :environment do |task, args|
-    keys = [args[:keys].split(':')].flatten.uniq
 
     puts "Clearing all cache: #{Rails.cache.clear}"
   end
