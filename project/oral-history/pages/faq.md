@@ -11,7 +11,7 @@ All your work is automatically saved. When you come to a stopping point, you don
 This is a community effort. We display total progress made by the community in the transcript. Since we require several people to edit each transcript, the overall progress will appear less than your individual progress. Log in at the "Track Progress" to keep track of your individual progress through interviews.  
 
 **What happens if I make a mistake?**  
-Don't worry! Edit the transcription as best you can from what you hear. Several people will edit each transcript to help ensure accuracy.
+Don't worry! Edit the transcript as best you can from what you hear. Several people will edit each transcript to help ensure accuracy.
 
 **The audio repeats on two lines. Which line should I transcribe it on?**  
 Listen closely. If a word is cut off on one line, transcribe it on the line where you can hear it completely. If a word is spoken in it's entirety on two lines, use your best judgment to transcribe it on just one line. These tricky transcriptions will be smoothed out during the verify stage.  

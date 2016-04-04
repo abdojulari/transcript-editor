@@ -33,6 +33,8 @@ By editing transcripts, you're helping to create accurate transcripts helping to
 
 Questions? Comments? Contact us at <a href="mailto:oralhistory@nypl.org?Subject=Transcript%20Tool" target="_top">oralhistory@nypl.org</a>.
 
+Want to receive updates about NYPL digital initiatives? <a href="http://pages.email.nypl.org/page.aspx?QS=38dfbe491fab00eaf4cf72e90d3ec983badf3c1e4233b4d25455af22dde7e80a">Sign up for our e-mail newsletter.</a>
+
 # Credits
 In collaboration with the Outreach Services and Adult Programming Department and [NYPL Labs](http://www.nypl.org/collections/labs) at the New York Public Library.
 
@@ -45,3 +47,6 @@ In collaboration with the Outreach Services and Adult Programming Department and
 * **Mauricio Giraldo**: Manager of Product and R&D Group, NYPL Labs  
 * **Ben Vershbow**: Director NYPL Labs  
 * **Anita Favretto**: Associate Director, Outreach Services and Adult Programming
+
+* **<a href="http://themoth.org/">The Moth</a>  
+* **<a href="https://www.popuparchive.com/">Pop Up Archive</a>  
