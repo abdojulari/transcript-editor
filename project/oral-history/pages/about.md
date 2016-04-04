@@ -3,7 +3,10 @@
 
 # The Problem: Unsearchable, Inaccessible Audio
 
-Today thousands of libraries and public media organizations publish large digital audio collections online. Most of these, however, lack transcripts or basic metadata, leaving them invisible to search engines and inaccessible to prospective users. Recent advances in speech-to-text technologies have made great progress in opening audio to the web, but they lack total accuracy and there’s still more to be done. We launched [Together We Listen](http://togetherwelisten.nypl.org/) a project in partnership with [The Moth](http://themoth.org/) to start solving this problem. With generous support provided by the [Knight Prototype Fund](http://www.knightfoundation.org/grants/201551666/), an initiative of the John S. and James L. Knight Foundation.
+Today thousands of libraries and public media organizations publish large digital audio collections online. Most of these, however, lack transcripts or basic metadata, leaving them invisible to search engines and inaccessible to prospective users. Recent advances in speech-to-text technologies have made great progress in opening audio to the web, but the transcripts they produce are still error-prone and require careful human editing to reach full accuracy. Transcripts are important because they make audio content searchable online, and accessible to people with hearing disabilities.
+
+ We launched [Together We Listen](http://togetherwelisten.nypl.org/) a project in partnership with [The Moth](http://themoth.org/), with generous support from the [Knight Prototype Fund](http://www.knightfoundation.org/grants/201551666/), to explore an approach to solving this problem.
+
 
 # The Solution: You!
 
