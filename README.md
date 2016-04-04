@@ -463,3 +463,7 @@ Coming soon... this section will walk through how to update your website with re
 ## Retrieving your finished transcripts
 
 Coming soon... this section will walk through how you can download all your completed transcripts in a variety of formats for use elsewhere
+
+# License
+
+See [LICENSE](LICENSE).
