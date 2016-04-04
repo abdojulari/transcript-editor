@@ -8,11 +8,11 @@ Today thousands of libraries and public media organizations publish large digita
  We launched [Together We Listen](http://togetherwelisten.nypl.org/) a project in partnership with [The Moth](http://themoth.org/), with generous support from the [Knight Prototype Fund](http://www.knightfoundation.org/grants/201551666/), to explore an approach to solving this problem.
 
 
-# The Solution: You!
+# The Solution? You.
 
 This is a community effort. In order for audio to be made more accurately searchable, people and computers need to work together! We’ve created transcripts of over 1,000 stories in our ongoing Community Oral History Project using the amazing computer generated transcription services of [Pop Up Archive](https://popuparchive.com/). Now, we’re inviting the public to correct these and make them more accessible for current and future generations of users. Yes, this is where **YOU** come in!
 
-# Start Contributing:
+# Pitch In!
 
 NYPL Community Oral History Project Transcript Editor will allow you to listen to an oral history while you edit its transcript. Each transcript was computer generated using speech-to-text software and **will contain errors** (which is why we need your help!).
 
