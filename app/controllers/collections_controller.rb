@@ -3,7 +3,7 @@ class CollectionsController < ApplicationController
 
   # GET /collections.json
   def index
-    @collections = Collection.all
+    @collections = Collection.getForHomepage
   end
 
   # GET /collections/the-uid.json

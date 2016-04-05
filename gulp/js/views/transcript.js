@@ -267,7 +267,7 @@ app.views.Transcript = app.views.Base.extend({
     // add multiple speaker option
     var speaker_options = _.map(speakers, _.clone);
     if (speakers.length > 1) {
-      speaker_options.push({id: -1, name: "Muliple Speakers"});
+      speaker_options.push({id: -1, name: "Multiple Speakers"});
     }
     this.data.transcript.speaker_options = speaker_options;
 
