@@ -48,5 +48,5 @@ In collaboration with the Outreach Services and Adult Programming Department and
 * **Ben Vershbow**: Director NYPL Labs  
 * **Anita Favretto**: Associate Director, Outreach Services and Adult Programming
 
-* **<a href="http://themoth.org/">The Moth</a>  
-* **<a href="https://www.popuparchive.com/">Pop Up Archive</a>  
+* **<a href="http://themoth.org/">The Moth</a>**
+* **<a href="https://www.popuparchive.com/">Pop Up Archive</a>**
