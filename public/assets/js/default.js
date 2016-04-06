@@ -696,6 +696,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
 
   routes: {
     "":                     "index",
+    "?*queryString":        "index",
     "transcripts/:id":      "transcriptEdit",
     "page/:id":             "pageShow",
     "dashboard":            "dashboard"
@@ -716,8 +717,9 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var footer = new app.views.Footer(data);
   },
 
-  index: function() {
+  index: function(queryString) {
     var data = this._getData(data);
+    if (queryString) data.queryParams = deparam(queryString);
     var header = new app.views.Header(data);
     var main = new app.views.Home(data);
     var footer = new app.views.Footer(data);
@@ -1809,27 +1811,55 @@ app.views.TranscriptFacets = app.views.Base.extend({
   },
 
   initFacets: function(){
+    // set defaults
+    var active_collection_id = 'ALL';
+    var active_sort = 'title';
+    var active_order = 'asc';
+    var active_keyword = '';
+
+    // check for query params
+    if (this.data.queryParams) {
+      var params = this.data.queryParams;
+      if (params.sort_by) active_sort = params.sort_by;
+      if (params.order) active_order = params.order;
+      if (params.collection_id) active_collection_id = params.collection_id;
+      if (params.keyword) active_keyword = params.keyword;
+    }
+
     // add an "all collections" options
     if (this.data.collections.length) {
       var all_collections = {
         id: 'ALL',
-        title: 'All Collections',
-        active: true
+        title: 'All Collections'
       };
       this.data.collections.unshift(all_collections);
+      this.data.collections = _.map(this.data.collections, function(c){
+        c.active = false;
+        if (c.id == active_collection_id) c.active = true;
+        return c;
+      });
       this.data.active_collection = _.findWhere(this.data.collections, {active: true});
     }
 
+    // set sort option
     this.data.sort_options = [
-      {id: 'title_asc', name: 'title', order: 'ASC', label: 'Title (A to Z)', active: true},
-      {id: 'title_desc', name: 'title', order: 'DESC', label: 'Title (Z to A)'},
-      {id: 'percent_completed_desc', name: 'percent_completed', order: 'DESC', label: 'Completeness (most to least)'},
-      {id: 'percent_completed_asc', name: 'percent_completed', order: 'ASC', label: 'Completeness (least to most)'},
-      {id: 'duration_asc', name: 'duration', order: 'ASC', label: 'Duration (short to long)'},
-      {id: 'duration_desc', name: 'duration', order: 'DESC', label: 'Duration (long to short)'},
-      {id: 'collection_asc', name: 'collection_id', order: 'ASC', label: 'Collection'}
+      {id: 'title_asc', name: 'title', order: 'asc', label: 'Title (A to Z)'},
+      {id: 'title_desc', name: 'title', order: 'desc', label: 'Title (Z to A)'},
+      {id: 'percent_completed_desc', name: 'percent_completed', order: 'desc', label: 'Completeness (most to least)'},
+      {id: 'percent_completed_asc', name: 'percent_completed', order: 'asc', label: 'Completeness (least to most)'},
+      {id: 'duration_asc', name: 'duration', order: 'asc', label: 'Duration (short to long)'},
+      {id: 'duration_desc', name: 'duration', order: 'desc', label: 'Duration (long to short)'},
+      {id: 'collection_asc', name: 'collection_id', order: 'asc', label: 'Collection'}
     ];
+    this.data.sort_options = _.map(this.data.sort_options, function(option){
+      option.active = false;
+      if (option.name == active_sort && option.order == active_order) option.active = true;
+      return option;
+    });
     this.data.active_sort = _.findWhere(this.data.sort_options, {active: true});
+
+    // set keyword
+    this.data.active_keyword = active_keyword;
   },
 
   render: function(){
@@ -2696,6 +2726,7 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     this.$facets = this.$('#transcript-facets');
     this.transcripts = [];
 
+    if (this.data.queryParams) this.loadParams(this.data.queryParams);
     this.loadTranscripts();
     this.loadCollections();
     this.loadListeners();
@@ -2704,7 +2735,12 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   addList: function(transcripts){
     this.transcripts = this.transcripts.concat(transcripts.toJSON());
 
-    this.addListToUI(transcripts.toJSON(), transcripts.hasMorePages(), true, (transcripts.getPage() > 1));
+    if (this.isFaceted()) {
+      this.facet();
+
+    } else {
+      this.addListToUI(transcripts.toJSON(), transcripts.hasMorePages(), true, (transcripts.getPage() > 1));
+    }
   },
 
   addListToUI: function(transcripts, has_more, append, scroll_to){
@@ -2777,7 +2813,7 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     // do the sorting
     if (this.sortName){
       transcripts = _.sortBy(transcripts, function(transcript){ return transcript[_this.sortName]; });
-      if (this.sortOrder=="DESC")
+      if (this.sortOrder.toLowerCase()=="desc")
         transcripts = transcripts.reverse();
     }
 
@@ -2796,6 +2832,11 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     // omit all filters with value "ALL"
     this.filters = _.omit(this.filters, function(value, key){ return value=='ALL'; });
     this.facet();
+    this.updateUrlParams();
+  },
+
+  isFaceted: function(){
+    return this.filters || this.sortName || this.sortOrder || this.searchKeyword;
   },
 
   loadCollections: function(){
@@ -2829,6 +2870,33 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     });
   },
 
+  loadParams: function(params){
+    var _this = this;
+
+    this.filters = this.filters || {};
+
+    _.each(params, function(value, key){
+      // sort name
+      if (key == 'sort_by') {
+        _this.sortName = value;
+      }
+      // sort order
+      else if (key == 'order') {
+        _this.sortOrder = value;
+      }
+      // keyword
+      else if (key == 'keyword') {
+        _this.searchKeyword = value;
+      }
+      // otherwise, assume it's a filter
+      else {
+        _this.filters[key] = value;
+      }
+    });
+
+    // console.log(this.filters, this.sortName, this.sortOrder, this.searchKeyword)
+  },
+
   loadTranscripts: function(){
     var _this = this;
 
@@ -2857,7 +2925,7 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   },
 
   renderFacets: function(collections){
-    this.facetsView = this.facetsView || new app.views.TranscriptFacets({collections: collections});
+    this.facetsView = this.facetsView || new app.views.TranscriptFacets({collections: collections, queryParams: this.data.queryParams});
     this.$facets.html(this.facetsView.render().$el);
   },
 
@@ -2874,6 +2942,31 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     this.sortName = name;
     this.sortOrder = order;
     this.facet();
+    this.updateUrlParams();
+  },
+
+  updateUrlParams: function(){
+    var data = {};
+    // check for sorting
+    if (this.sortName && this.sortOrder) {
+      data.sort_by = this.sortName;
+      data.order = this.sortOrder;
+    }
+    // check for filters
+    if (this.filters) {
+      _.each(this.filters, function(value, key){
+        data[key] = value;
+      });
+    }
+    // update URL if there's facet data
+    if (_.keys(data).length > 0 && window.history) {
+      var url = '/' + this.data.route.route + '?' + $.param(data);
+      window.history.pushState(data, document.title, url);
+
+    } else if (window.history) {
+      var url = '/' + this.data.route.route;
+      window.history.pushState(data, document.title, url);
+    }
   }
 
 });

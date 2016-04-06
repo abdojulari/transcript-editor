@@ -18,6 +18,7 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     this.$facets = this.$('#transcript-facets');
     this.transcripts = [];
 
+    if (this.data.queryParams) this.loadParams(this.data.queryParams);
     this.loadTranscripts();
     this.loadCollections();
     this.loadListeners();
@@ -26,7 +27,12 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   addList: function(transcripts){
     this.transcripts = this.transcripts.concat(transcripts.toJSON());
 
-    this.addListToUI(transcripts.toJSON(), transcripts.hasMorePages(), true, (transcripts.getPage() > 1));
+    if (this.isFaceted()) {
+      this.facet();
+
+    } else {
+      this.addListToUI(transcripts.toJSON(), transcripts.hasMorePages(), true, (transcripts.getPage() > 1));
+    }
   },
 
   addListToUI: function(transcripts, has_more, append, scroll_to){
@@ -99,7 +105,7 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     // do the sorting
     if (this.sortName){
       transcripts = _.sortBy(transcripts, function(transcript){ return transcript[_this.sortName]; });
-      if (this.sortOrder=="DESC")
+      if (this.sortOrder.toLowerCase()=="desc")
         transcripts = transcripts.reverse();
     }
 
@@ -118,6 +124,11 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     // omit all filters with value "ALL"
     this.filters = _.omit(this.filters, function(value, key){ return value=='ALL'; });
     this.facet();
+    this.updateUrlParams();
+  },
+
+  isFaceted: function(){
+    return this.filters || this.sortName || this.sortOrder || this.searchKeyword;
   },
 
   loadCollections: function(){
@@ -151,6 +162,33 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     });
   },
 
+  loadParams: function(params){
+    var _this = this;
+
+    this.filters = this.filters || {};
+
+    _.each(params, function(value, key){
+      // sort name
+      if (key == 'sort_by') {
+        _this.sortName = value;
+      }
+      // sort order
+      else if (key == 'order') {
+        _this.sortOrder = value;
+      }
+      // keyword
+      else if (key == 'keyword') {
+        _this.searchKeyword = value;
+      }
+      // otherwise, assume it's a filter
+      else {
+        _this.filters[key] = value;
+      }
+    });
+
+    // console.log(this.filters, this.sortName, this.sortOrder, this.searchKeyword)
+  },
+
   loadTranscripts: function(){
     var _this = this;
 
@@ -179,7 +217,7 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   },
 
   renderFacets: function(collections){
-    this.facetsView = this.facetsView || new app.views.TranscriptFacets({collections: collections});
+    this.facetsView = this.facetsView || new app.views.TranscriptFacets({collections: collections, queryParams: this.data.queryParams});
     this.$facets.html(this.facetsView.render().$el);
   },
 
@@ -196,6 +234,31 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     this.sortName = name;
     this.sortOrder = order;
     this.facet();
+    this.updateUrlParams();
+  },
+
+  updateUrlParams: function(){
+    var data = {};
+    // check for sorting
+    if (this.sortName && this.sortOrder) {
+      data.sort_by = this.sortName;
+      data.order = this.sortOrder;
+    }
+    // check for filters
+    if (this.filters) {
+      _.each(this.filters, function(value, key){
+        data[key] = value;
+      });
+    }
+    // update URL if there's facet data
+    if (_.keys(data).length > 0 && window.history) {
+      var url = '/' + this.data.route.route + '?' + $.param(data);
+      window.history.pushState(data, document.title, url);
+
+    } else if (window.history) {
+      var url = '/' + this.data.route.route;
+      window.history.pushState(data, document.title, url);
+    }
   }
 
 });
