@@ -73,6 +73,21 @@ class TranscriptLine < ActiveRecord::Base
       end
     end
 
+    # Candidate for consensus due to mathematical certainty
+    # E.g. two people submit the same edit; it doesn't matter who the third is
+    if status_id <= 1 && edits_filtered.length > 1 && edits_filtered.length < consensus["minLinesForConsensus"]
+      unless best_edit.nil? || best_edit[:group].nil?
+        # Assume there are minimum edits made for consensus
+        percent_agree = 1.0 * best_edit[:group][:count] / consensus["minLinesForConsensus"]
+        # Mark as completed
+        if percent_agree >= consensus["minPercentConsensus"]
+          completed_status = statuses.find{|s| s[:name]=="completed"}
+          status_id = completed_status[:id]
+          final_text = best_guess_text
+        end
+      end
+    end
+
     # Ready for review
     if status_id <= 1 && edits_filtered.length >= consensus["maxLineEdits"]
       reviewing_status = statuses.find{|s| s[:name]=="reviewing"}

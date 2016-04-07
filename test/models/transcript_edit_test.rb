@@ -314,4 +314,19 @@ class TranscriptEditTest < ActiveSupport::TestCase
 
     assert edit.normalizedText == correct_text, "Normalized text correct"
   end
+
+  # Consensus: two edits, both agree; choose that one (it doesn't matter what the third is)
+  test "consensus ten" do
+    line = seedLine({transcript_id: @transcript.id, sequence: 16, original_text: 'Waiting 2 take u away', guess_text: '', text: '', transcript_line_status_id: 1})
+    seedEdits([
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'sixteen_1', text: 'Waiting to take you away'},
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'sixteen_2', text: 'Waiting to take you away'}
+    ])
+    line.recalculate(nil, @project)
+    correct_text = "Waiting to take you away"
+
+    assert line.text == correct_text, "Correct text chosen"
+    assert line.guess_text == correct_text, "Correct guess chosen"
+    assert line.transcript_line_status_id == @status_completed.id, "Correct status: completed"
+  end
 end
