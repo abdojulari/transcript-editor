@@ -4,7 +4,7 @@
     <header id="modal-label"><%= title %> <a class="control toggle-play"></a></header>
     <div class="modal-content">
       <% _.each(edits, function(edit, i){ %>
-        <a class="option <%= edit.active ? 'active' : '' %>" edit-id="<%= edit.id %>"><%= edit.text %></a>
+        <a class="option <%= edit.active ? 'active' : '' %>" edit-id="<%= edit.id %>"><%= UTIL.escapeInput(edit.text) %></a>
       <% }) %>
     </div>
     <footer>

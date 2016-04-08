@@ -351,6 +351,10 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
 (function() {
   window.UTIL = {};
 
+  UTIL.escapeInput = function(str){
+    return str.replace(/"/g, '&quot;')
+  };
+
   UTIL.formatNumber = function(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
