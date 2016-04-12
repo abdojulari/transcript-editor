@@ -1,0 +1,20 @@
+<section class="modal <%= active ? 'active': '' %>" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+
+  <div class="modal-inner">
+    <header id="modal-label"><%= title %> <a class="control toggle-play"></a></header>
+    <div class="modal-content">
+      <p>The transcribed text: <strong><%= line.text %></strong></p>
+      <% _.each(flag_types, function(type, i){ %>
+        <a class="option <%= type.id == line.user_flag.flag_type_id ? 'active' : '' %>" type-id="<%= type.id %>" title="<%= type.description %>"><%= type.label %></a>
+      <% }) %>
+      <label for="text">Optionally add a comment:</label>
+      <textarea name="text" class="input-text"><%= line.user_flag.text %></textarea>
+    </div>
+    <footer>
+      <a class="button pull-right submit">Submit</a>
+    </footer>
+  </div>
+
+  <a class="modal-close modal-dismiss" title="Close this modal">x</a>
+
+</section>

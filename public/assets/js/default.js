@@ -747,6 +747,9 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var verifyView = new app.views.TranscriptLineVerify(data);
     modals.addModal(verifyView.$el);
 
+    var flagView = new app.views.TranscriptLineFlag(data);
+    modals.addModal(flagView.$el);
+
     var transcript_model = new app.models.Transcript({id: id});
     var main = new app.views.TranscriptEdit(_.extend({}, data, {el: '#main', model: transcript_model}));
   },
@@ -1593,7 +1596,8 @@ app.views.Transcript = app.views.Base.extend({
         line_statuses = this.data.transcript.transcript_line_statuses,
         speakers = this.data.transcript.speakers || [],
         superUserHiearchy = PROJECT.consensus.superUserHiearchy,
-        user_role = this.data.transcript.user_role;
+        user_role = this.data.transcript.user_role,
+        user_flags = this.data.transcript.user_flags;
 
     // map edits for easy lookup
     var user_edits_map = _.object(_.map(user_edits, function(edit) {
@@ -1617,6 +1621,11 @@ app.views.Transcript = app.views.Base.extend({
       return [""+speaker.id, speaker]
     }));
     var speaker_ids = _.pluck(speaker_options, 'id');
+
+    // map flags for easy lookup
+    var user_flags_map = _.object(_.map(user_flags, function(flag) {
+      return [""+flag.transcript_line_id, flag]
+    }));
 
     // keep track of lines that are being reviewed
     var lines_reviewing = 0;
@@ -1677,6 +1686,13 @@ app.views.Transcript = app.views.Base.extend({
       _this.data.transcript.lines[i].speaker = speaker;
       _this.data.transcript.lines[i].speaker_pos = speaker_pos;
       _this.data.transcript.lines[i].has_speakers = speakers.length > 1 ? true : false;
+
+      // check for flag
+      var user_flag = {flag_type_id: 0, text: ""};
+      if (_.has(user_flags_map, ""+line.id)) {
+        user_flag = user_flags_map[""+line.id];
+      }
+      _this.data.transcript.lines[i].user_flag = user_flag;
     });
 
     // add data about lines that are being reviewed
@@ -1743,11 +1759,13 @@ app.views.Transcript = app.views.Base.extend({
 
     var speakers = this.data.transcript.speaker_options;
     var transcript_id = this.data.transcript.id;
+    var flag_types = this.data.transcript.flag_types;
     _.each(this.data.transcript.lines, function(line) {
       var lineView = new app.views.TranscriptLine({
         transcript_id: transcript_id,
         line: line,
-        speakers: speakers
+        speakers: speakers,
+        flag_types: flag_types
       });
       $lines.append(lineView.$el);
     });
@@ -1908,6 +1926,106 @@ app.views.TranscriptFacets = app.views.Base.extend({
 
 });
 
+app.views.TranscriptLineFlag = app.views.Base.extend({
+
+  id: "transcript-line-flag",
+  className: "modal-wrapper",
+
+  template: _.template(TEMPLATES['transcript_line_flag.ejs']),
+
+  events: {
+    "click .option": "select",
+    "click .submit": "submit",
+    "click .toggle-play": "togglePlay"
+  },
+
+  initialize: function(data){
+    var _this = this;
+
+    // for storing line data
+    this.lines = {};
+
+    this.data = _.extend({}, data);
+    this.data.title = this.data.title || "Flag this transcript line";
+    this.data.active = this.data.active || false;
+
+    PubSub.subscribe('transcript.flags.load', function(ev, data) {
+      _this.onLoad(data);
+    });
+  },
+
+  loadFlags: function(onSuccess){
+    var _this = this;
+    $.getJSON(API_URL + "/flags.json", {transcript_line_id: this.data.line.id}, function(data) {
+      _this.data.flags = data.flags || [];
+      onSuccess && onSuccess();
+    });
+  },
+
+  onLoad: function(data){
+    if (!this.lines[data.line.id]) {
+      var line = _.extend({}, data.line);
+      this.lines[data.line.id] = line;
+    }
+    this.data.transcript_id = data.transcript_id;
+    this.data.flags = data.flags;
+    this.data.flag_types = data.flag_types;
+    this.data.line = this.lines[data.line.id];
+
+    this.show();
+  },
+
+  render: function(){
+    this.$el.html(this.template(this.data));
+  },
+
+  select: function(e){
+    e.preventDefault();
+
+    var $options = this.$('.option'),
+        $option = $(e.currentTarget),
+        type_id = parseInt($option.attr('type-id'));
+
+    $options.not('[type-id="'+type_id+'"]').removeClass('active');
+    $option.toggleClass('active');
+
+    // set selected flag type as active
+    var flag_type_id = 0;
+    if ($option.hasClass('active')) flag_type_id = type_id;
+    this.data.line.user_flag.flag_type_id = flag_type_id;
+  },
+
+  show: function(){
+    this.render();
+    PubSub.publish('modal.invoke', this.id);
+  },
+
+  submit: function(e){
+    e && e.preventDefault();
+
+    this.data.line.user_flag.text = this.$('.input-text').val();
+    this.lines[this.data.line.id] = _.extend({}, this.data.line);
+
+    var data = {
+      flag_type_id: this.data.line.user_flag.flag_type_id,
+      text: this.data.line.user_flag.text,
+      transcript_line_id: this.data.line.id,
+      transcript_id: this.data.transcript_id
+    };
+
+    $.post(API_URL + "/flags.json", {flag: data}, function(resp) {
+      PubSub.publish('modals.dismiss', true);
+    });
+  },
+
+  togglePlay: function(e){
+    e && e.preventDefault();
+
+    PubSub.publish('player.toggle-play', true);
+  }
+
+});
+
 app.views.TranscriptItem = app.views.Base.extend({
 
   template: _.template(TEMPLATES['transcript_item.ejs']),
@@ -2043,17 +2161,33 @@ app.views.TranscriptLine = app.views.Base.extend({
     this.line = this.data.line || {};
     this.edits = this.data.edits || [];
     this.speakers = this.data.speakers || [];
+    this.flag_types = this.data.flag_types || [];
+    this.flags = this.data.flags || [];
+    this.flagsLoaded = false;
     this.render();
   },
 
   flag: function(e){
-    e.preventDefault();
-    $(e.currentTarget).toggleClass('active');
+    if (e) {
+      e.preventDefault();
+      $(e.currentTarget).addClass('active');
+    }
+    var _this = this;
+
+    this.select();
+
+    PubSub.publish('transcript.flags.load', {
+      flags: this.flags,
+      line: this.line,
+      flag_types: this.flag_types,
+      transcript_id: this.data.transcript_id
+    });
+
   },
 
   loadEdits: function(onSuccess){
     var _this = this;
-    $.getJSON("/transcript_edits.json", {transcript_line_id: this.line.id}, function(data) {
+    $.getJSON(API_URL + "/transcript_edits.json", {transcript_line_id: this.line.id}, function(data) {
       if (data.edits && data.edits.length) {
         _this.edits = _this.parseEdits(data.edits);
         onSuccess && onSuccess();

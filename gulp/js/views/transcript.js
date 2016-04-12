@@ -252,7 +252,8 @@ app.views.Transcript = app.views.Base.extend({
         line_statuses = this.data.transcript.transcript_line_statuses,
         speakers = this.data.transcript.speakers || [],
         superUserHiearchy = PROJECT.consensus.superUserHiearchy,
-        user_role = this.data.transcript.user_role;
+        user_role = this.data.transcript.user_role,
+        user_flags = this.data.transcript.user_flags;
 
     // map edits for easy lookup
     var user_edits_map = _.object(_.map(user_edits, function(edit) {
@@ -276,6 +277,11 @@ app.views.Transcript = app.views.Base.extend({
       return [""+speaker.id, speaker]
     }));
     var speaker_ids = _.pluck(speaker_options, 'id');
+
+    // map flags for easy lookup
+    var user_flags_map = _.object(_.map(user_flags, function(flag) {
+      return [""+flag.transcript_line_id, flag]
+    }));
 
     // keep track of lines that are being reviewed
     var lines_reviewing = 0;
@@ -336,6 +342,13 @@ app.views.Transcript = app.views.Base.extend({
       _this.data.transcript.lines[i].speaker = speaker;
       _this.data.transcript.lines[i].speaker_pos = speaker_pos;
       _this.data.transcript.lines[i].has_speakers = speakers.length > 1 ? true : false;
+
+      // check for flag
+      var user_flag = {flag_type_id: 0, text: ""};
+      if (_.has(user_flags_map, ""+line.id)) {
+        user_flag = user_flags_map[""+line.id];
+      }
+      _this.data.transcript.lines[i].user_flag = user_flag;
     });
 
     // add data about lines that are being reviewed
@@ -402,11 +415,13 @@ app.views.Transcript = app.views.Base.extend({
 
     var speakers = this.data.transcript.speaker_options;
     var transcript_id = this.data.transcript.id;
+    var flag_types = this.data.transcript.flag_types;
     _.each(this.data.transcript.lines, function(line) {
       var lineView = new app.views.TranscriptLine({
         transcript_id: transcript_id,
         line: line,
-        speakers: speakers
+        speakers: speakers,
+        flag_types: flag_types
       });
       $lines.append(lineView.$el);
     });

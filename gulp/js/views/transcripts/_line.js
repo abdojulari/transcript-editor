@@ -15,17 +15,33 @@ app.views.TranscriptLine = app.views.Base.extend({
     this.line = this.data.line || {};
     this.edits = this.data.edits || [];
     this.speakers = this.data.speakers || [];
+    this.flag_types = this.data.flag_types || [];
+    this.flags = this.data.flags || [];
+    this.flagsLoaded = false;
     this.render();
   },
 
   flag: function(e){
-    e.preventDefault();
-    $(e.currentTarget).toggleClass('active');
+    if (e) {
+      e.preventDefault();
+      $(e.currentTarget).addClass('active');
+    }
+    var _this = this;
+
+    this.select();
+
+    PubSub.publish('transcript.flags.load', {
+      flags: this.flags,
+      line: this.line,
+      flag_types: this.flag_types,
+      transcript_id: this.data.transcript_id
+    });
+
   },
 
   loadEdits: function(onSuccess){
     var _this = this;
-    $.getJSON("/transcript_edits.json", {transcript_line_id: this.line.id}, function(data) {
+    $.getJSON(API_URL + "/transcript_edits.json", {transcript_line_id: this.line.id}, function(data) {
       if (data.edits && data.edits.length) {
         _this.edits = _this.parseEdits(data.edits);
         onSuccess && onSuccess();

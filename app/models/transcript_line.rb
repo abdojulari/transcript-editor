@@ -6,8 +6,14 @@ class TranscriptLine < ActiveRecord::Base
   belongs_to :transcript_line_status
   belongs_to :transcript
   has_many :transcript_edits
+  has_many :flags
 
   default_scope { order(:sequence) }
+
+  def incrementFlag
+    new_flag_count = flag_count + 1
+    update_attributes(flag_count: new_flag_count)
+  end
 
   def self.getEdited
     TranscriptLine.joins(:transcript_edits).distinct

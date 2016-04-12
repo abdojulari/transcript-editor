@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160331215720) do
+ActiveRecord::Schema.define(version: 20160411195640) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,32 @@ ActiveRecord::Schema.define(version: 20160331215720) do
   add_index "collections", ["project_uid"], name: "index_collections_on_project_uid", using: :btree
   add_index "collections", ["uid"], name: "index_collections_on_uid", unique: true, using: :btree
   add_index "collections", ["vendor_id"], name: "index_collections_on_vendor_id", using: :btree
+
+  create_table "flag_types", force: :cascade do |t|
+    t.string "name",        default: "", null: false
+    t.string "label",       default: "", null: false
+    t.string "description", default: "", null: false
+    t.string "category",    default: "", null: false
+  end
+
+  add_index "flag_types", ["category"], name: "index_flag_types_on_category", using: :btree
+  add_index "flag_types", ["name"], name: "index_flag_types_on_name", unique: true, using: :btree
+
+  create_table "flags", force: :cascade do |t|
+    t.integer  "transcript_id",      default: 0,  null: false
+    t.integer  "transcript_line_id", default: 0,  null: false
+    t.integer  "user_id",            default: 0,  null: false
+    t.string   "session_id",         default: "", null: false
+    t.integer  "flag_type_id",       default: 0,  null: false
+    t.string   "text",               default: "", null: false
+    t.integer  "is_deleted",         default: 0,  null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  add_index "flags", ["transcript_id"], name: "index_flags_on_transcript_id", using: :btree
+  add_index "flags", ["transcript_line_id"], name: "index_flags_on_transcript_line_id", using: :btree
+  add_index "flags", ["user_id"], name: "index_flags_on_user_id", using: :btree
 
   create_table "pg_search_documents", force: :cascade do |t|
     t.text     "content"
@@ -88,6 +114,7 @@ ActiveRecord::Schema.define(version: 20160331215720) do
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
     t.string   "guess_text",                default: "", null: false
+    t.integer  "flag_count",                default: 0,  null: false
   end
 
   add_index "transcript_lines", ["speaker_id"], name: "index_transcript_lines_on_speaker_id", using: :btree

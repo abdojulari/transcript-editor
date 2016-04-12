@@ -22,12 +22,16 @@ class TranscriptsController < ApplicationController
         @user_edits = []
         @transcript_line_statuses = TranscriptLineStatus.allCached
         @transcript_speakers = TranscriptSpeaker.getByTranscriptId(@transcript.id)
+        @flag_types = FlagType.byCategory("error")
+        @user_flags = []
 
         if user_signed_in?
           @user_edits = TranscriptEdit.getByTranscriptUser(@transcript.id, current_user.id)
           @user_role = current_user.user_role
+          @user_flags = Flag.getByTranscriptUser(@transcript.id, current_user.id)
         else
           @user_edits = TranscriptEdit.getByTranscriptSession(@transcript.id, session.id)
+          @user_flags = Flag.getByTranscriptSession(@transcript.id, session.id)
         end
       }
     end

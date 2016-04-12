@@ -5,7 +5,7 @@ $transcript-line-height: 56px;
 $transcript-line-speaker-width: 40px;
 $transcript-line-time-width: 80px;
 $transcript-line-status-width: 34px;
-$transcript-line-options-width: 0;
+$transcript-line-options-width: 80px;
 $transcript-line-options-reviewing-width: 80px;
 
 .transcript-lines {
@@ -195,7 +195,7 @@ $transcript-line-options-reviewing-width: 80px;
   }
   .text {
     margin-left: $transcript-line-time-width + $transcript-line-status-width;
-    margin-right: $transcript-line-options-width;
+    margin-right: 0;
     width: auto;
     padding-left: 10px;
     @include box-sizing();
@@ -296,6 +296,9 @@ $transcript-line-options-reviewing-width: 80px;
   }
   .line.reviewing .text {
     margin-right: $transcript-line-options-reviewing-width;
+  }
+  .line.completed .text {
+    margin-right: $transcript-line-options-width;
   }
 
   .speaker {

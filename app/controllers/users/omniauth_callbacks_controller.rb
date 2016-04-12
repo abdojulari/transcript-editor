@@ -11,6 +11,7 @@ class Users::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksCon
 
       # Assume previous session belongs to user
       TranscriptEdit.updateUserSessions(session.id, current_user.id)
+      Flag.updateUserSessions(session.id, current_user.id)
 
       # Check if user is an admin
       project = Project.getActive

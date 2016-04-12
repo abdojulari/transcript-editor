@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :flags, only: [:index, :show, :create]
   resources :transcript_speaker_edits, only: [:create]
   resources :transcript_edits, only: [:index, :show, :create]
   resources :transcripts, only: [:index, :show]
