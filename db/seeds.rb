@@ -58,7 +58,6 @@ flag_types = [
   { name: 'misspellings', label: 'Contains misspellings', category: 'error', description: 'Line contains text that is incorrect or misspelled' },
   { name: 'repeated', label: 'Contains repeated word(s)', category: 'error', description: 'Line contains text that is repeated on the same, previous, or next line' },
   { name: 'missing', label: 'Missing word(s)', category: 'error', description: 'Line is missing text that was spoken in the audio' },
-  { name: 'audio_misaligned', label: 'Audio is mis-aligned', category: 'error', description: 'The audio does not match the text' },
   { name: 'misc_error', label: 'Other', category: 'error', description: 'Any other type of error' }
 ]
 flag_types.each do |attributes|

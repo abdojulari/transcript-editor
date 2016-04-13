@@ -3,7 +3,12 @@ class Flag < ActiveRecord::Base
 
   def self.getByLine(transcript_line_id)
     Flag
-      .select('flags.*, flag_types.label as flag_type_label, COALESCE(users.name, \'anonymous\') as user_name, COALESCE(user_roles.name, \'guest\') as user_role, COALESCE(user_roles.hiearchy, 0) as user_hiearchy')
+      .select('flags.*, flag_types.label as flag_type_label,
+      CASE
+        WHEN users.id IS null THEN \'anonymous user\'
+        WHEN user_roles.name IS NOT null THEN user_roles.name
+        ELSE \'registered user\'
+      END as user_name, COALESCE(user_roles.name, \'guest\') as user_role, COALESCE(user_roles.hiearchy, 0) as user_hiearchy')
       .joins('INNER JOIN flag_types ON flags.flag_type_id = flag_types.id LEFT OUTER JOIN users ON users.id = flags.user_id LEFT OUTER JOIN user_roles ON user_roles.id = users.user_role_id')
       .where("flags.transcript_line_id = :transcript_line_id AND flags.is_deleted = :is_deleted AND flag_types.category = :category",
       {transcript_line_id: transcript_line_id, is_deleted: 0, category: 'error'})

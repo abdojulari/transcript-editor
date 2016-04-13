@@ -8,7 +8,7 @@
         <% _.each(flag_types, function(type, i){ %>
           <a class="option <%= type.id == line.user_flag.flag_type_id ? 'active' : '' %>" type-id="<%= type.id %>" title="<%= type.description %>"><%= type.label %></a>
         <% }) %>
-        <label for="text">Optionally add a comment:</label>
+        <label for="text">Add a comment (optional):</label>
         <textarea name="text" class="input-text"><%= line.user_flag.text %></textarea>
       </div>
       <div id="flag-index" class="flag-content">
@@ -19,7 +19,7 @@
             <% if (flag.is_resolved) { %>
               <em>(resolved)</em>
             <% } %>
-            <div class="flag-meta">by <%= flag.user_name %> (<%= flag.user_role %>) <%= UTIL.formatDate(flag.created_at) %></div>
+            <div class="flag-meta">by <%= flag.user_name %> on <%= UTIL.formatDate(flag.created_at) %></div>
           </div>
         <% }) %>
       </div>
