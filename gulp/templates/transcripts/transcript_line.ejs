@@ -23,6 +23,9 @@
     <% if (status.name == 'reviewing' && !user_text) { %>
       <a class="button verify" title="Choose the best submitted edit">Verify</a>
     <% } else if (status.name == 'completed') { %>
+      <% if (can_resolve && flag_count > 0) { %>
+        <a class="button resolve" title="Mark this line as resolved"></a>
+      <% } %>
       <a class="button flag <%= flag_count > 0 ? 'active' : '' %>" title="Flag this line as incorrect"></a>
     <% } %>
     <!-- <a class="button star" title="Star this line"></a> -->

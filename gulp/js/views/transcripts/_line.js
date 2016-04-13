@@ -6,6 +6,7 @@ app.views.TranscriptLine = app.views.Base.extend({
     "click": "select",
     "click .star": "star",
     "click .flag": "flag",
+    "click .resolve": "resolve",
     "click .verify": "verify",
     "click .speaker-option": "selectSpeaker"
   },
@@ -86,6 +87,16 @@ app.views.TranscriptLine = app.views.Base.extend({
 
   render: function(){
     this.$el.html(this.template(_.extend({},this.line,{speakers: this.speakers})));
+  },
+
+  resolve: function(e){
+    if (e) {
+      e.preventDefault();
+      $(e.currentTarget).addClass('active');
+    }
+    
+    $.post(API_URL + "/transcript_lines/"+this.line.id+"/resolve.json");
+    this.$('.button.flag').removeClass('active');
   },
 
   select: function(e){

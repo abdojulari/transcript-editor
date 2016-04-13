@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   match 'page/:id' => 'default#index', :via => [:get]
   match 'dashboard' => 'default#index', :via => [:get]
+  match 'transcript_lines/:id/resolve' => 'transcript_lines#resolve', :via => [:post]
 
   # admin
   namespace :admin do

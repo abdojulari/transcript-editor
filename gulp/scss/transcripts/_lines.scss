@@ -242,7 +242,8 @@ $transcript-line-options-reviewing-width: 80px;
     }
 
     .star,
-    .flag {
+    .flag,
+    .resolve {
       background: none;
       font-size: 1.4em;
       color: $coolgray-dark-color;
@@ -272,6 +273,17 @@ $transcript-line-options-reviewing-width: 80px;
       }
       &.active {
         color: $red-color;
+      }
+    }
+
+    .resolve {
+      &:before {
+        @include icon("\f05d");
+      }
+      &:hover:before,
+      &.active:before {
+        content: "\f058";
+        color: $green-dark-color;
       }
     }
   }

@@ -16,6 +16,9 @@
         <% _.each(flags, function(flag, i){ %>
           <div class="flag">
             <span class="flag-type"><%= flag.flag_type_label %></span><%= flag.text.length ? ': ' + flag.text : '' %>
+            <% if (flag.is_resolved) { %>
+              <em>(resolved)</em>
+            <% } %>
             <div class="flag-meta">by <%= flag.user_name %> (<%= flag.user_role %>) <%= UTIL.formatDate(flag.created_at) %></div>
           </div>
         <% }) %>

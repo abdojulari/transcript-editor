@@ -349,6 +349,11 @@ app.views.Transcript = app.views.Base.extend({
         user_flag = user_flags_map[""+line.id];
       }
       _this.data.transcript.lines[i].user_flag = user_flag;
+
+      // can user resolve a flag
+      var can_resolve = false;
+      if (user_role && user_role.hiearchy >= superUserHiearchy) can_resolve = true;
+      _this.data.transcript.lines[i].can_resolve = can_resolve;
     });
 
     // add data about lines that are being reviewed

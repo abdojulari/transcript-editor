@@ -15,6 +15,10 @@ class TranscriptLine < ActiveRecord::Base
     update_attributes(flag_count: new_flag_count)
   end
 
+  def resolve
+    update_attributes(flag_count: 0)
+  end
+
   def self.getEdited
     TranscriptLine.joins(:transcript_edits).distinct
   end

@@ -17,6 +17,11 @@ class Flag < ActiveRecord::Base
     Flag.where(transcript_id: transcript_id, user_id: user_id, is_deleted: 0)
   end
 
+  def self.resolve(transcript_line_id)
+    flags = Flag.where(transcript_line_id: transcript_line_id)
+    flags.update_all(is_resolved: 1)
+  end
+
   def self.updateUserSessions(session_id, user_id)
     flags = Flag.where(session_id: session_id)
     flags.update_all(user_id: user_id)

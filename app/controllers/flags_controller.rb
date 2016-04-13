@@ -20,9 +20,9 @@ class FlagsController < ApplicationController
     # Retrieve existing edit for user or session
     if user_signed_in?
       params[:flag][:user_id] = current_user.id
-      @flag = Flag.find_by user_id: current_user.id, transcript_line_id: flag[:transcript_line_id]
+      @flag = Flag.find_by user_id: current_user.id, transcript_line_id: flag[:transcript_line_id], is_resolved: 0
     else
-      @flag = Flag.find_by session_id: flag[:session_id], transcript_line_id: flag[:transcript_line_id]
+      @flag = Flag.find_by session_id: flag[:session_id], transcript_line_id: flag[:transcript_line_id], is_resolved: 0
     end
 
     success = false
@@ -75,6 +75,6 @@ class FlagsController < ApplicationController
     end
 
     def flag_params
-      params.require(:flag).permit(:transcript_id, :transcript_line_id, :flag_type_id, :session_id, :user_id, :text)
+      params.require(:flag).permit(:transcript_id, :transcript_line_id, :flag_type_id, :session_id, :user_id, :text, :is_resolved)
     end
 end

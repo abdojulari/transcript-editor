@@ -1698,6 +1698,11 @@ app.views.Transcript = app.views.Base.extend({
         user_flag = user_flags_map[""+line.id];
       }
       _this.data.transcript.lines[i].user_flag = user_flag;
+
+      // can user resolve a flag
+      var can_resolve = false;
+      if (user_role && user_role.hiearchy >= superUserHiearchy) can_resolve = true;
+      _this.data.transcript.lines[i].can_resolve = can_resolve;
     });
 
     // add data about lines that are being reviewed
@@ -2165,6 +2170,7 @@ app.views.TranscriptLine = app.views.Base.extend({
     "click": "select",
     "click .star": "star",
     "click .flag": "flag",
+    "click .resolve": "resolve",
     "click .verify": "verify",
     "click .speaker-option": "selectSpeaker"
   },
@@ -2245,6 +2251,16 @@ app.views.TranscriptLine = app.views.Base.extend({
 
   render: function(){
     this.$el.html(this.template(_.extend({},this.line,{speakers: this.speakers})));
+  },
+
+  resolve: function(e){
+    if (e) {
+      e.preventDefault();
+      $(e.currentTarget).addClass('active');
+    }
+    
+    $.post(API_URL + "/transcript_lines/"+this.line.id+"/resolve.json");
+    this.$('.button.flag').removeClass('active');
   },
 
   select: function(e){
