@@ -30,6 +30,15 @@ app.views.TranscriptLine = app.views.Base.extend({
 
     this.select();
 
+    if (!this.flagsLoaded) {
+      this.flagsLoaded = true;
+
+      this.loadFlags(function(){
+        _this.flag();
+      });
+      return false;
+    }
+
     PubSub.publish('transcript.flags.load', {
       flags: this.flags,
       line: this.line,
@@ -46,6 +55,14 @@ app.views.TranscriptLine = app.views.Base.extend({
         _this.edits = _this.parseEdits(data.edits);
         onSuccess && onSuccess();
       }
+    });
+  },
+
+  loadFlags: function(onSuccess){
+    var _this = this;
+    $.getJSON(API_URL + "/flags.json", {transcript_line_id: this.line.id}, function(data) {
+      _this.flags = data.flags || [];
+      onSuccess && onSuccess();
     });
   },
 

@@ -335,6 +335,11 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
     return str.replace(/"/g, '&quot;')
   };
 
+  UTIL.formatDate = function(str) {
+    var d = new Date(str);
+    return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate();
+  };
+
   UTIL.formatNumber = function(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };

@@ -8,7 +8,9 @@ app.views.TranscriptLineFlag = app.views.Base.extend({
   events: {
     "click .option": "select",
     "click .submit": "submit",
-    "click .toggle-play": "togglePlay"
+    "click .toggle-play": "togglePlay",
+    "click .view-flags": "viewFlags",
+    "click .view-add-flag": "viewForm"
   },
 
   initialize: function(data){
@@ -23,14 +25,6 @@ app.views.TranscriptLineFlag = app.views.Base.extend({
 
     PubSub.subscribe('transcript.flags.load', function(ev, data) {
       _this.onLoad(data);
-    });
-  },
-
-  loadFlags: function(onSuccess){
-    var _this = this;
-    $.getJSON(API_URL + "/flags.json", {transcript_line_id: this.data.line.id}, function(data) {
-      _this.data.flags = data.flags || [];
-      onSuccess && onSuccess();
     });
   },
 
@@ -94,6 +88,20 @@ app.views.TranscriptLineFlag = app.views.Base.extend({
     e && e.preventDefault();
 
     PubSub.publish('player.toggle-play', true);
+  },
+
+  viewFlags: function(e){
+    e && e.preventDefault();
+
+    this.$('footer .button, .flag-content').removeClass('active');
+    this.$('.view-add-flag, #flag-index').addClass('active');
+  },
+
+  viewForm: function(e){
+    e && e.preventDefault();
+
+    this.$('footer .button, .flag-content').removeClass('active');
+    this.$('.submit, .view-flags, #flag-add').addClass('active');
   }
 
 });

@@ -7,6 +7,32 @@
     font-size: 1.8em;
   }
 
+  .flag-content {
+    display: none;
+    &.active {
+      display: block;
+    }
+  }
+  .flag {
+    padding: 10px 0;
+    border-top: 1px solid #ccc;
+
+    .flag-type {
+      font-weight: bold;
+    }
+    .flag-meta {
+      font-style: italic;
+      color: $coolgray-color;
+      font-size: 0.9em;
+    }
+  }
+  footer .button {
+    display: none;
+    &.active {
+      display: inline-block;
+    }
+  }
+
   .option {
     display: block;
     background: $coolgray-dark-color;

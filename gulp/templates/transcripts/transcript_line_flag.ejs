@@ -3,15 +3,30 @@
   <div class="modal-inner">
     <header id="modal-label"><%= title %> <a class="control toggle-play"></a></header>
     <div class="modal-content">
-      <p>The transcribed text: <strong><%= line.text %></strong></p>
-      <% _.each(flag_types, function(type, i){ %>
-        <a class="option <%= type.id == line.user_flag.flag_type_id ? 'active' : '' %>" type-id="<%= type.id %>" title="<%= type.description %>"><%= type.label %></a>
-      <% }) %>
-      <label for="text">Optionally add a comment:</label>
-      <textarea name="text" class="input-text"><%= line.user_flag.text %></textarea>
+      <div id="flag-add" class="flag-content active">
+        <p>The transcribed text: <strong><%= line.text %></strong></p>
+        <% _.each(flag_types, function(type, i){ %>
+          <a class="option <%= type.id == line.user_flag.flag_type_id ? 'active' : '' %>" type-id="<%= type.id %>" title="<%= type.description %>"><%= type.label %></a>
+        <% }) %>
+        <label for="text">Optionally add a comment:</label>
+        <textarea name="text" class="input-text"><%= line.user_flag.text %></textarea>
+      </div>
+      <div id="flag-index" class="flag-content">
+        <p>The transcribed text: <strong><%= line.text %></strong></p>
+        <% _.each(flags, function(flag, i){ %>
+          <div class="flag">
+            <span class="flag-type"><%= flag.flag_type_label %></span><%= flag.text.length ? ': ' + flag.text : '' %>
+            <div class="flag-meta">by <%= flag.user_name %> (<%= flag.user_role %>) <%= UTIL.formatDate(flag.created_at) %></div>
+          </div>
+        <% }) %>
+      </div>
     </div>
     <footer>
-      <a class="button pull-right submit">Submit</a>
+      <% if (flags.length > 0) { %>
+      <a class="button pull-left content-link view-flags active">View All Flags</a>
+      <a class="button pull-left content-link view-add-flag">Add A Flag</a>
+      <% } %>
+      <a class="button pull-right submit active">Submit</a>
     </footer>
   </div>
 
