@@ -111,6 +111,7 @@ class TranscriptLine < ActiveRecord::Base
     end
 
     # Update line if it has changed
+    transcript = Transcript.find(transcript_id)
     status_changed = (status_id != transcript_line_status_id)
     old_status_id = transcript_line_status_id
     if status_changed || best_guess_text != guess_text
@@ -118,10 +119,12 @@ class TranscriptLine < ActiveRecord::Base
 
       # Update transcript if line status has changed
       if status_changed
-        transcript = Transcript.find(transcript_id)
         transcript.delta(old_status_id, status_id, statuses)
       end
     end
+
+    # Update user count
+    transcript.updateUsersContributed()
   end
 
   def recalculateSpeaker(edits=nil, project=nil)

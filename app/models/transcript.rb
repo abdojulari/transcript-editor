@@ -74,8 +74,10 @@ class Transcript < ActiveRecord::Base
     changed = false
     new_lines_completed = lines_completed
     new_lines_edited = lines_edited
+    new_lines_reviewing = lines_reviewing
     new_percent_completed = percent_completed
     new_percent_edited = percent_edited
+    new_percent_reviewing = percent_reviewing
 
     # retrieve statuses
     before_status = statuses.find{|s| s[:id]==line_status_id_before}
@@ -98,12 +100,40 @@ class Transcript < ActiveRecord::Base
       changed = true
     end
 
+    # Case: not reviewing before, reviewing after
+    if (!before_status || before_status.name!="reviewing") && after_status && after_status.name=="reviewing"
+      new_lines_reviewing += 1
+      changed = true
+
+    # Case: reviewing before, not reviewing after
+    elsif before_status && before_status.name=="reviewing" && (!after_status || after_status.name!="reviewing")
+      new_lines_reviewing -= 1
+      changed = true
+    end
+
     # Update
     if changed
       new_percent_edited = (1.0 * new_lines_edited / lines * 100).round.to_i
       new_percent_completed = (1.0 * new_lines_completed / lines * 100).round.to_i
+      new_percent_reviewing = (1.0 * new_lines_reviewing / lines * 100).round.to_i
 
-      update_attributes(lines_edited: new_lines_edited, lines_completed: new_lines_completed, percent_edited: new_percent_edited, percent_completed: new_percent_completed)
+      update_attributes(lines_edited: new_lines_edited, lines_completed: new_lines_completed, lines_reviewing: new_lines_reviewing, percent_edited: new_percent_edited, percent_completed: new_percent_completed, percent_reviewing: new_percent_reviewing)
+    end
+  end
+
+  def getUsersContributedCount(edits=[])
+    if edits.length > 0
+      edits.collect {|edit|
+        if edit.user_id > 0
+          edit.user_id.to_s
+        else
+          edit.session_id
+        end
+      }.uniq.length
+    else
+      TranscriptEdit
+        .select("CASE WHEN user_id=0 THEN session_id ELSE to_char(user_id, '999999999999999') END")
+        .where(transcript_id: id).distinct.count
     end
   end
 
@@ -142,23 +172,39 @@ class Transcript < ActiveRecord::Base
     # Find all the edited lines
     edited_lines = TranscriptLine.getEditedByTranscriptId(id)
 
-    # And all the completed lines
-    completed_status = TranscriptLineStatus.find_by name: "completed"
-    completed_lines = edited_lines.select{|s| s[:transcript_line_status_id]==completed_status.id}
+    # And all the completed/reviewing lines
+    statuses = TranscriptLineStatus.allCached
+    completed_status = statuses.find{|s| s[:name]=="completed"}
+    completed_lines = edited_lines.select{|s| s[:transcript_line_status_id]==completed_status[:id]}
+    reviewing_status = statuses.find{|s| s[:name]=="reviewing"}
+    reviewing_lines = edited_lines.select{|s| s[:transcript_line_status_id]==reviewing_status[:id]}
 
     # Calculate
     _lines_edited = edited_lines.length
     _lines_completed = completed_lines.length
+    _lines_reviewing = reviewing_lines.length
     _percent_edited = (1.0 * _lines_edited / lines * 100).round.to_i
     _percent_completed = (1.0 * _lines_completed / lines * 100).round.to_i
+    _percent_reviewing = (1.0 * _lines_reviewing / lines * 100).round.to_i
+
+    # Get user count
+    _users_contributed = getUsersContributedCount()
 
     # Update
-    update_attributes(lines_edited: _lines_edited, lines_completed: _lines_completed, percent_edited: _percent_edited, percent_completed: _percent_completed)
+    update_attributes(lines_edited: _lines_edited, lines_completed: _lines_completed, lines_reviewing: _lines_reviewing, percent_edited: _percent_edited, percent_completed: _percent_completed, percent_reviewing: _percent_reviewing, users_contributed: _users_contributed)
   end
 
   def updateFromHash(contents)
     vendor_audio_urls = _getAudioUrlsFromHash(contents)
     update_attributes(vendor_audio_urls: vendor_audio_urls)
+  end
+
+  def updateUsersContributed(edits=[])
+    _users_contributed = getUsersContributedCount(edits)
+
+    if _users_contributed != users_contributed
+      update_attributes(users_contributed: _users_contributed)
+    end
   end
 
   def _getAudioUrlsFromHash(contents)

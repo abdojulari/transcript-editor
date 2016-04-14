@@ -283,9 +283,6 @@ app.views.Transcript = app.views.Base.extend({
       return [""+flag.transcript_line_id, flag]
     }));
 
-    // keep track of lines that are being reviewed
-    var lines_reviewing = 0;
-
     // process each line
     _.each(lines, function(line, i){
       // add user text to lines
@@ -329,9 +326,6 @@ app.views.Transcript = app.views.Base.extend({
       if (_.contains(["completed","archived"], status.name)) is_available = false;
       _this.data.transcript.lines[i].is_available = is_available;
 
-      // keep track of reviewing counts
-      if (status.name=="reviewing") lines_reviewing++;
-
       // check for speaker
       var speaker = false;
       var speaker_pos = -1;
@@ -357,8 +351,6 @@ app.views.Transcript = app.views.Base.extend({
     });
 
     // add data about lines that are being reviewed
-    this.data.transcript.lines_reviewing = lines_reviewing;
-    if (lines.length > 0) this.data.transcript.percent_reviewing = Math.round(lines_reviewing / lines.length * 100);
     if (this.data.transcript.percent_reviewing > 0) this.data.transcript.hasLinesInReview = true;
     if (this.data.transcript.percent_completed > 0) this.data.transcript.hasLinesCompleted = true;
   },

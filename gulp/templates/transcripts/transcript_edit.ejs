@@ -29,7 +29,11 @@
   <div class="status-wrapper">
     <div class="status">
       <div class="status-bar" style="width: <%= transcript.percent_completed %>%"></div>
-      <div class="status-text">Users have completed <%= transcript.percent_completed %>%</div>
+      <div class="status-text">
+        <%= transcript.users_contributed %>
+        <%= transcript.users_contributed==1 ? 'user has' : 'users have' %> 
+        completed <%= transcript.percent_completed %>%
+      </div>
     </div>
   </div>
 </div>
