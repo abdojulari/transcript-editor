@@ -51,7 +51,9 @@
       <% if (transcript.percent_reviewing > 0) { %>
         <div class="item-status-text reviewing"><%= transcript.percent_reviewing %>% of lines awaiting review</div>
       <% } %>
-      <div class="item-status-text edited"><%= transcript.percent_edited - transcript.percent_reviewing - transcript.percent_completed %>% of lines have edits</div>
+      <% if ((transcript.percent_edited-transcript.percent_reviewing-transcript.percent_completed) > 0) { %>
+        <div class="item-status-text edited"><%= transcript.percent_edited - transcript.percent_reviewing - transcript.percent_completed %>% of lines have edits</div>
+      <% } %>
     </div>
   </div>
   <% } %>

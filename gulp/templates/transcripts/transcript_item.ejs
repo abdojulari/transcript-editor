@@ -31,6 +31,8 @@
   <% if (percent_reviewing > 0) { %>
     <div class="item-status-text reviewing"><%= percent_reviewing %>% awaiting review</div>
   <% } %>
-  <div class="item-status-text edited"><%= percent_edited - percent_reviewing - percent_completed %>% have edits</div>
+  <% if ((percent_edited-percent_reviewing-percent_completed) > 0) { %>
+    <div class="item-status-text edited"><%= percent_edited - percent_reviewing - percent_completed %>% have edits</div>
+  <% } %>
 </div>
 <% } %>
