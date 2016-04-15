@@ -25,17 +25,36 @@
     <% if (transcript.speakers.length) { %>
       <p class="speakers">Participants: <%= _.pluck(transcript.speakers, 'name').join(', ') %> </p>
     <% } %>
+
   </div>
+  <% if (transcript.percent_edited > 0) { %>
   <div class="status-wrapper">
-    <div class="status">
-      <div class="status-bar" style="width: <%= transcript.percent_completed %>%"></div>
-      <div class="status-text">
-        <%= transcript.users_contributed %>
-        <%= transcript.users_contributed==1 ? 'user has' : 'users have' %> 
-        completed <%= transcript.percent_completed %>%
+    <% if (transcript.users_contributed > 0) { %>
+      <div class="status-contributors">
+        <%= UTIL.formatNumber(transcript.users_contributed) %> contributor<%= transcript.users_contributed == 1 ? '' : 's' %>
+        <%= transcript.users_contributed == 1 ? 'has' : 'have' %> edited <%= UTIL.formatNumber(transcript.lines_edited) %> line<%= transcript.lines_edited == 1 ? '' : 's' %>
       </div>
+    <% } %>
+    <div class="item-status">
+      <div class="item-status-bar edited" style="width: <%= transcript.percent_edited %>%"></div>
+      <% if (transcript.percent_completed > 0) { %>
+        <div class="item-status-bar completed" style="width: <%= transcript.percent_completed %>%"></div>
+      <% } %>
+      <% if (transcript.percent_reviewing > 0) { %>
+        <div class="item-status-bar reviewing" style="width: <%= transcript.percent_reviewing %>%; left: <%= transcript.percent_completed %>%;"></div>
+      <% } %>
+    </div>
+    <div class="item-status-key">
+      <% if (transcript.percent_completed > 0) { %>
+        <div class="item-status-text completed"><%= transcript.percent_completed %>% of lines reached consensus</div>
+      <% } %>
+      <% if (transcript.percent_reviewing > 0) { %>
+        <div class="item-status-text reviewing"><%= transcript.percent_reviewing %>% of lines awaiting review</div>
+      <% } %>
+      <div class="item-status-text edited"><%= transcript.percent_edited - transcript.percent_reviewing - transcript.percent_completed %>% of lines have edits</div>
     </div>
   </div>
+  <% } %>
 </div>
 
 <% if (page_content) { %>

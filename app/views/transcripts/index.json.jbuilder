@@ -1,5 +1,5 @@
 json.entries @transcripts do |transcript|
-  json.extract! transcript, :uid, :title, :description, :image_url, :collection_id, :collection_title, :duration, :percent_completed
+  json.extract! transcript, :uid, :title, :description, :image_url, :collection_id, :collection_title, :duration, :lines_edited, :percent_completed, :percent_edited, :percent_reviewing, :users_contributed
   if @project_settings["useVendorAudio"]
     json.audio_urls transcript[:vendor_audio_urls]
   else
