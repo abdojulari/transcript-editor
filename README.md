@@ -215,7 +215,7 @@ This app currently supports logging in through Google or Facebook accounts (via 
 #### Instructions for Facebook Account activation
 
 1. Log in to your Facebook account and visit [this link](https://developers.facebook.com/quickstarts/?platform=web)
-2. Follow the steps to create a new app and go to the app's Dashboard
+2. Follow the steps to create a new app and go to the app's Dashboard. You must at least fill out **Display Name** and **Contact Email**.
 3. In your project's dashboard click *Settings* on the left panel. Then click the *Advanced* tab.
 4. Under *Client OAuth Settings*:
    - make sure *Client OAuth Login* and *Web OAuth Login* is on
@@ -249,7 +249,7 @@ This app currently supports logging in through Google or Facebook accounts (via 
 
 11. Run `rake project:load['my-project']` to refresh this config in the interface
 12. Finally, restart your server and visit `http://localhost:3000`.  Now you should see the option to sign in via Facebook.
-
+13. Once ready, go back to your Facebook App page and click **App Review**. Make your app live by toggling on Live mode.
 
 ### Custom content
 
