@@ -51,7 +51,7 @@ class TranscriptLine < ActiveRecord::Base
     end
 
     # Only original or blank text was found; use all edits
-    unless edits_filtered.length > 0
+    if edits_filtered.length <= 0 && edits.length >= consensus["minLinesForConsensusNoEdits"]
       edits_filtered = edits.select { |edit| true }
     end
 

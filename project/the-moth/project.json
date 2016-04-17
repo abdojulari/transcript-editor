@@ -14,6 +14,7 @@
   "consensus": {
     "maxLineEdits": 5,
     "minLinesForConsensus": 3,
+    "minLinesForConsensusNoEdits": 5,
     "minPercentConsensus": 0.34,
     "lineDisplayMethod": "original",
     "superUserHiearchy": 50

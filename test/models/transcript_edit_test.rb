@@ -15,6 +15,7 @@ class TranscriptEditTest < ActiveSupport::TestCase
     seedUsers
 
     # Retrieve transcript line statuses
+    @status_initialized = TranscriptLineStatus.find_by name: 'initialized'
     @status_editing = TranscriptLineStatus.find_by name: 'editing'
     @status_reviewing = TranscriptLineStatus.find_by name: 'reviewing'
     @status_completed = TranscriptLineStatus.find_by name: 'completed'
@@ -32,6 +33,7 @@ class TranscriptEditTest < ActiveSupport::TestCase
       consensus: {
         maxLineEdits: 5,
         minLinesForConsensus: 3,
+        minLinesForConsensusNoEdits: 5,
         minPercentConsensus: 0.34,
         superUserHiearchy: 50
       }
@@ -274,13 +276,15 @@ class TranscriptEditTest < ActiveSupport::TestCase
     assert line.transcript_line_status_id == @status_editing.id, "Correct status: editing"
   end
 
-  # Consensus: three edits, all are original text; choose the original text
+  # Consensus: five edits, all are original text; choose the original text
   test "consensus eight" do
     line = seedLine({transcript_id: @transcript.id, sequence: 13, original_text: 'That grow so incredibly high', guess_text: '', text: '', transcript_line_status_id: 1})
     seedEdits([
       {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'thirteen_1', text: 'That grow so incredibly high'},
       {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'thirteen_2', text: 'That grow so incredibly high'},
-      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'thirteen_3', text: 'That grow so incredibly high'}
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'thirteen_3', text: 'That grow so incredibly high'},
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'thirteen_4', text: 'That grow so incredibly high'},
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'thirteen_5', text: 'That grow so incredibly high'}
     ])
     line.recalculate(nil, @project)
     correct_text = "That grow so incredibly high"
@@ -328,5 +332,21 @@ class TranscriptEditTest < ActiveSupport::TestCase
     assert line.text == correct_text, "Correct text chosen"
     assert line.guess_text == correct_text, "Correct guess chosen"
     assert line.transcript_line_status_id == @status_completed.id, "Correct status: completed"
+  end
+
+  # Consensus: three edits, all are original text; no consensus
+  test "consensus eleven" do
+    line = seedLine({transcript_id: @transcript.id, sequence: 17, original_text: 'Climb in the back with your head in the clouds', guess_text: '', text: '', transcript_line_status_id: 1})
+    seedEdits([
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'seventeen_1', text: 'Climb in the back with your head in the clouds'},
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'seventeen_2', text: 'Climb in the back with your head in the clouds'},
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'seventeen_3', text: 'Climb in the back with your head in the clouds'}
+    ])
+    line.recalculate(nil, @project)
+    correct_text = ""
+
+    assert line.text == correct_text, "Correct text chosen"
+    assert line.guess_text == line.original_text, "Correct guess chosen"
+    assert line.transcript_line_status_id == @status_initialized.id, "Correct status: initialized"
   end
 end
