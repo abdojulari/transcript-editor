@@ -84,8 +84,13 @@ class Transcript < ActiveRecord::Base
     after_status = statuses.find{|s| s[:id]==line_status_id_after}
 
     # Case: initialized before, something else after, increment lines edited
-    if (!before_status || before_status.name=="initialized") && after_status && after_status.name!="initialized"
+    if (!before_status || before_status.name!="editing") && after_status && after_status.name=="editing"
       new_lines_edited += 1
+      changed = true
+
+    # Case: edited before, not edited after
+    elsif before_status && before_status.name=="editing" && (!after_status || after_status.name!="editing")
+      new_lines_edited -= 1
       changed = true
     end
 
