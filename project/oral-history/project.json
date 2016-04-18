@@ -4,6 +4,7 @@
   "logo": "/oral-history/assets/img/logo.png",
   "apiUrl": "",
   "useVendorAudio": true,
+  "maxLineTimeOverlapMs": 0,
   "transcriptsPerPage": 1000,
   "previewAudioOnHover": true,
   "gaCode": "UA-1420324-124",

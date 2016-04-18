@@ -5,6 +5,7 @@
   "apiUrl": "",
   "useVendorAudio": true,
   "transcriptsPerPage": 500,
+  "maxLineTimeOverlapMs": -1,
   "gaCode": "",
   "adminEmails": [
     "admin@email.org"

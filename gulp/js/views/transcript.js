@@ -253,7 +253,8 @@ app.views.Transcript = app.views.Base.extend({
         speakers = this.data.transcript.speakers || [],
         superUserHiearchy = PROJECT.consensus.superUserHiearchy,
         user_role = this.data.transcript.user_role,
-        user_flags = this.data.transcript.user_flags;
+        user_flags = this.data.transcript.user_flags,
+        maxLineTimeOverlapMs = PROJECT.maxLineTimeOverlapMs;
 
     // map edits for easy lookup
     var user_edits_map = _.object(_.map(user_edits, function(edit) {
@@ -348,6 +349,18 @@ app.views.Transcript = app.views.Base.extend({
       var can_resolve = false;
       if (user_role && user_role.hiearchy >= superUserHiearchy) can_resolve = true;
       _this.data.transcript.lines[i].can_resolve = can_resolve;
+
+      // adjust timestamps overlap
+      if (maxLineTimeOverlapMs >= 0 && i > 0) {
+        var prevLine = _this.data.transcript.lines[i-1];
+        var overlapMs = prevLine.end_time - line.start_time;
+        // overlap is larger than threshold
+        if (overlapMs > maxLineTimeOverlapMs) {
+          var adjustMs = Math.round((overlapMs - maxLineTimeOverlapMs) / 2);
+          _this.data.transcript.lines[i-1].end_time -= adjustMs;
+          _this.data.transcript.lines[i].start_time += adjustMs;
+        }
+      }
     });
 
     // add data about lines that are being reviewed
