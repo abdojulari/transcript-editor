@@ -388,13 +388,107 @@ rake project:load['my-project']
 
 ## Transcript Consensus
 
-Coming soon. This section covers the rules for what makes a transcript or a transcript line "complete".
+Even though this app could be used by just one individual, this app was designed to allow multiple users to correct the same transcript simultaneously. The goal is to improve quality by having many users look at each line of text. This app contains a configurable "consensus" algorithm that looks for where users agree and disagree, and makes an informed decision about which submission is best.
 
-### What is consensus?
+### How does consensus work?
+
+Consensus is essentially when a certain threshold of users agree that a certain line of a transcript contains the correct text. This is a bit more complicated than it seems. Consider the following three lines of text submitted by three separate users:
+
+1. "Hi, my name is Jane Doe."
+2. "hi my name is Jane Doe"
+3. "Hi, my name is Jane Do."
+
+Let's assume we need more than 50% of users to agree on a particular line of text--in this case, **we need 2 of the 3 users to agree**. The first two lines essentially say the same thing, but the first line contains capitalization and punctuation. The first thing the consensus algorithm does is "normalize" the text by removing punctuation and making everything the same case (it also removes extra whitespace and removes hesitations like "uhh" and "ummm").  So then the submissions will look like this:
+
+1. "hi my name is jane doe"
+2. "hi my name is jane doe"
+3. "hi my name is jane do"
+
+So based on our requirement for at least 2 of 3 users to agree, it looks like the first 2 users agree and we have reached consensus. Now we have to choose which submission is "better" out of the 2:
+
+1. "Hi, my name is Jane Doe."
+2. "hi my name is Jane Doe"
+
+Even though this can get rather subjective in some cases, the algorithm favors the following:
+
+- line contains capitalization
+- line contains punctuation
+- line contains numbers (since the default convention is to transcribe a number and numerals, e.g. "3" not three)
+- line is submitted by a registered user
+- line contains hesitations (since the default convention is to transcribe as you hear it, e.g. uhh, umm)
+
+Therefore, between our 2 options, the chosen text will be **"Hi, my name is Jane Doe."**.  This line now has reached consensus and is now considered "complete."
+
+### Settling conflicts
+
+The previous example demonstrates the ideal case where a line automatically reaches consensus. But there will be many cases where users simply don't agree and arbitration will be required. Since this app is built for large audio collections where the project creator may not have the resources to manually settle disputes, arbitration is built into the app itself.
+
+The project creator can set a limit to how many submissions are allowed for a particular line. Let's say that number is **5** and the submissions are as follows:
+
+1. "Hi, my name is John Hardtospell."
+2. "hi my name is John hearttospell"
+3. "Hi, my name is John Harttospell."
+4. "Hi, my name is John Hard2spell."
+5. "hi my name is John Hardtospel"
+
+Since this line reached 5 submissions but did not reach consensus (like in the previous example), it will go into **"review mode"**. When this happens, **users can no longer submit new transcriptions** but must choose the best among the 5 existing choices/submissions.
+
+Let's say that a 6th user chooses option 1; their "vote" counts as another submission with that options's text. So let's say more users vote as follows:
+
+1. "Hi, my name is John Hardtospell." (+5 votes)
+2. "hi my name is John hearttospell"
+3. "Hi, my name is John Harttospell." (+1 vote)
+4. "Hi, my name is John Hard2spell."
+5. "hi my name is John Hardtospel"
+
+If we still have the same consensus rules as before (50% must agree), **option 1** will be chosen as the correct text since it has 6 of the 11 total submissions.
 
 ### The stages of consensus
 
+There are generally 4 stages a line of text can possibly go through:
+
+1. **Initialized**: this contains the original text that the speech-to-text software created
+2. **Edited**: the line has received submissions, but not enough to reach consensus
+3. **In Review**: the line has reached enough submissions for consensus, but not enough users agree to reach consensus, so it must be [reviewed by others](#user-content-settling-conflicts)
+4. **Complete**: the line has reached consensus and is no longer editable.
+
+Similarly, an entire transcript has similar stages, but is generally just an aggregate of the lines that it is made up of. So a transcript is only **Complete** when all of its lines are **Complete**.
+
 ### Configuring consensus
+
+All of a project's consensus rules are defined in the `project.json` file like so:
+
+```
+"consensus": {
+  "maxLineEdits": 5,
+  "minLinesForConsensus": 3,
+  "minPercentConsensus": 0.34,
+  "minLinesForConsensusNoEdits": 5,
+  "lineDisplayMethod": "original"
+},
+...
+```
+
+Here are what each property means:
+
+- **maxLineEdits** - This is the maximum number of submissions for a particular line. If a line did not reach consensus when it reaches this number, it will go into [review mode](#user-content-settling-conflicts). Since the line will be locked to new submissions after this number is reached, the number should be reasonably high enough so least one of the submissions is probably correct.
+- **minLinesForConsensus** - The minimum number of submissions required for a line to reach consensus. If you are expecting a lot of spam, you can increase this number. If you are using this tool internally and/or you trust all users of this tool, you can set this number to **1**, meaning a single user's submission is final.
+- **minPercentConsensus** - The threshold for determining if a line reached consensus. For example, if this number is **0.5**, at least 50% of users must agree in order for a line to reach consensus.
+- **minLinesForConsensusNoEdits** - Sometimes users submit a line with no edits, i.e. presses enter on a line that contains the original computer text. This may be intended or not: the original text may be correct or the user may just be navigating away from the line. In order to reduce false positives, this property allows you to configure how many "no-edit" submissions are required for it to be considered for consensus. For example, if the number is **5**, at least 5 people must say that the original computer text was correct before it is considered for consensus. Submissions that contain edits are always preferred over no-edit submissions.
+- **lineDisplayMethod** - This can either be **original** or **guess**.  If this property is **original**, the user will see the original computer text when they are editing a line that is not locked. If this property is **guess**, the user will see what the app thinks is the "best guess" thus far based on the existing submissions. The advantage of showing the **original** is that all submissions are made independently since they do not see other users' submissions. It also ensures spam submissions are not seen by others. The advantage of **guess** is that consensus is more likely to be reached quicker since users are essentially looking at user submissions which would likely be more quality that the computer transcriptions.
+
+Be sure to run the project rake task if you make any changes:
+
+```
+rake project:load['my-project']
+```
+
+If you edit the consensus rules *after* you have received edits, you can retroactively apply the new rules to the existing edits with the following tasks:
+
+```
+rake transcript_lines:recalculate
+rake transcripts:recalculate
+```
 
 ## Deploying your project to production
 
