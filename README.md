@@ -449,7 +449,7 @@ There are generally 4 stages a line of text can possibly go through:
 
 1. **Initialized**: this contains the original text that the speech-to-text software created
 2. **Edited**: the line has received submissions, but not enough to reach consensus
-3. **In Review**: the line has reached enough submissions for consensus, but not enough users agree to reach consensus, so it must be [reviewed by others](#user-content-settling-conflicts)
+3. **In Review**: the line has reached enough submissions for consensus, but not enough users agree to reach consensus, so it must be [reviewed by others](#settling-conflicts)
 4. **Complete**: the line has reached consensus and is no longer editable.
 
 Similarly, an entire transcript has similar stages, but is generally just an aggregate of the lines that it is made up of. So a transcript is only **Complete** when all of its lines are **Complete**.
@@ -471,7 +471,7 @@ All of a project's consensus rules are defined in the `project.json` file like s
 
 Here are what each property means:
 
-- **maxLineEdits** - This is the maximum number of submissions for a particular line. If a line did not reach consensus when it reaches this number, it will go into [review mode](#user-content-settling-conflicts). Since the line will be locked to new submissions after this number is reached, the number should be reasonably high enough so least one of the submissions is probably correct.
+- **maxLineEdits** - This is the maximum number of submissions for a particular line. If a line did not reach consensus when it reaches this number, it will go into [review mode](#settling-conflicts). Since the line will be locked to new submissions after this number is reached, the number should be reasonably high enough so least one of the submissions is probably correct.
 - **minLinesForConsensus** - The minimum number of submissions required for a line to reach consensus. If you are expecting a lot of spam, you can increase this number. If you are using this tool internally and/or you trust all users of this tool, you can set this number to **1**, meaning a single user's submission is final.
 - **minPercentConsensus** - The threshold for determining if a line reached consensus. For example, if this number is **0.5**, at least 50% of users must agree in order for a line to reach consensus.
 - **minLinesForConsensusNoEdits** - Sometimes users submit a line with no edits, i.e. presses enter on a line that contains the original computer text. This may be intended or not: the original text may be correct or the user may just be navigating away from the line. In order to reduce false positives, this property allows you to configure how many "no-edit" submissions are required for it to be considered for consensus. For example, if the number is **5**, at least 5 people must say that the original computer text was correct before it is considered for consensus. Submissions that contain edits are always preferred over no-edit submissions.
