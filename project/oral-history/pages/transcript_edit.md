@@ -15,4 +15,4 @@
 <p class="caption">An example of how the transcript editor works (click for sound)</p> -->
 <!--* Use the keyboard shortcuts or buttons in the toolbar below to navigate the transcript and audio.-->
 
-<p class="text-center"><a data-modal="tutorial_edit" class="button large modal-invoke">View A Tutorial</a> <span class="separator">- or -</span> <a class="button large start-play disabled">Get Started</a></p>
+<p class="text-center"><a data-modal="tutorial_edit" class="button large modal-invoke tutorial-link">View A Tutorial</a> <span class="separator">- or -</span> <a class="button large start-play disabled">Get Started</a></p>

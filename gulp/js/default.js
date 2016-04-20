@@ -9,6 +9,7 @@
 //=include vendor/fuse.min.js
 //=include utilities.js
 //=include components.js
+//=include analytics.js
 //=include app.js
 //=include router.js
 //=include models/*.js

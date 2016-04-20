@@ -76,6 +76,16 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text, is_deleted: 0, is_new: is_new});
   },
 
+  loadAnalytics: function(){
+    this.$el.on('click', '.conventions-link', function(){
+      ANALYTICS.event('transcript', 'invoke-conventions');
+    });
+
+    this.$el.on('click', '.tutorial-link', function(){
+      ANALYTICS.event('transcript', 'invoke-tutorial');
+    });
+  },
+
   loadCompletionContent: function(){
     this.data.completion_content = '';
 
@@ -172,6 +182,8 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
       e.preventDefault();
       _this.finished();
     });
+
+    this.loadAnalytics();
   },
 
   loadPageContent: function(){

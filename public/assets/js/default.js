@@ -647,6 +647,20 @@ $(function() {
   var components = new COMPONENTS();
 });
 
+// Analytics functions
+(function() {
+  window.ANALYTICS = {};
+
+  ANALYTICS.event = function(category, ev, label, value){
+    // console.log(category, ev, label, value)
+    if (ga) {
+      if (label && value) ga('send', 'event', category, ev, label, value);
+      else if (label) ga('send', 'event', category, ev, label);
+      else ga('send', 'event', category, ev);
+    }
+  };
+})();
+
 window.API_URL = PROJECT.apiUrl || window.location.protocol + '//' + window.location.hostname;
 if (window.location.port && !PROJECT.apiUrl) window.API_URL += ':' + window.location.port
 
@@ -2656,6 +2670,16 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text, is_deleted: 0, is_new: is_new});
   },
 
+  loadAnalytics: function(){
+    this.$el.on('click', '.conventions-link', function(){
+      ANALYTICS.event('transcript', 'invoke-conventions');
+    });
+
+    this.$el.on('click', '.tutorial-link', function(){
+      ANALYTICS.event('transcript', 'invoke-tutorial');
+    });
+  },
+
   loadCompletionContent: function(){
     this.data.completion_content = '';
 
@@ -2752,6 +2776,8 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
       e.preventDefault();
       _this.finished();
     });
+
+    this.loadAnalytics();
   },
 
   loadPageContent: function(){
