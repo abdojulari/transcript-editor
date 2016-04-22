@@ -13,10 +13,11 @@
   @include clearfix();
 }
 
-.stats,
-.users {
+.col {
   width: 50%;
   float: left;
+  padding: 10px;
+  @include box-sizing();
 }
 
 .stat {
@@ -54,7 +55,8 @@
   }
 }
 
-.users-table {
+.users-table,
+.flags-table {
   width: 100%;
 
   th {
@@ -63,7 +65,8 @@
     background: #eee;
   }
 }
-.user-item {
+.user-item,
+.flag-item {
   border-bottom: 1px solid #ccc;
   margin: 10px 0;
   padding: 10px 0;

@@ -1,0 +1,4 @@
+<td class="type"><%= flag_type_label %></td>
+<td class="text"><%= text %></td>
+<td class="email"><a href="/transcripts/<%= transcript_uid %>" target="_blank"><%= transcript_title %></a></td>
+<td class="lines_edited"><a href="/transcripts/<%= transcript_uid %>?t=<%= UTIL.formatTime(start_time/1000) %>" target="_blank"><%= UTIL.formatTime(start_time/1000) %></a></td>

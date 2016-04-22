@@ -1,5 +1,6 @@
 class Flag < ActiveRecord::Base
   belongs_to :transcript_line
+  belongs_to :flag_type
 
   def self.getByLine(transcript_line_id)
     Flag
@@ -20,6 +21,18 @@ class Flag < ActiveRecord::Base
 
   def self.getByTranscriptUser(transcript_id, user_id)
     Flag.where(transcript_id: transcript_id, user_id: user_id, is_deleted: 0)
+  end
+
+  def self.getUnresolved
+    Flag
+      .select('flags.*, flag_types.label as flag_type_label,
+      transcripts.uid as transcript_uid, transcripts.title as transcript_title,
+      transcript_lines.start_time')
+      .joins('INNER JOIN flag_types ON flags.flag_type_id = flag_types.id
+      INNER JOIN transcripts ON flags.transcript_id = transcripts.id
+      INNER JOIN transcript_lines ON flags.transcript_line_id = transcript_lines.id')
+      .where("flags.is_resolved = :is_resolved AND flags.is_deleted = :is_deleted AND flag_types.category = :category",
+      {is_resolved: 0, is_deleted: 0, category: 'error'})
   end
 
   def self.resolve(transcript_line_id)

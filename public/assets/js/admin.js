@@ -700,10 +700,16 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var header = new app.views.Header(data);
     var stats = new app.views.AdminStats(data);
     var users = new app.views.AdminUsers(data);
+    var flags = new app.views.AdminFlags(data);
     var footer = new app.views.Footer(data);
 
-    $('#main').append(stats.$el);
-    $('#main').append(users.$el);
+    var $containerLeft = $('<div class="col"></div>');
+    var $containerRight = $('<div class="col"></div>');
+    $containerLeft.append(stats.$el);
+    $containerLeft.append(flags.$el);
+    $containerRight.append(users.$el);
+    $('#main').append($containerLeft);
+    $('#main').append($containerRight);
   },
 
   _getData: function(data){
@@ -1068,6 +1074,66 @@ app.views.Page = app.views.Base.extend({
 
   toString: function(){
     return this.template(this.data);
+  }
+
+});
+
+app.views.AdminFlags = app.views.Base.extend({
+
+  template: _.template(TEMPLATES['admin_flags.ejs']),
+
+  className: 'flags',
+
+  initialize: function(data){
+    this.data = _.extend({}, data);
+
+    this.render();
+    this.loadData();
+  },
+
+  loadData: function(){
+    var _this = this;
+    $.getJSON("/admin/flags.json", function(data) {
+      _this.renderFlags(data.flags);
+    });
+  },
+
+  render: function() {
+    this.$el.html(this.template(this.data));
+
+    return this;
+  },
+
+  renderFlags: function(flags){
+    var $flags = this.$('#flags-container');
+
+    $flags.empty();
+
+    _.each(flags, function(flag){
+      var flagView = new app.views.FlagItem({flag: flag});
+      $flags.append(flagView.$el);
+    });
+  }
+
+});
+
+app.views.FlagItem = app.views.Base.extend({
+
+  template: _.template(TEMPLATES['admin_flag_item.ejs']),
+
+  tagName: "tr",
+  className: "flag-item",
+
+  initialize: function(data){
+    this.data = _.extend({}, data);
+    this.flag = this.data.flag;
+
+    this.render();
+  },
+
+  render: function(){
+    this.$el.html(this.template(this.flag));
+    return this;
   }
 
 });

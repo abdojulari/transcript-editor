@@ -17,10 +17,16 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var header = new app.views.Header(data);
     var stats = new app.views.AdminStats(data);
     var users = new app.views.AdminUsers(data);
+    var flags = new app.views.AdminFlags(data);
     var footer = new app.views.Footer(data);
 
-    $('#main').append(stats.$el);
-    $('#main').append(users.$el);
+    var $containerLeft = $('<div class="col"></div>');
+    var $containerRight = $('<div class="col"></div>');
+    $containerLeft.append(stats.$el);
+    $containerLeft.append(flags.$el);
+    $containerRight.append(users.$el);
+    $('#main').append($containerLeft);
+    $('#main').append($containerRight);
   },
 
   _getData: function(data){

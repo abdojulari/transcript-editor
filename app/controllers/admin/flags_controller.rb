@@ -1,0 +1,19 @@
+class Admin::FlagsController < ApplicationController
+  include ActionController::MimeResponds
+
+  before_filter :authenticate_admin!
+
+  # GET /admin/flags
+  # GET /admin/flags.json
+  def index
+    respond_to do |format|
+      format.html {
+        render :file => "public/#{ENV['PROJECT_ID']}/admin.html"
+      }
+      format.json {
+        @flags = Flag.getUnresolved()
+      }
+    end
+  end
+
+end

@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :users, only: [:index, :update]
     resources :transcripts, only: [:index]
+    resources :flags, only: [:index]
   end
   match 'admin' => 'admin/stats#index', :via => [:get]
 
