@@ -63,8 +63,8 @@ app.views.TranscriptFacets = app.views.Base.extend({
     this.data.sort_options = [
       {id: 'title_asc', name: 'title', order: 'asc', label: 'Title (A to Z)'},
       {id: 'title_desc', name: 'title', order: 'desc', label: 'Title (Z to A)'},
-      {id: 'percent_completed_desc', name: 'percent_completed', order: 'desc', label: 'Completeness (most to least)'},
-      {id: 'percent_completed_asc', name: 'percent_completed', order: 'asc', label: 'Completeness (least to most)'},
+      {id: 'completeness_desc', name: 'completeness', order: 'desc', label: 'Completeness (most to least)'},
+      {id: 'completeness_asc', name: 'completeness', order: 'asc', label: 'Completeness (least to most)'},
       {id: 'duration_asc', name: 'duration', order: 'asc', label: 'Duration (short to long)'},
       {id: 'duration_desc', name: 'duration', order: 'desc', label: 'Duration (long to short)'},
       {id: 'collection_asc', name: 'collection_id', order: 'asc', label: 'Collection'}

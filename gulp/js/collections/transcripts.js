@@ -24,7 +24,14 @@ app.collections.Transcripts = Backbone.Collection.extend({
     this.page = resp.current_page;
     this.per_page = resp.per_page;
     this.total = resp.total_entries;
-    return resp.entries;
+
+    var entries = [];
+    _.each(resp.entries, function(t, i){
+      t.completeness = t.percent_completed + t.percent_edited * 0.01;
+      entries.push(t);
+    });
+
+    return entries;
   },
 
   url: function() {
