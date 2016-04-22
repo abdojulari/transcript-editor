@@ -36,6 +36,22 @@ app.views.Transcript = app.views.Base.extend({
 
   },
 
+  checkForStartTime: function(){
+    if (!this.data.queryParams || !this.data.queryParams.t) return false;
+
+    var seconds = UTIL.getSeconds(this.data.queryParams.t);
+    if (!seconds) return false;
+
+    var select_line_i = 0;
+    _.each(this.data.transcript.lines, function(line, i){
+      var line_seconds = UTIL.getSeconds(UTIL.formatTime(line.start_time/1000));
+      if (line_seconds <= seconds) select_line_i = i;
+    });
+
+    this.lineSelect(select_line_i);
+
+  },
+
   fitInput: function($input){
     var fontSize = parseInt($input.css('font-size')),
         maxWidth = $input.width() + 5;

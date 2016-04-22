@@ -718,11 +718,12 @@ $(function(){
 app.routers.DefaultRouter = Backbone.Router.extend({
 
   routes: {
-    "":                     "index",
-    "?*queryString":        "index",
-    "transcripts/:id":      "transcriptEdit",
-    "page/:id":             "pageShow",
-    "dashboard":            "dashboard"
+    "":                             "index",
+    "?*queryString":                "index",
+    "transcripts/:id":              "transcriptEdit",
+    "transcripts/:id?*queryString": "transcriptEdit",
+    "page/:id":                     "pageShow",
+    "dashboard":                    "dashboard"
   },
 
   before: function( route, params ) {
@@ -756,8 +757,9 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     main.$el.removeClass('loading');
   },
 
-  transcriptEdit: function(id) {
+  transcriptEdit: function(id, queryString) {
     var data = this._getData(data);
+    if (queryString) data.queryParams = deparam(queryString);
     var header = new app.views.Header(data);
     var toolbar = new app.views.TranscriptToolbar(_.extend({}, data, {el: '#secondary-navigation', menu: 'transcript_edit'}));
     var modals = new app.views.Modals(data);
@@ -1403,6 +1405,22 @@ app.views.Transcript = app.views.Base.extend({
     } else {
       $('html, body').animate({scrollTop: scrollOffset}, animationDuration);
     }
+
+  },
+
+  checkForStartTime: function(){
+    if (!this.data.queryParams || !this.data.queryParams.t) return false;
+
+    var seconds = UTIL.getSeconds(this.data.queryParams.t);
+    if (!seconds) return false;
+
+    var select_line_i = 0;
+    _.each(this.data.transcript.lines, function(line, i){
+      var line_seconds = UTIL.getSeconds(UTIL.formatTime(line.start_time/1000));
+      if (line_seconds <= seconds) select_line_i = i;
+    });
+
+    this.lineSelect(select_line_i);
 
   },
 
@@ -2829,6 +2847,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     if (!this.loaded) this.loaded = true;
     if (this.queue_start) this.start();
     this.queue_start = false;
+    this.checkForStartTime();
   },
 
   onTranscriptFinished: function(){

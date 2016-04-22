@@ -223,6 +223,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     if (!this.loaded) this.loaded = true;
     if (this.queue_start) this.start();
     this.queue_start = false;
+    this.checkForStartTime();
   },
 
   onTranscriptFinished: function(){

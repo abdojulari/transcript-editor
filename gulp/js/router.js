@@ -1,11 +1,12 @@
 app.routers.DefaultRouter = Backbone.Router.extend({
 
   routes: {
-    "":                     "index",
-    "?*queryString":        "index",
-    "transcripts/:id":      "transcriptEdit",
-    "page/:id":             "pageShow",
-    "dashboard":            "dashboard"
+    "":                             "index",
+    "?*queryString":                "index",
+    "transcripts/:id":              "transcriptEdit",
+    "transcripts/:id?*queryString": "transcriptEdit",
+    "page/:id":                     "pageShow",
+    "dashboard":                    "dashboard"
   },
 
   before: function( route, params ) {
@@ -39,8 +40,9 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     main.$el.removeClass('loading');
   },
 
-  transcriptEdit: function(id) {
+  transcriptEdit: function(id, queryString) {
     var data = this._getData(data);
+    if (queryString) data.queryParams = deparam(queryString);
     var header = new app.views.Header(data);
     var toolbar = new app.views.TranscriptToolbar(_.extend({}, data, {el: '#secondary-navigation', menu: 'transcript_edit'}));
     var modals = new app.views.Modals(data);
