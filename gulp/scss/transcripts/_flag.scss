@@ -32,6 +32,15 @@
       display: inline-block;
     }
   }
+  .message {
+    display: none;
+    background: $highlight-color;
+    font-size: 0.9em;
+
+    &.active {
+      display: block;
+    }
+  }
 
   .option {
     display: block;

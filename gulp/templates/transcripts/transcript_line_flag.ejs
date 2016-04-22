@@ -10,6 +10,9 @@
         <% }) %>
         <label for="text">Add a comment (optional):</label>
         <textarea name="text" class="input-text"><%= line.user_flag.text %></textarea>
+        <div class="message">
+          <p>Thank you for flagging this line. We will be periodically reviewing and correcting flagged errors.</p>
+        </div>
       </div>
       <div id="flag-index" class="flag-content">
         <p>The transcribed text: <strong><%= line.text %></strong></p>

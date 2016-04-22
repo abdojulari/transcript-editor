@@ -1142,18 +1142,25 @@ app.views.Dashboard = app.views.Base.extend({
 
   initialize: function(data){
     this.data = data;
-
     this.secondsPerLine = 5;
-
-    this.loadData();
+    this.listenForAuth();
   },
 
-  loadData: function(){
+  listenForAuth: function(){
+    var _this = this;
+
+    // check auth validation
+    PubSub.subscribe('auth.validation.success', function(ev, user) {
+      _this.loadData(user);
+    });
+  },
+
+  loadData: function(user){
     var _this = this;
 
     this.data.transcripts = [];
 
-    $.getJSON("/transcript_edits.json", {user: 1}, function(data) {
+    $.getJSON("/transcript_edits.json", {user_id: user.id}, function(data) {
       if (data.edits && data.edits.length) {
         _this.parseEdits(data.edits, data.transcripts);
       }
@@ -2025,6 +2032,7 @@ app.views.TranscriptLineFlag = app.views.Base.extend({
 
   submit: function(e){
     e && e.preventDefault();
+    var _this = this;
 
     this.data.line.user_flag.text = this.$('.input-text').val();
     this.lines[this.data.line.id] = _.extend({}, this.data.line);
@@ -2037,7 +2045,11 @@ app.views.TranscriptLineFlag = app.views.Base.extend({
     };
 
     $.post(API_URL + "/flags.json", {flag: data}, function(resp) {
-      PubSub.publish('modals.dismiss', true);
+      _this.$('.message').addClass('active');
+      setTimeout(function(){
+        PubSub.publish('modals.dismiss', true);
+      }, 3000)
+
     });
   },
 

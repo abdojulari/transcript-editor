@@ -68,6 +68,7 @@ app.views.TranscriptLineFlag = app.views.Base.extend({
 
   submit: function(e){
     e && e.preventDefault();
+    var _this = this;
 
     this.data.line.user_flag.text = this.$('.input-text').val();
     this.lines[this.data.line.id] = _.extend({}, this.data.line);
@@ -80,7 +81,11 @@ app.views.TranscriptLineFlag = app.views.Base.extend({
     };
 
     $.post(API_URL + "/flags.json", {flag: data}, function(resp) {
-      PubSub.publish('modals.dismiss', true);
+      _this.$('.message').addClass('active');
+      setTimeout(function(){
+        PubSub.publish('modals.dismiss', true);
+      }, 3000)
+
     });
   },
 

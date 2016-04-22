@@ -4,6 +4,9 @@
     <div class="select-active" title="Signed in as <%= user.name %>"><span class="score<%= score > 0 ? ' active':'' %>"><%= UTIL.formatNumberTiny(score) %></span> <%= user.name %></div>
     <div class="select-options account-menu menu">
       <a href="/dashboard" class="select-option menu-item">Dashboard</a>
+      <% if (user.user_role_id > 1) { %>
+        <a href="/admin" class="select-option menu-item">Admin</a>
+      <% } %>
       <a href="#sign-out" class="sign-out-link select-option menu-item">Sign out</a>
     </div>
   </div>

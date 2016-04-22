@@ -1,5 +1,5 @@
 # FREQUENTLY ASKED QUESTIONS  
-_Updated: March 30, 2016_
+_Updated: April 22, 2016_
 
 **Do I need to be logged in to contribute?**  
 No! Anyone can contribute at anytime without logging in. If you do choose to log in, you’ll be able to see all the edits you’ve made when you return the next time. This can be useful if you’re working on a long transcript and would like to return to it later. Your work is always automatically saved regardless of whether or not you’re logged in. If you chose to login, it's best to do so at the start of your editing session.  
@@ -19,6 +19,9 @@ Listen closely. If a word is cut off on one line, transcribe it on the line wher
 **What happens if the line is correct and we don't need to make any edits?**  
 Sometimes the speech-to-text hits it out of the park and transcribes a line perfectly. In that case, no edits are needed. When enough volunteers pass over a line without editing it, the line will reach consensus in the same manner as edited lines.
 
+**What to do when a line is locked and still contains errors?**
+Sometimes a mistake will slip through and a line locked for editing may still contain an error. In this case, please use the flagging mechanism. By click on the flag symbol at the end of an incorrect line, you will be prompted to classify the error and to add an optional, explanatory note. We will periodically reviewing and correcting these flagged errors.
+
 **Where can I see the completed transcripts?**  
 We will be publishing the completed transcripts on the [Oral History Website](oralhistory.nypl.org).  
 
@@ -36,6 +39,7 @@ Currently the tool is configured for use on a desktop.
 
 **Can I edit my own audio?**  
 The Open Transcript Tool code-base for this tool is open source software. Developers can visit the [Github Repo](https://github.com/NYPL/transcript-editor) to get started setting up their own instance of the tool.
+
 
 # Still have a question?
 Contact us at oralhistory@nypl.org with questions and comments.  
