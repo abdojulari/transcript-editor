@@ -10,6 +10,11 @@ class TranscriptLine < ActiveRecord::Base
 
   default_scope { order(:sequence) }
 
+  def best_text
+    texts = [text, guess_text, original_text]
+    texts.find { |t| !t.blank? }
+  end
+
   def incrementFlag
     new_flag_count = flag_count + 1
     update_attributes(flag_count: new_flag_count)
@@ -19,12 +24,27 @@ class TranscriptLine < ActiveRecord::Base
     update_attributes(flag_count: 0)
   end
 
+  def start_time_string
+    Time.at(start_time/1000).utc.strftime("%H:%M:%S.%L")
+  end
+
+  def end_time_string
+    Time.at(end_time/1000).utc.strftime("%H:%M:%S.%L")
+  end
+
   def self.getEdited
     TranscriptLine.joins(:transcript_edits).distinct
   end
 
   def self.getEditedByTranscriptId(transcript_id)
     TranscriptLine.joins(:transcript_edits).where(transcript_lines:{transcript_id: transcript_id}).distinct
+  end
+
+  def self.getByTranscriptWithSpeakers(transcript_id)
+    TranscriptLine
+      .select("transcript_lines.*, COALESCE(speakers.name, '') AS speaker_name")
+      .joins("LEFT OUTER JOIN speakers ON transcript_lines.speaker_id = speakers.id")
+      .where(transcript_id: transcript_id)
   end
 
   def self.recalculateById(transcript_line_id)

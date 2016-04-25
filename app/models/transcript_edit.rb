@@ -29,6 +29,10 @@ class TranscriptEdit < ActiveRecord::Base
     TranscriptEdit.where(transcript_line_id: transcript_line_id, is_deleted: 0)
   end
 
+  def self.getByTranscript(transcript_id)
+    TranscriptEdit.where(transcript_id: transcript_id, is_deleted: 0)
+  end
+
   def self.getByTranscriptSession(transcript_id, session_id)
     TranscriptEdit.where(transcript_id: transcript_id, session_id: session_id, is_deleted: 0)
   end
