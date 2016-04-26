@@ -1,19 +1,19 @@
 <section class="modal <%= active ? 'active': '' %>" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
 
   <div class="modal-inner">
-    <header id="modal-label"><%= title %> <a class="control toggle-play"></a></header>
-    <div class="modal-content">
+    <header id="modal-label"><%= title %> <a href="#toggle" class="control toggle-play" role="button"></a></header>
+    <div class="modal-content" role="menu">
       <% _.each(edits, function(edit, i){ %>
-        <a class="option <%= edit.active ? 'active' : '' %>" edit-id="<%= edit.id %>"><%= UTIL.escapeInput(edit.text) %></a>
+        <a href="#option-<%= edit.id %>" class="option <%= edit.active ? 'active' : '' %>" edit-id="<%= edit.id %>" role="menuitemradio" aria-checked="<%= edit.active ? 'true' : 'false' %>"><%= UTIL.escapeInput(edit.text) %></a>
       <% }) %>
     </div>
     <footer>
-      <a class="button none-correct">None of these are correct</a>
+      <a href="#none" class="button none-correct" role="button">None of these are correct</a>
 
-      <a class="button pull-right submit">Submit</a>
+      <a href="#submit" class="button pull-right submit" role="button">Submit</a>
     </footer>
   </div>
 
-  <a class="modal-close modal-dismiss" title="Close this modal">x</a>
+  <a href="#close" class="modal-close modal-dismiss" title="Close this modal" aria-label="Close" role="button">x</a>
 
 </section>

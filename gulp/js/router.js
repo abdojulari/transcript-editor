@@ -22,6 +22,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var header = new app.views.Header(data);
     var main = new app.views.Dashboard(data);
     var footer = new app.views.Footer(data);
+    main.$el.attr('role', 'main');
   },
 
   index: function(queryString) {
@@ -37,7 +38,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var header = new app.views.Header(data);
     var main = new app.views.Page(_.extend({}, data, {el: '#main', page_key: id}));
     var footer = new app.views.Footer(data);
-    main.$el.removeClass('loading');
+    main.$el.removeClass('loading').attr('role', 'main');
   },
 
   transcriptEdit: function(id, queryString) {

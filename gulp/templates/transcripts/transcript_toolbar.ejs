@@ -1,8 +1,8 @@
-<div class="transcript-toolbar inverse">
-  <div class="controls">
+<div class="transcript-toolbar inverse" role="toolbar">
+  <div class="controls" role="menu">
     <% _.each(controls, function(control){ %>
-      <div class="control <%= control.id %>" aria-label="<%= control.keyDescription %>" title="<%= control.keyDescription %>" style="width: <%= control_width_percent %>%">
-        <div class="label" data-label="<%= control.label %>"></div>
+      <div class="control <%= control.id %>" aria-label="<%= control.keyDescription %>" title="<%= control.keyDescription %>" style="width: <%= control_width_percent %>%" role="menuitem">
+        <div class="label" data-label="<%= control.label %>" aria-label="<%= control.keyDescription %>"></div>
         <div class="key"><%= control.key %></div>
       </div>
     <% }) %>

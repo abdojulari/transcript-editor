@@ -56,7 +56,7 @@ app.views.TranscriptLineVerify = app.views.Base.extend({
         $option = $(e.currentTarget),
         edit_id = parseInt($option.attr('edit-id'));
 
-    $options.not('[edit-id="'+edit_id+'"]').removeClass('active');
+    $options.not('[edit-id="'+edit_id+'"]').removeClass('active').attr('aria-checked', 'false');
     $option.toggleClass('active');
 
     // set selected edit as active
@@ -70,6 +70,7 @@ app.views.TranscriptLineVerify = app.views.Base.extend({
 
     // edit is selected
     if ($option.hasClass('active')) {
+      $option.attr('aria-checked', 'true');
       PubSub.publish('transcript.line.verify', {line: line, text: $option.text()});
 
     // edit is deleted

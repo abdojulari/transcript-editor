@@ -3,9 +3,9 @@
     <label for="filter-by-collection">Filter by Collection: </label>
     <div name="filter-by-collection" class="select collection">
       <div class="select-active"><%= active_collection.title %></div>
-      <div class="select-options">
+      <div class="select-options" role="menu" aria-hidden="true">
         <% _.each(collections, function(collection) { %>
-          <a data-filter="collection_id" data-value="<%= collection.id %>" class="select-option filter-by <%= active_collection.id == collection.id ? 'selected' : '' %>" data-active="<%= collection.title %>" title="<%= collection.title %><%= collection.description ? ': '+collection.description : '' %>"><%= collection.title %></a>
+          <a data-filter="collection_id" data-value="<%= collection.id %>" class="select-option filter-by <%= active_collection.id == collection.id ? 'selected' : '' %>" data-active="<%= collection.title %>" title="<%= collection.title %><%= collection.description ? ': '+collection.description : '' %>" role="menuitemradio" aria-checked="<%= active_collection.id == collection.id ? 'true' : 'false' %>"><%= collection.title %></a>
         <% }) %>
       </div>
     </div>
@@ -16,17 +16,17 @@
   <label for="sort-by">Sort by: </label>
   <div name="sort-by" class="select sort">
     <div class="select-active"><%= active_sort.label %></div>
-    <div class="select-options">
+    <div class="select-options" role="menu" aria-hidden="true">
       <% _.each(sort_options, function(sort) { %>
-        <a data-sort="<%= sort.name %>" data-order="<%= sort.order %>" class="select-option sort-by <%= active_sort.id == sort.id ? 'selected' : '' %>" data-active="<%= sort.label %>" title="<%= sort.label %>"><%= sort.label %></a>
+        <a data-sort="<%= sort.name %>" data-order="<%= sort.order %>" class="select-option sort-by <%= active_sort.id == sort.id ? 'selected' : '' %>" data-active="<%= sort.label %>" title="<%= sort.label %>" role="menuitemradio" aria-checked="<%= active_sort.id == sort.id ? 'true' : 'false' %>"><%= sort.label %></a>
       <% }) %>
     </div>
   </div>
 </div>
 
 <div class="facet">
-  <form id="search-form" class="search-form">
+  <form id="search-form" class="search-form" role="search">
     <input name="keyword" value="<%= active_keyword %>" placeholder="Search Title/Description" />
-    <button type="submit" class="submit"></button>
+    <button type="submit" class="submit" title="Submit" aria-label="Submit"></button>
   </form>
 </div>

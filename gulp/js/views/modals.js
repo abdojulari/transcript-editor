@@ -19,7 +19,8 @@ app.views.Modals = app.views.Base.extend({
     this.$el.append($modal);
   },
 
-  dismissModals: function(){
+  dismissModals: function(e){
+    e && e.preventDefault();
     this.$('.modal').removeClass('active');
   },
 

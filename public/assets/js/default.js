@@ -530,8 +530,8 @@ var COMPONENTS = (function() {
         $options = $menu.find('.select-option'),
         activeText = $selectOption.attr('data-active') || $selectOption.text();
 
-    $options.removeClass('selected');
-    $selectOption.addClass('selected');
+    $options.removeClass('selected').attr('aria-checked', 'false');
+    $selectOption.addClass('selected').attr('aria-checked', 'true');
     $active.text(activeText);
     $menu.removeClass('active');
   };
@@ -614,7 +614,8 @@ var COMPONENTS = (function() {
     var _this = this;
 
     // toggle button
-    $(document).on('click', '.toggle-active', function(){
+    $(document).on('click', '.toggle-active', function(e){
+      e.preventDefault();
       _this.toggle($(this).attr('data-target'));
     });
   };
@@ -739,6 +740,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var header = new app.views.Header(data);
     var main = new app.views.Dashboard(data);
     var footer = new app.views.Footer(data);
+    main.$el.attr('role', 'main');
   },
 
   index: function(queryString) {
@@ -754,7 +756,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var header = new app.views.Header(data);
     var main = new app.views.Page(_.extend({}, data, {el: '#main', page_key: id}));
     var footer = new app.views.Footer(data);
-    main.$el.removeClass('loading');
+    main.$el.removeClass('loading').attr('role', 'main');
   },
 
   transcriptEdit: function(id, queryString) {
@@ -1095,6 +1097,7 @@ app.views.Modal = app.views.Base.extend({
   },
 
   tab: function(e){
+    e && e.preventDefault();
     var $tab = $(e.currentTarget);
     this.data.active_page = parseInt($tab.attr('data-tab'));
     this.data.active = true;
@@ -1326,7 +1329,8 @@ app.views.Modals = app.views.Base.extend({
     this.$el.append($modal);
   },
 
-  dismissModals: function(){
+  dismissModals: function(e){
+    e && e.preventDefault();
     this.$('.modal').removeClass('active');
   },
 
@@ -2041,12 +2045,15 @@ app.views.TranscriptLineFlag = app.views.Base.extend({
         $option = $(e.currentTarget),
         type_id = parseInt($option.attr('type-id'));
 
-    $options.not('[type-id="'+type_id+'"]').removeClass('active');
+    $options.not('[type-id="'+type_id+'"]').removeClass('active').attr('aria-checked', 'false');
     $option.toggleClass('active');
 
     // set selected flag type as active
     var flag_type_id = 0;
-    if ($option.hasClass('active')) flag_type_id = type_id;
+    if ($option.hasClass('active')) {
+      $option.attr('aria-checked', 'true');
+      flag_type_id = type_id;
+    }
     this.data.line.user_flag.flag_type_id = flag_type_id;
   },
 
@@ -2070,7 +2077,7 @@ app.views.TranscriptLineFlag = app.views.Base.extend({
     };
 
     $.post(API_URL + "/flags.json", {flag: data}, function(resp) {
-      _this.$('.message').addClass('active');
+      _this.$('.message').addClass('active').html('<p>Thank you for flagging this line. We will be periodically reviewing and correcting flagged errors.</p>');
       setTimeout(function(){
         PubSub.publish('modals.dismiss', true);
       }, 3000)
@@ -2210,7 +2217,7 @@ app.views.TranscriptItem = app.views.Base.extend({
     if (transcript.collection_title) title = transcript.collection_title + ': ' + title;
     if (transcript.description) title = title + ' - ' + transcript.description;
     this.$el.attr('title', title);
-
+    this.$el.attr('role', 'listitem');
     this.$el.attr('href', transcript.path);
     this.$el.html(this.template(transcript));
     return this;
@@ -2314,7 +2321,7 @@ app.views.TranscriptLine = app.views.Base.extend({
       e.preventDefault();
       $(e.currentTarget).addClass('active');
     }
-    
+
     $.post(API_URL + "/transcript_lines/"+this.line.id+"/resolve.json");
     this.$('.button.flag').removeClass('active');
   },
@@ -2337,7 +2344,7 @@ app.views.TranscriptLine = app.views.Base.extend({
         speaker_id = parseInt($option.attr('data-id')),
         old_speaker_id = this.line.speaker_id;
 
-    this.$('.speaker-option').removeClass('selected');
+    this.$('.speaker-option').removeClass('selected').attr('aria-checked', 'false');
     this.$('.speaker').removeClass('selected c0 c1 c2 c3 c4 c5 c6 c7');
 
     // didn't change, unselect
@@ -2348,7 +2355,7 @@ app.views.TranscriptLine = app.views.Base.extend({
     } else {
       var position = _.pluck(this.speakers, 'id').indexOf(speaker_id);
       this.line.speaker_id = speaker_id;
-      $option.addClass('selected');
+      $option.addClass('selected').attr('aria-checked', 'true');
       this.$('.speaker').addClass('selected c'+position);
     }
 
@@ -2587,7 +2594,7 @@ app.views.TranscriptLineVerify = app.views.Base.extend({
         $option = $(e.currentTarget),
         edit_id = parseInt($option.attr('edit-id'));
 
-    $options.not('[edit-id="'+edit_id+'"]').removeClass('active');
+    $options.not('[edit-id="'+edit_id+'"]').removeClass('active').attr('aria-checked', 'false');
     $option.toggleClass('active');
 
     // set selected edit as active
@@ -2601,6 +2608,7 @@ app.views.TranscriptLineVerify = app.views.Base.extend({
 
     // edit is selected
     if ($option.hasClass('active')) {
+      $option.attr('aria-checked', 'true');
       PubSub.publish('transcript.line.verify', {line: line, text: $option.text()});
 
     // edit is deleted
@@ -3173,6 +3181,7 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   },
 
   render: function(){
+    this.$el.attr('role', 'main');
     this.$el.html(this.template(this.data));
     return this;
   },

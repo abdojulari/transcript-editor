@@ -6,32 +6,32 @@
     <% } %>
     <div class="modal-content">
       <% _.each(pages, function(page, i){ %>
-        <div class="modal-page <%= page.file ? page.file : '' %> <%= active_page==i ? 'active': '' %>">
+        <div class="modal-page <%= page.file ? page.file : '' %> <%= active_page==i ? 'active': '' %>" role="tabpanel" aria-labelledby="modal-tab-link-<%= i %>">
           <%= page.contents %>
         </div>
       <% }) %>
     </div>
     <% if (pages.length > 1) { %>
-      <div class="modal-tabs">
+      <div class="modal-tabs" role="tablist">
         <% _.each(pages, function(page, i){ %>
-          <a class="modal-tab <%= active_page==i ? 'active': '' %>" data-tab="<%= i %>"><%= i+1 %>. <%= page.label %></a>
+          <a id="modal-tab-link-<%= i %>" href="#tab-<%= i %>" class="modal-tab <%= active_page==i ? 'active': '' %>" data-tab="<%= i %>" role="tab"><%= i+1 %>. <%= page.label %></a>
         <% }) %>
       </div>
     <% } %>
     <footer>
       <% if (active_page > 0) { %>
-        <a class="button modal-tab" data-tab="<%= active_page-1 %>">Previous</a>
+        <a href="#previous" class="button modal-tab" data-tab="<%= active_page-1 %>" role="button">Previous</a>
       <% } %>
 
       <% if (active_page >= pages.length-1) { %>
-        <a class="button pull-right modal-dismiss"><%= hasOwnProperty("doneLabel") ? doneLabel : "Finished" %></a>
+        <a href="#done" class="button pull-right modal-dismiss" role="button"><%= hasOwnProperty("doneLabel") ? doneLabel : "Finished" %></a>
       <% } else if (pages.length > 1) { %>
-        <a class="button pull-right modal-tab" data-tab="<%= active_page+1 %>">Next</a>
+        <a href="#next" class="button pull-right modal-tab" data-tab="<%= active_page+1 %>" role="button">Next</a>
       <% } %>
 
     </footer>
   </div>
 
-  <a class="modal-close modal-dismiss" title="Close this modal">x</a>
+  <a href="#close" class="modal-close modal-dismiss" title="Close this modal" aria-label="Close" role="button">x</a>
 
 </section>

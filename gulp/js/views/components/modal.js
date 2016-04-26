@@ -38,6 +38,7 @@ app.views.Modal = app.views.Base.extend({
   },
 
   tab: function(e){
+    e && e.preventDefault();
     var $tab = $(e.currentTarget);
     this.data.active_page = parseInt($tab.attr('data-tab'));
     this.data.active = true;

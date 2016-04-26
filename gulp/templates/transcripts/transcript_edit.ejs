@@ -1,11 +1,13 @@
 <% if (page_conventions) { %>
 <div id="conventions-page" class="conventions-page sticky">
+  <div role="tabpanel" aria-labelledby="conventions-link" aria-hidden="true">
   <%= page_conventions %>
-  <a class="tab toggle-active conventions-link" data-target="#conventions-page" label-active="Hide Conventions" label-inactive="Show Conventions"></a>
+  </div>
+  <a id="conventions-link" href="#conventions" class="tab toggle-active conventions-link" data-target="#conventions-page" label-active="Hide Conventions" label-inactive="Show Conventions" role="tab" aria-label="Conventions"></a>
 </div>
 <% } %>
 
-<div class="transcript-header<%= transcript.image_url ? ' has-image' : '' %>">
+<div class="transcript-header<%= transcript.image_url ? ' has-image' : '' %>" role="banner">
   <% if (transcript.image_url) { %>
     <div class="image" style="background-image: url(<%= transcript.image_url %>)"></div>
   <% } %>
@@ -59,21 +61,25 @@
   <% } %>
 </div>
 
-<% if (page_content) { %>
-<div class="transcript-page">
-  <%= page_content %>
-</div>
-<% } %>
+<div role="main">
 
-<div id="transcript-user-progress" class="transcript-user-progress">
-  <div class="progress-content"></div>
-  <a class="progress-toggle" title="Toggle Progress Display"></a>
-</div>
+  <% if (page_content) { %>
+  <div class="transcript-page" role="contentinfo">
+    <%= page_content %>
+  </div>
+  <% } %>
 
-<div id="transcript-lines" class="transcript-lines<%= transcript.speakers && transcript.speakers.length > 1 ? ' has-speakers' : '' %>"></div>
+  <div id="transcript-user-progress" class="transcript-user-progress">
+    <div class="progress-content"></div>
+    <a href="#toggle" class="progress-toggle" title="Toggle Progress Display"></a>
+  </div>
 
-<% if (completion_content) { %>
-<div id="completion-content" class="completion-content">
-  <%= completion_content %>
+  <div id="transcript-lines" class="transcript-lines<%= transcript.speakers && transcript.speakers.length > 1 ? ' has-speakers' : '' %>"></div>
+
+  <% if (completion_content) { %>
+  <div id="completion-content" class="completion-content" aria-hidden="true">
+    <%= completion_content %>
+  </div>
+  <% } %>
+
 </div>
-<% } %>

@@ -6,7 +6,7 @@
   "useVendorAudio": true,
   "maxLineTimeOverlapMs": 0,
   "transcriptsPerPage": 1000,
-  "previewAudioOnHover": true,
+  "previewAudioOnHover": false,
   "gaCode": "UA-1420324-124",
   "adminEmails": [
     "brianfoo@nypl.org",
@@ -38,7 +38,7 @@
       {"label": "Browse", "url": "/"},
       {"label": "About", "url": "/page/about"},
       {"label": "FAQ", "url": "/page/faq"},
-      {"label": "Tutorial", "modal": "tutorial_edit", "validRoutes": ["transcripts/:id"]}
+      {"label": "Tutorial", "url": "#tutorial", "modal": "tutorial_edit", "validRoutes": ["transcripts/:id"]}
     ],
     "transcript_edit": [],
     "footer": [

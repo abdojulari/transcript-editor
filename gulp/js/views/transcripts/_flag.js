@@ -52,12 +52,15 @@ app.views.TranscriptLineFlag = app.views.Base.extend({
         $option = $(e.currentTarget),
         type_id = parseInt($option.attr('type-id'));
 
-    $options.not('[type-id="'+type_id+'"]').removeClass('active');
+    $options.not('[type-id="'+type_id+'"]').removeClass('active').attr('aria-checked', 'false');
     $option.toggleClass('active');
 
     // set selected flag type as active
     var flag_type_id = 0;
-    if ($option.hasClass('active')) flag_type_id = type_id;
+    if ($option.hasClass('active')) {
+      $option.attr('aria-checked', 'true');
+      flag_type_id = type_id;
+    }
     this.data.line.user_flag.flag_type_id = flag_type_id;
   },
 
@@ -81,7 +84,7 @@ app.views.TranscriptLineFlag = app.views.Base.extend({
     };
 
     $.post(API_URL + "/flags.json", {flag: data}, function(resp) {
-      _this.$('.message').addClass('active');
+      _this.$('.message').addClass('active').html('<p>Thank you for flagging this line. We will be periodically reviewing and correcting flagged errors.</p>');
       setTimeout(function(){
         PubSub.publish('modals.dismiss', true);
       }, 3000)

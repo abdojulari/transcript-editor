@@ -212,6 +212,7 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   },
 
   render: function(){
+    this.$el.attr('role', 'main');
     this.$el.html(this.template(this.data));
     return this;
   },

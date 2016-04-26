@@ -66,8 +66,8 @@ var COMPONENTS = (function() {
         $options = $menu.find('.select-option'),
         activeText = $selectOption.attr('data-active') || $selectOption.text();
 
-    $options.removeClass('selected');
-    $selectOption.addClass('selected');
+    $options.removeClass('selected').attr('aria-checked', 'false');
+    $selectOption.addClass('selected').attr('aria-checked', 'true');
     $active.text(activeText);
     $menu.removeClass('active');
   };
@@ -150,7 +150,8 @@ var COMPONENTS = (function() {
     var _this = this;
 
     // toggle button
-    $(document).on('click', '.toggle-active', function(){
+    $(document).on('click', '.toggle-active', function(e){
+      e.preventDefault();
       _this.toggle($(this).attr('data-target'));
     });
   };

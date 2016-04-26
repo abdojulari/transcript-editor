@@ -94,7 +94,7 @@ app.views.TranscriptLine = app.views.Base.extend({
       e.preventDefault();
       $(e.currentTarget).addClass('active');
     }
-    
+
     $.post(API_URL + "/transcript_lines/"+this.line.id+"/resolve.json");
     this.$('.button.flag').removeClass('active');
   },
@@ -117,7 +117,7 @@ app.views.TranscriptLine = app.views.Base.extend({
         speaker_id = parseInt($option.attr('data-id')),
         old_speaker_id = this.line.speaker_id;
 
-    this.$('.speaker-option').removeClass('selected');
+    this.$('.speaker-option').removeClass('selected').attr('aria-checked', 'false');
     this.$('.speaker').removeClass('selected c0 c1 c2 c3 c4 c5 c6 c7');
 
     // didn't change, unselect
@@ -128,7 +128,7 @@ app.views.TranscriptLine = app.views.Base.extend({
     } else {
       var position = _.pluck(this.speakers, 'id').indexOf(speaker_id);
       this.line.speaker_id = speaker_id;
-      $option.addClass('selected');
+      $option.addClass('selected').attr('aria-checked', 'true');
       this.$('.speaker').addClass('selected c'+position);
     }
 
