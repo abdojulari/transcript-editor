@@ -3042,7 +3042,7 @@ app.views.TranscriptsIndex = app.views.Base.extend({
 
     // do the filters
     _.each(filters, function(value, key){
-      transcripts = _.filter(transcripts, function(transcript){ return transcript[key]==value; });
+      transcripts = _.filter(transcripts, function(transcript){ return !_.has(transcript, key) || transcript[key]==value; });
     });
 
     // do the searching
