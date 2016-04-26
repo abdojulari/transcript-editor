@@ -64,6 +64,21 @@ class Transcript < ActiveRecord::Base
       {vendor_id: vendor[:id], empty: "", project_uid: project_uid})
   end
 
+  def self.getUpdatedAfter(date, page=1, options={})
+    page ||= 1
+    project = Project.getActive
+    per_page = 500
+    per_page = project[:data]["transcriptsPerPage"].to_i if project && project[:data]["transcriptsPerPage"]
+
+    Transcript
+      .select('transcripts.*, COALESCE(collections.uid, \'\') AS collection_uid')
+      .joins('LEFT OUTER JOIN collections ON collections.id = transcripts.collection_id')
+      .where("transcripts.lines > 0 AND transcripts.project_uid = :project_uid AND transcripts.is_published = :is_published AND transcripts.updated_at > :update_after", {project_uid: ENV['PROJECT_ID'], is_published: 1, update_after: date})
+      .distinct
+      .order("updated_at DESC")
+      .paginate(:page => page, :per_page => per_page)
+  end
+
   # Incrementally update transcript stats based on line delta
   def delta(line_status_id_before, line_status_id_after, statuses=nil)
     return if lines <= 0

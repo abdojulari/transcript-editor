@@ -2,12 +2,12 @@ class TranscriptFilesController < ApplicationController
   include ActionController::MimeResponds
 
   before_action :set_transcript, only: [:show, :update, :destroy]
+  before_action :set_updated_after, only: [:index]
 
-  # GET /transcripts.json
+  # GET /transcripts.json?updated_after=yyyy-mm-dd&page=1
   def index
-    project = Project.getActive
-    @project_settings = project[:data]
-    @transcripts = Transcript.getForHomepage(params[:page])
+    @transcripts = Transcript.getUpdatedAfter(@updated_after)
+    @opt = transcript_file_params
   end
 
   # GET /transcript_files/the-uid.json?edits=1
@@ -34,6 +34,14 @@ class TranscriptFilesController < ApplicationController
   end
 
   private
+
+    def set_updated_after
+      # default to all time
+      @updated_after = 10.years.ago
+
+      # look for parameters
+      @updated_after = params[:updated_after].to_datetime unless params[:updated_after].blank?
+    end
 
     def set_transcript
       @transcript = Transcript.find_by(uid: params[:id])

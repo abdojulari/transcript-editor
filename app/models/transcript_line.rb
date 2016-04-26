@@ -4,7 +4,7 @@ class TranscriptLine < ActiveRecord::Base
   multisearchable :against => [:original_text, :text]
 
   belongs_to :transcript_line_status
-  belongs_to :transcript
+  belongs_to :transcript, touch: true
   has_many :transcript_edits
   has_many :flags
 
