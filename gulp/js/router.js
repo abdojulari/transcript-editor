@@ -55,6 +55,9 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var flagView = new app.views.TranscriptLineFlag(data);
     modals.addModal(flagView.$el);
 
+    var downloadView = new app.views.TranscriptDownload(_.extend({}, data, {transcript_id: id}));
+    modals.addModal(downloadView.$el);
+
     var transcript_model = new app.models.Transcript({id: id});
     var main = new app.views.TranscriptEdit(_.extend({}, data, {el: '#main', model: transcript_model}));
   },

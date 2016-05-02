@@ -28,6 +28,10 @@
       <p class="speakers">Participants: <%= _.pluck(transcript.speakers, 'name').join(', ') %> </p>
     <% } %>
 
+    <% if (transcript.can_download) { %>
+      <p class="download-link"><a href="#download" data-modal="transcript-download" class="modal-invoke">Download this transcript</a></p>
+    <% } %>
+
   </div>
   <% if (transcript.percent_edited > 0) { %>
   <div class="status-wrapper">

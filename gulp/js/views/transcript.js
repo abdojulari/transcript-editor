@@ -270,7 +270,8 @@ app.views.Transcript = app.views.Base.extend({
         superUserHiearchy = PROJECT.consensus.superUserHiearchy,
         user_role = this.data.transcript.user_role,
         user_flags = this.data.transcript.user_flags,
-        maxLineTimeOverlapMs = PROJECT.maxLineTimeOverlapMs;
+        maxLineTimeOverlapMs = PROJECT.maxLineTimeOverlapMs,
+        allowTranscriptDownload = PROJECT.allowTranscriptDownload;
 
     // map edits for easy lookup
     var user_edits_map = _.object(_.map(user_edits, function(edit) {
@@ -299,6 +300,9 @@ app.views.Transcript = app.views.Base.extend({
     var user_flags_map = _.object(_.map(user_flags, function(flag) {
       return [""+flag.transcript_line_id, flag]
     }));
+
+    // check to see if download is allowed
+    this.data.transcript.can_download = this.data.transcript.can_download || this.data.transcript.can_download!==0 && allowTranscriptDownload;
 
     // process each line
     _.each(lines, function(line, i){

@@ -6,6 +6,7 @@
   "useVendorAudio": true,
   "maxLineTimeOverlapMs": 0,
   "transcriptsPerPage": 1000,
+  "allowTranscriptDownload": true,
   "previewAudioOnHover": false,
   "gaCode": "UA-1420324-124",
   "adminEmails": [

@@ -59,11 +59,11 @@ $transcript-content-width: 800px;
     p {
       margin-top: 0;
     }
-    .duration, .speakers, .original-link {
+    .duration, .speakers, .original-link, .download-link {
       font-style: italic;
       color: $coolgray-dark-color;
     }
-    .speakers, .original-link {
+    .speakers, .original-link, .download-link {
       margin-top: -12px;
       max-width: 500px;
       color: $charcoal;
@@ -71,6 +71,10 @@ $transcript-content-width: 800px;
     }
     .original-link a:after {
       @include icon("\f08e");
+      margin-left: 6px;
+    }
+    .download-link a:after {
+      @include icon("\f019");
       margin-left: 6px;
     }
   }

@@ -1,0 +1,43 @@
+@import "mixins";
+@import "variables";
+
+#transcript-download {
+  h2 {
+    margin-bottom: 0;
+  }
+  .warning {
+    font-weight: bold;
+    background: $highlight-color;
+    padding: 2px 5px;
+    margin-top: 0;
+  }
+  label {
+    display: block;
+    font-weight: bold;
+  }
+  input[type="radio"] {
+    margin-left: 2px;
+  }
+  input[type="text"] {
+    width: 90%;
+    padding: 5px;
+  }
+  .download-form {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed #ccc;
+  }
+  .radio-label {
+    display: inline-block;
+    margin-right: 10px;
+    font-weight: normal;
+  }
+  .format-options {
+    display: none;
+    margin-top: 20px;
+
+    &.active {
+      display: block;
+    }
+  }
+}

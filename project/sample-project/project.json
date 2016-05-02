@@ -6,6 +6,7 @@
   "useVendorAudio": true,
   "transcriptsPerPage": 500,
   "maxLineTimeOverlapMs": -1,
+  "allowTranscriptDownload": true,
   "gaCode": "",
   "adminEmails": [
     "admin@email.org"

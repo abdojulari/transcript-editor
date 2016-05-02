@@ -1,4 +1,10 @@
 WEBVTT
+
+NOTE
+Title: <%= @transcript.title %>
+Last Updated: <%= @transcript.updated_at.strftime("%Y-%m-%d %l:%M%p") %>
+Origin: <%= transcript_url(@transcript) %>
+
 <% @transcript_lines.each do |line| %>
 <%= line.start_time_string %> --> <%= line.end_time_string %>
 <%= raw "<v #{line.speaker_name}> " if @opt[:speakers] && !line.speaker_name.blank? %><%= raw "<v Multiple Speakers> " if @opt[:speakers] && line.speaker_id < 0 %><%= raw line.best_text %>

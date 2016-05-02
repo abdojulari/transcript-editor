@@ -773,6 +773,9 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var flagView = new app.views.TranscriptLineFlag(data);
     modals.addModal(flagView.$el);
 
+    var downloadView = new app.views.TranscriptDownload(_.extend({}, data, {transcript_id: id}));
+    modals.addModal(downloadView.$el);
+
     var transcript_model = new app.models.Transcript({id: id});
     var main = new app.views.TranscriptEdit(_.extend({}, data, {el: '#main', model: transcript_model}));
   },
@@ -1653,7 +1656,8 @@ app.views.Transcript = app.views.Base.extend({
         superUserHiearchy = PROJECT.consensus.superUserHiearchy,
         user_role = this.data.transcript.user_role,
         user_flags = this.data.transcript.user_flags,
-        maxLineTimeOverlapMs = PROJECT.maxLineTimeOverlapMs;
+        maxLineTimeOverlapMs = PROJECT.maxLineTimeOverlapMs,
+        allowTranscriptDownload = PROJECT.allowTranscriptDownload;
 
     // map edits for easy lookup
     var user_edits_map = _.object(_.map(user_edits, function(edit) {
@@ -1682,6 +1686,9 @@ app.views.Transcript = app.views.Base.extend({
     var user_flags_map = _.object(_.map(user_flags, function(flag) {
       return [""+flag.transcript_line_id, flag]
     }));
+
+    // check to see if download is allowed
+    this.data.transcript.can_download = this.data.transcript.can_download || this.data.transcript.can_download!==0 && allowTranscriptDownload;
 
     // process each line
     _.each(lines, function(line, i){
@@ -1863,6 +1870,65 @@ app.views.Transcript = app.views.Base.extend({
     });
 
     PubSub.publish('transcript.edit.submit', data);
+  }
+
+});
+
+app.views.TranscriptDownload = app.views.Base.extend({
+
+  id: "transcript-download",
+  className: "modal-wrapper",
+
+  template: _.template(TEMPLATES['transcript_download.ejs']),
+
+  events: {
+    "click .download": "download",
+    "submit .download-form": "download",
+    "change .formatOption": "selectFormat",
+    "change .format-options input": "updateURL"
+  },
+
+  initialize: function(data){
+    this.data = _.extend({}, data);
+    this.data.active = false;
+
+    this.base_url = API_URL + '/transcript_files/' + this.data.transcript_id;
+
+    this.render();
+    this.updateURL();
+  },
+
+  download: function(e){
+    e && e.preventDefault();
+
+    var url = this.$('#transcript-download-url').val();
+    window.open(url);
+  },
+
+  render: function(){
+    this.$el.html(this.template(this.data));
+  },
+
+  selectFormat: function(e){
+    var $input = $(e.currentTarget),
+        format = $input.val();
+
+    this.$('.format-options').removeClass('active');
+    this.$('.format-options[data-format="'+format+'"]').addClass('active');
+
+    this.updateURL();
+  },
+
+  updateURL: function(e){
+    var format = this.$('input:radio[name="format"]:checked').val();
+    var options = this.$('.format-options.active input').serialize();
+    var url = this.base_url + '.' + format;
+
+    if (options.length) {
+      url += "?" + options;
+    }
+
+    this.$('#transcript-download-url').val(url);
   }
 
 });
