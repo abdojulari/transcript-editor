@@ -14,6 +14,7 @@ class TranscriptFilesController < ApplicationController
   # GET /transcript_files/the-uid.text?timestamps=1&speakers=1
   # GET /transcript_files/the-uid.vtt?speakers=1
   def show
+    @project = Project.getActive
     @transcript_lines = []
     @transcript_line_statuses = []
     @transcript_speakers = []

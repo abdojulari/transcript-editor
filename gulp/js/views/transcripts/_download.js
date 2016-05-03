@@ -13,13 +13,18 @@ app.views.TranscriptDownload = app.views.Base.extend({
   },
 
   initialize: function(data){
+    var _this = this;
+
     this.data = _.extend({}, data);
     this.data.active = false;
+    this.data.transcript = false;
 
     this.base_url = API_URL + '/transcript_files/' + this.data.transcript_id;
 
-    this.render();
-    this.updateURL();
+    // check for transcript load
+    PubSub.subscribe('transcript.load', function(ev, data) {
+      _this.onTranscriptLoad(data.transcript);
+    });
   },
 
   download: function(e){
@@ -27,6 +32,12 @@ app.views.TranscriptDownload = app.views.Base.extend({
 
     var url = this.$('#transcript-download-url').val();
     window.open(url);
+  },
+
+  onTranscriptLoad: function(transcript){
+    this.data.transcript = transcript;
+    this.render();
+    this.updateURL();
   },
 
   render: function(){

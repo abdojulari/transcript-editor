@@ -3,8 +3,18 @@
   <div class="modal-inner">
     <header id="modal-label">Download this transcript</header>
     <div class="modal-content" role="menu">
-      <h2>Download this transcript</h2>
-      <p class="warning">Note that this transcript may contain errors.</p>
+      <h2>Download this transcript<%= transcript ? ': '+transcript.title : '' %></h2>
+      <p class="warning">
+        <% if (transcript && transcript.percent_completed >= 100) { %>
+          Note: though this transcript has reached consensus, it may contain errors
+        <% } else if (transcript && transcript.users_contributed > 0) { %>
+          Note: this transcript contains a mix of computer-generated and user-generated text and may contain errors
+        <% } else if (transcript && transcript.percent_edited <= 0) { %>
+          Note that this is a computer-generated transcript with no edits and probably contains errors
+        <% } else { %>
+          Note that this transcript may contain errors
+        <% } %>
+      </p>
 
       <form class="download-form">
         <label>Choose A Format:</label>
