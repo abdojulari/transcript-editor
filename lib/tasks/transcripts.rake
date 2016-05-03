@@ -47,6 +47,7 @@ namespace :transcripts do
       # Make the filename the batch id
       attributes[:batch_id] = args[:filename]
       attributes[:project_uid] = args[:project_key]
+      attributes[:can_download] = attributes[:can_download].to_i if attributes[:can_download].present?
       # puts attributes
       transcript = Transcript.find_or_initialize_by(uid: attributes[:uid])
       transcript.update(attributes)

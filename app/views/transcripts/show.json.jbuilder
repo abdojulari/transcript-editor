@@ -1,4 +1,4 @@
-json.extract! @transcript, :id, :uid, :title, :description, :url, :audio_url, :image_url, :duration, :lines, :notes, :vendor_audio_urls, :percent_completed, :percent_edited, :percent_reviewing, :lines_completed, :lines_edited, :lines_reviewing, :users_contributed
+json.extract! @transcript, :id, :uid, :title, :description, :url, :audio_url, :image_url, :duration, :lines, :notes, :vendor_audio_urls, :percent_completed, :percent_edited, :percent_reviewing, :lines_completed, :lines_edited, :lines_reviewing, :users_contributed, :can_download
 
 json.transcript_status @transcript.transcript_status, :id, :name, :progress, :description
 

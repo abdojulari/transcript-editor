@@ -302,7 +302,7 @@ app.views.Transcript = app.views.Base.extend({
     }));
 
     // check to see if download is allowed
-    this.data.transcript.can_download = this.data.transcript.can_download || this.data.transcript.can_download!==0 && allowTranscriptDownload;
+    this.data.transcript.can_download = allowTranscriptDownload && this.data.transcript.can_download;
 
     // process each line
     _.each(lines, function(line, i){

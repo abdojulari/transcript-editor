@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160414191356) do
+ActiveRecord::Schema.define(version: 20160503145345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -189,6 +189,7 @@ ActiveRecord::Schema.define(version: 20160414191356) do
     t.integer  "percent_reviewing",       default: 0,         null: false
     t.integer  "lines_reviewing",         default: 0,         null: false
     t.integer  "users_contributed",       default: 0,         null: false
+    t.integer  "can_download",            default: 1,         null: false
   end
 
   add_index "transcripts", ["collection_id"], name: "index_transcripts_on_collection_id", using: :btree
