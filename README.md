@@ -548,16 +548,58 @@ Replace `my-project` and `.csv` files with your project key and manifest files. 
 
 ## Managing your project
 
-Coming soon... this section will walk through admin and moderator functionality
+This tool has the concept of "user roles", though currently only supports three types of users:
 
-### Updating your website
+1. **Guests** - These are anonymous users that did not register. They can make contributions to transcripts, but they will not be able to track their progress between sessions. Their contributions also weigh slightly less than registered users during consensus calculations.
+2. **Registered Users** - These are the same as guests, but they are able to track their editing progress between any session or computer if they are signed in. They do this by [signing in via Google or Facebook](#activating-user-accounts). Their contributions weigh slightly more than anonymous users during consensus calculations.
+3. **Admins** - These are users that are explicitly configured to be administrators of the tool. Their privileges/capabilities include:
+  - All their edits are considered "complete" and do not have to go through the usual process of consensus.
+  - They can edit lines that have status "completed"
+  - They can resolve flags. If a user thinks that a line that is completed/locked still contains errors, they can flag it with a type (misspelling, repeated word, missing word, etc) and comment.
+  - They have access to the admin dashboard. This gives them basic statistics about overall edits, user registrations, top users, and flags.
 
-Coming soon... this section will walk through how to update your website with recent changes to the codebase
+### Configuring Admins
+
+You can add admins by editing your `project.json` file like so:
+
+```
+"adminEmails": [
+  "janedoe@myorg.org",
+  "johndoe@myorg.org",
+  ...
+],
+...
+```
+
+Make sure these email addresses correspond to the email addresses that the user signs in with (i.e. Google or Facebook.) When the user signs in using this email address, they will be able to access their dashboard by clicking the drop-down menu on the top right side of the app.
 
 ## Retrieving your finished transcripts
 
-Coming soon... this section will walk through how you can download all your completed transcripts in a variety of formats for use elsewhere
+Each transcript will be available to download in three formats: plain text, captions ([WebVTT](https://w3c.github.io/webvtt/) - based on SRT), and JSON. These are available at any stage of the transcription process regardless of how "complete" it is. They are available via the UI by clicking "Download this transcript." Users can choose whether they want to include speakers, timestamps, or raw edits depending on which format they choose.
 
-# License
+### Enabling/Disabling transcript downloads
+
+You can enable/disable transcript downloads by setting `allowTranscriptDownload` to `true` or `false` in your `project.json` file like so:
+
+```
+"allowTranscriptDownload": true,
+...
+```
+
+You can also enable/disable individual transcript downloads by setting `can_download` to `1` or `0` in the `transcripts` table in the database.
+
+### Downloading transcripts in bulk
+
+The app has an endpoint that enables programmatic access to transcripts:
+
+`GET /transcripts.json?updated_after=yyyy-mm-dd&page=1`
+
+This will get all the transcript files that were updated after a certain date. This is useful if you want to periodically update transcripts that you display on another website.
+
+## Developers
+
+Coming soon... this section will walk through how the codebase is organized and how you can contribute to this codebase.
+
+## License
 
 See [LICENSE](LICENSE).
