@@ -1,6 +1,6 @@
 # Open Transcript Editor
 
-**Notice: This codebase is currently in deep and rapid development and won't have a stable version until about April 2016. Please check back for updates and documentation.**
+**Notice: This codebase is relatively stable but still being actively developed. Please reach out to [brianfoo@nypl.org](mailto:brianfoo@nypl.org]) or [create a ticket](https://github.com/NYPL/transcript-editor/issues/new) if you are interested in using or contributing to this codebase.**
 
 This is an open-source, self-hosted, web-based tool for correcting transcripts that were automatically generated using speech-to-text software via auto-transcription services such as [Pop Up Archive](https://popuparchive.com/). It is being developed by [NYPL Labs](http://www.nypl.org/collections/labs) in partnership with [The Moth](http://themoth.org/) and [Pop Up Archive](https://popuparchive.com/) with generous support from the [Knight Foundation](http://www.knightfoundation.org/grants/201551666/).
 
@@ -14,7 +14,19 @@ This is an open-source, self-hosted, web-based tool for correcting transcripts t
 - You or a member of your team has basic web development experience, specifically with creating a [Ruby on Rails](http://rubyonrails.org/) web application
 - **Bonus:** You have an audience of users who would be interested in helping fix transcripts (this app is uniquely designed to enable multiple users working on transcripts at the same time)
 
-## Setting Up Your Own Project
+## TOC
+
+1. [Setting up your own project](#setting-up-your-own-project)
+2. [Generating your transcripts](#generating-your-transcripts)
+3. [Customizing your project](#customizing-your-project)
+4. [Transcript Consensus](#transcript-consensus)
+5. [Deploying your project](#deploying-your-project-to-production)
+6. [Managing your project](#managing-your-project)
+7. [Retrieving your finished transcripts](#retrieving-your-finished-transcripts)
+8. [Contributing](#developers)
+9. [License](#license)
+
+## Setting up your own project
 
 ### Requirements
 
