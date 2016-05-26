@@ -1,0 +1,38 @@
+.home\.md.page {
+  max-width: none;
+  margin: -68px -10px 0;
+}
+
+.home\.md.page .banner {
+  color: #fff;
+  padding-top: 60px;
+}
+
+.home\.md.page .banner img {
+  width: 9em;
+}
+
+.home\.md.page .container {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.home\.md.page h1 {
+  margin-bottom: 0;
+}
+
+.home\.md.page .sticker {
+  display: block;
+  position: absolute;
+  right: -150px;
+  bottom: -140px;
+}
+
+.home\.md.page .sticker img {
+  width: 140px;
+  height: auto;
+  -ms-transform: rotate(3deg);
+  -webkit-transform: rotate(3deg);
+  transform: rotate(3deg);
+}
