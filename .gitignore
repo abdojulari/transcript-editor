@@ -19,6 +19,7 @@
 # Project-specific
 /_dev
 .project
+/.ruby-gemset
 
 # Ignore application configuration
 /config/application.yml
@@ -31,3 +32,5 @@
 
 # Node
 /node_modules
+
+/public/audio/
