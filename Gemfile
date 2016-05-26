@@ -45,3 +45,7 @@ gem 'rails_12factor'
 platforms :ruby do # linux
   gem 'unicorn'
 end
+
+group :development, :test do
+  gem 'rspec-rails', '~> 3.4'
+end
