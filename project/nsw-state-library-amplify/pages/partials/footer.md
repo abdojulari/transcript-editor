@@ -1,3 +1,4 @@
 Powered By [Open Transcript Editor](https://github.com/NYPL/transcript-editor) with generous support from:
 
-<a href="http://www.knightfoundation.org/grants/201551666/"><img src="/oral-history/assets/img/knightfoundation_logo.png" alt="Knight Foundation" /></a>
+<a href="https://www.nypl.org/"><img src="/nsw-state-library-amplify/assets/img/new_york_public_library.jpg" alt="The New York Public Library" /></a>
+<a href="https://www.voicebase.com/"><img src="/nsw-state-library-amplify/assets/img/voice_base.png" alt="VoiceBase" /></a>

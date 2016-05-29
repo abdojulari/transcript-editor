@@ -1,3 +1,5 @@
+/* Home page. */
+
 .home\.md.page {
   max-width: none;
   margin: -68px -10px 0;
@@ -35,4 +37,11 @@
   -ms-transform: rotate(3deg);
   -webkit-transform: rotate(3deg);
   transform: rotate(3deg);
+}
+
+/* Footer. */
+
+.footer\.md.page img {
+  max-width: 300px;
+  margin-left: 10px;
 }
