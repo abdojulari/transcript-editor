@@ -376,9 +376,10 @@ app.views.Transcript = app.views.Base.extend({
         var overlapMs = prevLine.end_time - line.start_time;
         // overlap is larger than threshold
         if (overlapMs > maxLineTimeOverlapMs) {
-          var adjustMs = Math.round((overlapMs - maxLineTimeOverlapMs) / 2);
-          _this.data.transcript.lines[i-1].end_time -= adjustMs;
-          _this.data.transcript.lines[i].start_time += adjustMs;
+          // var adjustMs = Math.round((overlapMs - maxLineTimeOverlapMs) / 2);
+          var paddingMs = 0;
+          _this.data.transcript.lines[i-1].end_time = _this.data.transcript.lines[i].start_time + paddingMs;
+          _this.data.transcript.lines[i].start_time = _this.data.transcript.lines[i].start_time - paddingMs;
         }
       }
     });
