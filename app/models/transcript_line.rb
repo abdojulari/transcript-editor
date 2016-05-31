@@ -1,7 +1,10 @@
 class TranscriptLine < ActiveRecord::Base
 
   include PgSearch
-  multisearchable :against => [:original_text, :text]
+  multisearchable :against => [:original_text, :guess_text]
+  pg_search_scope :search_by_all_text, :against => [:original_text, :guess_text]
+  pg_search_scope :search_by_original_text, :against => :original_text
+  pg_search_scope :search_by_guess_text, :against => :guess_text
 
   belongs_to :transcript_line_status
   belongs_to :transcript, touch: true

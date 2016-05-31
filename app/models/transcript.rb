@@ -2,6 +2,8 @@ class Transcript < ActiveRecord::Base
 
   include PgSearch
   multisearchable :against => [:title, :description]
+  pg_search_scope :search_default, :against => [:title, :description]
+  pg_search_scope :search_by_title, :against => :title
 
   validates_uniqueness_of :uid
 
