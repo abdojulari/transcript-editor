@@ -9,7 +9,7 @@
 
 <div class="transcript-header<%= transcript.image_url ? ' has-image' : '' %>" role="banner">
   <% if (transcript.image_url) { %>
-    <div class="image" style="background-image: url(<%= transcript.image_url %>)"></div>
+    <img src="<%= transcript.image_url %>" />
   <% } %>
   <div class="metadata">
     <h1><%= transcript.title %></h1>

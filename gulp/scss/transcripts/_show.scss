@@ -1,7 +1,7 @@
 @import "mixins";
 @import "variables";
 
-$header-image-width: 300px;
+$header-image-width: 100%;
 $transcript-content-width: 800px;
 
 .transcript-header {
@@ -9,7 +9,7 @@ $transcript-content-width: 800px;
   position: relative;
   background: lighten($coolgray-color, 25%);
   margin: (-$header-nav-height - 21px) -10px 20px;
-  padding: $header-nav-height 20px 10px;
+  padding-bottom: 10px;
   min-height: 240px;
   @include box-sizing();
 
@@ -25,15 +25,14 @@ $transcript-content-width: 800px;
     @include box-shadow(inset 0px -20px 20px 0px rgba(0,0,0,0.2));
   }
 
-  .image {
-    position: absolute;
+  img {
     top: 0;
     left: 0;
-    height: 100%;
     width: $header-image-width;
     z-index: 0;
-    background: center 10% no-repeat;
-    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: 100%;
     opacity: 0.3;
     @include box-shadow(inset -80px 0px 80px 0px rgba(lighten($coolgray-color, 25%),1));
   }
