@@ -205,6 +205,15 @@ class Transcript < ActiveRecord::Base
       update_attributes(lines: transcript_lines.length, transcript_status_id: transcript_status[:id], duration: transcript_duration, transcript_retrieved_at: DateTime.now)
       puts "Created #{transcript_lines.length} lines from transcript #{uid}"
     end
+
+    # Delete existing speakers
+    speaker_ids = TranscriptSpeaker.select("speaker_id").where(:transcript_id => id)
+    speaker_ids = speaker_ids.map {|i| i.speaker_id }
+    Speaker.where(id: speaker_ids).delete_all
+    TranscriptSpeaker.destroy_all(:transcript_id => id)
+
+    # Check for speakers
+    _getSpeakersWebVTT(webvtt)
   end
 
   def recalculate
@@ -305,6 +314,32 @@ class Transcript < ActiveRecord::Base
       }
     end
     transcript_lines
+  end
+
+  def _getSpeakersWebVTT(webvtt)
+    speakers = []
+    webvtt.cues.each_with_index do |cue, i|
+      # Retrieve speaker from lines
+      speakerMatch = /^<v ([^>]*)>[ ]*.*/.match(cue.text)
+      unless speakerMatch.nil? || speakerMatch.captures.empty?
+        speakerName = speakerMatch.captures.first
+        speaker = speakers.find{|s| s[:name]==speakerName}
+
+        # New speaker
+        if speaker.nil?
+          speaker = Speaker.create(name: speakerName)
+          # Create transcript speaker
+          TranscriptSpeaker.create(speaker_id: speaker.id, transcript_id: id, collection_id: collection_id, project_uid: project_uid)
+          speakers << speaker
+        end
+
+        # Retrieve and update line
+        line = TranscriptLine.getByTranscriptSequence(id, i)
+        if line && speaker
+          line.update(speaker_id: speaker.id)
+        end
+      end
+    end
   end
 
 end

@@ -50,6 +50,11 @@ class TranscriptLine < ActiveRecord::Base
       .where(transcript_id: transcript_id)
   end
 
+  def self.getByTranscriptSequence(transcript_id, sequence)
+    TranscriptLine
+      .where(transcript_id: transcript_id, sequence: sequence).first
+  end
+
   def self.recalculateById(transcript_line_id)
     line = TranscriptLine.find transcript_line_id
     line.recalculate if line
