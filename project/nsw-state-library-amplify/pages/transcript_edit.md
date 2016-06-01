@@ -12,3 +12,5 @@ The transcript <% if (transcript.hasLinesInReview) { %>also <% } %>contains line
 <% } %>
 
 <p class="text-center"><a href="#start" class="button large start-play disabled" role="button">Okay, let's start</a></p>
+
+<p class="text-center"><a href="#play-all" class="button large play-all disabled" role="button">Play all</a></p>

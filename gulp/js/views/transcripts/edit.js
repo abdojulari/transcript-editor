@@ -183,6 +183,11 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
       _this.finished();
     });
 
+    this.$el.on('click.transcript', '.play-all', function(e) {
+      e.preventDefault();
+      _this.playAll();
+    });
+
     this.loadAnalytics();
   },
 
@@ -217,7 +222,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
 
     this.render();
     this.$el.removeClass('loading');
-    this.$('.start-play').removeClass('disabled');
+    this.$('.start-play, .play-all').removeClass('disabled');
     this.loadListeners();
     this.message('Loaded transcript');
     if (!this.loaded) this.loaded = true;
@@ -249,7 +254,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
   onTimeUpdate: function(){
     if (this.player.playing) this.playerState('playing');
     if (this.pause_at_time !== undefined && this.player.currentTime >= this.pause_at_time) {
-      this.playerPause();
+      this.playerPause({trigger: 'end_of_line'});
     }
   },
 

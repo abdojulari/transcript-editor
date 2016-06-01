@@ -1388,6 +1388,7 @@ app.views.Modals = app.views.Base.extend({
 app.views.Transcript = app.views.Base.extend({
 
   current_line_i: -1,
+  play_all: false,
 
   centerOn: function($el){
     var offset = $el.offset().top,
@@ -1492,17 +1493,21 @@ app.views.Transcript = app.views.Base.extend({
     this.current_line = this.data.transcript.lines[i];
 
     // update UI
+    var $active = $('.line[sequence="' + i + '"]').first();
+
     $('.line.active').removeClass('active');
-    var $active = $('.line[sequence="'+i+'"]').first();
     $active.addClass('active');
+
     this.centerOn($active);
 
-    // focus on input
-    var $input = $active.find('input');
-    if ($input.length) $input.first().focus();
+    if (!this.play_all) {
+      // focus on input
+      var $input = $active.find('input');
+      if ($input.length) $input.first().focus();
 
-    // fit input
-    this.fitInput($input);
+      // fit input
+      this.fitInput($input);
+    }
 
     // play audio
     this.pause_at_time = this.current_line.end_time * 0.001;
@@ -1774,11 +1779,17 @@ app.views.Transcript = app.views.Base.extend({
     if (this.data.transcript.percent_completed > 0) this.data.transcript.hasLinesCompleted = true;
   },
 
-  playerPause: function(){
+  playerPause: function(options) {
+    if (options === undefined) options = {};
+
     if (this.player.playing) {
       this.player.pause();
       this.message('Paused');
       this.playerState('paused');
+
+      if (this.play_all && (options.trigger == 'end_of_line')) {
+        this.lineNext();
+      }
     }
   },
 
@@ -1803,7 +1814,7 @@ app.views.Transcript = app.views.Base.extend({
 
   playerToggle: function(){
     if (this.player.playing) {
-      this.playerPause();
+      this.playerPause({trigger: 'manual'});
 
     } else {
       this.playerPlay();
@@ -1845,7 +1856,7 @@ app.views.Transcript = app.views.Base.extend({
   },
 
   start: function(){
-    this.$('.start-play').addClass('disabled');
+    this.$('.start-play, .play-all').addClass('disabled');
 
     var selectLine = 0,
         lines = this.data.transcript.lines;
@@ -1859,6 +1870,12 @@ app.views.Transcript = app.views.Base.extend({
     });
 
     this.lineSelect(selectLine);
+  },
+
+  playAll: function() {
+    this.play_all = true
+
+    this.start();
   },
 
   submitEdit: function(data){
@@ -2899,6 +2916,11 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
       _this.finished();
     });
 
+    this.$el.on('click.transcript', '.play-all', function(e) {
+      e.preventDefault();
+      _this.playAll();
+    });
+
     this.loadAnalytics();
   },
 
@@ -2933,7 +2955,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
 
     this.render();
     this.$el.removeClass('loading');
-    this.$('.start-play').removeClass('disabled');
+    this.$('.start-play, .play-all').removeClass('disabled');
     this.loadListeners();
     this.message('Loaded transcript');
     if (!this.loaded) this.loaded = true;
@@ -2965,7 +2987,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
   onTimeUpdate: function(){
     if (this.player.playing) this.playerState('playing');
     if (this.pause_at_time !== undefined && this.player.currentTime >= this.pause_at_time) {
-      this.playerPause();
+      this.playerPause({trigger: 'end_of_line'});
     }
   },
 
