@@ -1873,7 +1873,7 @@ app.views.Transcript = app.views.Base.extend({
   },
 
   playAll: function() {
-    this.play_all = true
+    this.play_all = true;
 
     this.start();
   },
