@@ -84,7 +84,7 @@ Your project should load, but since there's no transcripts, all you'll see is a 
 
 ## Generating your transcripts
 
-This section will assume that you do not have transcripts yet, just audio files that need transcripts. We will be using Pop Up Archive to automatically produce the transcripts that will need to be corrected. Other vendors and services may be documented in the future based on demand.
+This section will assume that you do not have transcripts yet, just audio files that need transcripts. If you already have transcripts from some vendor or your own software, jump to this section: [Importing existing transcripts](#importing-existing-transcripts). We will be using Pop Up Archive to automatically produce the transcripts that will need to be corrected. Other vendors and services may be documented in the future based on demand.
 
 ### Requirements
 
@@ -173,6 +173,18 @@ rake pua:download['my-project']
 ```
 
 This will look for any audio items that have been submitted to Pop Up Archive, but not yet have a transcript downloaded.  If an item's transcript is ready, it will download and save it to the app's database, and will become visible in the app. You can run this script any number of times until all transcripts have been downloaded.
+
+## Importing existing transcripts
+
+If you already have a vendor that generates transcripts or you have created your own method for generating transcripts, you can import these transcripts into this app for editing. We currently support the [WebVTT](https://w3c.github.io/webvtt/) format, a W3C standard for displaying timed text in connection with the HTML5 `<track>` element. This format is extended from the popular [SRT](https://en.wikipedia.org/wiki/SubRip) format. Most vendors will provide a `.vtt` file for your transcripts. However, `.srt` files can also be easily converted to `.vtt`.
+
+1. Place all your `.vtt` files in folder `/project/my-project/transcripts/webvtt/`
+2. Create a manifest file
+   - Refer to [this section](#creating-a-manifest-file) to setup a manifest file
+   - In the `vendor` column, enter `webvtt` for each transcript
+   - In the `vendor_identifier` column, enter the name of the `.vtt` file, e.g. `transcript_1234.vtt`
+   - If you have not already, run the `rake transcripts:load['my-project','the_manifest_file.csv']` task on your manifest file to create entries for your transcripts
+3. Finally, run `rake webvtt:read['my-project']` which will import all the `.vtt` files that have not already been processed
 
 ## Customizing your project
 
