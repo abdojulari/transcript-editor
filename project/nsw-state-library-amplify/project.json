@@ -29,14 +29,27 @@
   "menus": {
     "header": [
       {"label": "Browse", "url": "/"},
-      {"label": "About", "url": "/page/about"}
+      {"label": "About", "url": "/page/about"},
+      {"label": "Tutorial", "url": "#tutorial", "modal": "tutorial_edit", "validRoutes": ["transcripts/:id"]}
     ],
     "footer": [
       {"label": "Privacy Policy", "url": "#", "target": "_blank"},
       {"label": "Terms and Conditions", "url": "#", "target": "_blank"}
     ]
   },
-  "modals": {},
+  "modals": {
+    "tutorial_edit": {
+      "title": "Transcript Editor Tutorial",
+      "displayMethod": "once",
+      "doneLabel": "Finished",
+      "pages": [
+        {"label": "Editing", "file": "ed_tutorial_1.md"},
+        {"label": "Speaker Identification", "file": "ed_tutorial_2.md"},
+        {"label": "Verify", "file": "ed_tutorial_3.md"},
+        {"label": "Have fun!", "file": "ed_tutorial_4.md"}
+      ]
+    }
+  },
   "controls": [
     {"id": "toggle-play", "action": "lineToggle", "label": "Play/Pause", "keyCode": 32, "key": "[shift] + [space]", "keyLabel": "Shift + Space Bar", "keyDescription": "Hold shift and press space bar to play, pause, or re-play a line", "shift": true},
     {"id": "next-line", "action": "lineNext", "label": "Next Line", "keyCode": [13,40], "key": "[&#8595;] OR [enter]", "keyLabel": "Down Arrow or Enter Key", "keyDescription": "Press the down arrow key or enter to go to next line"},

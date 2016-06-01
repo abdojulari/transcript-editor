@@ -7,6 +7,11 @@
   </thead>
   <tbody>
     <tr>
+      <td>Language</td>
+      <td>English (Australian)</td>
+      <td>“Colour” not “Color”, “Organise” not “Organize”</td>
+    </tr>
+    <tr>
       <td>Contractions</td>
       <td>Transcribe as you hear them</td>
       <td>“Shoulda”, “Didn’t”</td>
@@ -35,6 +40,11 @@
       <td>Hard-to-understand</td>
       <td>For speech that is difficult or impossible to understand, use question marks before and after</td>
       <td>“And she told me that ?I should just leave?”, “Her name was ?inaudible?”</td>
+    </tr>
+    <tr>
+      <td>Truncated Words</td>
+      <td>Sometimes words may seem to be repeated from the end of one line to the start of the next. Transcribe these as you hear them and use your best judgment</td>
+      <td></td>
     </tr>
   </tbody>
 </table>
