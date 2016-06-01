@@ -18,13 +18,14 @@ This is an open-source, self-hosted, web-based tool for correcting transcripts t
 
 1. [Setting up your own project](#setting-up-your-own-project)
 2. [Generating your transcripts](#generating-your-transcripts)
-3. [Customizing your project](#customizing-your-project)
-4. [Transcript Consensus](#transcript-consensus)
-5. [Deploying your project](#deploying-your-project-to-production)
-6. [Managing your project](#managing-your-project)
-7. [Retrieving your finished transcripts](#retrieving-your-finished-transcripts)
-8. [Contributing](#developers)
-9. [License](#license)
+3. [Importing existing transcripts](#importing-existing-transcripts)
+4. [Customizing your project](#customizing-your-project)
+5. [Transcript Consensus](#transcript-consensus)
+6. [Deploying your project](#deploying-your-project-to-production)
+7. [Managing your project](#managing-your-project)
+8. [Retrieving your finished transcripts](#retrieving-your-finished-transcripts)
+9. [Contributing](#developers)
+10. [License](#license)
 
 ## Setting up your own project
 
