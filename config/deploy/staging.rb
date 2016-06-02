@@ -1,5 +1,7 @@
 server 'ec2-52-63-16-71.ap-southeast-2.compute.amazonaws.com', user: 'deploy', roles: %w{web app db}
 
+set :rails_env, 'staging'
+
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
