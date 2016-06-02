@@ -8,6 +8,8 @@ gem 'pg'
 gem 'pg_search'
 gem 'will_paginate'
 
+gem 'puma'
+
 # Caching
 gem 'dalli'
 
@@ -48,4 +50,12 @@ end
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.4'
+end
+
+group :development do
+  gem 'capistrano'
+  gem 'capistrano3-puma'
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rvm'
 end
