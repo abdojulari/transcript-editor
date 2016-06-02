@@ -255,9 +255,10 @@ class Transcript < ActiveRecord::Base
     per_page = project[:data]["transcriptsPerPage"].to_i if project && project[:data]["transcriptsPerPage"]
     sort_order = "ASC"
     sort_order = "DESC" if options[:order].present? && options[:order].downcase=="desc"
+    options[:sort_by] ||= "title"
     sort_by = options[:sort_by]
     sort_by = "percent_completed" if sort_by.present? && sort_by=="completeness"
-    sort_by = nil if !Transcript.sortableFields().include? sort_by
+    sort_by = "title" if !Transcript.sortableFields().include? sort_by
 
     transcripts = nil
 
@@ -290,7 +291,7 @@ class Transcript < ActiveRecord::Base
     transcripts = transcripts.where("transcripts.collection_id = :collection_id", {collection_id: options[:collection_id].to_i}) if options[:collection_id].present?
 
     # Check for sort
-    transcripts = transcripts.order("transcripts.#{sort_by} #{sort_order}") if sort_by.present?
+    transcripts = transcripts.order("transcripts.#{sort_by} #{sort_order}")
   end
 
   def updateFromHash(contents)
