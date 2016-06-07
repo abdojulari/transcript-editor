@@ -11,6 +11,7 @@ $transcript-content-width: 800px;
   margin: (-$header-nav-height - 21px) -10px 20px;
   padding-bottom: 10px;
   min-height: 240px;
+  overflow-x: hidden;
   @include box-sizing();
 
   &:after {
@@ -25,16 +26,17 @@ $transcript-content-width: 800px;
     @include box-shadow(inset 0px -20px 20px 0px rgba(0,0,0,0.2));
   }
 
+  .transcript-header-image {
+    display: inline-block;
+    position: relative;
+    right: -50%;
+  }
+
   img {
-    top: 0;
-    left: 0;
-    width: $header-image-width;
-    z-index: 0;
-    background-position: center top;
-    background-repeat: no-repeat;
-    background-size: 100%;
-    opacity: 0.3;
-    @include box-shadow(inset -80px 0px 80px 0px rgba(lighten($coolgray-color, 25%),1));
+    display: block;
+    position: relative;
+    left: -50%;
+    height: 27em;
   }
 
   .metadata {
