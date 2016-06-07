@@ -31,7 +31,7 @@ module VoiceBase
       contents = File.read(transcript_file).lines
       transcript_lines = get_transcript_lines_from_file(transcript, contents)
 
-      transcript_duration = transcript_lines.last[:end_time]
+      transcript_duration = transcript_lines.last[:end_time] / 1000 # From milliseconds to seconds.
       vendor_audio_urls = []
 
       transcript_status = TranscriptStatus.find_by(name: :transcript_downloaded)

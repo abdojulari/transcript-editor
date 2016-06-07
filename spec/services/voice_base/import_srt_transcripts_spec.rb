@@ -16,7 +16,7 @@ RSpec.describe VoiceBase::ImportSrtTranscripts, type: :service do
     it { is_expected.to change { transcript.reload.transcript_lines.count }.from(0).to(274) }
     it { is_expected.to change { transcript.reload.lines }.from(0).to(274) }
     it { is_expected.to change { transcript.reload.transcript_status.try(:name) }.from(nil).to('transcript_downloaded') }
-    it { is_expected.to change { transcript.reload.duration }.from(0).to(1878940) }
+    it { is_expected.to change { transcript.reload.duration }.from(0).to(1878) }
     it { is_expected.to change { transcript.reload.transcript_retrieved_at }.from(nil).to(an_instance_of(ActiveSupport::TimeWithZone)) }
 
     it 'creates transcript lines holding the values for each line' do
