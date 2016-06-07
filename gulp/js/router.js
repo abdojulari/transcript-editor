@@ -6,7 +6,9 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     "transcripts/:id":              "transcriptEdit",
     "transcripts/:id?*queryString": "transcriptEdit",
     "page/:id":                     "pageShow",
-    "dashboard":                    "dashboard"
+    "dashboard":                    "dashboard",
+    "search":                       "search",
+    "search?*queryString":          "search"
   },
 
   before: function( route, params ) {
@@ -39,6 +41,14 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var main = new app.views.Page(_.extend({}, data, {el: '#main', page_key: id}));
     var footer = new app.views.Footer(data);
     main.$el.removeClass('loading').attr('role', 'main');
+  },
+
+  search: function(queryString) {
+    var data = this._getData(data);
+    if (queryString) data.queryParams = deparam(queryString);
+    var header = new app.views.Header(data);
+    var main = new app.views.Search(data);
+    var footer = new app.views.Footer(data);
   },
 
   transcriptEdit: function(id, queryString) {

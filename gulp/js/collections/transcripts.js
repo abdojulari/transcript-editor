@@ -1,11 +1,21 @@
 app.collections.Transcripts = Backbone.Collection.extend({
 
-  initialize: function() {
-    this.page = 0;
+  initialize: function(params) {
+    var defaults = {
+      endpoint: '/transcripts.json'
+    };
+    this.options = _.extend({}, defaults, params);
+
+    this.params = {page: 1};
+    if (this.options.params) this.params = _.extend({}, this.params, this.options.params);
   },
 
   getPage: function(){
-    return this.page;
+    return this.params.page;
+  },
+
+  getParams: function(){
+    return this.params;
   },
 
   hasAllPages: function(){
@@ -13,15 +23,15 @@ app.collections.Transcripts = Backbone.Collection.extend({
   },
 
   hasMorePages: function(){
-    return (this.page * this.per_page < this.total);
+    return (this.params.page * this.per_page < this.total);
   },
 
   nextPage: function(){
-    this.page += 1;
+    this.params.page += 1;
   },
 
   parse: function(resp){
-    this.page = resp.current_page;
+    this.params.page = resp.current_page;
     this.per_page = resp.per_page;
     this.total = resp.total_entries;
 
@@ -34,12 +44,18 @@ app.collections.Transcripts = Backbone.Collection.extend({
     return entries;
   },
 
+  setParams: function(params){
+    var _this = this;
+
+    _.each(params, function(value, key){
+      if (value=="ALL" || !value.length) _this.params = _.omit(_this.params, key);
+      else _this.params[key] = value;
+    });
+  },
+
   url: function() {
-    var params = '';
-    if (this.page > 0) {
-      params = '?' + $.param({page: this.page})
-    }
-    return API_URL + '/transcripts.json' + params;
+    var params = '?' + $.param(this.params);
+    return API_URL + this.options.endpoint + params;
   }
 
 });

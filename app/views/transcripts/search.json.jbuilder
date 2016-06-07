@@ -5,7 +5,7 @@ json.entries @transcripts do |transcript|
   else
     json.audio_urls [transcript[:audio_url]]
   end
-  json.path transcript_path(transcript)
+  json.path transcript_path(transcript[:uid])
 end
 
 json.current_page @transcripts.current_page
