@@ -1,0 +1,14 @@
+<div class="search-item">
+  <div class="item-image" style="background-image: url(<%= image_url %>)"></div>
+  <div class="item-details">
+    <div class="item-title"><%= collection_title ? collection_title : '' %> - <%= title %> (<%= UTIL.formatTime(start_time/1000) %>)</div>
+    <a href="<%= path %>?t=<%= UTIL.formatTime(start_time/1000) %>" class="item-line">
+      <% if (guess_text.length) { %>
+        <%= UTIL.highlightText(query, guess_text) %>
+
+      <% } else { %>
+        <%= UTIL.highlightText(query, original_text) %>
+      <% } %>
+    </a>
+  </div>
+</div>

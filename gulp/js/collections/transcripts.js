@@ -14,6 +14,10 @@ app.collections.Transcripts = Backbone.Collection.extend({
     return this.params.page;
   },
 
+  getParam: function(name){
+    return this.params[name];
+  },
+
   getParams: function(){
     return this.params;
   },

@@ -158,6 +158,13 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
     return UTIL.round(seconds, dec);
   };
 
+  UTIL.highlightText = function(needle, haystack, open, close) {
+    open = open || '<span>';
+    close = close || '</span>';
+    var regex = new RegExp('('+needle+')', 'ig');
+    return haystack.replace(regex, open+"$1"+close);
+  };
+
   // Make a random id
   UTIL.makeId = function(length){
     var text = "",

@@ -433,6 +433,13 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
     return UTIL.round(seconds, dec);
   };
 
+  UTIL.highlightText = function(needle, haystack, open, close) {
+    open = open || '<span>';
+    close = close || '</span>';
+    var regex = new RegExp('('+needle+')', 'ig');
+    return haystack.replace(regex, open+"$1"+close);
+  };
+
   // Make a random id
   UTIL.makeId = function(length){
     var text = "",
@@ -870,6 +877,10 @@ app.collections.Transcripts = Backbone.Collection.extend({
 
   getPage: function(){
     return this.params.page;
+  },
+
+  getParam: function(name){
+    return this.params[name];
   },
 
   getParams: function(){
@@ -1415,7 +1426,7 @@ app.views.Search = app.views.Base.extend({
   el: '#main',
   template: _.template(TEMPLATES['transcript_search.ejs']),
   template_list: _.template(TEMPLATES['transcript_list.ejs']),
-  template_item: _.template(TEMPLATES['transcript_item.ejs']),
+  template_item: _.template(TEMPLATES['transcript_search_item.ejs']),
 
   events: {
     "submit .search-form": "searchFromForm",
@@ -1505,16 +1516,18 @@ app.views.Search = app.views.Base.extend({
   },
 
   renderFacets: function(collections){
-    this.facetsView = this.facetsView || new app.views.TranscriptFacets({collections: collections, queryParams: this.data.queryParams, disableSearch: true});
+    this.facetsView = this.facetsView || new app.views.TranscriptFacets({collections: collections, queryParams: this.data.queryParams, disableSearch: true, disableSort: true});
     this.$facets.html(this.facetsView.render().$el);
   },
 
   renderTranscripts: function(transcripts){
+    var _this = this;
     var transcriptsData = transcripts.toJSON();
 
     var list = this.template_list({has_more: transcripts.hasMorePages()});
     var $list = $(list);
     var $target = $list.first();
+    var query = transcripts.getParam('q') || '';
 
     if (transcripts.getPage() > 1) {
       this.$transcripts.append($list);
@@ -1530,8 +1543,8 @@ app.views.Search = app.views.Base.extend({
     this.$transcripts.removeClass('loading');
 
     _.each(transcriptsData, function(transcript){
-      var transcriptView = new app.views.TranscriptItem({transcript: transcript});
-      $target.append(transcriptView.$el);
+      var item = _this.template_item(_.extend({}, transcript, {query: query}));
+      $target.append($(item));
     });
 
     $(window).trigger('scroll-to', [this.$('#search-form'), 110]);
@@ -2159,7 +2172,10 @@ app.views.TranscriptFacets = app.views.Base.extend({
   },
 
   initialize: function(data){
-    this.data = _.extend({disableSearch: false}, data);
+    this.data = _.extend({
+      disableSearch: false,
+      disableSort: false
+    }, data);
 
     this.initFacets();
 

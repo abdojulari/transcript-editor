@@ -10,7 +10,10 @@ app.views.TranscriptFacets = app.views.Base.extend({
   },
 
   initialize: function(data){
-    this.data = _.extend({disableSearch: false}, data);
+    this.data = _.extend({
+      disableSearch: false,
+      disableSort: false
+    }, data);
 
     this.initFacets();
 
