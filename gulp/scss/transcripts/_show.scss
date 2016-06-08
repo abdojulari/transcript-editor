@@ -29,14 +29,11 @@ $transcript-content-width: 800px;
   .transcript-header-image {
     display: inline-block;
     position: relative;
-    right: -50%;
-  }
-
-  img {
-    display: block;
-    position: relative;
-    left: -50%;
+    width: 100%;
     height: 27em;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
   }
 
   .metadata {
