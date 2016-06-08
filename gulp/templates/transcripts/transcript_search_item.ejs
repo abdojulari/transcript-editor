@@ -2,13 +2,18 @@
   <div class="item-image" style="background-image: url(<%= image_url %>)"></div>
   <div class="item-details">
     <div class="item-title"><%= collection_title ? collection_title : '' %> - <%= title %> (<%= UTIL.formatTime(start_time/1000) %>)</div>
-    <a href="<%= path %>?t=<%= UTIL.formatTime(start_time/1000) %>" class="item-line">
+
       <% if (guess_text.length) { %>
-        <%= UTIL.highlightText(query, guess_text) %>
+
+        <a href="<%= path %>?t=<%= UTIL.formatTime(start_time/1000) %>" class="item-line"><%= UTIL.highlightText(query, guess_text) %></a>
+        <div class="item-line-type">(user-generated text)</div>
 
       <% } else { %>
-        <%= UTIL.highlightText(query, original_text) %>
+
+        <a href="<%= path %>?t=<%= UTIL.formatTime(start_time/1000) %>" class="item-line"><%= UTIL.highlightText(query, original_text) %></a>
+        <div class="item-line-type">(computer-generated text)</div>
+
       <% } %>
-    </a>
+
   </div>
 </div>
