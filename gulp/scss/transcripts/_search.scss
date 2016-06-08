@@ -32,6 +32,12 @@ $search-item-size: 100px;
   .item-line {
     margin-top: 10px;
     font-size: 1.6em;
+    &:before {
+      content: '"...';
+    }
+    &:after {
+      content: '..."';
+    }
 
     span {
       background: $highlight-color;
