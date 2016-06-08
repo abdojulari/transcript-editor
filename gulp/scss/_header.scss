@@ -21,7 +21,6 @@ body {
     clear: both;
 
     &.primary {
-      max-height: $header-nav-height;
       z-index: 2000;
     }
 
@@ -32,7 +31,7 @@ body {
   }
 
   .title-container {
-    float: left;
+    width: 100%;
 
     .title {
       display: block;
@@ -48,7 +47,98 @@ body {
       display: block;
       max-height: $header-nav-height - 10px;
       width: auto;
+      position: absolute;
     }
+
+    .home-banner {
+      height: 380px;
+      background: linear-gradient(180deg, #333333 50%, #000000 50%);
+
+      .logo {
+        position: absolute;
+        padding: 15px;
+        -webkit-filter: invert(1);
+        filter: invert(1);
+        max-height: none;
+        height: 160px;
+      }
+
+      .banner-main {
+        height: 100%;
+        background-image: url('/nsw-state-library-amplify/assets/img/waveform.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center center;
+        text-align: center;
+
+        .banner-text {
+          position: relative;
+          top: 50%;
+          -webkit-transform: translateY(-50%);
+          -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+
+          h1, h2 {
+            margin: 0;
+            clear: both;
+            line-height: 1.2;
+          }
+
+          h1 {
+            font-family: 'Muli', Arial, Helvetica, sans-serif;
+            font-size: 5em;
+            letter-spacing: 1px;
+          }
+
+          h2 {
+            font-family: "Times New Roman", Times, serif;
+            font-style: italic;
+            font-size: 2em;
+            font-weight: lighter;
+            letter-spacing: 2px;
+          }
+        }
+
+        // Opacity over the homa page banner.
+        /*&:after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          background: #333333;
+          width: 100%;
+          height: 100%;
+          opacity: 0.2;
+          z-index: 1000;
+        }*/
+      }
+    }
+
+    .header-bar {
+      .title {
+        padding: 0;
+      }
+
+      .logo {
+        -webkit-filter: invert(1);
+        filter: invert(1);
+        position: static;
+        display: inline;
+        margin-top: 4px;
+      }
+
+      .logo-text {
+        display: inline;
+        font-family: 'Muli', Arial, Helvetica, sans-serif;
+        color: #2799c5;
+        line-height: 1;
+        font-size: 2.3em;
+      }
+    }
+  }
+
+  .crumbs-container, .account-container, .menu-container {
+    display: inline;
   }
 
   .crumbs-container {
