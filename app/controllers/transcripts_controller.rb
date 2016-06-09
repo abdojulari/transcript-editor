@@ -7,7 +7,7 @@ class TranscriptsController < ApplicationController
   def index
     project = Project.getActive
     @project_settings = project[:data]
-    @transcripts = Transcript.getForHomepage(params[:page])
+    @transcripts = Transcript.getForHomepage(params[:page], {order: 'id'})
   end
 
   # GET /transcripts/the-uid
