@@ -150,7 +150,7 @@ rake pua:create_collections['my-project']
 This will also update your database with the proper Pop Up Archive collection id in a column called `vendor_identifier`.  It will be also useful for deployment later to update your manifest file with these identifiers. You can do that by running this command:
 
 ```
-rake collections:update_file['my-project,'collections_seeds.csv']
+rake collections:update_file['my-project','collections_seeds.csv']
 ```
 
 If you have not yet uploaded your audio to Pop Up Archive, run this command:
@@ -275,6 +275,18 @@ This app currently supports logging in through Google or Facebook accounts (via 
 11. Run `rake project:load['my-project']` to refresh this config in the interface
 12. Finally, restart your server and visit `http://localhost:3000`.  Now you should see the option to sign in via Facebook.
 13. Once ready, go back to your Facebook App page and click **App Review**. Make your app live by toggling on Live mode.
+
+### Adding speakers
+
+Sometimes your audio will contain multiple speakers. If you already know who are speaking, you can seed your transcripts with the speakers. Your users could then choose which speaker is speaking on any given line.
+
+In your project folder, you should find an empty .csv file: [project/my-project/data/speakers_seeds.csv](project/sample-project/data/speakers_seeds.csv). It contains just two columns: *transcript_uid* and *name*. Simply create one speaker per line, where *transcript_uid* is the transcript's uid and *name* is the name of the speaker.
+
+Once you fill out the speakers this file, you can load them into the app with this command:
+
+```
+rake speakers:load['my-project','speakers_seeds.csv']
+```
 
 ### Custom content
 
