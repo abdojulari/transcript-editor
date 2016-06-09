@@ -640,3 +640,8 @@ Coming soon... this section will walk through how the codebase is organized and 
 ## License
 
 See [LICENSE](LICENSE).
+
+## Attribution
+
+Though it’s not required, if you would like to credit us as the source we recommend using the following statement and links:
+>Powered by the [Open Transcript Editor](https://github.com/NYPL/transcript-editor/) created by [The New York Public Library](nypl.org) with generous support from the [Knight Prototype Fund](http://www.knightfoundation.org/grants/201551666/).
