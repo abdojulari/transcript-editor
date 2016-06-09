@@ -26,6 +26,7 @@ This is an open-source, self-hosted, web-based tool for correcting transcripts t
 8. [Retrieving your finished transcripts](#retrieving-your-finished-transcripts)
 9. [Contributing](#developers)
 10. [License](#license)
+11. [Attribution](#attribution)
 
 ## Setting up your own project
 
