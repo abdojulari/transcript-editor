@@ -7,6 +7,7 @@
   "transcriptsPerPage": 500,
   "maxLineTimeOverlapMs": -1,
   "allowTranscriptDownload": true,
+  "previewAudioOnHover": true,
   "gaCode": "",
   "adminEmails": [
     "brianfoo@nypl.org",

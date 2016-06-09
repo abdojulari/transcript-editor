@@ -1,1 +1,5 @@
 uid,title,description,url,image_url,vendor,vendor_identifier
+brooklyn-public,Brooklyn Public Library,,http://www.bklynlibrary.org/seniors/our-streets-our-stories-o,https://s3.amazonaws.com/togetherwelisten.nypl.org/img/hack/logos/brooklyn-public-library.png,pop_up_archive,8753
+buzz,Buzzfeed,,https://www.buzzfeed.com/audio,https://s3.amazonaws.com/togetherwelisten.nypl.org/img/hack/logos/buzzfeed.png,pop_up_archive,8754
+gimlet,Gimlet Media,,https://gimletmedia.com/,https://s3.amazonaws.com/togetherwelisten.nypl.org/img/hack/logos/gimlet-media.png,pop_up_archive,8755
+world-words,PRI’s The World In Words,,http://www.pri.org/collections/world-words,https://s3.amazonaws.com/togetherwelisten.nypl.org/img/hack/logos/the-world-in-words.png,pop_up_archive,8756
