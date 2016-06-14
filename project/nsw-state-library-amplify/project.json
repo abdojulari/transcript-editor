@@ -49,9 +49,11 @@
       "doneLabel": "Finished",
       "pages": [
         {"label": "Editing", "file": "ed_tutorial_1.md"},
-        {"label": "Speaker Identification", "file": "ed_tutorial_2.md"},
-        {"label": "Verify", "file": "ed_tutorial_3.md"},
-        {"label": "Have fun!", "file": "ed_tutorial_4.md"}
+        {"label": "Conventions", "file": "ed_tutorial_2.md"},
+        {"label": "Commands", "file": "ed_tutorial_3.md"},
+        {"label": "Speaker Identification", "file": "ed_tutorial_4.md"},
+        {"label": "Verify", "file": "ed_tutorial_5.md"},
+        {"label": "Have fun!", "file": "ed_tutorial_6.md"}
       ]
     }
   },

@@ -1,5 +1,8 @@
-# Speaker Identification
+# Transcription Conventions
 
-Note the speaker for each line of a transcript by using the speaker identification button to the left of each line. **You only need to note when a speaker changes**. For lines with **multiple speakers**, select the final "multiple speakers" option. When you do not know the interviewer's name, select "interviewer" from the drop down options.
+We have one central guideline:
+<strong class="highlight">Use your best judgment to transcribe as you hear it.</strong>
 
-<video src="https://s3.amazonaws.com/togetherwelisten.nypl.org/video/twl_sample_speakers.mp4" preload="auto" class="toggle-sound sample-video" autoplay loop muted></video>
+For common tricky transcriptions, we have a handy list of conventions. Quickly access this reference by selecting the Conventions button on the top of the page.
+
+<video src="https://s3.amazonaws.com/togetherwelisten.nypl.org/video/twl_sample_conventions.mp4" preload="auto" class="toggle-sound sample-video" autoplay loop muted></video>

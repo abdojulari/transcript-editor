@@ -1,5 +1,12 @@
-# Verify
+# Commands
 
-<span class="reviewing">Lines highlighted in orange</span> await verification. Click on the line and select the best transcription from those presented or flag that none of these transcriptions are correct. Once three or more contributors agree on the correct transcription, the line will be finalised. Administrators will be alerted if a line has no correct transcriptions.
+Use the tool's commands navigate the interview's audio and transcript. These commands are available in the toolbar along the bottom of the screen and with the following keyboard shortcuts.
 
-<video src="https://s3.amazonaws.com/togetherwelisten.nypl.org/video/twl_sample_verify.mp4" preload="auto" class="toggle-sound sample-video" autoplay loop muted></video>
+<table class="table-commands">
+    <% _.each(project.controls, function(control) { %>
+    <tr>
+        <td><%= control.keyLabel %></td>
+        <td><%= control.keyDescription %></td>
+    </tr>
+    <% }) %>
+</table>
