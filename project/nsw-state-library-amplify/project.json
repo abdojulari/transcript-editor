@@ -39,8 +39,10 @@
       {"label": "Tutorial", "url": "#tutorial", "modal": "tutorial_edit", "validRoutes": ["transcripts/:id"]}
     ],
     "footer": [
-      {"label": "Privacy Policy", "url": "#", "target": "_blank"},
-      {"label": "Terms and Conditions", "url": "#", "target": "_blank"}
+      {"label": "Privacy", "url": "http://www.sl.nsw.gov.au/privacy", "target": "_blank"},
+      {"label": "Copyright", "url": "http://www.sl.nsw.gov.au/copyright", "target": "_blank"},
+      {"label": "Client code of conduct", "url": "http://www.sl.nsw.gov.au/about-library-legislation-and-policies/client-code-conduct", "target": "_blank"},
+      {"label": "Feedback", "url": "http://www.sl.nsw.gov.au/feedback", "target": "_blank"}
     ]
   },
   "modals": {
