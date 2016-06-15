@@ -106,7 +106,6 @@ app.views.TranscriptItem = app.views.Base.extend({
     // build title
     var title = transcript.title;
     if (transcript.collection_title) title = transcript.collection_title + ': ' + title;
-    if (transcript.description) title = title + ' - ' + transcript.description;
     this.$el.attr('title', title);
     this.$el.attr('role', 'listitem');
     this.$el.attr('href', transcript.path);
