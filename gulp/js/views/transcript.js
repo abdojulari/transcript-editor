@@ -108,6 +108,7 @@ app.views.Transcript = app.views.Base.extend({
 
     // update UI
     var $active = $('.line[sequence="' + i + '"]').first();
+    var $input = $active.find('input');
 
     $('.line.active').removeClass('active');
     $active.addClass('active');
@@ -116,12 +117,11 @@ app.views.Transcript = app.views.Base.extend({
 
     if (!this.play_all) {
       // focus on input
-      var $input = $active.find('input');
       if ($input.length) $input.first().focus();
-
-      // fit input
-      this.fitInput($input);
     }
+
+    // fit input
+    this.fitInput($input);
 
     // play audio
     this.pause_at_time = this.current_line.end_time * 0.001;

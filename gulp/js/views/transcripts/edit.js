@@ -48,6 +48,11 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     // implicit save; save even when user has not edited original text
     // only save if line is editable
     if (text != userText && line.is_editable) {
+      // Don't save if the user is in Play All mode and hasn't changed the text.
+      if ((this.play_all) && (line.display_text == text)) {
+        return;
+      }
+
       var is_new = !$input.closest('.line').hasClass('user-edited');
 
       // update UI

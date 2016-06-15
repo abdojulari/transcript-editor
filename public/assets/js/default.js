@@ -1494,6 +1494,7 @@ app.views.Transcript = app.views.Base.extend({
 
     // update UI
     var $active = $('.line[sequence="' + i + '"]').first();
+    var $input = $active.find('input');
 
     $('.line.active').removeClass('active');
     $active.addClass('active');
@@ -1502,12 +1503,11 @@ app.views.Transcript = app.views.Base.extend({
 
     if (!this.play_all) {
       // focus on input
-      var $input = $active.find('input');
       if ($input.length) $input.first().focus();
-
-      // fit input
-      this.fitInput($input);
     }
+
+    // fit input
+    this.fitInput($input);
 
     // play audio
     this.pause_at_time = this.current_line.end_time * 0.001;
@@ -2781,6 +2781,11 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     // implicit save; save even when user has not edited original text
     // only save if line is editable
     if (text != userText && line.is_editable) {
+      // Don't save if the user is in Play All mode and hasn't changed the text.
+      if ((this.play_all) && (line.display_text == text)) {
+        return;
+      }
+
       var is_new = !$input.closest('.line').hasClass('user-edited');
 
       // update UI
