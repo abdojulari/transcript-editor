@@ -10,7 +10,7 @@
     <!-- Facebook Share button meta tags. -->
     <meta property='og:type' content='website' />
     <meta property='og:title' content='<%= @transcript.title %>' />
-    <meta property='og:description' content='<%= @transcript.description %>' />
+    <meta property='og:description' content='<%= strip_tags @transcript.description %>' />
     <meta property='og:url' content='<%= transcript_url(@transcript.uid) %>' />
     <meta property='og:image' content='<%= @transcript.image_url %>' />
     <meta property='og:image:width' content='1400' />
