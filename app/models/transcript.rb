@@ -164,6 +164,7 @@ class Transcript < ActiveRecord::Base
   end
 
   def loadFromHash(contents)
+    transcript_lines = _getLinesFromHash(contents)
 
     if transcript_lines.length > 0
       # remove existing lines
