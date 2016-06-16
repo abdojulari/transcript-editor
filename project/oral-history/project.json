@@ -37,6 +37,7 @@
   "menus": {
     "header": [
       {"label": "Browse", "url": "/"},
+      {"label": "Search", "url": "/search"},
       {"label": "About", "url": "/page/about"},
       {"label": "FAQ", "url": "/page/faq"},
       {"label": "Tutorial", "url": "#tutorial", "modal": "tutorial_edit", "validRoutes": ["transcripts/:id"]}
