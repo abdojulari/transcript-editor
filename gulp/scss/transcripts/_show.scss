@@ -75,6 +75,15 @@ $transcript-content-width: 800px;
       @include icon("\f019");
       margin-left: 6px;
     }
+
+    .social {
+      padding-bottom: 1.5em;
+
+      // Align Facebook button nicely.
+      iframe {
+        vertical-align: bottom;
+      }
+    }
   }
 
   .status-wrapper {
