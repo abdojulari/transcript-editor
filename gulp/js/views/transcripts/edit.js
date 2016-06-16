@@ -254,7 +254,6 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.loadPageContent();
     this.loadCompletionContent();
     this.loadAudio();
-    this.populateOpenGraphTags();
   },
 
   onTimeUpdate: function(){
@@ -335,13 +334,6 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
 
   wordNext: function(){
     this.selectTextRange(1);
-  },
-
-  populateOpenGraphTags: function() {
-    $("meta[property='og:url']").attr('content', window.location.href);
-    $("meta[property='og:title']").attr('content', this.data.transcript.title);
-    $("meta[property='og:description']").attr('content', this.data.transcript.description.replace(/<(?:.|\n)*?>/gm, ' '));
-    $("meta[property='og:image']").attr('content', this.data.transcript.image_url);
   }
 
 });

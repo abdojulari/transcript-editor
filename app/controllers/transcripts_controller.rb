@@ -1,7 +1,7 @@
 class TranscriptsController < ApplicationController
   include ActionController::MimeResponds
 
-  before_action :set_transcript, only: [:show, :update, :destroy]
+  before_action :set_transcript, only: [:show, :update, :destroy, :facebook_share]
 
   # GET /transcripts.json
   def index
@@ -15,6 +15,11 @@ class TranscriptsController < ApplicationController
   def show
     respond_to do |format|
       format.html {
+        # If this is the Facebook scraper, redirect to a page that includes the Open Graph meta tags.
+        if request.user_agent.downcase.include?('facebookexternalhit')
+          redirect_to facebook_share_transcript_path(@transcript.uid) and return
+        end
+
         render :file => "public/#{ENV['PROJECT_ID']}/index.html"
       }
       format.json {
@@ -65,6 +70,10 @@ class TranscriptsController < ApplicationController
     @transcript.destroy
 
     head :no_content
+  end
+
+  def facebook_share
+    render file: "public/#{ENV['PROJECT_ID']}/facebook_share.html.erb"
   end
 
   private
