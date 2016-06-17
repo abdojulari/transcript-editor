@@ -23,7 +23,7 @@ This is an open-source, self-hosted, web-based tool for correcting transcripts t
 5. [Deploying your project](#deploying-your-project-to-production)
 6. [Managing your project](#managing-your-project)
 7. [Retrieving your finished transcripts](#retrieving-your-finished-transcripts)
-8. [Contributing](#developers)
+8. [State Library of New South Wales](#state-library-of-new-south-wales)
 9. [License](#license)
 
 ## Setting up your own project
@@ -608,9 +608,63 @@ The app has an endpoint that enables programmatic access to transcripts:
 
 This will get all the transcript files that were updated after a certain date. This is useful if you want to periodically update transcripts that you display on another website.
 
-## Developers
+## State Library of New South Wales
 
-Coming soon... this section will walk through how the codebase is organized and how you can contribute to this codebase.
+### Server configuration
+
+Both staging and production are identically set up. They are both AWS EC2 instances running Nginx, PostgreSQL 9.5, Puma, RVM and Ruby 2.3.0.
+
+Deployments are done via Capistrano. The configuration for this is checked into the repository. Currently, the deploy scripts pull from reinteractive's repository.
+
+The application sits in the home directory of the `deploy` user. All credentials and tokens are stored in the `/home/deploy/nsw-state-library-amplify/shared/config/application.yml` file. The `database.yml` file is in the same directory.
+
+If you need the passwords for the `deploy` user, ping Glen Crawford at reinteractive.
+
+#### Staging
+
+The staging server is located at `ec2-52-63-16-71.ap-southeast-2.compute.amazonaws.com`. Talk to the SLNSW ops team to get the keys.
+
+To SSH: `ssh ubuntu@ec2-52-63-16-71.ap-southeast-2.compute.amazonaws.com`
+
+To deploy: `cap staging deploy`
+
+#### Production
+
+The production server is located at `amplify.sl.nsw.gov.au`. Again, talk to the SLNSW ops team to get the keys.
+
+To SSH: `ssh ubuntu@amplify.sl.nsw.gov.au`
+
+To deploy: `cap production deploy`
+
+### Importing content
+
+To load content (collections, transcripts, speakers, etc) into an empty database, set `RAILS_ENV` to the environment (if you're on a server) and then:
+
+```
+bundle exec rake db:setup
+bundle exec rails console
+Vendor.destroy_all
+Vendor.create!(uid: 'voice_base', name: 'VoiceBase')
+bundle exec rake project:load['nsw-state-library-amplify']
+bundle exec rake collections:load['nsw-state-library-amplify','collections_seeds.csv']
+bundle exec rake transcripts:load['nsw-state-library-amplify','transcripts_seeds.csv']
+bundle exec rake speakers:load['nsw-state-library-amplify','speakers_seeds.csv']
+bundle exec rake voice_base:import_transcripts['nsw-state-library-amplify']
+```
+
+#### Importing transcript lines
+
+You will notice in the above section a new rake task: `voice_base:import_transcripts`. That's built specifically for the `.srt` files that VoiceBase provides us with. Take a look at the `VoiceBase::ImportSrtTranscripts` class to see how it works.
+
+If you ever need to re-import updated transcripts, then you can choose between either dropping the database and re-importing everything from scratch (preferred option, unless people have actually started to use the app for real), or run the rake task again (but read it first so you can see what is happening).
+
+#### Images and audio files
+
+These are all uploaded to the `slnsw-amplify` AWS S3 bucket. There is a rake task built specially for uploading files: `rake aws:upload_files`.
+
+#### Updating transcripts
+
+Simply update the `transcripts_seeds.csv` file and run the `transcripts:load` rake task again (the task is idempotent).
 
 ## License
 
