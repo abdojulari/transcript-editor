@@ -1,7 +1,10 @@
 class TranscriptLine < ActiveRecord::Base
 
   include PgSearch
-  multisearchable :against => [:original_text, :text]
+  multisearchable :against => [:original_text, :guess_text]
+  pg_search_scope :search_by_all_text, :against => [:guess_text, :original_text] # User text weighted more than original text
+  pg_search_scope :search_by_original_text, :against => :original_text
+  pg_search_scope :search_by_guess_text, :against => :guess_text
 
   belongs_to :transcript_line_status
   belongs_to :transcript, touch: true
@@ -45,6 +48,11 @@ class TranscriptLine < ActiveRecord::Base
       .select("transcript_lines.*, COALESCE(speakers.name, '') AS speaker_name")
       .joins("LEFT OUTER JOIN speakers ON transcript_lines.speaker_id = speakers.id")
       .where(transcript_id: transcript_id)
+  end
+
+  def self.getByTranscriptSequence(transcript_id, sequence)
+    TranscriptLine
+      .where(transcript_id: transcript_id, sequence: sequence).first
   end
 
   def self.recalculateById(transcript_line_id)

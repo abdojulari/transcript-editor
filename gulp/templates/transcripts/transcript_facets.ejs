@@ -12,6 +12,7 @@
   </div>
 <% } %>
 
+<% if (!disableSort) { %>
 <div class="facet">
   <label for="sort-by">Sort by: </label>
   <div name="sort-by" class="select sort">
@@ -23,10 +24,13 @@
     </div>
   </div>
 </div>
+<% } %>
 
+<% if (!disableSearch) { %>
 <div class="facet">
   <form id="search-form" class="search-form" role="search">
     <input name="keyword" value="<%= active_keyword %>" placeholder="Search Title/Description" />
     <button type="submit" class="submit" title="Submit" aria-label="Submit"></button>
   </form>
 </div>
+<% } %>

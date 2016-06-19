@@ -1,0 +1,25 @@
+<div class="search-item">
+  <div class="item-image" style="background-image: url(<%= image_url %>)"></div>
+  <div class="item-details">
+    <div class="item-title"><%= collection_title ? collection_title : '' %> - <%= title %>
+
+      <% if (start_time) { %>
+      (<%= UTIL.formatTime(start_time/1000) %>)
+      <% } %>
+
+    </div>
+
+      <% if (guess_text.length && query && query.length) { %>
+
+        <a href="<%= path %>?t=<%= UTIL.formatTime(start_time/1000) %>" class="item-line"><%= UTIL.highlightText(query, guess_text) %></a>
+        <div class="item-line-type">(user-generated text)</div>
+
+      <% } else if (original_text.length && query && query.length) { %>
+
+        <a href="<%= path %>?t=<%= UTIL.formatTime(start_time/1000) %>" class="item-line"><%= UTIL.highlightText(query, original_text) %></a>
+        <div class="item-line-type">(computer-generated text)</div>
+
+      <% } %>
+
+  </div>
+</div>

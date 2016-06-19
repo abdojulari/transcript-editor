@@ -18,13 +18,15 @@ This is an open-source, self-hosted, web-based tool for correcting transcripts t
 
 1. [Setting up your own project](#setting-up-your-own-project)
 2. [Generating your transcripts](#generating-your-transcripts)
-3. [Customizing your project](#customizing-your-project)
-4. [Transcript Consensus](#transcript-consensus)
-5. [Deploying your project](#deploying-your-project-to-production)
-6. [Managing your project](#managing-your-project)
-7. [Retrieving your finished transcripts](#retrieving-your-finished-transcripts)
-8. [State Library of New South Wales](#state-library-of-new-south-wales)
-9. [License](#license)
+3. [Importing existing transcripts](#importing-existing-transcripts)
+4. [Customizing your project](#customizing-your-project)
+5. [Transcript Consensus](#transcript-consensus)
+6. [Deploying your project](#deploying-your-project-to-production)
+7. [Managing your project](#managing-your-project)
+8. [Retrieving your finished transcripts](#retrieving-your-finished-transcripts)
+9. [State Library of New South Wales](#state-library-of-new-south-wales)
+10. [License](#license)
+11. [Attribution](#attribution)
 
 ## Setting up your own project
 
@@ -84,7 +86,7 @@ Your project should load, but since there's no transcripts, all you'll see is a 
 
 ## Generating your transcripts
 
-This section will assume that you do not have transcripts yet, just audio files that need transcripts. We will be using Pop Up Archive to automatically produce the transcripts that will need to be corrected. Other vendors and services may be documented in the future based on demand.
+This section will assume that you do not have transcripts yet, just audio files that need transcripts. If you already have transcripts from some vendor or your own software, jump to this section: [Importing existing transcripts](#importing-existing-transcripts). We will be using Pop Up Archive to automatically produce the transcripts that will need to be corrected. Other vendors and services may be documented in the future based on demand.
 
 ### Requirements
 
@@ -149,7 +151,7 @@ rake pua:create_collections['my-project']
 This will also update your database with the proper Pop Up Archive collection id in a column called `vendor_identifier`.  It will be also useful for deployment later to update your manifest file with these identifiers. You can do that by running this command:
 
 ```
-rake collections:update_file['my-project,'collections_seeds.csv']
+rake collections:update_file['my-project','collections_seeds.csv']
 ```
 
 If you have not yet uploaded your audio to Pop Up Archive, run this command:
@@ -173,6 +175,18 @@ rake pua:download['my-project']
 ```
 
 This will look for any audio items that have been submitted to Pop Up Archive, but not yet have a transcript downloaded.  If an item's transcript is ready, it will download and save it to the app's database, and will become visible in the app. You can run this script any number of times until all transcripts have been downloaded.
+
+## Importing existing transcripts
+
+If you already have a vendor that generates transcripts or you have created your own method for generating transcripts, you can import these transcripts into this app for editing. We currently support the [WebVTT](https://w3c.github.io/webvtt/) format, a W3C standard for displaying timed text in connection with the HTML5 `<track>` element. This format is extended from the popular [SRT](https://en.wikipedia.org/wiki/SubRip) format. Most vendors will provide a `.vtt` file for your transcripts. However, `.srt` files can also be easily converted to `.vtt`.
+
+1. Place all your `.vtt` files in folder `/project/my-project/transcripts/webvtt/`
+2. Create a manifest file
+   - Refer to [this section](#creating-a-manifest-file) to setup a manifest file
+   - In the `vendor` column, enter `webvtt` for each transcript
+   - In the `vendor_identifier` column, enter the name of the `.vtt` file, e.g. `transcript_1234.vtt`
+   - If you have not already, run the `rake transcripts:load['my-project','the_manifest_file.csv']` task on your manifest file to create entries for your transcripts
+3. Finally, run `rake webvtt:read['my-project']` which will import all the `.vtt` files that have not already been processed
 
 ## Customizing your project
 
@@ -228,7 +242,7 @@ This app currently supports logging in through Google or Facebook accounts (via 
 
 1. Log in to your Facebook account and visit [this link](https://developers.facebook.com/quickstarts/?platform=web)
 2. Follow the steps to create a new app and go to the app's Dashboard. You must at least fill out **Display Name** and **Contact Email**.
-3. In your project's dashboard click *Settings* on the left panel. Then click the *Advanced* tab.
+3. In your project's dashboard click *Add Product* on the left panel. Then click *Facebook Login*.
 4. Under *Client OAuth Settings*:
    - make sure *Client OAuth Login* and *Web OAuth Login* is on
    - enter `http://localhost:3000/omniauth/facebook/callback` in *Valid OAuth redirect URIs*. Also include your production or testing urls here too (e.g. `http://myapp.com/omniauth/facebook/callback`)
@@ -262,6 +276,18 @@ This app currently supports logging in through Google or Facebook accounts (via 
 11. Run `rake project:load['my-project']` to refresh this config in the interface
 12. Finally, restart your server and visit `http://localhost:3000`.  Now you should see the option to sign in via Facebook.
 13. Once ready, go back to your Facebook App page and click **App Review**. Make your app live by toggling on Live mode.
+
+### Adding speakers
+
+Sometimes your audio will contain multiple speakers. If you already know who are speaking, you can seed your transcripts with the speakers. Your users could then choose which speaker is speaking on any given line.
+
+In your project folder, you should find an empty .csv file: [project/my-project/data/speakers_seeds.csv](project/sample-project/data/speakers_seeds.csv). It contains just two columns: *transcript_uid* and *name*. Simply create one speaker per line, where *transcript_uid* is the transcript's uid and *name* is the name of the speaker.
+
+Once you fill out the speakers this file, you can load them into the app with this command:
+
+```
+rake speakers:load['my-project','speakers_seeds.csv']
+```
 
 ### Custom content
 
@@ -669,3 +695,8 @@ Simply update the `transcripts_seeds.csv` file and run the `transcripts:load` ra
 ## License
 
 See [LICENSE](LICENSE).
+
+## Attribution
+
+Though it’s not required, if you would like to credit us as the source we recommend using the following statement and links:
+>Powered by the [Open Transcript Editor](https://github.com/NYPL/transcript-editor/) created by [The New York Public Library](nypl.org) with generous support from the [Knight Prototype Fund](http://www.knightfoundation.org/grants/201551666/).

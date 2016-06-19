@@ -1,6 +1,7 @@
 require 'csv'
 require 'fileutils'
 require 'json'
+require 'open-uri'
 require 'securerandom'
 
 namespace :transcripts do
@@ -110,6 +111,67 @@ namespace :transcripts do
     # Update the file
     update_transcripts_to_file(file_path, transcripts_from_file)
     puts "Updated #{transcripts_from_file.length} transcripts in file"
+  end
+
+  # Usage rake transcripts:download_audio['oral-history','transcripts_seeds.csv']
+  desc "Download audio files by project key and csv file"
+  task :download_audio, [:project_key, :filename] => :environment do |task, args|
+
+    # Validate project
+    project_path = Rails.root.join('project', args[:project_key])
+    if !File.directory?(project_path)
+      puts "No project directory found for: #{args[:project_key]}"
+      exit
+    end
+
+    # Validate file
+    file_path = Rails.root.join('project', args[:project_key], 'data', args[:filename])
+    if !File.exist? file_path
+      puts "No transcript file found: #{file_path}"
+      exit
+    end
+
+    # Get transcripts
+    transcripts = get_transcripts_from_file(file_path)
+    puts "Retrieved #{transcripts.length} rows from file"
+
+    # Download files
+    downloads = 0
+    transcripts.each do |transcript|
+
+      # Download file if uid and audio_url are present
+      if transcript[:uid].present? && transcript[:audio_url].present?
+        extension = File.extname(URI.parse(transcript[:audio_url]).path)
+
+        # default extension to .mp3
+        if extension.blank?
+          extension = '.mp3'
+        end
+
+        # determine destination
+        destinationDir = Rails.root.join('project', args[:project_key], 'audio')
+        if transcript.key?(:collection) && !transcript[:collection].blank?
+          destinationDir = Rails.root.join('project', args[:project_key], 'audio', transcript[:collection])
+        end
+
+        # ensure target directory exists
+        unless File.directory?(destinationDir)
+          FileUtils.mkdir_p(destinationDir)
+        end
+
+        # download file if it doesn't exist
+        destinationFile = Rails.root.join(destinationDir, "#{transcript[:uid]}#{extension}")
+        unless File.exist? destinationFile
+          download = open(transcript[:audio_url])
+          IO.copy_stream(download, destinationFile)
+          puts "Downloaded #{destinationFile} via #{transcript[:audio_url]}"
+          downloads += 1
+        end
+      end
+
+    end
+
+    puts "Finished. Downloaded #{downloads} files"
   end
 
   def get_transcripts_from_file(file_path)

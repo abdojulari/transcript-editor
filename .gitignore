@@ -29,8 +29,10 @@
 /config/application.*.yml
 !/config/application.sample.yml
 
-# Ignore downloaded transcripts
+# Ignore downloaded transcripts/audio
 /project/*/transcripts/*/*.json
+/project/*/audio/*
+!/project/*/audio/.keep
 
 # Node
 /node_modules

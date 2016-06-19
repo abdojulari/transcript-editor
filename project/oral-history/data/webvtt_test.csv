@@ -1,0 +1,2 @@
+uid,title,description,image_url,notes,url,audio_url,collection,vendor,vendor_identifier,can_download
+webvtt_test,The Title,The Description,,,,https://s3.amazonaws.com/oral-history/audio/AaronScott_FINAL.mp3,east-bronx,webvtt,webvtt_test.vtt,1

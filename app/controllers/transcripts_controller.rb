@@ -10,6 +10,21 @@ class TranscriptsController < ApplicationController
     @transcripts = Transcript.getForHomepage(params[:page], {order: 'id'})
   end
 
+  # GET /search?sort_by=completeness&order=desc&collection_id=1&q=amy&page=1
+  # GET /search.json?sort_by=completeness&order=desc&collection_id=1&q=amy&page=1
+  def search
+    respond_to do |format|
+      format.html {
+        render :file => "public/#{ENV['PROJECT_ID']}/index.html"
+      }
+      format.json {
+        project = Project.getActive
+        @project_settings = project[:data]
+        @transcripts = Transcript.search(search_params)
+      }
+    end
+  end
+
   # GET /transcripts/the-uid
   # GET /transcripts/the-uid.json
   def show
@@ -84,5 +99,9 @@ class TranscriptsController < ApplicationController
 
     def transcript_params
       params.require(:transcript).permit(:title, :description, :url, :audio_url, :image_url, :collection_id, :notes, :transcript_status_id)
+    end
+
+    def search_params
+      params.permit(:sort_by, :order, :collection_id, :q, :page, :deep)
     end
 end

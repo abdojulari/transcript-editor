@@ -15,7 +15,8 @@ end
 
 # Seed Vendors
 vendors = [
-  { uid: 'pop_up_archive', name: 'Pop Up Archive', description: 'Pop Up Archive makes sound searchable using cutting edge speech-to-text technology', url: 'https://popuparchive.com/' }
+  { uid: 'pop_up_archive', name: 'Pop Up Archive', description: 'Pop Up Archive makes sound searchable using cutting edge speech-to-text technology', url: 'https://popuparchive.com/' },
+  { uid: 'webvtt', name: 'WebVTT', description: 'WebVTT (Web Video Text Tracks) is a W3C standard for displaying timed text in connection with HTML5.', url: 'https://w3c.github.io/webvtt/' }
 ]
 vendors.each do |attributes|
   vendor = Vendor.find_or_initialize_by(uid: attributes[:uid])
