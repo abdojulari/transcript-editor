@@ -1,14 +1,14 @@
-# About This Project  
+# Open Audio Weekend  
 
-Today thousands of libraries and public media organizations publish large digital audio collections online. Most of these, however, lack transcripts or basic metadata, leaving them invisible to search engines and inaccessible to prospective users. Recent advances in speech-to-text technologies have made great progress in opening audio to the web, but the transcripts they produce are still error-prone and require careful human editing to reach full accuracy. Transcripts are important because they make audio content searchable online, and accessible to people with hearing disabilities.  
+Thank you for participating in [Open Audio Weekend](http://togetherwelisten.nypl.org/openaudio). In [Browse](https://opentranscript.herokuapp.com/) you'll find a selection of your 206 audio files (over 124 hours) and 206 computer-generated transcripts from our wonderful [event partners](http://togetherwelisten.nypl.org/openaudio/#organizers). This interface allows you browse and search partner audio and transcripts. You can also manually download any transcript through this interface.
 
-If you're reading this, you are among those facing and trying to solve this challenge. Thanks for participating with us in experimenting with a solution!
+NYPL and The Moth have their own versions of this interface for viewing transcripts. Visit the [NYPL version](transcribe.oralhistory.nypl.org) and [The Moth](storyscribe.themoth.org) version to browse their materials.
 
+**Please note, this is not an active project. If you're interested in editing transcripts, please visit NYPL's [Transcript Editor](transcribe.oralhistory.nypl.org) or The Moth's [Story Scribe](storyscribe.themoth.org).**
 
-# Schedule and Transcripts  
+Use of these materials is restricted to participants of Open Audio Weekend during that two day event. Please direct any questions to togetherwelisten@nypl.org.  
 
-NYPL is committed to hosting this sandbox instance through July 2016. At the end of the trial period, we will return to you the computer-generated transcripts and corrected transcripts of your audio. The number of corrected transcripts depends on the time spent editing your audio.
 
 # Contact Information  
 
-Please direct any questions or comments about the Transcript Editor Sandbox to Willa Armstrong, Digital Projects Librarian at willaarmstrong@nypl.org.  
+Please direct any questions or comments about this interface to Open Audio Weekend volunteers and staff.  
