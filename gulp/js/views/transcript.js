@@ -2,6 +2,7 @@
 app.views.Transcript = app.views.Base.extend({
 
   current_line_i: -1,
+  play_all: false,
 
   centerOn: function($el){
     var offset = $el.offset().top,
@@ -106,14 +107,18 @@ app.views.Transcript = app.views.Base.extend({
     this.current_line = this.data.transcript.lines[i];
 
     // update UI
+    var $active = $('.line[sequence="' + i + '"]').first();
+    var $input = $active.find('input');
+
     $('.line.active').removeClass('active');
-    var $active = $('.line[sequence="'+i+'"]').first();
     $active.addClass('active');
+
     this.centerOn($active);
 
-    // focus on input
-    var $input = $active.find('input');
-    if ($input.length) $input.first().focus();
+    if (!this.play_all) {
+      // focus on input
+      if ($input.length) $input.first().focus();
+    }
 
     // fit input
     this.fitInput($input);
@@ -389,11 +394,17 @@ app.views.Transcript = app.views.Base.extend({
     if (this.data.transcript.percent_completed > 0) this.data.transcript.hasLinesCompleted = true;
   },
 
-  playerPause: function(){
+  playerPause: function(options) {
+    if (options === undefined) options = {};
+
     if (this.player.playing) {
       this.player.pause();
       this.message('Paused');
       this.playerState('paused');
+
+      if (this.play_all && (options.trigger == 'end_of_line')) {
+        this.lineNext();
+      }
     }
   },
 
@@ -418,7 +429,7 @@ app.views.Transcript = app.views.Base.extend({
 
   playerToggle: function(){
     if (this.player.playing) {
-      this.playerPause();
+      this.playerPause({trigger: 'manual'});
 
     } else {
       this.playerPlay();
@@ -460,7 +471,7 @@ app.views.Transcript = app.views.Base.extend({
   },
 
   start: function(){
-    this.$('.start-play').addClass('disabled');
+    this.$('.start-play, .play-all').addClass('disabled');
 
     var selectLine = 0,
         lines = this.data.transcript.lines;
@@ -474,6 +485,12 @@ app.views.Transcript = app.views.Base.extend({
     });
 
     this.lineSelect(selectLine);
+  },
+
+  playAll: function() {
+    this.play_all = true;
+
+    this.start();
   },
 
   submitEdit: function(data){

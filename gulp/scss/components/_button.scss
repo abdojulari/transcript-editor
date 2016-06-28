@@ -31,6 +31,14 @@
     opacity: 0.3;
     background: $coolgray-color;
   }
+
+  &.play-all {
+    background-image: url('/nsw-state-library-amplify/assets/img/play.png');
+    background-size: 1.6em;
+    background-repeat: no-repeat;
+    background-position: 0.7em center;
+    padding-left: 2.9em;
+  }
 }
 
 .button-group {

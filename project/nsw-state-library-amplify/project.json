@@ -1,0 +1,71 @@
+{
+  "name": "State Library of New South Wales - Amplify",
+  "description": "Help the State Library of New South Wales transcribe its Rainbow Archives collection!",
+  "logo": "/nsw-state-library-amplify/assets/img/logo.png",
+  "apiUrl": "",
+  "useVendorAudio": true,
+  "transcriptsPerPage": 500,
+  "maxLineTimeOverlapMs": -1,
+  "allowTranscriptDownload": true,
+  "gaCode": "",
+  "adminEmails": [
+    "glen.crawford@reinteractive.net"
+  ],
+  "authProviders": [
+    {
+      "name": "google",
+      "label": "Google",
+      "path": "/auth/google_oauth2"
+    },
+    {
+      "name": "facebook",
+      "label": "Facebook",
+      "path": "/auth/facebook"
+    }
+  ],
+  "consensus": {
+    "maxLineEdits": 5,
+    "minLinesForConsensus": 3,
+    "minLinesForConsensusNoEdits": 5,
+    "minPercentConsensus": 0.34,
+    "lineDisplayMethod": "guess",
+    "superUserHiearchy": 50
+  },
+  "menus": {
+    "header": [
+      {"label": "Browse", "url": "/"},
+      {"label": "Search", "url": "/search"},
+      {"label": "About", "url": "/page/about"},
+      {"label": "FAQ", "url": "/page/faq"},
+      {"label": "Tutorial", "url": "#tutorial", "modal": "tutorial_edit", "validRoutes": ["transcripts/:id"]}
+    ],
+    "footer": [
+      {"label": "Privacy", "url": "http://www.sl.nsw.gov.au/privacy", "target": "_blank"},
+      {"label": "Copyright", "url": "http://www.sl.nsw.gov.au/copyright", "target": "_blank"},
+      {"label": "Client Code of Conduct", "url": "http://www.sl.nsw.gov.au/about-library-legislation-and-policies/client-code-conduct", "target": "_blank"},
+      {"label": "Feedback", "url": "http://www.sl.nsw.gov.au/feedback", "target": "_blank"}
+    ]
+  },
+  "modals": {
+    "tutorial_edit": {
+      "title": "Transcript Editor Tutorial",
+      "displayMethod": "once",
+      "doneLabel": "Finished",
+      "pages": [
+        {"label": "Editing", "file": "ed_tutorial_1.md"},
+        {"label": "Conventions", "file": "ed_tutorial_2.md"},
+        {"label": "Commands", "file": "ed_tutorial_3.md"},
+        {"label": "Speaker Identification", "file": "ed_tutorial_4.md"},
+        {"label": "Verify", "file": "ed_tutorial_5.md"},
+        {"label": "Have fun!", "file": "ed_tutorial_6.md"}
+      ]
+    }
+  },
+  "controls": [
+    {"id": "toggle-play", "action": "lineToggle", "label": "Play/Pause", "keyCode": 32, "key": "[shift] + [space]", "keyLabel": "Shift + Space Bar", "keyDescription": "Hold shift and press space bar to play, pause, or re-play a line", "shift": true},
+    {"id": "next-line", "action": "lineNext", "label": "Next Line", "keyCode": [13,40], "key": "[&#8595;] OR [enter]", "keyLabel": "Down Arrow or Enter Key", "keyDescription": "Press the down arrow key or enter to go to next line"},
+    {"id": "previous-line", "action": "linePrevious", "label": "Prev Line", "keyCode": 38, "key": "&#8593;", "keyLabel": "Up Arrow", "keyDescription": "Press the up arrow key to go to previous line"},
+    {"id": "previous-word", "action": "wordPrevious", "label": "Prev Word", "keyCode": 37, "key": "[shift] + [&#8592;]", "keyLabel": "Shift + Left Arrow", "keyDescription": "Hold shift and press the left arrow key to move to previous word", "shift": true},
+    {"id": "next-word", "action": "wordNext", "label": "Next Word", "keyCode": 39, "key": "[shift] + [&#8594;]", "keyLabel": "Shift + Right Arrow", "keyDescription": "Hold shift and press the right arrow key to move to next word", "shift": true}
+  ]
+}

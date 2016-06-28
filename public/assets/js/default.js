@@ -1052,7 +1052,7 @@ app.views.Crumbs = app.views.Base.extend({
     // check for transcript load
     PubSub.subscribe('transcript.load', function(ev, data) {
       var crumb = {'label': data.label || data.transcript.title};
-      if (data.transcript.image_url) crumb.image = data.transcript.image_url;
+      //if (data.transcript.image_url) crumb.image = data.transcript.image_url;
       _this.data.crumbs = [crumb];
       _this.render();
     });
@@ -1603,6 +1603,7 @@ app.views.Search = app.views.Base.extend({
 app.views.Transcript = app.views.Base.extend({
 
   current_line_i: -1,
+  play_all: false,
 
   centerOn: function($el){
     var offset = $el.offset().top,
@@ -1707,14 +1708,18 @@ app.views.Transcript = app.views.Base.extend({
     this.current_line = this.data.transcript.lines[i];
 
     // update UI
+    var $active = $('.line[sequence="' + i + '"]').first();
+    var $input = $active.find('input');
+
     $('.line.active').removeClass('active');
-    var $active = $('.line[sequence="'+i+'"]').first();
     $active.addClass('active');
+
     this.centerOn($active);
 
-    // focus on input
-    var $input = $active.find('input');
-    if ($input.length) $input.first().focus();
+    if (!this.play_all) {
+      // focus on input
+      if ($input.length) $input.first().focus();
+    }
 
     // fit input
     this.fitInput($input);
@@ -1990,11 +1995,17 @@ app.views.Transcript = app.views.Base.extend({
     if (this.data.transcript.percent_completed > 0) this.data.transcript.hasLinesCompleted = true;
   },
 
-  playerPause: function(){
+  playerPause: function(options) {
+    if (options === undefined) options = {};
+
     if (this.player.playing) {
       this.player.pause();
       this.message('Paused');
       this.playerState('paused');
+
+      if (this.play_all && (options.trigger == 'end_of_line')) {
+        this.lineNext();
+      }
     }
   },
 
@@ -2019,7 +2030,7 @@ app.views.Transcript = app.views.Base.extend({
 
   playerToggle: function(){
     if (this.player.playing) {
-      this.playerPause();
+      this.playerPause({trigger: 'manual'});
 
     } else {
       this.playerPlay();
@@ -2061,7 +2072,7 @@ app.views.Transcript = app.views.Base.extend({
   },
 
   start: function(){
-    this.$('.start-play').addClass('disabled');
+    this.$('.start-play, .play-all').addClass('disabled');
 
     var selectLine = 0,
         lines = this.data.transcript.lines;
@@ -2075,6 +2086,12 @@ app.views.Transcript = app.views.Base.extend({
     });
 
     this.lineSelect(selectLine);
+  },
+
+  playAll: function() {
+    this.play_all = true;
+
+    this.start();
   },
 
   submitEdit: function(data){
@@ -2196,7 +2213,7 @@ app.views.TranscriptFacets = app.views.Base.extend({
   initFacets: function(){
     // set defaults
     var active_collection_id = 'ALL';
-    var active_sort = 'title';
+    var active_sort = 'id';
     var active_order = 'asc';
     var active_keyword = '';
 
@@ -2226,8 +2243,8 @@ app.views.TranscriptFacets = app.views.Base.extend({
 
     // set sort option
     this.data.sort_options = [
-      {id: 'title_asc', name: 'title', order: 'asc', label: 'Title (A to Z)'},
-      {id: 'title_desc', name: 'title', order: 'desc', label: 'Title (Z to A)'},
+      {id: 'title_asc', name: 'id', order: 'asc', label: 'Title (A to Z)'},
+      {id: 'title_desc', name: 'id', order: 'desc', label: 'Title (Z to A)'},
       {id: 'completeness_desc', name: 'completeness', order: 'desc', label: 'Completeness (most to least)'},
       {id: 'completeness_asc', name: 'completeness', order: 'asc', label: 'Completeness (least to most)'},
       {id: 'duration_asc', name: 'duration', order: 'asc', label: 'Duration (short to long)'},
@@ -2511,7 +2528,6 @@ app.views.TranscriptItem = app.views.Base.extend({
     // build title
     var title = transcript.title;
     if (transcript.collection_title) title = transcript.collection_title + ': ' + title;
-    if (transcript.description) title = title + ' - ' + transcript.description;
     this.$el.attr('title', title);
     this.$el.attr('role', 'listitem');
     this.$el.attr('href', transcript.path);
@@ -2983,6 +2999,11 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     // implicit save; save even when user has not edited original text
     // only save if line is editable
     if (text != userText && line.is_editable) {
+      // Don't save if the user is in Play All mode and hasn't changed the text.
+      if ((this.play_all) && (line.display_text == text)) {
+        return;
+      }
+
       var is_new = !$input.closest('.line').hasClass('user-edited');
 
       // update UI
@@ -3118,6 +3139,11 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
       _this.finished();
     });
 
+    this.$el.on('click.transcript', '.play-all', function(e) {
+      e.preventDefault();
+      _this.playAll();
+    });
+
     this.loadAnalytics();
   },
 
@@ -3152,7 +3178,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
 
     this.render();
     this.$el.removeClass('loading');
-    this.$('.start-play').removeClass('disabled');
+    this.$('.start-play, .play-all').removeClass('disabled');
     this.loadListeners();
     this.message('Loaded transcript');
     if (!this.loaded) this.loaded = true;
@@ -3184,7 +3210,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
   onTimeUpdate: function(){
     if (this.player.playing) this.playerState('playing');
     if (this.pause_at_time !== undefined && this.player.currentTime >= this.pause_at_time) {
-      this.playerPause();
+      this.playerPause({trigger: 'end_of_line'});
     }
   },
 

@@ -4,6 +4,8 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 
+.DS_Store
+
 # Ignore bundler config.
 /.bundle
 
@@ -19,6 +21,7 @@
 # Project-specific
 /_dev
 .project
+/.ruby-gemset
 
 # Ignore application configuration
 /config/application.yml
@@ -33,3 +36,8 @@
 
 # Node
 /node_modules
+
+/public/collections/
+
+/project/nsw-state-library-amplify/assets/img/Landing page/
+/public/nsw-state-library-amplify/assets/img/Landing page/

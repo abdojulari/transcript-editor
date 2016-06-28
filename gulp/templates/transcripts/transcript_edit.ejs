@@ -9,7 +9,7 @@
 
 <div class="transcript-header<%= transcript.image_url ? ' has-image' : '' %>" role="banner">
   <% if (transcript.image_url) { %>
-    <div class="image" style="background-image: url(<%= transcript.image_url %>)"></div>
+    <div class="transcript-header-image" style="background-image: url('<%= transcript.image_url %>')"></div>
   <% } %>
   <div class="metadata">
     <h1><%= transcript.title %></h1>
@@ -21,7 +21,7 @@
     <p class="duration">Duration: <%= UTIL.formatTimeAlt(transcript.duration) %></p>
 
     <% if (transcript.url) { %>
-      <p class="original-link"><a href="<%= transcript.url %>" target="_blank">Listen to the original audio</a></p>
+      <p class="original-link"><a href="<%= transcript.url %>" target="_blank">View in Library catalogue</a></p>
     <% } %>
 
     <% if (transcript.speakers.length) { %>
@@ -32,6 +32,15 @@
       <p class="download-link"><a href="#download" data-modal="transcript-download" class="modal-invoke">Download this transcript</a></p>
     <% } %>
 
+    <div class="social">
+      <!-- Start Twitter share button. -->
+      <a href="https://twitter.com/share" class="twitter-share-button" data-text="Listening to <%= transcript.title.length <= 72 ? transcript.title.replace('.', '') : (transcript.title.substring(0, 68) + '...') %> on Amplify via @statelibrarynsw">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+      <!-- End Twitter share button. -->
+
+      <!-- Start Facebook share button. -->
+      <div class="fb-share-button" data-layout="button_count" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u&amp;src=sdkpreparse">Share</a></div>
+      <!-- End Facebook share button. -->
+    </div>
   </div>
   <% if (transcript.percent_edited > 0) { %>
   <div class="status-wrapper">

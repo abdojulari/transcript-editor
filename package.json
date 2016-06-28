@@ -15,5 +15,8 @@
     "gulp-uglify": "^1.5.1",
     "vinyl-map": "^1.0.1"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
 }

@@ -18,7 +18,7 @@ app.views.Crumbs = app.views.Base.extend({
     // check for transcript load
     PubSub.subscribe('transcript.load', function(ev, data) {
       var crumb = {'label': data.label || data.transcript.title};
-      if (data.transcript.image_url) crumb.image = data.transcript.image_url;
+      //if (data.transcript.image_url) crumb.image = data.transcript.image_url;
       _this.data.crumbs = [crumb];
       _this.render();
     });
