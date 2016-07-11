@@ -630,7 +630,7 @@ You can also enable/disable individual transcript downloads by setting `can_down
 
 The app has an endpoint that enables programmatic access to transcripts:
 
-`GET /transcripts.json?updated_after=yyyy-mm-dd&page=1`
+`GET /transcript_files.json?updated_after=yyyy-mm-dd&page=1`
 
 This will get all the transcript files that were updated after a certain date. This is useful if you want to periodically update transcripts that you display on another website.
 
