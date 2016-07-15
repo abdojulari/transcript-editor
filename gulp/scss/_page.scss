@@ -55,6 +55,13 @@
   .completed {
     background: rgba($green-color, 0.6);
   }
+
+  .logo-strip {
+    text-align: center;
+    img {
+      width: auto;
+    }
+  }
 }
 
 .home\.md.page {

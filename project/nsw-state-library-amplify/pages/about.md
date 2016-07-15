@@ -39,9 +39,11 @@ Amplify development and customisation was done by the State Library of New South
 
 The computer-generated transcripts used on our platform were produced by [VoiceBase](https://www.voicebase.com). 
 
-[![New York Public Library logo](/nsw-state-library-amplify/assets/img/nypl_logo.jpg "New York Public Library")](http://nypl.org) 
-[![Reinteractive logo](/nsw-state-library-amplify/assets/img/reinteractive_logo.png "Reinteractive")](https://reinteractive.net) 
-[![VoiceBase logo](/nsw-state-library-amplify/assets/img/voice_base_logo.png "VoiceBase")](https://www.voicebase.com)
+<div class="logo-strip">
+  <a href="http://nypl.org"><img src="/nsw-state-library-amplify/assets/img/nypl_logo.jpg" alt="New York Public Library logo" title="New York Public Library"></a> 
+  <a href="https://reinteractive.net"><img src="/nsw-state-library-amplify/assets/img/reinteractive_logo.png" alt="Reinteractive logo" title="Reinteractive"></a> 
+  <a href="https://www.voicebase.com"><img src="/nsw-state-library-amplify/assets/img/voice_base_logo.png" alt="VoiceBase logo" title="VoiceBase"></a>
+</div>
  
 ## Contacts
 
