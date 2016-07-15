@@ -58,8 +58,32 @@
 
   .logo-strip {
     text-align: center;
+    @media screen and (min-width: $page-tablet-width) {
+      display: flex;
+      align-items: center;
+    }
+
     img {
       width: auto;
+      max-width: 100%;
+      box-sizing: border-box;
+      @media screen and (min-width: $page-tablet-width) {
+        flex: 0 1 auto;
+        padding: 0 1em;
+      }
+    }
+
+    a {
+      &:first-child {
+        img {
+          padding-left: 0;
+        }
+      }
+      &:last-child {
+        img {
+          padding-right: 0;
+        }
+      }
     }
   }
 }
