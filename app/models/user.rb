@@ -38,9 +38,7 @@ class User < ActiveRecord::Base
   end
 
   def self.getAll
-    Rails.cache.fetch("#{ENV['PROJECT_ID']}/users/all", expires_in: 10.minutes) do
-      User.order("lines_edited DESC").limit(100)
-    end
+    User.order("lines_edited DESC").limit(1000)
   end
 
   def self.getStatsByDay
