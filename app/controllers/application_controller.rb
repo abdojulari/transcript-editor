@@ -23,11 +23,30 @@ class ApplicationController < ActionController::API
     user_signed_in? && current_user.isAdmin?
   end
 
+  def is_moderator?
+    user_signed_in? && current_user.isModerator?
+  end
+
   def authenticate_admin!
     unless is_admin?
+      if is_moderator?
+        redirect_to moderator_url
+        return
+      else
+        render json: {
+          error: 1,
+          message: 'You must log in as admin to access this section'
+        }
+        return
+      end
+    end
+  end
+
+  def authenticate_moderator!
+    unless is_moderator?
       render json: {
         error: 1,
-        message: 'You must log in as admin to access this section'
+        message: 'You must log in as admin or moderator to access this section'
       }
       return
     end
