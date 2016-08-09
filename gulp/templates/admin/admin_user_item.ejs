@@ -1,5 +1,5 @@
 <td class="image"><img src="<%= user.image %>" /></td>
-<td class="name"><%= user.name %> (<%= user.email.split('@')[1] %>)</td>
+<td class="name"><%= user.name %> (<%= user.email ? user.email.split('@')[1] : '?' %>)</td>
 <td class="lines_edited"><%= user.lines_edited %></td>
 <td class="role">
   <select class="roleSelect" name="user_role">
