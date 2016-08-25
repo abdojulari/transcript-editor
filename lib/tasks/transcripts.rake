@@ -6,6 +6,45 @@ require 'securerandom'
 
 namespace :transcripts do
 
+  # Usage rake transcripts:export['oral-history']
+  task :export, [:project_key, :host, :collection_uid, :target] => :environment do |task, args|
+    args.with_defaults host: "http://localhost:3000", target: "exports", collection_uid: false
+
+    # export_path = Rails.root.join('exports', args[:project_key])
+    # FileUtils.mkdir_p(export_path) unless File.directory?(export_path)
+
+    transcripts = Transcript.getForExport(args[:project_key], args[:collection_uid])
+
+    formats = [
+      {id: "text", label: "Text", urlExt: ".text", fileType: ".txt"},
+      {id: "text_with_timestamps", label: "Text With Timestamps", urlExt: ".text?timestamps=1", fileType: ".txt"},
+      {id: "webvtt", label: "WebVTT (Captions)", urlExt: ".vtt", fileType: ".vtt"},
+      {id: "json", label: "JSON", urlExt: ".json", fileType: ".json"},
+      {id: "json_with_edits", label: "JSON With Edits", urlExt: ".json?edits=1", fileType: ".json"}
+    ]
+
+    transcripts.each do |transcript|
+      formats.each do |frmt|
+        url = "#{args[:host]}/transcript_files/#{transcript[:uid]}#{frmt[:urlExt]}"
+
+        # Ensure dirs exist
+        collection_dir = "other"
+        collection_dir = transcript[:collection_uid] unless transcript[:collection_uid].blank?
+        export_path = Rails.root.join('exports', args[:project_key], collection_dir, frmt[:id])
+        FileUtils.mkdir_p(export_path) unless File.directory?(export_path)
+
+        filename = "#{transcript[:uid]}#{frmt[:fileType]}"
+        export_file = Rails.root.join('exports', args[:project_key], collection_dir, frmt[:id], filename)
+        open(export_file, 'wb') do |file|
+          puts "Downloading #{url}"
+          file << open(url).read
+          puts "Saved #{export_file}"
+        end
+      end
+      break
+    end
+  end
+
   # Usage rake transcripts:load['oral-history','transcripts_seeds.csv']
   desc "Load transcripts by project key and csv file"
   task :load, [:project_key, :filename] => :environment do |task, args|

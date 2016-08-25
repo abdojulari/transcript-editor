@@ -28,6 +28,21 @@ class Transcript < ActiveRecord::Base
       .where(transcript_edits: {user_id: user_id}).distinct
   end
 
+  def self.getForExport(project_uid, collection_uid=false)
+    if collection_uid
+      Transcript
+        .select("transcripts.*, collections.uid AS collection_uid")
+        .joins("INNER JOIN collections ON collections.id = transcripts.collection_id")
+        .where("transcripts.lines > 0 AND transcripts.project_uid = :project_uid AND transcripts.is_published = :is_published AND collections.uid = :collection_uid", {project_uid: project_uid, is_published: 1, collection_uid: collection_uid})
+
+    else
+      Transcript
+        .select("transcripts.*, COALESCE(collections.uid, \'\') as collection_uid")
+        .joins("LEFT OUTER JOIN collections ON collections.id = transcripts.collection_id")
+        .where("transcripts.lines > 0 AND transcripts.project_uid = :project_uid AND transcripts.is_published = :is_published", {project_uid: project_uid, is_published: 1})
+    end
+  end
+
   def self.getForHomepage(page=1, options={})
     page ||= 1
     options[:order] ||= "title"

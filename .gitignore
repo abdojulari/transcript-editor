@@ -19,6 +19,8 @@
 # Project-specific
 /_dev
 .project
+/exports/*
+!/exports/.keep
 
 # Ignore application configuration
 /config/application.yml
