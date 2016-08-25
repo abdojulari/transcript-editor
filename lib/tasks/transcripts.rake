@@ -41,7 +41,6 @@ namespace :transcripts do
           puts "Saved #{export_file}"
         end
       end
-      break
     end
   end
 
