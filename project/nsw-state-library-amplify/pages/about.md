@@ -25,17 +25,17 @@ View in [Library catalogue](http://archival.sl.nsw.gov.au/Details/archive/110317
 
 This collection belongs to the larger Rainbow Archive held at the State Library of New South Wales.
 
-Interviews with residents of the Nimbin communities regarding the Aquarius Festival and the alternative lifestyle. Interviews are also conducted people who were residents of Nimbin prior to the festival, regarding the impact on the area.
+Interviews with residents of the Nimbin communities regarding the Aquarius Festival and their alternative lifestyles. Interviews were also conducted with people who were residents of Nimbin prior to the festival, regarding the impact on the area.
 
 ## Access to our sound collections
 
-If you are interesting in getting access to our sound collections for research, media or personal interest purposes, please submit a request through our [Ask A Librarian](http://www.sl.nsw.gov.au/research-and-collections/ask-librarian) service. 
+If you are interested in getting access to our sound collections for research, media or personal interest purposes, please submit a request through our [Ask A Librarian](http://www.sl.nsw.gov.au/research-and-collections/ask-librarian) service. 
 
 ## About the development
 
-Amplify was developed using [New York Public Library’s](http://nypl.org) open source [codebase](https://github.com/nypl/transcript-editor) for their own [Transcript Editor](http://transcribe.oralhistory.nypl.org). Without the NYPL’s dedication to innovation and contribution to the open source community, our own Amplify project would not have been possible. 
+Amplify was developed using [New York Public Library’s](http://nypl.org) open source [codebase](https://github.com/nypl/transcript-editor) for their own [Transcript Editor](http://transcribe.oralhistory.nypl.org). Without the NYPL’s dedication to innovation and contribution to the open source community globally, the State Library’s Amplify project would not have been possible. 
 
-Amplify development and customisation was done by the State Library of New South Wales in partnership with [Reinteractive](https://reinteractive.net), a Sydney based Ruby on Rails development agency. 
+Amplify’s development and customisation was done by the State Library of New South Wales in partnership with [Reinteractive](https://reinteractive.net), a Sydney based Ruby on Rails development agency.
 
 The computer-generated transcripts used on our platform were produced by [VoiceBase](https://www.voicebase.com). 
 
@@ -47,7 +47,7 @@ The computer-generated transcripts used on our platform were produced by [VoiceB
  
 ## Contacts
 
-If you would like to know more about Amplify or find information about other digital volunteering projects, you can visit the [State Library website](http://www.sl.nsw.gov.au) or send us an email at [web.development@sl.nsw.gov.au](mailto:web.development@sl.nsw.gov.au).
+If you would like to know more about Amplify or find information about other digital volunteering projects, you can visit the [State Library website](http://www.sl.nsw.gov.au) or send us an email at [digital.volunteering@sl.nsw.gov.au](mailto:digital.volunteering@sl.nsw.gov.au).
 
 Media enquiries: [(02) 9273 1566](tel:+61292731566) or [media.library@sl.nsw.gov.au](media.library@sl.nsw.gov.au)
 

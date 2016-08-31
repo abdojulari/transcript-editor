@@ -1,8 +1,8 @@
 # Frequently Asked Questions
 
-## Do I have to transcribe to be able to listen to an audio file?
+## Do I have to correct a transcription to be able to listen to an audio file?
 
-No! While we would love you to jump in and get involved in correcting our computer-generated transcripts, you can also just simply listen to and enjoy an audio file by clicking the “Play All” button. The Amplify player will run through the transcript as you listen along and if you like you can begin transcribing at any point within an audio file. 
+No! While we would love you to jump in and get involved in correcting our computer-generated transcripts, you can also just simply listen to and enjoy an audio file by clicking the “Play All” button. The Amplify player will run through the transcript as you listen along and if you like you can begin correcting at any point within an audio file.
 
 ## Do I need to be logged in to contribute?
 
@@ -18,7 +18,7 @@ This is a community effort. We display total progress made by the community in t
 
 ## What happens if I make a mistake?
 
-Don't worry! Edit the transcript as best you can from what you hear. Several people will edit each transcript to help nsure accuracy.
+Don't worry! Edit the transcript as best you can from what you hear. Several people will edit each transcript to help ensure accuracy.
 
 ## The audio repeats on two lines. Which line should I transcribe it on?
 
@@ -28,21 +28,21 @@ Listen closely. If a word is cut off on one line, transcribe it on the line wher
 
 Sometimes the computer-generated process hits it out of the park and transcribes a line perfectly. In that case, no edits are needed. When enough volunteers pass over a line without editing it, the line will reach consensus in the same manner as edited lines.
 
-## What to do when a line is locked and still contains errors? 
+## What to do when a line is locked and still contains errors?
 
-Sometimes a mistake will slip through and a line locked for editing may still contain an error. In this case, please use the flagging mechanism. By click on the flag symbol at the end of an incorrect line, you will be prompted to classify the error and to add an optional, explanatory note. Staff at the State Library will periodically reviewing and correcting these flagged errors.
+Sometimes a mistake will slip through and a line locked for editing may still contain an error. In this case, please use the flagging mechanism. By clicking on the flag symbol at the end of an incorrect line, you will be prompted to classify the error and to add an optional, explanatory note. Staff at the State Library will be periodically reviewing and correcting these flagged errors.
 
 ## Where can I see the completed transcripts?
 
-At this time the transcripts will remain available here on Amplify – you can download a copy of each individual transcript by clicking “Download this transcript” at the top of each page. The State Library will be working on ingesting these transcripts into our Library catalogue, meaning that in the long term each transcript will be available through the official Library record of each collection. 
+At this time the transcripts will remain available here on Amplify – you can download a copy of each individual transcript by clicking “Download this transcript” at the top of each page. The State Library will be working on ingesting these transcripts into our Library catalogue, meaning that in the long term each transcript will be available through the official Library record of each collection.
 
 ## Do I need to come to the Library to help transcribe these audio collections?
 
-Not at all! You can start transcribing on Amplify whenever and wherever suits you best. This is an online project and all you need to participate is a desktop or tablet and an internet connection.
+Not at all! You can start transcribing on Amplify whenever and wherever suits you best. This is an online project and all you need to participate is a desktop or tablet and an internet connection. 
 
 ## Can I delete and/or create a new line in the transcript?
 
-No. Transcript lines are synced with clips of audio. For audio clips where the interviewer is silent, we want to retain the empty line to show this.
+No. Transcript lines are synced with clips of audio. For audio clips where the interviewer and/or interviewee are silent, we want to retain the empty line to show this.
 
 ## Several people are speaking in one line. What should I do?
 
@@ -54,8 +54,8 @@ You can access Amplify on your phone to listen to audio files, but editing is be
 
 ## When will you be adding more collections to this platform?
 
-We will be adding new collections from our sound archive periodically to Amplify for you to listen to and transcribe. If there is a particular collection you would like to be made available, please feel free to contact us.
+We will be adding new collections from our sound archive periodically to Amplify for you to listen to and correct. If there is a particular collection you would like to be made available, please feel free to contact us. 
 
 ## Still have a question?
 
-If you would like to know more about Amplify or find information about other digital volunteering projects, you can visit the [State Library website](http://www.sl.nsw.gov.au) or send us an email at [web.development@sl.nsw.gov.au](mailto:web.development@sl.nsw.gov.au).
+If you would like to know more about Amplify or find information about other digital volunteering projects, you can visit the [State Library website](http://www.sl.nsw.gov.au) or send us an email at [digital.volunteering@sl.nsw.gov.au](mailto:digital.volunteering@sl.nsw.gov.au).
