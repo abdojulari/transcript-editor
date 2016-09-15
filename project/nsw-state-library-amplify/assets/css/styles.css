@@ -47,7 +47,7 @@
 
 /* Disclaimer font */
 
-.disclaimer {
+.disclaimer, .home\.md.page p.disclaimer {
   font-size: 0.8em;
   font-style: italic;
 }
