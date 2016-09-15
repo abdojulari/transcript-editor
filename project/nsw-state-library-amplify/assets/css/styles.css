@@ -44,3 +44,10 @@
   max-width: 300px;
   margin-left: 10px;
 }
+
+/* Disclaimer font */
+
+.disclaimer {
+  font-size: 0.8em;
+  font-style: italic;
+}

@@ -6,4 +6,6 @@
   <p class="caption">An example of how the transcript editor works (click for sound).</p>
 
   <p>Select an interview to get started.</p>
+
+  <p class="disclaimer">All images used on this platform are drawn from the Library's collections but are not intended to represent individual speakers unless explicitly stated. If you can provide us with further detail about any of our collections please <a href=”mailto:digital.volunteering@sl.nsw.gov.au”>contact us</a>.</p>
 </div>
