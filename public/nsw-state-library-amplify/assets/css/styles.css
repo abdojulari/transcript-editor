@@ -4,6 +4,11 @@
   vertical-align: top;
 }
 
+.header .title-container .logo {
+  max-height: auto;
+  max-width: 200px;
+}
+
 /* Home page. */
 
 .home\.md.page {
