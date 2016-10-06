@@ -49,7 +49,7 @@ module VoiceBase
       end
     end
 
-    def get_transcript_lines_from_file(transcript_id, contents)
+    def get_transcript_lines_from_file(transcript, contents)
       to_from_match = /(\d+:\d+:\d+,\d+) --> (\d+:\d+:\d+,\d+)/
       whitespace_only = /^\s*$/
 
@@ -70,7 +70,7 @@ module VoiceBase
       # Use this lambda to insert into the transcript.
       insert_into_transcript = lambda {
         transcript_lines << {
-          transcript_id: transcript_id,
+          transcript_id: transcript.id,
           start_time: line_temp[:from],
           end_time: line_temp[:to],
           original_text: line_temp[:lines].join(' '),
