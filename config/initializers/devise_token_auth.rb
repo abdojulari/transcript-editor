@@ -27,5 +27,5 @@ DeviseTokenAuth.setup do |config|
   # config.check_current_password_before_update = :attributes
 
   # Set up custom FailureApp.
-  config.failure_app = AdminFailureApp
+  # config.failure_app = AdminFailureApp
 end
