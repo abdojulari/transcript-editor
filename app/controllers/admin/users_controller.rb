@@ -14,24 +14,24 @@ class Admin::UsersController < ApplicationController
       }
       format.json {
         @users = User.getAll
+        @user_roles = UserRole.getAll
       }
     end
   end
 
   # PATCH/PUT /admin/users/{id}.json
   def update
-
-    if @transcript.update(transcript_params)
+    if @user.update(user_params)
       head :no_content
     else
-      render json: @transcript.errors, status: :unprocessable_entity
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 
   private
 
     def set_user
-      @transcript = Transcript.find_by(uid: params[:id])
+      @user = User.find(params[:id])
     end
 
     def user_params

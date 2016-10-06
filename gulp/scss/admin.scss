@@ -13,10 +13,17 @@
   @include clearfix();
 }
 
+.row {
+  @include clearfix();
+  margin-bottom: 20px;
+}
 .col {
   width: 50%;
   float: left;
   padding: 10px;
+  max-height: 90vh;
+  overflow: hidden;
+  overflow-y: auto;
   @include box-sizing();
 }
 

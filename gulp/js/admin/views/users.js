@@ -14,7 +14,7 @@ app.views.AdminUsers = app.views.Base.extend({
   loadData: function(){
     var _this = this;
     $.getJSON("/admin/users.json", function(data) {
-      _this.renderUsers(data.entries);
+      _this.renderUsers(data);
     });
   },
 
@@ -24,13 +24,15 @@ app.views.AdminUsers = app.views.Base.extend({
     return this;
   },
 
-  renderUsers: function(users){
+  renderUsers: function(data){
     var $users = this.$('#users-container');
+    var users = data.users;
+    var roles = data.roles;
 
     $users.empty();
 
     _.each(users, function(user){
-      var userView = new app.views.UserItem({user: user});
+      var userView = new app.views.UserItem({user: user, roles: roles});
       $users.append(userView.$el);
     });
   }

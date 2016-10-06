@@ -22,6 +22,8 @@
 /_dev
 .project
 /.ruby-gemset
+/exports/*
+!/exports/.keep
 
 # Ignore application configuration
 /config/application.yml

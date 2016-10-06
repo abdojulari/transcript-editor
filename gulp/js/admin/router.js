@@ -1,7 +1,8 @@
 app.routers.DefaultRouter = Backbone.Router.extend({
 
   routes: {
-    "admin":                "stats"
+    "admin":                "stats",
+    "moderator":            "flags"
   },
 
   before: function(route, params) {
@@ -12,6 +13,15 @@ app.routers.DefaultRouter = Backbone.Router.extend({
 
   },
 
+  flags: function(){
+    var data = this._getData(data);
+    var header = new app.views.Header(data);
+    var flags = new app.views.AdminFlags(data);
+    var footer = new app.views.Footer(data);
+
+    $('#main').append(flags.$el);
+  },
+
   stats: function(){
     var data = this._getData(data);
     var header = new app.views.Header(data);
@@ -20,13 +30,15 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var flags = new app.views.AdminFlags(data);
     var footer = new app.views.Footer(data);
 
-    var $containerLeft = $('<div class="col"></div>');
-    var $containerRight = $('<div class="col"></div>');
-    $containerLeft.append(stats.$el);
-    $containerLeft.append(flags.$el);
-    $containerRight.append(users.$el);
-    $('#main').append($containerLeft);
-    $('#main').append($containerRight);
+    var $row1 = $('<div class="row"></div>');
+    var $col1 = $('<div class="col"></div>');
+    var $col2 = $('<div class="col"></div>');
+    var $row2 = $('<div class="row"></div>');
+    $col1.append(stats.$el);
+    $col2.append(users.$el);
+    $row1.append($col1).append($col2);
+    $row2.append(flags.$el);
+    $('#main').append($row1).append($row2);
   },
 
   _getData: function(data){
