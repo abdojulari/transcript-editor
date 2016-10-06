@@ -33,18 +33,7 @@ class ApplicationController < ActionController::API
         redirect_to moderator_url
         return
       else
-        respond_to do |format|
-          format.html {
-            # @TODO: Display error message
-            render :file => environment_index_file
-          }
-          format.json {
-            render json: {
-              error: 1,
-              message: 'You must log in as admin to access this section'
-            }
-          }
-        end
+        authentication_failed
         return
       end
     end
@@ -52,19 +41,23 @@ class ApplicationController < ActionController::API
 
   def authenticate_moderator!
     unless is_moderator?
-      respond_to do |format|
-        format.html {
-          # @TODO: Display error message
-          render :file => environment_index_file
-        }
-        format.json {
-          render json: {
-            error: 1,
-            message: 'You must log in as admin to access this section'
-          }
-        }
-      end
+      authentication_failed
       return
     end
+  end
+
+  def authentication_failed
+    respond_to do |format|
+      format.html {
+        redirect_to root_url(show_alert: 'You must log in as admin to access this section')
+      }
+      format.json {
+        render json: {
+          error: 1,
+          message: 'You must log in as admin to access this section'
+        }
+      }
+    end
+    return
   end
 end
