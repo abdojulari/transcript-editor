@@ -71,7 +71,9 @@ app.views.Account = app.views.Base.extend({
   onSignOutSuccess: function(){
     this.data.user = {};
     this.data.score = 0;
-    this.render();
+    // this.render();
+    // Redirect to homepage when user logs out.
+    window.history.pushState({}, document.title, '/');
   },
 
   onValidationSuccess: function(user){
