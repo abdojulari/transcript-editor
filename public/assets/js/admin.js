@@ -692,7 +692,8 @@ $(function(){
 app.routers.DefaultRouter = Backbone.Router.extend({
 
   routes: {
-    "admin":                "stats"
+    "admin":                "stats",
+    "moderator":            "flags"
   },
 
   before: function(route, params) {
@@ -703,6 +704,15 @@ app.routers.DefaultRouter = Backbone.Router.extend({
 
   },
 
+  flags: function(){
+    var data = this._getData(data);
+    var header = new app.views.Header(data);
+    var flags = new app.views.AdminFlags(data);
+    var footer = new app.views.Footer(data);
+
+    $('#main').append(flags.$el);
+  },
+
   stats: function(){
     var data = this._getData(data);
     var header = new app.views.Header(data);
@@ -711,13 +721,15 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var flags = new app.views.AdminFlags(data);
     var footer = new app.views.Footer(data);
 
-    var $containerLeft = $('<div class="col"></div>');
-    var $containerRight = $('<div class="col"></div>');
-    $containerLeft.append(stats.$el);
-    $containerLeft.append(flags.$el);
-    $containerRight.append(users.$el);
-    $('#main').append($containerLeft);
-    $('#main').append($containerRight);
+    var $row1 = $('<div class="row"></div>');
+    var $col1 = $('<div class="col"></div>');
+    var $col2 = $('<div class="col"></div>');
+    var $row2 = $('<div class="row"></div>');
+    $col1.append(stats.$el);
+    $col2.append(users.$el);
+    $row1.append($col1).append($col2);
+    $row2.append(flags.$el);
+    $('#main').append($row1).append($row2);
   },
 
   _getData: function(data){
@@ -1259,7 +1271,7 @@ app.views.AdminUsers = app.views.Base.extend({
   loadData: function(){
     var _this = this;
     $.getJSON("/admin/users.json", function(data) {
-      _this.renderUsers(data.entries);
+      _this.renderUsers(data);
     });
   },
 
@@ -1269,13 +1281,15 @@ app.views.AdminUsers = app.views.Base.extend({
     return this;
   },
 
-  renderUsers: function(users){
+  renderUsers: function(data){
     var $users = this.$('#users-container');
+    var users = data.users;
+    var roles = data.roles;
 
     $users.empty();
 
     _.each(users, function(user){
-      var userView = new app.views.UserItem({user: user});
+      var userView = new app.views.UserItem({user: user, roles: roles});
       $users.append(userView.$el);
     });
   }
@@ -1291,13 +1305,40 @@ app.views.UserItem = app.views.Base.extend({
 
   initialize: function(data){
     this.data = _.extend({}, data);
-    this.user = this.data.user;
 
     this.render();
+    this.loadListeners();
+  },
+
+  changeRole: function(user_role_id){
+    if (this.data.user.user_role_id == user_role_id) return false;
+    var _this = this;
+
+    $.ajax({
+      url: '/admin/users/'+this.data.user.id+'.json',
+      data: {
+        user: {
+          user_role_id: user_role_id
+        }
+      },
+      type: 'PUT',
+      success: function(resp) {
+        console.log(resp);
+        _this.data.user.user_role_id = user_role_id;
+      }
+    });
+  },
+
+  loadListeners: function(){
+    var _this = this;
+
+    this.$el.on('change', '.roleSelect', function(e){
+      _this.changeRole(parseInt($(this).val()));
+    });
   },
 
   render: function(){
-    this.$el.html(this.template(this.user));
+    this.$el.html(this.template(this.data));
     return this;
   }
 
