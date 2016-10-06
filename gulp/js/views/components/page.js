@@ -46,7 +46,7 @@ app.views.Page = app.views.Base.extend({
       var might_show_alert = window.location.search.match(/show_alert=([^&]+)/);
       if (!!might_show_alert) {
         $(window).trigger('alert', [
-          decodeURIComponent(might_show_alert[1]).replace(/‌​‌​\+/g, " "),
+          decodeURIComponent(might_show_alert[1]).replace(/\+/g, ' '),
           true,
         ]);
       }
