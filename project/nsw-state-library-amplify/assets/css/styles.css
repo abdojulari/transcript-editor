@@ -1,3 +1,19 @@
+/* Env indicator */
+
+.application-env-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: white;
+  z-index: 10001;
+  transform: translateX(-60px) translateY(25px) rotate(-45deg);
+  background: #600;
+  width: 200px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
 /* Header */
 
 .header .title-container .header-bar .logo-text {
