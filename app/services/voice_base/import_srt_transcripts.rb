@@ -49,94 +49,97 @@ module VoiceBase
       end
     end
 
-    def get_transcript_lines_from_file(transcript, contents)
-      to_from_match = /^(\d+:\d+:\d+,\d+) --> (\d+:\d+:\d+,\d+)$/
+    def get_transcript_lines_from_file(transcript_id, contents)
+      to_from_match = /(\d+:\d+:\d+,\d+) --> (\d+:\d+:\d+,\d+)/
       whitespace_only = /^\s*$/
 
-      out = [].tap do |transcript_lines|
-        # Use line_number and line_temp to store the current state.
-        line_number = 1
+      # A previous implementation used [].tap to fill an empty array,
+      # but given the state machine-like nature of the new parser,
+      # it was more concise to just fill an array.
+      transcript_lines = []
+
+      # Use line_number and line_temp to store the current state.
+      line_number = 1
+      line_temp = {
+        reading: false,
+        from: nil,
+        to: nil,
+        lines: []
+      }
+
+      # Use this lambda to insert into the transcript.
+      insert_into_transcript = lambda {
+        transcript_lines << {
+          transcript_id: transcript_id,
+          start_time: line_temp[:from],
+          end_time: line_temp[:to],
+          original_text: line_temp[:lines].join(' '),
+          sequence: (line_number - 1)
+        }
+        line_number += 1
+      }
+
+      reset_reading = lambda {
         line_temp = {
           reading: false,
           from: nil,
           to: nil,
           lines: []
         }
+      }
 
-        # Use this lambda to insert into the transcript.
-        insert_into_transcript = lambda {
-          transcript_lines << {
-            transcript_id: transcript.id,
-            start_time: line_temp[:from],
-            end_time: line_temp[:to],
-            original_text: line_temp[:lines].join(' '),
-            sequence: (line_number - 1)
-          }
-          line_number += 1
+      start_reading = lambda { |from_text, to_text|
+        line_temp = {
+          reading: true,
+          from: self.s_convert_time_to_milliseconds(from_text),
+          to: self.s_convert_time_to_milliseconds(to_text),
+          lines: []
         }
+      }
 
-        reset_reading = lambda {
-          line_temp = {
-            reading: false,
-            from: nil,
-            to: nil,
-            lines: []
-          }
-        }
+      # Move to the next line when there's a to & from timestamp.
+      while contents.any?
+        newline = contents.shift
 
-        start_reading = lambda { |from_text, to_text|
-          line_temp = {
-            reading: true,
-            from: convert_time_to_milliseconds(from_text),
-            to: convert_time_to_milliseconds(to_text),
-            lines: []
-          }
-        }
+        # First, we test if the new line contains from/to timestamps,
+        # and if so, start reading.
+        try_match_to_from = to_from_match.match(newline)
+        unless try_match_to_from.nil?
+          # If a valid match for the timestamp, we need to save all
+          # existing line data, and start a new line.
+          if line_temp[:reading]
+            # If we're still reading, add the existing data
+            # to the transcript right away.
+            insert_into_transcript.call
+          end
 
-        # Move to the next line when there's a to & from timestamp.
-        while contents.any?
-          newline = contents.shift
-
-          # First, we test if the new line contains from/to timestamps,
-          # and if so, start reading.
-          try_match_to_from = to_from_match.match newline
-          unless try_match_to_from.nil?
-            # If a valid match for the timestamp, we need to save all
-            # existing line data, and start a new line.
-            if line_temp[:reading]
-              # If we're still reading, add the existing data
-              # to the transcript right away.
+          start_reading.call(try_match_to_from[1], try_match_to_from[2])
+        else
+          # Otherwise, we add more content to the existing line,
+          # but only if we are actively reading.
+          if line_temp[:reading]
+            if newline.length > 0 && !(whitespace_only =~ newline)
+              # Add the new line to the list of ingested lines.
+              line_temp[:lines] << newline
+            else
+              # The current line is whitespace or empty.
+              # Add the ingested line to the transcript,
+              # and carry on.
               insert_into_transcript.call
-            end
-
-            start_reading.call(try_match_to_from[1], try_match_to_from[2])
-          else
-            # Otherwise, we add more content to the existing line,
-            # but only if we are actively reading.
-            if line_temp[:reading]
-              if newline.length > 0 && !(whitespace_only =~ newline)
-                # Add the new line to the list of ingested lines.
-                line_temp[:lines] << newline
-              else
-                # The current line is whitespace or empty.
-                # Add the ingested line to the transcript,
-                # and carry on.
-                insert_into_transcript.call
-                reset_reading.call
-              end
+              reset_reading.call
             end
           end
         end
-
-        # When we've finished parsing the document,
-        # if we were still reading content,
-        # read that line into the transcript.
-        if line_temp[:reading]
-          insert_into_transcript.call
-        end
       end
 
-      out
+      # When we've finished parsing the document,
+      # if we were still reading content,
+      # read that line into the transcript.
+      if line_temp[:reading]
+        insert_into_transcript.call
+      end
+
+      transcript_lines
     end
 
     def convert_time_to_milliseconds(time)
