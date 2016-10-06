@@ -1112,6 +1112,13 @@ app.views.Page = app.views.Base.extend({
           decodeURIComponent(might_show_alert[1]).replace(/\+/g, ' '),
           true,
         ]);
+
+        // Strip alert from URL and force refresh.
+        var newUrl = window.location.href
+          .replace("show_alert=" + might_show_alert[1])
+          .replace(/(&+)/, '&')
+          .replace(/(\?&)/, '?');
+        window.history.pushState({}, document.title, newUrl);
       }
     }
   }

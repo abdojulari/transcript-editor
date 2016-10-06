@@ -25,4 +25,7 @@ DeviseTokenAuth.setup do |config|
   # attribute updates. Set it to :password if you want it to be checked only if
   # password is updated.
   # config.check_current_password_before_update = :attributes
+
+  # Set up custom FailureApp.
+  config.failure_app = AdminFailureApp
 end
