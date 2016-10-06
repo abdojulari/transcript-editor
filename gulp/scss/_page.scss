@@ -71,6 +71,11 @@
         flex: 0 1 auto;
         padding: 0 1em;
       }
+
+      &.lock-size {
+        max-width: 250px;
+        max-height: 125px;
+      }
     }
 
     a {
