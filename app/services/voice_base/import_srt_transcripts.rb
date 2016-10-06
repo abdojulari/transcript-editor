@@ -101,10 +101,10 @@ module VoiceBase
             if line_temp[:reading]
               # If we're still reading, add the existing data
               # to the transcript right away.
-              insert_into_transcript
+              insert_into_transcript.call
             end
 
-            start_reading(try_match_to_from[1], try_match_to_from[2])
+            start_reading.call(try_match_to_from[1], try_match_to_from[2])
           else
             # Otherwise, we add more content to the existing line,
             # but only if we are actively reading.
@@ -114,8 +114,8 @@ module VoiceBase
                 line_temp[:lines] << newline
               else
                 # Add the ingested line to the transcript.
-                insert_into_transcript
-                reset_reading
+                insert_into_transcript.call
+                reset_reading.call
               end
             end
           end
@@ -125,7 +125,7 @@ module VoiceBase
         # if we were still reading content,
         # read that line into the transcript.
         if line_temp[:reading]
-          insert_into_transcript
+          insert_into_transcript.call
         end
       end
     end
