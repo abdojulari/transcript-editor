@@ -688,9 +688,31 @@ If you ever need to re-import updated transcripts, then you can choose between e
 
 These are all uploaded to the `slnsw-amplify` AWS S3 bucket. There is a rake task built specially for uploading files: `rake aws:upload_files`.
 
-#### Updating transcripts
+#### Updating transcript data
 
 Simply update the `transcripts_seeds.csv` file and run the `transcripts:load` rake task again (the task is idempotent).
+
+#### Updating transcript lines
+
+Unfortunately, there's no way to overwrite existing transcripts without ripping them up and starting again. The way to do this is as follows:
+
+Enter a Rails command line session.
+
+```bash
+bundle exec rails c
+```
+
+```ruby
+ts = Transcript.where(vendor_id: Vendor.find_by(uid: 'voice_base').id)
+ts.destroy_all
+```
+
+Then, to re-add transcript lines:
+
+```bash
+bundle exec rake transcripts:load['nsw-state-library-amplify','transcripts_seeds.csv']
+bundle exec rake voice_base:import_transcripts['nsw-state-library-amplify']
+```
 
 ## License
 

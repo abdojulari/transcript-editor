@@ -49,7 +49,7 @@ module VoiceBase
       to_from_match = /^(\d+:\d+:\d+,\d+) --> (\d+:\d+:\d+,\d+)$/
       whitespace_only = /^\s*$/
 
-      [].tap do |transcript_lines|
+      out = [].tap do |transcript_lines|
         # Use line_number and line_temp to store the current state.
         line_number = 1
         line_temp = {
@@ -131,7 +131,8 @@ module VoiceBase
           insert_into_transcript.call
         end
       end
-      transcript_lines
+
+      out
     end
 
     def convert_time_to_milliseconds(time)
