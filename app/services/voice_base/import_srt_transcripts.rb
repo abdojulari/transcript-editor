@@ -47,6 +47,7 @@ module VoiceBase
 
     def get_transcript_lines_from_file(transcript, contents)
       to_from_match = /^(\d+:\d+:\d+,\d+) --> (\d+:\d+:\d+,\d+)$/
+      whitespace_only = /^\s*$/
 
       [].tap do |transcript_lines|
         # Use line_number and line_temp to store the current state.
@@ -109,11 +110,13 @@ module VoiceBase
             # Otherwise, we add more content to the existing line,
             # but only if we are actively reading.
             if line_temp[:reading]
-              if newline.length > 0
+              if newline.length > 0 && !(whitespace_only =~ newline)
                 # Add the new line to the list of ingested lines.
                 line_temp[:lines] << newline
               else
-                # Add the ingested line to the transcript.
+                # The current line is whitespace or empty.
+                # Add the ingested line to the transcript,
+                # and carry on.
                 insert_into_transcript.call
                 reset_reading.call
               end
@@ -128,6 +131,7 @@ module VoiceBase
           insert_into_transcript.call
         end
       end
+      transcript_lines
     end
 
     def convert_time_to_milliseconds(time)
