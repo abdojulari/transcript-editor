@@ -91,8 +91,8 @@ module VoiceBase
       start_reading = lambda { |from_text, to_text|
         line_temp = {
           reading: true,
-          from: self.s_convert_time_to_milliseconds(from_text),
-          to: self.s_convert_time_to_milliseconds(to_text),
+          from: convert_time_to_milliseconds(from_text),
+          to: convert_time_to_milliseconds(to_text),
           lines: []
         }
       }
