@@ -55,5 +55,5 @@ Technical/development enquiries: [web.development@sl.nsw.gov.au](mailto:web.deve
 
 <div class="logo-strip">
   <a href="http://www.justice.nsw.gov.au/"><img src="/nsw-state-library-amplify/assets/img/nsw-justice.png" alt="NSW Department of Justice logo" title="NSW Department of Justice"></a> 
-  <a href="http://www.sl.nsw.gov.au"><img src="/nsw-state-library-amplify/assets/img/logo.png" alt="State Library of NSW logo" title="State Library of NSW"></a> 
+  <a href="http://www.sl.nsw.gov.au"><img src="/nsw-state-library-amplify/assets/img/slnsw-175.png" alt="State Library of NSW logo" title="State Library of NSW"></a> 
 </div>
