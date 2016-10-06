@@ -1,7 +1,6 @@
 class Admin::FlagsController < ApplicationController
   include ActionController::MimeResponds
 
-  before_action :authenticate_user!
   before_filter :authenticate_moderator!
 
   # GET /admin/flags

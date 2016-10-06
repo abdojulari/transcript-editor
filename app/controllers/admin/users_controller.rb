@@ -1,7 +1,6 @@
 class Admin::UsersController < ApplicationController
   include ActionController::MimeResponds
 
-  before_action :authenticate_user!
   before_filter :authenticate_admin!
 
   before_action :set_user, only: [:show, :update, :destroy]
