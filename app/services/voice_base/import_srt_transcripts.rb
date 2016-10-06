@@ -31,18 +31,22 @@ module VoiceBase
       contents = File.read(transcript_file).lines
       transcript_lines = get_transcript_lines_from_file(transcript, contents)
 
-      transcript_duration = transcript_lines.last[:end_time] / 1000 # From milliseconds to seconds.
-      vendor_audio_urls = []
+      unless transcript_lines.nil?
+        transcript_duration = transcript_lines.last[:end_time] / 1000 # From milliseconds to seconds.
+        vendor_audio_urls = []
 
-      transcript_status = TranscriptStatus.find_by(name: :transcript_downloaded)
+        transcript_status = TranscriptStatus.find_by(name: :transcript_downloaded)
 
-      TranscriptLine.where(transcript_id: transcript.id).destroy_all
+        TranscriptLine.where(transcript_id: transcript.id).destroy_all
 
-      TranscriptLine.create!(transcript_lines)
+        TranscriptLine.create!(transcript_lines)
 
-      transcript.update!(lines: transcript_lines.count, transcript_status: transcript_status, duration: transcript_duration, vendor_audio_urls: vendor_audio_urls, transcript_retrieved_at: DateTime.now)
+        transcript.update!(lines: transcript_lines.count, transcript_status: transcript_status, duration: transcript_duration, vendor_audio_urls: vendor_audio_urls, transcript_retrieved_at: DateTime.now)
 
-      puts "Created #{transcript_lines.length} lines from transcript #{transcript.uid}."
+        puts "Created #{transcript_lines.length} lines from transcript #{transcript.uid}."
+      else
+        puts "No lines read from transcript #{transcript.uid}."
+      end
     end
 
     def get_transcript_lines_from_file(transcript, contents)
