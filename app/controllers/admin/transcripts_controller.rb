@@ -1,6 +1,7 @@
 class Admin::TranscriptsController < ApplicationController
   include ActionController::MimeResponds
 
+  before_action :authenticate_user!
   before_filter :authenticate_admin!
 
   # GET /admin/transcripts
@@ -8,7 +9,7 @@ class Admin::TranscriptsController < ApplicationController
   def index
     respond_to do |format|
       format.html {
-        render :file => "public/#{ENV['PROJECT_ID']}/admin.html"
+        render :file => environment_admin_file
       }
       format.json {
         @transcripts = []

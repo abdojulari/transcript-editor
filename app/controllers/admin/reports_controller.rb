@@ -1,4 +1,5 @@
 class Admin::ReportsController < ApplicationController
+  before_action :authenticate_user!
   before_filter :authenticate_admin!
   before_filter :get_date_params
 
