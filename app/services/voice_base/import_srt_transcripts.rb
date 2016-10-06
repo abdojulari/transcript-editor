@@ -46,22 +46,86 @@ module VoiceBase
     end
 
     def get_transcript_lines_from_file(transcript, contents)
+      to_from_match = /^(\d+:\d+:\d+,\d+) --> (\d+:\d+:\d+,\d+)$/
+
       [].tap do |transcript_lines|
-        while contents.any?
-          line = contents.shift(4)
-          line.each(&:chomp!)
+        # Use line_number and line_temp to store the current state.
+        line_number = 1
+        line_temp = {
+          reading: false,
+          from: nil,
+          to: nil,
+          lines: []
+        }
 
-          line_number = line.shift.to_i
-          start_time, end_time = line.shift.split('-->').each(&:strip!)
-          line_text = line.shift
-
+        # Use this lambda to insert into the transcript.
+        insert_into_transcript = lambda {
           transcript_lines << {
             transcript_id: transcript.id,
-            start_time: convert_time_to_milliseconds(start_time),
-            end_time: convert_time_to_milliseconds(end_time),
-            original_text: line_text,
+            start_time: line_temp[:from],
+            end_time: line_temp[:to],
+            original_text: line_temp[:lines].join(' '),
             sequence: (line_number - 1)
           }
+          line_number += 1
+        }
+
+        reset_reading = lambda {
+          line_temp = {
+            reading: false,
+            from: nil,
+            to: nil,
+            lines: []
+          }
+        }
+
+        start_reading = lambda { |from_text, to_text|
+          line_temp = {
+            reading: true,
+            from: convert_time_to_milliseconds(from_text),
+            to: convert_time_to_milliseconds(to_text),
+            lines: []
+          }
+        }
+
+        # Move to the next line when there's a to & from timestamp.
+        while contents.any?
+          newline = contents.shift
+
+          # First, we test if the new line contains from/to timestamps,
+          # and if so, start reading.
+          try_match_to_from = to_from_match.match newline
+          unless try_match_to_from.nil?
+            # If a valid match for the timestamp, we need to save all
+            # existing line data, and start a new line.
+            if line_temp[:reading]
+              # If we're still reading, add the existing data
+              # to the transcript right away.
+              insert_into_transcript
+            end
+
+            start_reading(try_match_to_from[1], try_match_to_from[2])
+          else
+            # Otherwise, we add more content to the existing line,
+            # but only if we are actively reading.
+            if line_temp[:reading]
+              if newline.length > 0
+                # Add the new line to the list of ingested lines.
+                line_temp[:lines] << newline
+              else
+                # Add the ingested line to the transcript.
+                insert_into_transcript
+                reset_reading
+              end
+            end
+          end
+        end
+
+        # When we've finished parsing the document,
+        # if we were still reading content,
+        # read that line into the transcript.
+        if line_temp[:reading]
+          insert_into_transcript
         end
       end
     end
