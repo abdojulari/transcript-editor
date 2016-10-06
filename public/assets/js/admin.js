@@ -1108,7 +1108,10 @@ app.views.Page = app.views.Base.extend({
     if (!!window.location.search && window.location.search.length) {
       var might_show_alert = window.location.search.match(/show_alert=([^&]+)/);
       if (!!might_show_alert) {
-        $(window).trigger('alert', [might_show_alert[1], true]);
+        $(window).trigger('alert', [
+          decodeURIComponent(might_show_alert[1]).replace(/‌​‌​\+/g, " "),
+          true,
+        ]);
       }
     }
   }
