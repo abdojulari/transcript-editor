@@ -1,5 +1,6 @@
 class Admin::StatsController < ApplicationController
   include ActionController::MimeResponds
+  include IndexTemplate
 
   before_filter :authenticate_moderator!
 
@@ -8,7 +9,7 @@ class Admin::StatsController < ApplicationController
   def index
     respond_to do |format|
       format.html {
-        render :file => "public/#{ENV['PROJECT_ID']}/admin.html"
+        render :file => environment_admin_file
       }
       format.json {
         @stats = [

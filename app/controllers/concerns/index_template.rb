@@ -5,9 +5,16 @@ module IndexTemplate
   # If there's a different index file available
   # for the current Rails.env, use that instead.
   def environment_index_file
-    index_file = "public/#{ENV['PROJECT_ID']}/index.html"
-    env_index_file = "public/#{ENV['PROJECT_ID']}/index.#{Rails.env.downcase}.html"
-    index_file = env_index_file if File.exists?(env_index_file)
-    index_file
+    tpl_file = "public/#{ENV['PROJECT_ID']}/index.html"
+    env_tpl_file = "public/#{ENV['PROJECT_ID']}/index.#{Rails.env.downcase}.html"
+    tpl_file = env_tpl_file if File.exists?(env_tpl_file)
+    tpl_file
+  end
+
+  def environment_admin_file
+    tpl_file = "public/#{ENV['PROJECT_ID']}/admin.html"
+    env_tpl_file = "public/#{ENV['PROJECT_ID']}/admin.#{Rails.env.downcase}.html"
+    tpl_file = env_tpl_file if File.exists?(env_tpl_file)
+    tpl_file
   end
 end
