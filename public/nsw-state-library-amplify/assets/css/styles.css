@@ -5,7 +5,7 @@
 }
 
 .header .title-container .logo {
-  max-height: auto;
+  max-height: inherit;
   max-width: 200px;
 }
 
