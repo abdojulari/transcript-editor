@@ -52,3 +52,8 @@ If you would like to know more about Amplify or find information about other dig
 Media enquiries: [(02) 9273 1566](tel:+61292731566) or [media.library@sl.nsw.gov.au](media.library@sl.nsw.gov.au)
 
 Technical/development enquiries: [web.development@sl.nsw.gov.au](mailto:web.development@sl.nsw.gov.au)
+
+<div class="logo-strip">
+  <a href="http://www.justice.nsw.gov.au/"><img src="/nsw-state-library-amplify/assets/img/nsw-justice.png" alt="NSW Department of Justice logo" title="NSW Department of Justice"></a> 
+  <a href="http://www.sl.nsw.gov.au"><img src="/nsw-state-library-amplify/assets/img/logo.png" alt="State Library of NSW logo" title="State Library of NSW"></a> 
+</div>
