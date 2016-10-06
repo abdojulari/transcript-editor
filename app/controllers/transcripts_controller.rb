@@ -1,5 +1,6 @@
 class TranscriptsController < ApplicationController
   include ActionController::MimeResponds
+  include IndexTemplate
 
   before_action :set_transcript, only: [:show, :update, :destroy, :facebook_share]
 
@@ -15,7 +16,7 @@ class TranscriptsController < ApplicationController
   def search
     respond_to do |format|
       format.html {
-        render :file => "public/#{ENV['PROJECT_ID']}/index.html"
+        render :file => environment_index_file
       }
       format.json {
         project = Project.getActive
@@ -35,7 +36,7 @@ class TranscriptsController < ApplicationController
           redirect_to facebook_share_transcript_path(@transcript.uid) and return
         end
 
-        render :file => "public/#{ENV['PROJECT_ID']}/index.html"
+        render :file => environment_index_file
       }
       format.json {
         @user_role = nil
