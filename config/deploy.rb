@@ -34,7 +34,7 @@ namespace :deploy do
       # within release_path do
       #   execute :rake, 'cache:clear'
       # end
-      # execute :rake, 'project:load[\'nsw-state-library-amplify\']'
+      execute :rake, 'project:load[\'nsw-state-library-amplify\']'
     end
   end
 end
