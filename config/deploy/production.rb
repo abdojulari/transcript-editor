@@ -1,6 +1,7 @@
 server 'amplify.sl.nsw.gov.au', user: 'deploy', roles: %w{web app db}
 
 set :rails_env, 'production'
+set :branch, :master
 
 # server-based syntax
 # ======================
