@@ -89,6 +89,7 @@ app.views.Search = app.views.Base.extend({
     this.$el.removeClass('loading');
     this.$transcripts = this.$('#transcript-results');
     this.$facets = this.$('#transcript-facets');
+    document.title = app.pageTitle('Search');
     return this;
   },
 
@@ -166,11 +167,11 @@ app.views.Search = app.views.Base.extend({
     // update URL if there's facet data
     if (_.keys(params).length > 0 && window.history) {
       var url = '/' + this.data.route.route + '?' + $.param(params);
-      window.history.pushState(params, app.pageTitle('Search'), url);
+      window.history.pushState(params, document.title, url);
     }
     else if (window.history) {
       var url = '/' + this.data.route.route;
-      window.history.pushState(params, app.pageTitle('Search'), url);
+      window.history.pushState(params, document.title, url);
     }
   }
 
