@@ -166,11 +166,11 @@ app.views.Search = app.views.Base.extend({
     // update URL if there's facet data
     if (_.keys(params).length > 0 && window.history) {
       var url = '/' + this.data.route.route + '?' + $.param(params);
-      window.history.pushState(params, document.title, url);
-
-    } else if (window.history) {
+      window.history.pushState(params, this.pageTitle('Search'), url);
+    }
+    else if (window.history) {
       var url = '/' + this.data.route.route;
-      window.history.pushState(params, document.title, url);
+      window.history.pushState(params, this.pageTitle('Search'), url);
     }
   }
 

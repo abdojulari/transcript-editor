@@ -646,6 +646,32 @@ var COMPONENTS = (function() {
     });
   };
 
+  COMPONENTS.prototype.pageTitle = function(pagename) {
+    if (!pagename) {
+      pagename = '';
+    }
+    var titleElems = document.getElementsByTagName('title');
+    if (!titleElems.length) {
+      return '';
+    }
+    var titleElem = titleElems[0];
+    var sitename = (
+      !!titleElem.getAttribute('data-title-sitename') ?
+      titleElem.getAttribute('data-title-sitename') :
+      titleElem.textContent
+    );
+    var template = (
+      !!titleElem.getAttribute('data-title-template') ?
+      titleElem.getAttribute('data-title-template') :
+      ''
+    );
+    if (!pagename.length || !template.length) {
+      return titleElem.textContent;
+    }
+    return template.replace('{{sitename}}', sitename)
+      .replace('{{pagename}}', pagename);
+  };
+
   return COMPONENTS;
 
 })();
@@ -1615,11 +1641,11 @@ app.views.Search = app.views.Base.extend({
     // update URL if there's facet data
     if (_.keys(params).length > 0 && window.history) {
       var url = '/' + this.data.route.route + '?' + $.param(params);
-      window.history.pushState(params, document.title, url);
-
-    } else if (window.history) {
+      window.history.pushState(params, this.pageTitle('Search'), url);
+    }
+    else if (window.history) {
       var url = '/' + this.data.route.route;
-      window.history.pushState(params, document.title, url);
+      window.history.pushState(params, this.pageTitle('Search'), url);
     }
   }
 
@@ -3571,11 +3597,11 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     // update URL if there's facet data
     if (_.keys(data).length > 0 && window.history) {
       var url = '/' + this.data.route.route + '?' + $.param(data);
-      window.history.pushState(data, document.title, url);
-
-    } else if (window.history) {
+      window.history.pushState(data, this.pageTitle('Transcripts'), url);
+    }
+    else if (window.history) {
       var url = '/' + this.data.route.route;
-      window.history.pushState(data, document.title, url);
+      window.history.pushState(data, this.pageTitle('Transcripts'), url);
     }
   }
 
