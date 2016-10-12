@@ -77,6 +77,13 @@ app.views.Transcript = app.views.Base.extend({
     }
   },
 
+  getPageTitle: function() {
+    if (!!this.data.transcript) {
+      return this.data.transcript.title;
+    }
+    return '';
+  },
+
   lineNext: function(){
     this.lineSelect(this.current_line_i + 1);
   },
@@ -446,6 +453,10 @@ app.views.Transcript = app.views.Base.extend({
     this.$el.html(this.template(this.data));
     this.renderLines();
     this.loadUserProgress();
+    var pageTitle = this.getPageTitle();
+    if (!!pageTitle.length) {
+      document.title = app.pageTitle(pageTitle);
+    }
   },
 
   renderLines: function(){

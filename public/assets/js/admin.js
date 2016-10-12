@@ -1124,9 +1124,11 @@ app.views.Page = app.views.Base.extend({
   },
 
   getPageTitle: function() {
-    var matches = this.data.content.match(/<h1.*>([^<]+)<\/h1>/);
-    if (!!matches) {
-      return matches[1];
+    if (!!this.data.page_key) {
+      var matches = this.data.content.match(/<h1.*>([^<]+)<\/h1>/);
+      if (!!matches) {
+        return matches[1];
+      }
     }
     return '';
   },
