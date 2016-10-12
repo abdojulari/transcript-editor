@@ -47,6 +47,37 @@ window.app = {
   }
 };
 
+/**
+ * Configurable page title.
+ *
+ * @TODO: Move this to a view or something.
+ */
+window.app.pageTitle = function(pagename) {
+  if (!pagename) {
+    pagename = '';
+  }
+  var titleElems = document.getElementsByTagName('title');
+  if (!titleElems.length) {
+    return '';
+  }
+  var titleElem = titleElems[0];
+  var sitename = (
+    !!titleElem.getAttribute('data-title-sitename') ?
+    titleElem.getAttribute('data-title-sitename') :
+    titleElem.textContent
+  );
+  var template = (
+    !!titleElem.getAttribute('data-title-template') ?
+    titleElem.getAttribute('data-title-template') :
+    ''
+  );
+  if (!pagename.length || !template.length) {
+    return titleElem.textContent;
+  }
+  return template.replace('{{sitename}}', sitename)
+    .replace('{{pagename}}', pagename);
+};
+
 // Init backbone app
 $(function(){
   app.initialize();

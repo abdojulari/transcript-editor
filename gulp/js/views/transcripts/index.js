@@ -254,11 +254,11 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     // update URL if there's facet data
     if (_.keys(data).length > 0 && window.history) {
       var url = '/' + this.data.route.route + '?' + $.param(data);
-      window.history.pushState(data, this.pageTitle('Transcripts'), url);
+      window.history.pushState(data, app.pageTitle('Transcripts'), url);
     }
     else if (window.history) {
       var url = '/' + this.data.route.route;
-      window.history.pushState(data, this.pageTitle('Transcripts'), url);
+      window.history.pushState(data, app.pageTitle('Transcripts'), url);
     }
   }
 

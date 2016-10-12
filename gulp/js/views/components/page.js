@@ -41,7 +41,7 @@ app.views.Page = app.views.Base.extend({
     this.$el.html(this.toString());
     var pageTitle = this.getPageTitle();
     if (!!pageTitle.length) {
-      document.title = this.pageTitle(pageTitle);
+      document.title = app.pageTitle(pageTitle);
     }
     return this;
   },
