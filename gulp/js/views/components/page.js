@@ -29,8 +29,20 @@ app.views.Page = app.views.Base.extend({
     }
   },
 
+  getPageTitle: function() {
+    var matches = this.data.match(/<h1.*>([^<]+)<\/h1>/);
+    if (!!matches) {
+      return matches[1];
+    }
+    return '';
+  },
+
   render: function() {
     this.$el.html(this.toString());
+    var pageTitle = this.getPageTitle();
+    if (!!pageTitle.length) {
+      document.title = this.pageTitle(pageTitle);
+    }
     return this;
   },
 
