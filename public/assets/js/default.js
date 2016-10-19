@@ -2131,16 +2131,7 @@ app.views.Transcript = app.views.Base.extend({
       document.title = app.pageTitle(pageTitle);
     }
     // Push twitter load to back of stack.
-    if (!!window.twttr) {
-      setTimeout(function(){
-        window.twttr.widgets.load();
-      }, 0);
-    }
-    if (!!window.FB) {
-      setTimeout(function(){
-        FB.XFBML.parse();
-      }, 0); 
-    }
+    loadSocial();
   },
 
   renderLines: function(){
