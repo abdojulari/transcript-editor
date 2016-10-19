@@ -19,7 +19,7 @@ class TranscriptsController < ApplicationController
         @env = {
           facebook_app_id: ENV['FACEBOOK_APP_ID']
         }
-        render :file => environment_index_file
+        render file: environment_index_file, isErb: true
       }
       format.json {
         project = Project.getActive
@@ -41,7 +41,7 @@ class TranscriptsController < ApplicationController
         @env = {
           facebook_app_id: ENV['FACEBOOK_APP_ID']
         }
-        render :file => environment_index_file
+        render file: environment_index_file, isErb: true
       }
       format.json {
         @user_role = nil
