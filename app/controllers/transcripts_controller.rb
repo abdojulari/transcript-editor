@@ -16,6 +16,9 @@ class TranscriptsController < ApplicationController
   def search
     respond_to do |format|
       format.html {
+        @env = {
+          facebook_app_id: ENV['FACEBOOK_APP_ID']
+        }
         render :file => environment_index_file
       }
       format.json {
@@ -35,7 +38,9 @@ class TranscriptsController < ApplicationController
         if request.user_agent.downcase.include?('facebookexternalhit')
           redirect_to facebook_share_transcript_path(@transcript.uid) and return
         end
-
+        @env = {
+          facebook_app_id: ENV['FACEBOOK_APP_ID']
+        }
         render :file => environment_index_file
       }
       format.json {
