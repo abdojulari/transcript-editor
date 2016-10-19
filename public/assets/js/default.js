@@ -815,6 +815,33 @@ window.app.socialIntegration = function() {
     this.socialLoadIntervalId = setInterval(this.runInterval, 100);
   };
 
+  // Load Facebook.
+  this.initFacebook = function(d, s, id, fbAppId) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.6&appId=" + fbAppId;
+    fjs.parentNode.insertBefore(js, fjs);
+    return true;
+  };
+
+  // Load Twitter.
+  this.initTwitter = function(d, s, id) {
+    var js,
+    fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+    if (d.getElementById(id)) return t;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "https://platform.twitter.com/widgets.js";
+    fjs.parentNode.insertBefore(js, fjs);
+    t._e = [];
+    t.ready = function(f) {
+      t._e.push(f);
+    };
+    return t;
+  };
+
   // Initialise social media external Javascript,
   // and set up any HTML scaffolding.
   this.initSocialScripts = function() {
@@ -825,29 +852,10 @@ window.app.socialIntegration = function() {
     body.insertBefore(fbRoot, body.firstChild);
 
     // Insert Facebook script.
-    window.fbLoad = (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.6&appId=" + facebookAppId;
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
+    window.fbLoad = this.initFacebook(document, 'script', 'facebook-jssdk', facebookAppId);
 
     // Insert Twitter script.
-    window.twttr = (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0],
-        t = window.twttr || {};
-      if (d.getElementById(id)) return t;
-      js = d.createElement(s);
-      js.id = id;
-      js.src = "https://platform.twitter.com/widgets.js";
-      fjs.parentNode.insertBefore(js, fjs);
-      t._e = [];
-      t.ready = function(f) {
-        t._e.push(f);
-      };
-      return t;
-    }(document, "script", "twitter-wjs"));
+    window.twttr = this.initTwitter(document, "script", "twitter-wjs");
   };
 };
 
