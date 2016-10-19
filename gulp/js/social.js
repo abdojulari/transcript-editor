@@ -29,16 +29,16 @@ window.app.socialIntegration = function() {
     }
 
     var attempts = 0, max = 100;
-    window.socialLoadInterval = setInterval(function() {
+    this.socialLoadInterval = setInterval(function() {
       var ready = readyForSocial(window);
       if (!!ready) {
-        clearInterval(window.socialLoadInterval);
+        clearInterval(this.socialLoadInterval);
         this.showSocialWidgets();
       }
       attempts++;
       if (attempts >= max) {
         console.error('Gave up on loading social widgets.');
-        clearInterval(window.socialLoadInterval);
+        clearInterval(this.socialLoadInterval);
       }
     }.bind(this), 100);
   };
