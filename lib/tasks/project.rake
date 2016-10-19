@@ -106,7 +106,7 @@ namespace :project do
     layout_files = Rails.root.join('project', project_key, 'layouts', '*.html')
     Dir.glob(layout_files).each do |layout_file|
       content = File.read(layout_file)
-      compiled = EJS.evaluate(content, :project => project, :project_key => project_key)
+      compiled = EJS.evaluate(content, :project => project, :project_key => project_key, :env => ENV)
       target_file = Rails.root.join('public', project_key, File.basename(layout_file))
       File.open(target_file, 'w') { |file| file.write(compiled) }
     end
