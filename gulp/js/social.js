@@ -1,6 +1,7 @@
 // Social media integration.
 window.app.socialIntegration = function() {
-  this.socialLoadIntervalId = null;
+  this.intervalStage1 = null;
+  this.intervalStage2 = null;
   this.initialised = false;
   this.attempts = 0;
   this.maxAttempts = 100;
@@ -27,7 +28,7 @@ window.app.socialIntegration = function() {
   };
 
   // Checks the progress of the loader so far.
-  this.runInterval = function() {
+  this.runIntervalStage2 = function() {
     // Short circuit.
     if (this.shown) {
       return;
@@ -36,7 +37,7 @@ window.app.socialIntegration = function() {
     // Check to see if we are ready to display.
     var ready = readyForSocial(window);
     if (!!ready) {
-      clearInterval(this.socialLoadIntervalId);
+      clearInterval(this.socialLoadIntId);
       this.showSocialWidgets();
       return;
     }
@@ -45,16 +46,23 @@ window.app.socialIntegration = function() {
     this.attempts++;
     if (this.attempts >= this.maxAttempts) {
       console.error('Gave up on loading social widgets.');
-      clearInterval(this.socialLoadIntervalId);
+      clearInterval(this.socialLoadIntId);
       return;
     }
-  }.bind(this);
+  };
 
   // Load Facebook.
   this.initFacebook = function(d, s, id, fbAppId) {
+    // Check for existence of fb-root first.
+    if (!document.getElementById('fb-root')) {
+      return false;
+    }
     var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
+    if (d.getElementById(id)) {
+      return;
+    }
+    js = d.createElement(s);
+    js.id = id;
     js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.6&appId=" + fbAppId;
     fjs.parentNode.insertBefore(js, fjs);
     return true;
@@ -65,7 +73,9 @@ window.app.socialIntegration = function() {
     var js,
     fjs = d.getElementsByTagName(s)[0],
     t = window.twttr || {};
-    if (d.getElementById(id)) return t;
+    if (d.getElementById(id)) {
+      return t;
+    }
     js = d.createElement(s);
     js.id = id;
     js.src = "https://platform.twitter.com/widgets.js";
@@ -81,10 +91,12 @@ window.app.socialIntegration = function() {
   // and set up any HTML scaffolding.
   this.initSocialScripts = function() {
     // Insert fb-root element.
-    var body = document.getElementsByTagName('body')[0];
-    var fbRoot = document.createElement('div');
-    fbRoot.setAttribute('id', 'fb-root');
-    body.insertBefore(fbRoot, body.firstChild);
+    if (!document.getElementById('fb-root')) {
+      var body = document.getElementsByTagName('body')[0];
+      var fbRoot = document.createElement('div');
+      fbRoot.setAttribute('id', 'fb-root');
+      body.insertBefore(fbRoot, body.firstChild);
+    }
 
     // Insert Facebook script.
     window.fbLoad = this.initFacebook(document, 'script', 'facebook-jssdk', facebookAppId);
@@ -92,21 +104,43 @@ window.app.socialIntegration = function() {
     // Insert Twitter script.
     window.twttr = this.initTwitter(document, "script", "twitter-wjs");
 
-    this.initialised = true;
+    // Minimum initialisation prerequisites.
+    this.initialised = (
+      !!document.getElementById('fb-root') &&
+      !!window.fbLoad &&
+      !!window.twttr
+    );
     return;
   };
 
-  // Initialises social widgets.
-  this.init = function() {
-    if (!this.initialised) {
-      this.initSocialScripts();
-    }
+  // Once the social scripts have been initialised,
+  // show the widgets.
+  this.completeStage1 = function() {
     this.attempts = 0;
     this.shown = false;
-    if (!!this.socialLoadIntervalId) {
-      clearInterval(this.socialLoadIntervalId);
+    if (!!this.intervalStage2) {
+      clearInterval(this.intervalStage2);
     }
-    this.socialLoadIntervalId = setInterval(this.runInterval, 100);
+    this.intervalStage2 = setInterval(this.runIntervalStage2.bind(this), 250);
+  };
+
+  // Stage 1: Initialise social scripts, and don't continue until we have.
+  this.runIntervalStage1 = function() {
+    if (!!this.initialised) {
+      clearInterval(this.intervalStage1);
+      this.completeStage1();
+    }
+    else {
+      this.initSocialScripts();
+    }  
+  };
+
+  // Initialises entire social widget stack.
+  this.init = function() {
+    if (!!this.intervalStage1) {
+      clearInterval(this.intervalStage1);
+    }
+    this.intervalStage1 = setInterval(this.runIntervalStage1.bind(this), 250);
   };
 };
 
