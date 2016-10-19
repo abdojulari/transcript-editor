@@ -457,11 +457,11 @@ app.views.Transcript = app.views.Base.extend({
     if (!!pageTitle.length) {
       document.title = app.pageTitle(pageTitle);
     }
+    // Push twitter load to back of stack.
     if (!!window.twttr) {
-      try {
+      setTimeout(function(){
         window.twttr.widgets.load();
-      }
-      catch (e) {}
+      }, 0);
     }
   },
 
