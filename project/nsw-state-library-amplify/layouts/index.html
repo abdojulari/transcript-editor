@@ -49,7 +49,14 @@
     }(document, "script", "twitter-wjs"));
     var loadSocial = function() {
       setTimeout(function(){
-        window.twttr.widgets.load();
+        if (!!window.twttr.widgets) {
+          window.twttr.widgets.load();
+        }
+        else {
+          window.twttr.ready(function(twit2) {
+            twit2.widgets.load();
+          }); 
+        }
         FB.XFBML.parse();
       }, 0); 
     };
