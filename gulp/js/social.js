@@ -1,7 +1,10 @@
 // Social media integration.
 window.app.socialIntegration = function() {
-  this.socialLoadInterval = null;
+  this.socialLoadIntervalId = null;
   this.initialised = false;
+  this.attempts = 0;
+  this.maxAttempts = 100;
+  this.shown = false;
 
   // Tests whether social media JS has loaded and initialised.
   var readyForSocial = function(win) {
@@ -20,27 +23,40 @@ window.app.socialIntegration = function() {
   this.showSocialWidgets = function() {
     window.twttr.widgets.load();
     FB.XFBML.parse();
+    this.shown = true;
   };
+
+  // Checks the progress of the loader so far.
+  this.runInterval = function() {
+    // Short circuit.
+    if (this.shown) {
+      return;
+    }
+
+    // Check to see if we are ready to display.
+    var ready = readyForSocial(window);
+    if (!!ready) {
+      clearInterval(this.socialLoadIntervalId);
+      this.showSocialWidgets();
+      return;
+    }
+
+    // Check to see if we've let it go on too long.
+    this.attempts++;
+    if (this.attempts >= this.maxAttempts) {
+      console.error('Gave up on loading social widgets.');
+      clearInterval(this.socialLoadIntervalId);
+      return;
+    }
+  }.bind(this);
 
   // Initialises social widgets.
   this.init = function() {
     if (!this.initialised) {
       this.initSocialScripts();
     }
-
-    var attempts = 0, max = 100;
-    this.socialLoadInterval = setInterval(function() {
-      var ready = readyForSocial(window);
-      if (!!ready) {
-        clearInterval(this.socialLoadInterval);
-        this.showSocialWidgets();
-      }
-      attempts++;
-      if (attempts >= max) {
-        console.error('Gave up on loading social widgets.');
-        clearInterval(this.socialLoadInterval);
-      }
-    }.bind(this), 100);
+    this.attempts = 0;
+    this.socialLoadIntervalId = setInterval(this.runInterval, 100);
   };
 
   // Initialise social media external Javascript,
