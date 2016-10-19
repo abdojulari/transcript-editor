@@ -463,6 +463,11 @@ app.views.Transcript = app.views.Base.extend({
         window.twttr.widgets.load();
       }, 0);
     }
+    if (!!window.FB) {
+      setTimeout(function(){
+        FB.XFBML.parse();
+      }, 0); 
+    }
   },
 
   renderLines: function(){
