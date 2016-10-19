@@ -806,15 +806,6 @@ window.app.socialIntegration = function() {
     }
   }.bind(this);
 
-  // Initialises social widgets.
-  this.init = function() {
-    if (!this.initialised) {
-      this.initSocialScripts();
-    }
-    this.attempts = 0;
-    this.socialLoadIntervalId = setInterval(this.runInterval, 100);
-  };
-
   // Load Facebook.
   this.initFacebook = function(d, s, id, fbAppId) {
     var js, fjs = d.getElementsByTagName(s)[0];
@@ -856,6 +847,22 @@ window.app.socialIntegration = function() {
 
     // Insert Twitter script.
     window.twttr = this.initTwitter(document, "script", "twitter-wjs");
+
+    this.initialised = true;
+    return;
+  };
+
+  // Initialises social widgets.
+  this.init = function() {
+    if (!this.initialised) {
+      this.initSocialScripts();
+    }
+    this.attempts = 0;
+    this.shown = false;
+    if (!!this.socialLoadIntervalId) {
+      clearInterval(this.socialLoadIntervalId);
+    }
+    this.socialLoadIntervalId = setInterval(this.runInterval, 100);
   };
 };
 
