@@ -457,6 +457,12 @@ app.views.Transcript = app.views.Base.extend({
     if (!!pageTitle.length) {
       document.title = app.pageTitle(pageTitle);
     }
+    if (!!window.twttr) {
+      try {
+        window.twttr.widgets.load();
+      }
+      catch (e) {}
+    }
   },
 
   renderLines: function(){
