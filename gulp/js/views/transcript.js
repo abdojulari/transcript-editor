@@ -457,8 +457,8 @@ app.views.Transcript = app.views.Base.extend({
     if (!!pageTitle.length) {
       document.title = app.pageTitle(pageTitle);
     }
-    // Push twitter load to back of stack.
-    loadSocial();
+    // Reload social media.
+    window.app.social.init();
   },
 
   renderLines: function(){

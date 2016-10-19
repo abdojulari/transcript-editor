@@ -11,6 +11,7 @@
 //=include components.js
 //=include analytics.js
 //=include app.js
+//=include social.js
 //=include router.js
 //=include models/*.js
 //=include collections/*.js

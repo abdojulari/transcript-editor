@@ -23,45 +23,10 @@
     })(window,document,'script','dataLayer','GTM-N7BSF9');</script>
     <!-- End Google Tag Manager -->
 
-    <!-- Start Facebook and Twitter JavaScript SDKs. -->
-    <div id="fb-root"></div>
+    <!-- For social media integration. -->
     <script>
-    window.fbLoad = (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.6&appId=<%= env['FACEBOOK_APP_ID'] %>";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-    window.twttr = (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0],
-        t = window.twttr || {};
-      if (d.getElementById(id)) return t;
-      js = d.createElement(s);
-      js.id = id;
-      js.src = "https://platform.twitter.com/widgets.js";
-      fjs.parentNode.insertBefore(js, fjs);
-      t._e = [];
-      t.ready = function(f) {
-        t._e.push(f);
-      };
-      return t;
-    }(document, "script", "twitter-wjs"));
-    var loadSocial = function() {
-      setTimeout(function(){
-        if (!!window.twttr.widgets) {
-          window.twttr.widgets.load();
-        }
-        else {
-          window.twttr.ready(function(twit2) {
-            twit2.widgets.load();
-          }); 
-        }
-        FB.XFBML.parse();
-      }, 0); 
-    };
+      var facebookAppId = '<%= env['FACEBOOK_APP_ID'] %>';
     </script>
-    <!-- End Facebook/Twitter JavaScript SDKs. -->
 
     <div id="app" class="container">
       <div id="header" class="header">
@@ -102,6 +67,5 @@
         ga('send', 'pageview');
       </script>
     <% } %>
-    <script>loadSocial();</script>
   </body>
 </html>
