@@ -83,6 +83,7 @@ $transcript-content-width: 800px;
       > * {
         display: inline-block;
         vertical-align: bottom;
+        max-height: 20px;
       }
     }
   }
