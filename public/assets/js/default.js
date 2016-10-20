@@ -2282,7 +2282,7 @@ app.views.Transcript = app.views.Base.extend({
       document.title = app.pageTitle(pageTitle);
     }
     // Reload social media.
-    window.app.social.init();
+    // window.app.social.init();
   },
 
   renderLines: function(){
