@@ -14,7 +14,7 @@
     </div>
   <% } %>
 </div>
-<% if (percent_edited > 0) { %>
+<% if (percent_edited > 0 || percent_reviewing > 0 || percent_completed > 0) { %>
 <div class="item-status">
   <div class="item-status-bar edited" style="width: <%= percent_edited %>%"></div>
   <% if (percent_completed > 0) { %>
