@@ -720,5 +720,6 @@ See [LICENSE](LICENSE).
 
 ## Attribution
 
-Though it’s not required, if you would like to credit us as the source we recommend using the following statement and links:
->Powered by the [Open Transcript Editor](https://github.com/NYPL/transcript-editor/) created by [The New York Public Library](nypl.org) with generous support from the [Knight Prototype Fund](http://www.knightfoundation.org/grants/201551666/).
+Attribution is not mandatory, but should you like to credit the code source we suggest the following statement.
+
+> Powered by [Amplify](https://amplify.sl.nsw.gov.au) which was customised by the [State Library of NSW](http://www.sl.nsw.gov.au/) and based on the [New York Public Library](http://nypl.org/)'s [Transcript Editor](http://transcribe.oralhistory.nypl.org/).
