@@ -1,4 +1,8 @@
-# Open Transcript Editor
+# Amplify
+
+**Note:** This codebase was forked from the [NYPL Open Transcript Editor](https://github.com/NYPL/transcript-editor/). For the original version, see the [NYPL's Github Repository](https://github.com/NYPL/transcript-editor/).
+
+---
 
 **Notice: This codebase is relatively stable but still being actively developed. Please reach out to [brianfoo@nypl.org](mailto:brianfoo@nypl.org]) or [create a ticket](https://github.com/NYPL/transcript-editor/issues/new) if you are interested in using or contributing to this codebase.**
 
