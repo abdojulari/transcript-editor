@@ -29,9 +29,8 @@ State Library.
 8. [Deploying your project](#deploying-your-project-to-production)
 9. [Managing your project](#managing-your-project)
 10. [Retrieving your finished transcripts](#retrieving-your-finished-transcripts)
-11. [Production server configuration](#production-server-configuration)
-12. [License](#license)
-13. [Attribution](#attribution)
+11. [License](#license)
+12. [Attribution](#attribution)
 
 ## Setting up your own project
 
