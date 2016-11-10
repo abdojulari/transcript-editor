@@ -1,36 +1,37 @@
 # Amplify
 
-**Note:** This codebase was forked from the [NYPL Open Transcript Editor](https://github.com/NYPL/transcript-editor/). For the original version, see the [NYPL's Github Repository](https://github.com/NYPL/transcript-editor/).
+This is an open-source, web-based tool for the correction of 
+computer-generated transcripts that are delivered in pairing with 
+their original audio file. The tool is built to integrate with 
+speech-to-text software services such as [VoiceBase](http://voicebase.com), 
+or through the manual upload of transcript files. 
+Amplify is a customised version of the 
+[New York Public Library](http://nypl.org)'s 
+[Transcript Editor](https://github.com/NYPL/transcript-editor/) and 
+without NYPL's dedication to innovation and contribution to the 
+open-source community globally, this project would not have 
+been possible.
 
----
-
-**Notice: This codebase is relatively stable but still being actively developed. Please reach out to [brianfoo@nypl.org](mailto:brianfoo@nypl.org]) or [create a ticket](https://github.com/NYPL/transcript-editor/issues/new) if you are interested in using or contributing to this codebase.**
-
-This is an open-source, self-hosted, web-based tool for correcting transcripts that were automatically generated using speech-to-text software via auto-transcription services such as [Pop Up Archive](https://popuparchive.com/). It is being developed by [NYPL Labs](http://www.nypl.org/collections/labs) in partnership with [The Moth](http://themoth.org/) and [Pop Up Archive](https://popuparchive.com/) with generous support from the [Knight Foundation](http://www.knightfoundation.org/grants/201551666/).
-
-### You are in the right place if...
-
-- You have a collection of audio that you would like to produce quality transcripts for
-- You **do not** have a budget for human transcription services (~$60-$100 per hour of audio)
-- You either (1) have a budget for auto-transcription services (~$15 per hour of audio) such as [Pop Up Archive](https://popuparchive.com/), or (2) you are able to produce time-coded transcripts on your own using speech-to-text software
-- Automatically generated transcripts do not meet your standard of quality and needs to be corrected by humans
-- You and your team do not have the capacity to correct the transcripts yourselves
-- You or a member of your team has basic web development experience, specifically with creating a [Ruby on Rails](http://rubyonrails.org/) web application
-- **Bonus:** You have an audience of users who would be interested in helping fix transcripts (this app is uniquely designed to enable multiple users working on transcripts at the same time)
+This platform is designed to allow digital volunteers, members 
+of the public and staff alike to assist in the correction of 
+transcripts associated with collections belonging to the 
+State Library.
 
 ## TOC
 
 1. [Setting up your own project](#setting-up-your-own-project)
 2. [Generating your transcripts](#generating-your-transcripts)
-3. [Importing existing transcripts](#importing-existing-transcripts)
-4. [Customizing your project](#customizing-your-project)
-5. [Transcript Consensus](#transcript-consensus)
-6. [Deploying your project](#deploying-your-project-to-production)
-7. [Managing your project](#managing-your-project)
-8. [Retrieving your finished transcripts](#retrieving-your-finished-transcripts)
-9. [State Library of New South Wales](#state-library-of-new-south-wales)
-10. [License](#license)
-11. [Attribution](#attribution)
+3. [Creating a manifest file](#creating-a-manifest-file)
+4. [Making collections/groups](#making-collections-groups)
+5. [Importing existing transcripts](#importing-existing-transcripts)
+6. [Customizing your project](#customizing-your-project)
+7. [Transcript Consensus](#transcript-consensus)
+8. [Deploying your project](#deploying-your-project-to-production)
+9. [Managing your project](#managing-your-project)
+10. [Retrieving your finished transcripts](#retrieving-your-finished-transcripts)
+11. [Production server configuration](#production-server-configuration)
+12. [License](#license)
+13. [Attribution](#attribution)
 
 ## Setting up your own project
 
@@ -90,20 +91,16 @@ Your project should load, but since there's no transcripts, all you'll see is a 
 
 ## Generating your transcripts
 
-This section will assume that you do not have transcripts yet, just audio files that need transcripts. If you already have transcripts from some vendor or your own software, jump to this section: [Importing existing transcripts](#importing-existing-transcripts). We will be using Pop Up Archive to automatically produce the transcripts that will need to be corrected. Other vendors and services may be documented in the future based on demand.
+For our installation, we did not automatically integrate Amplify and 
+[VoiceBase](http://voicebase.com), our transcript provider. 
+If this function is built in at a later date we will update the 
+documentation but otherwise please see the section on 
+[importing existing transcripts](#importing-existing-transcripts) 
+to follow our own process. 
+To see documentation on automatic generation, please refer to the 
+[NYPL documentation](https://github.com/NYPL/transcript-editor/).
 
-### Requirements
-
-- A [Pop Up Archive](https://www.popuparchive.com/) account
-- Your audio files must be uploaded to the web so it is accessible via a public URL (e.g. http://website.com/my-audio.mp3)
-  - Here are [some examples](https://en.wikipedia.org/wiki/Comparison_of_file_hosting_services) of file hosting services
-  - The following file formats are supported: *'aac', 'aif', 'aiff', 'alac', 'flac', 'm4a', 'm4p', 'mp2', 'mp3', 'mp4', 'ogg', 'raw', 'spx', 'wav', 'wma'*
-
-### Update your credentials
-
-If you are using Pop Up Archive, you must update your account credentials in the `config/application.yml` file. There are two values (**PUA_CLIENT_ID** and **PUA_CLIENT_SECRET**) which refer to your Pop Up Archive Client ID and Client Secret respectively. You can find these values by logging into you Pop Up Archive account and visiting [https://www.popuparchive.com/oauth/applications](https://www.popuparchive.com/oauth/applications)
-
-### Creating a manifest file
+## Creating a manifest file
 
 New audio files and transcripts can be added to this app by creating manifest files in .csv format. These manifest files will contain basic information about your audio, e.g. an internal id, title, description, url to audio file, etc. These files will be used to perform a number of tasks such as uploading new audio for transcription, download processed transcripts, and updating information about your audio.
 
@@ -130,11 +127,15 @@ rake transcripts:load['my-project','transcripts_seeds.csv']
 
 Replace `my-project` with your project id and `transcripts_seeds.csv` if you are using a different file. You can run this command any number of times after editing the manifest file or with new manifest files. The script will check if the transcript already exists using the `uid` column value.
 
-### Making Collections/Groups
+## Making Collections/Groups
 
-Sometimes you may want to group your audio in different ways for the user. If you are using Pop Up Archive, this step is required since Pop Up requires all your audio files to belong to a *collection*. You can create collections similar to how you create transcripts--with a manifest file.
+Sometimes you may want to group your audio in different ways for the 
+user. You can create collections similar to how you create 
+transcripts--with a manifest file.
 
-In your project folder, you should find an empty .csv file: [project/my-project/data/collections_seeds.csv](project/sample-project/data/collections_seeds.csv). It contains almost the same columns as the transcript manifest file. If you are using Pop Up Archive, you must fill out the last two columns (*vendor*, *vendor_identifier*) as *pop_up_archive* and the Pop Up Archive collection id respectively. The collection id can be found by clicking on a collection in your Pop Up Archive dashboard and look at the URL (e.g. https://www.popuparchive.com/collections/1234), in which case the collection id is *1234*
+In your project folder, you should find an empty .csv file: 
+`project/my-project/data/collections_seeds.csv`. 
+It contains almost the same columns as the transcript manifest file.
 
 Once you fill out the manifest file, you can load them into the app with this command:
 
@@ -143,42 +144,6 @@ rake collections:load['my-project','collections_seeds.csv']
 ```
 
 Similarly with transcripts, you can always re-run this script with new data and manifest files.
-
-### Uploading your files to Pop Up Archive
-
-If you are using Pop Up Archive and have not yet created [Pop Up Archive collection(s)](https://www.popuparchive.com/collections), you can run this command to create Pop Up collections from your manifest file:
-
-```
-rake pua:create_collections['my-project']
-```
-
-This will also update your database with the proper Pop Up Archive collection id in a column called `vendor_identifier`.  It will be also useful for deployment later to update your manifest file with these identifiers. You can do that by running this command:
-
-```
-rake collections:update_file['my-project','collections_seeds.csv']
-```
-
-If you have not yet uploaded your audio to Pop Up Archive, run this command:
-
-```
-rake pua:upload['my-project']
-```
-
-This will look for any audio items (that were previously defined in your transcript manifest files) that have *pop_up_archive* as *vendor* but do not have a *vendor_identifier* (i.e. has not been uploaded to Pop Up Archive), and for each of those items, create a Pop Up Archive item and uploads submit your audio file for processing. It will populate the *vendor_identifier* in the app's database with the Pop Up Archive item id upon submission, so you may run this script any number of times if you add additional audio items. Like with collections, you should update your manifest file with these identifiers:
-
-```
-rake transcripts:update_file['my-project','transcripts_seeds.csv']
-```
-
-### Download processed transcripts from Pop Up Archive
-
-Transcripts can generally take up to 24 hours to process. When you think they may be ready, you can run this script to downloaded finished transcripts to the app:
-
-```
-rake pua:download['my-project']
-```
-
-This will look for any audio items that have been submitted to Pop Up Archive, but not yet have a transcript downloaded.  If an item's transcript is ready, it will download and save it to the app's database, and will become visible in the app. You can run this script any number of times until all transcripts have been downloaded.
 
 ## Importing existing transcripts
 
@@ -534,59 +499,108 @@ rake transcripts:recalculate
 
 ## Deploying your project to production
 
-This example will use [Heroku](https://www.heroku.com/) to deploy the app to production, though the process would be similar for other hosting solutions. The commands assume you have [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
+The State Library of New South Wales hosts Amplify on [Amazon AWS](https://aws.amazon.com) 
+EC2  instances, but you can host Amplify on more or less any webserver that 
+runs Ruby on Rails and PostgreSQL.
 
-Before you start, if you used Pop Up Archive to generate your transcripts, make sure your manifest files are up-to-date to make sure your production server knows how to download the transcripts from Pop Up Archive.  Run these commands:
+**Note:** the original [NYPL project](https://github.com/NYPL/transcript-editor) 
+was hosted on [Heroku](https://heroku.com), so if you would like to host
+there, please follow the NYPL's guide.
+
+The EC2 servers run the following:
+
+* Nginx
+* PostgreSQL 9.5
+* Puma
+* RVM
+* Ruby 2.3.0
+
+Deployments are done via Capistrano. The configuration for this is 
+checked into this repository, under `config/deploy.rb` and the per-environment
+definitions in the `config/deploy` directory.
+
+The application sits in the home directory of the `deploy` user. 
+All credentials and tokens are stored in the 
+`/home/deploy/nsw-state-library-amplify/shared/config/application.yml` file. 
+The `database.yml` file is in the same directory.
+
+Assuming you have already set up your `deploy` user and provisioned a database,
+you should be able to run the following to deploy your application to production:
+
+`bundle exec cap production deploy`
+
+And to staging:
+
+`bundle exec cap staging deploy`
+
+### Importing content
+
+To load content (collections, transcripts, speakers, etc) into an empty database, set `RAILS_ENV` to the environment (if you're on a server) and then run the following.
+
+Initialise the database.
+
+```bash
+bundle exec rake db:setup
+```
+
+Start the Rails console.
+
+```bash
+bundle exec rails console
+```
+
+Destroy any existing vendors (should there be any) and create VoiceBase.
+
+```ruby
+Vendor.destroy_all
+Vendor.create!(uid: 'voice_base', name: 'VoiceBase')
+```
+
+Exit the Rails console, and load the project base, collections, transcript seed data, speakers, and the transcripts themselves.
 
 ```
-rake collections:update_file['my-project,'collections_seeds.csv']
-rake transcripts:update_file['my-project','transcripts_seeds.csv']
+bundle exec rake project:load['nsw-state-library-amplify']
+bundle exec rake collections:load['nsw-state-library-amplify','collections_seeds.csv']
+bundle exec rake transcripts:load['nsw-state-library-amplify','transcripts_seeds.csv']
+bundle exec rake speakers:load['nsw-state-library-amplify','speakers_seeds.csv']
+bundle exec rake voice_base:import_transcripts['nsw-state-library-amplify']
 ```
 
-Replace `my-project` and `.csv` files with your project key and manifest files. Commit the updated manifest files to your repository and continue.
+#### Importing transcript lines
 
-1. Create a new [Heroku](https://heroku.com) app:
+You will notice in the above section a new rake task: `voice_base:import_transcripts`. That's built specifically for the `.srt` files that VoiceBase provides us with. Take a look at the `VoiceBase::ImportSrtTranscripts` class to see how it works.
 
-   ```
-   heroku apps:create my-app-name
-   heroku git:remote -a my-app-name
-   ```
+If you ever need to re-import updated transcripts, then you can choose between either dropping the database and re-importing everything from scratch (preferred option, unless people have actually started to use the app for real), or run the rake task again (but read it first so you can see what is happening).
 
-   (Only run the 2nd command if you already have an app setup)
+#### Images and audio files
 
-2. Provision a PostgreSQL database:
+These are all uploaded to the `slnsw-amplify` AWS S3 bucket. There is a rake task built specially for uploading files: `rake aws:upload_files`.
 
-   ```
-   heroku addons:create heroku-postgresql:hobby-dev
-   heroku pg:wait
-   heroku config -s | grep HEROKU_POSTGRESQL
-   ```
+#### Updating transcript data
 
-   Replace `hobby-dev` with your [database plan of choice](https://devcenter.heroku.com/articles/heroku-postgres-plans). This example uses the free "Hobby Dev" plan. Note that you should choose a higher plan (e.g. `standard-0`) for production; Hobby Dev has a row limit of 10,000 and a maximum of 20 connections. You can always [upgrade](https://devcenter.heroku.com/articles/upgrading-heroku-postgres-databases) an existing database.
+Simply update the `transcripts_seeds.csv` file and run the `transcripts:load` rake task again (the task is idempotent).
 
-3. Update your environment variables
+#### Updating transcript lines
 
-   ```
-   figaro heroku:set -e production
-   ```
+Unfortunately, there's no way to overwrite existing transcripts without ripping them up and starting again. The way to do this is as follows:
 
-   This sets environment variables from `config/application.yml` in your production environment
+Enter a Rails command line session.
 
-4. Deploy the code and run rake tasks
+```bash
+bundle exec rails c
+```
 
-   ```
-   git push heroku master
-   heroku run rake db:migrate
-   heroku run rake db:seed
-   ```
+```ruby
+ts = Transcript.where(vendor_id: Vendor.find_by(uid: 'voice_base').id)
+ts.destroy_all
+```
 
-5. Next you'll need to populate your transcripts. The last command will download your transcripts from Pop Up Archive. You can run these commands however many times you like if you update your manifest file or transcripts become available.
+Then, to re-add transcript lines:
 
-   ```
-   heroku run rake collections:load['my-project','collections_seeds.csv']
-   heroku run rake transcripts:load['my-project','transcripts_seeds.csv']
-   heroku run rake pua:download['my-project']
-   ```
+```bash
+bundle exec rake transcripts:load['nsw-state-library-amplify','transcripts_seeds.csv']
+bundle exec rake voice_base:import_transcripts['nsw-state-library-amplify']
+```
 
 ## Managing your project
 
@@ -637,86 +651,6 @@ The app has an endpoint that enables programmatic access to transcripts:
 `GET /transcript_files.json?updated_after=yyyy-mm-dd&page=1`
 
 This will get all the transcript files that were updated after a certain date. This is useful if you want to periodically update transcripts that you display on another website.
-
-## State Library of New South Wales
-
-### Server configuration
-
-Both staging and production are identically set up. They are both AWS EC2 instances running Nginx, PostgreSQL 9.5, Puma, RVM and Ruby 2.3.0.
-
-Deployments are done via Capistrano. The configuration for this is checked into the repository. Currently, the deploy scripts pull from reinteractive's repository.
-
-The application sits in the home directory of the `deploy` user. All credentials and tokens are stored in the `/home/deploy/nsw-state-library-amplify/shared/config/application.yml` file. The `database.yml` file is in the same directory.
-
-If you need the passwords for the `deploy` user, ping Glen Crawford at reinteractive.
-
-#### Staging
-
-The staging server is located at `ec2-52-63-16-71.ap-southeast-2.compute.amazonaws.com`. Talk to the SLNSW ops team to get the keys.
-
-To SSH: `ssh ubuntu@ec2-52-63-16-71.ap-southeast-2.compute.amazonaws.com`
-
-To deploy: `cap staging deploy`
-
-#### Production
-
-The production server is located at `amplify.sl.nsw.gov.au`. Again, talk to the SLNSW ops team to get the keys.
-
-To SSH: `ssh ubuntu@amplify.sl.nsw.gov.au`
-
-To deploy: `cap production deploy`
-
-### Importing content
-
-To load content (collections, transcripts, speakers, etc) into an empty database, set `RAILS_ENV` to the environment (if you're on a server) and then:
-
-```
-bundle exec rake db:setup
-bundle exec rails console
-Vendor.destroy_all
-Vendor.create!(uid: 'voice_base', name: 'VoiceBase')
-bundle exec rake project:load['nsw-state-library-amplify']
-bundle exec rake collections:load['nsw-state-library-amplify','collections_seeds.csv']
-bundle exec rake transcripts:load['nsw-state-library-amplify','transcripts_seeds.csv']
-bundle exec rake speakers:load['nsw-state-library-amplify','speakers_seeds.csv']
-bundle exec rake voice_base:import_transcripts['nsw-state-library-amplify']
-```
-
-#### Importing transcript lines
-
-You will notice in the above section a new rake task: `voice_base:import_transcripts`. That's built specifically for the `.srt` files that VoiceBase provides us with. Take a look at the `VoiceBase::ImportSrtTranscripts` class to see how it works.
-
-If you ever need to re-import updated transcripts, then you can choose between either dropping the database and re-importing everything from scratch (preferred option, unless people have actually started to use the app for real), or run the rake task again (but read it first so you can see what is happening).
-
-#### Images and audio files
-
-These are all uploaded to the `slnsw-amplify` AWS S3 bucket. There is a rake task built specially for uploading files: `rake aws:upload_files`.
-
-#### Updating transcript data
-
-Simply update the `transcripts_seeds.csv` file and run the `transcripts:load` rake task again (the task is idempotent).
-
-#### Updating transcript lines
-
-Unfortunately, there's no way to overwrite existing transcripts without ripping them up and starting again. The way to do this is as follows:
-
-Enter a Rails command line session.
-
-```bash
-bundle exec rails c
-```
-
-```ruby
-ts = Transcript.where(vendor_id: Vendor.find_by(uid: 'voice_base').id)
-ts.destroy_all
-```
-
-Then, to re-add transcript lines:
-
-```bash
-bundle exec rake transcripts:load['nsw-state-library-amplify','transcripts_seeds.csv']
-bundle exec rake voice_base:import_transcripts['nsw-state-library-amplify']
-```
 
 ## License
 
