@@ -35,6 +35,8 @@ If you are interested in getting access to our sound collections for research, m
 
 Amplify was developed using [New York Public Library’s](http://nypl.org) open source [codebase](https://github.com/nypl/transcript-editor) for their own [Transcript Editor](http://transcribe.oralhistory.nypl.org). Without the NYPL’s dedication to innovation and contribution to the open source community globally, the State Library’s Amplify project would not have been possible. 
 
+If you would like to create your own installation of Amplify, our customised codebase can be found in the State Library's [GitHub repository](https://github.com/slnswgithub/nsw-state-library-amplify).
+
 Amplify’s development and customisation was done by the State Library of New South Wales in partnership with [Reinteractive](https://reinteractive.net), a Sydney based Ruby on Rails development agency.
 
 The computer-generated transcripts used on our platform were produced by [VoiceBase](https://www.voicebase.com). 
