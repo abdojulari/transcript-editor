@@ -49,7 +49,7 @@ The computer-generated transcripts used on our platform were produced by [VoiceB
  
 ## Contacts
 
-If you would like to know more about Amplify or find information about other digital volunteering projects, you can visit the [State Library website](http://www.sl.nsw.gov.au) or send us an email at [digital.volunteering@sl.nsw.gov.au](mailto:digital.volunteering@sl.nsw.gov.au).
+If you would like to know more about Amplify or find information about other digital volunteering projects, you can visit the [State Library website](http://www.sl.nsw.gov.au/research-and-collections-research-and-engagement/digital-volunteering) or send us an email at [digital.volunteering@sl.nsw.gov.au](mailto:digital.volunteering@sl.nsw.gov.au).
 
 Media enquiries: [(02) 9273 1566](tel:+61292731566) or [media.library@sl.nsw.gov.au](media.library@sl.nsw.gov.au)
 
