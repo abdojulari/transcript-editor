@@ -1,10 +1,18 @@
 SECRET_KEY_BASE: xxx
 PUA_CLIENT_ID: xxx
 PUA_CLIENT_SECRET: xxx
+VOICEBASE_CLIENT_ID: xxx
+VOICEBASE_CLIENT_SECRET: xxx
 PROJECT_ID: sample-project
 NEW_RELIC_LICENSE_KEY: xxx
 AWS_S3_ACCESS_KEY_ID: xxx
 AWS_S3_SECRET_ACCESS_KEY: xxx
+HOMEPAGE:
+  search:
+    sort_options:
+      active_sort: completeness
+      active_order: desc
+
 development:
   GOOGLE_CLIENT_ID: xxx
   GOOGLE_CLIENT_SECRET: xxx
