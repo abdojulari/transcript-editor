@@ -20,16 +20,7 @@ module IndexTemplate
   end
 
   def environment_app_config
-    app_config = {
-      homepage: {
-        search: {
-          sort_options: {
-            active_sort: ENV['HOMEPAGE']['search']['sort_options']['active_sort']
-            active_order: ENV['HOMEPAGE']['search']['sort_options']['active_order']
-          }
-        }
-      }
-    }
+    app_config = ENV['APP_CONFIG']
     @app_config = app_config.to_json
   end
 end

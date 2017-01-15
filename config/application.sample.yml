@@ -7,11 +7,12 @@ PROJECT_ID: sample-project
 NEW_RELIC_LICENSE_KEY: xxx
 AWS_S3_ACCESS_KEY_ID: xxx
 AWS_S3_SECRET_ACCESS_KEY: xxx
-HOMEPAGE:
-  search:
-    sort_options:
-      active_sort: completeness
-      active_order: desc
+APP_CONFIG:
+  homepage:
+    search:
+      sort_options:
+        active_sort: completeness
+        active_order: desc
 
 development:
   GOOGLE_CLIENT_ID: xxx
