@@ -53,7 +53,7 @@
 
     <script type="text/javascript">
       var Amplify = Amplify || {};
-      Amplify.config = <%= @app_config %>;
+      Amplify.config = <%= env['APP_CONFIG'].to_json %>;
     </script>
     <script src="/<%= project_key %>/project.js"></script>
     <script src="/assets/js/templates.js"></script>
