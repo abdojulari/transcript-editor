@@ -78,7 +78,7 @@
 
     <script type="text/javascript">
       var Amplify = Amplify || {};
-      Amplify.config = <%= env['APP_CONFIG'].to_json %>;
+      Amplify.config = <%= app_config.to_json %>;
     </script>
     <script src="/nsw-state-library-amplify/project.js"></script>
     <script src="/assets/js/templates.js"></script>
