@@ -41,13 +41,21 @@ app.views.TranscriptFacets = app.views.Base.extend({
     // check for query params
     if (this.data.queryParams) {
       var params = this.data.queryParams;
-      if (params.sort_by) active_sort = params.sort_by;
-      if (params.order) active_order = params.order;
-      if (params.collection_id) active_collection_id = params.collection_id;
-      if (params.keyword) active_keyword = params.keyword;
+      if (params.sort_by) {
+        active_sort = params.sort_by;
+      }
+      if (params.order) {
+        active_order = params.order;
+      }
+      if (params.collection_id) {
+        active_collection_id = params.collection_id;
+      }
+      if (params.keyword) {
+        active_keyword = params.keyword;
+      }
     }
 
-    // add an "all collections" options
+    // Add an "all collections" options.
     if (this.data.collections.length) {
       var all_collections = {
         id: 'ALL',

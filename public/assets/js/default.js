@@ -2456,13 +2456,21 @@ app.views.TranscriptFacets = app.views.Base.extend({
     // check for query params
     if (this.data.queryParams) {
       var params = this.data.queryParams;
-      if (params.sort_by) active_sort = params.sort_by;
-      if (params.order) active_order = params.order;
-      if (params.collection_id) active_collection_id = params.collection_id;
-      if (params.keyword) active_keyword = params.keyword;
+      if (params.sort_by) {
+        active_sort = params.sort_by;
+      }
+      if (params.order) {
+        active_order = params.order;
+      }
+      if (params.collection_id) {
+        active_collection_id = params.collection_id;
+      }
+      if (params.keyword) {
+        active_keyword = params.keyword;
+      }
     }
 
-    // add an "all collections" options
+    // Add an "all collections" options.
     if (this.data.collections.length) {
       var all_collections = {
         id: 'ALL',
@@ -3545,7 +3553,16 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     this.$facets = this.$('#transcript-facets');
     this.transcripts = [];
 
-    if (this.data.queryParams) this.loadParams(this.data.queryParams);
+    // Allow config to specify default sort name and order.
+    if (!!Amplify.getConfig('homepage.search.sort_options.active_sort')) {
+      this.sortName = Amplify.getConfig('homepage.search.sort_options.active_sort');
+    }
+    if (!!Amplify.getConfig('homepage.search.sort_options.active_order')) {
+      this.sortOrder = Amplify.getConfig('homepage.search.sort_options.active_order');
+    }
+    if (this.data.queryParams) {
+      this.loadParams(this.data.queryParams);
+    }
     this.loadTranscripts();
     this.loadCollections();
     this.loadListeners();
@@ -3712,8 +3729,6 @@ app.views.TranscriptsIndex = app.views.Base.extend({
         _this.filters[key] = value;
       }
     });
-
-    // console.log(this.filters, this.sortName, this.sortOrder, this.searchKeyword)
   },
 
   loadTranscripts: function(){

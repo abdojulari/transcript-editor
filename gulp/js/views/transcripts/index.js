@@ -18,7 +18,16 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     this.$facets = this.$('#transcript-facets');
     this.transcripts = [];
 
-    if (this.data.queryParams) this.loadParams(this.data.queryParams);
+    // Allow config to specify default sort name and order.
+    if (!!Amplify.getConfig('homepage.search.sort_options.active_sort')) {
+      this.sortName = Amplify.getConfig('homepage.search.sort_options.active_sort');
+    }
+    if (!!Amplify.getConfig('homepage.search.sort_options.active_order')) {
+      this.sortOrder = Amplify.getConfig('homepage.search.sort_options.active_order');
+    }
+    if (this.data.queryParams) {
+      this.loadParams(this.data.queryParams);
+    }
     this.loadTranscripts();
     this.loadCollections();
     this.loadListeners();
@@ -185,8 +194,6 @@ app.views.TranscriptsIndex = app.views.Base.extend({
         _this.filters[key] = value;
       }
     });
-
-    // console.log(this.filters, this.sortName, this.sortOrder, this.searchKeyword)
   },
 
   loadTranscripts: function(){
