@@ -54,7 +54,7 @@
     <script type="text/javascript">
       var Amplify = Amplify || {};
       Amplify.config = <%= Object.keys(frontend_config).length > 0 ? JSON.stringify(frontend_config) : '{}' %>;
-      Amplify.getConfig = function(path, default) {
+      Amplify.getConfig = function(path, defaultValue) {
         if (!default) {
           default = null;
         }
@@ -62,7 +62,7 @@
           return prev ? prev[curr] : undefined;
         }, Amplify.config);
         if (typeof(out) === 'undefined') {
-          return default;
+          return defaultValue;
         }
         else {
           return out;
