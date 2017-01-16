@@ -392,6 +392,15 @@ Be sure to run the project rake task if you make any changes:
 rake project:load['my-project']
 ```
 
+### Configuring the user interface
+
+Some aspects of the user interface can be configured through the `config/frontend.yml` configuration file. An example of this can be found in `config/frontend.sample.yml`.
+
+The following properties can be configured through this file:
+
+* Homepage
+  * Default search and sort properties
+
 ## Transcript Consensus
 
 Even though this app could be used by just one individual, this app was designed to allow multiple users to correct the same transcript simultaneously. The goal is to improve quality by having many users look at each line of text. This app contains a configurable "consensus" algorithm that looks for where users agree and disagree, and makes an informed decision about which submission is best.
