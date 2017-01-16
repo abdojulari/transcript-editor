@@ -105,7 +105,7 @@ namespace :project do
     # EJS .html files.
     app_env = Rails.application.config_for(:application)
     layout_files = Rails.root.join('project', project_key, 'layouts', '*.html')
-    app_config = app_env.has_key?['APP_CONFIG'] ? app_env['APP_CONFIG'] : {}
+    app_config = app_env.has_key?('APP_CONFIG') ? app_env['APP_CONFIG'] : {}
     Dir.glob(layout_files).each do |layout_file|
       content = File.read(layout_file)
       compiled = EJS.evaluate(content, :project => project, :project_key => project_key, :env => app_env, :app_config => app_config)
