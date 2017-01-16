@@ -55,8 +55,8 @@
       var Amplify = Amplify || {};
       Amplify.config = <%= Object.keys(frontend_config).length > 0 ? JSON.stringify(frontend_config) : '{}' %>;
       Amplify.getConfig = function(path, defaultValue) {
-        if (!default) {
-          default = null;
+        if (!defaultValue) {
+          defaultValue = null;
         }
         var out = path.split('.').reduce(function(prev, curr) {
           return prev ? prev[curr] : undefined;
