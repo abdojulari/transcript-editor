@@ -14,23 +14,6 @@ Recent advances in speech-to-text technologies have meant we’ve seen great pro
 
 Correcting our computer-generated transcripts is a community effort and you can help us to improve the quality of each transcript by correcting just a single line or every single line in an entire audio recording – every bit counts! Listen along to our great sound collections and if you spot an error, click on the line with the mistake, make your correction and then continue listening on. It’s as easy as that!
 
-## About the collections
-
-New collections will be periodically added to Amplify for listening and transcription. Below is a list of collections currently available on Amplify.
-
-### MLOH 103 Richmond-Tweed Oral History Group – Under the Rainbow. 
-
-Interview with residents following alternative lifestyles in the Lismore area, 1992.  
-View in [Library catalogue](http://archival.sl.nsw.gov.au/Details/archive/110317356).
-
-This collection belongs to the larger Rainbow Archive held at the State Library of New South Wales.
-
-Interviews with residents of the Nimbin communities regarding the Aquarius Festival and their alternative lifestyles. Interviews were also conducted with people who were residents of Nimbin prior to the festival, regarding the impact on the area.
-
-## Access to our sound collections
-
-If you are interested in getting access to our sound collections for research, media or personal interest purposes, please submit a request through our [Ask A Librarian](http://www.sl.nsw.gov.au/research-and-collections/ask-librarian) service. 
-
 ## About the development
 
 Amplify was developed using [New York Public Library’s](http://nypl.org) open source [codebase](https://github.com/nypl/transcript-editor) for their own [Transcript Editor](http://transcribe.oralhistory.nypl.org). Without the NYPL’s dedication to innovation and contribution to the open source community globally, the State Library’s Amplify project would not have been possible. 
