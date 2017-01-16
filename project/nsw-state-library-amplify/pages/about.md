@@ -14,6 +14,10 @@ Recent advances in speech-to-text technologies have meant we’ve seen great pro
 
 Correcting our computer-generated transcripts is a community effort and you can help us to improve the quality of each transcript by correcting just a single line or every single line in an entire audio recording – every bit counts! Listen along to our great sound collections and if you spot an error, click on the line with the mistake, make your correction and then continue listening on. It’s as easy as that!
 
+## Access to our sound collections
+
+If you are interested in getting access to our sound collections for research, media or personal interest purposes, please submit a request through our [Ask A Librarian](http://www.sl.nsw.gov.au/research-and-collections/ask-librarian) service. 
+
 ## About the development
 
 Amplify was developed using [New York Public Library’s](http://nypl.org) open source [codebase](https://github.com/nypl/transcript-editor) for their own [Transcript Editor](http://transcribe.oralhistory.nypl.org). Without the NYPL’s dedication to innovation and contribution to the open source community globally, the State Library’s Amplify project would not have been possible. 
