@@ -111,11 +111,19 @@ app.views.TranscriptsIndex = app.views.Base.extend({
 
     }
 
-    // do the sorting
+    // Do the sorting.
     if (this.sortName){
-      transcripts = _.sortBy(transcripts, function(transcript){ return transcript[_this.sortName]; });
-      if (this.sortOrder.toLowerCase()=="desc")
+      transcripts = _.sortBy(transcripts, function(transcript) {
+        if (_this.sortName == 'random') {
+          return Math.floor(Math.random() * transcripts.length);
+        }
+        else {
+          return transcript[_this.sortName];
+        }
+      });
+      if (this.sortOrder.toLowerCase()=="desc") {
         transcripts = transcripts.reverse();
+      }
     }
 
     this.renderTranscripts(transcripts);

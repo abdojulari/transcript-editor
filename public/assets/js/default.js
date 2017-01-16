@@ -2487,6 +2487,7 @@ app.views.TranscriptFacets = app.views.Base.extend({
 
     // set sort option
     this.data.sort_options = [
+      {id: 'random_asc', name: 'random', order: 'asc', label: 'Random'},
       {id: 'title_asc', name: 'id', order: 'asc', label: 'Title (A to Z)'},
       {id: 'title_desc', name: 'id', order: 'desc', label: 'Title (Z to A)'},
       {id: 'completeness_desc', name: 'completeness', order: 'desc', label: 'Completeness (most to least)'},
@@ -3646,11 +3647,19 @@ app.views.TranscriptsIndex = app.views.Base.extend({
 
     }
 
-    // do the sorting
+    // Do the sorting.
     if (this.sortName){
-      transcripts = _.sortBy(transcripts, function(transcript){ return transcript[_this.sortName]; });
-      if (this.sortOrder.toLowerCase()=="desc")
+      transcripts = _.sortBy(transcripts, function(transcript) {
+        if (_this.sortName == 'random') {
+          return Math.floor(Math.random() * transcripts.length);
+        }
+        else {
+          return transcript[_this.sortName];
+        }
+      });
+      if (this.sortOrder.toLowerCase()=="desc") {
         transcripts = transcripts.reverse();
+      }
     }
 
     this.renderTranscripts(transcripts);
