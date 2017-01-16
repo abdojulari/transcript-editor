@@ -105,10 +105,19 @@ namespace :project do
     # EJS .html files.
     app_env = Rails.application.config_for(:application)
     layout_files = Rails.root.join('project', project_key, 'layouts', '*.html')
-    app_config = app_env.has_key?('APP_CONFIG') ? app_env['APP_CONFIG'] : {}
+    frontend_config = Rails.application.config_for(:frontend)
+    if frontend_config.blank?
+      frontend_config = {}
+    end
     Dir.glob(layout_files).each do |layout_file|
       content = File.read(layout_file)
-      compiled = EJS.evaluate(content, :project => project, :project_key => project_key, :env => app_env, :app_config => app_config)
+      compiled = EJS.evaluate(
+        content,
+        :project => project,
+        :project_key => project_key,
+        :env => app_env,
+        :frontend_config => frontend_config
+      )
       target_file = Rails.root.join('public', project_key, File.basename(layout_file))
       File.open(target_file, 'w') { |file| file.write(compiled) }
     end

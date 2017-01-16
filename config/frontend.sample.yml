@@ -1,0 +1,6 @@
+development:
+  homepage:
+    search:
+      sort_options:
+        active_sort: id
+        active_order: asc
