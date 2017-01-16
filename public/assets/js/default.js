@@ -2448,10 +2448,10 @@ app.views.TranscriptFacets = app.views.Base.extend({
 
   initFacets: function(){
     // set defaults
-    var active_collection_id = 'ALL';
-    var active_sort = 'id';
-    var active_order = 'asc';
-    var active_keyword = '';
+    var active_collection_id = Amplify.getConfig('homepage.search.sort_options.active_collection_id', 'ALL');
+    var active_sort = Amplify.getConfig('homepage.search.sort_options.active_sort', 'id');
+    var active_order = Amplify.getConfig('homepage.search.sort_options.active_order', 'asc');
+    var active_keyword = Amplify.getConfig('homepage.search.sort_options.active_keyword', '');
 
     // check for query params
     if (this.data.queryParams) {

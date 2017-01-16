@@ -58,6 +58,20 @@
     <script type="text/javascript">
       var Amplify = Amplify || {};
       Amplify.config = <%= Object.keys(frontend_config).length > 0 ? JSON.stringify(frontend_config) : '{}' %>;
+      Amplify.getConfig = function(path, default) {
+        if (!default) {
+          default = null;
+        }
+        var out = path.split('.').reduce(function(prev, curr) {
+          return prev ? prev[curr] : undefined;
+        }, Amplify.config);
+        if (typeof(out) === 'undefined') {
+          return default;
+        }
+        else {
+          return out;
+        }
+      };
     </script>
     <script src="/nsw-state-library-amplify/project.js"></script>
     <script src="/assets/js/templates.js"></script>
