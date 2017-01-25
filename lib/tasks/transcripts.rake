@@ -107,7 +107,7 @@ namespace :transcripts do
       transcript = Transcript.where(uid: args[:transcript_uid]).first
     end
 
-    if transcript
+    unless transcript.nil?
       transcript.transcript_lines.each { |l|
         l.transcript_line_status_id = status_id.to_i
         l.save!
