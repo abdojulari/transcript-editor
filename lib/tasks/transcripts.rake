@@ -109,7 +109,7 @@ namespace :transcripts do
 
     unless transcript.nil?
       transcript.transcript_lines.each { |l|
-        l.transcript_line_status_id = status_id.to_i
+        l.transcript_line_status_id = args[:status_id].to_i
         l.save!
       }
       transcript.recalculate
