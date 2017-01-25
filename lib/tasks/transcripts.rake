@@ -95,6 +95,29 @@ namespace :transcripts do
     puts "Wrote #{transcripts.length} transcripts to database"
   end
 
+  # Usage rake transcripts:reset_status['adrian-wagner-nxr3fk','1']
+  desc "Reset all lines in a single transcript"
+  task :reset_status, [:transcript_uid, :status_id] => :environment do |task, args|
+    args.with_defaults transcript_uid: false
+    args.with_defaults status_id: 1
+
+    transcript = nil
+
+    if !args[:transcript_uid].blank?
+      transcript = Transcript.where(uid: args[:transcript_uid]).first
+    end
+
+    if transcript
+      transcript.transcript_lines.each { |l|
+        l.transcript_line_status_id = status_id.to_i
+        l.save!
+      }
+      transcript.recalculate
+    else
+      puts "No transcript with uid #{transcript_uid} found."
+    end
+  end
+
   # Usage:
   #     rake transcripts:recalculate['adrian-wagner-nxr3fk']
   #     rake transcripts:recalculate
