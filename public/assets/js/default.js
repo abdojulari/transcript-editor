@@ -1855,7 +1855,8 @@ app.views.Transcript = app.views.Base.extend({
     // user is clicking rapidly; don't animate
     if (timeSinceLastAction < (animationDuration+animationPadding)) {
       $('html, body').scrollTop(scrollOffset);
-    } else {
+    }
+    else {
       $('html, body').animate({scrollTop: scrollOffset}, animationDuration);
     }
 
@@ -3555,11 +3556,13 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     this.transcripts = [];
 
     // Allow config to specify default sort name and order.
+    this.defaultSortName = null;
+    this.defaultSortOrder = null;
     if (!!Amplify.getConfig('homepage.search.sort_options.active_sort')) {
-      this.sortName = Amplify.getConfig('homepage.search.sort_options.active_sort');
+      this.sortName = this.defaultSortName = Amplify.getConfig('homepage.search.sort_options.active_sort');
     }
     if (!!Amplify.getConfig('homepage.search.sort_options.active_order')) {
-      this.sortOrder = Amplify.getConfig('homepage.search.sort_options.active_order');
+      this.sortOrder = this.defaultSortOrder = Amplify.getConfig('homepage.search.sort_options.active_order');
     }
     if (this.data.queryParams) {
       this.loadParams(this.data.queryParams);
@@ -3681,7 +3684,12 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   },
 
   isFaceted: function(){
-    return this.filters || this.sortName || this.sortOrder || this.searchKeyword;
+    return (
+      this.filters ||
+      (!!this.sortName && this.sortName != this.defaultSortName) ||
+      (!!this.sortOrder && this.sortOrder != this.defaultSortOrder) ||
+      this.searchKeyword
+    );
   },
 
   loadCollections: function(){

@@ -31,7 +31,8 @@ app.views.Transcript = app.views.Base.extend({
     // user is clicking rapidly; don't animate
     if (timeSinceLastAction < (animationDuration+animationPadding)) {
       $('html, body').scrollTop(scrollOffset);
-    } else {
+    }
+    else {
       $('html, body').animate({scrollTop: scrollOffset}, animationDuration);
     }
 
