@@ -116,7 +116,8 @@ namespace :project do
         :project => project,
         :project_key => project_key,
         :env => app_env,
-        :frontend_config => frontend_config
+        :frontend_config => frontend_config,
+        :last_update => Time.now.to_i,
       )
       target_file = Rails.root.join('public', project_key, File.basename(layout_file))
       File.open(target_file, 'w') { |file| file.write(compiled) }
