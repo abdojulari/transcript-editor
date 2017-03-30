@@ -3572,7 +3572,7 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     this.loadListeners();
   },
 
-  addList: function(transcripts){
+  addList: function(transcripts) {
     this.transcripts = this.transcripts.concat(transcripts.toJSON());
 
     if (this.isFaceted()) {
@@ -3581,9 +3581,11 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     else {
       // Use default sort.
       if (!!this.defaultSortName) {
-        transcripts = this.sortTranscripts(transcripts, this.defaultSortName, this.defaultSortOrder);
+        this.transcripts = this.sortTranscripts(this.transcripts, this.defaultSortName, this.defaultSortOrder);
       }
-      this.addListToUI(transcripts.toJSON(), transcripts.hasMorePages(), true, (transcripts.getPage() > 1));
+      // Instead of using .toJSON on the original collectiom,
+      // we send the sorted array.
+      this.addListToUI(this.transcripts, transcripts.hasMorePages(), true, (transcripts.getPage() > 1));
     }
   },
 
