@@ -237,7 +237,12 @@ namespace :transcripts do
 
   def get_transcripts_from_file(file_path)
     csv_body = File.read(file_path)
-    csv = CSV.new(csv_body, :headers => true, :header_converters => :symbol, :converters => [:all])
+    csv = CSV.new(
+      csv_body.encode('UTF-8', invalid: :replace),
+      headers: true,
+      header_converters: :symbol,
+      converters: [:all]
+    )
     csv.to_a.map {|row| row.to_hash }
   end
 
