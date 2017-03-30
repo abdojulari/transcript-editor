@@ -40,8 +40,12 @@ app.views.TranscriptsIndex = app.views.Base.extend({
 
     if (this.isFaceted()) {
       this.facet();
-
-    } else {
+    }
+    else {
+      // Use default sort.
+      if (!!this.defaultSortName) {
+        transcripts = this.sortTranscripts(transcripts, this.defaultSortName, this.defaultSortOrder);
+      }
       this.addListToUI(transcripts.toJSON(), transcripts.hasMorePages(), true, (transcripts.getPage() > 1));
     }
   },
@@ -53,11 +57,13 @@ app.views.TranscriptsIndex = app.views.Base.extend({
 
     if (append) {
       this.$transcripts.append($list);
-    } else {
+    }
+    else {
       this.$transcripts.empty();
       if (transcripts.length){
         this.$transcripts.html($list);
-      } else {
+      }
+      else {
         this.$transcripts.html('<p>No transcripts found!</p>');
       }
     }
@@ -77,11 +83,41 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     // we have all the data, so just facet on the client
     if (this.collection.hasAllPages()) {
       this.facetOnClient();
-
+    }
     // we don't have all the data, we must request from server
-    } else {
+    else {
       this.facetOnServer();
     }
+  },
+
+  /**
+   * Sorts transcripts according to a given field name and order.
+   *
+   * A random sort doesn't use a fieldname, just sorts randomly.
+   *
+   * @param array transcripts
+   *   The array of transcripts.
+   * @param string sortName
+   *   The field name to sort on.
+   * @param string sortOrder
+   *   The sort ordering.
+   *
+   * @return array
+   *   The sorted transcripts.
+   */
+  sortTranscripts: function(transcripts, sortName, sortOrder) {
+    var sortedTranscripts = _.sortBy(transcripts, function(transcript) {
+      if (sortName == 'random') {
+        return Math.floor(Math.random() * transcripts.length);
+      }
+      else {
+        return transcript[sortName];
+      }
+    });
+    if (sortOrder.toLowerCase() == 'desc') {
+      sortedTranscripts = sortedTranscripts.reverse();
+    }
+    return sortedTranscripts;
   },
 
   facetOnClient: function(){
@@ -114,24 +150,14 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     }
 
     // Do the sorting.
-    if (this.sortName){
-      transcripts = _.sortBy(transcripts, function(transcript) {
-        if (_this.sortName == 'random') {
-          return Math.floor(Math.random() * transcripts.length);
-        }
-        else {
-          return transcript[_this.sortName];
-        }
-      });
-      if (this.sortOrder.toLowerCase()=="desc") {
-        transcripts = transcripts.reverse();
-      }
+    if (this.sortName) {
+      transcripts = this.sortTranscripts(transcripts, this.sortName, this.sortOrder);
     }
 
     this.renderTranscripts(transcripts);
   },
 
-  facetOnServer: function(){
+  facetOnServer: function() {
     // TODO: request from server if not all pages are present
 
     this.facetOnClient();
@@ -146,7 +172,7 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     this.updateUrlParams();
   },
 
-  isFaceted: function(){
+  isFaceted: function() {
     return (
       this.filters ||
       (!!this.sortName && this.sortName != this.defaultSortName) ||
@@ -217,10 +243,10 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     this.$transcripts.addClass('loading');
 
     this.collection.fetch({
-      success: function(collection, response, options){
+      success: function(collection, response, options) {
         _this.addList(collection);
       },
-      error: function(collection, response, options){
+      error: function(collection, response, options) {
         $(window).trigger('alert', ['Whoops! We seem to have trouble loading our transcripts. Please try again by refreshing your browser or come back later!']);
       }
     });
