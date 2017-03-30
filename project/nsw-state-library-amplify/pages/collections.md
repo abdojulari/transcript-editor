@@ -20,6 +20,24 @@ The Bridge Builders interviews were conducted between 1982-89, with a variety of
 
 [View in Library catalogue.](http://archival.sl.nsw.gov.au/Details/archive/110050485)
 
+## Gary Wotherspoon
+
+### MLOH 448: Garry Wotherspoon interviews with gay men, 1980-1988
+
+Dr Garry Wotherspoon, interviewed gay men (and one woman) from 1980 -1988. The participants were interviewed about their lives and the social history of gay life in Sydney from the 1930s to the 1980s.
+
+Dr Wotherspoon is a teacher, writer and historian, taught Australian economic and social history, and minority studies at the University of Sydney. He has published books articles gay history and articles in Campaign, Outrage, Gay Information and other magazines and edited Being Different: Nine Gay Men Remember, 1986, and Who's who in contemporary gay and lesbian history.
+
+[View in Library catalogue.](http://archival.sl.nsw.gov.au/Details/archive/110320963)
+
+## Library talks & events
+
+### Magna Carta Symposium
+
+Recordings from Magna Carta Symposium to commemorate the 800th anniversary of the _Magna Carta_, held at the State Library of NSW on Thursday 7 May, 2015. Speakers include Dr. Alex Byrne, Emeritus Professor David Carment, Professor Nicholas Cowdery AM QC, Professor John Hirst, Dr. Rosemary Laing, Professor David Clark and Dr. Andrew Tink.
+
+Find out more about the [Magna Carta](https://primo-slnsw.hosted.exlibrisgroup.com/primo-explore/fulldisplay?docid=SLNSW_ALMA21155993020002626&context=L&vid=SLNSW&search_scope=EEA&tab=default_tab&lang=en_US).
+
 ## Access to our sound collections
 
 If you are interested in getting access to our sound collections for research, media or personal interest purposes, please submit a request through our [Ask A Librarian](http://www.sl.nsw.gov.au/research-and-collections/ask-librarian) service.
