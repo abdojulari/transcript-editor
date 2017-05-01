@@ -28,6 +28,8 @@ Dr Garry Wotherspoon, interviewed gay men (and one woman) from 1980 -1988. The p
 
 Dr Wotherspoon is a teacher, writer and historian, taught Australian economic and social history, and minority studies at the University of Sydney. He has published books articles gay history and articles in Campaign, Outrage, Gay Information and other magazines and edited Being Different: Nine Gay Men Remember, 1986, and Who's who in contemporary gay and lesbian history.
 
+Please note that this collection includes explicit language and adult themes throughout. Parents and guardians are encouraged to consider whether this collection is suitable for children and young adults.
+
 [View in Library catalogue.](http://archival.sl.nsw.gov.au/Details/archive/110320963)
 
 ## Library talks & events
