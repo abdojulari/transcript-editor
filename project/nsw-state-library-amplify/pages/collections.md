@@ -32,14 +32,6 @@ Please note that this collection includes explicit language and adult themes thr
 
 [View in Library catalogue.](http://archival.sl.nsw.gov.au/Details/archive/110320963)
 
-## Library talks & events
-
-### Magna Carta Symposium
-
-Recordings from Magna Carta Symposium to commemorate the 800th anniversary of the _Magna Carta_, held at the State Library of NSW on Thursday 7 May, 2015. Speakers include Dr. Alex Byrne, Emeritus Professor David Carment, Professor Nicholas Cowdery AM QC, Professor John Hirst, Dr. Rosemary Laing, Professor David Clark and Dr. Andrew Tink.
-
-Find out more about the [Magna Carta](https://primo-slnsw.hosted.exlibrisgroup.com/primo-explore/fulldisplay?docid=SLNSW_ALMA21155993020002626&context=L&vid=SLNSW&search_scope=EEA&tab=default_tab&lang=en_US).
-
 ## Access to our sound collections
 
 If you are interested in getting access to our sound collections for research, media or personal interest purposes, please submit a request through our [Ask A Librarian](http://www.sl.nsw.gov.au/research-and-collections/ask-librarian) service.
