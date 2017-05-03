@@ -24,7 +24,7 @@ The Bridge Builders interviews were conducted between 1982-89, with a variety of
 
 ### MLOH 448: Garry Wotherspoon interviews with gay men, 1980-1988
 
-Garry Wotherspoon, interviewed gay men (and one woman) from 1980 -1988. The participants were interviewed about their lives and the social history of gay life in Sydney from the 1930s to the 1980s.
+Garry Wotherspoon interviewed gay men (and one woman) from 1980 -1988. The participants were interviewed about their lives and the social history of gay life in Sydney from the 1930s to the 1980s.
 
 Mr Wotherspoon is a teacher, writer and historian, taught Australian economic and social history, and minority studies at the University of Sydney. He has published books articles gay history and articles in Campaign, Outrage, Gay Information and other magazines and edited Being Different: Nine Gay Men Remember, 1986, and Who's who in contemporary gay and lesbian history.
 
