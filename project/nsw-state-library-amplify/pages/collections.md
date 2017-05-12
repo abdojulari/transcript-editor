@@ -20,7 +20,7 @@ The Bridge Builders interviews were conducted between 1982-89, with a variety of
 
 [View in Library catalogue.](http://archival.sl.nsw.gov.au/Details/archive/110050485)
 
-## Gary Wotherspoon
+## Garry Wotherspoon
 
 ### MLOH 448: Garry Wotherspoon interviews with gay men, 1980-1988
 
@@ -31,6 +31,14 @@ Mr Wotherspoon is a teacher, writer and historian, taught Australian economic an
 Please note that this collection includes explicit language and adult themes throughout. Parents and guardians are encouraged to consider whether this collection is suitable for children and young adults.
 
 [View in Library catalogue.](http://archival.sl.nsw.gov.au/Details/archive/110320963)
+
+## Faith Bandler
+
+### MLOH 307: Faith Bandler interviewed by Carolyn Craig, 1997
+
+tktktk
+
+[View in Library catalogue.](http://archival.sl.nsw.gov.au/Details/archive/110315979)
 
 ## Access to our sound collections
 
