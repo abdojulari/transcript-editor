@@ -129,26 +129,31 @@ app.views.TranscriptsIndex = app.views.Base.extend({
         transcripts = _.map(this.transcripts, _.clone);
 
     // do the filters
-    _.each(filters, function(value, key){
-      transcripts = _.filter(transcripts, function(transcript){ return !_.has(transcript, key) || transcript[key]==value; });
+    _.each(filters, function(value, key) {
+      transcripts = _.filter(transcripts, function(transcript) {
+        return !_.has(transcript, key) || transcript[key]==value;
+      });
     });
 
     // do the searching
-    if (keyword.length){
+    if (keyword.length) {
 
       // Use Fuse for fuzzy searching
       var f = new Fuse(transcripts, { keys: ["title", "description"], threshold: 0.2 });
       var result = f.search(keyword);
 
-      // Search description if fuzzy doesn't work
+      // Search description if fuzzy doesn't work.
       if (!result.length) {
-        transcripts = _.filter(transcripts, function(transcript){
-          return transcript.description.toLowerCase().indexOf(keyword) >= 0;
+        transcripts = _.filter(transcripts, function(transcript) {
+          return (
+            transcript.title.toLowerCase().indexOf(keyword.toLowerCase()) >= 0 ||
+            transcript.description.toLowerCase().indexOf(keyword.toLowerCase()) >= 0
+          );
         });
-      } else {
+      }
+      else {
         transcripts = result;
       }
-
     }
 
     // Do the sorting.
