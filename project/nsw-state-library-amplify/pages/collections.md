@@ -36,7 +36,7 @@ Please note that this collection includes explicit language and adult themes thr
 
 ### MLOH 307: Faith Bandler interviewed by Carolyn Craig, 1997
 
-tktktk
+From humble beginnings with her South Sea Islander family on the NSW north coast near Murwillumbah, Faith Bandler AC became a leading voice in the struggle for Aboriginal rights - especially in the historic 1967 referendum campaign for citizenship rights. Faith's love of the arts (music and writing) and passion for equality led to important friendships with leading contemporaries and activists in Australia and throughout the world. In these 15 interviews, Faith also explores her own South-Sea Islander heritage and identity. You can learn more about Faith Bandler by reading her biography or the two books she wrote about her family, [Welou, My Brother](https://primo-slnsw.hosted.exlibrisgroup.com/primo-explore/fulldisplay?docid=SLNSW_ALMA21107379330002626&context=L&vid=SLNSW&search_scope=EEA&tab=default_tab&lang=en_US) and [Wacvie](https://primo-slnsw.hosted.exlibrisgroup.com/primo-explore/fulldisplay?docid=SLNSW_ALMA21131600960002626&context=L&vid=SLNSW&search_scope=EEA&tab=default_tab&lang=en_US).
 
 [View in Library catalogue.](http://archival.sl.nsw.gov.au/Details/archive/110315979)
 
