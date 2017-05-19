@@ -142,7 +142,7 @@ app.views.TranscriptsIndex = app.views.Base.extend({
       var f = new Fuse(transcripts, { keys: ["title", "description"], threshold: 0.2 });
 
       // Combine the results of a string match and fuzzy search.
-      transcripts = _.intersection(
+      transcripts = _.union(
         _.filter(transcripts, function(transcript) {
           return (
             transcript.title.toLowerCase().indexOf(keyword.toLowerCase()) >= 0 ||
