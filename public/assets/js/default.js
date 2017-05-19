@@ -3666,20 +3666,17 @@ app.views.TranscriptsIndex = app.views.Base.extend({
 
       // Use Fuse for fuzzy searching
       var f = new Fuse(transcripts, { keys: ["title", "description"], threshold: 0.2 });
-      var result = f.search(keyword);
 
-      // Search description if fuzzy doesn't work.
-      if (!result.length) {
-        transcripts = _.filter(transcripts, function(transcript) {
+      // Combine the results of a string match and fuzzy search.
+      transcripts = _.intersection(
+        _.filter(transcripts, function(transcript) {
           return (
             transcript.title.toLowerCase().indexOf(keyword.toLowerCase()) >= 0 ||
             transcript.description.toLowerCase().indexOf(keyword.toLowerCase()) >= 0
           );
-        });
-      }
-      else {
-        transcripts = result;
-      }
+        }),
+        f.search(keyword)
+      );
     }
 
     // Do the sorting.
