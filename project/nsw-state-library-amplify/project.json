@@ -24,10 +24,10 @@
     }
   ],
   "consensus": {
-    "maxLineEdits": 5,
+    "maxLineEdits": 3,
     "minLinesForConsensus": 3,
-    "minLinesForConsensusNoEdits": 5,
-    "minPercentConsensus": 0.34,
+    "minLinesForConsensusNoEdits": 3,
+    "minPercentConsensus": 0.67,
     "lineDisplayMethod": "guess",
     "superUserHiearchy": 50
   },
