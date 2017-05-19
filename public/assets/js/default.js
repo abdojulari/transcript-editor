@@ -2478,8 +2478,8 @@ app.views.TranscriptFacets = app.views.Base.extend({
     // set sort option
     this.data.sort_options = [
       {id: 'random_asc', name: 'random', order: 'asc', label: 'Random'},
-      {id: 'title_asc', name: 'id', order: 'asc', label: 'Title (A to Z)'},
-      {id: 'title_desc', name: 'id', order: 'desc', label: 'Title (Z to A)'},
+      {id: 'title_asc', name: 'title', order: 'asc', label: 'Title (A to Z)'},
+      {id: 'title_desc', name: 'title', order: 'desc', label: 'Title (Z to A)'},
       {id: 'completeness_desc', name: 'completeness', order: 'desc', label: 'Completeness (most to least)'},
       {id: 'completeness_asc', name: 'completeness', order: 'asc', label: 'Completeness (least to most)'},
       {id: 'duration_asc', name: 'duration', order: 'asc', label: 'Duration (short to long)'},
