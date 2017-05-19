@@ -108,7 +108,7 @@ app.views.TranscriptsIndex = app.views.Base.extend({
    *   The sorted transcripts.
    */
   sortTranscripts: function(transcripts, sortName, sortOrder) {
-    var sortedTranscripts = _.sortBy(transcripts, function(transcript) {
+    var sortedTranscripts = _.sortByNat(transcripts, function(transcript) {
       if (sortName == 'random') {
         return Math.floor(Math.random() * transcripts.length);
       }

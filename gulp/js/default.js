@@ -7,6 +7,8 @@
 //=include vendor/pubsub.min.js
 //=include vendor/jquery.j-toker.min.js
 //=include vendor/fuse.min.js
+//=include vendor/naturalSort.js
+//=include vendor/backbone.naturalSort.js
 //=include utilities.js
 //=include components.js
 //=include analytics.js

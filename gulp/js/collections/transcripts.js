@@ -1,4 +1,5 @@
 app.collections.Transcripts = Backbone.Collection.extend({
+  sortType: 'natural',
 
   initialize: function(params) {
     var defaults = {
