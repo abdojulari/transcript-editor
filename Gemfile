@@ -41,6 +41,10 @@ gem 'execjs'
 gem 'popuparchive'
 gem 'webvtt-ruby'
 
+# For uploading of transcipts and image files
+gem 'carrierwave', '~> 1.1'
+gem 'fog-aws', '~> 0.9'
+
 # Error logging
 gem 'newrelic_rpm'
 gem 'rails_12factor'
@@ -51,6 +55,7 @@ platforms :ruby do # linux
 end
 
 group :development, :test do
+  gem 'byebug'
   gem 'rspec-rails', '~> 3.4'
 end
 
