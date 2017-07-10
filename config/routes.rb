@@ -23,6 +23,11 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :update]
     resources :transcripts, only: [:index]
     resources :flags, only: [:index]
+
+    get 'cms', to: 'cms#show'
+    namespace :cms do
+      resources :collections, except: [:delete, :index]
+    end
   end
   match 'admin' => 'admin/stats#index', :via => [:get], :as => :admin
 

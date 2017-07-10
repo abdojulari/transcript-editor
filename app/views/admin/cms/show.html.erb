@@ -1,0 +1,41 @@
+<div class="cms-container">
+  <div class="collections-panel">
+    <h1>Collection Management</h1>
+
+    <div class="new-collection-panel">
+      <%= link_to "Create a new collection", new_admin_cms_collection_path %>
+    </div>
+
+    <div class="collection-list">
+      <table>
+        <thead>
+          <tr>
+            <th>Collection ID</th>
+            <th>Title</th>
+            <!-- <th>Description</th>
+            <th>Catelogue Reference</th>
+            <th>Image Url</th>
+            <th>Vendor</th> -->
+            <th>Actions</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% Collection.all.each do |resource| %>
+            <tr>
+              <td><%= resource.uid %></td>
+              <td><%= resource.title %></td>
+              <!-- <td><%= resource.summary %></td>
+              <td><%= resource.url %></td>
+              <td><%= resource.image_url %></td>
+              <td><%= resource.vendor&.name %></td> -->
+              <td><%= link_to "Edit", edit_admin_cms_collection_path(resource.id) %></td>
+              <td><%= link_to "View", admin_cms_collection_path(resource.id) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
