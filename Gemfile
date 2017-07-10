@@ -31,6 +31,7 @@ gem 'figaro'
 gem 'devise_token_auth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
+gem 'omniauth-azure-activedirectory'
 
 # Parsers for project asset precompilation
 gem 'redcarpet'
@@ -60,4 +61,5 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rvm'
+  gem 'rubocop'
 end
