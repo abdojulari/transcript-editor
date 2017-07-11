@@ -31,6 +31,7 @@ class Admin::Cms::CollectionsController < Admin::ApplicationController
     params.require(:collection).permit(
       :uid,
       :title,
+      :call_number,
       :description,
       :url,
       :image_url,
