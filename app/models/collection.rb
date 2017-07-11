@@ -3,10 +3,10 @@ class Collection < ActiveRecord::Base
   has_many :transcripts
   belongs_to :vendor
 
-  def to_param
-    uid
-  end
+  validates :uid, :title, :description, :call_number,
+            :url, presence: true, uniqueness: true
 
+  # Class Methods
   def self.getForHomepage
     Rails.cache.fetch("#{ENV['PROJECT_ID']}/collections", expires_in: 10.minutes) do
       Collection.where(project_uid: ENV['PROJECT_ID']).order("title")
@@ -25,4 +25,8 @@ class Collection < ActiveRecord::Base
       {vendor_id: vendor[:id], empty: "", project_uid: project_uid})
   end
 
+  # Instance Methods
+  def to_param
+    uid
+  end
 end

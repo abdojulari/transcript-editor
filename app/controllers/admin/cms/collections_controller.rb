@@ -1,4 +1,4 @@
-class Admin::Cms::CollectionsController < ApplicationController
+class Admin::Cms::CollectionsController < Admin::ApplicationController
   def show
   end
 
@@ -7,6 +7,15 @@ class Admin::Cms::CollectionsController < ApplicationController
   end
 
   def create
+    @resource = Collection.new(resource_params)
+
+    if @resource.save
+      flash[:notice] = t(".notice")
+      redirect_to admin_cms_path()
+    else
+      flash[:errors] = t(".error")
+      render "new"
+    end
   end
 
   def edit
@@ -14,5 +23,18 @@ class Admin::Cms::CollectionsController < ApplicationController
   end
 
   def update
+  end
+
+  private
+
+  def resource_params
+    params.require(:collection).permit(
+      :uid,
+      :title,
+      :description,
+      :url,
+      :image_url,
+      :vendor
+    )
   end
 end
