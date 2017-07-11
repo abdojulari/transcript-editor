@@ -1,0 +1,26 @@
+<% Collection.all.each do |resource| %>
+  <tr>
+    <td><%= resource.uid %></td>
+    <td><%= link_to resource.title, collection_path(resource.uid) %></td>
+    <td><%= resource.transcripts.size %></td>
+    <td>
+      <%= check_box_tag :is_published,
+          resource.is_published
+      %>
+    </td>
+    <td>
+      <%= button_to "Edit Collection",
+          edit_admin_cms_collection_path(resource.id),
+          method: "get",
+          data: { disable_with: "Loading..." }
+      %>
+    </td>
+    <td>
+      <%= button_to "View Items",
+          admin_cms_collection_path(resource.id),
+          method: "get",
+          data: { disable_with: "Loading..." }
+      %>
+    </td>
+  </tr>
+<% end %>

@@ -35,7 +35,9 @@ class Admin::Cms::CollectionsController < Admin::ApplicationController
       :description,
       :url,
       :image_url,
-      :vendor
+      :vendor_id
+    ).merge(
+      project_uid: "nsw-state-library-amplify"
     )
   end
 end

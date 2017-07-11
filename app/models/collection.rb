@@ -1,10 +1,16 @@
 class Collection < ActiveRecord::Base
+  # The collection will only have one image that is
+  # used as the default image for the collection.
+  # It will only be used if none of the transcripts
+  # have images associated. Usually one of the transcripts
+  # images are selected for the collection.
+  mount_uploader :image_url, ImageUploader
 
   has_many :transcripts
   belongs_to :vendor
 
-  validates :uid, :title, :description, :call_number,
-            :url, presence: true, uniqueness: true
+  validates :vendor, :description, presence: true
+  validates :uid, :title, :call_number, :url, presence: true, uniqueness: true
 
   # Class Methods
   def self.getForHomepage

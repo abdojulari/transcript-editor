@@ -10,19 +10,27 @@
     <%= f.label :title %>
     <%= f.text_field :title %>
   </div>
+
   <div>
-    <%#= f.label :call_number %>
-    <%#= f.text_field :call_number %>
+    <%= f.label :call_number %>
+    <%= f.text_field :call_number %>
   </div>
 
   <div>
     <%= f.label :description %>
     <%= f.text_area :description %>
   </div>
+
   <div>
     <%= f.label :url, "Catalogue Url" %>
     <%= f.text_field :url %>
   </div>
+
+  <div>
+    <%= f.label :vendor_id, "Vendor" %>
+    <%= f.select :vendor_id, Vendor.pluck(:name, :id) %>  
+  </div>
+
   <div>
     <%= f.submit %>
   </div>
