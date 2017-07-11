@@ -1,4 +1,4 @@
-class Admin::CmsController < ApplicationController
+class Admin::CmsController < Admin::ApplicationController
   def show
   end
 end
