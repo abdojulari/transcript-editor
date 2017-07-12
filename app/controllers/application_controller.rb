@@ -8,7 +8,7 @@ class ApplicationController < ActionController::API
   include ActionController::ImplicitRender
 
   # Allow api controllers to handle the html format
-  include ActionController::MimeResponds
+  # include ActionController::MimeResponds
 
   # Allow us to cache
   # include ActionController::Caching

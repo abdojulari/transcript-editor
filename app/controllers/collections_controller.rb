@@ -8,10 +8,10 @@ class CollectionsController < ApplicationController
 
   # GET /collections/the-uid.json
   def show
-    respond_to do |format|
-      format.html { render json: @collection }
-      format.json { render json: @collection }
-    end
+    # respond_to do |format|
+    #   format.html { render json: @collection }
+    #   format.json { render json: @collection }
+    # end
   end
 
   # POST /collections.json

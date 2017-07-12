@@ -14,7 +14,11 @@
     <% Collection.all.each do |resource| %>
       <tr>
         <td><%= resource.uid %></td>
-        <td><%= link_to resource.title, collection_path(resource.uid) %></td>
+        <td>
+          <%= link_to resource.title,
+              collection_path(resource.uid, format: :json)
+          %>
+        </td>
         <td><%= resource.transcripts.size %></td>
         <td>
           <%= check_box_tag :is_published,

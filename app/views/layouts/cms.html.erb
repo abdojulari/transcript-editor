@@ -35,7 +35,11 @@
           </thead>
 
           <tbody>
-            <tr><td><%= yield :cms_collection_list %></td></tr>
+            <tr>
+              <td>
+                <%= content_for?(:cms_collection_list) ? yield(:cms_collection_list) : yield %>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
