@@ -2,16 +2,14 @@
   <h1>Collection Management</h1>
 <% end %>
 
-<% content_for :cms_collection_list do %>
-  <div class="new-collection-panel">
-    <%= button_to "Create a new collection",
-        new_admin_cms_collection_path,
-        method: "get",
-        data: { disable_with: "Loading..." }
-    %>
-  </div>
+<div class="new-collection-panel">
+  <%= button_to "Create a new collection",
+      new_admin_cms_collection_path,
+      method: "get",
+      data: { disable_with: "Loading..." }
+  %>
+</div>
 
-  <div class="collection-list">
-    <%= render "collection_list" %>
-  </div>
-<% end %>
+<div class="collection-list">
+  <%= render "collection_list" %>
+</div>
