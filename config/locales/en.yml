@@ -20,9 +20,4 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  admin:
-    cms:
-      collections:
-        create:
-          error: "The new collection could not be saved."
-          notice: "The new collection has been saved."
+  hello: "Hello world"

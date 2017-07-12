@@ -11,30 +11,30 @@
   </thead>
 
   <tbody id="collection_list">
-    <% Collection.all.each do |resource| %>
+    <% Collection.find_each do |collection| %>
       <tr>
-        <td><%= resource.uid %></td>
+        <td><%= collection.uid %></td>
         <td>
-          <%= link_to resource.title,
-              collection_path(resource.uid, format: :json)
+          <%= link_to collection.title,
+              collection_path(collection.uid, format: :json)
           %>
         </td>
-        <td><%= resource.transcripts.size %></td>
+        <td><%= collection.transcripts.size %></td>
         <td>
           <%= check_box_tag :is_published,
-              resource.is_published
+              collection.is_published
           %>
         </td>
         <td>
           <%= button_to "Edit Collection",
-              edit_admin_cms_collection_path(resource.id),
+              edit_admin_cms_collection_path(collection),
               method: "get",
               data: { disable_with: "Loading..." }
           %>
         </td>
         <td>
           <%= button_to "View Items",
-              admin_cms_collection_path(resource.id),
+              admin_cms_collection_path(collection.uid),
               method: "get",
               data: { disable_with: "Loading..." }
           %>
