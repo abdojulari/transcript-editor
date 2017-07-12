@@ -3,4 +3,5 @@
 # The Admin CMS features use erb views and require access to
 # the protect_from_forgery methods provided by ActionController::Base
 class Admin::ApplicationController < ActionController::Base
+  layout "cms"
 end

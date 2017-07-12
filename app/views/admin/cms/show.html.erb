@@ -1,32 +1,23 @@
-<div class="cms-container">
-  <div class="collections-panel">
-    <h1>Collection Management</h1>
+<% content_for :cms_heading do %>
+  <h1>Collection Management</h1>
+<% end %>
 
-    <div class="new-collection-panel">
-      <%= button_to "Create a new collection",
-          new_admin_cms_collection_path,
-          method: "get",
-          data: { disable_with: "Loading..." }
-      %>
-    </div>
-
-    <div class="collection-list">
-      <table>
-        <thead>
-          <tr>
-            <th>Collection ID</th>
-            <th>Title</th>
-            <th>Items</th>
-            <th>Published</th>
-            <th>Actions</th>
-            <th></th>
-          </tr>
-        </thead>
-
-        <tbody id="collection_list">
-          <%= render "collection_list" %>
-        </tbody>
-      </table>
-    </div>
+<% content_for :cms_collection_list do %>
+  <div class="new-collection-panel">
+    <%= button_to "Create a new collection",
+        new_admin_cms_collection_path,
+        method: "get",
+        data: { disable_with: "Loading..." }
+    %>
   </div>
-</div>
+
+  <div class="collection-list">
+    <%= render "collection_list" %>
+  </div>
+<% end %>
+
+<% content_for :cms_collection_form do %>
+  <div class="collection-form">
+    <%#= render template: "admin/cms/collections/new" %>
+  </div>
+<% end %>
