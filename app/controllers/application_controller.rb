@@ -7,6 +7,9 @@ class ApplicationController < ActionController::API
   # Allow us to use JBuilder
   include ActionController::ImplicitRender
 
+  # Allow api controllers to handle the html format
+  include ActionController::MimeResponds
+
   # Allow us to cache
   # include ActionController::Caching
   # self.perform_caching = true
