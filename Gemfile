@@ -42,8 +42,9 @@ gem 'popuparchive'
 gem 'webvtt-ruby'
 
 # For uploading of transcipts and image files
-gem 'carrierwave', '~> 1.1'
+# load fog-aws first to reduce the number of imported classes
 gem 'fog-aws', '~> 0.9'
+gem 'carrierwave', '~> 1.1'
 
 # Error logging
 gem 'newrelic_rpm'
@@ -65,4 +66,8 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rvm'
+end
+
+group :test do
+  gem 'shoulda-matchers', '~> 3.1', require: false
 end
