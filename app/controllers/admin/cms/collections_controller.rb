@@ -1,5 +1,6 @@
 class Admin::Cms::CollectionsController < Admin::ApplicationController
   before_action :set_collection, only: [:show, :edit, :update]
+  
   def show
   end
 
@@ -15,7 +16,7 @@ class Admin::Cms::CollectionsController < Admin::ApplicationController
       redirect_to admin_cms_path()
     else
       flash[:errors] = "The new collection could not be saved."
-      render "new"
+      render :new
     end
   end
 
@@ -28,7 +29,7 @@ class Admin::Cms::CollectionsController < Admin::ApplicationController
       redirect_to admin_cms_path()
     else
       flash[:errors] = "The collection updates could not be saved."
-      render "edit"
+      render :edit
     end
   end
 
