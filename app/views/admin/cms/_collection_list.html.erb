@@ -21,8 +21,8 @@
         </td>
         <td><%= collection.transcripts.size %></td>
         <td>
-          <%= check_box_tag :is_published,
-              collection.is_published
+          <%= check_box_tag :published,
+              collection.published?
           %>
         </td>
         <td>

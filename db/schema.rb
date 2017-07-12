@@ -17,18 +17,18 @@ ActiveRecord::Schema.define(version: 20170711030014) do
   enable_extension "plpgsql"
 
   create_table "collections", force: :cascade do |t|
-    t.string   "uid",               default: "",    null: false
+    t.string   "uid",               default: "", null: false
     t.string   "title"
     t.text     "description"
     t.string   "url"
     t.string   "image_url"
-    t.integer  "vendor_id",         default: 0,     null: false
-    t.string   "vendor_identifier", default: "",    null: false
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
-    t.string   "project_uid",       default: "",    null: false
-    t.boolean  "is_published",      default: false, null: false
-    t.string   "call_number",       default: "",    null: false
+    t.integer  "vendor_id",         default: 0,  null: false
+    t.string   "vendor_identifier", default: "", null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.string   "project_uid",       default: "", null: false
+    t.datetime "published_at"
+    t.string   "call_number",       default: "", null: false
   end
 
   add_index "collections", ["project_uid"], name: "index_collections_on_project_uid", using: :btree
@@ -173,7 +173,7 @@ ActiveRecord::Schema.define(version: 20170711030014) do
     t.integer  "duration",                default: 0,         null: false
     t.integer  "lines",                   default: 0,         null: false
     t.text     "notes"
-    t.integer  "transcript_status_id",    default: 1,         null: false
+    t.integer  "transcript_status_id",    default: 0,         null: false
     t.integer  "order",                   default: 0,         null: false
     t.integer  "created_by",              default: 0,         null: false
     t.string   "batch_id",                default: "unknown", null: false

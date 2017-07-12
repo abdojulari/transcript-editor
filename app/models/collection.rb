@@ -35,4 +35,8 @@ class Collection < ActiveRecord::Base
   def to_param
     uid
   end
+
+  def published?
+    !!published_at
+  end
 end

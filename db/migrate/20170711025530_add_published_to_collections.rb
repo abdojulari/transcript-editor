@@ -1,5 +1,5 @@
 class AddPublishedToCollections < ActiveRecord::Migration
   def change
-    add_column :collections, :is_published, :boolean, null: false, default: false
+    add_column(:collections, :published_at, :datetime, default: nil)
   end
 end

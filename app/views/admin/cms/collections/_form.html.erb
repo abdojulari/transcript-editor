@@ -27,7 +27,7 @@
   </div>
 
   <div>
-    <%= f.label :vendor_id, "Vendor" %>
+    <%= f.label :vendor_id %>
     <%= f.select :vendor_id, Vendor.pluck(:name, :id) %>
   </div>
 
