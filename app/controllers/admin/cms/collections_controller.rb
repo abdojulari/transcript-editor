@@ -1,6 +1,6 @@
 class Admin::Cms::CollectionsController < Admin::ApplicationController
   before_action :set_collection, only: [:show, :edit, :update]
-  
+
   def show
   end
 
@@ -49,7 +49,7 @@ class Admin::Cms::CollectionsController < Admin::ApplicationController
       :image_url,
       :vendor_id
     ).merge(
-      project_uid: "nsw-state-library-amplify"
+      project_uid: ENV['PROJECT_ID']
     )
   end
 end

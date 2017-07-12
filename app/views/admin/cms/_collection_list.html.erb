@@ -20,11 +20,7 @@
           %>
         </td>
         <td><%= collection.transcripts.size %></td>
-        <td>
-          <%= check_box_tag :published,
-              collection.published?
-          %>
-        </td>
+        <td><%= check_box_tag :published, collection.published? %></td>
         <td>
           <%= button_to "Edit Collection",
               edit_admin_cms_collection_path(collection),
