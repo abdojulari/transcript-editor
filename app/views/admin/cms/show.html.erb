@@ -1,0 +1,15 @@
+<% content_for :cms_heading do %>
+  <h1>Collection Management</h1>
+<% end %>
+
+<div class="new-collection-panel">
+  <%= button_to "Create a new collection",
+      new_admin_cms_collection_path,
+      method: "get",
+      data: { disable_with: "Loading..." }
+  %>
+</div>
+
+<div class="collection-list">
+  <%= render "collection_list" %>
+</div>
