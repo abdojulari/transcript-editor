@@ -1,17 +1,17 @@
 class ImageUploader < CarrierWave::Uploader::Base
+  process :validate_dimensions
 
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
-  # include CarrierWave::MiniMagick
+  include CarrierWave::MiniMagick
 
-  # Choose what kind of storage to use for this uploader:
-  # storage :file
+  # TODO: take this out it's handled in the CarrierWave initializer
   # storage :fog
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    "collections/#{model.uid}/images/"
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
@@ -30,14 +30,30 @@ class ImageUploader < CarrierWave::Uploader::Base
   # end
 
   # Create different versions of your uploaded files:
-  # version :thumb do
-  #   process resize_to_fit: [50, 50]
-  # end
+  version :thumb do
+    process resize_to_fit: [100, 100]
+  end
 
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   def extension_whitelist
     %w(jpg jpeg gif png)
+  end
+
+  def content_type_whitelist
+    /image\//
+  end
+
+  # check for images that are larger than you probably want
+  # prevent pixel flood attack
+  # Read more: https://github.com/carrierwaveuploader/carrierwave/wiki/Denial-of-service-vulnerability-with-maliciously-crafted-JPEGs--(pixel-flood-attack)
+  def validate_dimensions
+    manipulate! do |img|
+      if img.dimensions.any?{|i| i > 8000 }
+        raise CarrierWave::ProcessingError, "dimensions too large"
+      end
+      img
+    end
   end
 
   # Override the filename of the uploaded files:

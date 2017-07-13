@@ -45,6 +45,7 @@ gem 'webvtt-ruby'
 # load fog-aws first to reduce the number of imported classes
 gem 'fog-aws', '~> 0.9'
 gem 'carrierwave', '~> 1.1'
+gem 'mini_magick', '~> 4.8'
 
 # Error logging
 gem 'newrelic_rpm'

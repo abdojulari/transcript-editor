@@ -121,6 +121,7 @@ GEM
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mime-types (2.99)
+    mini_magick (4.8.0)
     mini_portile2 (2.0.0)
     minitest (5.8.3)
     multi_json (1.11.2)
@@ -268,6 +269,7 @@ DEPENDENCIES
   figaro
   fog-aws (~> 0.9)
   jbuilder (~> 2.0)
+  mini_magick (~> 4.8)
   newrelic_rpm
   omniauth-facebook
   omniauth-google-oauth2

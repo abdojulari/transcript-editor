@@ -4,7 +4,7 @@ class Collection < ActiveRecord::Base
   # It will only be used if none of the transcripts
   # have images associated. Usually one of the transcripts
   # images are selected for the collection.
-  mount_uploader :image_url, ImageUploader
+  mount_uploader :image, ImageUploader
 
   has_many :transcripts
   belongs_to :vendor
@@ -38,5 +38,9 @@ class Collection < ActiveRecord::Base
 
   def published?
     !!published_at
+  end
+
+  def image_url
+    image.present? ? image.url : read_attribute(:image_url)
   end
 end

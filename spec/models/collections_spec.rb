@@ -19,4 +19,70 @@ RSpec.describe Collection, type: :model do
     it { is_expected.to validate_uniqueness_of :call_number }
     it { is_expected.to validate_uniqueness_of :url }
   end
+
+  let(:vendor) { Vendor.create(uid: 'voice_base', name: 'VoiceBase') }
+  let!(:collection) do
+    Collection.create!(
+      description: "A summary of the collection's content",
+      url: "collection_catalogue_reference",
+      uid: "collection-uid",
+      title: "The collection's title",
+      call_number: "catalogue_reference",
+      vendor: vendor
+    )
+  end
+
+  describe "#to_param" do
+    it "returns the collection's uid" do
+      expect(collection.to_param).to eql "collection-uid"
+    end
+  end
+
+  describe "#image_url" do
+    context "original manually uploaded image file path" do
+      before do
+        collection.update!(
+          image_url: "https://slnsw-amplify.s3-ap-southeast-2.amazonaws.com/collections/test/images/00001.jpg",
+          image: nil
+        )
+      end
+
+      it "returns correct s3 path for image retrieval" do
+        expect(collection.image_url).to eql "https://slnsw-amplify.s3-ap-southeast-2.amazonaws.com/collections/test/images/00001.jpg"
+      end
+    end
+
+    context "automated s3 direct upload image file path" do
+      before do
+        collection.update!(
+          image_url: nil,
+          image: File.open(Rails.root.join('spec', 'fixtures', 'image.jpg'))
+        )
+      end
+
+      it "returns correct s3 path for image retrieval" do
+        expect(collection.image_url).to eql "/collections/collection-uid/images/image.jpg"
+      end
+    end
+
+    context "without an image" do
+      before { collection.update!(image_url: nil, image: nil) }
+
+      it "returns no s3 path" do
+        expect(collection.image_url).to be nil
+      end
+    end
+  end
+
+  describe "#published?" do
+    it "confirms that the collection has a published_at date" do
+      collection.update!(published_at: DateTime.current)
+      expect(collection.published?).to be true
+    end
+
+    it "confirms that the collection has not been published" do
+      collection.update!(published_at: nil)
+      expect(collection.published?).to be false
+    end
+  end
 end
