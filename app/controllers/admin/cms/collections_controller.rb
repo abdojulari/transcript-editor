@@ -16,7 +16,7 @@ class Admin::Cms::CollectionsController < Admin::ApplicationController
       redirect_to admin_cms_path()
     else
       flash[:errors] = "The new collection could not be saved."
-      render :new
+      render :new, status: 400
     end
   end
 
@@ -29,7 +29,7 @@ class Admin::Cms::CollectionsController < Admin::ApplicationController
       redirect_to admin_cms_path()
     else
       flash[:errors] = "The collection updates could not be saved."
-      render :edit
+      render :edit, status: 400
     end
   end
 
