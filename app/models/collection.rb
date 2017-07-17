@@ -11,6 +11,7 @@ class Collection < ActiveRecord::Base
 
   validates :vendor, :description, presence: true
   validates :uid, :title, :call_number, :url, presence: true, uniqueness: true
+  validate :image_size_restriction
 
   # Class Methods
   def self.getForHomepage
@@ -42,5 +43,9 @@ class Collection < ActiveRecord::Base
 
   def image_url
     image.present? ? image.url : read_attribute(:image_url)
+  end
+
+  def image_size_restriction
+
   end
 end
