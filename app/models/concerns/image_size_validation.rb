@@ -1,5 +1,5 @@
 module ImageSizeValidation
-  extend ActiveRecord::Concern
+  extend ActiveSupport::Concern
 
   def image_size_restriction
     if image&.size > 5.megabytes

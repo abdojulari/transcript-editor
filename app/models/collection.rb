@@ -1,4 +1,5 @@
 class Collection < ActiveRecord::Base
+  include ImageSizeValidation
   # The collection will only have one image that is
   # used as the default image for the collection.
   # It will only be used if none of the transcripts
@@ -43,9 +44,5 @@ class Collection < ActiveRecord::Base
 
   def image_url
     image.present? ? image.url : read_attribute(:image_url)
-  end
-
-  def image_size_restriction
-
   end
 end
