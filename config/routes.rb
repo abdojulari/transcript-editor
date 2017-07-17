@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     get 'cms', to: 'cms#show'
     namespace :cms do
       resources :collections, except: [:delete, :index]
+      resources :transcripts, except: [:show, :delete, :index]
     end
   end
   match 'admin' => 'admin/stats#index', :via => [:get], :as => :admin

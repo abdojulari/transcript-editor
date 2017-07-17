@@ -25,7 +25,6 @@ RSpec.describe VoiceBase::ImportSrtTranscripts, type: :service do
         title: 'Rainbow Archives',
         description: 'The Rainbow Archives is a manuscript collection that was the result of an effort to preserve the culture of the alternative lifestyles movement in Australia that emerged in the 1960s and flourished into the 1990s.',
         url: 'https://statelibrarynsw-my.sharepoint.com/',
-        call_number: 'WEF301',
         image_url: nil,
         vendor: vendor,
         vendor_identifier: 1
