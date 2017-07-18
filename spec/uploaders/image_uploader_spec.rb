@@ -3,7 +3,7 @@ require 'carrierwave/test/matchers'
 RSpec.describe ImageUploader, type: :uploader do
   include CarrierWave::Test::Matchers
 
-  let(:collection) { double('collection', :uid => 1) }
+  let(:collection) { double('collection', uid: 1) }
   let(:uploader) { ImageUploader.new(collection, :image) }
 
   before do

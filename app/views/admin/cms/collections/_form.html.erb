@@ -1,4 +1,4 @@
-<%= form_for [:admin, :cms, @collection] do |f| %>
+<%= form_for [:admin, :cms, @collection], html: { multipart: true } do |f| %>
   <%= render partial: "admin/cms/shared/errors",
              locals: {resource: @collection }
    %>
@@ -34,11 +34,10 @@
   </div>
 
   <div>
+    <%= image_tag(@collection.image.thumb) if @collection.image.present? %>
     <%= f.label :image, "Default Collection Image" %>
     <%= f.file_field :image %>
   </div>
-
-  <img src="<%= @collection.image_url %>">
 
   <div>
     <%= f.submit %>

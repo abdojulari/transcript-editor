@@ -174,7 +174,7 @@ ActiveRecord::Schema.define(version: 20170713061311) do
     t.integer  "duration",                default: 0,         null: false
     t.integer  "lines",                   default: 0,         null: false
     t.text     "notes"
-    t.integer  "transcript_status_id",    default: 1,         null: false
+    t.integer  "transcript_status_id",    default: 0,         null: false
     t.integer  "order",                   default: 0,         null: false
     t.integer  "created_by",              default: 0,         null: false
     t.string   "batch_id",                default: "unknown", null: false

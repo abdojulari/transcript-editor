@@ -4,7 +4,6 @@ CarrierWave.configure do |config|
     config.storage = :fog
   else
     # Use local storage if in development or test
-    #config.storage = :fog
     config.storage = :file
   end
 

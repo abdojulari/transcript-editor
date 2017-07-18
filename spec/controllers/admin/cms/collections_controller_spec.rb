@@ -18,7 +18,7 @@ RSpec.describe Admin::Cms::CollectionsController, type: :controller do
 
     it "is successful" do
       action
-      expect(response.code).to eq("200")
+      expect(response).to have_http_status(:ok)
     end
 
     it "displays the collection with related items" do
@@ -32,7 +32,7 @@ RSpec.describe Admin::Cms::CollectionsController, type: :controller do
 
     it "is successful" do
       action
-      expect(response.code).to eq("200")
+      expect(response).to have_http_status(:ok)
     end
 
     it "displays the form to create a new collection" do
@@ -58,12 +58,12 @@ RSpec.describe Admin::Cms::CollectionsController, type: :controller do
 
       it "is successful" do
         action
-        expect(response.code).to eq("302")
+        expect(response).to have_http_status(:found)
       end
 
       it "displays the cms dashboard" do
         action
-        expect(response).to redirect_to(admin_cms_path)
+        expect(response).to be_redirect
       end
     end
 
@@ -82,7 +82,7 @@ RSpec.describe Admin::Cms::CollectionsController, type: :controller do
 
       it "responds with a bad request status" do
         action
-        expect(response.code).to eq("400")
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it "displays the collection form again" do
@@ -103,7 +103,7 @@ RSpec.describe Admin::Cms::CollectionsController, type: :controller do
 
     it "is successful" do
       action
-      expect(response.code).to eq("200")
+      expect(response).to have_http_status(:ok)
     end
 
     it "displays the form to edit an existing collection" do
@@ -121,12 +121,12 @@ RSpec.describe Admin::Cms::CollectionsController, type: :controller do
 
       it "is successful" do
         action
-        expect(response.code).to eq("302")
+        expect(response).to have_http_status(:found)
       end
 
       it "displays the cms dashboard" do
         action
-        expect(response).to redirect_to(admin_cms_path)
+        expect(response).to be_redirect
       end
 
       it "updates the collection" do
@@ -145,7 +145,7 @@ RSpec.describe Admin::Cms::CollectionsController, type: :controller do
 
       it "responds with a bad request status" do
         action
-        expect(response.code).to eq("400")
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it "displays the collection edit form again" do

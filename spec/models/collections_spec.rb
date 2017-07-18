@@ -34,7 +34,7 @@ RSpec.describe Collection, type: :model do
 
   describe "#to_param" do
     it "returns the collection's uid" do
-      expect(collection.to_param).to eql "collection-uid"
+      expect(collection.to_param).to eq("collection-uid")
     end
   end
 
@@ -48,7 +48,7 @@ RSpec.describe Collection, type: :model do
       end
 
       it "returns correct s3 path for image retrieval" do
-        expect(collection.image_url).to eql "https://slnsw-amplify.s3-ap-southeast-2.amazonaws.com/collections/test/images/00001.jpg"
+        expect(collection.image_url).to eq("https://slnsw-amplify.s3-ap-southeast-2.amazonaws.com/collections/test/images/00001.jpg")
       end
     end
 
@@ -61,7 +61,9 @@ RSpec.describe Collection, type: :model do
       end
 
       it "returns correct s3 path for image retrieval" do
-        expect(collection.image_url).to eql "/collections/collection-uid/images/image.jpg"
+        # Dev & test envs: images are stored in a local directory
+        # Prod: images are stored in S3 bucket
+        expect(collection.image_url).to include("/collections/collection-uid/images/image.jpg")
       end
     end
 
@@ -77,12 +79,12 @@ RSpec.describe Collection, type: :model do
   describe "#published?" do
     it "confirms that the collection has a published_at date" do
       collection.update!(published_at: DateTime.current)
-      expect(collection.published?).to be true
+      expect(collection).to be_published
     end
 
     it "confirms that the collection has not been published" do
       collection.update!(published_at: nil)
-      expect(collection.published?).to be false
+      expect(collection).to_not be_published
     end
   end
 end
