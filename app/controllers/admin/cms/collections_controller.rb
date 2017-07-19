@@ -5,18 +5,18 @@ class Admin::Cms::CollectionsController < Admin::ApplicationController
   end
 
   def new
-    @resource = Collection.new
+    @collection = Collection.new
   end
 
   def create
-    @resource = Collection.new(resource_params)
+    @collection = Collection.new(resource_params)
 
-    if @resource.save
+    if @collection.save
       flash[:notice] = "The new collection has been saved."
       redirect_to admin_cms_path()
     else
       flash[:errors] = "The new collection could not be saved."
-      render :new
+      render :new, status: 422
     end
   end
 
@@ -24,19 +24,19 @@ class Admin::Cms::CollectionsController < Admin::ApplicationController
   end
 
   def update
-    if @resource.update(resource_params)
+    if @collection.update(resource_params)
       flash[:notice] = "The collection updates have been saved."
       redirect_to admin_cms_path()
     else
       flash[:errors] = "The collection updates could not be saved."
-      render :edit
+      render :edit, status: 422
     end
   end
 
   private
 
   def set_collection
-    @resource = Collection.find_by uid: params[:id]
+    @collection = Collection.find_by uid: params[:id]
   end
 
   def resource_params
@@ -46,7 +46,7 @@ class Admin::Cms::CollectionsController < Admin::ApplicationController
       :call_number,
       :description,
       :url,
-      :image_url,
+      :image,
       :vendor_id
     ).merge(
       project_uid: ENV['PROJECT_ID']

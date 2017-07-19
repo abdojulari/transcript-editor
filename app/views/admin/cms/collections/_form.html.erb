@@ -1,5 +1,7 @@
-<%= form_for [:admin, :cms, @resource] do |f| %>
-  <%= render "admin/cms/shared/errors" %>
+<%= form_for [:admin, :cms, @collection], html: { multipart: true } do |f| %>
+  <%= render partial: "admin/cms/shared/errors",
+             locals: {resource: @collection }
+   %>
 
   <div>
     <%= f.label :uid %>
@@ -29,6 +31,12 @@
   <div>
     <%= f.label :vendor_id %>
     <%= f.select :vendor_id, Vendor.pluck(:name, :id) %>
+  </div>
+
+  <div>
+    <%= image_tag(@collection.image.thumb) if @collection.image.present? %>
+    <%= f.label :image, "Default Collection Image" %>
+    <%= f.file_field :image %>
   </div>
 
   <div>
