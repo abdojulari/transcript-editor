@@ -6,7 +6,7 @@ RSpec.describe Admin::CmsController, type: :controller do
 
     it "is successful" do
       action
-      expect(response.code).to eq("200")
+      expect(response).to have_http_status(:ok)
     end
 
     it "displays the cms dashboard" do

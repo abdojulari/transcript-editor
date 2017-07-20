@@ -16,7 +16,7 @@ class Admin::Cms::CollectionsController < Admin::ApplicationController
       redirect_to admin_cms_path()
     else
       flash[:errors] = "The new collection could not be saved."
-      render :new, status: 422
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -29,7 +29,7 @@ class Admin::Cms::CollectionsController < Admin::ApplicationController
       redirect_to admin_cms_path()
     else
       flash[:errors] = "The collection updates could not be saved."
-      render :edit, status: 422
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -43,7 +43,6 @@ class Admin::Cms::CollectionsController < Admin::ApplicationController
     params.require(:collection).permit(
       :uid,
       :title,
-      :call_number,
       :description,
       :url,
       :image,

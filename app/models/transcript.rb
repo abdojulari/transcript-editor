@@ -1,11 +1,20 @@
 class Transcript < ActiveRecord::Base
+  include ImageSizeValidation
+  include UidValidationOnUpdate
+
+  mount_uploader :image, ImageUploader
+  mount_uploader :audio, AudioUploader
+  mount_uploader :script, TranscriptUploader
 
   include PgSearch
   multisearchable :against => [:title, :description]
   pg_search_scope :search_default, :against => [:title, :description]
   pg_search_scope :search_by_title, :against => :title
 
-  validates_uniqueness_of :uid
+  validates :uid, presence: true, uniqueness: true
+  validates :vendor, presence: true
+  validate :image_size_restriction
+  validate :uid_not_changed
 
   belongs_to :collection
   belongs_to :vendor
@@ -407,5 +416,4 @@ class Transcript < ActiveRecord::Base
       end
     end
   end
-
 end

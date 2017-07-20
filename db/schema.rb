@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170713061311) do
+ActiveRecord::Schema.define(version: 20170718022731) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,7 +28,6 @@ ActiveRecord::Schema.define(version: 20170713061311) do
     t.datetime "updated_at",                     null: false
     t.string   "project_uid",       default: "", null: false
     t.datetime "published_at"
-    t.string   "call_number",       default: "", null: false
     t.string   "image"
   end
 
@@ -193,6 +192,12 @@ ActiveRecord::Schema.define(version: 20170713061311) do
     t.integer  "lines_reviewing",         default: 0,         null: false
     t.integer  "users_contributed",       default: 0,         null: false
     t.integer  "can_download",            default: 1,         null: false
+    t.string   "image"
+    t.string   "audio"
+    t.string   "script"
+    t.string   "audio_catalogue_url",     default: ""
+    t.string   "image_caption",           default: ""
+    t.string   "image_catalogue_url",     default: ""
   end
 
   add_index "transcripts", ["collection_id"], name: "index_transcripts_on_collection_id", using: :btree

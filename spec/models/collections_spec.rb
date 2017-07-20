@@ -11,12 +11,10 @@ RSpec.describe Collection, type: :model do
     it { is_expected.to validate_presence_of :description }
     it { is_expected.to validate_presence_of :uid }
     it { is_expected.to validate_presence_of :title }
-    it { is_expected.to validate_presence_of :call_number }
     it { is_expected.to validate_presence_of :url }
 
     it { is_expected.to validate_uniqueness_of :uid }
     it { is_expected.to validate_uniqueness_of :title }
-    it { is_expected.to validate_uniqueness_of :call_number }
     it { is_expected.to validate_uniqueness_of :url }
   end
 
@@ -27,7 +25,6 @@ RSpec.describe Collection, type: :model do
       url: "collection_catalogue_reference",
       uid: "collection-uid",
       title: "The collection's title",
-      call_number: "catalogue_reference",
       vendor: vendor
     )
   end
