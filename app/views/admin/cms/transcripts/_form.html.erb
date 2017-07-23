@@ -1,3 +1,8 @@
+<style>
+.ui-autocomplete-loading {
+  background: white url("/img/ui-anim_basic_16x16.gif") right center no-repeat;
+}
+</style>
 <div class="row">
   <div class="col-12">
     <%= form_for [:admin, :cms, @transcript], html: { multipart: true } do |f| %>
@@ -32,7 +37,12 @@
 
       <div class="form-group">
         <%= f.label :description %>
-        <%= f.text_area :description, class: "form-control", rows: "5" %>
+        <%= f.text_area :description, class: "form-control", rows: "6" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :speakers %>
+        <%= f.text_field :speakers, class: "form-control" %>
       </div>
 
       <div class="form-group">
@@ -67,3 +77,53 @@
     <% end %>
   </div>
 </div>
+
+<script>
+$( function() {
+function split( val ) {
+  return val.split( /;\s*/ );
+}
+function extractLast( term ) {
+  return split( term ).pop();
+}
+
+$( "#transcript_speakers" )
+  // don't navigate away from the field on tab when selecting an item
+  .on( "keydown", function( event ) {
+    console.log('here');
+    if ( event.keyCode === $.ui.keyCode.TAB &&
+        $( this ).autocomplete( "instance" ).menu.active ) {
+      event.preventDefault();
+    }
+  })
+  .autocomplete({
+    source: function( request, response ) {
+      $.getJSON( "speaker_search", {
+        q: extractLast( request.term )
+      }, response );
+    },
+    search: function() {
+      // custom minLength
+      var term = extractLast( this.value );
+      if ( term.length < 2 ) {
+        return false;
+      }
+    },
+    focus: function() {
+      // prevent value inserted on focus
+      return false;
+    },
+    select: function( event, ui ) {
+      var terms = split( this.value );
+      // remove the current input
+      terms.pop();
+      // add the selected item
+      terms.push( ui.item.value );
+      // add placeholder to get the comma-and-space at the end
+      terms.push( "" );
+      this.value = terms.join( "; " );
+      return false;
+    }
+  });
+} );
+</script>

@@ -23,6 +23,13 @@ class Transcript < ActiveRecord::Base
   has_many :transcript_edits
   has_many :transcript_speakers
 
+  attr_accessor :speakers
+
+  def speakers
+    return "" if transcript_speakers.blank?
+    transcript_speakers.includes(:speaker).pluck(:name).join("; ") + "; "
+  end
+
   def to_param
     uid
   end

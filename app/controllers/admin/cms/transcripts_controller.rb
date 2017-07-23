@@ -6,7 +6,7 @@ class Admin::Cms::TranscriptsController < Admin::ApplicationController
   end
 
   def create
-    @transcript = Transcript.new(transcript_params)
+    @transcript = set_speakers(Transcript.new(transcript_params))
 
     if @transcript.save
       flash[:notice] = "The new transcript has been saved."
@@ -21,7 +21,7 @@ class Admin::Cms::TranscriptsController < Admin::ApplicationController
   end
 
   def update
-    if @transcript.update(transcript_params)
+    if set_speakers(@transcript).update(transcript_params)
       flash[:notice] = "The transcript updates have been saved."
       redirect_to admin_cms_collection_path(@transcript.collection)
     else
@@ -30,10 +30,33 @@ class Admin::Cms::TranscriptsController < Admin::ApplicationController
     end
   end
 
+  def speaker_search
+    speakers = Speaker.where("LOWER(name) LIKE ?", "%#{params[:q].downcase}%").map {|s|
+      {id: s.id, label: s.name, value: s.name}
+    }
+    render json: speakers
+  end
+
   private
 
   def set_transcript
     @transcript = Transcript.find_by(uid: params[:id])
+  end
+
+  def set_speakers(transcript)
+    # remove the exist speakers associated with the transcript
+    transcript.transcript_speakers.destroy_all
+
+    # replace the speakers with the edit and new form values
+    transcript_params[:speakers].split(';').reject { |c| c.blank? }.map do |name|
+      transcript.transcript_speakers << TranscriptSpeaker.new(
+        speaker_id: Speaker.find_or_create_by(name: name.strip).id,
+        collection_id: transcript.collection_id,
+        project_uid: transcript_params[:project_uid]
+      )
+    end
+
+    transcript
   end
 
   def transcript_params
@@ -49,7 +72,8 @@ class Admin::Cms::TranscriptsController < Admin::ApplicationController
       :image_catalogue_url,
       :notes,
       :vendor_id,
-      :collection_id
+      :collection_id,
+      :speakers,
     ).merge(
       project_uid: ENV['PROJECT_ID']
     )

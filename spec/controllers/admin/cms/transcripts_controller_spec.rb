@@ -48,7 +48,8 @@ RSpec.describe Admin::Cms::TranscriptsController, type: :controller do
           script: File.open(Rails.root.join('spec', 'fixtures', 'transcript.srt')),
           image: File.open(Rails.root.join('spec', 'fixtures', 'image.jpg')),
           vendor_id: collection.vendor.id,
-          collection_id: collection.id
+          collection_id: collection.id,
+          speakers: "Anonymous"
         }
       end
       let(:action) { post :create, transcript: params }
@@ -65,7 +66,7 @@ RSpec.describe Admin::Cms::TranscriptsController, type: :controller do
     end
 
     context "invalid request" do
-      let(:params) { { uid: "" } }
+      let(:params) { { uid: "", speakers: "" } }
       let(:action) { post :create, transcript: params }
 
       it "responds with a bad request status" do
@@ -103,7 +104,7 @@ RSpec.describe Admin::Cms::TranscriptsController, type: :controller do
   describe "PUT #update" do
     context "valid update request" do
       let(:params) do
-        { title: "Revised title" }
+        { title: "Revised title", speakers: "John Doe" }
       end
       let(:action) { put :update, id: transcript.uid, transcript: params }
 
@@ -126,7 +127,7 @@ RSpec.describe Admin::Cms::TranscriptsController, type: :controller do
     end
 
     context "invalid update request" do
-      let(:params) { { uid: "" } }
+      let(:params) { { uid: "", speakers: "" } }
       let(:action) { put :update, id: transcript.uid, transcript: params }
 
       it "responds with a bad request status" do
