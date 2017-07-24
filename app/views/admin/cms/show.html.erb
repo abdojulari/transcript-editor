@@ -28,7 +28,7 @@
 </header>
 
 <section class="container" id="collection_list">
-  <% if Collection.any? %>
+  <% if @collection.any? %>
     <%= render "collection_list" %>
   <% else %>
     <%= render "collection_placeholder" %>

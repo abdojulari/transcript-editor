@@ -1,9 +1,7 @@
 <% content_for :cms_heading do %>
   <div class="row">
     <div class="col-9">
-      <h1 class="text-center">
-        <%= @collection.title %> Collection Item Management
-      </h1>
+      <h1 class="text-center">Collection Item Management</h1>
     </div>
     <div class="col-3 new-item-panel">
       <%= link_to "Create a new item",
@@ -17,9 +15,7 @@
 <% end %>
 
 <div class="container collection-overview">
-  <div class="collection-title">
-    <%= @collection.title %>
-  </div>
+  <h3><%= @collection.title %></h3>
 
   <br/>
 

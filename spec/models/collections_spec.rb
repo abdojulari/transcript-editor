@@ -84,4 +84,35 @@ RSpec.describe Collection, type: :model do
       expect(collection).to_not be_published
     end
   end
+
+  describe "validate uid does not change after create" do
+    let(:vendor) { Vendor.create!(uid: 'voice_base', name: 'VoiceBase') }
+    let(:collection) do
+      Collection.new(
+        uid: "collection_test",
+        title: "test collection",
+        url: "https://catalogue_collection",
+        description: "test collection",
+        vendor_id: vendor.id
+      )
+    end
+
+    context "the collection has not yet been saved" do
+      it "is valid" do
+        expect(collection).to be_valid
+      end
+    end
+
+    context "the collection is already persisted" do
+      before do
+        collection.save!
+      end
+
+      it "is invalid" do
+        collection.uid = "new_value"
+        expect(collection).to_not be_valid
+        expect(collection.errors[:uid].first).to eq("cannot be updated")
+      end
+    end
+  end
 end
