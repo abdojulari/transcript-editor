@@ -15,7 +15,7 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <div id="app" class="container">
+    <div id="app" class="container-fluid">
       <div id="header" class="header">
         <nav id="primary-navigation" class="navigation primare inverse" role="navigation">
           <div>
@@ -30,19 +30,8 @@
       </div>
 
       <div id="main" class="body">
-        <table>
-          <thead>
-            <tr><th><%= yield :cms_heading %></th></tr>
-          </thead>
-
-          <tbody>
-            <tr>
-              <td>
-                <%= yield %>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <%= yield :cms_heading %>
+        <%= yield %>
       </div>
 
       <div id="footer" class="footer">

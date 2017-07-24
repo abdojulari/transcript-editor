@@ -84,4 +84,30 @@ RSpec.describe Collection, type: :model do
       expect(collection).to_not be_published
     end
   end
+
+  describe "validate uid does not change after create" do
+    let(:vendor) { Vendor.create!(uid: 'voice_base', name: 'VoiceBase') }
+    let(:collection) do
+      Collection.new(
+        uid: "collection_test",
+        title: "test collection",
+        url: "https://catalogue_collection",
+        description: "test collection",
+        vendor_id: vendor.id
+      )
+    end
+
+    context "when a new collection is saved" do
+      it "considers the collection to be valid" do
+        expect(collection.save).to be true
+      end
+    end
+
+    context "when an existing collection is updated" do
+      it "considers the collection to be invalid" do
+        collection.save
+        expect(collection.update(uid: "bad")).to be false
+      end
+    end
+  end
 end

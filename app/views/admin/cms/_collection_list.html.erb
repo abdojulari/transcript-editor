@@ -1,11 +1,7 @@
 <% Collection.find_each do |collection| %>
   <div class="row">
     <div class="col-3"><%= collection.uid %></div>
-    <div class="col-3">
-      <%= link_to collection.title,
-          collection_path(collection, format: :json)
-      %>
-    </div>
+    <div class="col-3"><%= collection.title %></div>
     <div class="col-1"><%= collection.transcripts.size %></div>
     <div class="col-1">
       <%= check_box_tag :published, collection.published? %>

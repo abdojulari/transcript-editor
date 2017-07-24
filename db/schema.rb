@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170718022731) do
+ActiveRecord::Schema.define(version: 20170724000253) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -195,7 +195,6 @@ ActiveRecord::Schema.define(version: 20170718022731) do
     t.string   "image"
     t.string   "audio"
     t.string   "script"
-    t.string   "audio_catalogue_url",     default: ""
     t.string   "image_caption",           default: ""
     t.string   "image_catalogue_url",     default: ""
   end

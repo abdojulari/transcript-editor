@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Admin::Cms::CollectionsController, type: :controller do
-  let(:vendor) { Vendor.create(uid: 'voice_base', name: 'VoiceBase') }
+  let(:vendor) { Vendor.create!(uid: 'voice_base', name: 'VoiceBase') }
   let(:collection) do
     Collection.create!(
       description: "A summary of the collection's content",
