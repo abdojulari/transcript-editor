@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       resources :collections, except: [:delete, :index]
       resources :transcripts, except: [:show, :delete, :index] do
         get "speaker_search", on: :member
+        get "speaker_search", on: :collection
       end
     end
   end

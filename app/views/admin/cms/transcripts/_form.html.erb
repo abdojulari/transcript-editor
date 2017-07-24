@@ -90,7 +90,6 @@ function extractLast( term ) {
 $( "#transcript_speakers" )
   // don't navigate away from the field on tab when selecting an item
   .on( "keydown", function( event ) {
-    console.log('here');
     if ( event.keyCode === $.ui.keyCode.TAB &&
         $( this ).autocomplete( "instance" ).menu.active ) {
       event.preventDefault();
@@ -98,7 +97,7 @@ $( "#transcript_speakers" )
   })
   .autocomplete({
     source: function( request, response ) {
-      $.getJSON( "speaker_search", {
+      $.getJSON( "/admin/cms/transcript/speaker_search", {
         q: extractLast( request.term )
       }, response );
     },
