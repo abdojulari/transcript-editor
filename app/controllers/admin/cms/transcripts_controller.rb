@@ -6,8 +6,7 @@ class Admin::Cms::TranscriptsController < Admin::ApplicationController
   end
 
   def create
-    @transcript = Transcript.new(transcript_params.except(:speakers))
-    @transcript.speakers = transcript_params[:speakers]
+    @transcript = Transcript.new(transcript_params)
 
     if @transcript.save
       flash[:notice] = "The new transcript has been saved."
@@ -22,9 +21,7 @@ class Admin::Cms::TranscriptsController < Admin::ApplicationController
   end
 
   def update
-    @transcript.speakers = transcript_params[:speakers]
-
-    if @transcript.update(transcript_params.except(:speakers))
+    if @transcript.update(transcript_params)
       flash[:notice] = "The transcript updates have been saved."
       redirect_to admin_cms_collection_path(@transcript.collection)
     else
