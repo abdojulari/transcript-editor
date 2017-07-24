@@ -97,16 +97,21 @@ RSpec.describe Collection, type: :model do
       )
     end
 
-    context "when a new collection is saved" do
-      it "considers the collection to be valid" do
-        expect(collection.save).to be true
+    context "the collection has not yet been saved" do
+      it "is valid" do
+        expect(collection).to be_valid
       end
     end
 
-    context "when an existing collection is updated" do
-      it "considers the collection to be invalid" do
-        collection.save
-        expect(collection.update(uid: "bad")).to be false
+    context "the collection is already persisted" do
+      before do
+        collection.save!
+      end
+
+      it "is invalid" do
+        collection.uid = "new_value"
+        expect(collection).to_not be_valid
+        expect(collection.errors[:uid].first).to eq("cannot be updated")
       end
     end
   end
