@@ -31,16 +31,18 @@ class Transcript < ActiveRecord::Base
   def speakers=(params)
     return unless valid?
 
-    # remove the exist transcript speakers
-    transcript_speakers.destroy_all
+    ActiveRecord::Base.transaction do
+      # remove the exist transcript speakers
+      transcript_speakers.destroy_all
 
-    # replace the transcript speakers with the new or revised selection
-    params.split(';').reject { |c| c.blank? }.each do |name|
-      transcript_speakers.build(
-        speaker_id: Speaker.find_or_create_by(name: name.strip).id,
-        collection_id: collection.id,
-        project_uid: project_uid
-      )
+      # replace the transcript speakers with the new or revised selection
+      params.split(';').reject(&:blank?).each do |name|
+        transcript_speakers.build(
+          speaker_id: Speaker.find_or_create_by(name: name.strip).id,
+          collection_id: collection.id,
+          project_uid: project_uid
+        )
+      end
     end
   end
 
