@@ -1,6 +1,6 @@
 module Authentication
   extend ActiveSupport::Concern
-  
+
   def authenticate_admin!
     unless is_admin?
       if is_moderator?
