@@ -38,4 +38,44 @@ RSpec.describe Transcript, type: :model do
       end
     end
   end
+
+  describe "#speakers" do
+    let(:vendor) { Vendor.create(uid: 'voice_base', name: 'VoiceBase') }
+    let(:collection) do
+      Collection.create!(
+        description: "A summary of the collection's content",
+        url: "collection_catalogue_reference",
+        uid: "collection-uid",
+        title: "The collection's title",
+        vendor: vendor
+      )
+    end
+    let(:transcript) do
+      Transcript.create!(
+        uid: "test_transcript",
+        vendor: vendor,
+        collection: collection
+      )
+    end
+
+    context "when the transcript has no speakers" do
+      it "returns a blank string" do
+        expect(transcript.speakers).to eq("")
+      end
+    end
+
+    context "when the transcript has speakers" do
+      it "returns the associated speaker" do
+        transcript.speakers = "Mojo Jojo;"
+        transcript.save
+        expect(transcript.speakers).to eq("Mojo Jojo; ")
+      end
+
+      it "returns all associated speakers" do
+        transcript.speakers = "Bubbles Puff; Blossom Puff;"
+        transcript.save
+        expect(transcript.speakers).to eq("Bubbles Puff; Blossom Puff; ")
+      end
+    end
+  end
 end

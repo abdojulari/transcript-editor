@@ -30,6 +30,14 @@ class Admin::Cms::TranscriptsController < Admin::ApplicationController
     end
   end
 
+  def speaker_search
+    speakers = Speaker.where("LOWER(name) LIKE ?", "%#{params[:q].downcase}%")
+      .map  do |s|
+        { id: s.id, label: s.name, value: s.name }
+      end
+    render json: speakers
+  end
+
   private
 
   def set_transcript
@@ -49,7 +57,8 @@ class Admin::Cms::TranscriptsController < Admin::ApplicationController
       :image_catalogue_url,
       :notes,
       :vendor_id,
-      :collection_id
+      :collection_id,
+      :speakers,
     ).merge(
       project_uid: ENV['PROJECT_ID']
     )

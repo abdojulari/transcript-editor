@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Admin CMS</title>
+    <%= stylesheet_link_tag    'application', 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css' %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= stylesheet_link_tag    'application', 'https://fonts.googleapis.com/css?family=Muli' %>
     <%= stylesheet_link_tag    'application', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' %>
@@ -9,8 +10,13 @@
     <%= stylesheet_link_tag    'application', '/assets/css/app.css?a=1499756908' %>
     <%= stylesheet_link_tag    'application', '/nsw-state-library-amplify/assets/css/styles.css?a=1499756908' %>
     <%= stylesheet_link_tag    'application', '/assets/css/app.css?a=1499756908' %>
+    <%= stylesheet_link_tag    'search_auto_complete' %>
+
+    <%= javascript_include_tag 'application', 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'%>
+    <%= javascript_include_tag 'application', 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'%>
 
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'search_auto_complete' %>
 
     <%= csrf_meta_tags %>
   </head>

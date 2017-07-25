@@ -23,6 +23,29 @@ class Transcript < ActiveRecord::Base
   has_many :transcript_edits
   has_many :transcript_speakers
 
+  def speakers
+    return "" if transcript_speakers.blank?
+    transcript_speakers.includes(:speaker).pluck(:name).join("; ") + "; "
+  end
+
+  def speakers=(params)
+    return unless valid?
+
+    ActiveRecord::Base.transaction do
+      # remove the exist transcript speakers
+      transcript_speakers.destroy_all
+
+      # replace the transcript speakers with the new or revised selection
+      params.split(';').reject(&:blank?).each do |name|
+        transcript_speakers.build(
+          speaker_id: Speaker.find_or_create_by(name: name.strip).id,
+          collection_id: collection.id,
+          project_uid: project_uid
+        )
+      end
+    end
+  end
+
   def to_param
     uid
   end
