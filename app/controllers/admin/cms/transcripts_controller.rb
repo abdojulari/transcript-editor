@@ -49,7 +49,7 @@ class Admin::Cms::TranscriptsController < Admin::ApplicationController
       :uid,
       :title,
       :description,
-      :audio_catalogue_url,
+      :url,
       :audio,
       :script,
       :image,
