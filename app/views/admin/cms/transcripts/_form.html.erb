@@ -22,12 +22,28 @@
 
       <div class="form-group">
         <%= f.label :audio %>
-        <%= f.file_field :audio, class: "form-control" %>
+
+        <div class="form-control">
+          <% if @transcript.audio.present? %>
+            <span class="font-italic text-success">
+              <%= @transcript.audio.file.filename %>
+            <span/>
+          <% end %>
+          <span class="text-muted"><%= f.file_field :audio %><span/>
+        </div>
       </div>
 
       <div class="form-group">
-        <%= f.label :script, "Transcript" %>
-        <%= f.file_field :script, class: "form-control" %>
+        <%= f.label :script, "Transcript" %><br/>
+
+        <div class="form-control">
+          <% if @transcript.script.present? %>
+            <span class="font-italic text-success">
+              <%= @transcript.script.file.filename %>
+            <span/>
+          <% end %>
+          <span class="text-muted"><%= f.file_field :script %><span/>
+        </div>
       </div>
 
       <div class="form-group">
@@ -41,9 +57,14 @@
       </div>
 
       <div class="form-group">
-        <%= image_tag(@transcript.image.thumb) if @transcript.image.present? %>
         <%= f.label :image %>
-        <%= f.file_field :image, class: "form-control" %>
+
+        <div class="form-control">
+          <% if @transcript.image.present? %>
+            <%= image_tag(@transcript.image.thumb) %>
+          <% end %>
+          <%= f.file_field :image, class: "align-bottom" %>
+        </div>
       </div>
 
       <div class="form-group">
