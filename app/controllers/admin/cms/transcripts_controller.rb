@@ -1,4 +1,5 @@
 class Admin::Cms::TranscriptsController < Admin::ApplicationController
+  before_filter :authenticate_admin!
   before_action :set_transcript, only: [:edit, :update]
 
   def new
