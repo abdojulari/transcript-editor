@@ -1,6 +1,4 @@
-class Admin::CmsController < Admin::ApplicationController
-  before_filter :authenticate_admin!
-  
+class Admin::CmsController < Admin::ApplicationController  
   def show
     @collection = Collection.all
   end

@@ -1,5 +1,4 @@
 class Admin::Cms::CollectionsController < Admin::ApplicationController
-  before_filter :authenticate_admin!
   before_action :set_collection, only: [:show, :edit, :update]
 
   def show
