@@ -43,7 +43,7 @@ gem 'webvtt-ruby'
 
 # For uploading of transcipts and image files
 # load fog-aws first to reduce the number of imported classes
-gem 'fog-aws', '~> 0.9'
+gem 'fog'
 gem 'carrierwave', '~> 1.1'
 gem 'mini_magick', '~> 4.8'
 
