@@ -1,5 +1,5 @@
 CarrierWave.configure do |config|
-  if Rails.env.production?
+  if Rails.env.production? || Rails.env.staging?
     # Use AWS storage if in production
     config.storage = :fog
   else
