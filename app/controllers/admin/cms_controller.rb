@@ -1,4 +1,4 @@
-class Admin::CmsController < Admin::ApplicationController
+class Admin::CmsController < Admin::ApplicationController  
   def show
     @collection = Collection.all
   end
