@@ -4,7 +4,6 @@ class Transcript < ActiveRecord::Base
 
   mount_uploader :image, ImageUploader
   mount_uploader :audio, AudioUploader
-  mount_uploader :script, TranscriptUploader
 
   include PgSearch
   multisearchable :against => [:title, :description]
@@ -23,6 +22,8 @@ class Transcript < ActiveRecord::Base
   has_many :transcript_edits
   has_many :transcript_speakers
 
+  # speakers getters and setters used to manage the transcript_speakers
+  # when creating or editing a transcript
   def speakers
     return "" if transcript_speakers.blank?
     transcript_speakers.includes(:speaker).pluck(:name).join("; ") + "; "

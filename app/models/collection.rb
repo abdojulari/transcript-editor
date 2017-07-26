@@ -39,8 +39,4 @@ class Collection < ActiveRecord::Base
   def published?
     !!published_at
   end
-
-  def image_url
-    image.present? ? image.url : read_attribute(:image_url)
-  end
 end
