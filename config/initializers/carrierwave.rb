@@ -10,8 +10,10 @@ CarrierWave.configure do |config|
   config.fog_public     = true
   config.fog_attributes = { cache_control: "public, max-age=#{365.day.to_i}" }
 
+  # NSW State Library Amplify uses the same S3 bucket for production
+  # and staging environments
   if Rails.env.production? || Rails.env.staging?
-    # Use AWS storage if in production
+    # Use AWS storage if in production or staging
     config.storage = :fog
   else
     # Use local storage if in development or test
