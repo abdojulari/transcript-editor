@@ -79,6 +79,6 @@ namespace :s3 do
   end
 
   def log_result(error)
-    File.write('tmp/s3_uploads/carrierwave_uploader_log.txt', "#{error} \n")
+    File.write("log/carrierwave_uploader_#{Time.current}.log", "#{error} \n")
   end
 end
