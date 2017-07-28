@@ -7,9 +7,6 @@ namespace :s3 do
   #     rake s3:file_conversion
   desc "convert manually uploaded files to carrierwave objects"
   task image_conversion: :environment do |task|
-    success = []
-    errors = []
-
     voice_base = Vendor.find_by uid: "voice_base"
 
     begin
@@ -37,25 +34,16 @@ namespace :s3 do
             # On save the image will overwrite the remote file with the same name
             resource.vendor = voice_base
             resource.image = Rails.root.join('tmp', 's3_uploads', file_name).open
-
-            if resource.save!
-              success << resource
-            else
-              errors << resource
-            end
+            resource.save!
           end
         end
       end
-    rescue => StandardError => e
-      print_result(errors: e)
+    rescue StandardError => e
+      log_result(e)
     end
-
-    print_result(success: success, errors: errors)
   end
 
   task audio_conversion: :environment do |task|
-    success = []
-    errors = []
     voice_base = Vendor.find_by uid: "voice_base"
 
     begin
@@ -82,33 +70,15 @@ namespace :s3 do
         # when save the audio will be overwrite the remote file with the same name
         transcript.vendor = voice_base
         transcript.audio = Rails.root.join('tmp', 's3_uploads', file_name).open
-
-        if transcript.save!
-          success << transcript
-        else
-          errors << transcript
-        end
+        transcript.save!
       end
     end
     rescue StandardError => e
-      print_result(errors: e)
+      log_result(e)
     end
-
-    print_result(success: success, errors: errors)
   end
 
-  def print_result(args)
-    if args[:success].empty? && args[:errors].empty?
-      puts "*** NO RECORDS TO UPDATE ***"
-    elsif args[:success].empty? && args[:errors].present?
-      puts "*** FAILED TO UPDATE ***"
-      puts args[:errors]
-    else
-      puts "*** UPDATED #{args[:success].count} RECORDS ***"
-      puts "*** FAILED TO UPDATE #{args[:errors].count} RECORDS ***"
-      args[:errors].each do |el|
-        puts "* #{el.class} - #{el.read_attribute(:audio_url)}"
-      end
-    end
+  def log_result(error)
+    File.write('tmp/s3_uploads/carrierwave_uploader_log.txt', "#{error} \n")
   end
 end
