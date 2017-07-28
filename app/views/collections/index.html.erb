@@ -65,6 +65,15 @@
             list of collections currently available.
           </p>
 
+          <h2>Accessing the collections</h2>
+          <p>
+            If you are interested in getting access to our sound collections
+            for research, media or personal interest purposes, please submit a
+            request through our
+            <%= link_to "Ask A Librarian", "http://www.sl.nsw.gov.au/research-and-collections/ask-librarian" %>
+            service.
+          </p>
+
           <% @collections.find_each do |collection| %>
             <h2><%= collection.title %></h2>
             <p><strong><%= collection.library_catalogue_title %></strong></p>
