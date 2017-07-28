@@ -10,7 +10,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   # Override the directory where uploaded files will be stored.
   # This path will be appended to the S3 bucket url.
   def store_dir
-    "collections/#{s3_collection_uid}/images/"
+    "collections_v2/#{s3_collection_uid}/images/"
   end
 
   # Create different versions of your uploaded files:
