@@ -1100,6 +1100,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     data = $.extend({}, {project: PROJECT, user: user, debug: DEBUG, route: this._getRouteData()}, data);
 
     DEBUG && console.log('Route', data.route);
+
     return data;
   },
 
@@ -1242,13 +1243,12 @@ app.views.Collections = app.views.Base.extend({
 
   onCollectionsLoaded: function(collection){
     var data = collection.toJSON();
-    console.log(data);
     this.$el.html(this.template({collections: data}));
     this.$el.removeClass('loading');
   },
+
   render: function() {
     document.title = app.pageTitle('Collections');
-    console.log('rendering collections');
 
     this.collections = this.collections || new app.collections.Collections({
       endpoint: '/collections.json'
@@ -1256,11 +1256,6 @@ app.views.Collections = app.views.Base.extend({
 
     this.collections.fetch({
       success: this.onCollectionsLoaded.bind(this),
-      successbackup: function(collection, response, options){
-        var data = collection.toJSON();
-        this.$el.html(this.template({collections: data}));
-        this.$el.removeClass('loading');
-      },
       error: function(collection, response, options){
         $(window).trigger('alert', ['Whoops! We seem to have trouble loading our transcripts. Please try again by refreshing your browser or come back later!']);
       }

@@ -522,6 +522,7 @@ The EC2 servers run the following:
 * Puma
 * RVM
 * Ruby 2.3.0
+* ImageMagick
 
 Deployments are done via Capistrano. The configuration for this is
 checked into this repository, under `config/deploy.rb` and the per-environment

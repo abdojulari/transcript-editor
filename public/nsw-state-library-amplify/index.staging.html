@@ -3,15 +3,15 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title data-title-sitename="Amplify" data-title-template="{{pagename}} | {{sitename}}">Amplify</title>
-    <meta name="description" content="Help the State Library of New South Wales transcribe its Rainbow Archives collection!">
+    <title data-title-sitename="<%= project["name"] %>" data-title-template="{{pagename}} | {{sitename}}"><%= project["name"] %></title>
+    <meta name="description" content="<%= project["description"] %>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Muli">
-    <link rel="stylesheet" href="/assets/css/app.css?a=1501370109">
-    <link rel="stylesheet" href="/nsw-state-library-amplify/assets/css/styles.css?a=1501370109">
-    <link rel="shortcut icon" href="/nsw-state-library-amplify/assets/img/favicon.ico?a=1501370109">
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="stylesheet" href="/nsw-state-library-amplify/assets/css/styles.css">
+    <link rel="shortcut icon" href="/nsw-state-library-amplify/assets/img/favicon.ico">
   </head>
   <body>
     <!-- Google Tag Manager -->
@@ -23,10 +23,35 @@
     })(window,document,'script','dataLayer','GTM-N7BSF9');</script>
     <!-- End Google Tag Manager -->
 
-    <!-- For social media integration. -->
+    <!-- Start Facebook JavaScript SDK (for Share button). -->
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.6&appId=<%= env['FACEBOOK_APP_ID'] %>";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <!-- End Facebook JavaScript SDK. -->
+
+    <!-- Start Twitter SDK -->
     <script>
-      var facebookAppId = '863824730389586';
+      window.twttr = (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0],
+        t = window.twttr || {};
+      if (d.getElementById(id)) return t;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://platform.twitter.com/widgets.js";
+      fjs.parentNode.insertBefore(js, fjs);
+      t._e = [];
+      t.ready = function(f) {
+        t._e.push(f);
+      };
+      return t;
+    }(document, "script", "twitter-wjs"));
     </script>
+    <!-- End Twitter SDK -->
 
     <div class="application-env-indicator">
       Staging
@@ -57,25 +82,13 @@
 
     <script type="text/javascript">
       var Amplify = Amplify || {};
-      Amplify.config = {"homepage":{"search":{"sort_options":{"active_sort":"completeness","active_order":"desc"}}}};
-      Amplify.getConfig = function(path, defaultValue) {
-        if (!defaultValue) {
-          defaultValue = null;
-        }
-        var out = path.split('.').reduce(function(prev, curr) {
-          return prev ? prev[curr] : undefined;
-        }, Amplify.config);
-        if (typeof(out) === 'undefined') {
-          return defaultValue;
-        }
-        else {
-          return out;
-        }
-      };
+      Amplify.config = <%= app_config.to_json %>;
     </script>
-    <script src="/nsw-state-library-amplify/project.js?a=1501370109"></script>
-    <script src="/assets/js/templates.js?a=1501370109"></script>
-    <script src="/assets/js/default.min.js?a=1501370109"></script>
-    <script src="/nsw-state-library-amplify/assets/js/custom.js?a=1501370109"></script>
+    <script src="/nsw-state-library-amplify/project.js"></script>
+    <script src="/assets/js/templates.js"></script>
+    <script src="/assets/js/default.min.js"></script>
+    <script src="/nsw-state-library-amplify/assets/js/custom.js"></script>
+
+    
   </body>
 </html>

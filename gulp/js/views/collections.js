@@ -15,10 +15,10 @@ app.views.Collections = app.views.Base.extend({
 
   onCollectionsLoaded: function(collection){
     var data = collection.toJSON();
-    console.log(data);
     this.$el.html(this.template({collections: data}));
     this.$el.removeClass('loading');
   },
+
   render: function() {
     document.title = app.pageTitle('Collections');
 
@@ -28,11 +28,6 @@ app.views.Collections = app.views.Base.extend({
 
     this.collections.fetch({
       success: this.onCollectionsLoaded.bind(this),
-      successbackup: function(collection, response, options){
-        var data = collection.toJSON();
-        this.$el.html(this.template({collections: data}));
-        this.$el.removeClass('loading');
-      },
       error: function(collection, response, options){
         $(window).trigger('alert', ['Whoops! We seem to have trouble loading our transcripts. Please try again by refreshing your browser or come back later!']);
       }
