@@ -8,7 +8,8 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     "page/:id":                     "pageShow",
     "dashboard":                    "dashboard",
     "search":                       "search",
-    "search?*queryString":          "search"
+    "search?*queryString":          "search",
+    "collections":                  "collections",
   },
 
   before: function( route, params ) {
@@ -51,6 +52,13 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var footer = new app.views.Footer(data);
   },
 
+  collections: function() {
+    var data = this._getData(data);
+    var header = new app.views.Header(data);
+    var main = new app.views.Collections(data);
+    var footer = new app.views.Footer(data);
+  },
+
   transcriptEdit: function(id, queryString) {
     var data = this._getData(data);
     if (queryString) data.queryParams = deparam(queryString);
@@ -83,7 +91,6 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     data = $.extend({}, {project: PROJECT, user: user, debug: DEBUG, route: this._getRouteData()}, data);
 
     DEBUG && console.log('Route', data.route);
-
     return data;
   },
 

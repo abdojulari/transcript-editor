@@ -1017,7 +1017,8 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     "page/:id":                     "pageShow",
     "dashboard":                    "dashboard",
     "search":                       "search",
-    "search?*queryString":          "search"
+    "search?*queryString":          "search",
+    "collections":                  "collections",
   },
 
   before: function( route, params ) {
@@ -1060,6 +1061,13 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var footer = new app.views.Footer(data);
   },
 
+  collections: function() {
+    var data = this._getData(data);
+    var header = new app.views.Header(data);
+    var main = new app.views.Collections(data);
+    var footer = new app.views.Footer(data);
+  },
+
   transcriptEdit: function(id, queryString) {
     var data = this._getData(data);
     if (queryString) data.queryParams = deparam(queryString);
@@ -1092,7 +1100,6 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     data = $.extend({}, {project: PROJECT, user: user, debug: DEBUG, route: this._getRouteData()}, data);
 
     DEBUG && console.log('Route', data.route);
-
     return data;
   },
 
@@ -1215,6 +1222,52 @@ app.collections.Transcripts = Backbone.Collection.extend({
 });
 
 app.views.Base = Backbone.View.extend({
+
+});
+
+app.views.Collections = app.views.Base.extend({
+
+  el: '#main',
+  template: _.template(TEMPLATES['collections_index.ejs']),
+
+  initialize: function(data){
+    var defaults = {
+      queryParams: {}
+    };
+
+    this.data = _.extend({}, defaults, data);
+
+    this.render();
+  },
+
+  onCollectionsLoaded: function(collection){
+    var data = collection.toJSON();
+    console.log(data);
+    this.$el.html(this.template({collections: data}));
+    this.$el.removeClass('loading');
+  },
+  render: function() {
+    document.title = app.pageTitle('Collections');
+    console.log('rendering collections');
+
+    this.collections = this.collections || new app.collections.Collections({
+      endpoint: '/collections.json'
+    });
+
+    this.collections.fetch({
+      success: this.onCollectionsLoaded.bind(this),
+      successbackup: function(collection, response, options){
+        var data = collection.toJSON();
+        this.$el.html(this.template({collections: data}));
+        this.$el.removeClass('loading');
+      },
+      error: function(collection, response, options){
+        $(window).trigger('alert', ['Whoops! We seem to have trouble loading our transcripts. Please try again by refreshing your browser or come back later!']);
+      }
+    });
+
+    return this;
+  }
 
 });
 
