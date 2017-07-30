@@ -21,7 +21,6 @@ app.views.Collections = app.views.Base.extend({
   },
   render: function() {
     document.title = app.pageTitle('Collections');
-    console.log('rendering collections');
 
     this.collections = this.collections || new app.collections.Collections({
       endpoint: '/collections.json'
