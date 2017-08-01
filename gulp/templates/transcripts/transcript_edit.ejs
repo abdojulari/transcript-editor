@@ -27,7 +27,7 @@
     <% if (transcript.speakers.length) { %>
       <p class="speakers">Participants: <%= _.pluck(transcript.speakers, 'name').join(', ') %> </p>
     <% } %>
-    
+
     <% if (transcript.url) { %>
       <p class="original-link"><a href="<%= transcript.url %>" target="_blank">View audio in Library catalogue</a></p>
     <% } %>
