@@ -2672,7 +2672,7 @@ app.views.TranscriptFacets = app.views.Base.extend({
   sanitiseRenderData: function(data) {
     data.collections = data.collections.map(function(collection) {
       if (collection.hasOwnProperty('description')) {
-        collection.description = collection.description.replace(/<[^>]+>/, '');
+        collection.description = collection.description.replace(/<[^>]+>/g, '');
       }
       return collection;
     });
