@@ -104,7 +104,9 @@ app.views.TranscriptFacets = app.views.Base.extend({
    */
   sanitiseRenderData: function(data) {
     data.collections = data.collections.map(function(collection) {
-      collection.description = collection.description.replace(/<[^>]+>/, '');
+      if (collection.hasOwnProperty('description')) {
+        collection.description = collection.description.replace(/<[^>]+>/, '');
+      }
       return collection;
     });
     return data;
