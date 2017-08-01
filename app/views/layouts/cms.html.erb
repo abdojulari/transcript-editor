@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin CMS</title>
+    <%= stylesheet_link_tag    'application', 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css' %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag    'application', 'https://fonts.googleapis.com/css?family=Muli' %>
+    <%= stylesheet_link_tag    'application', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' %>
+    <%= stylesheet_link_tag    'application', 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css' %>
+    <%= stylesheet_link_tag    'application', '/assets/css/app.css?a=1499756908' %>
+    <%= stylesheet_link_tag    'application', '/nsw-state-library-amplify/assets/css/styles.css?a=1499756908' %>
+    <%= stylesheet_link_tag    'application', '/assets/css/app.css?a=1499756908' %>
+    <%= stylesheet_link_tag    'search_auto_complete' %>
+
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <div id="app" class="container-fluid">
+      <div id="header" class="header">
+        <nav id="primary-navigation" class="navigation primary inverse" role="navigation">
+          <div>
+            <div id="header-title" class="title-container">
+              <style type="text/css">
+                .header .title-container {
+                  width: auto;
+                  float: left;
+                }
+              </style>
+              <div class="header-bar">
+                <%= link_to root_path, class: "title", "aria-label": "Click to return to homepage" do %>
+                  <img src="/nsw-state-library-amplify/assets/img/logo_cropped.png" alt="Logo" class="logo">
+                  <p class="logo-text">Amplify</p>
+                <% end %>
+              </div>
+            </div>
+            <div id="header-crumbs" class="crumbs-container"></div>
+            <div id="account-container" class="account-container">
+              <div class="select">
+                <div class="select-active" title="">
+                  <span class="score"><%= current_user.user_role_id %></span>
+                  <%= current_user.name %>
+                </div>
+                <div class="select-options account-menu menu" role="menu" aria-hidden="true" aria-label="User account menu">
+                  <%= link_to "Dashboard", dashboard_path, class: "select-option menu-item", role: "menuitem" %>
+                  <%= link_to "Admin", admin_path, class: "select-option menu-item", role: "menuitem" %>
+                  <%= link_to "CMS", admin_cms_path, class: "select-option menu-item", role: "menuitem" %>
+                  <%= link_to "Sign out", "#sign-out", class: "sign-out-link select-option menu-item", role: "menuitem" %>
+                </div>
+              </div>
+            </div>
+
+            <div id="primary-menu-container" class="menu-container">
+              <div class="header-menu menu" role="menu">
+                <%= link_to "Browse", root_path, class: "menu-item", role: "menuitem" %>
+                <%= link_to "Search", search_path, class: "menu-item", role: "menuitem" %>
+                <%= link_to "Collections", collections_path, class: "menu-item", role: "menuitem" %>
+                <%= link_to "About", "/page/about", class: "menu-item", role: "menuitem" %>
+                <%= link_to "FAQ", "/page/faq", class: "menu-item", role: "menuitem" %>
+              </div>
+            </div>
+          </div>
+        </nav>
+        <nav id="secondary-navigation" class="navigation secondary"></nav>
+        <div id="primary-alert" class="alert" role="alert" aria-atomic="true"></div>
+      </div>
+
+      <div id="main" class="body">
+        <%= yield :cms_heading %>
+        <%= yield %>
+      </div>
+    </div>
+
+    <div id="footer" class="footer">
+      <nav id="footer-navigation" class="navigation inverse">
+        <div id="footer-menu-container" class="menu-container">
+          <div class="footer-menu menu" role="menu">
+            <%= link_to "Privacy", "http://www.sl.nsw.gov.au/privacy", class: "menu-item ", target: "_blank", role: "menuitem" %>
+            <%= link_to "Copyright", "http://www.sl.nsw.gov.au/copyright", class: "menu-item ", target: "_blank", role: "menuitem" %>
+            <%= link_to "Client Code of Conduct", "http://www.sl.nsw.gov.au/about-library-legislation-and-policies/client-code-conduct", class: "menu-item ", target: "_blank", role: "menuitem" %>
+            <%= link_to "Feedback", "http://www.sl.nsw.gov.au/feedback", class: "menu-item ", target: "_blank", role: "menuitem" %>
+          </div>
+        </div>
+      </nav>
+      <div>
+        <div class="footer.md page">
+          <p>
+            Powered by
+            <%= link_to "Open Transcript Editor", "https://github.com/NYPL/transcript-editor" %>
+            which was developed by the
+            <%= link_to "New York Public Library", "http://www.nypl.org" %>
+            <%= link_to "Find out more", "/page/about" %>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="/nsw-state-library-amplify/project.js"></script>
+    <script src="/assets/js/templates.js"></script>
+    <script src="/assets/js/admin.js"></script>
+
+    <%= javascript_include_tag 'application', 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'%>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'search_auto_complete' %>
+  </body>
+</html>
