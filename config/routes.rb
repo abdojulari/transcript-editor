@@ -11,7 +11,15 @@ Rails.application.routes.draw do
   end
   resources :collections, only: [:index, :show]
 
-  mount_devise_token_auth_for 'User', at: 'auth', controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
+  mount_devise_token_auth_for 'User',
+    at: 'auth',
+    controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+
+  # Handle additional providers such as SAML.
+  match 'auth/:provider/callback',
+    controller: 'users/omniauth_callbacks',
+    action: 'redirect_callbacks',
+    via: [:post]
 
   match 'page/:id' => 'default#index', :via => [:get]
   match 'dashboard' => 'default#index', :via => [:get]

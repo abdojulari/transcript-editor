@@ -1,9 +1,10 @@
 class Users::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksController
 
-  before_filter :set_user_session
+  before_filter :set_user_session, except: [:redirect_callbacks]
   after_filter :handle_user_sessions
 
   def handle_user_sessions
+    set_user_session unless session.key?(:previously_not_logged_in)
     # puts "Session After: #{session[:previously_not_logged_in]} , #{session.id}"
 
     # User just signed in
@@ -23,12 +24,9 @@ class Users::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksCon
   end
 
   def set_user_session
-    # puts "Session Before: #{session[:previously_not_logged_in]} , #{session.id}"
-
     session[:previously_not_logged_in] = false
     unless user_signed_in?
       session[:previously_not_logged_in] = true
     end
   end
-
 end

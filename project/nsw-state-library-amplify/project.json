@@ -24,9 +24,9 @@
       "path": "/auth/facebook"
     },
     {
-      "name": "staff_azuread",
+      "name": "staff_saml",
       "label": "SLNSW Staff",
-      "path": "/auth/azureactivedirectory"
+      "path": "/auth/saml"
     }
   ],
   "consensus": {

@@ -32,6 +32,7 @@ gem 'devise_token_auth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
 gem 'omniauth-azure-activedirectory'
+gem 'omniauth-saml'
 
 # Parsers for project asset precompilation
 gem 'redcarpet'

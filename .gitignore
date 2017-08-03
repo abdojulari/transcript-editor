@@ -45,3 +45,7 @@
 
 /project/nsw-state-library-amplify/assets/img/Landing page/
 /public/nsw-state-library-amplify/assets/img/Landing page/
+
+# Ignore all certificates.
+/config/certificates/*
+!/config/certificates/.keep
