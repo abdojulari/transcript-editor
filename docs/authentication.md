@@ -9,8 +9,8 @@ authentication to work independently of the user interface.
 
 * Google OAuth2
 * Facebook
-* Azure AD OpenID Connect (WIP)
-* SAML (WIP)
+* SAML
+  * Works against Azure AD
 
 Considering implementing:
 
