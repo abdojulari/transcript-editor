@@ -19,7 +19,11 @@ Rails.application.routes.draw do
   match 'auth/:provider/callback',
     controller: 'users/omniauth_callbacks',
     action: 'redirect_callbacks',
-    via: [:post]
+    via: [:post],
+    defaults: {
+      'namespace_name' => 'omniauth',
+      'resource_class' => 'User'
+    }
 
   match 'page/:id' => 'default#index', :via => [:get]
   match 'dashboard' => 'default#index', :via => [:get]

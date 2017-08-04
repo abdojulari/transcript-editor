@@ -77,6 +77,8 @@ Rails.application.config.middleware.use OmniAuth::Builder do
       idp_cert: cert_data,
       idp_cert_fingerprint: fingerprint,
       idp_cert_fingerprint_validator: lambda { |fp| fp },
-      name_identifier_format: ENV['SAML_NAME_ID_FORMAT']
+      name_identifier_format: ENV['SAML_NAME_ID_FORMAT'],
+      request_path: '/omniauth/saml',
+      callback_path: '/omniauth/saml/callback'
   end
 end
