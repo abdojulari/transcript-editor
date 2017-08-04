@@ -1,74 +1,101 @@
-class Users::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksController
+# frozen_string_literal: true
 
-  before_filter :set_user_session, except: [:redirect_callbacks]
-  after_filter :handle_user_sessions, except: [:redirect_callbacks]
+module Users
+  # rubocop:disable LineLength
+  # Overrides OmniauthCallbacksController in devise_token_auth.
+  class OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksController
+    # rubocop:enable LineLength
+    before_filter :set_user_session, except: [:redirect_callbacks]
+    after_filter :handle_user_sessions, except: [:redirect_callbacks]
 
-  def handle_user_sessions
-    set_user_session unless session.key?(:previously_not_logged_in)
-    # puts "Session After: #{session[:previously_not_logged_in]} , #{session.id}"
-
-    # User just signed in
-    if session[:previously_not_logged_in] && user_signed_in?
-      restore_previous_session
+    # Set a session cookie to work out if previously logged in.
+    def set_user_session
+      session[:previously_not_logged_in] = false
+      session[:previously_not_logged_in] = true unless user_signed_in?
     end
-  end
 
-  def set_user_session
-    session[:previously_not_logged_in] = false
-    unless user_signed_in?
-      session[:previously_not_logged_in] = true
+    # Handle user sessions.
+    def handle_user_sessions
+      set_user_session unless session.key?(:previously_not_logged_in)
+
+      # User just signed in
+      restore_previous_session if
+        session[:previously_not_logged_in] && user_signed_in?
     end
-  end
 
-  # Override for redirect_callbacks in devise_token_auth.
-  def redirect_callbacks
-    request.env['omniauth.params'] = {} unless request.env.key?('omniauth.params')
-    request.env['omniauth.params']['namespace_name'] = nil
-    request.env['omniauth.params']['resource_class'] = 'User'
-    
-    # derive target redirect route from 'resource_class' param, which was set
-    # before authentication.
-    devise_mapping = [omniauth_params['namespace_name'],
-                      omniauth_params['resource_class'].underscore.gsub('/', '_')].compact.join('_')
-    path = "#{Devise.mappings[devise_mapping.to_sym].fullpath}/#{params[:provider]}/callback"
-    redirect_route = URI::HTTP.build(scheme: request.scheme, host: request.host, port: request.port, path: path).to_s
+    # Override for redirect_callbacks in devise_token_auth.
+    def redirect_callbacks
+      setup_env_params
 
-    # preserve omniauth info for success route. ignore 'extra' in twitter
-    # auth response to avoid CookieOverflow.
-    session['dta.omniauth.auth'] = request.env['omniauth.auth'].except('extra')
-    session['dta.omniauth.params'] = omniauth_params
-    tweak_session_attrs
+      session['dta.omniauth.auth'] = request.env['omniauth.auth']
+                                            .except('extra')
+      session['dta.omniauth.params'] = omniauth_params
+      tweak_session_attrs
+      has_params = session['dta.omniauth.params']
 
-    if session['dta.omniauth.params']
-      redirect_to action: 'omniauth_success'
-    else
-      redirect_to action: 'omniauth_failure'
+      redirect_to action: has_params ? 'omniauth_success' : 'omniauth_failure'
     end
-  end
 
-  private
+    private
 
-  # Ensure that the info hash is properly populated.
-  # Needs email address at least.
-  def tweak_session_attrs
-    if session['dta.omniauth.auth']['provider'] == 'saml' && ENV['SAML_NAME_ID_FORMAT'] == 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress'
-      unless session['dta.omniauth.auth']['info']['email']
-        session['dta.omniauth.auth']['info']['email'] = session['dta.omniauth.auth']['uid']
+    # Tweak environment parameters for the redirect callback.
+    def setup_env_params
+      unless request.env.key?('omniauth.params')
+        request.env['omniauth.params'] = {}
       end
+      request.env['omniauth.params']['namespace_name'] = nil
+      request.env['omniauth.params']['resource_class'] = 'User'
     end
-  end
 
-  def restore_previous_session
-    puts current_user.inspect
-    # Assume previous session belongs to user
-    TranscriptEdit.updateUserSessions(session.id, current_user.id)
-    Flag.updateUserSessions(session.id, current_user.id)
+    # Ensure that the info hash is properly populated.
+    def tweak_session_attrs
+      tweak_session_attrs_saml
+    end
+
+    # Ensure that the info hash is properly populated for SAML.
+    # Needs email address at least.
+    # @TODO: first and last name.
+    def tweak_session_attrs_saml
+      return unless valid_saml_session?
+      return if info_hash_has?(session['dta.omniauth.auth']['info'], 'email')
+      email = session['dta.omniauth.auth']['uid']
+      session['dta.omniauth.auth']['info']['email'] = email
+    end
+
+    def valid_saml_session?
+      session['dta.omniauth.auth']['provider'] == 'saml' &&
+        ENV['SAML_NAME_ID_FORMAT'] == saml_name_id_format_email
+    end
+
+    def info_hash_has?(info_hash, index)
+      info_hash[index]
+    end
+
+    def saml_name_id_format_email
+      'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress'
+    end
+
+    # Restore a previous session if we can.
+    def restore_previous_session
+      # Assume previous session belongs to user
+      restore_previous_non_admin_session
+      current_user.setRole('admin') if user_project_admin?
+    end
+
+    def restore_previous_non_admin_session
+      TranscriptEdit.updateUserSessions(session.id, current_user.id)
+      Flag.updateUserSessions(session.id, current_user.id)
+    end
 
     # Check if user is an admin
-    project = Project.getActive
-    admin_emails = project[:data]["adminEmails"]
-    if admin_emails.include?(current_user.email) && (!current_user.user_role || current_user.user_role.name != "admin")
-      current_user.setRole("admin")
+    def user_project_admin?
+      project = Project.getActive
+      admin_emails = project[:data]['adminEmails']
+      admin_emails.include?(current_user.email) &&
+        (
+          !current_user.user_role ||
+          current_user.user_role.name != 'admin'
+        )
     end
   end
 end

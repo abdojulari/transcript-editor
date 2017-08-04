@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'omniauth/saml/certificate_loader'
+
 module OmniAuth
   module Strategies
     # Monkey-patch for Omniauth Azure AD.
@@ -51,34 +53,10 @@ Rails.application.config.middleware.use OmniAuth::Builder do
              ENV['FACEBOOK_APP_SECRET']
   end
 
-  # Azure AD OpenID Connect authentication.
-  if ENV.key?('AZUREAD_AAD_CLIENT_ID') && ENV.key?('AZUREAD_AAD_TENANT')
-    provider :azure_activedirectory,
-             ENV['AZUREAD_AAD_CLIENT_ID'],
-             ENV['AZUREAD_AAD_TENANT']
-  end
-
   # SAML authentication.
   if ENV.key?('SAML_CONSUMER_SERVICE_URL')
     # Load certificate and generate fingerprint.
-    cert_data = nil
-    cert_data = ENV['SAML_IDP_CERT'] if ENV.key?('SAML_IDP_CERT')
-    cert_data = File.read(Rails.root.join(ENV['SAML_IDP_CERT_PATH'])) if
-      ENV.key?('SAML_IDP_CERT_PATH') &&
-      File.exist?(Rails.root.join(ENV['SAML_IDP_CERT_PATH']))
-    certificate = OpenSSL::X509::Certificate.new(cert_data)
-    fingerprint = certificate.to_s
-
-    provider :saml,
-      assertion_consumer_service_url: ENV['SAML_CONSUMER_SERVICE_URL'],
-      issuer: ENV['SAML_ISSUER'],
-      idp_sso_target_url: ENV['SAML_SSO_TARGET_URL'],
-      idp_sso_target_url_runtime_params: { original_request_param: :mapped_idp_param },
-      idp_cert: cert_data,
-      idp_cert_fingerprint: fingerprint,
-      idp_cert_fingerprint_validator: lambda { |fp| fp },
-      name_identifier_format: ENV['SAML_NAME_ID_FORMAT'],
-      request_path: '/omniauth/saml',
-      callback_path: '/omniauth/saml/callback'
+    cl = Omniauth::Saml::CertificateLoader.new(ENV)
+    provider :saml, cl.config_params
   end
 end
