@@ -54,12 +54,47 @@ module Users
 
     # Ensure that the info hash is properly populated for SAML.
     # Needs email address at least.
-    # @TODO: first and last name.
+    # Has special handling for Microsoft-specific identity schemas.
+    # @TODO: Make configuration more generic.
     def tweak_session_attrs_saml
       return unless valid_saml_session?
-      return if info_hash_has?(session['dta.omniauth.auth']['info'], 'email')
-      email = session['dta.omniauth.auth']['uid']
-      session['dta.omniauth.auth']['info']['email'] = email
+      saml_profile_attr_map.each do |d, s|
+        tweak_session_attr_saml(d, s)
+      end
+    end
+
+    def tweak_session_attr_saml(d, s)
+      return if info_hash_has?(session['dta.omniauth.auth']['info'], d.to_s)
+      info_hash = session['dta.omniauth.auth']['info']
+      info_hash = copy_key_if_exists(info_hash, saml_claims_url(s), d)
+      info_hash = copy_key_if_exists(info_hash, saml_ms_claims_url(s), d)
+      session['dta.omniauth.auth']['info'] = info_hash
+    end
+
+    def copy_key_if_exists(info_hash, key, d)
+      info_hash[d.to_s] = omniauth_extra[key].first if omniauth_extra.key?(key)
+      info_hash
+    end
+
+    def omniauth_extra
+      request.env['omniauth.auth'].extra.raw_info.attributes
+    end
+
+    def saml_profile_attr_map
+      {
+        name: :displayname,
+        email: :emailaddress,
+        first_name: :givenname,
+        last_name: :surname
+      }
+    end
+
+    def saml_claims_url(param)
+      'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/' + param.to_s
+    end
+
+    def saml_ms_claims_url(param)
+      'http://schemas.microsoft.com/identity/claims/' + param.to_s
     end
 
     def valid_saml_session?
