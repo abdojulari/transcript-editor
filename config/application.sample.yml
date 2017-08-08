@@ -11,7 +11,7 @@ SAML_CONSUMER_SERVICE_URL: xxx
 SAML_ISSUER: xxx
 SAML_SSO_TARGET_URL: xxx
 SAML_IDP_CERT_PATH: xxx
-SAML_NAME_ID_FORMAT: xxx
+SAML_NAME_ID_FORMAT: urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress
 
 development:
   GOOGLE_CLIENT_ID: xxx

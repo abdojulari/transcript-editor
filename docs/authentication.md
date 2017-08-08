@@ -113,4 +113,22 @@ After updating your `project.json` file, always run
 
 ### SAML
 
-@TODO
+1. Set up your SAML app depending on how your identity provider wants you
+   to do it.
+2. Download the certificate file and copy it to `config/certificates`.
+3. For each development and production app, copy the configuration into the
+   appropriate key-value entries. For example:
+   ```
+   development:
+     SAML_CONSUMER_SERVICE_URL: https://my.dev.app/omniauth/saml/callback
+     SAML_ISSUER: dev-issuer-id
+     SAML_SSO_TARGET_URL: https://my.dev.service/path/to/saml/service
+     SAML_IDP_CERT_PATH: config/certificates/my-dev-cert-file
+     SAML_NAME_ID_FORMAT: urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress
+   production:
+     SAML_CONSUMER_SERVICE_URL: https://my.prod.app/omniauth/saml/callback
+     SAML_ISSUER: prod-issuer-id
+     SAML_SSO_TARGET_URL: https://my.prod.service/path/to/saml/service
+     SAML_IDP_CERT_PATH: config/certificates/my-prod-cert-file
+     SAML_NAME_ID_FORMAT: urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress
+   ```
