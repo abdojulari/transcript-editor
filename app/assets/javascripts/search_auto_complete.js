@@ -6,7 +6,8 @@ function extractLast( term ) {
   return split( term ).pop();
 }
 
-$( "#transcript_speakers" )
+// Process transcript speakers.
+$("#transcript_speakers")
   // don't navigate away from the field on tab when selecting an item
   .on( "keydown", function( event ) {
     if ( event.keyCode === $.ui.keyCode.TAB &&
@@ -43,4 +44,7 @@ $( "#transcript_speakers" )
       return false;
     }
   });
-} );
+});
+
+// Process transcript submission.
+

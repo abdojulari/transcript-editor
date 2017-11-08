@@ -67,4 +67,9 @@ class Admin::Cms::TranscriptsController < Admin::ApplicationController
   def collection_id
     Collection.find_by(uid: params[:collection_uid]).id
   end
+
+  def ingest_transcript
+    return if @transcript.lines
+    # @TODO ingest transcript and process
+  end
 end

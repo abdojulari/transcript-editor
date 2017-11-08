@@ -40,9 +40,16 @@
           <% if @transcript.script.present? %>
             <span class="font-italic text-success">
               <%= @transcript.script.file.filename %>
-            <span/>
+            </span>
           <% end %>
-          <span class="text-muted"><%= f.file_field :script %><span/>
+          <span class="text-muted"><%= f.file_field :script %></span>
+
+          <span><%= @transcript.lines %> lines in database</span>
+          <% if @transcript.lines == 0 %>
+            <button type="button" class="btn btn-default">
+              Process
+            </button>
+          <% end %>
         </div>
       </div>
 
