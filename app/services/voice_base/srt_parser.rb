@@ -94,7 +94,7 @@ module VoiceBase
     def newline_might_have_content(newline)
       return unless @line_temp[:reading]
 
-      if newline.!empty? && @whitespace_only !~ newline
+      if !newline.empty? && @whitespace_only !~ newline
         # Add the new line to the list of ingested lines.
         @line_temp[:lines] << newline
       else
@@ -109,6 +109,11 @@ module VoiceBase
     # Get the rendered transcript lines.
     def lines
       @transcript_lines
+    end
+
+    # Convert a timestamp to milliseconds.
+    def convert_time_to_milliseconds(time)
+      ((Time.strptime(time, '%H:%M:%S,%L') - Time.now.at_midnight) * 1000).to_i
     end
   end
 end

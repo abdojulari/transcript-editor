@@ -66,7 +66,7 @@ module VoiceBase
 
     # Ingest processed lines into the transcript.
     def ingest_transcript_lines(transcript, transcript_lines)
-      return nil if transcript_lines.nil?
+      return nil if transcript_lines.nil? or transcript_lines.empty?
 
       TranscriptLine.where(transcript_id: transcript.id).destroy_all
       TranscriptLine.create!(transcript_lines)
@@ -79,15 +79,17 @@ module VoiceBase
       )
     end
 
+    # Default downloaded state for transcript.
     def downloaded_state
       TranscriptStatus.find_by(name: :transcript_downloaded)
     end
 
+    # Parse transcript lines.
     def get_transcript_lines_from_file(transcript, contents)
-      p = VoiceBase::SrtParser.new(transcript.id, contents)
-      p.lines
+      VoiceBase::SrtParser.new(transcript.id, contents).lines
     end
 
+    # Convert a timestamp to milliseconds.
     def convert_time_to_milliseconds(time)
       ((Time.strptime(time, '%H:%M:%S,%L') - Time.now.at_midnight) * 1000).to_i
     end
