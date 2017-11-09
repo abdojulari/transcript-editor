@@ -45,7 +45,7 @@
           <span class="text-muted"><%= f.file_field :script %></span>
 
           <span id="transcript-line-count">
-            <%= 'line'.pluralize(@transcript.lines) %> in database
+            <%= pluralize(@transcript.lines, 'line') %> in database
           </span>
           <% if @transcript.script.present? and @transcript.lines == 0 %>
             <button type="button" class="btn btn-default" id="update-transcript" data-id="<%= @transcript.id %>">

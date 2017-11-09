@@ -57,3 +57,7 @@
 
 # Ignore coverage.
 coverage/*
+
+# Ignore uploaded files.
+app/files/uploads/*
+!app/files/uploads/.keep
