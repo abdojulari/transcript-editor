@@ -54,3 +54,6 @@
 # Ignore all certificates.
 /config/certificates/*
 !/config/certificates/.keep
+
+# Ignore coverage.
+coverage/*
