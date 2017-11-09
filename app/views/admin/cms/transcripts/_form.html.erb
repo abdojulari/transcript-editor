@@ -44,9 +44,11 @@
           <% end %>
           <span class="text-muted"><%= f.file_field :script %></span>
 
-          <span><%= @transcript.lines %> lines in database</span>
+          <span id="transcript-line-count">
+            <%= @transcript.lines %> lines in database
+          </span>
           <% if @transcript.lines == 0 %>
-            <button type="button" class="btn btn-default">
+            <button type="button" class="btn btn-default" id="update-transcript" data-id="<%= @transcript.id %>">
               Process
             </button>
           <% end %>

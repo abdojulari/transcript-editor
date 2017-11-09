@@ -47,4 +47,10 @@ $("#transcript_speakers")
 });
 
 // Process transcript submission.
-
+$('#update-transcript').on('click', function(e) {
+  e.preventDefault();
+  var id = $(this).attr('data-id');
+  $.post('/admin/cms/transcripts/' + id + '/process_transcript', {}, function(data, textStatus, jqXHR) {
+    $('#transcript-line-count').text(data.lines + ' lines in database');
+  }, 'json');
+});

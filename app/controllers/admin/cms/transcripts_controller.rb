@@ -1,5 +1,6 @@
 class Admin::Cms::TranscriptsController < Admin::ApplicationController
   before_action :set_transcript, only: [:edit, :update]
+  before_action :set_transcript_by_id, only: [:process_transcript]
 
   def new
     @transcript = Transcript.new(collection_id: collection_id)
@@ -38,10 +39,22 @@ class Admin::Cms::TranscriptsController < Admin::ApplicationController
     render json: speakers
   end
 
+  def process_transcript
+    ingest_transcript
+    @transcript.reload
+    render json: {
+      lines: @transcript.lines
+    }
+  end
+
   private
 
   def set_transcript
     @transcript = Transcript.find_by(uid: params[:id])
+  end
+
+  def set_transcript_by_id
+    @transcript = Transcript.find(params[:id])
   end
 
   def transcript_params
@@ -69,7 +82,7 @@ class Admin::Cms::TranscriptsController < Admin::ApplicationController
   end
 
   def ingest_transcript
-    return if @transcript.lines
-    # @TODO ingest transcript and process
+    imp = VoiceBase::ImportSrtTranscripts.new(project_id: ENV['PROJECT_ID'])
+    imp.process_single(@transcript.id)
   end
 end
