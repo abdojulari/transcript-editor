@@ -2,10 +2,10 @@
 //=include vendor/underscore-min.js
 //=include vendor/backbone-min.js
 //=include vendor/backbone.routefilter.min.js
-//=include vendor/jquery.cookie.js
+//=include vendor/js.cookie.js
 //=include vendor/jquery-deparam.js
 //=include vendor/pubsub.min.js
-//=include vendor/jquery.j-toker.min.js
+//=include vendor/jquery.j-toker.js
 //=include vendor/fuse.min.js
 //=include vendor/naturalSort.js
 //=include vendor/backbone.naturalSort.js
