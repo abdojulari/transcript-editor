@@ -176,8 +176,7 @@ app.views.Transcript = app.views.Base.extend({
     _.each(audio_urls, function(url){
       var ext = url.substr(url.lastIndexOf('.') + 1),
           type = ext;
-      if (ext == 'mp3') type = 'mpeg';
-      audio_string += '<source src="'+url+'" type="audio/'+type+'">';
+      audio_string += '<source src="'+url+'" type="audio/mpeg">';
     });
     audio_string += '</audio>';
 
