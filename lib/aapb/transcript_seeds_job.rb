@@ -25,7 +25,7 @@ module AAPB
     end
 
     def build_csv
-      CSV.open("#{csv_file_path}" + "/" + "#{Date.today}.csv", "w") do |csv|
+      CSV.open("#{csv_file_path}/#{Date.today}.csv", "w") do |csv|
         csv << [ 'uid', 'title', 'description', 'url', 'audio_url', 'image_url', 'collection', 'vendor', 'vendor_identifier', 'notes' ]
         (aapb_records[0..-1]).map do |rec|
           csv << [ rec.uid, rec.title, rec.description, rec.aapb_url, rec.audio_url, rec.image_url, 'aapb', 'webvtt', "#{rec.uid}.webvtt",  ]
