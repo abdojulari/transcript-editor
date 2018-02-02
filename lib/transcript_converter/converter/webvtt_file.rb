@@ -20,7 +20,7 @@ module TranscriptConverter
       private
 
       def create_file
-        puts "Writing new file to #{directory}"
+        puts "Writing #{content['file_name']}.vtt to #{directory}"
         open(directory + "#{content['file_name']}.vtt", 'w') do |file|
           file << TranscriptConverter::Converter::WebVTTFile::CONTENT_HEADER
           file << "\n\n"

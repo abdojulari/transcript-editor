@@ -43,6 +43,9 @@ gem 'webvtt-ruby'
 gem 'newrelic_rpm'
 gem 'rails_12factor'
 
+# For debugging
+gem 'pry'
+
 # Use unicorn on linux only
 platforms :ruby do # linux
   gem 'unicorn'
