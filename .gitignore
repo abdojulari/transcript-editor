@@ -30,6 +30,7 @@
 
 # Ignore downloaded transcripts/audio
 /project/*/transcripts/*/*.json
+/project/*/transcripts/*/*.vtt
 /project/*/audio/*
 !/project/*/audio/.keep
 
