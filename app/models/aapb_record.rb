@@ -59,6 +59,11 @@ class AAPBRecord
     nil
   end
 
+  def has_transcript_url?
+    return true if !transcript_url.nil?
+    false
+  end
+
   private
 
   def process_id(id)

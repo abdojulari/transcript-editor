@@ -63,7 +63,7 @@ class Transcript < ActiveRecord::Base
   def self.getForDownloadByVendor(vendor_uid, project_uid)
     vendor = Vendor.find_by_uid(vendor_uid)
     Transcript.joins(:collection)
-      .where("transcripts.vendor_id = :vendor_id AND transcripts.lines <= 0 AND collections.vendor_identifier != :empty AND transcripts.vendor_identifier != :empty AND transcripts.project_uid = :project_uid",
+      .where("transcripts.vendor_id = :vendor_id AND transcripts.lines <= 0 AND transcripts.vendor_identifier != :empty AND transcripts.project_uid = :project_uid",
       {vendor_id: vendor[:id], empty: "", project_uid: project_uid})
   end
 

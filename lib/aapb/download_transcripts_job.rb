@@ -6,14 +6,14 @@ module AAPB
 
     def initialize(uids, project_key)
       raise "DownloadTranscriptsJob must be initialized with an Array of uids." unless uids.is_a?(Array)
-      raise "No project transcripts directory found for: #{project_key}" unless File.directory?(Rails.root.join('project', project_key, 'transcripts'))
+      raise "No project transcripts directory found for: #{project_key}." unless File.directory?(Rails.root.join('project', project_key, 'transcripts'))
 
       @transcripts_directory = Rails.root.join('project', project_key, 'transcripts', 'aapb')
       Dir.mkdir(transcripts_directory) unless Dir.exist?(transcripts_directory)
       @aapb_records = build_appb_records(uids)
     end
 
-    def run
+    def run!
       download_transcripts
     end
 
@@ -28,14 +28,18 @@ module AAPB
     def download_transcripts
       (aapb_records[0..-1]).each do |rec|
         if !File.exists?("#{transcripts_directory}/#{rec.uid}.json")
-          open("#{transcripts_directory}/#{rec.uid}.json", 'wb') do |file|
-            file << open(rec.transcript_url).read
+          puts "Downloading transcript for: #{rec.uid}."
+          if rec.has_transcript_url?
+            open("#{transcripts_directory}/#{rec.uid}.json", 'wb') do |file|
+              file << open(rec.transcript_url).read
+            end
+          else
+            puts "Skipping #{rec.uid}.json: no transcript_url"
           end
         else
-          puts "Skipping #{rec.uid}.json: It already exists"
+          puts "Skipping #{rec.uid}.json: It already exists."
         end
       end
     end
-
   end
 end

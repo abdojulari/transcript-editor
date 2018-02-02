@@ -5,7 +5,7 @@ require 'transcript_converter/converter'
 module TranscriptConverter
   class Runner
 
-    attr_reader :transcript_files, :options, :to_format, :directory
+    attr_reader :transcript_files, :to_format, :directory
 
     def initialize(transcript_files_path, directory, to_format)
       raise "Directory doesn't exist at #{Rails.root + directory}" unless Dir.exist?(Rails.root + directory)
