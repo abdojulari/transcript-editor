@@ -6,10 +6,10 @@
   "useVendorAudio": true,
   "transcriptsPerPage": 500,
   "maxLineTimeOverlapMs": -1,
-  "allowTranscriptDownload": true,
+  "allowTranscriptDownload": false,
   "gaCode": "",
   "adminEmails": [
-    "admin@email.org"
+    "jason.corum@gmail.com"
   ],
   "authProviders": [{ "name": "google", "label": "Google", "path": "/auth/google_oauth2" }],
   "consensus": {
