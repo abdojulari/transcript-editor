@@ -342,7 +342,7 @@ class Transcript < ActiveRecord::Base
   def _getDurationFromWebVTT(webvtt)
     duration = 0
     unless webvtt.cues.empty?
-      duration = (webvtt.cues.last.end_in_sec * 1000).to_i
+      duration = (webvtt.cues.last.end_in_sec).to_i
     end
     duration
   end
