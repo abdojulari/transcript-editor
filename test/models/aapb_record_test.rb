@@ -47,4 +47,8 @@ class AAPBRecordTest < ActiveSupport::TestCase
   test "#transcript_url" do
     assert aapb_record.transcript_url == "https://s3.amazonaws.com/americanarchive.org/transcripts/cpb-aacip-301-00000079/cpb-aacip-301-00000079-transcript.json"
   end
+
+  test "#organization_pb_core_name" do
+    assert aapb_record.organization_pb_core_name == "WERU-FM (WERU Community Radio)"
+  end
 end
