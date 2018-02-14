@@ -64,6 +64,10 @@ class AAPBRecord
     false
   end
 
+  def organization_pb_core_name
+    @organization_pbcore_name ||= xpath('/*/pbcoreAnnotation[@annotationType="organization"]')
+  end
+
   private
 
   def process_id(id)

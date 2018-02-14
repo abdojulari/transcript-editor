@@ -37,6 +37,8 @@
 
   .select.collection .select-options {
     min-width: 300px;
+    max-height: 350px;
+    overflow-y: scroll;
   }
 
   .select.sort .select-options {
