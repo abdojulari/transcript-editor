@@ -1,7 +1,7 @@
 {
-  "name": "fixit-pro",
+  "name": "FIX IT +",
   "description": "A web app for transcripts that were automatically generated from speech-to-text software",
-  "logo": "",
+  "logo": "/fix_it_plus/assets/img/aapb-logo.png",
   "apiUrl": "",
   "useVendorAudio": true,
   "transcriptsPerPage": 500,
@@ -13,11 +13,11 @@
   ],
   "authProviders": [{ "name": "google", "label": "Google", "path": "/auth/google_oauth2" }],
   "consensus": {
-    "maxLineEdits": 5,
-    "minLinesForConsensus": 3,
-    "minLinesForConsensusNoEdits": 5,
-    "minPercentConsensus": 0.34,
-    "lineDisplayMethod": "guess",
+    "maxLineEdits": 2,
+    "minLinesForConsensus": 2,
+    "minLinesForConsensusNoEdits": 0.5,
+    "minPercentConsensus": 2,
+    "lineDisplayMethod": "original",
     "superUserHiearchy": 50
   },
   "menus": {
@@ -26,11 +26,25 @@
       {"label": "About", "url": "/page/about"}
     ],
     "footer": [
-      {"label": "Privacy Policy", "url": "#", "target": "_blank"},
-      {"label": "Terms and Conditions", "url": "#", "target": "_blank"}
+      {"label": "Terms and Conditions", "url": "/page/toc"},
+      {"label": "MIT License", "url": "/page/mit_license"}
     ]
   },
-  "modals": {},
+  "modals": {
+    "tutorial_edit": {
+      "title": "Transcript Editor Tutorial",
+      "displayMethod": "once",
+      "doneLabel": "Finished",
+      "pages": [
+        {"label": "Editing", "file": "ed_tutorial_1.md"},
+        {"label": "Conventions", "file": "ed_tutorial_2.md"},
+        {"label": "Commands", "file": "ed_tutorial_3.md"},
+        {"label": "Speaker Identification", "file": "ed_tutorial_4.md"},
+        {"label": "Verify", "file": "ed_tutorial_5.md"},
+        {"label": "Have fun!", "file": "ed_tutorial_6.md"}
+      ]
+    }
+  },
   "controls": [
     {"id": "toggle-play", "action": "lineToggle", "label": "Play/Pause", "keyCode": 32, "key": "[shift] + [space]", "keyLabel": "Shift + Space Bar", "keyDescription": "Hold shift and press space bar to play, pause, or re-play a line", "shift": true},
     {"id": "next-line", "action": "lineNext", "label": "Next Line", "keyCode": [13,40], "key": "[&#8595;] OR [enter]", "keyLabel": "Down Arrow or Enter Key", "keyDescription": "Press the down arrow key or enter to go to next line"},

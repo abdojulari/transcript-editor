@@ -1,0 +1,32 @@
+.title-container {
+  min-width: 150px;
+}
+.logo {
+  padding: 0 10px;
+  float: left;
+}
+.logo-lg {
+  padding: 20px 0 0 0;
+}
+.home\.md.page {
+  max-width: none;
+  margin: -68px -10px 0;
+}
+.home\.md.page .banner {
+  background: url(/fix_it_plus/assets/img/aapb-site-sprite.png) repeat-x 0 0;
+  padding: 0 0 40px 0;
+  margin-bottom: 20px;
+}
+.home\.md.page .container {
+  max-width: 800px;
+  margin: 5px auto;
+  position: relative;
+}
+.home\.md.page h1 {
+  margin-bottom: 0;
+}
+.home\.md.page h2 {
+  margin-top: 20px;
+  margin-bottom: 0;
+  letter-spacing: 1px;
+}
