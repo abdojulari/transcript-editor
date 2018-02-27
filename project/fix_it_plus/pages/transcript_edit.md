@@ -11,4 +11,4 @@ The transcript contains lines that are "in review" (<span class="reviewing">high
 The transcript <% if (transcript.hasLinesInReview) { %>also <% } %>contains lines that are "completed" (<span class="completed">highlighted in green</span>) which means they have been corrected by others and can no longer be edited, but you can still listen to them.
 <% } %>
 
-<p class="text-center"><a href="#start" class="button large start-play disabled" role="button">Okay, let's start</a></p>
+<p class="text-center"><a href="#tutorial" data-modal="tutorial_edit" class="button large modal-invoke tutorial-link" role="button">View A Tutorial</a> <span class="separator">- or -</span> <a href="#start" class="button large start-play disabled" role="button">Get Started</a></p>

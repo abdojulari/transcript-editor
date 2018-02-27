@@ -1,5 +1,5 @@
 <% if (project.logo) { %>
-  <a href="/" title="<%= project.name %>" class="title" aria-label="Click to return to homepage" title="Click to return to homepage"><img src="<%= project.logo %>" alt="Logo" class="logo" /></a>
+  <a href="/" title="<%= project.name %>" class="title" aria-label="Click to return to homepage" title="Click to return to homepage"><img src="<%= project.logo %>" alt="Logo" class="logo" /><h1 class="title" aria-label="Click to return to homepage" title="Click to return to homepage"><%= project.name %></h1></a>
 <% } else { %>
   <h1 class="title" aria-label="Click to return to homepage" title="Click to return to homepage"><a href="/"><%= project.name %></a></h1>
 <% } %>
