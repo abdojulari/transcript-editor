@@ -45,7 +45,7 @@ class AAPBRecord
     @image_url ||=
       case media_type
       when MOVING_IMAGE
-        "#{AAPB::S3_BASE}/thumbnail/#{uid}.jpg"
+        "#{S3_BASE}/thumbnail/#{uid}.jpg"
       when SOUND
         'http://americanarchive.org/thumbs/audio-digitized.jpg'
       else
