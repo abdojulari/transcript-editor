@@ -45,7 +45,13 @@ body {
     }
 
     .logo {
-      display: block;
+      display: inline-block;
+      max-height: $header-nav-height - 10px;
+      width: auto;
+    }
+
+    .fix-it-logo {
+      display: inline-block;
       max-height: $header-nav-height - 10px;
       width: auto;
     }
