@@ -7,7 +7,7 @@
   "transcriptsPerPage": 500,
   "maxLineTimeOverlapMs": -1,
   "allowTranscriptDownload": false,
-  "gaCode": "",
+  "gaCode": "UA-60323667-4",
   "adminEmails": [
     "jason.corum@gmail.com"
   ],
