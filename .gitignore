@@ -21,7 +21,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*
 !/log/.keep
-/tmp
+!/tmp/.keep
 
 # Project-specific
 /_dev
@@ -61,3 +61,15 @@ coverage/*
 # Ignore uploaded files.
 app/files/uploads/*
 !app/files/uploads/.keep
+
+# Ignore uploaded files in development
+/storage/*
+
+/node_modules
+/yarn-error.log
+
+/public/assets
+.byebug_history
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key

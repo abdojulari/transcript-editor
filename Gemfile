@@ -1,7 +1,10 @@
 source 'https://rubygems.org'
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+
+ruby '2.5.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.5'
+gem 'rails', '~> 5.2.0'
 
 # Use PostgreSQL as the database for Active Record
 gem 'pg'
@@ -16,13 +19,18 @@ gem 'dalli'
 # Disabling assets; replaced with Gulp
 # gem 'sass-rails', '~> 5.0'
 # gem 'uglifier', '>= 1.3.0'
-# gem 'coffee-rails', '~> 4.1.0'
+# gem 'coffee-rails', '~> 4.2'
 # gem 'jquery-rails'
 
+gem 'turbolinks', '~> 5'
+
 # Back-end App is treated mostly as a JSON API
-gem 'jbuilder', '~> 2.0' # Build JSON APIs with ease
-gem 'rails-api' # pare down rails to act like an API; disabling unnecessary middleware
+gem 'jbuilder', '~> 2.5' # Build JSON APIs with ease
+# gem 'rails-api' # pare down rails to act like an API; disabling unnecessary middleware
 gem 'rack-cors', :require => 'rack/cors'
+
+# Reduces boot times through caching; required in config/boot.rb
+gem 'bootsnap', '>= 1.1.0', require: false
 
 # Rails app configuration / ENV management
 gem 'figaro'
@@ -59,11 +67,14 @@ platforms :ruby do # linux
 end
 
 group :development, :test do
-  gem 'byebug'
+  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails', '~> 3.4'
 end
 
 group :development do
+  gem 'web-console', '>= 3.3.0'
+  gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'capistrano'
   gem 'capistrano3-puma'
   gem 'capistrano-rails', require: false
@@ -73,6 +84,11 @@ group :development do
 end
 
 group :test do
+  gem 'capybara', '>= 2.15', '< 4.0'
+  gem 'selenium-webdriver'
+  gem 'chromedriver-helper'
   gem 'shoulda-matchers', '~> 3.1', require: false
   gem 'simplecov'
 end
+
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
