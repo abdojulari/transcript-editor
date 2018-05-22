@@ -2,7 +2,7 @@ class Admin::StatsController < ApplicationController
   include ActionController::MimeResponds
   include IndexTemplate
 
-  before_filter :authenticate_moderator!
+  before_action :authenticate_moderator!
 
   # GET /admin
   # GET /admin.json

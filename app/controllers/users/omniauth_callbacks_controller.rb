@@ -5,8 +5,8 @@ module Users
   # Overrides OmniauthCallbacksController in devise_token_auth.
   class OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksController
     # rubocop:enable LineLength
-    before_filter :set_user_session, except: [:redirect_callbacks]
-    after_filter :handle_user_sessions, except: [:redirect_callbacks]
+    before_action :set_user_session, except: [:redirect_callbacks]
+    after_action :handle_user_sessions, except: [:redirect_callbacks]
 
     # Set a session cookie to work out if previously logged in.
     def set_user_session
