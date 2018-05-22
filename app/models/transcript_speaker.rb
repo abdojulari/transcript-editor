@@ -1,4 +1,4 @@
-class TranscriptSpeaker < ActiveRecord::Base
+class TranscriptSpeaker < ApplicationRecord
 
   belongs_to :speaker
   belongs_to :transcript

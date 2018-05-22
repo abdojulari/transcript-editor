@@ -1,4 +1,4 @@
-class TranscriptEdit < ActiveRecord::Base
+class TranscriptEdit < ApplicationRecord
 
   belongs_to :transcript
   belongs_to :transcript_line

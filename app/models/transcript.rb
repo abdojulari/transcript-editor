@@ -1,4 +1,4 @@
-class Transcript < ActiveRecord::Base
+class Transcript < ApplicationRecord
   include ImageSizeValidation
   include UidValidationOnUpdate
 

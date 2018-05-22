@@ -1,4 +1,4 @@
-class Collection < ActiveRecord::Base
+class Collection < ApplicationRecord
   include ImageSizeValidation
   include UidValidationOnUpdate
 

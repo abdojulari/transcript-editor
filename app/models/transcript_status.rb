@@ -1,3 +1,3 @@
-class TranscriptStatus < ActiveRecord::Base
+class TranscriptStatus < ApplicationRecord
   
 end

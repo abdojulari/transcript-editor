@@ -1,4 +1,4 @@
-class TranscriptLine < ActiveRecord::Base
+class TranscriptLine < ApplicationRecord
 
   include PgSearch
   multisearchable :against => [:original_text, :guess_text]

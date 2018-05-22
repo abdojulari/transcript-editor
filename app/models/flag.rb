@@ -1,4 +1,4 @@
-class Flag < ActiveRecord::Base
+class Flag < ApplicationRecord
   belongs_to :transcript_line
   belongs_to :flag_type
 
