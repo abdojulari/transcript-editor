@@ -22,6 +22,7 @@
 /log/*
 !/log/.keep
 !/tmp/.keep
+/tmp/*/*
 
 # Project-specific
 /_dev
