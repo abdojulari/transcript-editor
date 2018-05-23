@@ -1,4 +1,4 @@
-lock '3.5.0'
+lock '3.10.2'
 
 set :application, 'nsw-state-library-amplify'
 set :scm, :git
@@ -10,7 +10,7 @@ set :linked_files, %w{config/database.yml config/application.yml config/frontend
 set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle config/certificates app/files/uploads}
 set :keep_releases, 5
 set :rvm_type, :user
-set :rvm_ruby_version, 'ruby-2.3.0'
+set :rvm_ruby_version, 'ruby-2.5.0'
 
 set :puma_rackup, -> { File.join(current_path, 'config.ru') }
 set :puma_state, "#{shared_path}/tmp/pids/puma.state"
