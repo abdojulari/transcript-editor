@@ -1,5 +1,5 @@
 # lock '3.10.2'
-lock '3.6.0'
+lock '~> 3.6.0'
 
 
 p "------------------------------------------------------------"
@@ -34,6 +34,10 @@ set :puma_workers, 0
 set :puma_worker_timeout, nil
 set :puma_init_active_record, true
 set :puma_preload_app, false
+
+p "--------------------------------------------------------------"
+p "before deploy"
+
 
 namespace :deploy do
   after :restart, :clear_cache do
