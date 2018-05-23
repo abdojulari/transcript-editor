@@ -1,5 +1,8 @@
 lock '3.10.2'
 
+p "------------------------------------------------------------"
+p "starting deploy"
+
 set :application, 'nsw-state-library-amplify'
 set :scm, :git
 set :repo_url, 'git@github.com:slnswgithub/nsw-state-library-amplify.git'
@@ -11,6 +14,9 @@ set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle config/cer
 set :keep_releases, 5
 set :rvm_type, :user
 set :rvm_ruby_version, 'ruby-2.5.0@rails5'
+
+p "--------------------------------------------------------------"
+p shared_path
 
 set :puma_rackup, -> { File.join(current_path, 'config.ru') }
 set :puma_state, "#{shared_path}/tmp/pids/puma.state"
@@ -29,6 +35,8 @@ set :puma_preload_app, false
 
 namespace :deploy do
   after :restart, :clear_cache do
+     p "--------------------------------------------------------"
+     p "deploy restart"
     on roles(:web), in: :groups, limit: 3, wait: 10 do
       # Here we can do anything such as:
       # within release_path do
