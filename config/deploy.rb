@@ -1,9 +1,4 @@
-# lock '3.10.2'
-# lock '~> 3.6.0'
-
-
-p "------------------------------------------------------------"
-p "starting deploy"
+lock '3.10.2'
 
 set :application, 'nsw-state-library-amplify'
 set :scm, :git
@@ -12,17 +7,10 @@ set :branch, :develop
 set :deploy_to, '/home/deploy/nsw-state-library-amplify'
 set :pty, true
 set :linked_files, %w{config/database.yml config/application.yml config/frontend.yml}
-set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle config/certificates app/files/uploads .bundle}
+set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle config/certificates app/files/uploads }
 set :keep_releases, 5
 set :rvm_type, :user
 set :rvm_ruby_version, 'ruby-2.5.0'
-
-set :bundle_gemfile, -> { release_path.join('Gemfile') }
-
-p "--------------------------------------------------------------"
-p shared_path
-
-p "---------------1----------------------------------------------"
 
 set :puma_rackup, -> { File.join(current_path, 'config.ru') }
 set :puma_state, "#{shared_path}/tmp/pids/puma.state"
@@ -32,25 +20,15 @@ set :puma_conf, "#{shared_path}/puma.rb"
 set :puma_access_log, "#{shared_path}/log/puma_access.log"
 set :puma_error_log, "#{shared_path}/log/puma_error.log"
 set :puma_role, :app
-
-p "---------------2----------------------------------------------"
 set :puma_env, fetch(:rack_env, fetch(:rails_env))
 set :puma_threads, [0, 8]
 set :puma_workers, 0
 set :puma_worker_timeout, nil
 set :puma_init_active_record, true
-
-p "---------------3----------------------------------------------"
 set :puma_preload_app, false
-
-p "--------------------------------------------------------------"
-p "before deploy"
-
 
 namespace :deploy do
   after :restart, :clear_cache do
-     p "--------------------------------------------------------"
-     p "deploy restart"
     on roles(:web), in: :groups, limit: 3, wait: 10 do
       # Here we can do anything such as:
       # within release_path do

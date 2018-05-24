@@ -2,7 +2,6 @@ server 'ec2-52-63-16-71.ap-southeast-2.compute.amazonaws.com', user: 'deploy', r
 
 set :rails_env, 'staging'
 set :branch, 'feature/rails_5_upgrade'
-set :rvm_ruby_version, 'ruby-2.5.0'
 
 
 # server-based syntax
