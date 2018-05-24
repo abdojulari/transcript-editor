@@ -11,7 +11,6 @@ install_plugin Capistrano::SCM::Git
 require 'capistrano/bundler'
 require 'capistrano/rvm'
 require 'capistrano/rails/migrations'
-require 'capistrano/rails/assets'
 
 require 'capistrano/puma'
 install_plugin Capistrano::Puma
