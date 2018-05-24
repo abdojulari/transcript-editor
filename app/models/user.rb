@@ -5,7 +5,7 @@ class User < ApplicationRecord
           :rememberable, :trackable, :validatable, :omniauthable
   include DeviseTokenAuth::Concerns::User
 
-  belongs_to :user_role
+  belongs_to :user_role, optional: true
 
   def incrementLinesEdited(amount=1)
     update_attributes(lines_edited: lines_edited + amount)
