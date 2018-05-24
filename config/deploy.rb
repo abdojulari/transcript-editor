@@ -12,10 +12,12 @@ set :branch, :develop
 set :deploy_to, '/home/deploy/nsw-state-library-amplify'
 set :pty, true
 set :linked_files, %w{config/database.yml config/application.yml config/frontend.yml}
-set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle config/certificates app/files/uploads}
+set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle config/certificates app/files/uploads .bundle}
 set :keep_releases, 5
 set :rvm_type, :user
 set :rvm_ruby_version, 'ruby-2.5.0'
+
+set :bundle_gemfile, -> { release_path.join('Gemfile') }
 
 p "--------------------------------------------------------------"
 p shared_path
