@@ -4,6 +4,10 @@ require "capistrano/setup"
 # Include default deployment tasks.
 require "capistrano/deploy"
 
+# To ensure your project is compatible with future versions of Capistrano
+require "capistrano/scm/git"
+install_plugin Capistrano::SCM::Git
+
 require 'capistrano/bundler'
 require 'capistrano/rvm'
 require 'capistrano/rails/migrations'
