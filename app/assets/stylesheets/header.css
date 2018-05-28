@@ -1,0 +1,12 @@
+body { padding: 0; }    
+.header { position: static; }    
+.header .title-container { float: left; }    
+.header .account-container {      
+    position: absolute;      
+    right: 0;    
+}    
+.header .menu-container {      
+    position: absolute;      
+    right: 173px;    
+}    
+.sticky {  top: 0;  }  
