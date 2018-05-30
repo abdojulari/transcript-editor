@@ -69,6 +69,7 @@ end
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'pry'
   gem 'rspec-rails', '~> 3.4'
 end
 
@@ -97,3 +98,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # tracking errors
 gem 'bugsnag'
+gem 'sanitize'
+gem "draper"

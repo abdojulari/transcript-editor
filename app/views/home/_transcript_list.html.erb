@@ -1,0 +1,32 @@
+<div class="transcript-list" role="list">
+  <% transcripts.each do |transcript| %>
+    <% transcript = transcript.decorate %>
+    <a class="transcript-item" title="<%= transcript.title %>" role="listitem" href="<%= transcript.path %>">
+      <div class="item-image" style="background-image: url('<%= transcript.image_url %>')"></div>
+      <div class="item-subtitle"><%= transcript.collection_title  %></div>
+      <div class="item-title"><%= transcript.title %></div>
+      <div class="item-description">
+        <p>
+          <%= transcript.homepage_description %>
+        </p>
+      </div>
+      <div class="item-info">
+        <%= transcript.humanize_duration %>
+        <div class="item-contributors">
+           <%= transcript.humanize_contributors %>
+        </div>
+      </div>
+      <div class="item-status">
+        <div class="item-status-bar edited" style="width: <%= transcript.percent_edited %>%"></div>
+        <div class="item-status-bar completed" style="width: <%= transcript.percent_completed %>%"></div>
+        <div class="item-status-bar reviewing" style="width: <%= transcript.percent_reviewing %>%; left: <%= transcript.percent_completed %>%;"></div>
+      </div>
+      <div class="item-status-key">
+        <div class="item-status-text completed"><%= transcript.percent_completed%>% reached consensus</div>
+        <div class="item-status-text reviewing"><%= transcript.percent_reviewing %>% awaiting review</div>
+        <div class="item-status-text edited"><%= transcript.display_percentage_edits%>% have edits</div>
+      </div>
+    </a>
+  <% end %>
+</div>
+

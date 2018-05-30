@@ -27,27 +27,41 @@
 </div>
 <div class="transcripts-wrapper" role="main">
   <div data-sticky="#transcript-facets" class="sticky-on-scroll">
-    <div>
-      <div class="facet">
-        <label for="filter-by-collection">Filter by Collection: </label>
-        <div name="filter-by-collection" class="select collection">
-          <div class="select-active collection-filter">All Collections</div>
-          <div class="select-options collection-filter" role="menu" aria-hidden="true">
-            <!--
-              should loop through the published collections
-            -->
-            <a data-filter="collection_id" data-value="ALL" class="select-option collection filter-by" data-active="All Collections" title="All Collections" role="menuitemradio" aria-checked="true">All Collections</a>
-            <% @collection.each do |collection| %>
-              <a data-value="<%= collection.id %>" class="select-option collection filter-by" title="<%= collection.title %>" role="menuitemradio" aria-checked="true"><%= collection.title %></a>
-            <% end %>
+    <div id="transcript-facets" class="transcript-facets">
+      <div>
+        <div class="facet">
+          <label for="filter-by-collection">Filter by Collection: </label>
+          <div name="filter-by-collection" class="select collection">
+            <div class="select-active collection-filter">All Collections</div>
+            <div class="select-options collection-filter" role="menu" aria-hidden="true">
+              <%= raw collection_list(@collection) %>
+            </div>
           </div>
         </div>
+        <!-- Sort  collection -->
+        <div class="facet">
+          <label for="sort-by">Sort by: </label>
+          <div name="sort-by" class="select collection">
+            <div class="select-active">Completeness (most to least)</div>
+            <div class="select-options sort-by-filter" role="menu" aria-hidden="true">
+              <%= raw sorting_list(@sort_list) %>
+            </div>
+          </div>
+        </div>
+        <!--  end of sort  collection -->
+        <!-- search text box -->
+        <div class="facet">
+          <form id="search-form" class="search-form" role="search">
+            <input name="keyword" value="" placeholder="Search Title/Description">
+            <button type="submit" class="submit" title="Submit" aria-label="Submit"></button>
+          </form>
+        </div>
+        <!-- end of search textbox -->
       </div>
-      <!-- Sort  collection -->
-      <div class="facet">
-        <label for="sort-by">Sort by: </label>
-      </div>
-      <!--  end of sort  collection -->
+    </div>
+  </div>
+  <div id="transcript-results" class="transcript-results">
+    <div class="transcript-list" role="list">
     </div>
   </div>
 </div>

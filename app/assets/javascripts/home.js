@@ -2,11 +2,25 @@
 // All this logic will automatically be available in application.js.
 $(document).ready(function(){
 
-  $('.collection-filter').click(function(){
-    $('.select-options.collection-filter').toggle('slow')
+  $('.select.collection').click(function(){
+    $(this).toggleClass( "active" )
   });
 
-  $('.select-options.collection').click(function(){
-    alert('aa')
-  });
+
+  function loadTranscripts(){
+    data = {};
+    $.ajax({
+        type: "POST",
+        url: "/home/transcripts",
+        data: data,
+      success: function(data, textStatus, jqXHR){
+
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+
+      }
+    })
+  }
+
+  loadTranscripts()
 })

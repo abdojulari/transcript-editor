@@ -30,6 +30,10 @@ GEM
       globalid (>= 0.3.6)
     activemodel (5.2.0)
       activesupport (= 5.2.0)
+    activemodel-serializers-xml (1.0.2)
+      activemodel (> 5.x)
+      activesupport (> 5.x)
+      builder (~> 3.1)
     activerecord (5.2.0)
       activemodel (= 5.2.0)
       activesupport (= 5.2.0)
@@ -99,6 +103,7 @@ GEM
     chromedriver-helper (1.2.0)
       archive-zip (~> 0.10)
       nokogiri (~> 1.8)
+    coderay (1.1.2)
     concurrent-ruby (1.0.5)
     crass (1.0.4)
     dalli (2.7.8)
@@ -115,6 +120,12 @@ GEM
     docile (1.3.0)
     domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
+    draper (3.0.1)
+      actionpack (~> 5.0)
+      activemodel (~> 5.0)
+      activemodel-serializers-xml (~> 1.0)
+      activesupport (~> 5.0)
+      request_store (~> 1.0)
     ejs (1.1.1)
     erubi (1.7.1)
     excon (0.62.0)
@@ -333,6 +344,8 @@ GEM
     nio4r (2.3.1)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
+    nokogumbo (1.5.0)
+      nokogiri
     oauth2 (1.4.0)
       faraday (>= 0.8, < 0.13)
       jwt (~> 1.0)
@@ -374,6 +387,9 @@ GEM
       oauth2
       xml-simple
     powerpack (0.1.1)
+    pry (0.11.3)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
     public_suffix (3.0.2)
     puma (3.11.4)
     rack (2.0.5)
@@ -424,6 +440,8 @@ GEM
       nokogiri (~> 1.5)
       trollop (~> 2.1)
     redcarpet (3.4.0)
+    request_store (1.4.1)
+      rack (>= 1.4)
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
       railties (>= 4.2.0, < 5.3)
@@ -460,6 +478,10 @@ GEM
       nokogiri (>= 1.5.10)
     ruby_dep (1.5.0)
     rubyzip (1.2.1)
+    sanitize (4.6.5)
+      crass (~> 1.0.2)
+      nokogiri (>= 1.4.4)
+      nokogumbo (~> 1.4)
     sass (3.5.6)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -539,6 +561,7 @@ DEPENDENCIES
   chromedriver-helper
   dalli
   devise_token_auth
+  draper
   ejs
   execjs
   figaro
@@ -555,6 +578,7 @@ DEPENDENCIES
   pg
   pg_search
   popuparchive
+  pry
   puma
   rack-cors
   rails (~> 5.2.0)
@@ -562,6 +586,7 @@ DEPENDENCIES
   redcarpet
   rspec-rails (~> 3.4)
   rubocop
+  sanitize
   selenium-webdriver
   shoulda-matchers (~> 3.1)
   simplecov
