@@ -6,7 +6,7 @@ set :repo_url, 'git@github.com:slnswgithub/nsw-state-library-amplify.git'
 set :branch, :develop
 set :deploy_to, '/home/deploy/nsw-state-library-amplify'
 set :pty, true
-set :linked_files, %w{config/database.yml config/application.yml config/frontend.yml config/initializers/bugsnag.rb .env}
+set :linked_files, %w{config/database.yml config/application.yml config/frontend.yml config/initializers/bugsnag.rb}
 set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle config/certificates app/files/uploads }
 set :keep_releases, 5
 set :rvm_type, :user
