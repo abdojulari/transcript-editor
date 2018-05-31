@@ -14,7 +14,7 @@ class TranscriptDecorator < Draper::Decorator
   end
 
   def humanize_duration
-    Time.at(object.duration).utc.strftime("%H:%M:%S")
+    h.distance_of_time_in_words(object.duration)
   end
 
   def humanize_contributors
@@ -23,5 +23,33 @@ class TranscriptDecorator < Draper::Decorator
 
   def display_percentage_edits
     (object.percent_edited - object.percent_reviewing - object.percent_completed)
+  end
+
+  def display_edited_percentage
+    h.content_tag(:div, '', class: "item-status-bar edited", style: "width: #{object.percent_edited}%")
+  end
+
+  def display_completed_percentage
+    h.content_tag(:div, '', class: "item-status-bar completed", style: "width: #{object.percent_completed}%")
+  end
+
+  def display_reviewing_percentage
+    h.content_tag(:div, '', class: "item-status-bar reviewing", style: "width: #{object.percent_reviewing}%; left: #{object.percent_completed}%;")
+  end
+
+  def display_status_consensus
+    display_status("#{object.percent_completed}% reached consensus", 'completed', object.percent_completed)
+  end
+
+  def display_status_reviewing
+    display_status("#{object.percent_reviewing}% awaiting review", 'reviewing', object.percent_reviewing)
+  end
+
+  def display_status_edited
+    display_status("#{object.percent_edited}% have edits", 'edited', object.percent_edited)
+  end
+
+  def display_status(text, klass, percentage)
+    h.content_tag(:div, text, class: "item-status-text #{klass}") if percentage > 0
   end
 end

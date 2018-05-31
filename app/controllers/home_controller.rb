@@ -6,6 +6,11 @@ class HomeController < ApplicationController
   end
 
   def transcripts
-    @transcripts = Transcript.getForHomepage(params[:page], {order: 'id'})
+    @transcripts = TranscriptService.search(sort_params)
+  end
+
+  private
+  def sort_params
+    params.require(:data).permit(:collectionId, :sortId, :text)
   end
 end

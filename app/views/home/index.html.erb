@@ -26,7 +26,7 @@
   </div>
 </div>
 <div class="transcripts-wrapper" role="main">
-  <div data-sticky="#transcript-facets" class="sticky-on-scroll">
+  <div data-sticky="#transcript-facets" class="sticky-on-scroll" id="fixedHeader">
     <div id="transcript-facets" class="transcript-facets">
       <div>
         <div class="facet">
@@ -52,7 +52,7 @@
         <!-- search text box -->
         <div class="facet">
           <form id="search-form" class="search-form" role="search">
-            <input name="keyword" value="" placeholder="Search Title/Description">
+            <input name="keyword" id="searchText" value="" placeholder="Search Title/Description">
             <button type="submit" class="submit" title="Submit" aria-label="Submit"></button>
           </form>
         </div>
@@ -65,6 +65,5 @@
     </div>
   </div>
 </div>
-<button type="button" class="btn btn-danger">Danger</button>
 
 

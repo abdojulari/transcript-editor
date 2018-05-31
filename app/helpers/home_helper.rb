@@ -12,9 +12,9 @@ Faith Bandler: MLOH 307: Faith Bandler interviewed by Carolyn Craig, 1997"
   end
 
   def collection_list(list)
-    html = "<a data-filter='collection_id' data-value='ALL' class='select-option collection filter-by' data-active='All Collections' title='All Collections' role='menuitemradio' aria-checked='true'>All Collections</a>"
+    html = "<a data-filter='collection' data-id='' data-value='ALL' class='select-option collection filter-by' data-active='All Collections' title='All Collections' role='menuitemradio' aria-checked='true'>All Collections</a>"
     list.each do |item|
-      html += "<a data-filter='collection_id' class='select-option collection filter-by' title='#{item.title}' role='menuitemradio' aria-checked='true'>#{item.title}</a>"
+      html += "<a data-filter='collection' data-id='#{item.id}' class='select-option collection filter-by' title='#{item.title}' role='menuitemradio' aria-checked='true'>#{item.title}</a>"
     end
     html
   end
@@ -22,7 +22,7 @@ Faith Bandler: MLOH 307: Faith Bandler interviewed by Carolyn Craig, 1997"
   def sorting_list(list)
     html = ""
     list.each do |item|
-      html += "<a data-filter='collection_id' class='select-option collection filter-by' title='#{item.title}' role='menuitemradio' aria-checked='true'>#{item.title}</a>"
+      html += "<a data-filter='sorting' data-id='#{item.id}' class='select-option collection filter-by' title='#{item.title}' role='menuitemradio' aria-checked='true'>#{item.title}</a>"
     end
     html
   end

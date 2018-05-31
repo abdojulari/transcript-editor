@@ -17,14 +17,14 @@
         </div>
       </div>
       <div class="item-status">
-        <div class="item-status-bar edited" style="width: <%= transcript.percent_edited %>%"></div>
-        <div class="item-status-bar completed" style="width: <%= transcript.percent_completed %>%"></div>
-        <div class="item-status-bar reviewing" style="width: <%= transcript.percent_reviewing %>%; left: <%= transcript.percent_completed %>%;"></div>
+        <%= transcript.display_edited_percentage %>
+        <%= transcript.display_completed_percentage %>
+        <%= transcript.display_reviewing_percentage %>
       </div>
       <div class="item-status-key">
-        <div class="item-status-text completed"><%= transcript.percent_completed%>% reached consensus</div>
-        <div class="item-status-text reviewing"><%= transcript.percent_reviewing %>% awaiting review</div>
-        <div class="item-status-text edited"><%= transcript.display_percentage_edits%>% have edits</div>
+        <%= transcript.display_status_consensus %>
+        <%= transcript.display_status_reviewing %>
+        <%= transcript.display_status_edited %>
       </div>
     </a>
   <% end %>
