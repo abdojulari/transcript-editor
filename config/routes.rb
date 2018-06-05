@@ -60,5 +60,6 @@ Rails.application.routes.draw do
   end
 
 
-  root :to => 'default#index'
+  # root :to => 'default#index'
+  root :to => 'home#index'
 end

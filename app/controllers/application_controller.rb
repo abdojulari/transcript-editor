@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  include DeviseTokenAuth::Concerns::SetUserByToken
+  # include DeviseTokenAuth::Concerns::SetUserByToken
   include Authentication
 
   # Prevent CSRF attacks by raising an exception.
@@ -15,6 +15,7 @@ class ApplicationController < ActionController::Base
   # self.cache_store = ActionController::Base.cache_store
 
   before_action :touch_session
+
 
   # Ensure a session id is available for all!
   def touch_session

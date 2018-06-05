@@ -1,5 +1,7 @@
 class HomeController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :transcripts]
   layout 'public'
+
   def index
     @collection = Collection.all
     @sort_list = SortList.list
