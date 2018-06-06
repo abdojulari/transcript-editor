@@ -1,0 +1,34 @@
+<%= raw edited_info(edits) %>
+<div class="dashboard-transcript-list" role="list">
+  <% list = group_edits_by_transcripts(edits) %>
+  <% list.each do |key, value|
+     transcript = value[:transcript]
+     edits = value[:edits]
+  %>
+  <div class="dashboard-transcript" role="listitem">
+    <div class="transcript-info">
+      <a href="<%= transcript_url(transcript) %>">
+        <% if transcript.image_url %>
+            <img src="<%= transcript.image_url %>" alt="Image of <%= transcript.title %>" />
+          <% end %>
+        <%= transcript.title %>
+        <a>
+    </div>
+    <div class="transcript-stats">
+      <div class="stat">
+        <div class="stat-label">Lines edited:</div>
+        <div class="stat-value"><%= edits.length %></div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Listened to:</div>
+        <div class="stat-value small">~<%= time_in_seconds(edits.length)  %> of audio</div>
+      </div>
+    </div>
+    <div class="transcript-edits">
+      <% edits.each do |e| %>
+        <div class="transcript-edit"><%= e.text %></div>
+      <% end %>
+    </div>
+  </div>
+  <% end %>
+</div>

@@ -14,7 +14,7 @@ class TranscriptDecorator < Draper::Decorator
   end
 
   def humanize_duration
-    h.distance_of_time_in_words(object.duration)
+    h.display_time(object.duration)
   end
 
   def humanize_contributors

@@ -23,6 +23,10 @@ class Transcript < ApplicationRecord
   has_many :transcript_edits
   has_many :transcript_speakers
 
+  def self.seconds_per_line
+    5
+  end
+
   # speakers getters and setters used to manage the transcript_speakers
   # when creating or editing a transcript
   def speakers

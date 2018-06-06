@@ -15,4 +15,9 @@ module ApplicationHelper
   def staging?
     Rails.env.staging?
   end
+
+  #FIXME: this needs to be changed to the current time format
+  def display_time(time)
+    Time.at(time).utc.strftime("%H:%M:%S")
+  end
 end

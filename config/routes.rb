@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     }
 
   match 'page/:id' => 'default#index', :via => [:get]
-  match 'dashboard' => 'default#index', :via => [:get]
+  # match 'dashboard' => 'default#index', :via => [:get]
   match 'transcript_lines/:id/resolve' => 'transcript_lines#resolve', :via => [:post]
   match 'search' => 'transcripts#search', :via => [:get]
 
@@ -58,6 +58,8 @@ Rails.application.routes.draw do
       post "transcripts"
     end
   end
+
+  resources :dashboard, only: [:index]
 
 
   # root :to => 'default#index'
