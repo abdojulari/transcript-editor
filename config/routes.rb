@@ -25,7 +25,8 @@ Rails.application.routes.draw do
       'resource_class' => 'User'
     }
 
-  match 'page/:id' => 'default#index', :via => [:get]
+  match 'page/faq' => 'page#faq', :via => [:get]
+  match 'page/about' => 'page#about', :via => [:get]
   # match 'dashboard' => 'default#index', :via => [:get]
   match 'transcript_lines/:id/resolve' => 'transcript_lines#resolve', :via => [:post]
   match 'search' => 'transcripts#search', :via => [:get]
@@ -60,7 +61,6 @@ Rails.application.routes.draw do
   end
 
   resources :dashboard, only: [:index]
-
 
   # root :to => 'default#index'
   root :to => 'home#index'

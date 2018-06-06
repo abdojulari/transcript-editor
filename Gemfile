@@ -102,3 +102,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'bugsnag'
 gem 'sanitize'
 gem "draper"
+
+gem 'redcarpet'

@@ -18,6 +18,19 @@ module ApplicationHelper
 
   #FIXME: this needs to be changed to the current time format
   def display_time(time)
-    Time.at(time).utc.strftime("%H:%M:%S")
+    time_string = ""
+    t =  Time.at(time).utc
+    h = t.hour
+    m = t.min
+    s = t.sec
+
+    if h > 0 && m > 0
+      time_string = "#{h}h #{m}m"
+    elsif m > 0 && s > 0
+      time_string = "#{m}m #{s}s"
+    elsif s > 0
+      time_string = "#{s}s"
+    end
+    time_string
   end
 end
