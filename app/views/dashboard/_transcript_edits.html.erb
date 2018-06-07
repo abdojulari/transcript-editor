@@ -8,11 +8,9 @@
   <div class="dashboard-transcript" role="listitem">
     <div class="transcript-info">
       <a href="<%= transcript_url(transcript) %>">
-        <% if transcript.image_url %>
-            <img src="<%= transcript.image_url %>" alt="Image of <%= transcript.title %>" />
-          <% end %>
+        <%= image_tag transcript.image_url.to_s, alt: "Image of #{transcript.title}" %>
         <%= transcript.title %>
-        <a>
+      </a>
     </div>
     <div class="transcript-stats">
       <div class="stat">

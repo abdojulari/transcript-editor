@@ -9,6 +9,8 @@ class User < ApplicationRecord
 
   belongs_to :user_role, optional: true
 
+  attr_accessor :total_edits
+
   def incrementLinesEdited(amount=1)
     update_attributes(lines_edited: lines_edited + amount)
   end

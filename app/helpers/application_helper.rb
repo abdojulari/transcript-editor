@@ -16,6 +16,10 @@ module ApplicationHelper
     Rails.env.staging?
   end
 
+  def current_user_edits
+    content_tag :span, current_user.total_edits, class: "score active"
+  end
+
   #FIXME: this needs to be changed to the current time format
   def display_time(time)
     time_string = ""

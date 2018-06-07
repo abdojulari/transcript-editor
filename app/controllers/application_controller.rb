@@ -15,10 +15,15 @@ class ApplicationController < ActionController::Base
   # self.cache_store = ActionController::Base.cache_store
 
   before_action :touch_session
+  before_action :load_user_edits
 
 
   # Ensure a session id is available for all!
   def touch_session
     session[:touched] = 1
+  end
+
+  def load_user_edits
+    current_user.total_edits ||= TranscriptEdit.getByUser(current_user.id).count if current_user
   end
 end

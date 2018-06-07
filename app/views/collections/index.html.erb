@@ -37,7 +37,7 @@
         <div class="collection-item">
           <h2><%= collection.title %></h2>
           <p><strong><%= collection.library_catalogue_title %></strong></p>
-          <p><%= collection.description %></p>
+          <p><%=  raw collection.description %></p>
           <p><a href="<%= collection.url %>">View in Library Catalogue</a></p>
         </div>
       <% end %>

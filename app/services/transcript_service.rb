@@ -5,7 +5,6 @@ class TranscriptService
     str = sort_string(params[:sortId])
     order_string = str.blank? ? 'id' : str
     ar_relation = Transcript.getForHomepage(params[:page], {order: order_string})
-
     # collection filtering
     ar_relation = ar_relation.where("transcripts.collection_id = #{params[:collectionId]}") if  params[:collectionId].to_i > 0
 
@@ -14,8 +13,6 @@ class TranscriptService
       key = "%#{params[:text]}%"
       ar_relation = ar_relation.where("transcripts.title ILIKE :search or transcripts.description ILIKE :search", search: key)
     end
-
-
     ar_relation
   end
 

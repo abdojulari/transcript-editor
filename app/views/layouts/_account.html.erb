@@ -1,7 +1,7 @@
 <div class="select">
   <% if user_signed_in? %>
     <div class="select-active" title="Signed in as <%= current_user.name %>">
-      <span class="score">0</span>
+      <%= raw current_user_edits %>
       <%= current_user.name %>
     </div>
     <div class="select-options account-menu menu" role="menu" aria-hidden="true" aria-label="User account menu">

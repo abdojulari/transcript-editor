@@ -103,4 +103,3 @@ gem 'bugsnag'
 gem 'sanitize'
 gem "draper"
 
-gem 'redcarpet'
