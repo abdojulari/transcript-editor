@@ -9,7 +9,12 @@
   "allowTranscriptDownload": false,
   "gaCode": "UA-60323667-4",
   "adminEmails": [
-    "jason.corum@gmail.com"
+    "jason.corum@gmail.com",
+    "roosa.sadie@gmail.com",
+    "caseydaviskaufman@gmail.com",
+    "kcariani@gmail.com",
+    "rebeccafraimow@gmail.com",
+    "rynmarchese@gmail.com"
   ],
   "authProviders": [{ "name": "google", "label": "Google", "path": "/auth/google_oauth2" }],
   "consensus": {
@@ -39,8 +44,6 @@
         {"label": "Editing", "file": "ed_tutorial_1.md"},
         {"label": "Conventions", "file": "ed_tutorial_2.md"},
         {"label": "Commands", "file": "ed_tutorial_3.md"},
-        {"label": "Speaker Identification", "file": "ed_tutorial_4.md"},
-        {"label": "Verify", "file": "ed_tutorial_5.md"},
         {"label": "Have fun!", "file": "ed_tutorial_6.md"}
       ]
     }
