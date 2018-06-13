@@ -36,7 +36,7 @@ $(document).on('turbolinks:load',function(){
         url: "/search/query",
         data: data,
       success: function(data, textStatus, jqXHR){
-        var instance = new Mark("div.transcript-list-search");
+        var instance = new Mark("a.item-line");
         instance.mark(searchText)
       },
       error: function(jqXHR, textStatus, errorThrown){
