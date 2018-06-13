@@ -329,7 +329,7 @@ class Transcript < ApplicationRecord
     if options[:deep].present? && options[:q].present? && !options[:q].blank?
       # Build initial query w/ pagination
       transcripts = TranscriptLine
-        .select('transcripts.*, COALESCE(collections.title, \'\') AS collection_title, transcript_lines.guess_text, transcript_lines.original_text, transcript_lines.start_time')
+        .select('transcripts.*, COALESCE(collections.title, \'\') AS collection_title, transcript_lines.guess_text, transcript_lines.original_text, transcript_lines.start_time, transcript_lines.transcript_id')
         .joins('INNER JOIN transcripts ON transcripts.id = transcript_lines.transcript_id')
         .joins('LEFT OUTER JOIN collections ON collections.id = transcripts.collection_id')
 

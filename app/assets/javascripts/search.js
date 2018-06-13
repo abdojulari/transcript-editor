@@ -30,7 +30,8 @@ $(document).on('turbolinks:load',function(){
   function loadTranscripts(){
     data = {
       collection_id: collectionId,
-      q: searchText
+      q: searchText,
+      deep: 1
     };
     $.ajax({
         url: "/search/query",

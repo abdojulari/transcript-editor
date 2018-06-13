@@ -9,7 +9,7 @@ module SearchHelper
 
   def search_text(transcript, query)
     if !query.blank?
-      full_path = "#{transcript.path}?t=#{(transcript.duration / 1000)}"
+      full_path = "#{transcript.transcript.decorate.path}?t=#{(transcript.start_time / 1000)}"
       text = transcript.guess_text.empty? ? transcript.original_text : transcript.guess_text
       content_tag :a, href: full_path, class: 'item-line' do
         "...#{text}.."
