@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   match 'page/about' => 'page#about', :via => [:get]
   # match 'dashboard' => 'default#index', :via => [:get]
   match 'transcript_lines/:id/resolve' => 'transcript_lines#resolve', :via => [:post]
-  match 'search' => 'transcripts#search', :via => [:get]
+  # match 'search' => 'transcripts#search', :via => [:get]
 
   # admin
   namespace :admin do
@@ -61,6 +61,11 @@ Rails.application.routes.draw do
   end
 
   resources :dashboard, only: [:index]
+  resources :search, only: [:index] do
+    collection do
+      get 'query'
+    end
+  end
 
   # root :to => 'default#index'
   root :to => 'home#index'

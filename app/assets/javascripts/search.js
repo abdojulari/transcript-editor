@@ -1,9 +1,6 @@
-// Place all the behaviors and hooks related to the matching controller here.
-// All this logic will automatically be available in application.js.
 $(document).on('turbolinks:load',function(){
 
   var collectionId = 0;
-  var sortId = '';
   var searchText = '';
 
 
@@ -15,15 +12,12 @@ $(document).on('turbolinks:load',function(){
     if ($(this).attr('data-filter') == 'collection'){
       collectionId = $(this).attr('data-id');
     }
-    if ($(this).attr('data-filter') == 'sorting'){
-      sortId = $(this).attr('data-id');
-    }
     loadTranscripts();
     scrollUp()
   })
 
   $("#search-form").submit(function(event){
-    searchText = $('#searchText').val()
+    searchText = $('#keyword').val()
     event.preventDefault();
     loadTranscripts()
     scrollUp()
@@ -35,15 +29,15 @@ $(document).on('turbolinks:load',function(){
 
   function loadTranscripts(){
     data = {
-      collectionId: collectionId,
-      sortId: sortId,
-      text: searchText
+      collection_id: collectionId,
+      q: searchText
     };
     $.ajax({
-        type: "POST",
-        url: "/home/transcripts",
-        data: {data: data},
+        url: "/search/query",
+        data: data,
       success: function(data, textStatus, jqXHR){
+        var instance = new Mark("div.transcript-list-search");
+        instance.mark(searchText)
       },
       error: function(jqXHR, textStatus, errorThrown){
 

@@ -13,8 +13,12 @@ class TranscriptDecorator < Draper::Decorator
     Sanitize.fragment(object.description)
   end
 
-  def humanize_duration
-    h.display_time(object.duration)
+  def search_title
+    "#{collection_title} - #{object.title}"
+  end
+
+  def humanize_duration(duration = object.duration)
+    h.display_time(duration)
   end
 
   def humanize_contributors

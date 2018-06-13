@@ -1,0 +1,18 @@
+<% transcripts.each do |transcript|
+   transcript = transcript.decorate
+%>
+<%= query %>
+<div class="search-item">
+  <div class="item-image" style="background-image: url('<%= transcript.image_url %>')"></div>
+  <div class="item-details">
+    <div class="item-title">
+      <%= transcript.search_title  %>
+      <% if transcript.start_time.to_i > 0 %>
+        (<%= transcript.humanize_duration(transcript.duration / 1000) %>)
+      <% end %>
+    </div>
+    <%= raw search_text(transcript, query) %>
+    <%= raw item_tag(transcript, query) %>
+  </div>
+</div>
+<% end %>
