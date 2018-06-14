@@ -17,7 +17,7 @@ module ApplicationHelper
   end
 
   def current_user_edits
-    number = number_to_human(1200, :format => '%n%u', :units => { :thousand => 'K+'  })
+    number = number_to_human(current_user.total_edits, :format => '%n%u', :units => { :thousand => 'K+'  })
     content_tag :span, number, class: "score active"
   end
 
