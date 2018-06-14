@@ -7,7 +7,7 @@
     <div class="item-title">
       <%= transcript.search_title  %>
       <% if transcript.start_time.to_i > 0 %>
-        <%= transcript.start_time.to_f / 1000 %>
+        (<%= time_display(transcript.start_time) %>)
       <% end %>
     </div>
     <%= raw search_text(transcript, query) %>
