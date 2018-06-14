@@ -1,6 +1,6 @@
 $(document).on('turbolinks:load',function(){
 
-  var collectionId = 0;
+  var collectionId = "";
   var searchText = '';
 
 
@@ -16,6 +16,22 @@ $(document).on('turbolinks:load',function(){
     scrollUp()
   })
 
+  $("#keyword").on('keyup',function(e){
+    if (($(this).val() == "") && (e.keyCode == 8)){
+      searchText = "";
+      loadTranscripts()
+      scrollUp()
+    }
+  })
+
+
+  $('.input').keypress(function (e) {
+    if (e.which == 13) {
+      $('#search-form').submit();
+      return false;
+    }
+  });
+
   $("#search-form").submit(function(event){
     searchText = $('#keyword').val()
     event.preventDefault();
@@ -27,7 +43,16 @@ $(document).on('turbolinks:load',function(){
     $(window).trigger('scroll-to', [$('#search-form'), 10]);
   }
 
+  function progressHtml() {
+    str = '<div class="progress"> \
+        <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" \
+    style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div> \
+      </div>'
+    return str
+  }
+
   function loadTranscripts(){
+    $(".transcript-list-search").html('<div class="loading"></div>')
     data = {
       collection_id: collectionId,
       q: searchText,

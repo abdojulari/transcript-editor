@@ -1,4 +1,3 @@
-<script src="vendor/mark.js/dist/mark.min.js"></script>
 <% content_for :home_banner do %>
   <div class="header-bar">
     <%= link_to root_path, class: "title", "aria-label": "Click to return to homepage" do %>
@@ -13,7 +12,7 @@
   <input name="keyword" id="keyword" value="" placeholder="Search All Transcripts">
   <button type="submit" class="submit" title="Submit" aria-label="Submit"></button>
 </form>
-<div data-sticky="#transcript-facets" class="sticky-on-scroll">
+<div data-sticky="#transcript-facets" class="sticky-on-scroll" id="fixedHeader">
   <div id="transcript-facets" class="transcript-facets">
     <div>
       <div class="facet">
@@ -29,5 +28,6 @@
   </div>
 </div>
 <div id="transcript-results" class="transcript-results">
-  <div class="transcript-list-search" role="list"></div>
+  <div id="search-result" class="transcript-list-search" role="list">
+  </div>
 </div>

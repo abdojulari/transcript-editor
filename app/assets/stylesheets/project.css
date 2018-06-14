@@ -1470,6 +1470,18 @@ body {
     color: #837E77;
     font-size: 1.2em;
 }
+.transcript-list-search>p:first-child {
+    text-align: center;
+    font-style: italic;
+    color: #837E77;
+    font-size: 1.2em;
+}
+
+.transcript-list-search .item-title{
+  font-size: 1.2em;
+  padding-top: 0;
+}
+
 .transcript-list {
     text-align: center;
     position: relative;

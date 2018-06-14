@@ -17,7 +17,8 @@ module ApplicationHelper
   end
 
   def current_user_edits
-    content_tag :span, current_user.total_edits, class: "score active"
+    number = number_to_human(1200, :format => '%n%u', :units => { :thousand => 'K+'  })
+    content_tag :span, number, class: "score active"
   end
 
   #FIXME: this needs to be changed to the current time format
