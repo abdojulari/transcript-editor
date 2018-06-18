@@ -240,8 +240,8 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
         "lines_edited":7
     }
     PubSub.publish('auth.validation.success', user)
-    console.log("user logs in...")
-  }
+    console.log("user 1 logs in...")
+  },
 
   onAudioLoad: function(){
     this.data.debug && console.log("Loaded audio files");

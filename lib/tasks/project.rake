@@ -11,7 +11,7 @@ namespace :project do
   #        rake project:load['oral-history','assets']
   desc "Load project by key: Builds main index.html and project.js which contains all project data (metadata, pages, templates)"
   task :load, [:project_key, :scope] => :environment do |task, args|
-    args.with_defaults project_key: 'sample'
+    args.with_defaults project_key: 'nsw-state-library-amplify'
     args.with_defaults scope: 'all'
 
     # Validate project
