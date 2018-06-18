@@ -3,12 +3,29 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
   template: _.template(TEMPLATES['transcript_edit.ejs']),
 
   initialize: function(data){
+
+    // Testing
+    user = {"id":65,
+        "provider":"google_oauth2",
+        "uid":"102719382952152084692",
+        "name":"Sameera Gayan",
+        "nickname":null,
+        "image":"https://lh3.googleusercontent.com/-0KsUqCpdSmU/AAAAAAAAAAI/AAAAAAAAAKY/F7zMcCGAy5o/photo.jpg",
+        "email":"sameera@reinteractive.net",
+        "user_role_id":4,
+        "lines_edited":7
+    }
+    PubSub.publish('auth.validation.success', user)
+    console.log("user logs in...")
+
     this.data = data;
 
     this.loadConventions();
     this.loadTranscript();
     // this.loadTutorial();
     this.listenForAuth();
+
+
   },
 
   finished: function(){
