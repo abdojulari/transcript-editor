@@ -251,6 +251,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.$('.start-play, .play-all').removeClass('disabled');
     this.loadListeners();
     this.message('Loaded transcript');
+    this.loadUser();
     if (!this.loaded) this.loaded = true;
     if (this.queue_start) this.start();
     this.queue_start = false;
