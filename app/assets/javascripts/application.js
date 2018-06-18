@@ -16,7 +16,4 @@
 //= require turbolinks
 //= require bootstrap
 //= require components
-//= require home
-//= require search
-//= require fixed_header
 
