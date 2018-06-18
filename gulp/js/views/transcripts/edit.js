@@ -4,20 +4,6 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
 
   initialize: function(data){
 
-    // Testing
-    user = {"id":65,
-        "provider":"google_oauth2",
-        "uid":"102719382952152084692",
-        "name":"Sameera Gayan",
-        "nickname":null,
-        "image":"https://lh3.googleusercontent.com/-0KsUqCpdSmU/AAAAAAAAAAI/AAAAAAAAAKY/F7zMcCGAy5o/photo.jpg",
-        "email":"sameera@reinteractive.net",
-        "user_role_id":4,
-        "lines_edited":7
-    }
-    PubSub.publish('auth.validation.success', user)
-    console.log("user logs in...")
-
     this.data = data;
 
     this.loadConventions();
@@ -238,6 +224,24 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     var userProgressView = new app.views.TranscriptUserProgress({lines: availableLines});
     this.$('#transcript-user-progress').append(userProgressView.$el);
   },
+
+  // this function needs to be refactor later
+  loadUser: function(){
+    this.message('Logged in user');
+    // Testing
+    user = {"id":65,
+        "provider":"google_oauth2",
+        "uid":"102719382952152084692",
+        "name":"Sameera Gayan",
+        "nickname":null,
+        "image":"https://lh3.googleusercontent.com/-0KsUqCpdSmU/AAAAAAAAAAI/AAAAAAAAAKY/F7zMcCGAy5o/photo.jpg",
+        "email":"sameera@reinteractive.net",
+        "user_role_id":4,
+        "lines_edited":7
+    }
+    PubSub.publish('auth.validation.success', user)
+    console.log("user logs in...")
+  }
 
   onAudioLoad: function(){
     this.data.debug && console.log("Loaded audio files");
