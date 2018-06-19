@@ -1,4 +1,7 @@
 class FlagsController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: [:create]
+  before_action :authenticate_user, only: [:create]
+
   before_action :set_flag, only: [:show, :update, :destroy]
 
   # GET /flags.json

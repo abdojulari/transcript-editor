@@ -26,4 +26,8 @@ class ApplicationController < ActionController::Base
   def load_user_edits
     current_user.total_edits ||= TranscriptEdit.getByUser(current_user.id).count if current_user
   end
+
+  def authenticate_user
+    raise ActionController::InvalidAuthenticityToken unless current_user
+  end
 end
