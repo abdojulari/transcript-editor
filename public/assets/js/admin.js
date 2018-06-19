@@ -13299,7 +13299,32 @@ app.views.Account = app.views.Base.extend({
     this.data = data;
     this.data.score = 0;
     this.loadListeners();
+    this.loadUser();
+
     this.render();
+  },
+
+  // this function needs to be refactor later
+  loadUser: function(){
+    var self = this;
+
+    console.log('Logged in user');
+    $.post(API_URL + "/authenticate.json", function(data) {
+      user = data.user;
+
+      if (user.id) {
+        self.data.signedIn = true;
+        self.data.user = user;
+        self.data.score = user.lines_edited;
+        PubSub.publish('auth.validation.success', user)
+      }
+      else {
+        self.data.signedIn = false;
+        self.data.user = null;
+        self.data.score = null;
+
+      }
+    });
   },
 
   doAuth: function(provider) {

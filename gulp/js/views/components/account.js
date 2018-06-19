@@ -21,43 +21,25 @@ app.views.Account = app.views.Base.extend({
 
   // this function needs to be refactor later
   loadUser: function(){
+    var self = this;
+
     console.log('Logged in user');
-    // Testing
-    user = {"id":65,
-        "provider":"google_oauth2",
-        "uid":"102719382952152084692",
-        "name":"Sameera Gayan",
-        "nickname":null,
-        "image":"https://lh3.googleusercontent.com/-0KsUqCpdSmU/AAAAAAAAAAI/AAAAAAAAAKY/F7zMcCGAy5o/photo.jpg",
-        "email":"sameera@reinteractive.net",
-        "user_role_id":4,
-        "lines_edited":7
-    }
-    this.checkLogin()
-    PubSub.publish('auth.validation.success', user)
-    console.log("user 1 logs in...")
-  },
+    $.post(API_URL + "/authenticate.json", function(data) {
+      user = data.user;
 
-  checkLogin: function(){
-    console.log("check login...")
-    user = {"id":65,
-        "provider":"google_oauth2",
-        "uid":"102719382952152084692",
-        "name":"Sameera Gayan",
-        "nickname":null,
-        "image":"https://lh3.googleusercontent.com/-0KsUqCpdSmU/AAAAAAAAAAI/AAAAAAAAAKY/F7zMcCGAy5o/photo.jpg",
-        "email":"sameera@reinteractive.net",
-        "user_role_id":4,
-        "lines_edited":7
-    }
+      if (user.id) {
+        self.data.signedIn = true;
+        self.data.user = user;
+        self.data.score = user.lines_edited;
+        PubSub.publish('auth.validation.success', user)
+      }
+      else {
+        self.data.signedIn = false;
+        self.data.user = null;
+        self.data.score = null;
 
-
-    // debugger
-    // $.auth.data.user.signedIn = true;
-    this.data.signedIn = true;
-    this.data.user = user;
-    this.data.score = user.lines_edited;
-    // this.render();
+      }
+    });
   },
 
   doAuth: function(provider) {

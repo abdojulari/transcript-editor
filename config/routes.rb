@@ -67,6 +67,10 @@ Rails.application.routes.draw do
     end
   end
 
+  match 'authenticate' => "authentication#authenticate", :via => [:post]
+
+
+
   # root :to => 'default#index'
   root :to => 'home#index'
 end
