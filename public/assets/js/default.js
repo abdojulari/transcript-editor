@@ -13688,7 +13688,50 @@ app.views.Account = app.views.Base.extend({
     this.data = data;
     this.data.score = 0;
     this.loadListeners();
+    this.loadUser();
+
     this.render();
+  },
+
+  // this function needs to be refactor later
+  loadUser: function(){
+    console.log('Logged in user');
+    // Testing
+    user = {"id":65,
+        "provider":"google_oauth2",
+        "uid":"102719382952152084692",
+        "name":"Sameera Gayan",
+        "nickname":null,
+        "image":"https://lh3.googleusercontent.com/-0KsUqCpdSmU/AAAAAAAAAAI/AAAAAAAAAKY/F7zMcCGAy5o/photo.jpg",
+        "email":"sameera@reinteractive.net",
+        "user_role_id":4,
+        "lines_edited":7
+    }
+    this.checkLogin()
+    PubSub.publish('auth.validation.success', user)
+    console.log("user 1 logs in...")
+  },
+
+  checkLogin: function(){
+    console.log("check login...")
+    user = {"id":65,
+        "provider":"google_oauth2",
+        "uid":"102719382952152084692",
+        "name":"Sameera Gayan",
+        "nickname":null,
+        "image":"https://lh3.googleusercontent.com/-0KsUqCpdSmU/AAAAAAAAAAI/AAAAAAAAAKY/F7zMcCGAy5o/photo.jpg",
+        "email":"sameera@reinteractive.net",
+        "user_role_id":4,
+        "lines_edited":7
+    }
+
+
+    // debugger
+    // $.auth.data.user.signedIn = true;
+    this.data.signedIn = true;
+    this.data.user = user;
+    this.data.score = user.lines_edited;
+    // this.render();
   },
 
   doAuth: function(provider) {
@@ -16010,24 +16053,6 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.$('#transcript-user-progress').append(userProgressView.$el);
   },
 
-  // this function needs to be refactor later
-  loadUser: function(){
-    this.message('Logged in user');
-    // Testing
-    user = {"id":65,
-        "provider":"google_oauth2",
-        "uid":"102719382952152084692",
-        "name":"Sameera Gayan",
-        "nickname":null,
-        "image":"https://lh3.googleusercontent.com/-0KsUqCpdSmU/AAAAAAAAAAI/AAAAAAAAAKY/F7zMcCGAy5o/photo.jpg",
-        "email":"sameera@reinteractive.net",
-        "user_role_id":4,
-        "lines_edited":7
-    }
-    PubSub.publish('auth.validation.success', user)
-    console.log("user 1 logs in...")
-  },
-
   onAudioLoad: function(){
     this.data.debug && console.log("Loaded audio files");
 
@@ -16036,7 +16061,6 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.$('.start-play, .play-all').removeClass('disabled');
     this.loadListeners();
     this.message('Loaded transcript');
-    this.loadUser();
     if (!this.loaded) this.loaded = true;
     if (this.queue_start) this.start();
     this.queue_start = false;

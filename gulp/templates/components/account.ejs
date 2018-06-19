@@ -1,4 +1,4 @@
-<% if (user.signedIn) { %>
+<% if (signedIn) { %>
 
   <div class="select">
     <div class="select-active" title="Signed in as <%= user.name %>"><span class="score<%= score > 0 ? ' active':'' %>"><%= UTIL.formatNumberTiny(score) %></span> <%= user.name %></div>
