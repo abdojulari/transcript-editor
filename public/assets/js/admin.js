@@ -13297,6 +13297,7 @@ app.views.Account = app.views.Base.extend({
 
   initialize: function(data){
     this.data = data;
+    this.data.signedIn = false;
     this.data.score = 0;
     this.loadListeners();
     this.loadUser();
