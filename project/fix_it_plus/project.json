@@ -14,7 +14,8 @@
     "caseydaviskaufman@gmail.com",
     "kcariani@gmail.com",
     "rebeccafraimow@gmail.com",
-    "rynmarchese@gmail.com"
+    "rynmarchese@gmail.com",
+    "lesliek.bourgeois@gmail.com"
   ],
   "authProviders": [{ "name": "google", "label": "Google", "path": "/auth/google_oauth2" }],
   "consensus": {
