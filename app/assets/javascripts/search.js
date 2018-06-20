@@ -1,4 +1,4 @@
-$(document).on('turbolinks:load',function(){
+$(document).ready(function(){
 
   var collectionId = "";
   var searchText = '';
@@ -67,7 +67,9 @@ $(document).on('turbolinks:load',function(){
         data: data,
       success: function(data, textStatus, jqXHR){
         var instance = new Mark("a.item-line");
-        instance.mark(searchText)
+        if (instance) {
+          instance.mark(searchText)
+        }
       },
       error: function(jqXHR, textStatus, errorThrown){
 

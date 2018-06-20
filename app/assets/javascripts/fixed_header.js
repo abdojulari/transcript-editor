@@ -1,5 +1,5 @@
 // https://www.w3schools.com/howto/howto_js_sticky_header.asp
-$(document).on('turbolinks:load', function(){
+$(document).ready(function(){
   window.onscroll = function() {
     fixHeader()
   };

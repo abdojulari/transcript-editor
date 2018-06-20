@@ -39,7 +39,7 @@
   },
   "menus": {
     "header": [
-      {"label": "Browse (rails5)", "url": "/"},
+      {"label": "Browse", "url": "/"},
       {"label": "Search", "url": "/search"},
       {"label": "Collections", "url": "/collections"},
       {"label": "About", "url": "/page/about"},

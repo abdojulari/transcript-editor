@@ -23,7 +23,7 @@ gem 'coffee-rails', '~> 4.2'
 gem 'jquery-rails'
 gem 'bootstrap', '~> 4.1.1'
 
-gem 'turbolinks', '~> 5'
+# gem 'turbolinks', '~> 5'
 
 # Back-end App is treated mostly as a JSON API
 gem 'jbuilder', '~> 2.5' # Build JSON APIs with ease
