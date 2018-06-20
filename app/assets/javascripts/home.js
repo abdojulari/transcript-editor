@@ -1,7 +1,6 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
 $(document).on('turbolinks:load',function(){
-
   var collectionId = 0;
   var sortId = '';
   var searchText = '';
@@ -12,6 +11,9 @@ $(document).on('turbolinks:load',function(){
   });
 
   $('.select-option').click(function(){
+    if (this.classList.contains('menu-item')) {
+      return true
+    }
     if ($(this).attr('data-filter') == 'collection'){
       collectionId = $(this).attr('data-id');
     }
@@ -29,6 +31,15 @@ $(document).on('turbolinks:load',function(){
     scrollUp()
   })
 
+  $("#searchText").on('keyup',function(e){
+    if (($(this).val() == "") && (e.keyCode == 8)){
+      searchText = "";
+      loadTranscripts()
+      scrollUp()
+    }
+  })
+
+
   function scrollUp(){
     $(window).trigger('scroll-to', [$('#search-form'), 10]);
   }
@@ -39,6 +50,7 @@ $(document).on('turbolinks:load',function(){
       sortId: sortId,
       text: searchText
     };
+    $(".transcript-list").html('<div class="loading"></div>')
     $.ajax({
         type: "POST",
         url: "/home/transcripts",

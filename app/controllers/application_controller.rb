@@ -28,6 +28,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_user
-    raise ActionController::InvalidAuthenticityToken unless current_user
+    # We allow non logged in users to edit the transcripts
+    # raise ActionController::InvalidAuthenticityToken unless current_user
   end
 end

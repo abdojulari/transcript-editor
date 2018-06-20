@@ -1,12 +1,16 @@
 // https://www.w3schools.com/howto/howto_js_sticky_header.asp
-$(document).ready(function(){
+$(document).on('turbolinks:load', function(){
   window.onscroll = function() {
     fixHeader()
   };
 
-  var header = document.getElementById("fixedHeader");
+  var sticky = 0;
 
-  var sticky = header.offsetTop;
+
+  var header = document.getElementById("fixedHeader");
+  if (header) {
+    sticky = header.offsetTop;
+  }
 
   function fixHeader() {
     if (window.pageYOffset >= sticky) {
@@ -17,5 +21,4 @@ $(document).ready(function(){
     }
   }
 })
-
 

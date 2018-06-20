@@ -17,5 +17,6 @@
 //= require bootstrap
 //= require components
 //= require home
+//= require fixed_header
 //= require search
 

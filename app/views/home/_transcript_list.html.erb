@@ -1,32 +1,33 @@
-<div class="transcript-list" role="list">
-  <% transcripts.each do |transcript| %>
-    <% transcript = transcript.decorate %>
-    <a class="transcript-item" title="<%= transcript.title %>" role="listitem" href="<%= transcript.path %>">
-      <div class="item-image" style="background-image: url('<%= transcript.image_url %>')"></div>
-      <div class="item-subtitle"><%= transcript.collection_title  %></div>
-      <div class="item-title"><%= transcript.title %></div>
-      <div class="item-description">
-        <p>
-          <%= transcript.homepage_description %>
-        </p>
+<% transcripts.each do |transcript| %>
+  <% transcript = transcript.decorate %>
+  <a class="transcript-item" title="<%= transcript.title %>" role="listitem" href="<%= transcript.path %>">
+    <div class="item-image" style="background-image: url('<%= transcript.image_url %>')"></div>
+    <div class="item-subtitle"><%= transcript.collection_title  %></div>
+    <div class="item-title"><%= transcript.title %></div>
+    <div class="item-description">
+      <p>
+      <%= transcript.homepage_description %>
+      </p>
+    </div>
+    <div class="item-info">
+      <%= transcript.humanize_duration %>
+      <div class="item-contributors">
+        <%= transcript.humanize_contributors %>
       </div>
-      <div class="item-info">
-        <%= transcript.humanize_duration %>
-        <div class="item-contributors">
-           <%= transcript.humanize_contributors %>
-        </div>
-      </div>
-      <div class="item-status">
-        <%= transcript.display_edited_percentage %>
-        <%= transcript.display_completed_percentage %>
-        <%= transcript.display_reviewing_percentage %>
-      </div>
-      <div class="item-status-key">
-        <%= transcript.display_status_consensus %>
-        <%= transcript.display_status_reviewing %>
-        <%= transcript.display_status_edited %>
-      </div>
-    </a>
-  <% end %>
-</div>
+    </div>
+    <div class="item-status">
+      <%= transcript.display_edited_percentage %>
+      <%= transcript.display_completed_percentage %>
+      <%= transcript.display_reviewing_percentage %>
+    </div>
+    <div class="item-status-key">
+      <%= transcript.display_status_consensus %>
+      <%= transcript.display_status_reviewing %>
+      <%= transcript.display_status_edited %>
+    </div>
+  </a>
+<% end %>
+<% if transcripts.empty? %>
+  <p>No transcripts found!</p>
+<% end %>
 

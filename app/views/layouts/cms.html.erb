@@ -41,7 +41,7 @@
                   <%= current_user.name %>
                 </div>
                 <div class="select-options account-menu menu" role="menu" aria-hidden="true" aria-label="User account menu">
-                  <%= link_to "Dashboard", dashboard_path, class: "select-option menu-item", role: "menuitem" %>
+                  <%= link_to "Dashboard", dashboard_index_path, class: "select-option menu-item", role: "menuitem" %>
                   <%= link_to "Admin", admin_path, class: "select-option menu-item", role: "menuitem" %>
                   <%= link_to "CMS", admin_cms_path, class: "select-option menu-item", role: "menuitem" %>
                   <%= link_to "Sign out", "#sign-out", class: "sign-out-link select-option menu-item", role: "menuitem" %>
@@ -52,7 +52,7 @@
             <div id="primary-menu-container" class="menu-container">
               <div class="header-menu menu" role="menu">
                 <%= link_to "Browse", root_path, class: "menu-item", role: "menuitem" %>
-                <%= link_to "Search", search_path, class: "menu-item", role: "menuitem" %>
+                <%= link_to "Search", search_index_path, class: "menu-item", role: "menuitem" %>
                 <%= link_to "Collections", collections_path, class: "menu-item", role: "menuitem" %>
                 <%= link_to "About", "/page/about", class: "menu-item", role: "menuitem" %>
                 <%= link_to "FAQ", "/page/faq", class: "menu-item", role: "menuitem" %>

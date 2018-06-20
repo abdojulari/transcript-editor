@@ -9,6 +9,10 @@ $(document).on('turbolinks:load',function(){
   });
 
   $('.select-option').click(function(){
+    if (this.classList.contains('menu-item')) {
+      return true
+    }
+
     if ($(this).attr('data-filter') == 'collection'){
       collectionId = $(this).attr('data-id');
     }

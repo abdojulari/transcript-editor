@@ -183,3 +183,7 @@ var COMPONENTS = (function() {
 $(function() {
   var components = new COMPONENTS();
 });
+// $(document).on('turbolinks:load',function(){
+//   var components = new COMPONENTS();
+// });
+

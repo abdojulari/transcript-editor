@@ -1486,6 +1486,13 @@ body {
     text-align: center;
     position: relative;
 }
+.transcript-list>p:first-child {
+    text-align: center;
+    font-style: italic;
+    color: #837E77;
+    font-size: 1.2em;
+}
+
 .transcript-list .transcript-item {
     display: inline-block;
     text-align: left;

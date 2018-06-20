@@ -8,7 +8,9 @@ module SearchHelper
   end
 
   def time_display(start_time)
-    Time.at((start_time / 1000)).utc.strftime("%M:%S")
+    time = Time.at((start_time / 1000)).utc.strftime("%M:%S")
+    time.to_s.slice!(0)
+    time
   end
 
   def search_text(transcript, query)
