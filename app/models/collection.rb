@@ -6,8 +6,10 @@ class Collection < ApplicationRecord
 
   has_many :transcripts
   belongs_to :vendor
+  belongs_to :institution
 
   validates :vendor, :description, presence: true
+  validates :institution_id, presence: true
   validates :uid, :title, :url, presence: true, uniqueness: true
   validate :image_size_restriction
   validate :uid_not_changed
