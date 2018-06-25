@@ -13,6 +13,7 @@
        transcript_line = flag.transcript_line
        transcript = transcript_line.transcript.decorate
     %>
+    <tr>
       <th scope="row">
         <%= flag.flag_type.label  %>
       </th>
@@ -25,6 +26,7 @@
       <td>
         <%= link_to_line(transcript_line, transcript) %>
       </td>
+    </tr>
     <% end %>
   </tbody>
 </table>
