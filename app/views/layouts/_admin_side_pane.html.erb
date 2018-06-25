@@ -1,0 +1,30 @@
+<% content_for :side_pane do %>
+  <ul class="list-group">
+    <li class="list-group-item">
+      <%= link_to '/admin' do %>
+        <i class="fas fa-chart-line"></i>
+        Dashboard
+      <% end %>
+    </li>
+    <li class="list-group-item">
+      <%= link_to admin_users_path do %>
+        <i class="fas fa-users"></i>
+        Users
+      <% end %>
+
+    </li>
+    <li class="list-group-item">
+      <%= link_to admin_cms_path do %>
+        <i class="fas fa-list-ul"></i>
+        CMS
+      <% end %>
+    </li>
+    <li class="list-group-item">
+      <%= link_to '' do %>
+        <i class="fas fa-university"></i>
+        Institutions
+      <% end %>
+    </li>
+  </ul>
+<% end %>
+

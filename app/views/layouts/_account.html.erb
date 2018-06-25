@@ -8,7 +8,6 @@
       <a href="/dashboard" class="select-option menu-item" role="menuitem">Dashboard</a>
       <% if current_user.isAdmin? %>
         <a href="/admin" class="check-auth-link select-option menu-item" role="menuitem">Admin</a>
-        <a href="/admin/cms" class="check-auth-link select-option menu-item" role="menuitem">CMS</a>
       <% end %>
       <%= link_to 'Sign out', destroy_user_session_path, method: 'delete', class: 'select-option menu-item' %>
     </div>

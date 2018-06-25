@@ -1,0 +1,23 @@
+.sum {
+  text-align: center;
+  display: inline-block;
+  margin: 0 10px 10px 0;
+  padding: 20px 20px 0 20px;
+  background: $indigo;
+  color: $white;
+}
+
+.sum-label {
+  font-size: 0.9em;
+  text-transform: uppercase;
+}
+
+.sum-value {
+  margin-top: 10px;
+  font-size: 2.4em;
+  font-weight: bold;
+}
+.avatar {
+  height: 40px;
+  width: 40px;
+}

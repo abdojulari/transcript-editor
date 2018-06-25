@@ -1,26 +1,18 @@
-class Admin::UsersController < ApplicationController
-  include ActionController::MimeResponds
-
-  before_action :authenticate_admin!
+class Admin::UsersController < AdminController
 
   before_action :set_user, only: [:show, :update, :destroy]
 
-  # GET /admin/users
-  # GET /admin/users.json
   def index
-    respond_to do |format|
-      format.html {
-        render :file => environment_admin_file
-      }
-      format.json {
-        @users = User.getAll
-        @user_roles = UserRole.getAll
-      }
-    end
+    authorize User
+
+    @users = User.getAll.decorate
+    @user_roles = UserRole.getAll
   end
 
   # PATCH/PUT /admin/users/{id}.json
   def update
+    authorize User
+
     if @user.update(user_params)
       head :no_content
     else

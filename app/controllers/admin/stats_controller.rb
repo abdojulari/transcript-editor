@@ -1,23 +1,10 @@
-class Admin::StatsController < ApplicationController
-  include ActionController::MimeResponds
-  include IndexTemplate
-
+class Admin::StatsController < AdminController
   before_action :authenticate_moderator!
 
-  # GET /admin
-  # GET /admin.json
   def index
-    respond_to do |format|
-      format.html {
-        render :file => environment_admin_file
-      }
-      format.json {
-        @stats = [
-          {label: "User Registration Stats", data: User.getStatsByDay},
-          {label: "Transcript Edit Stats", data: TranscriptEdit.getStatsByDay}
-        ]
-      }
-    end
-  end
+    authorize :stats, :index?
 
+    @stats = StatsService.new(current_user).all_stats
+    @flags = Flag.getUnresolved()
+  end
 end

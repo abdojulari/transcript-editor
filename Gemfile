@@ -103,3 +103,5 @@ gem 'bugsnag'
 gem 'sanitize'
 gem "draper"
 
+gem "pundit"
+gem 'groupdate'

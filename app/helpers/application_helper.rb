@@ -21,6 +21,13 @@ module ApplicationHelper
     content_tag :span, number, class: "score active"
   end
 
+  def time_display(start_time)
+    time = Time.at((start_time / 1000)).utc.strftime("%M:%S")
+    time.to_s.slice!(0)
+    time
+  end
+
+
   #FIXME: this needs to be changed to the current time format
   def display_time(time)
     time_string = ""

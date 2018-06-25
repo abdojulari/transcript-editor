@@ -1,0 +1,52 @@
+<%= render partial: 'layouts/admin_side_pane' %>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Type</th>
+      <th scope="col">Note</th>
+      <th scope="col">Transcript</th>
+      <th scope="col">Line</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @flags.each do |flag|
+       transcript_line = flag.transcript_line
+       transcript = transcript_line.transcript.decorate
+    %>
+      <th scope="row">
+        <%= flag.flag_type.label  %>
+      </th>
+      <td>
+        <%= flag.text  %>
+      </td>
+      <td>
+        <%= link_to transcript.title, transcript.path %>
+      </td>
+      <td>
+        <%= link_to_line(transcript_line, transcript) %>
+      </td>
+    <% end %>
+  </tbody>
+</table>
+<br />
+
+<% @stats.each do |key, value| %>
+<div class="card">
+  <div class="card-header">
+    <h3><%= display_name key %></h3>
+  </div>
+  <div class="card-body">
+    <div class="sums">
+      <% value.each do |_key, _value| %>
+        <div class="sum">
+          <div class="sum-label"><%= display_name _key %></div>
+          <div class="sum-value"><%= number_to_read value[_key].to_i %> </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<br />
+<% end %>
+
+
