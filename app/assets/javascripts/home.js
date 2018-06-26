@@ -4,6 +4,7 @@ $(document).ready(function(){
   var collectionId = 0;
   var sortId = '';
   var searchText = '';
+  var firstTimeLoad = true;
 
 
   $('.select.collection').click(function(){
@@ -21,27 +22,27 @@ $(document).ready(function(){
       sortId = $(this).attr('data-id');
     }
     loadTranscripts();
-    scrollUp()
   })
 
   $("#search-form").submit(function(event){
     searchText = $('#searchText').val()
     event.preventDefault();
     loadTranscripts()
-    scrollUp()
   })
 
   $("#searchText").on('keyup',function(e){
     if (($(this).val() == "") && (e.keyCode == 8)){
       searchText = "";
       loadTranscripts()
-      scrollUp()
     }
   })
 
 
   function scrollUp(){
-    $(window).trigger('scroll-to', [$('#search-form'), 10]);
+    var target  = $('#search-form').offset().top;
+    $('html, body').animate({
+      scrollTop: target
+    }, 2000);
   }
 
   function loadTranscripts(){
@@ -56,6 +57,10 @@ $(document).ready(function(){
         url: "/home/transcripts",
         data: {data: data},
       success: function(data, textStatus, jqXHR){
+        if (!firstTimeLoad) {
+          scrollUp()
+        }
+        firstTimeLoad = false;
       },
       error: function(jqXHR, textStatus, errorThrown){
 
