@@ -56,6 +56,7 @@ $(document).ready(function(){
   }
 
   function loadTranscripts(){
+    searchText = $('#keyword').val()
     $(".transcript-list-search").html('<div class="loading"></div>')
     data = {
       collection_id: collectionId,
