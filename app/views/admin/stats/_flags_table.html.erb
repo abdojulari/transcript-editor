@@ -1,0 +1,33 @@
+<h3>Unresolved Flags</h3>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Type</th>
+      <th scope="col">Note</th>
+      <th scope="col">Transcript</th>
+      <th scope="col">Line</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% flags.each do |flag|
+       transcript_line = flag.transcript_line
+       transcript = transcript_line.transcript.decorate
+    %>
+    <tr>
+      <td>
+        <%= flag.flag_type.label  %>
+      </td>
+      <td>
+        <%= flag.text  %>
+      </td>
+      <td>
+        <%= link_to transcript.title, transcript.path %>
+      </td>
+      <td>
+        <%= link_to_line(transcript_line, transcript) %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+

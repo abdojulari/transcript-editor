@@ -6,4 +6,11 @@ class InstitutionPolicy < ApplicationPolicy
     @institution = institution
   end
 
+  class Scope < Scope
+    def resolve
+      if @user.isAdmin?
+        Institution.all
+      end
+    end
+  end
 end

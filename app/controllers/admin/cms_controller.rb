@@ -1,5 +1,5 @@
-class Admin::CmsController < Admin::ApplicationController  
+class Admin::CmsController < AdminController
   def show
-    @collection = Collection.all
+    @collection = policy_scope(Collection).group_by { |i| i.institution_id }
   end
 end

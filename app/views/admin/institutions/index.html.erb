@@ -1,9 +1,7 @@
 <%= render partial: 'layouts/admin_side_pane' %>
 
-<p id="notice"><%= notice %></p>
-
-<h1>Admin Institutions</h1>
-
+<h1>Institutions</h1>
+<%= link_to 'New Institution', new_admin_institution_path, class: 'btn btn-primary' %>
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -16,7 +14,11 @@
     <% @institutions.each do |institution| %>
       <tr>
         <td><%= institution.name %></td>
-        <td><%= link_to 'Edit', edit_admin_institution_path(institution) %></td>
+        <td>
+          <%= link_to edit_admin_institution_path(institution)  do %>
+            <i class="fas fa-edit"></i>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
@@ -24,4 +26,3 @@
 
 <br>
 
-<%= link_to 'New Admin Institution', new_admin_institution_path, class: 'btn btn-primary' %>

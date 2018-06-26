@@ -44,10 +44,10 @@ class StatsService
 
   # original query
   def getStatsByDay
-    TranscriptEdit.getStatsByDay
+    TranscriptEdit.all
   end
 
   def user_get_stats_by_day
-    User.getStatsByDay
+    User.all
   end
 end

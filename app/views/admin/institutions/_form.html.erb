@@ -1,22 +1,9 @@
-<%= form_with(model: institution, url: admin_institutions_path, local: true) do |form| %>
-  <% if institution.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(institution.errors.count, "error") %> prohibited this admin_institution from being saved:</h2>
+<%= form_with(model: [:admin, institution], local: true) do |form| %>
+  <%= render partial: 'layouts/cms_errors', locals: { object: institution } %>
 
-      <ul>
-      <% institution.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
+  <div class="form-group">
     <%= form.label :name %>
-    <%= form.text_field :name %>
+    <%= form.text_field :name, class: 'form-control' %>
   </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  <%= form.submit 'Save', class: 'btn btn-primary' %>
 <% end %>

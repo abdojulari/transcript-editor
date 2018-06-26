@@ -1,5 +1,6 @@
 class Admin::Cms::CollectionsController < Admin::ApplicationController
   before_action :set_collection, only: [:show, :edit, :update]
+  before_action :load_institutions, only: [:new, :create, :edit, :update]
 
   def show
   end
@@ -35,6 +36,10 @@ class Admin::Cms::CollectionsController < Admin::ApplicationController
 
   private
 
+  def load_institutions
+    @institutions = InstitutionPolicy::Scope.new(current_user,Institution).resolve
+  end
+
   def set_collection
     @collection = Collection.find_by uid: params[:id]
   end
@@ -47,7 +52,8 @@ class Admin::Cms::CollectionsController < Admin::ApplicationController
       :description,
       :url,
       :image,
-      :vendor_id
+      :vendor_id,
+      :institution_id
     ).merge(
       project_uid: ENV['PROJECT_ID']
     )

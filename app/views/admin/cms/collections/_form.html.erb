@@ -34,6 +34,12 @@
   </div>
 
   <div class="form-group">
+    <%= f.label :institution_id %>
+    <%= f.collection_select(:institution_id, @institutions, :id, :name, { selected: @collection.institution_id }, { class: 'form-control' }) %>
+  </div>
+
+
+  <div class="form-group">
     <%= f.label :image, "Default Collection Image" %>
 
     <div class="form-control">
