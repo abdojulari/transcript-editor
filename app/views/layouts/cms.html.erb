@@ -46,7 +46,7 @@
                 <div class="select-options account-menu menu" role="menu" aria-hidden="true" aria-label="User account menu">
                   <%= link_to "Dashboard", dashboard_index_path, class: "select-option menu-item", role: "menuitem" %>
                   <%= link_to "Admin", admin_path, class: "select-option menu-item", role: "menuitem" %>
-                  <%= link_to "Sign out", "#sign-out", class: "sign-out-link select-option menu-item", role: "menuitem" %>
+                  <%= link_to 'Sign out', destroy_user_session_path, method: 'delete', class: 'select-option menu-item' %>
                 </div>
               </div>
             </div>
