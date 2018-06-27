@@ -3,7 +3,7 @@
     <div class="col-2"><%= item.uid %></div>
     <div class="col-5"><%= item.title %></div>
     <div class="col-2">
-      <%= image_tag(item.image.thumb) if item.image.url.present? %>
+      <%= image_tag(item.image_url(:thumb)) if item.image.url.present? %>
     </div>
 
     <div class="col-1">
