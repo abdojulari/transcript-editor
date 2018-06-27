@@ -6,7 +6,6 @@ class TranscriptsController < ApplicationController
   include ActionController::MimeResponds
   include IndexTemplate
 
-
   before_action :set_transcript, only: [:show, :update, :destroy, :facebook_share]
 
   # GET /transcripts.json
@@ -50,10 +49,12 @@ class TranscriptsController < ApplicationController
         @flag_types = FlagType.byCategory("error")
         @user_flags = []
 
-        if user_signed_in?
-          @user_edits = TranscriptEdit.getByTranscriptUser(@transcript.id, current_user.id)
-          @user_role = current_user.user_role
-          @user_flags = Flag.getByTranscriptUser(@transcript.id, current_user.id)
+        user = logged_in_user
+
+        if user
+          @user_edits = TranscriptEdit.getByTranscriptUser(@transcript.id, user.id)
+          @user_role = user.user_role
+          @user_flags = Flag.getByTranscriptUser(@transcript.id, user.id)
         else
           @user_edits = TranscriptEdit.getByTranscriptSession(@transcript.id, session.id)
           @user_flags = Flag.getByTranscriptSession(@transcript.id, session.id)
@@ -108,5 +109,12 @@ class TranscriptsController < ApplicationController
 
     def search_params
       params.permit(:sort_by, :order, :collection_id, :q, :page, :deep)
+    end
+
+    # since we we using a combination of devise + rails and
+    # API authenticatoin (with backbone in transcript edits page)
+    # we need to check warden session here
+    def logged_in_user
+      warden.user
     end
 end
