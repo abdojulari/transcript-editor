@@ -13,6 +13,10 @@ $(document).ready(function(){
   }
 
   function fixHeader() {
+    if (header == null) {
+      return true
+    }
+
     if (window.pageYOffset >= sticky) {
       header.classList.add("fixed-header");
       header.style.zIndex = 1
