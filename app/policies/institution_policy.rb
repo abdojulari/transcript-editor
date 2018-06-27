@@ -9,7 +9,7 @@ class InstitutionPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       if @user.isAdmin?
-        Institution.all
+        Institution.order_asc
       end
     end
   end
