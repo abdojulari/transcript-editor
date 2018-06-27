@@ -3,7 +3,7 @@ class Admin::InstitutionsController < AdminController
 
   def index
     authorize Institution
-    @institutions = Institution.all
+    @institutions = Institution.all.order("LOWER(name)")
   end
 
   def new
