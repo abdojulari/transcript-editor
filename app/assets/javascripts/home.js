@@ -42,7 +42,7 @@ $(document).ready(function(){
     var target  = $('#search-form').offset().top;
     $('html, body').animate({
       scrollTop: target
-    }, 2000);
+    }, 1000);
   }
 
   function loadTranscripts(){

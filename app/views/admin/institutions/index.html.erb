@@ -6,6 +6,8 @@
   <thead class="thead-dark">
     <tr>
       <th scope="col">Name</th>
+      <th scope="col">Slug</th>
+      <th scope="col">URL</th>
       <th colspan="2" scope="col"></th>
     </tr>
   </thead>
@@ -14,6 +16,8 @@
     <% @institutions.each do |institution| %>
       <tr>
         <td><%= institution.name %></td>
+        <td><%= institution.slug %></td>
+        <td><%= institution.url %></td>
         <td>
           <%= link_to edit_admin_institution_path(institution)  do %>
             <i class="fas fa-edit"></i>

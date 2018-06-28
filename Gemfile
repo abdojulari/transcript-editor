@@ -104,4 +104,4 @@ gem 'sanitize'
 gem "draper"
 
 gem "pundit"
-gem 'groupdate'
+gem 'friendly_id', '~> 5.2.0'

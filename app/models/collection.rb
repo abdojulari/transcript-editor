@@ -14,6 +14,8 @@ class Collection < ApplicationRecord
   validate :image_size_restriction
   validate :uid_not_changed
 
+  scope :by_institution, ->(institution_id) { where(institution_id: institution_id) }
+
   # Class Methods
   def self.getForHomepage
     Rails.cache.fetch("#{ENV['PROJECT_ID']}/collections", expires_in: 10.minutes) do

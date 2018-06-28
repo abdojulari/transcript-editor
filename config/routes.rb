@@ -76,4 +76,6 @@ Rails.application.routes.draw do
 
   # root :to => 'default#index'
   root :to => 'home#index'
+
+  match '*path' => "institutions#index", via: [:get]
 end

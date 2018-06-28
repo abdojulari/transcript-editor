@@ -41,12 +41,12 @@ class Admin::InstitutionsController < AdminController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_institution
-      @institution = Institution.find(params[:id])
+      @institution = Institution.friendly.find(params[:id])
       authorize @institution
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def institution_params
-      params.require(:institution).permit(:name)
+      params.require(:institution).permit(:name, :url, :image)
     end
 end

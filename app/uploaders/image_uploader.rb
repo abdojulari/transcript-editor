@@ -10,7 +10,11 @@ class ImageUploader < CarrierWave::Uploader::Base
   # Override the directory where uploaded files will be stored.
   # This path will be appended to the S3 bucket url.
   def store_dir
-    "collections_v2/#{s3_collection_uid}/images/"
+    if model.is_a?(Institution)
+      "institutions/#{model.slug}/images/"
+    else
+      "collections_v2/#{s3_collection_uid}/images/"
+    end
   end
 
   # Create different versions of your uploaded files:
@@ -18,9 +22,16 @@ class ImageUploader < CarrierWave::Uploader::Base
     process resize_to_fit: [200, 200]
   end
 
+  version :logo do
+    process resize_to_fit: [232, 193]
+  end
+
+
   version :thumb, from_version: :small do
     process resize_to_fit: [100, 100]
   end
+
+
 
   # Add a white list of extensions which are allowed to be uploaded.
   def extension_whitelist

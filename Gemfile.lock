@@ -303,10 +303,10 @@ GEM
       fog-core
       nokogiri (>= 1.5.11, < 2.0.0)
     formatador (0.2.5)
+    friendly_id (5.2.4)
+      activerecord (>= 4.0.0)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
-    groupdate (4.0.1)
-      activesupport (>= 4.2)
     hashie (3.5.7)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
@@ -589,7 +589,7 @@ DEPENDENCIES
   execjs
   figaro
   fog
-  groupdate
+  friendly_id (~> 5.2.0)
   jbuilder (~> 2.5)
   jquery-rails
   listen (>= 3.0.5, < 3.2)
