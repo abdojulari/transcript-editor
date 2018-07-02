@@ -100,11 +100,13 @@ class Transcript < ApplicationRecord
     per_page = project[:data]["transcriptsPerPage"].to_i if project && project[:data]["transcriptsPerPage"]
 
     Rails.cache.fetch("#{ENV['PROJECT_ID']}/transcripts/#{page}/#{per_page}/#{options[:order]}", expires_in: 10.minutes) do
-      Transcript
+      query = Transcript
         .select('transcripts.*, COALESCE(collections.title, \'\') as collection_title')
         .joins('LEFT OUTER JOIN collections ON collections.id = transcripts.collection_id')
         .where("transcripts.lines > 0 AND transcripts.project_uid = :project_uid AND transcripts.is_published = :is_published", {project_uid: ENV['PROJECT_ID'], is_published: 1})
-        .paginate(:page => page, :per_page => per_page).order(str_order)
+        .paginate(:page => page, :per_page => per_page)
+      query =  query.order(str_order) unless options[:order] == "id"
+      query
     end
   end
 
