@@ -1,10 +1,12 @@
 <% content_for :home_banner do %>
   <div class="home-banner">
     <%= image_tag(@institution.image_url(:logo).to_s, class: "logo", alt: @institution.name) %>
-    <div class="banner-main">
+    <div class="banner-main" style="background-image: url('<%= @institution.hero_image_url(:hero_image).to_s %>')">
       <div class="banner-text">
         <h1>Amplify</h1>
-        <h2>Listen to our sound archive, help us transcribe and enrich our stories.</h2>
+        <h2>
+          <%= @institution.introductory_text %>
+        </h2>
       </div>
     </div>
 
