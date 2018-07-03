@@ -11,7 +11,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   # This path will be appended to the S3 bucket url.
   def store_dir
     if model.is_a?(Institution)
-      "institutions/#{model.slug}/images/"
+      "institutions/#{model.id}/images/"
     else
       "collections_v2/#{s3_collection_uid}/images/"
     end
