@@ -81,18 +81,28 @@ class Transcript < ApplicationRecord
     end
   end
 
+  def self.sort_string(options = {})
+    case options[:order]
+    when "title asc"
+      "collections.title asc, transcripts.id"
+    when "title desc"
+      "collections.title desc, transcripts.id desc"
+    when "percent_edited desc"
+      "transcripts.percent_edited desc, transcripts.id desc"
+    when "percent_edited asc"
+      "transcripts.percent_edited asc, transcripts.id"
+    when "duration asc"
+      "transcripts.duration asc, transcripts.id"
+    when "duration desc"
+      "transcripts.duration desc, transcripts.id desc"
+    when "collection_id asc"
+      "collections.id asc, transcripts.id"
+    end
+  end
+
   def self.getForHomepage(page=1, options={})
     page ||= 1
-    options[:order] ||= "title"
-
-    str_order = "transcripts.#{options[:order]}"
-
-    # if we are searching the title
-    # then sort the transcripts too
-    if options[:order].to_s.match(/title (asc|desc)/)
-      sort_order = options[:order].split(' ').last
-      str_order = "transcripts.id #{sort_order}, transcripts.#{options[:order]}"
-    end
+    str_order = sort_string(options)
 
     project = Project.getActive
 
@@ -105,7 +115,7 @@ class Transcript < ApplicationRecord
         .joins('LEFT OUTER JOIN collections ON collections.id = transcripts.collection_id')
         .where("transcripts.lines > 0 AND transcripts.project_uid = :project_uid AND transcripts.is_published = :is_published", {project_uid: ENV['PROJECT_ID'], is_published: 1})
         .paginate(:page => page, :per_page => per_page)
-      query =  query.order(str_order) unless options[:order] == "id"
+      query =  query.order(str_order) if str_order
       query
     end
   end
