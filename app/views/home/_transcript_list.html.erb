@@ -15,16 +15,18 @@
         <%= transcript.humanize_contributors %>
       </div>
     </div>
-    <div class="item-status">
-      <%= transcript.display_edited_percentage %>
-      <%= transcript.display_completed_percentage %>
-      <%= transcript.display_reviewing_percentage %>
-    </div>
-    <div class="item-status-key">
-      <%= transcript.display_status_consensus %>
-      <%= transcript.display_status_reviewing %>
-      <%= transcript.display_status_edited %>
-    </div>
+    <% if transcript.percent_edited.to_i > 0 %>
+      <div class="item-status">
+        <%= transcript.display_edited_percentage %>
+        <%= transcript.display_completed_percentage %>
+        <%= transcript.display_reviewing_percentage %>
+      </div>
+      <div class="item-status-key">
+        <%= transcript.display_status_consensus %>
+        <%= transcript.display_status_reviewing %>
+        <%= transcript.display_status_edited %>
+      </div>
+    <% end %>
   </a>
 <% end %>
 <% if transcripts.empty? %>
