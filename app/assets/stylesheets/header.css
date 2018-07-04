@@ -1,6 +1,13 @@
 body { padding: 0; }    
 .header { position: static; }    
 .header .title-container { float: left; }    
+@media (min-width: 768px) {
+  .header .navigation .menu-container {
+    position: absolute;
+    top: 0;
+    left: 174;
+  }
+}
 .header .account-container {      
     position: absolute;      
     right: 0;    

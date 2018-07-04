@@ -1,0 +1,12 @@
+<% content_for :home_banner do %>
+  <div class="header-bar">
+    <%= link_to root_path, class: "title", "aria-label": "Click to return to homepage" do %>
+      <%= image_tag 'slnsw_logo_horizontal_white.svg', alt: 'State Library of NSW logo', class: 'logo' %>
+      <p class="logo-text">
+        <span class="sr-only">Amplify</span>
+        <%= image_tag 'Amplify_logo_WHITE_COLOUR.svg', alt: 'Amplify logo', class: 'logo' %>
+      </p>
+    <% end %>
+  </div>
+<% end %>
+
