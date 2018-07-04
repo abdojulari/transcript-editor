@@ -81,22 +81,48 @@ class Transcript < ApplicationRecord
     end
   end
 
-  def self.sort_string(options = {})
-    case options[:order]
-    when "title asc"
-      "collections.title asc, transcripts.id"
-    when "title desc"
-      "collections.title desc, transcripts.id desc"
-    when "percent_completed desc"
+  def self.sort_string(sort)
+    case sort
+    when "title_asc"
+      "transcripts.title asc, transcripts.id asc"
+    when "title_desc"
+      "transcripts.title desc, transcripts.id desc"
+    when "percent_completed_desc"
       "transcripts.percent_completed desc, transcripts.percent_edited desc"
-    when "percent_completed asc"
+    when "percent_completed_asc"
       "transcripts.percent_completed asc, transcripts.percent_edited"
-    when "duration asc"
+    when "duration_asc"
       "transcripts.duration asc, transcripts.id"
-    when "duration desc"
+    when "duration_desc"
       "transcripts.duration desc, transcripts.id desc"
-    when "collection_id asc"
-      "collections.id asc, transcripts.id"
+    when "collection_id_asc"
+      "collections.title asc, transcripts.id"
+    else
+      nil
+    end
+  end
+
+  def self.get_for_home_page(params)
+    sort = params[:sortId].to_s
+
+    query = Transcript
+      .select('transcripts.*, COALESCE(collections.title, \'\') as collection_title')
+      .joins('LEFT OUTER JOIN collections ON collections.id = transcripts.collection_id')
+      .where("transcripts.lines > 0 AND transcripts.project_uid = :project_uid AND transcripts.is_published = :is_published", {project_uid: ENV['PROJECT_ID'], is_published: 1})
+
+    # scope by collection
+    query = query.where("transcripts.collection_id = #{params[:collectionId]}") if params[:collectionId].to_i > 0
+
+    # search text
+    query = query.where("transcripts.title ILIKE :search or transcripts.description ILIKE :search", search: "%#{params[:text]}%")if params[:text].present?
+
+    if sort.match(/title/i)
+      arr = query.sort_by {|e| e.title.gsub(/\d+/) {|num| "#{num.length} #{num}"}}
+      sort == "title_asc" ? arr : arr.reverse
+    else
+      order = sort_string(params[:sortId])
+      query = query.order(order) if order
+      query
     end
   end
 
