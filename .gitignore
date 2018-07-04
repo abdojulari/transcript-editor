@@ -8,6 +8,7 @@
 
 # Ignore bundler config.
 /.bundle
+.env
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
@@ -23,6 +24,11 @@
 !/log/.keep
 !/tmp/.keep
 /tmp/*/*
+
+/public/institutions/*/**
+/public/uploads/*/**
+/tmp/cache/*/**
+
 
 # Project-specific
 /_dev
