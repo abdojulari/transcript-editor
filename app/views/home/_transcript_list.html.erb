@@ -15,7 +15,7 @@
         <%= transcript.humanize_contributors %>
       </div>
     </div>
-    <% if transcript.percent_edited.to_i > 0 %>
+    <% if transcript.has_started? %>
       <div class="item-status">
         <%= transcript.display_edited_percentage %>
         <%= transcript.display_completed_percentage %>
