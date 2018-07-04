@@ -1,13 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe Admin::Cms::TranscriptsController, type: :controller do
+  let(:institution) { FactoryBot.create :institution }
   let(:collection) do
     Collection.create!(
       description: "A summary of the collection's content",
       url: "collection_catalogue_reference",
       uid: "collection-uid",
       title: "The collection's title",
-      vendor: Vendor.create(uid: 'voice_base', name: 'VoiceBase')
+      vendor: Vendor.create(uid: 'voice_base', name: 'VoiceBase'),
+      institution_id: institution.id
     )
   end
   let(:transcript) do
@@ -39,7 +41,7 @@ RSpec.describe Admin::Cms::TranscriptsController, type: :controller do
   end
 
   describe "GET #new" do
-    let(:action) { get :new, collection_uid: collection.uid }
+    let(:action) { get :new, params: {collection_uid: collection.uid  } }
 
     it "is successful" do
       action
@@ -65,7 +67,7 @@ RSpec.describe Admin::Cms::TranscriptsController, type: :controller do
           speakers: "Anonymous"
         }
       end
-      let(:action) { post :create, transcript: params }
+      let(:action) { post :create, params:  { transcript: params  } }
 
       it "is successful" do
         action
@@ -80,7 +82,7 @@ RSpec.describe Admin::Cms::TranscriptsController, type: :controller do
 
     context "invalid request" do
       let(:params) { { uid: "", speakers: "" } }
-      let(:action) { post :create, transcript: params }
+      let(:action) { post :create, params: { transcript: params  } }
 
       it "responds with a bad request status" do
         action
@@ -101,7 +103,7 @@ RSpec.describe Admin::Cms::TranscriptsController, type: :controller do
   end
 
   describe "GET #edit" do
-    let(:action) { get :edit, id: transcript.id }
+    let(:action) { get :edit, params: { id: transcript.id  } }
 
     it "is successful" do
       action
@@ -119,7 +121,7 @@ RSpec.describe Admin::Cms::TranscriptsController, type: :controller do
       let(:params) do
         { title: "Revised title", speakers: "John Doe" }
       end
-      let(:action) { put :update, id: transcript.uid, transcript: params }
+      let(:action) { put :update, params: { id: transcript.uid, transcript: params  } }
 
       it "is successful" do
         action
@@ -141,7 +143,7 @@ RSpec.describe Admin::Cms::TranscriptsController, type: :controller do
 
     context "invalid update request" do
       let(:params) { { uid: "", speakers: "" } }
-      let(:action) { put :update, id: transcript.uid, transcript: params }
+      let(:action) { put :update,  params: { id: transcript.uid, transcript: params  } }
 
       it "responds with a bad request status" do
         action
@@ -163,7 +165,7 @@ RSpec.describe Admin::Cms::TranscriptsController, type: :controller do
 
   describe "GET speaker_search" do
     context "valid request" do
-      let (:action) { post :speaker_search, q: 'jane' }
+      let (:action) { post :speaker_search, params: { q: 'jane'  } }
 
       it "responds with an ok status" do
         action
@@ -174,7 +176,7 @@ RSpec.describe Admin::Cms::TranscriptsController, type: :controller do
 
   describe "POST process_transcript" do
     context "valid request" do
-      let (:action) { post :process_transcript, id: transcript.id }
+      let (:action) { post :process_transcript, params: { id: transcript.id  } }
 
       it "responds with an ok status" do
         action

@@ -16,12 +16,13 @@ class Transcript < ApplicationRecord
   validate :image_size_restriction
   validate :uid_not_changed
 
-  belongs_to :collection
-  belongs_to :vendor
-  belongs_to :transcript_status
+  belongs_to :collection, optional: true
+  belongs_to :vendor, optional: true
+  belongs_to :transcript_status, optional: true
   has_many :transcript_lines
   has_many :transcript_edits
   has_many :transcript_speakers
+
 
   def self.seconds_per_line
     5

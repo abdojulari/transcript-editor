@@ -19,6 +19,7 @@ RSpec.describe VoiceBase::ImportSrtTranscripts, type: :service do
         description: 'Line contains unedited computer-generated text. Please edit if incorrect!'
       )
     end
+    let(:institution) { FactoryBot.create :institution }
     let!(:collection) do
       Collection.create!(
         uid: 'rainbow-archives',
@@ -27,7 +28,8 @@ RSpec.describe VoiceBase::ImportSrtTranscripts, type: :service do
         url: 'https://statelibrarynsw-my.sharepoint.com/',
         image_url: nil,
         vendor: vendor,
-        vendor_identifier: 1
+        vendor_identifier: 1,
+        institution_id: institution.id
       )
     end
     let!(:transcript) do

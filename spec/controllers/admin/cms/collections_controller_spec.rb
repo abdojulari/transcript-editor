@@ -2,13 +2,15 @@ require 'rails_helper'
 
 RSpec.describe Admin::Cms::CollectionsController, type: :controller do
   let(:vendor) { Vendor.create!(uid: 'voice_base', name: 'VoiceBase') }
+  let(:institution) { FactoryBot.create :institution }
   let(:collection) do
     Collection.create!(
       description: "A summary of the collection's content",
       url: "collection_catalogue_reference",
       uid: "collection-uid",
       title: "The collection's title",
-      vendor: vendor
+      vendor: vendor,
+      institution_id: institution.id
     )
   end
   let(:user) do
@@ -24,7 +26,7 @@ RSpec.describe Admin::Cms::CollectionsController, type: :controller do
   end
 
   describe "GET #show" do
-    let(:action) { get :show, id: collection.uid }
+    let(:action) { get :show, params: { id: collection.uid  } }
 
     it "is successful" do
       action
@@ -60,10 +62,11 @@ RSpec.describe Admin::Cms::CollectionsController, type: :controller do
           description: "New description of collection",
           url: "new_collection_catalogue_reference",
           image: File.open(Rails.root.join('spec', 'fixtures', 'image.jpg')),
-          vendor_id: vendor.id
+          vendor_id: vendor.id,
+          institution_id: institution.id
         }
       end
-      let(:action) { post :create, collection: params }
+      let(:action) { post :create, params: { collection: params  } }
 
       it "is successful" do
         action
@@ -78,7 +81,7 @@ RSpec.describe Admin::Cms::CollectionsController, type: :controller do
 
     context "invalid request" do
       let(:params) { { uid: "" } }
-      let(:action) { post :create, collection: params }
+      let(:action) { post :create, params: { collection: params  } }
 
       it "responds with a bad request status" do
         action
@@ -99,7 +102,7 @@ RSpec.describe Admin::Cms::CollectionsController, type: :controller do
   end
 
   describe "GET #edit" do
-    let(:action) { get :edit, id: collection.uid }
+    let(:action) { get :edit, params: { id: collection.uid } }
 
     it "is successful" do
       action
@@ -117,7 +120,7 @@ RSpec.describe Admin::Cms::CollectionsController, type: :controller do
       let(:params) do
         { title: "Revised title" }
       end
-      let(:action) { put :update, id: collection.uid, collection: params }
+      let(:action) { put :update, params: { id: collection.uid, collection: params } }
 
       it "is successful" do
         action
@@ -139,7 +142,7 @@ RSpec.describe Admin::Cms::CollectionsController, type: :controller do
 
     context "invalid update request" do
       let(:params) { { uid: "" } }
-      let(:action) { put :update, id: collection.uid, collection: params }
+      let(:action) { put :update, params: {id: collection.uid, collection: params  } }
 
       it "responds with a bad request status" do
         action

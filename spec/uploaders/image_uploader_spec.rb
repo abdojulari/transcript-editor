@@ -2,15 +2,18 @@ require "carrierwave/test/matchers"
 
 RSpec.describe ImageUploader, type: :uploader do
   include CarrierWave::Test::Matchers
-  
+
   let(:vendor) { Vendor.create!(uid: 'voice_base', name: 'VoiceBase') }
+  let(:institution) { FactoryBot.create :institution }
+
   let(:collection) do
     Collection.create!(
       description: "A summary of the collection's content",
       url: "collection_catalogue_reference",
       uid: "collection-uid",
       title: "The collection's title",
-      vendor: vendor
+      vendor: vendor,
+      institution_id: institution.id
     )
   end
   let(:uploader) { ImageUploader.new(collection, :image) }

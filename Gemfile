@@ -71,6 +71,8 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry'
   gem 'rspec-rails', '~> 3.4'
+  gem 'factory_bot_rails'
+  gem 'faker'
 end
 
 group :development do
@@ -94,6 +96,7 @@ group :test do
   gem 'chromedriver-helper'
   gem 'shoulda-matchers', '~> 3.1', require: false
   gem 'simplecov'
+  gem 'rails-controller-testing'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

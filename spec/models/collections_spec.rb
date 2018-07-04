@@ -19,13 +19,15 @@ RSpec.describe Collection, type: :model do
   end
 
   let(:vendor) { Vendor.create(uid: 'voice_base', name: 'VoiceBase') }
+  let(:institution) { FactoryBot.create :institution }
   let!(:collection) do
     Collection.create!(
       description: "A summary of the collection's content",
       url: "collection_catalogue_reference",
       uid: "collection-uid",
       title: "The collection's title",
-      vendor: vendor
+      vendor: vendor,
+      institution_id: institution.id
     )
   end
 
@@ -55,7 +57,8 @@ RSpec.describe Collection, type: :model do
         title: "test collection",
         url: "https://catalogue_collection",
         description: "test collection",
-        vendor_id: vendor.id
+        vendor_id: vendor.id,
+        institution_id: institution.id
       )
     end
 

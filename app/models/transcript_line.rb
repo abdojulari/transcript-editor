@@ -6,8 +6,8 @@ class TranscriptLine < ApplicationRecord
   pg_search_scope :search_by_original_text, :against => :original_text
   pg_search_scope :search_by_guess_text, :against => :guess_text
 
-  belongs_to :transcript_line_status
-  belongs_to :transcript, touch: true
+  belongs_to :transcript_line_status, optional: true
+  belongs_to :transcript, optional: true,touch: true
   has_many :transcript_edits
   has_many :flags
 
