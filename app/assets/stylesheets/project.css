@@ -1055,8 +1055,6 @@ body {
     padding: 0;
 }
 .header .title-container .header-bar .logo {
-    -webkit-filter: invert(1);
-    filter: invert(1);
     position: static;
     display: inline;
     margin-top: 4px;
