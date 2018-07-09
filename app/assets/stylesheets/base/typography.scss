@@ -55,9 +55,10 @@ p, a, ul li, ol li, span {
 
 a {
   color: $text-link;
-  text-decoration: underline;
+  text-decoration: none;
   &:hover, &:focus {
-    text-decoration: none;
+    color: $text-link;
+    text-decoration: underline;
   }
 }
 
@@ -65,5 +66,5 @@ sub, sup, small {
   font-size: 80%;
 }
 
-::-moz-selection { background: $highligh-background; }
-::selection { background: $highligh-background; }
+::-moz-selection { background: $highlight-background; }
+::selection { background: $highlight-background; }
