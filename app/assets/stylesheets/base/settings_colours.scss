@@ -1,0 +1,32 @@
+// Global variables, brand colours, etc
+
+// Colours
+$dark-cyan:         #27676B;
+$very-dark-cyan:    #0A2C33;
+$soft-orange:       #F5C653;
+$light-yellow:      rgba($soft-orange, 0.4);
+
+// Shades
+$white:             #FFFFFF;
+$light-grey:        #E7E8E9;
+$grey:              #CCCCCC;
+$dark-grey:         #333333;
+$dark-red-black:    #231F20;
+$black:             #272727;
+
+// Theme and page variables
+$brand-cyan:              $dark-cyan;
+$brand-yellow:            $soft-orange;
+
+$body-background:         $white;
+$body-foreground:         $black;
+$text-link:               $brand-yellow;
+$highligh-background:     $light-yellow;
+
+$header-background:       $dark-red-black;
+$header-text:             $white;
+$header-text-active:      $brand-yellow;
+
+$footer-background:       $very-dark-cyan;
+$sub-footer-background:   $dark-grey;
+$footer-foreground:       $white;

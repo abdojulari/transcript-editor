@@ -1,0 +1,69 @@
+h1, h1 strong, h1 em {
+  font-size: 48px;
+  color: inherit;
+  font-family: $title-font;
+  line-height: 1.5;
+}
+
+h2, h2 strong, h2 em {
+  font-size: 36px;
+  color: inherit;
+  font-family: $title-font;
+  line-height: 1.5;
+}
+
+h3, h3 strong, h3 em {
+  font-size: 24px;
+  color: inherit;
+  font-family: $title-font;
+  line-height: 1.2;
+}
+
+h4, h4 strong, h4 em {
+  font-size: 18px;
+  color: inherit;
+  font-family: $title-font;
+  line-height: 1.2;
+}
+
+h5, h5 strong, h5 em {
+  font-size: 16px;
+  color: inherit;
+  font-family: $title-font;
+  line-height: 1.2;
+}
+
+em {
+  font-style: italic;
+  font-size: inherit;
+  line-height: 1.2;
+}
+
+strong {
+  font-weight: bold;
+  font-size: inherit;
+  color: inherit;
+  line-height: 1.2;
+}
+
+p, a, ul li, ol li, span {
+  font-size: 14px;
+  font-family: $body-font;
+  line-height: 1.2;
+  color: inherit;
+}
+
+a {
+  color: $text-link;
+  text-decoration: underline;
+  &:hover, &:focus {
+    text-decoration: none;
+  }
+}
+
+sub, sup, small {
+  font-size: 80%;
+}
+
+::-moz-selection { background: $highligh-background; }
+::selection { background: $highligh-background; }
