@@ -1,5 +1,5 @@
 .main_hero {
-  background: $home-background, rgba($black, 0.2);
+  background: $home-background, rgba($black, 0.3);
   background-position: center center, center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -23,5 +23,23 @@
   }
   &__subtitle {
     font-size: 28px;
+  }
+}
+
+.sub_hero {
+  background-color: $sub-hero-background;
+  color: $hero-forground;
+  padding: 20px 0;
+  &__content {
+    @include content_wrap;
+    p {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 1em;
+    }
+  }
+  &__title {
+    font-size: 28px;
+    margin-bottom: 0.5em;
   }
 }
