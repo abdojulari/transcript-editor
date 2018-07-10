@@ -10,10 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_02_041011) do
+ActiveRecord::Schema.define(version: 2018_07_09_070256) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cms_image_uploads", force: :cascade do |t|
+    t.string "image"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "collections", id: :serial, force: :cascade do |t|
     t.string "uid", default: "", null: false
@@ -77,6 +83,7 @@ ActiveRecord::Schema.define(version: 2018_07_02_041011) do
     t.string "page_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "published", default: false
   end
 
   create_table "pg_search_documents", id: :serial, force: :cascade do |t|
@@ -86,6 +93,13 @@ ActiveRecord::Schema.define(version: 2018_07_02_041011) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id"
+  end
+
+  create_table "public_pages", force: :cascade do |t|
+    t.integer "page_id"
+    t.string "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "speakers", id: :serial, force: :cascade do |t|

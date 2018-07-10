@@ -1,4 +1,4 @@
-class PageDecorator < ApplicationDecorator
+class PublicPageDecorator < ApplicationDecorator
   delegate_all
 
   def display_content

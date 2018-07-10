@@ -22,6 +22,8 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 gem 'jquery-rails'
 gem 'bootstrap', '~> 4.1.1'
+gem "font-awesome-rails"
+gem 'summernote-rails'
 
 # gem 'turbolinks', '~> 5'
 

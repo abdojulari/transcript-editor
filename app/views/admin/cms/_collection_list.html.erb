@@ -11,6 +11,7 @@
             <th scope="col">Title</th>
             <th scope="col">Items</th>
             <th scope="col"></th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <% value.each do |collection|
@@ -26,7 +27,7 @@
                   method: "get",
                   data: { disable_with: "Loading..." } do
                 %>
-                  <i class="fas fa-edit"></i>
+                  <%= fa_icon "edit" %>
                 <% end %>
               </td>
               <td>
@@ -34,7 +35,7 @@
                   method: "get",
                   data: { disable_with: "Loading..." } do
                 %>
-                  <i class="fas fa-list-alt"></i>
+                  <%= fa_icon "list" %>
                 <% end %>
               </td>
             </tr>
