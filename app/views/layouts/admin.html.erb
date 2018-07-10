@@ -1,22 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Admin CMS</title>
-    <%= stylesheet_link_tag    'application', 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css' %>
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-    <%= stylesheet_link_tag    'application', 'https://fonts.googleapis.com/css?family=Muli' %>
-    <%= stylesheet_link_tag    'application', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' %>
-    <%= stylesheet_link_tag    'application', 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css' %>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-    <%= stylesheet_link_tag    'application', '/assets/css/app.css?a=1499756908' %>
-    <%= stylesheet_link_tag    'application', '/nsw-state-library-amplify/assets/css/styles.css?a=1499756908' %>
-    <%= stylesheet_link_tag    'application', '/assets/css/app.css?a=1499756908' %>
-    <%= stylesheet_link_tag    'search_auto_complete' %>
-    <%= stylesheet_link_tag    'admin' %>
-
-
+    <title>Amplify</title>
     <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'admin_base', media: 'all' %>
+    <%= stylesheet_link_tag    'application', '/assets/css/app.css?a=1499756908' %>
+    <%= javascript_include_tag 'admin_base' %>
   </head>
+
   <body>
     <div id="app" class="container-fluid">
       <div id="header" class="header">
@@ -38,17 +30,7 @@
             </div>
             <div id="header-crumbs" class="crumbs-container"></div>
             <div id="account-container" class="account-container">
-              <div class="select">
-                <div class="select-active" title="">
-                  <span class="score"><%= current_user.user_role_id %></span>
-                  <%= current_user.name %>
-                </div>
-                <div class="select-options account-menu menu" role="menu" aria-hidden="true" aria-label="User account menu">
-                  <%= link_to "Dashboard", dashboard_index_path, class: "select-option menu-item", role: "menuitem" %>
-                  <%= link_to "Admin", admin_path, class: "select-option menu-item", role: "menuitem" %>
-                  <%= link_to 'Sign out', destroy_user_session_path, method: 'delete', class: 'select-option menu-item' %>
-                </div>
-              </div>
+              <%= render partial: 'layouts/account' %>
             </div>
 
             <div id="primary-menu-container" class="menu-container">
@@ -104,14 +86,5 @@
         </div>
       </div>
     </div>
-
-    <script src="/nsw-state-library-amplify/project.js"></script>
-    <script src="/assets/js/templates.js"></script>
-    <script src="/assets/js/admin.js"></script>
-
-    <%= javascript_include_tag 'application', 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'%>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-    <%= javascript_include_tag 'search_auto_complete' %>
-    <%= javascript_include_tag 'editor' %>
   </body>
 </html>

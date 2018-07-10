@@ -1,0 +1,17 @@
+<%= form_with(model: [:admin, page], local: true) do |form| %>
+  <%= render 'layouts/cms_errors', object: page %>
+
+  <div class="form-group">
+    <%= form.label :page_type %>
+    <%= form.text_field :page_type, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= form.label :published %>
+    <%= form.check_box :published, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= form.label :content %>
+    <%= form.text_area :content, class: 'form-control', 'data-provider': :summernote %>
+  </div>
+  <%= form.submit 'Save', class: 'btn btn-primary' %>
+<% end %>
