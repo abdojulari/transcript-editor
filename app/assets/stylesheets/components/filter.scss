@@ -10,9 +10,20 @@
     align-items: center;
     select {
       margin: 0 10px;
+      @include mobile {
+        margin: 10px 0;
+        width: 75%;
+      }
     }
     input[type="search"] {
       flex-grow: 1;
+    }
+    .button.search {
+      line-height: 40px;
+      float: right;
+    }
+    @include mobile {
+      flex-direction: column;
     }
   }
 }
