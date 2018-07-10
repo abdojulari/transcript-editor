@@ -6,12 +6,48 @@
   color: $header-text;
   height: $header-height;
   padding: 10px;
+  img {
+    max-width: 100%;
+    @include mobile {
+      width: 100px;
+    }
+  }
   &__nav {
     a {
       display: inline-block;
       margin: 0 10px;
       &:focus, &:hover, &.active {
         color: $header-text-active;
+      }
+    }
+  }
+  &__mobile_nav_toggle {
+    @include hidden-input;
+    &:checked ~ .main_header__nav_list {
+      top: $header-height;
+      opacity: 1;
+      visibility: visible;
+      z-index: auto;
+    }
+    &:checked + .button.menu {
+      background-image: $cross-icon;
+    }
+  }
+  &__nav_list {
+    @include mobile {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      visibility: hidden;
+      z-index: -1;
+      width: 100%;
+      height: auto;
+      background-color: rgba($header-background, 0.95);
+      a {
+        width: 100%;
+        text-align: center;
+        margin: 15px 0;
       }
     }
   }
