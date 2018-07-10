@@ -4,6 +4,9 @@
   margin-top: 15px;
   min-height: $footer-height;
   padding: 30px;
+  @include mobile {
+    padding: 15px 0;
+  }
   &__content {
     @include content_wrap;
     p, a {
@@ -26,6 +29,7 @@
     @include content_wrap;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     color: $sub-footer-foreground;
     a {
       color: $sub-footer-foreground;

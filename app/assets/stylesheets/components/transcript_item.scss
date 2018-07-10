@@ -7,13 +7,17 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     grid-gap: 5px;
+    @include mobile {
+      grid-template-columns: 1fr 1fr;
+    }
   }
 }
 
 .transcript_item {
   display: inline-block;
   text-align: left;
-  width: 200px;
+  width: 100%;
+  max-width: 200px;
   height: auto;
   overflow: hidden;
   cursor: pointer;
@@ -21,7 +25,7 @@
   border: 1px solid $list-border;
   color: $list-foreground;
   position: relative;
-  margin: 5px;
+  margin: 0 auto;
   vertical-align: top;
   transition: transform 0.5s;
   &:hover, &:focus {
