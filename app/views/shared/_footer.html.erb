@@ -1,0 +1,19 @@
+<div id="footer" class="footer">
+  <nav id="footer-navigation" class="navigation inverse">
+    <div id="footer-menu-container" class="menu-container">
+      <div class="footer-menu menu" role="menu">
+        <% @global_content[:footer_links].each do |key, value|
+           display_string = key.to_s.humanize
+           url = value[:url]
+        %>
+      <%= link_to "#{display_string}", url, class: "menu-item ", target: "_blank", role: "menuitem" %>
+        <% end %>
+      </div>
+    </div>
+  </nav>
+  <div>
+    <div class="footer.md page">
+      <%= raw @global_content[:footer_content] %>
+    </div>
+  </div>
+<div>

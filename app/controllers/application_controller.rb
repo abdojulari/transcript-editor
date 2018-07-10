@@ -16,6 +16,7 @@ class ApplicationController < ActionController::Base
 
   before_action :touch_session
   before_action :load_user_edits
+  before_action :load_footer
 
 
   # Ensure a session id is available for all!
@@ -30,5 +31,13 @@ class ApplicationController < ActionController::Base
   def authenticate_user
     # We allow non logged in users to edit the transcripts
     # raise ActionController::InvalidAuthenticityToken unless current_user
+  end
+
+  def load_footer
+    site = Site.new
+    @global_content = {
+      footer_content: site.footer_content,
+      footer_links: site.footer_links
+    }
   end
 end

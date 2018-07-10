@@ -63,28 +63,6 @@
       </div>
     </div>
 
-    <div id="footer" class="footer">
-      <nav id="footer-navigation" class="navigation inverse">
-        <div id="footer-menu-container" class="menu-container">
-          <div class="footer-menu menu" role="menu">
-            <%= link_to "Privacy", "http://www.sl.nsw.gov.au/privacy", class: "menu-item ", target: "_blank", role: "menuitem" %>
-            <%= link_to "Copyright", "http://www.sl.nsw.gov.au/copyright", class: "menu-item ", target: "_blank", role: "menuitem" %>
-            <%= link_to "Client Code of Conduct", "http://www.sl.nsw.gov.au/about-library-legislation-and-policies/client-code-conduct", class: "menu-item ", target: "_blank", role: "menuitem" %>
-            <%= link_to "Feedback", "http://www.sl.nsw.gov.au/feedback", class: "menu-item ", target: "_blank", role: "menuitem" %>
-          </div>
-        </div>
-      </nav>
-      <div>
-        <div class="footer.md page">
-          <p>
-            Powered by
-            <%= link_to "Open Transcript Editor", "https://github.com/NYPL/transcript-editor" %>
-            which was developed by the
-            <%= link_to "New York Public Library", "http://www.nypl.org" %>
-            <%= link_to "Find out more", "/page/about" %>
-          </p>
-        </div>
-      </div>
-    </div>
+    <%= render 'shared/footer' %>
   </body>
 </html>
