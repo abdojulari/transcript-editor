@@ -10,6 +10,10 @@ class CollectionPolicy < ApplicationPolicy
     @user.isAdmin?
   end
 
+  def show?
+    @user.isAdmin?
+  end
+
   def update?
     @user.isAdmin?
   end

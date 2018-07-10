@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 RSpec.describe Page, type: :model do
   # associations
   it { should have_one(:public_page)  }

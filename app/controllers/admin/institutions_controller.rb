@@ -2,8 +2,7 @@ class Admin::InstitutionsController < AdminController
   before_action :set_institution, only: [:edit, :update, :destroy]
 
   def index
-    authorize Institution
-    @institutions = Institution.all.order("LOWER(name)")
+    @institutions = policy_scope(Institution).order("LOWER(name)")
   end
 
   def new

@@ -418,6 +418,8 @@ GEM
     puma (3.11.4)
     pundit (1.1.0)
       activesupport (>= 3.0.0)
+    pundit-matchers (1.6.0)
+      rspec-rails (>= 3.0.0)
     rack (2.0.5)
     rack-cors (1.0.2)
     rack-test (1.0.0)
@@ -626,6 +628,7 @@ DEPENDENCIES
   pry
   puma
   pundit
+  pundit-matchers (~> 1.6.0)
   rack-cors
   rails (~> 5.2.0)
   rails-controller-testing

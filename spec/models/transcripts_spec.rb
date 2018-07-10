@@ -1,5 +1,3 @@
-require "rails_helper"
-
 RSpec.describe Transcript, type: :model do
   describe "associations" do
     it { is_expected.to have_many :transcript_lines }
