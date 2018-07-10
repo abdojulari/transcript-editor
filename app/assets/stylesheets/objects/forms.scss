@@ -1,0 +1,39 @@
+select {
+  appearance: none;
+  background: $drop-down-icon, $select-background;
+  background-position: 95% 50%, center center;
+  background-repeat: no-repeat;
+  background-size: 15px 15px;
+  color: $input-foreground;
+  border-radius: 0;
+  border: 0;
+  height: 30px;
+  padding-left: 10px;
+  font-size: rem-calc(14);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="search"],
+input[type="password"],
+input[type="tel"],
+textarea {
+  width: auto;
+  min-height: 30px;
+  line-height: 30px;
+  font-size: rem-calc(14);
+  border: 0;
+  border-radius: 0;
+  padding-left: 10px;
+  color: $input-foreground;
+  font-family: $body-font;
+  &::placeholder {
+    color: $input-foreground;
+    font-family: $body-font;
+  }
+}
+
+input[type="search"] {
+  // Bugfix search on safari
+  -webkit-appearance: textfield;
+}
