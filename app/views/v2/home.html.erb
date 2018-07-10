@@ -35,3 +35,12 @@
 </section>
 
 <%= render "v2/shared/filter_bar" %>
+
+<section class="transcript_results">
+  <div class="transcript_results__list" role="list">
+    <% (0..10).each do |i| %>
+      <% completed = i * 10 %>
+      <%= render "v2/shared/transcript_preview", completed: completed %>
+    <% end %>
+  </div>
+</section>
