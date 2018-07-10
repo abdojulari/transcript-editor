@@ -18,11 +18,11 @@
     padding-top: 150px;
   }
   &__title {
-    font-size: 32px;
+    font-size: rem-calc(32);
     text-shadow: 1px 1px rgba($black, 0.8);
   }
   &__subtitle {
-    font-size: 28px;
+    font-size: rem-calc(28);
   }
 }
 
@@ -33,13 +33,13 @@
   &__content {
     @include content_wrap;
     p {
-      font-size: 16px;
+      font-size: rem-calc(16);
       line-height: 1.5;
       margin-bottom: 1em;
     }
   }
   &__title {
-    font-size: 28px;
+    font-size: rem-calc(28);
     margin-bottom: 0.5em;
   }
 }
