@@ -1,15 +1,20 @@
 select {
   appearance: none;
   background: $drop-down-icon, $select-background;
-  background-position: 95% 50%, center center;
+  background-position: 96% 50%, center center;
   background-repeat: no-repeat;
-  background-size: 15px 15px;
+  background-size: 12px 12px;
   color: $input-foreground;
   border-radius: 0;
   border: 0;
   height: 30px;
-  padding-left: 10px;
+  padding: 0 20px 0 10px;
   font-size: rem-calc(14);
+  cursor: pointer;
+  transition: background-color 0.3s;
+  &:focus, &:hover {
+    background-color: darken($select-background, 15%);
+  }
 }
 
 input[type="text"],

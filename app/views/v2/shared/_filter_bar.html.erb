@@ -23,7 +23,7 @@
             options_for_select([ "Random", "Title (A to Z)", "Title (Z to A)" ]),
             prompt: "Sort"
       %>
-      <%= search_field_tag "search", "Search title/description" %>
+      <%= search_field_tag "search", nil, placeholder: "Search title/description" %>
       <%= button_tag "Start", class: "button icon search" %>
     </form>
   </article>

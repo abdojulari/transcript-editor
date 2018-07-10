@@ -55,7 +55,7 @@
     color: transparent;
     transition: background-image 0.5s;
     &.search {
-      background-color: $button-yellow;
+      @include button-background($button-yellow);
       background-image: $search-icon;
       background-size: 20px 20px;
       cursor: pointer;
