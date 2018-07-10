@@ -18,3 +18,18 @@
     }
   }
 }
+
+.sub_footer {
+  background-color: $sub-footer-background;
+  padding: 15px 0;
+  &__content {
+    @include content_wrap;
+    display: flex;
+    justify-content: space-between;
+    color: $sub-footer-foreground;
+    a {
+      color: $sub-footer-foreground;
+      font-size: rem-calc(12);
+    }
+  }
+}
