@@ -1,0 +1,20 @@
+.main_footer {
+  background-color: $footer-background;
+  color: $footer-foreground;
+  margin-top: 15px;
+  min-height: $footer-height;
+  padding: 30px;
+  &__content {
+    @include content_wrap;
+    p, a {
+      font-size: rem-calc(12);
+      margin-bottom: 1em;
+    }
+  }
+  &__logos {
+    margin-bottom: 30px;
+    img {
+      margin-right: 30px;
+    }
+  }
+}
