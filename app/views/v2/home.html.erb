@@ -1,0 +1,46 @@
+<section class="main_hero">
+  <article class="main_hero__content">
+    <%= image_tag "Amplify_logo_WHITE_COLOUR",
+          alt: "Amplify logo",
+          width: 350
+    %>
+    <h1 class="main_hero__title">
+      Bringing the stories of New South Wales<br>
+      together for you to listen, transcribe and enrich.
+    </h1>
+    <%= link_to "Powered by the State Library of NSW",
+          "https://www.sl.nsw.gov.au/",
+          target: "_blank",
+          class: "main_hero__subtitle"
+    %>
+  </article>
+</section>
+<section class="sub_hero">
+  <article class="sub_hero__content">
+    <header>
+      <h2 class="sub_hero__title">
+        Audio collections paired with computer-generated transcripts
+      </h2>
+    </header>
+    <p>
+      Amplify delivers digitised audio files from the collections of cultural,
+      educational and research institutions within Australia.
+      Listen to these oral histories accompanied with a computer-generated transcript,
+      which you can help to improve by correcting any errors you find as you listen along.
+    </p>
+    <p>
+      Select and interview below to get started
+    </p>
+  </article>
+</section>
+
+<%= render "v2/shared/filter_bar" %>
+
+<section class="transcript_results">
+  <div class="transcript_results__list" role="list">
+    <% (0..10).each do |i| %>
+      <% completed = i * 10 %>
+      <%= render "v2/shared/transcript_preview", completed: completed %>
+    <% end %>
+  </div>
+</section>

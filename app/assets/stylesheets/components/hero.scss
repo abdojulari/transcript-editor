@@ -1,0 +1,45 @@
+.main_hero {
+  background: $home-background, rgba($black, 0.3);
+  background-position: center center, center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-blend-mode: multiply;
+  min-height: 700px;
+  width: 100%;
+  color: $hero-forground;
+  &__content {
+    @include content_wrap;
+    height: 100%;
+    min-height: 700px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 150px;
+  }
+  &__title {
+    font-size: rem-calc(32);
+    text-shadow: 1px 1px rgba($black, 0.8);
+  }
+  &__subtitle {
+    font-size: rem-calc(28);
+  }
+}
+
+.sub_hero {
+  background-color: $sub-hero-background;
+  color: $hero-forground;
+  padding: 20px 0;
+  &__content {
+    @include content_wrap;
+    p {
+      font-size: rem-calc(16);
+      line-height: 1.5;
+      margin-bottom: 1em;
+    }
+  }
+  &__title {
+    font-size: rem-calc(28);
+    margin-bottom: 0.5em;
+  }
+}

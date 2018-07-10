@@ -78,7 +78,8 @@ Rails.application.routes.draw do
 
   match 'authenticate' => "authentication#authenticate", :via => [:post]
 
-
+  # temp routes for testing new UI
+  get 'v2/home', to: 'v2#home'
 
   # root :to => 'default#index'
   root :to => 'home#index'
