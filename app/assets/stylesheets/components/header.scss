@@ -21,6 +21,7 @@
     a {
       display: inline-block;
       margin: 0 10px;
+      font-size: rem-calc(16);
       &:focus, &:hover, &.active {
         color: $header-text-active;
       }

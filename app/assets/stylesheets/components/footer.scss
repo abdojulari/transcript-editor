@@ -10,7 +10,7 @@
   &__content {
     @include content_wrap;
     p, a {
-      font-size: rem-calc(12);
+      font-size: rem-calc(14);
       margin-bottom: 1em;
     }
   }
