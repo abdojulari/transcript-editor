@@ -38,6 +38,20 @@ $(document).ready(function() {
   return $('[data-provider="summernote"]').each(function() {
     return $(this).summernote({
       height: 300,
+      styleWithSpan: false,
+      toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'underline', 'clear']],
+            ['fontname', []],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'hr']],
+            ['view', ['fullscreen', 'codeview']],
+            ['help', ['help']]
+
+      ],
       callbacks: {
         onImageUpload: function(files) {
           return sendFile(files[0], $(this));
