@@ -47,7 +47,7 @@ strong {
 }
 
 p, a, ul li, ol li, span {
-  font-size: rem-calc(14);
+  font-size: rem-calc(16);
   font-family: $body-font;
   line-height: 1.2;
   color: inherit;
@@ -68,3 +68,9 @@ sub, sup, small {
 
 ::-moz-selection { background: $highlight-background; }
 ::selection { background: $highlight-background; }
+
+.highlighted {
+  &.green {
+    background: rgba($progress-completed, 0.6);
+  }
+}
