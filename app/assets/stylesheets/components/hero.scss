@@ -1,5 +1,5 @@
 .main_hero {
-  background: $home-background, rgba($black, 0.4);
+  background: $home-background, rgba($black, 0.5);
   background-position: center center, center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -24,6 +24,7 @@
       margin-bottom: 30px;
       @include mobile {
         width: 50%;
+        margin-bottom: 10px;
       }
     }
     @include mobile {

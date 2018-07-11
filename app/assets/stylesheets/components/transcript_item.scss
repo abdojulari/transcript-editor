@@ -33,6 +33,10 @@
     color: $list-foreground;
     text-decoration: none;
   }
+  @include mobile {
+    width: auto;
+    max-width: 100%;
+  }
   audio {
     display: none;
   }
