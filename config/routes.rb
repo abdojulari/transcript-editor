@@ -80,6 +80,7 @@ Rails.application.routes.draw do
 
   # temp routes for testing new UI
   get 'v2/home', to: 'v2#home'
+  get 'v2/edit', to: 'v2#edit'
 
   # root :to => 'default#index'
   root :to => 'home#index'

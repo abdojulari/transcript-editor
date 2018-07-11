@@ -6,11 +6,9 @@
   color: $header-text;
   height: $header-height;
   padding: 10px;
-  @include mobile {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-  }
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   img {
     max-width: 100%;
     @include mobile {
@@ -21,11 +19,23 @@
     a {
       display: inline-block;
       margin: 0 10px;
+      font-weight: bold;
       font-size: rem-calc(16);
       &:focus, &:hover, &.active {
         color: $header-text-active;
       }
     }
+  }
+  &__title {
+    color: $header-text-active;
+    font-size: rem-calc(16);
+    text-align: left;
+    flex-grow: 1;
+    margin-left: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 20%;
+    text-overflow: ellipsis;
   }
   &__mobile_nav_toggle {
     @include hidden-input;

@@ -1,0 +1,112 @@
+.transcript_hero {
+  background: $edit-background center center no-repeat;
+  background-size: cover;
+  min-height: 350px;
+  text-align: center;
+  &__button {
+    position: fixed;
+    width: 200px;
+    top: calc(#{$header-height} - 15px);
+    left: calc(50% - 100px);
+    z-index: 1000;
+  }
+}
+
+.transcript_info {
+  background-color: $transcript-background;
+  color: $body-foreground;
+  box-shadow: inset 0px -20px 20px 0px rgba(0,0,0,0.2);
+  padding: 30px;
+  &__content {
+    @include content_wrap;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    grid-template-areas:
+      "header header"
+      "info info"
+      "links key";
+    @include mobile {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "header"
+        "info"
+        "links"
+        "key";
+    }
+    a {
+      color: $text-link-dark;
+      text-decoration: underline;
+      &:hover, &:focus {
+        text-decoration: none;
+      }
+    }
+  }
+  &__header {
+    grid-area: header;
+  }
+  &__details {
+    grid-area: info;
+    p {
+      font-size: rem-calc(16);
+      margin-bottom: 1em;
+    }
+  }
+  &__title {
+    font-size: rem-calc(32);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    margin-bottom: 1em;
+  }
+  &__disclaimer em {
+    font-size: rem-calc(14);
+  }
+  &__duration {
+    color: $list-description;
+  }
+  &__links li {
+    grid-area: links;
+    margin-bottom: 0.5em;
+    .fas {
+      color: $text-link-dark;
+      font-size: rem-calc(14);
+    }
+  }
+  &__key {
+    grid-area: key;
+    background-color: $body-background;
+    border: 1px solid $list-border;
+    width: 300px;
+  }
+}
+
+.transcript_instruct {
+  background-color: $body-background;
+  color: $body-foreground;
+  padding: 30px;
+  &__content {
+    @include content_wrap;
+  }
+  &__title, p {
+    text-align: center;
+    margin-bottom: 15px;
+    .separator {
+      display: inline-block;
+      margin: 0 10px;
+      @include mobile {
+        width: 100%;
+        margin: 10px;
+      }
+    }
+  }
+  &__details {
+    list-style: disc;
+    margin-left: 20px;
+    li {
+      margin-bottom: 15px;
+      font-size: rem-calc(16);
+      line-height: 1.5;
+    }
+  }
+  &__placeholder {
+    width: 100%;
+  }
+}

@@ -28,6 +28,7 @@ $brand-yellow:            $soft-orange;
 $body-background:         $white;
 $body-foreground:         $black;
 $text-link:               $brand-yellow;
+$text-link-dark:          $very-dark-cyan;
 $highlight-background:    $light-yellow;
 
 $header-background:       $dark-red-black;
@@ -66,3 +67,5 @@ $progress-background:     $light-grey-orange;
 $progress-edits:          $bright-yellow;
 $progress-awaiting:       $bright-orange;
 $progress-completed:      $mid-green;
+
+$transcript-background:   lighten($light-grey-orange, .2);

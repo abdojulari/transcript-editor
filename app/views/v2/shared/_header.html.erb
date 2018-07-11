@@ -3,6 +3,11 @@
         alt: "Amplify logo",
         width: 150
   %>
+  <% if current_page?(v2_edit_path) %>
+    <p class="main_header__title">
+      > Transcript title - Interviewed by a person with a long name
+    </p>
+  <% end %>
   <nav class="main_header__nav">
     <%= check_box_tag "menu_toggle", "menu_toggle", false,
           class: "main_header__mobile_nav_toggle mobile-only"
