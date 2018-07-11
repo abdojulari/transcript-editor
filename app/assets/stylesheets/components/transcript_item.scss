@@ -45,6 +45,7 @@
     transition: opacity 0.5s;
   }
   &__subtitle {
+    font-family: $title-font;
     color: $list-sub-title;
     padding: 5px;
     padding-bottom: 0;
