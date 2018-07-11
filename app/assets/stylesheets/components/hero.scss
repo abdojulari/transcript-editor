@@ -1,6 +1,6 @@
 .main_hero {
-  background: $home-background, rgba($black, 0.5);
-  background-position: center center, center center;
+  background-color: rgba($black, 0.5);
+  background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
   background-blend-mode: multiply;
@@ -8,6 +8,13 @@
   width: 100%;
   color: $hero-forground;
   @include mobile {
+    min-height: 350px;
+  }
+  &.home {
+    background-image: $home-background;
+  }
+  &.edit {
+    background-image: $edit-background;
     min-height: 350px;
   }
   &__content {
