@@ -1,9 +1,7 @@
-<a
-  class="transcript_item"
-  title="Title - Interviewed by Person"
-  role="listitem"
-  href="#"
->
+<%= link_to v2_edit_path, class: "transcript_item",
+      title: "Title - Interviewed by Person",
+      role: "listitem" do
+%>
   <div
     class="transcript_item__image"
     style="background-image: url(https://oral-history.s3.amazonaws.com/images/interview/image/356/thumb_FullSizeRender.jpg)">
@@ -31,4 +29,4 @@
       <%= completed %>% reached consensus
     </div>
   </div>
-</a>
+<% end %>
