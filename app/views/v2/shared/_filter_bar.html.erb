@@ -1,8 +1,15 @@
 <section class="filter_bar">
   <article class="filter_bar__content">
     <form class="filter_bar__form">
+      <%= check_box_tag "filter_bar_toggle", "filter_bar_toggle", false,
+            class: "filter_bar__mobile_toggle mobile-only"
+      %>
+      <%= label_tag "filter_bar_toggle", class: "filter_bar__toggle_label mobile-only" do %>
+        Filter by:<span class="sr-only"> Select top open navigation</span>
+      <% end %>
+
       <div class="filter_bar__fieldset">
-        <legend>
+        <legend class="desktop-only">
           Filter by:
         </legend>
         <%= select_tag "institutions",

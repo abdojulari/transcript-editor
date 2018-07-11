@@ -45,4 +45,35 @@
       width: 30px;
     }
   }
+  // Hides and shows the filters on mobile
+  &__mobile_toggle {
+    @include hidden-input;
+    &:checked ~ .filter_bar__fieldset {
+      position: inherit;
+      opacity: 1;
+      visibility: visible;
+      z-index: auto;
+    }
+    &:checked + .filter_bar__toggle_label {
+      background-image: $drop-up-white;
+    }
+  }
+  &__toggle_label {
+    background-image: $drop-down-white;
+    background-position: 65% 50%;
+    background-repeat: no-repeat;
+    background-size: 15px 15px;
+    text-align: center;
+    cursor: pointer;
+  }
+  &__fieldset {
+    @include mobile {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      visibility: hidden;
+      z-index: -1;
+    }
+  }
 }
