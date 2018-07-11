@@ -4,11 +4,19 @@
         width: 150
   %>
   <nav class="main_header__nav">
-    <%= link_to "BROWSE", v2_home_path, class: "active" %>
-    <%= link_to "SEARCH", v2_home_path %>
-    <%= link_to "COLLECTIONS", v2_home_path %>
-    <%= link_to "ABOUT", v2_home_path %>
-    <%= link_to "FAQS", v2_home_path %>
-    <%= link_to "TRACK MY PROGRESS", v2_home_path %>
+    <%= check_box_tag "menu_toggle", "menu_toggle", false,
+          class: "main_header__mobile_nav_toggle mobile-only"
+    %>
+    <%= label_tag "menu_toggle", class: "button icon menu mobile-only" do %>
+      <span class="sr-only">Select top open navigation</span>
+    <% end %>
+    <div class="main_header__nav_list">
+      <%= link_to "BROWSE", v2_home_path, class: "active" %>
+      <%= link_to "SEARCH", v2_home_path %>
+      <%= link_to "COLLECTIONS", v2_home_path %>
+      <%= link_to "ABOUT", v2_home_path %>
+      <%= link_to "FAQS", v2_home_path %>
+      <%= link_to "TRACK MY PROGRESS", v2_home_path %>
+    </div>
   </nav>
 </header>

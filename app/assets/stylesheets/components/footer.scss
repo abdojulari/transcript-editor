@@ -4,10 +4,13 @@
   margin-top: 15px;
   min-height: $footer-height;
   padding: 30px;
+  @include mobile {
+    padding: 15px 0;
+  }
   &__content {
     @include content_wrap;
     p, a {
-      font-size: rem-calc(12);
+      font-size: rem-calc(14);
       margin-bottom: 1em;
     }
   }
@@ -26,6 +29,7 @@
     @include content_wrap;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     color: $sub-footer-foreground;
     a {
       color: $sub-footer-foreground;

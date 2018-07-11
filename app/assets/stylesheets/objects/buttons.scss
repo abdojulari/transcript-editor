@@ -46,14 +46,24 @@
     padding: 3px 10px 0;
   }
   &.icon {
-    height: 30px;
-    width: 30px;
+    height: 40px;
+    width: 40px;
     padding: 0;
     background-position: center;
     background-repeat: no-repeat;
     font-size: 1px;
     color: transparent;
     transition: background-image 0.5s;
+    &.menu {
+      background-image: $menu-icon;
+      background-size: 20px 20px;
+      cursor: pointer;
+    }
+    &.cross {
+      background-image: $cross-icon;
+      background-size: 20px 20px;
+      cursor: pointer;
+    }
     &.search {
       @include button-background($button-yellow);
       background-image: $search-icon;

@@ -1,30 +1,43 @@
 <section class="filter_bar">
   <article class="filter_bar__content">
     <form class="filter_bar__form">
-      <legend>
-        Filter by:
-      </legend>
-      <%= select_tag "institutions",
-            options_for_select([ "Library of Victoria", "Library of NSW", "Library of Wagga Wagga" ]),
-            prompt: "Institution"
+      <%= check_box_tag "filter_bar_toggle", "filter_bar_toggle", false,
+            class: "filter_bar__mobile_toggle mobile-only"
       %>
-      <%= select_tag "themes",
-            options_for_select([ "Indigenous studies", "Womens studies", "People studies" ]),
-            prompt: "Theme"
-      %>
-      <%= select_tag "collections",
-            options_for_select([ "Bridging our stories", "Your village your story", "Visible lives" ]),
-            prompt: "Collection"
-      %>
-      <legend>
-        Sort by:
-      </legend>
-      <%= select_tag "sorting",
-            options_for_select([ "Random", "Title (A to Z)", "Title (Z to A)" ]),
-            prompt: "Sort"
-      %>
-      <%= search_field_tag "search", nil, placeholder: "Search title/description" %>
-      <%= button_tag "Start", class: "button icon search" %>
+      <%= label_tag "filter_bar_toggle", class: "filter_bar__toggle_label mobile-only" do %>
+        Filter by:<span class="sr-only"> Select top open navigation</span>
+      <% end %>
+
+      <div class="filter_bar__fieldset">
+        <legend class="desktop-only">
+          Filter by:
+        </legend>
+        <%= select_tag "institutions",
+              options_for_select([ "Library of Victoria", "Library of NSW", "Library of Wagga Wagga" ]),
+              prompt: "Institution"
+        %>
+        <%= select_tag "themes",
+              options_for_select([ "Indigenous studies", "Womens studies", "People studies" ]),
+              prompt: "Theme"
+        %>
+        <%= select_tag "collections",
+              options_for_select([ "Bridging our stories", "Your village your story", "Visible lives" ]),
+              prompt: "Collection"
+        %>
+      </div>
+      <div class="filter_bar__fieldset">
+        <legend>
+          Sort by:
+        </legend>
+        <%= select_tag "sorting",
+              options_for_select([ "Random", "Title (A to Z)", "Title (Z to A)" ]),
+              prompt: "Sort"
+        %>
+        <div class="search_field">
+          <%= search_field_tag "search", nil, placeholder: "Search title/description" %>
+          <%= button_tag "Start", class: "button icon search" %>
+        </div>
+      </div>
     </form>
   </article>
 </section>
