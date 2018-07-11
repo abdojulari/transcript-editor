@@ -16,6 +16,11 @@
   &.edit {
     background-image: $edit-background;
     min-height: 350px;
+    text-align: center;
+    .button {
+      position: relative;
+      bottom: 15px;
+    }
   }
   &__content {
     @include content_wrap;
