@@ -4,8 +4,6 @@
   color: $body-foreground;
   &__list {
     @include content_wrap;
-    width: 95%;
-    max-width: 1500px;
   }
 }
 
