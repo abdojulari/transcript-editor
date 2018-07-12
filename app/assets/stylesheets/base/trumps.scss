@@ -17,8 +17,8 @@
 }
 
 .desktop-only {
-  display: none;
-  @include desktop {
-    display: inherit;
+  display: inherit;
+  @include mobile {
+    display: none !important;
   }
 }
