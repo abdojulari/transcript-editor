@@ -4,4 +4,6 @@ class V2Controller < ApplicationController
   def home; end
 
   def edit; end
+
+  def search; end
 end
