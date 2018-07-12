@@ -1,0 +1,48 @@
+.search_results {
+  padding: 20px;
+  background-color: $body-background;
+  color: $body-foreground;
+  &__list {
+    @include content_wrap;
+    width: 95%;
+    max-width: 1500px;
+  }
+}
+
+.search_item {
+  display: flex;
+  margin-bottom: 20px;
+  &__image {
+    background: center no-repeat;
+    background-size: cover;
+    width: 100px;
+    height: 100px;
+  }
+  &__details {
+    margin-top: 5px;
+    padding-left: 10px;
+  }
+  &__title {
+    font-size: rem-calc(18);
+    margin-bottom: 10px;
+  }
+  &__line {
+    color: $text-link-dark;
+    font-size: rem-calc(18);
+    line-height: 1.4;
+    span {
+      font-size: rem-calc(18);
+    }
+    &::before {
+      content: '"...';
+    }
+    &::after {
+      content: '..."';
+    }
+  }
+  &__line-type {
+    margin-top: 10px;
+    font-size: rem-calc(14);
+    color: $list-description;
+  }
+}

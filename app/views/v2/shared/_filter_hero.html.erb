@@ -1,0 +1,41 @@
+<section class="search_bar">
+  <article class="search_bar__content">
+    <form class="search_bar__form">
+      <div class="search_field">
+        <%= search_field_tag "search", nil, placeholder: "Search All Transcripts" %>
+        <%= button_tag "Start", class: "button icon search" %>
+      </div>
+    </form>
+  </article>
+</section>
+
+<section class="filter_bar">
+  <article class="filter_bar__content">
+    <form class="filter_bar__form">
+      <%= check_box_tag "filter_bar_toggle", "filter_bar_toggle", false,
+            class: "filter_bar__mobile_toggle mobile-only"
+      %>
+      <%= label_tag "filter_bar_toggle", class: "filter_bar__toggle_label mobile-only" do %>
+        Filter by:<span class="sr-only"> Select top open navigation</span>
+      <% end %>
+
+      <div class="filter_bar__fieldset">
+        <legend class="desktop-only">
+          Filter by:
+        </legend>
+        <%= select_tag "institutions",
+              options_for_select([ "Library of Victoria", "Library of NSW", "Library of Wagga Wagga" ]),
+              prompt: "Institution"
+        %>
+        <%= select_tag "themes",
+              options_for_select([ "Indigenous studies", "Womens studies", "People studies" ]),
+              prompt: "Theme"
+        %>
+        <%= select_tag "collections",
+              options_for_select([ "Bridging our stories", "Your village your story", "Visible lives" ]),
+              prompt: "Collection"
+        %>
+      </div>
+    </form>
+  </article>
+</section>
