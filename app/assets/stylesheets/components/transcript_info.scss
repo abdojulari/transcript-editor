@@ -4,6 +4,9 @@
   height: 50vh;
   min-height: 450px;
   text-align: center;
+  @include mobile {
+    min-height: 250px;
+  }
   &__button {
     width: 200px;
     position: fixed;
@@ -20,6 +23,9 @@
   color: $body-foreground;
   box-shadow: inset 0px -20px 20px 0px rgba($black,0.2);
   padding: 30px;
+  @include mobile {
+    padding: 10px;
+  }
   &__content {
     @include content_wrap;
     display: grid;
@@ -54,6 +60,9 @@
     font-size: rem-calc(32);
     text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
     margin-bottom: 1em;
+    @include mobile {
+      font-size: rem-calc(24);
+    }
   }
   &__disclaimer {
     em, a {
@@ -83,8 +92,16 @@
   background-color: $body-background;
   color: $body-foreground;
   padding: 30px;
+  @include mobile {
+    padding: 10px;
+  }
   &__content {
     @include content_wrap;
+  }
+  &__title {
+    @include mobile {
+      font-size: rem-calc(24);
+    }
   }
   &__title, p {
     text-align: center;
