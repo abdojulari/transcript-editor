@@ -73,4 +73,7 @@ sub, sup, small {
   &.green {
     background: rgba($progress-completed, 0.6);
   }
+  &.yellow {
+    background: $highlight-background;
+  }
 }
