@@ -54,7 +54,7 @@
     text-shadow: 1px 1px rgba($black, 0.8);
     margin-bottom: 10px;
     @include mobile {
-      font-size: rem-calc(22);
+      font-size: rem-calc(18);
     }
   }
   &__subtitle {
@@ -76,7 +76,7 @@
       line-height: 1.5;
       margin-bottom: 1em;
       @include mobile {
-        font-size: rem-calc(14);
+        font-size: rem-calc(16);
       }
     }
   }
