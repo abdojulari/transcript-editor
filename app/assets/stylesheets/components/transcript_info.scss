@@ -1,14 +1,17 @@
 .transcript_hero {
   background: $edit-background center center no-repeat;
   background-size: cover;
-  min-height: 350px;
+  height: 50vh;
+  min-height: 450px;
   text-align: center;
   &__button {
-    position: fixed;
     width: 200px;
-    top: calc(#{$header-height} - 15px);
+    position: fixed;
+    top: $header-height;
     left: calc(50% - 100px);
     z-index: 1000;
+    border-radius: 0 0 3px 3px;
+    box-shadow: 0 2px 4px rgba($black,0.4);
   }
 }
 
