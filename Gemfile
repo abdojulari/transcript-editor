@@ -18,6 +18,7 @@ gem 'dalli'
 
 # Disabling assets; replaced with Gulp
 gem 'sass-rails', '~> 5.0'
+gem 'autoprefixer-rails', '~> 8.6', '>= 8.6.5'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 gem 'jquery-rails'
@@ -81,7 +82,7 @@ group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  
+
   gem 'capistrano'
   gem 'capistrano3-puma'
   gem 'capistrano-rails', require: false

@@ -29,16 +29,13 @@ textarea {
   font-size: rem-calc(16);
   border: 0;
   border-radius: 0;
-  padding-left: 10px;
+  padding-left: 5px;
   color: $input-foreground;
   font-family: $body-font;
+  // Bugfix search on safari
+  -webkit-appearance: none;
   &::placeholder {
     color: $input-foreground;
     font-family: $body-font;
   }
-}
-
-input[type="search"] {
-  // Bugfix search on safari
-  -webkit-appearance: textfield;
 }

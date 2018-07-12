@@ -1,6 +1,6 @@
 .button {
   height: 40px;
-  line-height: 42px;
+  line-height: 40px;
   font-family: $body-font;
   font-weight: bold;
   font-size: rem-calc(16);
@@ -40,7 +40,7 @@
   }
   &.large {
     height: 50px;
-    line-height: 55px;
+    line-height: 51px;
     font-size: rem-calc(20);
   }
   &.small {
@@ -48,6 +48,13 @@
     line-height: 24px;
     font-size: rem-calc(12);
     padding: 3px 10px 0;
+  }
+  &.play-all {
+    .fa-play-circle {
+      position: relative;
+      right: 10px;
+      font-size: rem-calc(20);
+    }
   }
   &.icon {
     height: 40px;
