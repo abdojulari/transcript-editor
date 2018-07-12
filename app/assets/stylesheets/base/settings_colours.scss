@@ -12,6 +12,7 @@ $bright-yellow:     #FEE24A;
 
 // Shades
 $white:             #FFFFFF;
+$very-light-orange: #EEEEED;
 $light-grey:        #E7E8E9;
 $light-grey-orange: #D5D4D2;
 $grey-orange:       #C8C7C5;
@@ -28,7 +29,7 @@ $brand-yellow:            $soft-orange;
 $body-background:         $white;
 $body-foreground:         $black;
 $text-link:               $brand-yellow;
-$text-link-dark:          $very-dark-cyan;
+$text-link-dark:          $dark-cyan;
 $highlight-background:    $light-yellow;
 
 $header-background:       $dark-red-black;
@@ -68,4 +69,4 @@ $progress-edits:          $bright-yellow;
 $progress-awaiting:       $bright-orange;
 $progress-completed:      $mid-green;
 
-$transcript-background:   lighten($light-grey-orange, .2);
+$transcript-background:   $very-light-orange;
