@@ -472,6 +472,9 @@ GEM
       nokogiri (~> 1.5)
       trollop (~> 2.1)
     redcarpet (3.4.0)
+    reinteractive-style (0.2.8)
+      rubocop (~> 0.57)
+      rubocop-rspec (~> 1.24)
     request_store (1.4.1)
       rack (>= 1.4)
     responders (2.4.0)
@@ -506,6 +509,8 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
+    rubocop-rspec (1.27.0)
+      rubocop (>= 0.56.0)
     ruby-progressbar (1.9.0)
     ruby-saml (1.8.0)
       nokogiri (>= 1.5.10)
@@ -635,6 +640,7 @@ DEPENDENCIES
   rails-controller-testing
   rails_12factor
   redcarpet
+  reinteractive-style
   rspec-rails (~> 3.4)
   rubocop
   sanitize

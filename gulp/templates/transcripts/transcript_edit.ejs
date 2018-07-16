@@ -1,7 +1,25 @@
 <% if (page_conventions) { %>
 <div id="conventions-page" class="conventions-page sticky">
   <div role="tabpanel" aria-labelledby="conventions-link" aria-hidden="true">
-  <%= page_conventions %>
+    <div class="transcription_conventions.md page">
+      <table class="table-conventions">
+        <thead>
+          <tr>
+            <th colspan="2">Transcription Conventions</th>
+            <th>Examples</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% _.each(page_conventions, function(convention){ %>
+            <tr>
+              <td><%= convention.convention_key %></td>
+              <td><%= convention.convention_text %></td>
+              <td><%= convention.example %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
   </div>
   <a id="conventions-link" href="#conventions" class="tab toggle-active conventions-link" data-target="#conventions-page" label-active="Hide Conventions" label-inactive="Show Conventions" role="tab" aria-label="Conventions"></a>
 </div>
@@ -32,7 +50,7 @@
       <p class="original-link"><a href="<%= transcript.url %>" target="_blank">View audio in Library catalogue</a></p>
     <% } %>
 
-    <% if (transcript.image_catalogue_url) { %>
+    <%if (transcript.image_catalogue_url) { %>
       <p class="original-link"><a href="<%= transcript.image_catalogue_url %>" target="_blank">View image in Library catalogue</a></p>
     <% } %>
 

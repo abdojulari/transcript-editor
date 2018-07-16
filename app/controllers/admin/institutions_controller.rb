@@ -46,6 +46,6 @@ class Admin::InstitutionsController < AdminController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def institution_params
-      params.require(:institution).permit(:name, :url, :image, :slug, :hero_image, :introductory_text)
+      params.require(:institution).permit(:name, :url, :image, :slug, :hero_image, :introductory_text, :max_line_edits)
     end
 end

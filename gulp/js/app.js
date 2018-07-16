@@ -11,16 +11,18 @@ window.app = {
   initialize: function(){
     // init auth
     var auth_provider_paths = _.object(_.map(PROJECT.authProviders, function(provider) { return [provider.name, provider.path]; }));
-    $.auth.configure({
-      apiUrl: API_URL,
-      authProviderPaths: auth_provider_paths
-    });
+    // NOTE: Authentication is now done via rails
+    //
+    // $.auth.configure({
+    //   apiUrl: API_URL,
+    //   authProviderPaths: auth_provider_paths
+    // });
 
     // Debug
-    DEBUG && console.log("Project", PROJECT);
-    PubSub.subscribe('auth.validation.success', function(ev, user) {
-      DEBUG && console.log('User', user);
-    });
+    // DEBUG && console.log("Project", PROJECT);
+    // PubSub.subscribe('auth.validation.success', function(ev, user) {
+    //   DEBUG && console.log('User', user);
+    // });
 
     // Force a hard refresh after sign in/out
     PubSub.subscribe('auth.oAuthSignIn.success', function(ev, msg) {

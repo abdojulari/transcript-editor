@@ -21,8 +21,11 @@
     <%= form.text_area :introductory_text, class: 'form-control' %>
   </div>
   <div class="form-group">
+    <%= form.label 'Transcript consensus number', for: 'institution_max_line_edits' %>
+    <%= form.text_field :max_line_edits, class: 'form-control' %>
+  </div>
+  <div class="form-group">
     <%= form.label :image, "Logo" %>
-
     <div class="form-control">
       <% if institution.image.present? %>
         <%= image_tag(institution.image_url(:thumb)) %>
@@ -33,7 +36,6 @@
   </div>
   <div class="form-group">
     <%= form.label :hero_image, "Hero image" %>
-
     <div class="form-control">
       <% if institution.hero_image.present? %>
         <%= image_tag(institution.hero_image_url(:thumb)) %>

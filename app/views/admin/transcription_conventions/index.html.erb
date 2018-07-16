@@ -1,0 +1,36 @@
+<h3>Transcription Conventions for <%= @institution.name %></h3>
+<%= link_to 'New Transcription Convention', new_admin_institution_transcription_convention_path(@institution), class: 'btn btn-primary' %>
+
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col" colspan="2" >Transcription Conventions</th>
+      <th scope="col">Example</th>
+      <th colspan="3" scope="col"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @transcription_conventions.each do |convention| %>
+      <tr>
+        <td><strong><%= convention.convention_key %></strong></td>
+        <td><%= convention.convention_text %></td>
+        <td><%= convention.example %></td>
+        <td>
+          <%= link_to edit_admin_institution_transcription_convention_path(@institution,convention)  do %>
+            <%= fa_icon "edit" %>
+          <% end %>
+        </td>
+
+        <td>
+          <%= link_to admin_institution_transcription_convention_path(@institution, convention), data: {confirm: 'Are you sure?'}, method: :delete do %>
+            <%= fa_icon "trash-o" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+

@@ -48,6 +48,7 @@ class TranscriptsController < ApplicationController
         @transcript_speakers = TranscriptSpeaker.getByTranscriptId(@transcript.id)
         @flag_types = FlagType.byCategory("error")
         @user_flags = []
+        @transcription_conventions = @transcript.transcription_conventions
 
         user = logged_in_user
 

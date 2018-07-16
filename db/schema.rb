@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_10_052501) do
+ActiveRecord::Schema.define(version: 2018_07_11_232625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,12 @@ ActiveRecord::Schema.define(version: 2018_07_10_052501) do
     t.string "image"
     t.string "hero_image"
     t.text "introductory_text"
+    t.integer "max_line_edits", default: 3
+    t.integer "min_lines_for_consensus", default: 3
+    t.integer "min_lines_for_consensus_no_edits", default: 3
+    t.decimal "min_percent_consensus", default: "0.67"
+    t.string "line_display_method", default: "guess"
+    t.integer "super_user_hiearchy", default: 50
     t.index ["slug"], name: "index_institutions_on_slug"
   end
 
@@ -182,6 +188,15 @@ ActiveRecord::Schema.define(version: 2018_07_10_052501) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_transcript_statuses_on_name", unique: true
+  end
+
+  create_table "transcription_conventions", force: :cascade do |t|
+    t.string "convention_key"
+    t.string "convention_text"
+    t.string "example"
+    t.integer "institution_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "transcripts", id: :serial, force: :cascade do |t|

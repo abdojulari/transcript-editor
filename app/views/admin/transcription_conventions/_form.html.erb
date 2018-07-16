@@ -1,0 +1,17 @@
+<%= form_with(model: [:admin, @institution, transcription_convention], local: true) do |form| %>
+  <%= render 'layouts/cms_errors', object: transcription_convention %>
+
+  <div class="form-group">
+    <%= form.label :convention_key %>
+    <%= form.text_field :convention_key, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= form.label :convention_text %>
+    <%= form.text_field :convention_text, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= form.label :example %>
+    <%= form.text_field :example, class: 'form-control' %>
+  </div>
+  <%= form.submit 'Save', class: 'btn btn-primary' %>
+<% end %>

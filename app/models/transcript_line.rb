@@ -63,7 +63,7 @@ class TranscriptLine < ApplicationRecord
   # Update the line's status and best-guess text based on contributed edits
   def recalculate(edits=nil, project=nil)
     edits ||= TranscriptEdit.getByLine(id)
-    project ||= Project.getActive
+    project ||= Project.getActive(transcript.collection_id)
     statuses = TranscriptLineStatus.allCached
 
     # Init status & text
@@ -157,7 +157,7 @@ class TranscriptLine < ApplicationRecord
 
   def recalculateSpeaker(edits=nil, project=nil)
     edits ||= TranscriptSpeakerEdit.getByLine(id)
-    project ||= Project.getActive
+    project ||= Project.getActive(transcript.collection_id)
     consensus = project[:data]["consensus"]
     best_speaker_id = 0
 

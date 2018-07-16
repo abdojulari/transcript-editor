@@ -21,3 +21,5 @@ json.user_flags @user_flags, :transcript_line_id, :flag_type_id, :text
 unless @user_role.nil?
   json.user_role @user_role, :id, :name, :hiearchy
 end
+
+json.conventions @transcription_conventions, :convention_key, :convention_text, :example

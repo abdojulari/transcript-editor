@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
 
   namespace :admin do
-    resources :institutions
+    resources :institutions do
+      resources :transcription_conventions
+    end
     resources :pages do
       member do
         post :upload

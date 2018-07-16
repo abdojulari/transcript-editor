@@ -24,8 +24,13 @@ class Transcript < ApplicationRecord
   has_many :transcript_speakers
 
 
+
   def self.seconds_per_line
     5
+  end
+
+  def transcription_conventions
+    collection.institution.transcription_conventions
   end
 
   # speakers getters and setters used to manage the transcript_speakers

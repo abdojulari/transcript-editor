@@ -1,0 +1,8 @@
+<h3>
+  Editing <%= @transcription_convention.convention_key %>
+</h3>
+
+<%= render 'form', transcription_convention: @transcription_convention %>
+
+<br />
+<%= link_to 'back', admin_institution_transcription_conventions_path(@institution) %>

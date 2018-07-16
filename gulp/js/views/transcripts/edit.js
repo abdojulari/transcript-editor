@@ -2,22 +2,26 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
 
   template: _.template(TEMPLATES['transcript_edit.ejs']),
 
+  events: {
+    'click #conventions-link': 'showConventions'
+  },
+
   initialize: function(data){
 
     this.data = data;
 
-    this.loadConventions();
     this.loadTranscript();
-    // this.loadTutorial();
     this.listenForAuth();
-
-
   },
 
   finished: function(){
     this.$('.transcript-finished').addClass('disabled');
     this.$('.show-when-finished').addClass('active');
     $(window).trigger('scroll-to', [$('#completion-content'), 100]);
+  },
+
+  showConventions: function(){
+    this.$('.conventions-page').toggleClass( "active"  )
   },
 
   lineEditDelete: function(i){
@@ -104,12 +108,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
   },
 
   loadConventions: function(){
-    this.data.page_conventions = '';
-
-    if (this.data.project.pages['transcription_conventions.md']) {
-      var page = new app.views.Page(_.extend({}, {project: this.data.project, page_key: 'transcription_conventions.md'}))
-      this.data.page_conventions = page.toString();
-    }
+    this.data.page_conventions = this.data.transcript.conventions
   },
 
   loadListeners: function(){
@@ -256,6 +255,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.parseTranscript();
     this.loadPageContent();
     this.loadCompletionContent();
+    this.loadConventions()
     this.loadAudio();
   },
 

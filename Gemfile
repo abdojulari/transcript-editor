@@ -91,6 +91,7 @@ group :development do
   gem 'rubocop'
 
   gem 'dotenv-rails'
+  gem "reinteractive-style"
 end
 
 group :test do
