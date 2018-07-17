@@ -1,12 +1,12 @@
 class Admin::UsersController < AdminController
-
-  before_action :set_user, only: [:show, :update, :destroy]
+  before_action :set_user, only: [:update]
 
   def index
     authorize User
 
-    @users = User.getAll.decorate
-    @user_roles = UserRole.getAll
+    @users = policy_scope(User).getAll.decorate
+    @user_roles = policy_scope(UserRole).getAll
+    @institutions = policy_scope(Institution).all
   end
 
   # PATCH/PUT /admin/users/{id}.json
@@ -22,12 +22,11 @@ class Admin::UsersController < AdminController
 
   private
 
-    def set_user
-      @user = User.find(params[:id])
-    end
+  def set_user
+    @user = User.find(params[:id])
+  end
 
-    def user_params
-      params.require(:user).permit(:user_role_id)
-    end
-
+  def user_params
+    params.require(:user).permit(:user_role_id, :institution_id)
+  end
 end

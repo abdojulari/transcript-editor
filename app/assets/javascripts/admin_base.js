@@ -5,4 +5,5 @@
 //= require summernote/summernote-bs4.min
 //= require activestorage
 //= require components
+//= require users
 //= require editor

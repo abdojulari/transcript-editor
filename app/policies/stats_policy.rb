@@ -8,7 +8,6 @@ class StatsPolicy < Struct.new(:user, :stats)
   end
 
   def index?
-    @user.isAdmin?
+    @user.staff?
   end
-
 end

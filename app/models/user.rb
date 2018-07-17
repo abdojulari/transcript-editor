@@ -8,6 +8,7 @@ class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
 
   belongs_to :user_role, optional: true
+  belongs_to :institution, optional: true
 
   attr_accessor :total_edits
 
@@ -29,16 +30,48 @@ class User < ApplicationRecord
     end
   end
 
+  # depriciated method
   def isAdmin?
     role = user_role
     role = UserRole.find user_role_id if !role && user_role_id > 0
     role && role.name == "admin"
   end
 
+  # new admin check
+  def admin?
+    user_role.try(:name) == "admin"
+  end
+
+  # depriciated method
   def isModerator?
     role = user_role
     role = UserRole.find user_role_id if !role && user_role_id > 0
     role && (role.name == "moderator" || role.name == "admin")
+  end
+
+  # new method
+  def moderator?
+    user_role.try(:name) == "moderator"
+  end
+
+  def content_editor?
+    user_role.try(:name) == "content_editor"
+  end
+
+
+  # can be either,
+  # admin, moderator, content_editor
+  def staff?
+    admin? || moderator? || content_editor?
+  end
+
+  def admin_or_content_editor?
+    admin? || content_editor?
+  end
+
+
+  def admin_or_moderator?
+    admin? || moderator?
   end
 
   def self.getAll

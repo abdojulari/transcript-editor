@@ -1,9 +1,9 @@
-class InstitutionPolicy < ApplicationPolicy
-  attr_reader :user, :institution
+class TranscriptionConventionPolicy < ApplicationPolicy
+  attr_reader :user, :csope
 
-  def initialize(user, institution)
+  def initialize(user, scope)
     @user = user
-    @institution = institution
+    @csope = scope
   end
 
   def index?
@@ -11,11 +11,11 @@ class InstitutionPolicy < ApplicationPolicy
   end
 
   def new?
-    @user.admin?
+    admin_or_content_editor?
   end
 
   def create?
-    @user.admin?
+    admin_or_content_editor?
   end
 
   def edit?
@@ -33,11 +33,10 @@ class InstitutionPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       if @user.admin?
-        Institution.order_asc
-      elsif @user.content_editor?
-        Institution.where(id: @user.institution_id).order_asc
+        TranscriptionConvention.all
       else
-        Institution.none
+        TranscriptionConvention.where(institution_id: @user.institution_id).
+          order_asc
       end
     end
   end

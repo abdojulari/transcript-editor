@@ -1,7 +1,9 @@
 <%= render partial: 'layouts/admin_side_pane' %>
 
 <h1>Institutions</h1>
-<%= link_to 'New Institution', new_admin_institution_path, class: 'btn btn-primary' %>
+<% if policy(Institution).new? %>
+  <%= link_to 'New Institution', new_admin_institution_path, class: 'btn btn-primary' %>
+<% end %>
 <table class="table">
   <thead class="thead-dark">
     <tr>

@@ -1,4 +1,4 @@
-class Admin::Cms::TranscriptsController < Admin::ApplicationController
+class Admin::Cms::TranscriptsController < AdminController
   before_action :set_transcript, only: [:edit, :update]
   before_action :set_transcript_by_id, only: [:process_transcript]
 
@@ -18,8 +18,7 @@ class Admin::Cms::TranscriptsController < Admin::ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @transcript.update(transcript_params)
@@ -32,8 +31,8 @@ class Admin::Cms::TranscriptsController < Admin::ApplicationController
   end
 
   def speaker_search
-    speakers = Speaker.where("LOWER(name) LIKE ?", "%#{params[:q].downcase}%")
-      .map  do |s|
+    speakers = Speaker.where("LOWER(name) LIKE ?", "%#{params[:q].downcase}%").
+      map do |s|
         { id: s.id, label: s.name, value: s.name }
       end
     render json: speakers
@@ -43,7 +42,7 @@ class Admin::Cms::TranscriptsController < Admin::ApplicationController
     ingest_transcript
     @transcript.reload
     render json: {
-      lines: @transcript.lines
+      lines: @transcript.lines,
     }
   end
 
@@ -59,21 +58,14 @@ class Admin::Cms::TranscriptsController < Admin::ApplicationController
 
   def transcript_params
     params.require(:transcript).permit(
-      :uid,
-      :title,
-      :description,
-      :url,
-      :audio,
-      :script,
-      :image,
-      :image_caption,
+      :uid, :title,
+      :description, :url,
+      :audio, :script,
+      :image, :image_caption,
       :image_catalogue_url,
-      :notes,
-      :vendor_id,
-      :collection_id,
-      :speakers,
+      :notes, :vendor_id, :collection_id, :speakers
     ).merge(
-      project_uid: ENV['PROJECT_ID']
+      project_uid: ENV["PROJECT_ID"],
     )
   end
 
@@ -82,7 +74,7 @@ class Admin::Cms::TranscriptsController < Admin::ApplicationController
   end
 
   def ingest_transcript
-    imp = VoiceBase::ImportSrtTranscripts.new(project_id: ENV['PROJECT_ID'])
+    imp = VoiceBase::ImportSrtTranscripts.new(project_id: ENV["PROJECT_ID"])
     imp.process_single(@transcript.id)
   end
 end

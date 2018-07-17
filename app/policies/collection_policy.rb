@@ -7,23 +7,24 @@ class CollectionPolicy < ApplicationPolicy
   end
 
   def index?
-    @user.isAdmin?
+    admin_or_content_editor?
   end
 
   def show?
-    @user.isAdmin?
+    admin_or_content_editor?
   end
 
   def update?
-    @user.isAdmin?
+    admin_or_content_editor?
   end
 
   class Scope < Scope
     def resolve
-      if @user.isAdmin?
+      if @user.admin?
         Collection.all
+      else
+        Collection.where(institution_id: @user.institution_id)
       end
     end
   end
-
 end

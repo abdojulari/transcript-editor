@@ -12,6 +12,7 @@ class Institution < ApplicationRecord
 
   has_many :collections, dependent: :destroy
   has_many :transcription_conventions, dependent: :destroy
+  has_many :users, dependent: :destroy
 
   validates :name, presence: true
   validates :name, uniqueness: true

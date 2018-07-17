@@ -23,8 +23,8 @@ class Flag < ApplicationRecord
     Flag.where(transcript_id: transcript_id, user_id: user_id, is_deleted: 0)
   end
 
-  def self.getUnresolved
-    Flag
+  def self.pending_flags(institution_id = nil)
+    ar_relation = Flag
       .select('flags.*, flag_types.label as flag_type_label,
       transcripts.uid as transcript_uid, transcripts.title as transcript_title,
       transcript_lines.start_time')
@@ -33,6 +33,8 @@ class Flag < ApplicationRecord
       INNER JOIN transcript_lines ON flags.transcript_line_id = transcript_lines.id')
       .where("flags.is_resolved = :is_resolved AND flags.is_deleted = :is_deleted AND flag_types.category = :category",
       {is_resolved: 0, is_deleted: 0, category: 'error'})
+   ar_relation = ar_relation.joins('INNER JOIN collections on transcripts.collection_id = collections.id').where("collections.institution_id = ?", institution_id) if institution_id
+   ar_relation
   end
 
   def self.resolve(transcript_line_id)

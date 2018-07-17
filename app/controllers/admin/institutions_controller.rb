@@ -11,10 +11,11 @@ class Admin::InstitutionsController < AdminController
     @institution = Institution.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
+    authorize Institution
+
     @institution = Institution.new(institution_params)
 
     if @institution.save
@@ -25,7 +26,9 @@ class Admin::InstitutionsController < AdminController
   end
 
   def update
-    if  @institution.update(institution_params)
+    authorize Institution
+
+    if @institution.update(institution_params)
       redirect_to admin_institutions_path
     else
       render :edit
@@ -33,19 +36,25 @@ class Admin::InstitutionsController < AdminController
   end
 
   def destroy
+    authorize Institution
+
     institution.destroy
     redirect_to admin_institutions_path
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_institution
-      @institution = Institution.friendly.find(params[:id])
-      authorize @institution
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def institution_params
-      params.require(:institution).permit(:name, :url, :image, :slug, :hero_image, :introductory_text, :max_line_edits)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_institution
+    @institution = Institution.friendly.find(params[:id])
+    authorize @institution
+  end
+
+  def institution_params
+    params.require(:institution).permit(
+      :name, :url,
+      :image, :slug, :hero_image,
+      :introductory_text, :max_line_edits
+    )
+  end
 end

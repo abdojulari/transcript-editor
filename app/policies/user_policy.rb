@@ -1,16 +1,26 @@
 class UserPolicy < ApplicationPolicy
-  attr_reader :user
+  attr_reader :user, :scope
 
-  def initialize(user, klass)
+  def initialize(user, scope)
     @user = user
+    @scope = scope
   end
 
   def index?
-    @user.isAdmin?
+    admin_or_content_editor?
   end
 
   def update?
-    @user.isAdmin?
+    admin_or_content_editor?
   end
 
+  class Scope < Scope
+    def resolve
+      if @user.admin?
+        User.all
+      else
+        User.where("institution_id = ?", @user.institution_id)
+      end
+    end
+  end
 end

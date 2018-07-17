@@ -11,7 +11,7 @@ class ApplicationPolicy
   end
 
   def show?
-    scope.where(:id => record.id).exists?
+    scope.where(id: record.id).exists?
   end
 
   def create?
@@ -36,6 +36,10 @@ class ApplicationPolicy
 
   def admin?
     @user.isAdmin?
+  end
+
+  def admin_or_content_editor?
+    @user.admin_or_content_editor?
   end
 
   def scope

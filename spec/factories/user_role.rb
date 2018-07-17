@@ -16,5 +16,10 @@ FactoryBot.define do
       description { 'Moderator can review edits' }
     end
 
+    trait :content_editor do
+      name { 'content_editor' }
+      hiearchy { 50 }
+      description { 'content_editor' }
+    end
   end
 end

@@ -1,30 +1,12 @@
 <% content_for :side_pane do %>
   <ul class="list-group">
-    <li class="list-group-item">
-      <%= link_to '/admin' do %>
-        <%= fa_icon "line-chart", text: "Dashboard" %>
-      <% end %>
-    </li>
-    <li class="list-group-item">
-      <%= link_to admin_users_path do %>
-        <%= fa_icon "users", text: "Users" %>
-      <% end %>
-    </li>
-    <li class="list-group-item">
-      <%= link_to admin_cms_path do %>
-        <%= fa_icon "list-ul", text: "CMS" %>
-      <% end %>
-    </li>
-    <li class="list-group-item">
-      <%= link_to admin_institutions_path do %>
-        <%= fa_icon "university", text: "Institutions" %>
-      <% end %>
-    </li>
-    <li class="list-group-item">
-      <%= link_to admin_pages_path do %>
-        <%= fa_icon "file", text: "Pages" %>
-      <% end %>
-    </li>
+    <% side_menu.each do |menu| %>
+      <li class="list-group-item">
+        <%= link_to menu.path do %>
+          <%= fa_icon menu.icon, text: menu.text %>
+        <% end %>
+      </li>
+    <% end %>
   </ul>
 <% end %>
 
