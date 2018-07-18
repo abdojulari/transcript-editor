@@ -7,6 +7,7 @@ module AdminHelper
       OpenStruct.new(path: admin_cms_path, icon: "list-ul", text: "CMS", type: 2),
       OpenStruct.new(path: admin_institutions_path, icon: "university", text: "Institutions", type: 2),
       OpenStruct.new(path: admin_pages_path, icon: "file", text: "Pages", type: 4),
+      OpenStruct.new(path: admin_themes_path, icon: "paint-brush", text: "Themes", type: 4),
     ]
     # rubocop:enable Metrics/LineLength
     list.reject { |i| i.type > user_type }

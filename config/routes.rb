@@ -10,6 +10,7 @@ Rails.application.routes.draw do
         delete :delete_upload
       end
     end
+    resources :themes, except: [:show]
   end
   resources :flags, only: [:index, :show, :create]
   resources :transcript_speaker_edits, only: [:create]
