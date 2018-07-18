@@ -38,6 +38,10 @@
     <%= f.collection_select(:institution_id, @institutions, :id, :name, { selected: @collection.institution_id }, { class: 'form-control' }) %>
   </div>
 
+  <div class="form-group">
+    <%= f.label 'themes' %>
+    <%= f.collection_select(:theme_ids, @themes, :name, :name, { selected: @collection.theme_list }, { multiple: true,  class: 'form-control' }) %>
+  </div>
 
   <div class="form-group">
     <%= f.label :image, "Default Collection Image" %>

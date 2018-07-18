@@ -113,3 +113,4 @@ gem "draper"
 
 gem "pundit"
 gem 'friendly_id', '~> 5.2.0'
+gem 'acts-as-taggable-on', '~> 6.0'

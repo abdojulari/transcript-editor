@@ -3,6 +3,7 @@ class Collection < ApplicationRecord
   include UidValidationOnUpdate
 
   mount_uploader :image, ImageUploader
+  acts_as_taggable_on :themes
 
   has_many :transcripts
   belongs_to :vendor
