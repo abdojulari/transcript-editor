@@ -7,7 +7,7 @@ class TranscriptLinesController < ApplicationController
   # POST /transcript_lines/1/resolve.json
   def resolve
 
-    if logged_in_user.try(:isAdmin?) && !@transcript_line.nil?
+    if logged_in_user.try(:staff?) && !@transcript_line.nil?
       @transcript_line.resolve()
       Flag.resolve(@transcript_line.id)
     end

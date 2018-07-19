@@ -43,7 +43,6 @@ class Admin::TranscriptionConventionsController < AdminController
 
     def set_institution
       @institution = Institution.friendly.find(params[:institution_id])
-      authorize @institution
     end
 
     def transcription_convention_params
