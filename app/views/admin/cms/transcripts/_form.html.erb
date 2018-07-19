@@ -70,7 +70,7 @@
 
         <div class="form-control">
           <% if @transcript.image.present? %>
-            <%= image_tag(@transcript.image.thumb) %>
+            <%= image_tag(@transcript.image_url(:thumb)) %>
           <% end %>
           <%= f.file_field :image, class: "align-bottom" %>
         </div>
