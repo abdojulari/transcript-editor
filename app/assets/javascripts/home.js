@@ -2,6 +2,7 @@
 // All this logic will automatically be available in application.js.
 $(document).ready(function(){
   var collectionId = 0;
+  var institutionId = 0;
   var sortId = '';
   var searchText = '';
   var firstTimeLoad = true;
@@ -11,14 +12,25 @@ $(document).ready(function(){
     $(this).toggleClass( "active" )
   });
 
-  $('.select-option').click(function(){
+  $('#collection_search').on('click', '.select-option', function(){
+    collectionId = $(this).attr('data-id')
+    loadTranscripts();
+  });
+
+  $('.select-option').on('click', function(){
     if (this.classList.contains('menu-item')) {
       return true
     }
-    if ($(this).attr('data-filter') == 'collection'){
+    if ($(this).attr('data-filter') === 'collection'){
       collectionId = $(this).attr('data-id');
     }
-    if ($(this).attr('data-filter') == 'sorting'){
+    if ($(this).attr('data-filter') === 'institution'){
+      institutionId = $(this).attr('data-id');
+      if (institutionId === ""){
+        collectionId = 0;
+      }
+    }
+    if ($(this).attr('data-filter') === 'sorting'){
       sortId = $(this).attr('data-id');
     }
     loadTranscripts();
@@ -47,8 +59,9 @@ $(document).ready(function(){
 
   function loadTranscripts(){
     data = {
-      collectionId: collectionId,
-      sortId: sortId,
+      institution_id: institutionId,
+      collection_id: collectionId,
+      sort_id: sortId,
       text: searchText
     };
     $(".transcript-list").html('<div class="loading"></div>')

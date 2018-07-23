@@ -109,7 +109,7 @@ class Transcript < ApplicationRecord
   end
 
   def self.get_for_home_page(params)
-    sort = params[:sortId].to_s
+    sort = params[:sort_id].to_s
 
     query = Transcript
       .select('transcripts.*, COALESCE(collections.title, \'\') as collection_title')
@@ -117,16 +117,19 @@ class Transcript < ApplicationRecord
       .where("transcripts.lines > 0 AND transcripts.project_uid = :project_uid AND transcripts.is_published = :is_published", {project_uid: ENV['PROJECT_ID'], is_published: 1})
 
     # scope by collection
-    query = query.where("transcripts.collection_id = #{params[:collectionId]}") if params[:collectionId].to_i > 0
+    query = query.where("transcripts.collection_id = #{params[:collection_id]}") if params[:collection_id].to_i > 0
+
+    # scope by institution
+    query = query.where("collections.institution_id = #{params[:institution_id]}") if params[:institution_id].to_i > 0
 
     # search text
-    query = query.where("transcripts.title ILIKE :search or transcripts.description ILIKE :search", search: "%#{params[:text]}%")if params[:text].present?
+    query = query.where("transcripts.title ILIKE :search or transcripts.description ILIKE :search", search: "%#{params[:text]}%") if params[:text].present?
 
     if sort.match(/title/i)
       arr = query.sort_by {|e| e.title.gsub(/\d+/) {|num| "#{num.length} #{num}"}}
       sort == "title_asc" ? arr : arr.reverse
     else
-      order = sort_string(params[:sortId])
+      order = sort_string(params[:sort_id])
       query = query.order(order) if order
       query
     end

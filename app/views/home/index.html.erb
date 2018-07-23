@@ -35,14 +35,18 @@
   <div data-sticky="#transcript-facets" class="sticky-on-scroll" id="fixedHeader">
     <div id="transcript-facets" class="transcript-facets">
       <div>
+        <!-- sort institution -->
         <div class="facet">
-          <label for="filter-by-collection">Filter by Collection: </label>
+          <label for="filter-by-collection">Institution: </label>
           <div name="filter-by-collection" class="select collection">
-            <div class="select-active collection-filter">All Collections</div>
+            <div class="select-active collection-filter">All Institutions</div>
             <div class="select-options collection-filter" role="menu" aria-hidden="true">
-              <%= raw collection_list(@collection) %>
+              <%= raw institution_list(@institutions) %>
             </div>
           </div>
+        </div>
+        <!-- end institution -->
+        <div class="facet" id="collection_search">
         </div>
         <!-- Sort  collection -->
         <div class="facet">

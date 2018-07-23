@@ -1,1 +1,3 @@
+$("#collection_search").html("<%= escape_javascript(render partial: 'home/collection', locals: { collection: @collection,
+selected_id: @selected_collection_id} ) %>");
 $(".transcript-list").html("<%= escape_javascript(render partial: 'home/transcript_list', locals: { transcripts: @transcripts } ) %>");

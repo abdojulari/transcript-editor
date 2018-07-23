@@ -1,0 +1,22 @@
+<%
+    index = collection.index { |e| e.id == selected_id }
+    if index
+      first_collection = collection.delete_at(index)
+    else
+      first_collection = collection.shift
+    end
+%>
+<% if first_collection %>
+  <% rest_of_the_collection = collection %>
+  <label for="filter-by-collection">Collection: </label>
+  <div name="filter-by-collection" class="select collection">
+    <div class="select-active collection-filter"><%= first_collection.title %></div>
+    <div class="select-options collection-filter" role="menu" aria-hidden="true">
+      <%= raw collection_list(rest_of_the_collection) %>
+    </div>
+  </div>
+<% else %>
+  No collection found
+<% end %>
+
+
