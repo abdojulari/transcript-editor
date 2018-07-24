@@ -6,6 +6,7 @@ $(document).ready(function(){
   var sortId = '';
   var searchText = '';
   var firstTimeLoad = true;
+  var theme = '';
 
 
   $('.select.collection').click(function(){
@@ -32,6 +33,10 @@ $(document).ready(function(){
     if ($(this).attr('data-filter') === 'sorting'){
       sortId = $(this).attr('data-id');
     }
+    if ($(this).attr('data-filter') === 'theme'){
+      theme = $(this).attr('data-id');
+    }
+
     loadTranscripts();
   })
 
@@ -61,7 +66,8 @@ $(document).ready(function(){
       institution_id: institutionId,
       collection_id: collectionId,
       sort_id: sortId,
-      text: searchText
+      text: searchText,
+      theme: theme
     };
     $(".transcript-list").html('<div class="loading"></div>')
     $.ajax({

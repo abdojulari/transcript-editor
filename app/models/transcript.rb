@@ -122,6 +122,13 @@ class Transcript < ApplicationRecord
     # scope by institution
     query = query.where("collections.institution_id = #{params[:institution_id]}") if params[:institution_id].to_i > 0
 
+    # scope for theme
+    # since the theme is coming from the dropdown, we can use it as is
+    if params[:theme].present?
+      query = query.joins('inner join taggings on taggings.taggable_id = collections.id inner join tags on tags.id =  taggings.tag_id')
+      query = query.where("tags.name = ?", params[:theme])
+    end
+
     # search text
     query = query.where("transcripts.title ILIKE :search or transcripts.description ILIKE :search", search: "%#{params[:text]}%") if params[:text].present?
 

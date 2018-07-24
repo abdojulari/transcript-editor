@@ -7,6 +7,7 @@ class HomeController < ApplicationController
   def index
     @institutions = Institution.all
     @sort_list = SortList.list
+    @themes = Theme.all
   end
 
   def transcripts
@@ -19,7 +20,8 @@ class HomeController < ApplicationController
   def sort_params
     params.require(:data).permit(
       :collection_id, :sort_id, :text,
-      :institution_id
+      :institution_id,
+      :theme
     )
   end
 

@@ -35,6 +35,18 @@
   <div data-sticky="#transcript-facets" class="sticky-on-scroll" id="fixedHeader">
     <div id="transcript-facets" class="transcript-facets">
       <div>
+        <!-- sort themes -->
+        <div class="facet">
+          <label for="filter-by-collection">Theme: </label>
+          <div name="filter-by-collection" class="select collection">
+            <div class="select-active collection-filter">All Themes</div>
+            <div class="select-options collection-filter" role="menu" aria-hidden="true">
+              <%= raw theme_list(@themes) %>
+            </div>
+          </div>
+        </div>
+        <!-- end themes -->
+
         <!-- sort institution -->
         <div class="facet">
           <label for="filter-by-collection">Institution: </label>
