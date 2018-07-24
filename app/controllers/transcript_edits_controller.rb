@@ -33,7 +33,7 @@ class TranscriptEditsController < ApplicationController
     params[:transcript_edit][:session_id] = session.id
     t = params[:transcript_edit]
     line = TranscriptLine.find t[:transcript_line_id]
-    project = Project.getActive
+    project = Project.getActive(line.transcript.collection_id)
 
     unless line
       head :no_content
