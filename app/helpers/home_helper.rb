@@ -21,7 +21,7 @@ module HomeHelper
   end
 
   def theme_list(list)
-    html = "<a data-filter='theme' data-id='' data-value='ALL' class='select-option collection filter-by' data-active='All Collections' title='All Themes' role='menuitemradio' aria-checked='true'>All Themes</a>"
+    html = "<a data-filter='theme' data-id='' data-value='ALL' class='select-option collection filter-by' data-active='All Themes' title='All Themes' role='menuitemradio' aria-checked='true'>All Themes</a>"
     list.each do |item|
       html += "<a data-filter='theme' data-id='#{item.name}' class='select-option institution filter-by' title='#{item.name}' role='menuitemradio' aria-checked='true'>#{item.name}</a>"
     end
