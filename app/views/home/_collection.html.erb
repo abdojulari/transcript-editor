@@ -6,7 +6,7 @@
       first_collection = collection.shift
     end
 %>
-<% if first_collection %>
+<% if collection.any? %>
   <% rest_of_the_collection = collection %>
   <label for="filter-by-collection">Collection: </label>
   <div name="filter-by-collection" class="select collection">

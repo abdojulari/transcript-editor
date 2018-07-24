@@ -26,9 +26,8 @@ $(document).ready(function(){
     }
     if ($(this).attr('data-filter') === 'institution'){
       institutionId = $(this).attr('data-id');
-      if (institutionId === ""){
-        collectionId = 0;
-      }
+      // when institution changes, reset the collection id
+      collectionId = 0;
     }
     if ($(this).attr('data-filter') === 'sorting'){
       sortId = $(this).attr('data-id');

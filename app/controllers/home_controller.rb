@@ -2,7 +2,7 @@ class HomeController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :authenticate_user!, except: [:index, :transcripts]
   before_action :collection, except: [:index]
-  layout 'public'
+  layout "public"
 
   def index
     @institutions = Institution.all
@@ -17,14 +17,19 @@ class HomeController < ApplicationController
   private
 
   def sort_params
-    params.require(:data).permit(:collection_id, :sort_id, :text, :institution_id)
+    params.require(:data).permit(
+      :collection_id, :sort_id, :text,
+      :institution_id
+    )
   end
 
   def collection
-    if sort_params[:institution_id].to_i > 0
-      @collection = Collection.where(institution_id: sort_params[:institution_id]).to_a
-    else
-      @collection = Collection.all.to_a.unshift(Collection.new(id: 0, title: "All Collections"))
-    end
+    new_collection = Collection.new(id: 0, title: "All Collections")
+    institution_id = sort_params[:institution_id].to_i
+    @collection = if institution_id > 0
+                    Collection.where(institution_id: institution_id)
+                  else
+                    Collection.all
+                  end.to_a.unshift(new_collection)
   end
 end
