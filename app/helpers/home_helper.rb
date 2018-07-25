@@ -13,7 +13,7 @@ module HomeHelper
   end
 
   def institution_list(list)
-    html = "<a data-filter='institution' data-id='' data-value='ALL' class='select-option collection filter-by' data-active='All Collections' title='All Institutions' role='menuitemradio' aria-checked='true'>All Institutions</a>"
+    html = "<a data-filter='institution' data-id='' data-value='ALL' class='select-option collection filter-by selected' data-active='All Institutions' title='All Institutions' role='menuitemradio' aria-checked='true'>All Institutions</a>"
     list.each do |item|
       html += "<a data-filter='institution' data-id='#{item.id}' class='select-option institution filter-by' title='#{item.name}' role='menuitemradio' aria-checked='true'>#{item.name}</a>"
     end
@@ -21,23 +21,26 @@ module HomeHelper
   end
 
   def theme_list(list)
-    html = "<a data-filter='theme' data-id='' data-value='ALL' class='select-option collection filter-by' data-active='All Themes' title='All Themes' role='menuitemradio' aria-checked='true'>All Themes</a>"
+    html = "<a data-filter='theme' data-id='' data-value='ALL' class='select-option collection filter-by selected' data-active='All Themes' title='All Themes' role='menuitemradio' aria-checked='true'>All Themes</a>"
     list.each do |item|
       html += "<a data-filter='theme' data-id='#{item.name}' class='select-option institution filter-by' title='#{item.name}' role='menuitemradio' aria-checked='true'>#{item.name}</a>"
     end
     html
   end
 
-  def collection_list(list)
+  def collection_list(list, index)
     html = ""
-    list.each do |item|
-      html += "<a data-filter='collection' data-id='#{item.id}' class='select-option collection filter-by' title='#{item.title}' role='menuitemradio' aria-checked='true'>#{item.title}</a>"
+    list.each_with_index do |item, i|
+      klass = (i == index) ? 'selected' : ''
+      html += "<a data-filter='collection' data-id='#{item.id}' class='select-option collection filter-by #{klass}' title='#{item.title}' role='menuitemradio' aria-checked='true'>#{item.title}</a>"
     end
     html
   end
 
   def sorting_list(list)
     html = ""
+    html = "<a data-filter='sorting' data-id='random' data-value='random' class='select-option collection filter-by selected' data-active='Random' title='Random' role='menuitemradio' aria-checked='true'>Random</a>"
+
     list.each do |item|
       html += "<a data-filter='sorting' data-id='#{item.id}' class='select-option collection filter-by' title='#{item.title}' role='menuitemradio' aria-checked='true'>#{item.title}</a>"
     end

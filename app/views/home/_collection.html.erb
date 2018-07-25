@@ -1,18 +1,18 @@
 <%
     index = collection.index { |e| e.id == selected_id }
     if index
-      first_collection = collection.delete_at(index)
+      first_collection = collection[index]
     else
-      first_collection = collection.shift
+      first_collection = collection.first
     end
 %>
 <% if collection.any? %>
   <% rest_of_the_collection = collection %>
   <label for="filter-by-collection">Collection: </label>
   <div name="filter-by-collection" class="select collection">
-    <div class="select-active collection-filter"><%= first_collection.title %></div>
+    <div class="select-active collection-filter selected"><%= first_collection.title %></div>
     <div class="select-options collection-filter" role="menu" aria-hidden="true">
-      <%= raw collection_list(rest_of_the_collection) %>
+      <%= raw collection_list(rest_of_the_collection, index) %>
     </div>
   </div>
 <% else %>

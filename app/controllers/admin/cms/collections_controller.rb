@@ -27,7 +27,7 @@ class Admin::Cms::CollectionsController < AdminController
   def edit; end
 
   def update
-    @collection.theme_list.add(theme_list)
+    @collection.theme_list = theme_list
     if @collection.update(resource_params)
       flash[:notice] = "The collection updates have been saved."
       redirect_to admin_cms_path
