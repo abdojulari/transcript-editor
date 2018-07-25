@@ -12,6 +12,7 @@
             <th scope="col">Items</th>
             <th scope="col"></th>
             <th scope="col"></th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <% value.each do |collection|
@@ -36,6 +37,13 @@
                   data: { disable_with: "Loading..." } do
                 %>
                   <%= fa_icon "list" %>
+                <% end %>
+              </td>
+              <td>
+                <% if policy(collection).destroy? %>
+                  <%= button_to admin_cms_collection_path(collection), data: {confirm: 'Are you sure?'}, method: :delete do %>
+                    <%= fa_icon "trash-o" %>
+                  <% end %>
                 <% end %>
               </td>
             </tr>

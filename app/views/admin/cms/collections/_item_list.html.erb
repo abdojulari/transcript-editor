@@ -10,12 +10,20 @@
       <%= check_box_tag :transcript_url, 'uploaded', true %>
     </div>
 
-    <div class="col-2">
-      <%= button_to "Edit Item",
-          edit_admin_cms_transcript_path(item),
-          method: "get",
-          data: { disable_with: "Loading..." }
+    <div class="col-1">
+      <%= button_to edit_admin_cms_transcript_path(item),
+        method: "get",
+        data: { disable_with: "Loading..." } do
       %>
+      <%= fa_icon "edit" %>
+      <% end %>
+    </div>
+    <div class="col-1">
+      <% if policy(item).destroy? %>
+        <%= button_to admin_cms_transcript_path(item), data: {confirm: 'Are you sure?'}, method: :delete do %>
+          <%= fa_icon "trash-o" %>
+        <% end %>
+      <% end %>
     </div>
   </div>
 <% end %>

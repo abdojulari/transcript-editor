@@ -51,8 +51,8 @@ Rails.application.routes.draw do
 
     get 'cms', to: 'cms#show'
     namespace :cms do
-      resources :collections, except: [:delete, :index]
-      resources :transcripts, except: [:show, :delete, :index] do
+      resources :collections, except: [:index]
+      resources :transcripts, except: [:show, :index] do
         get "speaker_search", on: :collection
         post "process_transcript", on: :member
       end

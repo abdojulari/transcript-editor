@@ -1,7 +1,7 @@
 class Admin::Cms::CollectionsController < AdminController
   before_action :authenticate_staff!
 
-  before_action :set_collection, only: [:show, :edit, :update]
+  before_action :set_collection, only: [:show, :edit, :update, :destroy]
   before_action :load_institutions, only: [:new, :create, :edit, :update]
   before_action :load_themes, only: [:new, :create, :edit, :update]
 
@@ -35,6 +35,15 @@ class Admin::Cms::CollectionsController < AdminController
       flash[:errors] = "The collection updates could not be saved."
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    # only admins
+    authorize @collection
+
+    @collection.destroy
+    flash[:notice] = "Collection has been deleted"
+    redirect_to admin_cms_path
   end
 
   private

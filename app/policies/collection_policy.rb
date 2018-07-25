@@ -18,6 +18,10 @@ class CollectionPolicy < ApplicationPolicy
     admin_or_content_editor?
   end
 
+  def destroy?
+    @user.admin?
+  end
+
   class Scope < Scope
     def resolve
       if @user.admin?

@@ -1,5 +1,5 @@
 class Admin::Cms::TranscriptsController < AdminController
-  before_action :set_transcript, only: [:edit, :update]
+  before_action :set_transcript, only: [:edit, :update, :destroy]
   before_action :set_transcript_by_id, only: [:process_transcript]
 
   def new
@@ -28,6 +28,14 @@ class Admin::Cms::TranscriptsController < AdminController
       flash[:errors] = "The transcript updates could not be saved."
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    # only admins
+    authorize @transcript
+    @transcript.destroy
+    flash[:notice] = "Transcript item has been deleted"
+    redirect_to admin_cms_collection_path(@transcript.collection)
   end
 
   def speaker_search
