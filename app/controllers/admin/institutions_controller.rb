@@ -54,7 +54,7 @@ class Admin::InstitutionsController < AdminController
     params.require(:institution).permit(
       :name, :url,
       :image, :slug, :hero_image,
-      :introductory_text, :max_line_edits
+      :introductory_text, :min_lines_for_consensus
     )
   end
 end

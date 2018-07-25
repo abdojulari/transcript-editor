@@ -17,9 +17,9 @@ class Institution < ApplicationRecord
   validates :name, presence: true
   validates :name, uniqueness: true
   validates :slug, format: { with: /\A^[a-zA-Z0-9-]*$\z/ }
-  validates :max_line_edits, numericality: true
+  validates :min_lines_for_consensus, numericality: true
 
-  attribute :max_line_edits, :integer, default: 3
+  attribute :min_lines_for_consensus, :integer, default: 3
 
   validate :image_size_restriction
 
@@ -36,7 +36,8 @@ class Institution < ApplicationRecord
 
   before_save do
     # setting up the configs
-    self.min_lines_for_consensus = max_line_edits
-    self.min_lines_for_consensus_no_edits = max_line_edits
+    self.max_line_edits = min_lines_for_consensus + 1
+    self.min_lines_for_consensus_no_edits = min_lines_for_consensus
+    self.min_percent_consensus = min_lines_for_consensus.to_f / max_line_edits.to_f
   end
 end
