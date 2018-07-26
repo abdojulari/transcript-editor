@@ -1,3 +1,6 @@
+<% content_for :javascripts do %>
+  <%= javascript_include_tag 'search' %>
+<% end %>
 <%= render partial: 'shared/header_logo' %>
 <br />
 <br />
@@ -13,7 +16,7 @@
         <div name="filter-by-collection" class="select collection">
           <div class="select-active collection-filter">All Collections</div>
           <div class="select-options collection-filter" role="menu" aria-hidden="true">
-            <%= raw collection_list(@collection) %>
+            <%= raw collection_list(@collection, 0) %>
           </div>
         </div>
       </div>

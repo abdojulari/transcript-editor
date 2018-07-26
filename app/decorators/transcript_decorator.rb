@@ -6,7 +6,7 @@ class TranscriptDecorator < Draper::Decorator
   end
 
   def collection_title
-    object.collection.title
+    object.collection&.title
   end
 
   def homepage_description

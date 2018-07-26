@@ -1,8 +1,9 @@
 class SearchController < ApplicationController
-  layout 'public'
+  layout "public"
 
   def index
-    @collection = Collection.all
+    new_collection = Collection.new(id: 0, title: "All Collections")
+    @collection = Collection.all.to_a.unshift(new_collection)
   end
 
   def query
@@ -13,8 +14,7 @@ class SearchController < ApplicationController
   private
 
   def build_params
-    # remove 0 or empty params
-    search_params.reject { |key, value| value.blank? || value.to_s == "0"  }
+    search_params.reject { |_key, value| value.blank? || value.to_s == "0" }
   end
 
   def search_params

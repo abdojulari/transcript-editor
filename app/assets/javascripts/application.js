@@ -18,7 +18,6 @@
 //= require summernote/summernote-bs4.min
 //= require activestorage
 //= require components
-//= require home
 //= require fixed_header
 //= require users
 //= require editor
