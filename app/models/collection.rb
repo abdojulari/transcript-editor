@@ -5,13 +5,13 @@ class Collection < ApplicationRecord
   mount_uploader :image, ImageUploader
   acts_as_taggable_on :themes
 
-  has_many :transcripts
+  has_many :transcripts, dependent: :destroy
   belongs_to :vendor
   belongs_to :institution
 
   validates :vendor, :description, presence: true
   validates :institution_id, presence: true
-  validates :uid, :title, :url, presence: true, uniqueness: true
+  validates :uid, :title, presence: true, uniqueness: true
   validate :image_size_restriction
   validate :uid_not_changed
 

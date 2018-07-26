@@ -1,9 +1,7 @@
 <div class="row">
   <div class="col-12">
     <%= form_for [:admin, :cms, @transcript], html: { multipart: true } do |f| %>
-      <%= render partial: "admin/cms/shared/errors",
-                 locals: { resource: @transcript }
-       %>
+      <%= render partial: 'layouts/cms_errors', locals: { object: @transcript } %>
 
       <div class="form-group">
         <%= f.label :uid %>
@@ -97,7 +95,7 @@
 
       <div class="form-group text-center">
         <%= f.submit %>
-        <%= link_to "Cancel", :back, class: "button" %>
+        <%= link_to "Cancel", admin_cms_collection_path(@transcript.collection.uid), class: "button" %>
       </div>
     <% end %>
   </div>
