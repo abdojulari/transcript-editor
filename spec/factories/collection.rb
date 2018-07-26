@@ -3,7 +3,7 @@ FactoryBot.define do
     uid { Faker::Lorem.characters(10) }
     title { Faker::Lorem.sentence }
     description "Faith Bandler interviewed by Carol"
-    url "http://archival.sl.nsw.gov.au/Details/archive"
+    url { Faker::Internet.url }
     image_url "https://slnsw-amplify.s3.amazonaws.com/image.jpg"
     project_uid "nsw-state-library-amplify"
     vendor_identifier 1

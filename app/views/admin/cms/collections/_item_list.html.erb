@@ -20,7 +20,7 @@
     </div>
     <div class="col-1">
       <% if policy(item).destroy? %>
-        <%= button_to admin_cms_transcript_path(item), data: {confirm: 'Are you sure?'}, method: :delete do %>
+        <%= button_to admin_cms_transcript_path(item), data: {confirm: 'Are you sure you want to delete this item? This action cannot be undone.'}, method: :delete do %>
           <%= fa_icon "trash-o" %>
         <% end %>
       <% end %>

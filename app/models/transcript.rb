@@ -19,10 +19,9 @@ class Transcript < ApplicationRecord
   belongs_to :collection, optional: true
   belongs_to :vendor, optional: true
   belongs_to :transcript_status, optional: true
-  has_many :transcript_lines
-  has_many :transcript_edits
-  has_many :transcript_speakers
-
+  has_many :transcript_lines, dependent: :destroy
+  has_many :transcript_edits, dependent: :destroy
+  has_many :transcript_speakers, dependent: :destroy
 
 
   def self.seconds_per_line
