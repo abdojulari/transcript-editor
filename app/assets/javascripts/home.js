@@ -13,8 +13,32 @@ $(document).ready(function(){
     $(this).toggleClass( "active" )
   });
 
+  $('#reset').on('click', function(){
+    collectionId = 0;
+    institutionId = 0;
+    sortId = '';
+    searchText = '';
+    firstTimeLoad = true;
+    theme = '';
+    preventDefault();
+    loadTranscripts();
+
+  });
+
   $('#collection_search').on('click', '.select-option', function(){
     collectionId = $(this).attr('data-id')
+    if (collectionId == 0) {
+      institutionId = 0;
+    }
+    loadTranscripts();
+  });
+
+  $('#institution_search').on('click', '.select-option', function(){
+    institutionId = $(this).attr('data-id')
+    console.log(institutionId)
+    if (institutionId == 0) {
+      collectionId = 0;
+    }
     loadTranscripts();
   });
 

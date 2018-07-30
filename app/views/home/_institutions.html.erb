@@ -1,0 +1,21 @@
+<%
+    index = institutions.index { |e| e.id == selected_id }
+    if index
+      first_institution = institutions[index]
+    else
+      first_institution = institutions.first
+    end
+%>
+<% if institutions.any? %>
+  <label for="filter-by-collection">Institution: </label>
+  <div name="filter-by-collection" class="select collection">
+    <div class="select-active collection-filter selected"><%= first_institution.name %></div>
+    <div class="select-options collection-filter" role="menu" aria-hidden="true">
+      <%= raw institution_list(institutions, index) %>
+    </div>
+  </div>
+<% else %>
+  No institution found
+<% end %>
+
+

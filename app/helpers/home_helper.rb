@@ -12,10 +12,11 @@ module HomeHelper
     DOC
   end
 
-  def institution_list(list)
-    html = "<a data-filter='institution' data-id='' data-value='ALL' class='select-option collection filter-by selected' data-active='All Institutions' title='All Institutions' role='menuitemradio' aria-checked='true'>All Institutions</a>"
-    list.each do |item|
-      html += "<a data-filter='institution' data-id='#{item.id}' class='select-option institution filter-by' title='#{item.name}' role='menuitemradio' aria-checked='true'>#{item.name}</a>"
+  def institution_list(list, index)
+    html = ""
+    list.each_with_index do |item, i|
+      klass = (i == index) ? 'selected' : ''
+      html += "<a data-filter='institution' data-id='#{item.id}' class='select-option institution filter-by #{klass}' title='#{item.name}' role='menuitemradio' aria-checked='true'>#{item.name}</a>"
     end
     html
   end

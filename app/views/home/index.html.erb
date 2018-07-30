@@ -52,14 +52,8 @@
         <!-- end themes -->
 
         <!-- sort institution -->
-        <div class="facet">
-          <label for="filter-by-collection">Institution: </label>
-          <div name="filter-by-collection" class="select collection">
-            <div class="select-active collection-filter">All Institutions</div>
-            <div class="select-options collection-filter" role="menu" aria-hidden="true">
-              <%= raw institution_list(@institutions) %>
-            </div>
-          </div>
+        <div class="facet" id="institution_search">
+          <%= render partial: 'institutions', locals: { institutions: @institutions, selected_id: 0 } %>
         </div>
         <!-- end institution -->
         <div class="facet" id="collection_search">
@@ -83,6 +77,15 @@
           </form>
         </div>
         <!-- end of search textbox -->
+        <!-- reset  -->
+        <div class="facet">
+          <%= link_to '', id: 'reset'  do %>
+            <%= fa_icon "refresh" %>
+            reset
+          <% end %>
+        </div>
+        <!-- end reset -->
+
       </div>
     </div>
   </div>
