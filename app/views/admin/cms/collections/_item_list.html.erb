@@ -1,6 +1,7 @@
 <% @collection.transcripts.find_each do |item| %>
   <div class="row">
-    <div class="col-2"><%= item.uid %></div>
+    <div class="col-1"><%= publish_icon(item.published?) %></div>
+    <div class="col-1"><%= item.uid %></div>
     <div class="col-5"><%= item.title %></div>
     <div class="col-2">
       <%= image_tag(item.image_url(:thumb)) if item.image.url.present? %>

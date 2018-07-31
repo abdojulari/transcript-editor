@@ -6,5 +6,9 @@ FactoryBot.define do
     audio_url "http://google.com"
     collection
     vendor
+
+    trait :published do
+      publish 1
+    end
   end
 end

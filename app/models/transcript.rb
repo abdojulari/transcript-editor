@@ -7,6 +7,8 @@ class Transcript < ApplicationRecord
   mount_uploader :script, TranscriptUploader
 
   include PgSearch
+  include Publishable
+
   multisearchable :against => [:title, :description]
   pg_search_scope :search_default, :against => [:title, :description]
   pg_search_scope :search_by_title, :against => :title
@@ -113,7 +115,7 @@ class Transcript < ApplicationRecord
     query = Transcript
       .select('transcripts.*, COALESCE(collections.title, \'\') as collection_title')
       .joins('LEFT OUTER JOIN collections ON collections.id = transcripts.collection_id')
-      .where("transcripts.lines > 0 AND transcripts.project_uid = :project_uid AND transcripts.is_published = :is_published and collections.published_at is NOT NULL", {project_uid: ENV['PROJECT_ID'], is_published: 1})
+      .where("transcripts.lines > 0 AND transcripts.project_uid = :project_uid AND transcripts.published_at is NOT NULL and collections.published_at is NOT NULL", {project_uid: ENV['PROJECT_ID']})
 
     # scope by collection
     query = query.where("transcripts.collection_id = #{params[:collection_id]}") if params[:collection_id].to_i > 0
@@ -402,9 +404,10 @@ class Transcript < ApplicationRecord
     end
 
 
+    transcripts = transcripts.where("transcripts.published_at IS NOT NULL")
     transcripts = transcripts.where("collections.published_at IS NOT NULL")
     # Paginate
-    transcripts = transcripts.where("transcripts.project_uid = :project_uid AND transcripts.is_published = :is_published", {project_uid: ENV['PROJECT_ID'], is_published: 1}).paginate(:page => options[:page], :per_page => per_page)
+    transcripts = transcripts.where("transcripts.project_uid = :project_uid", {project_uid: ENV['PROJECT_ID']}).paginate(:page => options[:page], :per_page => per_page)
 
     # Check for collection filter
     transcripts = transcripts.where("transcripts.collection_id = :collection_id", {collection_id: options[:collection_id].to_i}) if options[:collection_id].present?

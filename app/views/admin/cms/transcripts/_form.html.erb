@@ -93,6 +93,11 @@
         <%= f.hidden_field(:collection_id, value: @transcript.collection_id) %>
       </div>
 
+      <div class="form-check">
+        <%= f.check_box :publish, {checked: @transcript.published?, class: 'form-check-input' } %>
+        <%= f.label 'Publish item to live site', for: 'transcript_publish', class: 'form-check-label' %>
+      </div>
+
       <div class="form-group text-center">
         <%= f.submit %>
         <%= link_to "Cancel", admin_cms_collection_path(@transcript.collection.uid), class: "button" %>
