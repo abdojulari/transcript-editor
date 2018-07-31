@@ -52,10 +52,11 @@ class HomeController < ApplicationController
   def collection
     new_collection = Collection.new(id: 0, title: "All Collections")
     institution_id = sort_params[:institution_id].to_i
+    collection = Collection.published
     @collection = if institution_id > 0
-                    Collection.where(institution_id: institution_id)
+                    collection.where(institution_id: institution_id)
                   else
-                    Collection.all
+                    collection
                   end.to_a.unshift(new_collection)
   end
 end

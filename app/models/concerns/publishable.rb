@@ -2,7 +2,7 @@ module Publishable
   extend ActiveSupport::Concern
 
   included do
-    default_scope { where.not(published_at: nil) }
+    scope :published, -> { where.not(published_at: nil) }
     attr_accessor :publish
 
     after_save :publish_if_needed

@@ -3,7 +3,7 @@ class SearchController < ApplicationController
 
   def index
     new_collection = Collection.new(id: 0, title: "All Collections")
-    @collection = Collection.all.to_a.unshift(new_collection)
+    @collection = Collection.published.to_a.unshift(new_collection)
   end
 
   def query

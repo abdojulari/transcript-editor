@@ -53,7 +53,7 @@
     </div>
   </div>
   <div class="form-check">
-    <%= f.check_box :publish, {checked: @collection.published? }, class: 'form-check-input' %>
+    <%= f.check_box :publish, {checked: @collection.published?, class: 'form-check-input' } %>
     <%= f.label 'Publish collection to live site', for: 'collection_publish', class: 'form-check-label' %>
   </div>
 

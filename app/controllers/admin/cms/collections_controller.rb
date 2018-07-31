@@ -54,7 +54,7 @@ class Admin::Cms::CollectionsController < AdminController
   end
 
   def set_collection
-    @collection = Collection.unscoped.find_by uid: params[:id]
+    @collection = Collection.find_by uid: params[:id]
   end
 
   def theme_list
