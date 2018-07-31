@@ -13,6 +13,11 @@ module AdminHelper
     list.reject { |i| i.type > user_type }
   end
 
+  def publish_icon(status)
+    icon = status ? "globe" : "file-text"
+    fa_icon icon
+  end
+
   private
 
   def user_type

@@ -24,10 +24,12 @@ class CollectionPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
+      # remove the default scope
+      collection = Collection.unscoped
       if @user.admin?
-        Collection.all
+        collection.all
       else
-        Collection.where(institution_id: @user.institution_id)
+        collection.where(institution_id: @user.institution_id)
       end
     end
   end

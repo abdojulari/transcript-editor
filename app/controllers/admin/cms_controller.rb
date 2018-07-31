@@ -4,6 +4,7 @@ class Admin::CmsController < AdminController
 
     # rubocop:disable Metrics/LineLength
     @collection = policy_scope(Collection).
+      includes(:institution).
       joins("INNER JOIN institutions ON collections.institution_id = institutions.id ").
       order("LOWER(institutions.name)")
 

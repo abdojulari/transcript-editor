@@ -113,7 +113,7 @@ class Transcript < ApplicationRecord
     query = Transcript
       .select('transcripts.*, COALESCE(collections.title, \'\') as collection_title')
       .joins('LEFT OUTER JOIN collections ON collections.id = transcripts.collection_id')
-      .where("transcripts.lines > 0 AND transcripts.project_uid = :project_uid AND transcripts.is_published = :is_published", {project_uid: ENV['PROJECT_ID'], is_published: 1})
+      .where("transcripts.lines > 0 AND transcripts.project_uid = :project_uid AND transcripts.is_published = :is_published and collections.published_at is NOT NULL", {project_uid: ENV['PROJECT_ID'], is_published: 1})
 
     # scope by collection
     query = query.where("transcripts.collection_id = #{params[:collection_id]}") if params[:collection_id].to_i > 0
@@ -401,6 +401,8 @@ class Transcript < ApplicationRecord
       transcripts = transcripts.search_default(options[:q]) if options[:q].present? && !options[:q].blank?
     end
 
+
+    transcripts = transcripts.where("collections.published_at IS NOT NULL")
     # Paginate
     transcripts = transcripts.where("transcripts.project_uid = :project_uid AND transcripts.is_published = :is_published", {project_uid: ENV['PROJECT_ID'], is_published: 1}).paginate(:page => options[:page], :per_page => per_page)
 

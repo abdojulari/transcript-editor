@@ -54,7 +54,7 @@ class Admin::Cms::CollectionsController < AdminController
   end
 
   def set_collection
-    @collection = Collection.find_by uid: params[:id]
+    @collection = Collection.unscoped.find_by uid: params[:id]
   end
 
   def theme_list
@@ -70,7 +70,8 @@ class Admin::Cms::CollectionsController < AdminController
       :uid, :title,
       :library_catalogue_title, :description,
       :url, :image,
-      :vendor_id, :institution_id
+      :vendor_id, :institution_id,
+      :publish
     ).merge(
       project_uid: ENV["PROJECT_ID"],
     )

@@ -7,6 +7,7 @@
       <table class="table">
         <thead class="thead-dark">
           <tr>
+            <th scope="col"></th>
             <th scope="col">Collection ID</th>
             <th scope="col">Title</th>
             <th scope="col">Items</th>
@@ -20,6 +21,7 @@
         %>
           <tbody>
             <tr>
+              <td><%= publish_icon(collection.published?)  %></td>
               <td><%= collection.uid %></td>
               <td><%= collection.title %></td>
               <td><%= collection.transcript_items %></td>
