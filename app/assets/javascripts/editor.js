@@ -34,7 +34,16 @@ deleteFile = function(file_id) {
   });
 };
 
+
 $(document).ready(function() {
+  $('#update-transcript').on('click', function(e) {
+    e.preventDefault();
+    var id = $(this).attr('data-id');
+    $.post('/admin/cms/transcripts/' + id + '/process_transcript', {}, function(data, textStatus, jqXHR) {
+      $('#transcript-line-count').text(data.lines + ' lines in database');
+    }, 'json');
+  });
+
   return $('[data-provider="summernote"]').each(function() {
     return $(this).summernote({
       height: 300,
