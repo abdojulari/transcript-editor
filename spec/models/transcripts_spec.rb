@@ -78,4 +78,41 @@ RSpec.describe Transcript, type: :model do
       end
     end
   end
+
+  # rubocop:disable RSpec/PredicateMatcher
+  describe "#publish" do
+    let(:publish) { nil }
+    let!(:transcript) { FactoryBot.create :transcript, publish: publish }
+
+    context "when default transcripts are unpublished" do
+      it "checks the default transcript status" do
+        expect(transcript.published?).to be_falsy
+      end
+    end
+
+    context "when saving with publish true makes the:transcript to publish" do
+      let!(:publish) { 1 }
+
+      it "publishes the transcript" do
+        expect(transcript.published?).to be_truthy
+      end
+    end
+
+    context "when calling publish! makes the:transcript to publish" do
+      it "publishes the transcript" do
+        expect { transcript.publish! }.
+          to change(transcript, :published?).from(false).to(true)
+      end
+    end
+  end
+
+  describe "#unpublish" do
+    let!(:transcript) { FactoryBot.create :transcript, :published}
+
+    it "unpublishes the transcript" do
+      expect { transcript.unpublish! }.
+        to change(transcript, :published?).from(true).to(false)
+    end
+  end
+  # rubocop:enable RSpec/PredicateMatcher
 end
