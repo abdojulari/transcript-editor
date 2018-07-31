@@ -35,8 +35,9 @@ RSpec.describe Collection, type: :model do
 
   describe "#published?" do
     it "confirms that the collection has a published_at date" do
-      collection.update!(published_at: Time.current)
-      expect(collection).to be_published
+      collection.publish = 1
+      collection.save
+      expect(collection.published?).to be_truthy
     end
 
     it "confirms that the collection has not been published" do
@@ -133,6 +134,15 @@ RSpec.describe Collection, type: :model do
           to change(collection, :published?).from(false).to(true)
       end
     end
+  end
+
+  describe "#unpublish" do
+    let!(:collection) { FactoryBot.create :collection, :published}
+
+       it "unpublishes the collection" do
+        expect { collection.unpublish! }.
+          to change(collection, :published?).from(true).to(false)
+      end
   end
   # rubocop:enable RSpec/PredicateMatcher
 end

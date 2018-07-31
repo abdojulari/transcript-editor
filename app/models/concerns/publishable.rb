@@ -9,14 +9,26 @@ module Publishable
   end
 
   def publish_if_needed
-    publish! if publish.to_i == 1
+    if publish.to_i == 1
+      publish!
+    else
+      unpublish!
+    end
   end
 
   def published?
     !!published_at
   end
 
+  def unpublished?
+    !published?
+  end
+
   def publish!
     update_column('published_at', Time.current)
+  end
+
+  def unpublish!
+    update_column('published_at', nil)
   end
 end

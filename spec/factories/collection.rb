@@ -9,5 +9,9 @@ FactoryBot.define do
     vendor_identifier 1
     institution
     vendor
+
+    trait :published do
+      publish 1
+    end
   end
 end
