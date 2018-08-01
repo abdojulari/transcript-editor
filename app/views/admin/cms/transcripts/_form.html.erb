@@ -49,6 +49,11 @@
             <button type="button" class="btn btn-default" id="update-transcript" data-id="<%= @transcript.id %>">
               Process
             </button>
+          <% elsif current_user.admin? && @transcript.lines > 0 %>
+            <%= link_to reset_transcript_admin_cms_transcript_path(@transcript), data: {confirm: 'Are you sure you want to reset this transcript back to its original and uncorrected version? This action cannot be undone.'}, method: :delete do %>
+              <%= fa_icon "trash-o" %>
+              Reset transcript
+            <% end %>
           <% end %>
         </div>
       </div>

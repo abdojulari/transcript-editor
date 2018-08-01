@@ -1,5 +1,5 @@
 class Admin::Cms::TranscriptsController < AdminController
-  before_action :set_transcript, only: [:edit, :update, :destroy]
+  before_action :set_transcript, only: [:edit, :update, :destroy, :reset_transcript]
   before_action :set_transcript_by_id, only: [:process_transcript]
 
   def new
@@ -44,6 +44,14 @@ class Admin::Cms::TranscriptsController < AdminController
         { id: s.id, label: s.name, value: s.name }
       end
     render json: speakers
+  end
+
+  def reset_transcript
+    TranscriptService.new(@transcript).reset
+    # this functionality is only for admins, error will be raised and
+    # lodged in bugsnag in an event of an error
+    flash[:notice] = "Transcript reset successful"
+    redirect_to admin_cms_collection_path(@transcript.collection)
   end
 
   def process_transcript

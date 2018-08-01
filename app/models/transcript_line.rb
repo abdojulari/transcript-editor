@@ -27,6 +27,14 @@ class TranscriptLine < ApplicationRecord
     update_attributes(flag_count: 0)
   end
 
+  def reset
+    update_attributes({
+      transcript_line_status_id: 1,
+      guess_text: '',
+      flag_count: 0
+    })
+  end
+
   def start_time_string
     Time.at(start_time/1000).utc.strftime("%H:%M:%S.%L")
   end

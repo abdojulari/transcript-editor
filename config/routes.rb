@@ -55,6 +55,7 @@ Rails.application.routes.draw do
       resources :transcripts, except: [:show, :index] do
         get "speaker_search", on: :collection
         post "process_transcript", on: :member
+        delete "reset_transcript", on: :member
       end
     end
   end
