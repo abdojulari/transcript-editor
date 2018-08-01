@@ -37,6 +37,7 @@ class TranscriptService
         @transcript.send("#{attr}=", 0)
       end
       @transcript.transcript_status_id = 1
+      @transcript.publish = @transcript.published_at ? 1 : 0
       @transcript.save
     end
   end
