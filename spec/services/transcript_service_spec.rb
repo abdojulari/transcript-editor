@@ -83,7 +83,7 @@ RSpec.describe TranscriptService, type: :service do
 
       # rubocop:disable RSpec/ExampleLength
       it "reset the transcript values" do
-        expect(transcript.transcript_status_id).to eq(0)
+        expect(transcript.transcript_status_id).to eq(1)
         expect(transcript.percent_completed).to eq(0)
         expect(transcript.lines_completed).to eq(0)
         expect(transcript.percent_edited).to eq(0)

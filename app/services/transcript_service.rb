@@ -29,13 +29,14 @@ class TranscriptService
   def reset_transcript
     handle_transcript do
       %i[
-        transcript_status_id percent_completed
+        percent_completed
         lines_completed percent_edited
         lines_edited percent_reviewing
         lines_reviewing users_contributed
       ].each do |attr|
         @transcript.send("#{attr}=", 0)
       end
+      @transcript.transcript_status_id = 1
       @transcript.save
     end
   end
