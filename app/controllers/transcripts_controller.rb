@@ -49,6 +49,7 @@ class TranscriptsController < ApplicationController
         @flag_types = FlagType.byCategory("error")
         @user_flags = []
         @transcription_conventions = @transcript.transcription_conventions
+        @instructions = Page.find_by(page_type: 'instructions').public_page.decorate
 
         user = logged_in_user
 

@@ -23,3 +23,4 @@ unless @user_role.nil?
 end
 
 json.conventions @transcription_conventions, :convention_key, :convention_text, :example
+json.instructions @instructions, :content
