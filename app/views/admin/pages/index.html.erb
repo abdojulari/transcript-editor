@@ -12,7 +12,7 @@
   <tbody>
     <% @pages.each do |page| %>
       <tr>
-        <td><%= page.page_type %></td>
+        <td><%= page.page_type.capitalize %></td>
         <td>
           <%= link_to admin_page_path(page)  do %>
             <%= fa_icon "eye" %>
