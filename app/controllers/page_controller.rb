@@ -1,11 +1,21 @@
 class PageController < ApplicationController
-  layout 'public'
+  layout "public"
 
   def faq
-    @page = Page.find_by(page_type: 'faq').public_page.decorate
+    load_page("faq")
   end
 
   def about
-    @page = Page.find_by(page_type: 'about').public_page.decorate
+    load_page("about")
+  end
+
+  def tutotial
+    load_page("tutorial")
+  end
+
+  private
+
+  def load_page(key)
+    @page = Page.find_by(page_type: key).public_page.decorate
   end
 end
