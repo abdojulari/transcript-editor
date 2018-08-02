@@ -14,12 +14,12 @@
       </div>
 
       <div class="form-group">
-        <%= f.label :audio_item_url_title %>
+        <%= f.label :transcript_audio_item_url_title, 'Audio item URL title', for: 'transcript_audio_item_url_title' %>
         <%= f.text_field :audio_item_url_title, class: "form-control" %>
       </div>
 
       <div class="form-group">
-        <%= f.label 'Audio item URL',  for: 'transcript_url' %>
+        <%= f.label :transcript_url, 'Audio item URL',  for: 'transcript_url' %>
         <%= f.text_field :url, class: "form-control" %>
       </div>
 
@@ -90,13 +90,13 @@
       </div>
 
       <div class="form-group">
-        <%= f.label :image_item_url_title %>
+        <%= f.label :image_item_url_title, 'Image item URL title' %>
         <%= f.text_field :image_item_url_title, class: "form-control" %>
       </div>
 
 
       <div class="form-group">
-        <%= f.label 'Image item URL', for: 'image_catalogue_url' %>
+        <%= f.label :image_catalogue_url, 'Image item URL', for: 'image_catalogue_url' %>
         <%= f.text_field :image_catalogue_url, class: "form-control" %>
       </div>
 
