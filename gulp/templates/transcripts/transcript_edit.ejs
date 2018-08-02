@@ -47,11 +47,17 @@
     <% } %>
 
     <% if (transcript.url) { %>
-      <p class="original-link"><a href="<%= transcript.url %>" target="_blank">View audio in Library catalogue</a></p>
+      <p class="original-link"><a href="<%= transcript.url %>" target="_blank">
+        <%= transcript.audio_item_url_title %>
+      </a></p>
     <% } %>
 
     <%if (transcript.image_catalogue_url) { %>
-      <p class="original-link"><a href="<%= transcript.image_catalogue_url %>" target="_blank">View image in Library catalogue</a></p>
+      <p class="original-link">
+        <a href="<%= transcript.image_catalogue_url %>" target="_blank">
+          <%= transcript.image_item_url_title %>
+        </a>
+      </p>
     <% } %>
 
     <% if (transcript.can_download) { %>

@@ -30,7 +30,9 @@
           <h2><%= collection.title %></h2>
           <p><strong><%= collection.library_catalogue_title %></strong></p>
           <p><%=  raw collection.description %></p>
-          <p><a href="<%= collection.url %>">View in Library Catalogue</a></p>
+          <p>
+            <%= link_to collection.collection_url_title, collection.url %>
+          </p>
         </div>
       <% end %>
     <%  else  %>

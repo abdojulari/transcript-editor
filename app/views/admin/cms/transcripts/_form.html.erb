@@ -14,12 +14,17 @@
       </div>
 
       <div class="form-group">
-        <%= f.label :url, "Audio collection catalogue url" %>
+        <%= f.label :audio_item_url_title %>
+        <%= f.text_field :audio_item_url_title, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label 'Audio item URL',  for: 'transcript_url' %>
         <%= f.text_field :url, class: "form-control" %>
       </div>
 
       <div class="form-group">
-        <%= f.label :audio %>
+        <%= f.label 'Audio file', for: 'transcript_audio' %>
 
         <div class="form-control">
           <% if @transcript.audio.present? %>
@@ -32,7 +37,7 @@
       </div>
 
       <div class="form-group">
-        <%= f.label :script, "Transcript" %><br/>
+        <%= f.label "Transcript file", for: 'transcript_script' %><br/>
 
         <div class="form-control">
           <% if @transcript.script.present? %>
@@ -69,7 +74,7 @@
       </div>
 
       <div class="form-group">
-        <%= f.label :image %>
+        <%= f.label 'Image file', for: 'transcript_image' %>
 
         <div class="form-control">
           <% if @transcript.image.present? %>
@@ -85,7 +90,13 @@
       </div>
 
       <div class="form-group">
-        <%= f.label :image_catalogue_url %>
+        <%= f.label :image_item_url_title %>
+        <%= f.text_field :image_item_url_title, class: "form-control" %>
+      </div>
+
+
+      <div class="form-group">
+        <%= f.label 'Image item URL', for: 'image_catalogue_url' %>
         <%= f.text_field :image_catalogue_url, class: "form-control" %>
       </div>
 

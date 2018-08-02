@@ -16,6 +16,9 @@ class Collection < ApplicationRecord
   validate :image_size_restriction
   validate :uid_not_changed
 
+
+  attribute :collection_url_title, :string, default: ' View in Library catalogue'
+
   scope :by_institution, ->(institution_id) { where(institution_id: institution_id) }
 
   # Class Methods

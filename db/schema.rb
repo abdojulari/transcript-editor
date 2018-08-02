@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_01_064824) do
+ActiveRecord::Schema.define(version: 2018_08_02_004049) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 2018_08_01_064824) do
     t.string "image"
     t.string "library_catalogue_title", default: ""
     t.integer "institution_id"
+    t.string "collection_url_title", default: " View in Library catalogue"
     t.index ["project_uid"], name: "index_collections_on_project_uid"
     t.index ["uid"], name: "index_collections_on_uid", unique: true
     t.index ["vendor_id"], name: "index_collections_on_vendor_id"
@@ -269,6 +270,8 @@ ActiveRecord::Schema.define(version: 2018_08_01_064824) do
     t.string "image_caption", default: ""
     t.string "image_catalogue_url", default: ""
     t.datetime "published_at"
+    t.string "audio_item_url_title", default: "View audio in Library catalogue"
+    t.string "image_item_url_title", default: "View image in Library catalogue"
     t.index ["collection_id"], name: "index_transcripts_on_collection_id"
     t.index ["duration"], name: "index_transcripts_on_duration"
     t.index ["project_uid"], name: "index_transcripts_on_project_uid"

@@ -1,9 +1,12 @@
-json.extract! @transcript, :id, :uid, :title, :description, :url, :audio_url, :image_url, :image_caption, :image_catalogue_url, :duration, :lines, :notes, :vendor_audio_urls, :percent_completed, :percent_edited, :percent_reviewing, :lines_completed, :lines_edited, :lines_reviewing, :users_contributed, :can_download
+json.extract! @transcript, :id, :uid, :title, :description, :url, :audio_url, :image_url, :image_caption, :image_catalogue_url, :duration, :lines, :notes, :vendor_audio_urls, :percent_completed, :percent_edited, :percent_reviewing, :lines_completed, :lines_edited, :lines_reviewing, :users_contributed, :can_download,
+:audio_item_url_title,
+:image_item_url_title
 
 json.transcript_status @transcript.transcript_status, :id, :name, :progress, :description
 
 unless @transcript.collection.nil?
-  json.collection @transcript.collection, :id, :uid, :title, :description, :url, :image_url
+  json.collection @transcript.collection, :id, :uid, :title, :description, :url, :image_url,
+    :collection_url_title
 end
 
 json.lines @transcript.transcript_lines, :id, :start_time, :end_time, :original_text, :text, :guess_text, :sequence, :transcript_line_status_id, :speaker_id, :flag_count
