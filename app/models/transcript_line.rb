@@ -31,7 +31,8 @@ class TranscriptLine < ApplicationRecord
     update_attributes({
       transcript_line_status_id: 1,
       guess_text: '',
-      flag_count: 0
+      flag_count: 0,
+      speaker_id: 0
     })
   end
 

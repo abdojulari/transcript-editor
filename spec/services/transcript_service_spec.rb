@@ -28,7 +28,8 @@ RSpec.describe TranscriptService, type: :service do
                         transcript: transcript,
                         transcript_line_status_id: 2,
                         guess_text: "Guess text",
-                        flag_count: 1
+                        flag_count: 1,
+                        speaker_id: 1
     end
 
     let!(:transcript_edit) do
@@ -67,6 +68,7 @@ RSpec.describe TranscriptService, type: :service do
       expect(transcript_line.transcript_line_status_id).to eq(2)
       expect(transcript_line.guess_text).to eq("Guess text")
       expect(transcript_line.flag_count).to eq(1)
+      expect(transcript_line.speaker_id).to eq(1)
 
       # transcript edits
       expect(transcript.transcript_edits.count).to eq(1)
@@ -99,6 +101,7 @@ RSpec.describe TranscriptService, type: :service do
         expect(transcript_line.transcript_line_status_id).to eq(1)
         expect(transcript_line.guess_text).to eq("")
         expect(transcript_line.flag_count).to eq(0)
+        expect(transcript_line.speaker_id).to eq(0)
       end
 
       it "deletes all the transcript edits" do
