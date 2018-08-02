@@ -3,7 +3,7 @@ class Admin::PagesController < AdminController
 
   def index
     authorize Page
-    @pages = policy_scope(Page)
+    @pages = policy_scope(Page).order(page_type: :asc)
   end
 
   def edit
