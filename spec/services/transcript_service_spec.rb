@@ -73,6 +73,9 @@ RSpec.describe TranscriptService, type: :service do
 
       # speaker edits
       expect(speaker_edits_count).to eq(1)
+
+      # transcript speakers
+      expect(transcript.transcript_speakers.count).to eq(1)
     end
     # rubocop:enable RSpec/ExampleLength
 
@@ -107,6 +110,10 @@ RSpec.describe TranscriptService, type: :service do
 
       it "deletes all the speaker edits" do
         expect(speaker_edits_count).to eq(0)
+      end
+
+      it "deletes all transcript speakers" do
+        expect(transcript.transcript_speakers.count).to eq(0)
       end
     end
   end

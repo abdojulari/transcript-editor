@@ -20,6 +20,7 @@ class TranscriptService
       reset_transcript_lines
       reset_transcript_edits
       reset_trasncript_speaker_edits
+      reset_transcript_speakers
     end
   end
 
@@ -46,6 +47,12 @@ class TranscriptService
   def reset_transcript_lines
     handle_transcript do
       @transcript.transcript_lines.map(&:reset)
+    end
+  end
+
+  def reset_transcript_speakers
+    handle_transcript do
+      @transcript.transcript_speakers.delete_all
     end
   end
 
