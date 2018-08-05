@@ -44,7 +44,7 @@
       {"label": "Collections", "url": "/collections"},
       {"label": "About", "url": "/page/about"},
       {"label": "FAQ", "url": "/page/faq"},
-      {"label": "Tutorial", "url": "#tutorial", "modal": "tutorial_edit", "validRoutes": ["transcripts/:id"]}
+      {"label": "Tutorial", "url": "/page/tutorial"}
     ],
     "footer": [
       {"label": "Privacy", "url": "http://www.sl.nsw.gov.au/privacy", "target": "_blank"},

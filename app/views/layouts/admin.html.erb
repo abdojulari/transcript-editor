@@ -34,13 +34,7 @@
             </div>
 
             <div id="primary-menu-container" class="menu-container">
-              <div class="header-menu menu" role="menu">
-                <%= link_to "Browse", root_path, class: "menu-item", role: "menuitem" %>
-                <%= link_to "Search", search_index_path, class: "menu-item", role: "menuitem" %>
-                <%= link_to "Collections", collections_path, class: "menu-item", role: "menuitem" %>
-                <%= link_to "About", "/page/about", class: "menu-item", role: "menuitem" %>
-                <%= link_to "FAQ", "/page/faq", class: "menu-item", role: "menuitem" %>
-              </div>
+              <%= render 'layouts/navigation' %>
             </div>
           </div>
         </nav>
