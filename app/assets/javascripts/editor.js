@@ -54,13 +54,27 @@ $(document).ready(function() {
             ['fontname', []],
             ['color', ['color']],
             ['para', ['ul', 'ol', 'paragraph']],
-            ['height', ['height']],
+            ['height', []],
             ['table', ['table']],
             ['insert', ['link', 'picture', 'hr']],
             ['view', ['fullscreen', 'codeview']],
             ['help', ['help']]
 
       ],
+      cleaner:{
+        action: 'both',
+        newline: '<br>',
+        notStyle: 'position:absolute;top:0;left:0;right:0',
+        icon: '<i class="note-icon">Clear</i>',
+        keepHtml: false,
+        keepOnlyTags: ['<p>', '<br>', '<ul>', '<li>', '<b>', '<strong>','<i>', '<a>'],
+        keepClasses: false,
+        badTags: ['style', 'script', 'applet', 'embed', 'noframes', 'noscript', 'html'],
+        badAttributes: ['style', 'start'],
+        limitChars: false,
+        limitDisplay: 'both',
+        limitStop: false
+      },
       callbacks: {
         onImageUpload: function(files) {
           return sendFile(files[0], $(this));
