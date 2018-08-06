@@ -14,7 +14,7 @@ class PageController < ApplicationController
   end
 
   def preview
-    @page = Page.find_by(page_type: params[:id]).public_page.decorate
+    load_page(params[:id])
   end
 
   private
