@@ -14,7 +14,7 @@
       <tr>
         <td><%= page.page_type.capitalize %></td>
         <td>
-          <%= link_to "/page/preview?id=#{page.page_type}", target: :blank do %>
+          <%= link_to "/page/preview/#{page.page_type}", target: :blank do %>
             <%= fa_icon "eye" %>
           <% end %>
         </td>
