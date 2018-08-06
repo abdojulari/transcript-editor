@@ -40,6 +40,8 @@ Rails.application.routes.draw do
   match 'page/faq' => 'page#faq', :via => [:get]
   match 'page/about' => 'page#about', :via => [:get]
   match 'page/tutorial' => 'page#tutotial', :via => [:get]
+  match 'page/preview' => 'page#preview', :via => [:get]
+
   # match 'dashboard' => 'default#index', :via => [:get]
   match 'transcript_lines/:id/resolve' => 'transcript_lines#resolve', :via => [:post]
   # match 'search' => 'transcripts#search', :via => [:get]

@@ -13,9 +13,14 @@ class PageController < ApplicationController
     load_page("tutorial")
   end
 
+  def preview
+    @page = Page.find_by(page_type: params[:id]).public_page.decorate
+  end
+
   private
 
   def load_page(key)
-    @page = Page.find_by(page_type: key).public_page.decorate
+    @page = Page.find_by(page_type: key)&.public_page&.decorate
+    render template: 'page/show'
   end
 end
