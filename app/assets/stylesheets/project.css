@@ -2447,6 +2447,9 @@ body {
 #transcript-line-verify .modal {
     z-index: 1000;
 }
+#transcript-line-verify .modal.active {
+    display: block;
+}
 #transcript-line-verify .modal .modal-inner {
     top: 80px;
 }
