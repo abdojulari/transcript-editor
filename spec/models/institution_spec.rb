@@ -7,7 +7,6 @@ RSpec.describe Institution, type: :model do
 
   # validations
   it { is_expected.to validate_presence_of(:name) }
-  it { is_expected.to validate_numericality_of(:max_line_edits) }
   it { is_expected.to validate_uniqueness_of(:name) }
   it { is_expected.to allow_value("correct-value").for(:slug) }
   it { is_expected.not_to allow_value("value with space").for(:slug) }
@@ -25,17 +24,23 @@ RSpec.describe Institution, type: :model do
   end
 
   context "when saving a record" do
+    subject(:save) do
+      institution.min_lines_for_consensus = 4
+      institution.save
+      institution.reload
+    end
+
     let(:institution) do
-      FactoryBot.create(:institution,
-                        max_line_edits: 4,
-                        min_lines_for_consensus: 0,
-                        min_lines_for_consensus_no_edits: 0)
+      FactoryBot.build(:institution,
+                       max_line_edits: 0,
+                       min_lines_for_consensus: 0,
+                       min_lines_for_consensus_no_edits: 0)
     end
 
     it "updates other configs" do
-      ins = Institution.find(institution.id)
-      expect(ins.min_lines_for_consensus).to eq(4)
-      expect(ins.min_lines_for_consensus_no_edits).to eq(4)
+      save
+      expect(institution.max_line_edits).to eq(4)
+      expect(institution.min_lines_for_consensus_no_edits).to eq(4)
     end
   end
 end

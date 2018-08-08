@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :transcript_edit do
     transcript
     transcript_line
-    user
+    user_id 1
     text { Faker::Lorem.sentence }
     session_id { Faker::Crypto.md5 }
   end

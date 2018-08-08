@@ -36,8 +36,8 @@ class Institution < ApplicationRecord
 
   before_save do
     # setting up the configs
-    self.max_line_edits = min_lines_for_consensus + 1
+    self.max_line_edits = min_lines_for_consensus
     self.min_lines_for_consensus_no_edits = min_lines_for_consensus
-    self.min_percent_consensus = min_lines_for_consensus.to_f / max_line_edits.to_f
+    self.min_percent_consensus = min_lines_for_consensus.to_f / (max_line_edits + 1).to_f
   end
 end
