@@ -112,7 +112,7 @@ class TranscriptLine < ApplicationRecord
         percent_agree = 1.0 * best_edit[:group][:count] / edits_filtered.length
         # puts "Best Edit #{best_edit}"
         # Mark as completed
-        if percent_agree >= consensus["minPercentConsensus"]
+        if percent_agree.round(2) >= consensus["minPercentConsensus"].round(2)
           completed_status = statuses.find{|s| s[:name]=="completed"}
           status_id = completed_status[:id]
           final_text = best_guess_text
