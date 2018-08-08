@@ -2680,6 +2680,9 @@ body {
 #transcript-line-flag .modal {
     z-index: 1000;
 }
+#transcript-line-flag .modal.active {
+  display: block;
+}
 #transcript-line-flag .modal .modal-inner {
     top: 80px;
 }
