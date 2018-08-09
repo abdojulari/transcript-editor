@@ -61,9 +61,56 @@ RSpec.describe TranscriptLine, type: :model do
         expect(transcript_line.transcript_line_status.name).to eq("editing")
 
         create_edit_and_recalculate("second")
+        expect(transcript_line.transcript_line_status.name).to eq("completed")
+      end
+    end
+
+    context "when verifying with 4 min_lines_for_consensus with 2 sets of same edits" do
+      let!(:min_lines_for_consensus) { 4 }
+
+      it "fifth selection should make the line as completed" do
+        create_edit_and_recalculate("first")
+        create_edit_and_recalculate("first")
+        expect(transcript_line.transcript_line_status.name).to eq("editing")
+
+        create_edit_and_recalculate("second")
+        create_edit_and_recalculate("second")
         expect(transcript_line.transcript_line_status.name).to eq("reviewing")
 
         create_edit_and_recalculate("first")
+        expect(transcript_line.transcript_line_status.name).to eq("completed")
+      end
+    end
+
+    context "when verifying with 4 min_lines_for_consensus with all differnt edits" do
+      let!(:min_lines_for_consensus) { 4 }
+
+      it "fifth selection should make the line as completed" do
+        create_edit_and_recalculate("first")
+        create_edit_and_recalculate("second")
+        create_edit_and_recalculate("third")
+        create_edit_and_recalculate("forth")
+        expect(transcript_line.transcript_line_status.name).to eq("reviewing")
+
+        create_edit_and_recalculate("first")
+        expect(transcript_line.transcript_line_status.name).to eq("reviewing")
+
+        create_edit_and_recalculate("first")
+        expect(transcript_line.transcript_line_status.name).to eq("completed")
+      end
+    end
+
+    context "when verifying with 5 min_lines_for_consensus with 2 sets of same edits" do
+      let!(:min_lines_for_consensus) { 5 }
+
+      it "fifth selection should make the line as completed" do
+        create_edit_and_recalculate("first")
+        create_edit_and_recalculate("first")
+        create_edit_and_recalculate("first")
+        expect(transcript_line.transcript_line_status.name).to eq("editing")
+
+        create_edit_and_recalculate("second")
+        create_edit_and_recalculate("second")
         expect(transcript_line.transcript_line_status.name).to eq("completed")
       end
     end

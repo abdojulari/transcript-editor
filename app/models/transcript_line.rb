@@ -108,11 +108,20 @@ class TranscriptLine < ApplicationRecord
     # Candidate for consensus
     if status_id <= 1 && edits_filtered.length >= consensus["minLinesForConsensus"]
       unless best_edit.nil? || best_edit[:group].nil?
-        # Determine what percent agree
-        percent_agree = 1.0 * best_edit[:group][:count] / edits_filtered.length
-        # puts "Best Edit #{best_edit}"
-        # Mark as completed
-        if percent_agree.round(2) >= consensus["minPercentConsensus"].round(2)
+        # # Determine what percent agree
+        # percent_agree = 1.0 * best_edit[:group][:count] / edits_filtered.length
+        # # puts "Best Edit #{best_edit}"
+        # # Mark as completed
+        # if percent_agree.round(2) >= consensus["minPercentConsensus"].round(2)
+        #   completed_status = statuses.find{|s| s[:name]=="completed"}
+        #   status_id = completed_status[:id]
+        #   final_text = best_guess_text
+        # end
+
+        #NOTE: if best_edits are > 50% of the total edits
+        #      consider the line as completed
+        percentage = (best_edit[:group][:count].to_f / consensus["minLinesForConsensus"].to_f) * 100
+        if percentage > 50
           completed_status = statuses.find{|s| s[:name]=="completed"}
           status_id = completed_status[:id]
           final_text = best_guess_text
