@@ -102,7 +102,7 @@ class TranscriptsController < ApplicationController
   private
 
     def set_transcript
-      @transcript = Transcript.find_by(uid: params[:id])
+      @transcript = TranscriptService.find_by_uid(params[:id])
     end
 
     def transcript_params

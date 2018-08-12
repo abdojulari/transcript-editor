@@ -23,6 +23,11 @@ class TranscriptService
     end
   end
 
+  # always return a record
+  def self.find_by_uid(uid)
+    Transcript.published.find_by(uid: uid) || Transcript.new
+  end
+
   private
 
   # rubocop:disable Metrics/MethodLength

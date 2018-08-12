@@ -113,4 +113,31 @@ RSpec.describe TranscriptService, type: :service do
       end
     end
   end
+
+  describe ".find" do
+    # rubocop:disable Rails/DynamicFindBy
+    # This is the method in service
+    subject(:searching_transcript) do
+      described_class.find_by_uid(transcript.uid)
+    end
+    # rubocop:enable Rails/DynamicFindBy
+
+    let(:transcript) { FactoryBot.create :transcript, publish: publish }
+
+    context "when the transcript is published" do
+      let!(:publish) { 1 }
+
+      it "returns the transcript" do
+        expect(searching_transcript.id).to eq(transcript.id)
+      end
+    end
+
+    context "when the transcript is published" do
+      let!(:publish) { 0 }
+
+      it "returns an empty transcript" do
+        expect(searching_transcript.id).to eq(nil)
+      end
+    end
+  end
 end
