@@ -498,6 +498,10 @@ app.views.Transcript = app.views.Base.extend({
       }
     });
 
+    // when `Play All` always select from the first line
+    if (this.play_all) {
+      selectLine = 0;
+    }
     this.lineSelect(selectLine);
   },
 
