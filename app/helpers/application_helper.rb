@@ -32,7 +32,7 @@ module ApplicationHelper
   #       if the title is not empty -> '<title> | Amplify'
   def page_title
     title = "Amplify"
-    title.prepend("#{@page_title} | ")
+    title.prepend("#{@page_title} | ") if @page_title
     title
   end
 
