@@ -1,4 +1,6 @@
 class TranscriptsController < ApplicationController
+  layout false, only: [:show]
+
   skip_before_action :verify_authenticity_token, only: [:index, :search, :show]
 
   include DeviseTokenAuth::Concerns::SetUserByToken
