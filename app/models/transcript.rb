@@ -140,9 +140,13 @@ class Transcript < ApplicationRecord
       sort == "title_asc" ? arr : arr.reverse
     else
       order = sort_string(params[:sort_id])
-      query = query.order(order) if order
-      query
+      # if the order is nil, that means random
+      order ? query.order(order) : randomize_list(query)
     end
+  end
+
+  def self.randomize_list(query)
+    query.shuffle
   end
 
   def self.getForHomepage(page=1, options={})

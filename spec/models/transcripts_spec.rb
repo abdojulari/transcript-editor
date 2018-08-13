@@ -115,4 +115,38 @@ RSpec.describe Transcript, type: :model do
     end
   end
   # rubocop:enable RSpec/PredicateMatcher
+
+  describe "#get_for_home_page" do
+    let(:params) do
+      { collection_id: 0, sort_id: sort_id, text: "", institution_id: 0, theme: "" }
+    end
+
+    before do
+      %w[B A].each do |title|
+        collection =  create :collection, :published
+        create :transcript, :published,
+          title: title,
+          collection: collection,
+          project_uid: 'nsw-state-library-amplify',
+          lines: 1
+      end
+    end
+
+    context "when sorting by title A-Z" do
+      let!(:sort_id) { "title_asc" }
+
+      it "sorts the records" do
+        expect(described_class.get_for_home_page(params).map(&:title)).to eq(["A", "B"])
+      end
+    end
+
+    context "when sorting random" do
+      let!(:sort_id) { "" } # blank means reandom
+
+      it "return random records" do
+        expect(Transcript).to receive(:randomize_list)
+        described_class.get_for_home_page(params)
+      end
+    end
+  end
 end
