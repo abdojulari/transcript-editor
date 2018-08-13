@@ -27,6 +27,15 @@ module ApplicationHelper
     time
   end
 
+  # NOTE: format we need
+  #       if the title is empty -> 'Amplify'
+  #       if the title is not empty -> '<title> | Amplify'
+  def page_title
+    title = "Amplify"
+    title.prepend("#{@page_title} | ")
+    title
+  end
+
 
   #FIXME: this needs to be changed to the current time format
   def display_time(time)

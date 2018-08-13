@@ -8,6 +8,7 @@ class CollectionsController < ApplicationController
 
   # GET /collections.json
   def index
+    @page_title = "Collections"
     @collection = Collection.order("title")
   end
 
