@@ -139,5 +139,14 @@ RSpec.describe TranscriptService, type: :service do
         expect(searching_transcript.id).to eq(nil)
       end
     end
+
+    context "when the transcript is publish but the collection is unpublished" do
+      let(:unpublished_collection) { create :collection, :unpublished }
+      let!(:transcript) { create :transcript, :published, collection: unpublished_collection }
+
+      it "returns an empty transcript" do
+        expect(searching_transcript.id).to eq(nil)
+      end
+    end
   end
 end
