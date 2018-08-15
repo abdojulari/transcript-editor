@@ -54,9 +54,12 @@ class CollectionsController < ApplicationController
   end
 
   def collection_params
-    params.require(:collection).permit(:uid, :title,
-                                       :description, :url,
-                                       :image_url, :vendor_id,
+    params.require(:collection).permit(:uid,
+                                       :title,
+                                       :description,
+                                       :url,
+                                       :image_url,
+                                       :vendor_id,
                                        :vendor_identifier)
   end
 end

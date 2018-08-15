@@ -1,6 +1,6 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
-$(document).ready(function(){
+$(document).ready(function() {
   var institutionId = 0;
 
   $('#institution_search').on('click', '.select-option', function(){
@@ -14,12 +14,11 @@ $(document).ready(function(){
     };
     $(".collect-list").html('<div class="loading"></div>')
     $.ajax({
-        type: "POST",
-        url: "/collections/list",
-        data: {institution_id: institutionId},
-      success: function(data, textStatus, jqXHR){
-      },
+      type: "POST",
+      url: "/collections/list",
+      data: {institution_id: institutionId},
       error: function(jqXHR, textStatus, errorThrown){
+        $(".collect-list").html('Error when reading collection..')
       }
     })
   }
