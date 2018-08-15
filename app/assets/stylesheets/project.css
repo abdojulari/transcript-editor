@@ -1391,6 +1391,7 @@ body {
     text-align: left;
     padding: 10px 10px 0;
     margin: 0 -10px 20px;
+    background: none;
 }
 
 .transcript-facets.sticky {
@@ -1408,7 +1409,7 @@ body {
     margin-left: 0;
 }
 .transcript-facets .select-options {
-    left: auto;
+    left: 0;
     right: 0;
 }
 .transcript-facets .select-option {
