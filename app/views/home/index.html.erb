@@ -40,6 +40,7 @@
     <div id="transcript-facets" class="transcript-facets">
       <div>
         <!-- sort themes -->
+        <% if show_theme? %>
         <div class="facet">
           <label for="filter-by-collection">Theme: </label>
           <div name="filter-by-collection" class="select collection">
@@ -49,12 +50,15 @@
             </div>
           </div>
         </div>
+        <% end %>
         <!-- end themes -->
 
         <!-- sort institution -->
+        <% if show_institutions? %>
         <div class="facet" id="institution_search">
           <%= render partial: 'institutions', locals: { institutions: @institutions, selected_id: 0 } %>
         </div>
+        <% end %>
         <!-- end institution -->
         <div class="facet" id="collection_search">
         </div>

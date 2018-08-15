@@ -1,0 +1,17 @@
+<%= render partial: 'layouts/admin_side_pane' %>
+<%= form_with(model: [:admin, @app_config], local: true) do |form| %>
+  <h2><%= @app_config.app_name %></h2>
+  <br />
+  <div class="form-check">
+    <%= form.check_box :show_theme, class: 'form-check-input' %>
+    <%= form.label :show_theme, class: 'form-check-label' %>
+  </div>
+  <div class="form-check">
+    <%= form.check_box :show_institutions, class: 'form-check-input' %>
+    <%= form.label :show_institutions, class: 'form-check-label' %>
+  </div>
+  <br />
+
+
+  <%= form.submit 'Save', class: 'btn btn-primary' %>
+<% end %>

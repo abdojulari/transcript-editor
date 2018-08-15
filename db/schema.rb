@@ -10,10 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_14_023313) do
+ActiveRecord::Schema.define(version: 2018_08_14_062856) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "app_configs", force: :cascade do |t|
+    t.string "app_name"
+    t.boolean "show_theme", default: false
+    t.boolean "show_institutions", default: false
+  end
 
   create_table "cms_image_uploads", force: :cascade do |t|
     t.string "image"
@@ -107,6 +113,12 @@ ActiveRecord::Schema.define(version: 2018_08_14_023313) do
     t.string "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "seed_migration_data_migrations", id: :serial, force: :cascade do |t|
+    t.string "version"
+    t.integer "runtime"
+    t.datetime "migrated_on"
   end
 
   create_table "speakers", id: :serial, force: :cascade do |t|

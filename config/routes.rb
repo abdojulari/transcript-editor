@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       end
     end
     resources :themes, except: [:show]
+    resources :app_configs, only: [:edit, :update]
   end
   resources :flags, only: [:index, :show, :create]
   resources :transcript_speaker_edits, only: [:create]

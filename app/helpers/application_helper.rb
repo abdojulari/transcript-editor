@@ -27,6 +27,15 @@ module ApplicationHelper
     time
   end
 
+  def show_theme?
+    @app_config.try(:show_theme?)
+  end
+
+  def show_institutions?
+    @app_config.try(:show_institutions?)
+  end
+
+
   # NOTE: format we need
   #       if the title is empty -> 'Amplify'
   #       if the title is not empty -> '<title> | Amplify'
