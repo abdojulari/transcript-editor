@@ -29,6 +29,10 @@ class Institution < ApplicationRecord
     false
   end
 
+  def self.state_library_nsw
+    find_by(name: "State Library of New South Wales")
+  end
+
   after_create do
     # creates the default list
     TranscriptionConvention.create_default(id)

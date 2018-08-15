@@ -2,19 +2,23 @@ class CollectionsController < ApplicationController
   include ActionController::MimeResponds
   include IndexTemplate
 
-  layout 'public', only: [:index]
+  layout "public", only: [:index]
 
   before_action :set_collection, only: [:show, :update, :destroy]
 
   # GET /collections.json
   def index
     @page_title = "Collections"
-    @collection = Collection.order("title")
+    @institutions = Institution.all
+    @page = Page.find_by(page_type: "collections")&.public_page&.decorate
+  end
+
+  def list
+    @collections = CollectionsService.by_institution(params[:institution_id])
   end
 
   # GET /collections/the-uid.json
-  def show
-  end
+  def show; end
 
   # POST /collections.json
   def create
@@ -29,7 +33,6 @@ class CollectionsController < ApplicationController
 
   # PATCH/PUT /collections/the-uid.json
   def update
-
     if @collection.update(collection_params)
       head :no_content
     else
@@ -46,11 +49,14 @@ class CollectionsController < ApplicationController
 
   private
 
-    def set_collection
-      @collection = Collection.find_by uid: params[:id]
-    end
+  def set_collection
+    @collection = Collection.find_by uid: params[:id]
+  end
 
-    def collection_params
-      params.require(:collection).permit(:uid, :title, :description, :url, :image_url, :vendor_id, :vendor_identifier)
-    end
+  def collection_params
+    params.require(:collection).permit(:uid, :title,
+                                       :description, :url,
+                                       :image_url, :vendor_id,
+                                       :vendor_identifier)
+  end
 end

@@ -22,7 +22,11 @@ Rails.application.routes.draw do
       get :facebook_share
     end
   end
-  resources :collections, only: [:index, :show]
+  resources :collections, only: [:index, :show] do
+    collection do
+      post :list
+    end
+  end
 
   mount_devise_token_auth_for 'User',
     at: 'auth',
