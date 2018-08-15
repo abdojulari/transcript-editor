@@ -1385,6 +1385,14 @@ body {
     margin: 0 -10px 20px;
     background: #ddd;
 }
+.transcript-facets-collections {
+    position: relative;
+    z-index: 50;
+    text-align: left;
+    padding: 10px 10px 0;
+    margin: 0 -10px 20px;
+}
+
 .transcript-facets.sticky {
     position: fixed;
     -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);

@@ -7,7 +7,9 @@
     end
 %>
 <% if institutions.any? %>
-  <label for="filter-by-collection">Institution: </label>
+  <% if !hide_lable %>
+    <label for="filter-by-collection">Institution: </label>
+  <% end %>
   <div name="filter-by-collection" class="select collection">
     <div class="select-active collection-filter selected"><%= first_institution.name %></div>
     <div class="select-options collection-filter" role="menu" aria-hidden="true">

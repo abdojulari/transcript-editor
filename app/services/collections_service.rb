@@ -10,6 +10,6 @@ class CollectionsService
          else
            institution_id
          end
-    Collection.where(institution_id: id)
+    Collection.published.where(institution_id: id)
   end
 end
