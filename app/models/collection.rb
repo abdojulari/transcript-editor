@@ -2,6 +2,7 @@ class Collection < ApplicationRecord
   include ImageSizeValidation
   include UidValidationOnUpdate
   include Publishable #NOTE: default scope is used to filter published_at
+  include UidValidation
 
   mount_uploader :image, ImageUploader
   acts_as_taggable_on :themes

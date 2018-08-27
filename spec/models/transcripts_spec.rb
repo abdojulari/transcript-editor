@@ -12,6 +12,16 @@ RSpec.describe Transcript, type: :model do
     it { is_expected.to validate_presence_of :uid }
     it { is_expected.to validate_presence_of :vendor }
     it { is_expected.to validate_uniqueness_of :uid }
+
+    it { is_expected.to validate_length_of(:uid).is_at_most(30) }
+
+    it { is_expected.to allow_value("abc_def").for(:uid) }
+    it { is_expected.to allow_value("abc_d_e-f").for(:uid) }
+
+    it { is_expected.not_to allow_value("abc def").for(:uid) }
+    it { is_expected.not_to allow_value("").for(:uid) }
+    it { is_expected.not_to allow_value("ab&ef").for(:uid) }
+
   end
 
   describe "validate uid does not change after create" do

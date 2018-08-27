@@ -1,6 +1,7 @@
 class Transcript < ApplicationRecord
   include ImageSizeValidation
   include UidValidationOnUpdate
+  include UidValidation
 
   mount_uploader :image, ImageUploader
   mount_uploader :audio, AudioUploader
