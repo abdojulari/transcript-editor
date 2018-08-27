@@ -3,17 +3,13 @@ module Publishable
 
   included do
     scope :published, -> { where.not(published_at: nil) }
-    attr_accessor :publish
+    scope :unpublished, -> { unscoped.where(published_at: nil) }
 
     after_save :publish_if_needed
   end
 
   def publish_if_needed
-    if publish.to_i == 1
-      publish!
-    else
-      unpublish!
-    end
+    publish ? publish! : unpublish!
   end
 
   def published?

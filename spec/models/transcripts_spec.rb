@@ -105,6 +105,8 @@ RSpec.describe Transcript, type: :model do
 
       it "publishes the transcript" do
         expect(transcript.published?).to be_truthy
+        expect(transcript.publish).to be_truthy
+        expect(transcript.published_at).not_to be_nil
       end
     end
 
@@ -117,7 +119,7 @@ RSpec.describe Transcript, type: :model do
   end
 
   describe "#unpublish" do
-    let!(:transcript) { FactoryBot.create :transcript, :published}
+    let!(:transcript) { FactoryBot.create :transcript, :published }
 
     it "unpublishes the transcript" do
       expect { transcript.unpublish! }.

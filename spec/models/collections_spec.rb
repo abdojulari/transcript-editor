@@ -126,6 +126,8 @@ RSpec.describe Collection, type: :model do
     context "when default collections are unpublished" do
       it "checks the default collection status" do
         expect(collection.published?).to be_falsy
+        expect(collection.publish).to be_falsy
+        expect(collection.published_at).to be_nil
       end
     end
 
@@ -134,6 +136,8 @@ RSpec.describe Collection, type: :model do
 
       it "publishes the collection" do
         expect(collection.published?).to be_truthy
+        expect(collection.publish).to be_truthy
+        expect(collection.published_at).not_to be_nil
       end
     end
 
