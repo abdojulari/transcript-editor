@@ -6,6 +6,6 @@ module UidValidation
     #             no spacial chars
     #             only a-z, A-Z, 0-9, _ and - allowed
     #
-    validates :uid, format: { with: /\A^[a-zA-Z0-9_-]*$\z/ }, length: { in: 1..30 }
+    validates :uid, format: { with: /\A^[a-zA-Z0-9_-]*$\z/ }, length: { in: 1..50 }
   end
 end

@@ -26,7 +26,7 @@ RSpec.describe Collection, type: :model do
     it { is_expected.to validate_uniqueness_of :uid }
     it { is_expected.to validate_uniqueness_of :title }
 
-    it { is_expected.to validate_length_of(:uid).is_at_most(30) }
+    it { is_expected.to validate_length_of(:uid).is_at_most(50) }
 
     it { is_expected.to allow_value("abc_def").for(:uid) }
     it { is_expected.to allow_value("abc_d_e-f").for(:uid) }
