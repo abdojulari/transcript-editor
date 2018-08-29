@@ -9,7 +9,8 @@
   "allowTranscriptDownload": true,
   "gaCode": "",
   "adminEmails": [
-    "web.development@sl.nsw.gov.au"
+    "web.development@sl.nsw.gov.au",
+    "digital.volunteering@sl.nsw.gov.au"
   ],
   "authProviders": [
     {
