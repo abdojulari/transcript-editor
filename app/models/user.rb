@@ -1,11 +1,9 @@
 class User < ApplicationRecord
   # Include default devise modules.
   devise :database_authenticatable,
-          # :recoverable, :confirmable, :registerable,
-          :rememberable, :trackable, :validatable, :omniauthable
-  devise :omniauthable, omniauth_providers: [:google_oauth2]
-
-  include DeviseTokenAuth::Concerns::User
+          :recoverable, :confirmable, :registerable,
+          :rememberable, :trackable, :validatable, :omniauthable,
+          omniauth_providers: [:google_oauth2, :facebook]
 
   belongs_to :user_role, optional: true
   belongs_to :institution, optional: true
@@ -93,12 +91,14 @@ class User < ApplicationRecord
     user = User.where(email: data['email']).first
 
     unless user
-      user = User.create(name: data['name'],
+      user = User.new(name: data['name'],
                          email: data['email'],
                          password: Devise.friendly_token[0,20]
                         )
+      user.skip_confirmation!
+      user.skip_confirmation_notification!
+      user.save
     end
     user
   end
-
 end

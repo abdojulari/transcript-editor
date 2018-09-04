@@ -28,19 +28,13 @@ Rails.application.routes.draw do
     end
   end
 
-  mount_devise_token_auth_for 'User',
-    at: 'auth',
-    controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
-
-  # Handle additional providers such as SAML.
-  match 'auth/:provider/callback',
-    controller: 'users/omniauth_callbacks',
-    action: 'redirect_callbacks',
-    via: [:post],
-    defaults: {
-      'namespace_name' => 'omniauth',
-      'resource_class' => 'User'
-    }
+  devise_for :users,
+    controllers: {
+    sessions: "users/sessions",
+    omniauth_callbacks: 'users/omniauth_callbacks',
+    registrations: "users/registrations",
+    passwords: "users/passwords"
+  }
 
   match 'page/faq' => 'page#faq', :via => [:get]
   match 'page/about' => 'page#about', :via => [:get]

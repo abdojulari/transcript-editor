@@ -3,8 +3,6 @@ class TranscriptsController < ApplicationController
 
   skip_before_action :verify_authenticity_token, only: [:index, :search, :show]
 
-  include DeviseTokenAuth::Concerns::SetUserByToken
-
   include ActionController::MimeResponds
   include IndexTemplate
 

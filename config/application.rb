@@ -19,5 +19,14 @@ module TranscriptEditor
 
     # API
     config.api_only = false
+
+    config.to_prepare do
+      layout = "public"
+      Devise::SessionsController.layout layout
+      Devise::RegistrationsController.layout layout
+      Devise::ConfirmationsController.layout layout
+      Devise::UnlocksController.layout layout
+      Devise::PasswordsController.layout layout
+    end
   end
 end
