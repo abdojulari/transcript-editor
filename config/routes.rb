@@ -40,10 +40,9 @@ Rails.application.routes.draw do
   match 'page/about' => 'page#about', :via => [:get]
   match 'page/tutorial' => 'page#tutotial', :via => [:get]
   match 'page/preview/:id' => 'page#preview', :via => [:get]
+  match 'page/:id' => 'page#show', :via => [:get]
 
-  # match 'dashboard' => 'default#index', :via => [:get]
   match 'transcript_lines/:id/resolve' => 'transcript_lines#resolve', :via => [:post]
-  # match 'search' => 'transcripts#search', :via => [:get]
 
   # admin
   namespace :admin do

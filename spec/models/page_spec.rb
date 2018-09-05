@@ -1,19 +1,30 @@
 RSpec.describe Page, type: :model do
   # associations
-  it { should have_one(:public_page)  }
+  it { is_expected.to have_one(:public_page) }
 
   # validations
-  it { should validate_presence_of(:page_type)  }
-  it { should validate_uniqueness_of(:page_type)  }
-  it { should validate_uniqueness_of(:content)  }
+  it { is_expected.to validate_presence_of(:page_type) }
+  it { is_expected.to validate_uniqueness_of(:page_type) }
+  it { is_expected.to validate_uniqueness_of(:content) }
 
-  context "publishing a page" do
+  # page type
+  it { is_expected.to validate_length_of(:page_type).is_at_most(50) }
+
+  it { is_expected.to allow_value("abc_def").for(:page_type) }
+  it { is_expected.to allow_value("abc_d_e-f").for(:page_type) }
+
+  it { is_expected.not_to allow_value("abc def").for(:page_type) }
+  it { is_expected.not_to allow_value("").for(:page_type) }
+  it { is_expected.not_to allow_value("ab&ef").for(:page_type) }
+
+  # rubocop:disable RSpec/ExpectChange
+  context "when publishing a page" do
     let(:page) { FactoryBot.build(:page, published: published) }
 
     context "when published is clicked" do
       let!(:published) { true }
 
-      it 'adds the record to public_pages' do
+      it "adds the record to public_pages" do
         expect do
           page.save
         end.to change { PublicPage.count }.by(1)
@@ -31,7 +42,7 @@ RSpec.describe Page, type: :model do
     end
   end
 
-  context "callbacks" do
+  context "with callbacks" do
     let(:page) { FactoryBot.build(:page, published: true) }
 
     context "when skiping callbacks" do
@@ -51,4 +62,5 @@ RSpec.describe Page, type: :model do
       end
     end
   end
+  # rubocop:enable RSpec/ExpectChange
 end

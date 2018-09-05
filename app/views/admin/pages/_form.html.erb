@@ -3,8 +3,18 @@
 
   <div class="form-group">
     <%= form.label :page_type %>
-    <%= form.text_field :page_type, class: 'form-control', readonly: true %>
+    <%= form.text_field :page_type, class: 'form-control' %>
+    <div class="alert-light" role="alert">
+      *  page_type is a Unique Identifier assigned to each file created in the database. page types are also used to generate URLs for individual pages. Your page_type should be a very shorthand version of your item title that will make sense to an end user if they were reading a URL. Your page_type should:
+      <br />
+      <ul>
+        <li>- be maximum 50 characters</li>
+        <li>- not have any spaces</li>
+        <li>- only include characters that are letters, numbers, underscore (_) and hyphen (-)</li>
+      </ul>
+    </div>
   </div>
+
   <div class="form-group">
     <%= form.label :content %>
     <%= form.text_area :content, class: 'form-control', 'data-provider': :summernote %>
@@ -13,6 +23,11 @@
     <%= form.check_box :published, class: 'form-check-input' %>
     <%= form.label 'Publish version to live site', for: 'page_published', class: 'form-check-label' %>
   </div>
+  <div class="form-check">
+    <%= form.check_box :admin_access, class: 'form-check-input' %>
+    <%= form.label 'Restrict access for normal users', for: 'page_admin_access', class: 'form-check-label' %>
+  </div>
+
   <br />
 
   <%= form.submit 'Save', class: 'btn btn-primary' %>

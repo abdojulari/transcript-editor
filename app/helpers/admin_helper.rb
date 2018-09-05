@@ -1,6 +1,6 @@
 module AdminHelper
+  # rubocop:disable Metrics/LineLength, Metrics/MethodLength, Metrics/AbcSize
   def side_menu
-    # rubocop:disable Metrics/LineLength
     list = [
       OpenStruct.new(path: "/admin", icon: "line-chart", text: "Dashboard", type: 1),
       OpenStruct.new(path: admin_users_path, icon: "users", text: "User", type: 2),
@@ -9,10 +9,11 @@ module AdminHelper
       OpenStruct.new(path: admin_pages_path, icon: "file", text: "Pages", type: 4),
       OpenStruct.new(path: admin_themes_path, icon: "paint-brush", text: "Themes", type: 4),
       OpenStruct.new(path: edit_admin_app_config_path(@app_config.id), icon: "cog", text: "Site Config", type: 4),
+      OpenStruct.new(path: "/page/documentation", icon: "question-circle", text: "Documentation", type: 2),
     ]
-    # rubocop:enable Metrics/LineLength
     list.reject { |i| i.type > user_type }
   end
+  # rubocop:enable Metrics/LineLength, Metrics/MethodLength, Metrics/AbcSize
 
   def publish_icon(status)
     icon = status ? "globe" : "file-text"
