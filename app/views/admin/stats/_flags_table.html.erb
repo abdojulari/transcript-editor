@@ -2,6 +2,7 @@
 <table class="table table-striped">
   <thead class="thead-dark">
     <tr>
+      <th scope="col">Institution</th>
       <th scope="col">Type</th>
       <th scope="col">Note</th>
       <th scope="col">Transcript</th>
@@ -12,8 +13,13 @@
     <% flags.each do |flag|
        transcript_line = flag.transcript_line
        transcript = transcript_line.transcript.decorate
+       flag = flag.decorate
     %>
     <tr>
+      <td>
+        <%= flag.institution&.name %>
+      </td>
+
       <td>
         <%= flag.flag_type.label  %>
       </td>
