@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :public_page do
-    page_id 1
+    page
     content "MyString"
   end
 end

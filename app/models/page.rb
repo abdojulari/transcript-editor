@@ -2,7 +2,6 @@ class Page < ApplicationRecord
   has_one :public_page, dependent: :destroy
 
   validates :page_type, presence: true
-  validates :content, uniqueness: true
   validates :page_type, uniqueness: true
   validates :page_type,
             format: { with: /\A^[a-zA-Z0-9_-]*$\z/ },

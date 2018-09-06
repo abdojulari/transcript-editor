@@ -38,8 +38,8 @@ class Admin::PagesController < AdminController
   end
 
   def destroy
-    # institution.destroy
-    # redirect_to admin_institutions_path
+    @page.destroy
+    redirect_to admin_pages_path
   end
 
   def upload

@@ -5,7 +5,6 @@ RSpec.describe Page, type: :model do
   # validations
   it { is_expected.to validate_presence_of(:page_type) }
   it { is_expected.to validate_uniqueness_of(:page_type) }
-  it { is_expected.to validate_uniqueness_of(:content) }
 
   # page type
   it { is_expected.to validate_length_of(:page_type).is_at_most(50) }
@@ -60,6 +59,17 @@ RSpec.describe Page, type: :model do
           page.save
         end.to change { PublicPage.count }.by(1)
       end
+    end
+  end
+
+  context "with destroy" do
+    let(:public_page) { create :public_page }
+    let!(:page) { public_page.page }
+
+    it "also deletes the public page" do
+      expect do
+        page.destroy
+      end.to change { PublicPage.count }.by(-1)
     end
   end
   # rubocop:enable RSpec/ExpectChange
