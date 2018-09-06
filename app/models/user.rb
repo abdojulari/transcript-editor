@@ -10,6 +10,9 @@ class User < ApplicationRecord
 
   attr_accessor :total_edits
 
+  scope :only_public_users, -> { where("user_role_id < ?", UserRole::MIN_STAFF_LEVEL) }
+  scope :only_staff_users, -> { where("user_role_id >= ?", UserRole::MIN_STAFF_LEVEL) }
+
   def incrementLinesEdited(amount=1)
     update_attributes(lines_edited: lines_edited + amount)
   end
