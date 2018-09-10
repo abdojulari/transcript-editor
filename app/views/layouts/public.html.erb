@@ -47,6 +47,9 @@
       <div id="primary-alert" class="alert" role="alert" aria-atomic="true"></div>
     </div>
     <div id="main" class="body">
+      <p class="notice">
+        <%= @notice %>
+      </p>
       <%= yield %>
     </div>
     <%= render 'shared/footer' %>

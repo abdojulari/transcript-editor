@@ -673,39 +673,6 @@ p.text-center {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.alert {
-    background: #FEE24A;
-    max-width: 50%;
-    margin: 0 auto;
-    text-align: center;
-    cursor: pointer;
-    position: relative;
-    max-height: 0px;
-    overflow: hidden;
-    opacity: 0;
-    -moz-transition: max-height 0.5s,  opacity 0.5s;
-    -o-transition: max-height 0.5s,  opacity 0.5s;
-    -webkit-transition: max-height 0.5s,  opacity 0.5s;
-    -ms-transition: max-height 0.5s,  opacity 0.5s;
-    transition: max-height 0.5s,  opacity 0.5s;
-}
-.alert>div {
-    padding: 5px 30px;
-}
-.alert:after {
-    content: 'x';
-    display: block;
-    position: absolute;
-    right: 10px;
-    top: 5px;
-    font-weight: bold;
-}
-.alert.active {
-    opacity: 1;
-    max-height: 1000px;
-    overflow: visible;
-    margin: 40px auto 10px;
-}
 .select {
     display: inline-block;
     position: relative;
