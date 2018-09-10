@@ -43,4 +43,11 @@ class ApplicationController < ActionController::Base
   def set_ie_headers
     response.headers["X-UA-Compatible"] = "IE=edge"
   end
+
+  private
+
+  # Overwriting the sign_out redirect path method
+  def after_sign_up_path_for(resource_or_scope)
+    new_user_session_path
+  end
 end

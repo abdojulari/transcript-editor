@@ -19,7 +19,7 @@
       <h2>Sign In</h2>
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
         <%- flash.each do |name, msg| -%>
-          <%= content_tag :div, msg, :id => "flash_#{name}", class: "alert alert-danger" if msg.is_a?(String) %>
+          <%= content_tag :div, msg, :id => "flash_#{name}", class: "alert alert-info" if msg.is_a?(String) %>
         <%- end -%>
         <div class="form-group">
           <%= f.label :email %><br />
