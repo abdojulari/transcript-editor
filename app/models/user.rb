@@ -1,16 +1,17 @@
 class User < ApplicationRecord
   # Include default devise modules.
   devise :database_authenticatable,
-          # :recoverable, :confirmable, :registerable,
-          :rememberable, :trackable, :validatable, :omniauthable
-  devise :omniauthable, omniauth_providers: [:google_oauth2]
-
-  include DeviseTokenAuth::Concerns::User
+          :recoverable, :confirmable, :registerable,
+          :rememberable, :trackable, :validatable, :omniauthable,
+          omniauth_providers: [:google_oauth2, :facebook]
 
   belongs_to :user_role, optional: true
   belongs_to :institution, optional: true
 
   attr_accessor :total_edits
+
+  scope :only_public_users, -> { where("user_role_id < ?", UserRole::MIN_STAFF_LEVEL) }
+  scope :only_staff_users, -> { where("user_role_id >= ?", UserRole::MIN_STAFF_LEVEL) }
 
   def incrementLinesEdited(amount=1)
     update_attributes(lines_edited: lines_edited + amount)
@@ -93,12 +94,14 @@ class User < ApplicationRecord
     user = User.where(email: data['email']).first
 
     unless user
-      user = User.create(name: data['name'],
+      user = User.new(name: data['name'],
                          email: data['email'],
                          password: Devise.friendly_token[0,20]
                         )
+      user.skip_confirmation!
+      user.skip_confirmation_notification!
+      user.save
     end
     user
   end
-
 end

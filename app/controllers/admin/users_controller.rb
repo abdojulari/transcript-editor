@@ -4,7 +4,8 @@ class Admin::UsersController < AdminController
   def index
     authorize User
 
-    @users = policy_scope(User).getAll.decorate
+    @users = policy_scope(User).only_public_users.getAll.decorate
+    @staff = policy_scope(User).only_staff_users.getAll.decorate
     @user_roles = policy_scope(UserRole).getAll
     @institutions = policy_scope(Institution).all
   end

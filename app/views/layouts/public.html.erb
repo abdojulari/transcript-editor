@@ -47,6 +47,11 @@
       <div id="primary-alert" class="alert" role="alert" aria-atomic="true"></div>
     </div>
     <div id="main" class="body">
+      <% unless flash[:notice].blank? %>
+        <p class="notice alert alert-info">
+          <%= flash[:notice] %>
+        </p>
+      <% end %>
       <%= yield %>
     </div>
     <%= render 'shared/footer' %>

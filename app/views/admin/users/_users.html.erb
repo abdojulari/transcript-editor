@@ -1,0 +1,35 @@
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">Name</th>
+      <th scope="col">Edits Made</th>
+      <th scope="col">Role</th>
+      <th scope="col">Institution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% users.each do |user| %>
+      <tr>
+        <td>
+          <%= image_tag user.avatar_image, class: 'avatar'  %>
+          </th>
+          <td>
+            <%= user.name  %>
+            (<%= user.email  %>)
+          </td>
+          <td>
+            <%= user.lines_edited %>
+          </td>
+          <td>
+            <%= collection_select(:user, :role_id, user_roles, :id, :description, { selected: user.user_role_id }, { class: 'user_role', 'data-id' => user.id }) %>
+          </td>
+          <td>
+            <%= collection_select(:user, :institution_id, institutions, :id, :name, {include_blank: '', selected: user.institution_id }, { class: 'user_institution', 'data-id' => user.id }) %>
+          </td>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

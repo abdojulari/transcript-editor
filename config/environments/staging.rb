@@ -1,5 +1,5 @@
 Rails.application.configure do
-  # Settings specified here will take precedence over those in config/application.rb.
+ ENV["DEFAULT_MAILER_HOST"] # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
   config.cache_classes = true
@@ -68,6 +68,7 @@ Rails.application.configure do
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.default_url_options = { host: ENV["DEFAULT_MAILER_HOST"] }
 
   # Store uploaded files on the local file system in a temporary directory
   config.active_storage.service = :test

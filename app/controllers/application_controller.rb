@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-  # include DeviseTokenAuth::Concerns::SetUserByToken
   include Authentication
 
   # Prevent CSRF attacks by raising an exception.
@@ -9,17 +8,11 @@ class ApplicationController < ActionController::Base
   # Allow us to use JBuilder
   include ActionController::ImplicitRender
 
-  # Allow us to cache
-  # include ActionController::Caching
-  # self.perform_caching = true
-  # self.cache_store = ActionController::Base.cache_store
-
   before_action :touch_session
   before_action :load_user_edits
   before_action :load_footer
   before_action :set_ie_headers
   before_action :load_app_config
-
 
   # Ensure a session id is available for all!
   def touch_session
@@ -43,11 +36,18 @@ class ApplicationController < ActionController::Base
     site = Site.new
     @global_content = {
       footer_content: site.footer_content,
-      footer_links: site.footer_links
+      footer_links: site.footer_links,
     }
   end
 
   def set_ie_headers
     response.headers["X-UA-Compatible"] = "IE=edge"
+  end
+
+  private
+
+  # Overwriting the sign_out redirect path method
+  def after_sign_up_path_for(resource_or_scope)
+    new_user_session_path
   end
 end

@@ -1,39 +1,33 @@
 <%= render partial: 'layouts/admin_side_pane' %>
-<h3>Top Users</h3>
-<table class="table table-striped">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col"></th>
-      <th scope="col">Name</th>
-      <th scope="col">Edits Made</th>
-      <th scope="col">Role</th>
-      <th scope="col">Institution</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td>
-          <%= image_tag user.avatar_image, class: 'avatar'  %>
-        </th>
-        <td>
-          <%= user.name  %>
-          (<%= user.email  %>)
-        </td>
-        <td>
-          <%= user.lines_edited %>
-        </td>
-        <td>
-          <%= collection_select(:user, :role_id, @user_roles, :id, :description, { selected: user.user_role_id }, { class: 'user_role', 'data-id' => user.id }) %>
-        </td>
-        <td>
-          <%= collection_select(:user, :institution_id, @institutions, :id, :name, {include_blank: '', selected: user.institution_id }, { class: 'user_institution', 'data-id' => user.id }) %>
-        </td>
+<div class="accordion" id="accordionUser">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          <h3>Top Users</h3>
+        </button>
+      </h5>
+    </div>
 
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<br />
-
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionUser">
+      <div class="card-body">
+        <%= render "users", users: @users, user_roles: @user_roles, institutions: @institutions %>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingTwo">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+         <h3>Administrative Users</h3>
+        </button>
+      </h5>
+    </div>
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionUser">
+      <div class="card-body">
+        <%= render "users", users: @staff, user_roles: @user_roles, institutions: @institutions %>
+      </div>
+    </div>
+  </div>
+</div>
 
