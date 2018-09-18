@@ -12,6 +12,12 @@ Rails.application.routes.draw do
     end
     resources :themes, except: [:show]
     resources :app_configs, only: [:edit, :update]
+    resources :stats, only: [:index] do
+      member do
+        get :institution
+      end
+    end
+
   end
   resources :flags, only: [:index, :show, :create]
   resources :transcript_speaker_edits, only: [:create]

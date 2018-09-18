@@ -12,12 +12,12 @@ class StatsService
     }
   end
 
-  def transcript_edits
+  def transcript_edits(institution_id = nil)
     {
-      all: get_stats_by_day.length,
-      past_30_days: past_n_days(30).length,
-      past_7_days: past_n_days(7).length,
-      past_24_hours: past_n_days(1).length,
+      all: get_stats_by_day(institution_id).length,
+      past_30_days: past_n_days(institution_id, 30).length,
+      past_7_days: past_n_days(institution_id, 7).length,
+      past_24_hours: past_n_days(institution_id, 1).length,
     }
   end
 
@@ -30,19 +30,22 @@ class StatsService
     }
   end
 
-  def past_n_days(days)
-    get_stats_by_day.where(created_at: days.days.ago..Time.zone.now)
+  def past_n_days(institution_id, days)
+    get_stats_by_day(institution_id).
+      where(created_at: days.days.ago..Time.zone.now)
   end
 
   def user_past_n_days(days)
-    user_get_stats_by_day.where(created_at: days.days.ago..Time.zone.now)
+    user_get_stats_by_day.
+      where(created_at: days.days.ago..Time.zone.now)
   end
 
   private
 
   # original query
-  def get_stats_by_day
-    TranscriptEditPolicy::Scope.new(user, TranscriptEdit).resolve
+  def get_stats_by_day(institution_id)
+    TranscriptEditPolicy::Scope.new(user, TranscriptEdit).
+      resolve(institution_id)
   end
 
   def user_get_stats_by_day
