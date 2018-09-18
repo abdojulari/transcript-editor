@@ -27,4 +27,33 @@ RSpec.describe StatsService, type: :service do
       end
     end
   end
+
+  describe ".completion_stats" do
+    let(:user) { create :user }
+    let(:institution) { create :institution }
+    let!(:collection1) { create :collection, institution: institution }
+    let!(:collection2) { create :collection, institution: institution }
+
+    before do
+      create :transcript, collection: collection1, percent_completed: 100
+      create :transcript, collection: collection2, percent_completed: 100
+      create :transcript, collection: collection1, percent_reviewing: 50
+      create :transcript, collection: collection2, percent_edited: 50
+    end
+
+    context "when viewing all" do
+      it "shows stats for all" do
+        expect(described_class.new(user).completion_stats).
+          to eq(completed: 50.0, pending: 25.0, reviewing: 25.0)
+      end
+    end
+
+    context "when passing a collection" do
+      it "shows stats for collection" do
+        expect(described_class.new(user).completion_stats(institution.id,
+                                                          collection1.id)).
+          to eq(completed: 50.0, pending: 0.0, reviewing: 50.0)
+      end
+    end
+  end
 end

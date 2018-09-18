@@ -14,6 +14,10 @@ class Transcript < ApplicationRecord
   pg_search_scope :search_default, :against => [:title, :description]
   pg_search_scope :search_by_title, :against => :title
 
+  scope :completed, -> { where(percent_completed: 100) }
+  scope :reviewing, -> { where("percent_reviewing > 0 and percent_completed < 100") }
+  scope :pending, -> { where("percent_reviewing = 0 and percent_completed < 100") }
+
   validates :uid, presence: true, uniqueness: true
   validates :vendor, presence: true
   validate :image_size_restriction

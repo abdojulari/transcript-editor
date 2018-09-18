@@ -7,3 +7,5 @@
 //= require components
 //= require users
 //= require editor
+//= require Chart.bundle
+//= require chartkick

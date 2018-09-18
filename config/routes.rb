@@ -17,7 +17,11 @@ Rails.application.routes.draw do
         get :institution
       end
     end
-
+    resources :summary, only: [:index] do
+      collection do
+        get :details
+      end
+    end
   end
   resources :flags, only: [:index, :show, :create]
   resources :transcript_speaker_edits, only: [:create]

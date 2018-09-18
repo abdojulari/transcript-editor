@@ -1,0 +1,2 @@
+$("#collection").html("<%= escape_javascript(render partial: 'collection', locals: { collection: @collection  } ) %>");
+$("#summary-stats").html("<%= escape_javascript(render partial: 'summary_stats', locals: { stats: @stats  } ) %>");
