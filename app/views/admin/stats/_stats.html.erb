@@ -1,16 +1,24 @@
-<h2>Site wide statistics</h2>
-<% stats.each do |key, value| %>
+<h3>Site-wide edits</h3>
 <div class="card mb-2">
-  <div class="card-header">
-    <p><%= display_name key %></p>
+  <div class="card-header heading">
+    <p>Transcript edits</p>
   </div>
   <div class="card-body">
     <div class="sums">
-      <%= render "stat_list", value: value  %>
+      <%= render "stat_list", value: stats[:transcript_edits]  %>
     </div>
   </div>
 </div>
-<br />
-<% end %>
 
+<h3>Site-wide registrations</h3>
+<div class="card mb-2">
+  <div class="card-header heading">
+    <p>User registration stats</p>
+  </div>
+  <div class="card-body">
+    <div class="sums">
+      <%= render "stat_list", value: stats[:user_registration_stats]  %>
+    </div>
+  </div>
+</div>
 
