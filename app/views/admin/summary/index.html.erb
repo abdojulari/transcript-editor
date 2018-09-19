@@ -11,10 +11,10 @@
                           include_blank: "All Institutions") %>
     </p>
     <span id="collection">
-      <%= render "collection", collection: @collection %>
+      <%= render "collection", collection: @collection, selected_collection_id: @selected_collection_id %>
     </span>
   </div>
   <div class="card-body" id="summary-stats">
-    <%= render "summary_stats", stats: @stats %>
+    <%= render "summary_stats", stats: @stats, total: @total %>
   </div>
 </div>

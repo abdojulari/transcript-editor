@@ -26,9 +26,10 @@ class StatsService
     scope = stats_scope(institution_id, collection_id)
     total_count = scope.count
     {
+      total: total_count,
       completed: (scope.completed.count.to_f / total_count.to_f) * 100,
-      reviewing: (scope.reviewing.count.to_f / total_count.to_f) * 100,
-      pending: (scope.pending.count.to_f / total_count.to_f) * 100,
+      in_review: (scope.reviewing.count.to_f / total_count.to_f) * 100,
+      in_draft: (scope.pending.count.to_f / total_count.to_f) * 100,
     }
   end
   # rubocop:enable Metrics/AbcSize
