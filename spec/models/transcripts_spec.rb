@@ -180,4 +180,33 @@ RSpec.describe Transcript, type: :model do
       end
     end
   end
+
+  describe "#search" do
+    let!(:institution1) { create :institution }
+    let!(:institution2) { create :institution }
+    let!(:collection1) { create :collection, institution: institution1 }
+    let!(:collection2) { create :collection, institution: institution2 }
+    let!(:transcript1) { create :transcript, :published, collection: collection1 }
+    let!(:transcript2) { create :transcript, :published, collection: collection2 }
+
+    before do
+      create :transcript_line, transcript: transcript1
+      create :transcript_line, transcript: transcript2
+    end
+
+    context "with options" do
+      it "shows only the filtered trasncripts" do
+        expect(described_class.search(
+          collection_id: collection1.id,
+          institution_id: institution1.id,
+        ).count).to eq(1)
+      end
+    end
+
+    context "without options" do
+      it "shows all the trasncripts" do
+        expect(described_class.search({}).count).to eq(2)
+      end
+    end
+  end
 end
