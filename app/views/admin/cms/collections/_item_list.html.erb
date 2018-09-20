@@ -1,5 +1,5 @@
 <!-- find_each was removed to support odering in collection.transcripts -->
-<% @collection.transcripts.each do |item| %>
+<% order_transcripts_asc(@collection.transcripts).each do |item| %>
   <div class="row">
     <div class="col-1"><%= publish_icon(item.published?) %></div>
     <div class="col-6"><%= item.title %></div>

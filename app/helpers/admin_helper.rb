@@ -21,6 +21,10 @@ module AdminHelper
     fa_icon icon
   end
 
+  def order_transcripts_asc(transcripts)
+    transcripts.sort_by {|e| e.title.gsub(/\d+/) {|num| "#{num.length} #{num}"}}
+  end
+
   private
 
   def user_type
