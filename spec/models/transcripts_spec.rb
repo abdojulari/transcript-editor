@@ -208,5 +208,18 @@ RSpec.describe Transcript, type: :model do
         expect(described_class.search({}).count).to eq(2)
       end
     end
+
+    context "with themes" do
+      before do
+        collection2.theme_list.add("theme1")
+        collection2.save
+      end
+
+      it "shows theme1 records" do
+        expect(described_class.search({
+          theme: "theme1",
+        })).to eq([transcript2])
+      end
+    end
   end
 end

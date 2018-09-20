@@ -29,6 +29,6 @@ class SearchController < ApplicationController
 
   def search_params
     params.require(:data).permit(:collection_id, :q,
-                                 :institution_id)
+                                 :institution_id, :theme)
   end
 end

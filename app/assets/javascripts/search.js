@@ -87,7 +87,8 @@ $(document).ready(function(){
     data = {
       institution_id: institutionId,
       collection_id: collectionId,
-      q: searchText
+      q: searchText,
+      theme: theme
     };
     $(".transcript-list-search").html('<div class="loading"></div>')
     $.ajax({
@@ -107,4 +108,3 @@ $(document).ready(function(){
   }
   loadTranscripts()
 })
-

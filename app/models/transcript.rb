@@ -428,6 +428,12 @@ class Transcript < ApplicationRecord
     # check for institution
     transcripts = transcripts.where("institutions.id = :id", {id: options[:institution_id].to_i}) if options[:institution_id].present?
 
+    if options[:theme].present?
+      transcripts = transcripts.joins('inner join taggings on taggings.taggable_id = collections.id inner join tags on tags.id =  taggings.tag_id')
+      transcripts = transcripts.where("tags.name = ?", options[:theme])
+    end
+
+
     # Check for sort
     transcripts = transcripts.order("transcripts.#{sort_by} #{sort_order}")
   end
