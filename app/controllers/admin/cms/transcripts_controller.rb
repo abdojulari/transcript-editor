@@ -1,6 +1,5 @@
 class Admin::Cms::TranscriptsController < AdminController
-  before_action :set_transcript, only: [:edit, :update,
-                                        :destroy, :reset_transcript]
+  before_action :set_transcript, only: [:edit, :update, :destroy, :reset_transcript, :sync]
   before_action :set_transcript_by_id, only: [:process_transcript]
 
   def new
@@ -29,6 +28,15 @@ class Admin::Cms::TranscriptsController < AdminController
       flash[:errors] = "The transcript updates could not be saved."
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def sync
+    VoiceBase::VoicebaseApiService.check_progress(@transcript.id)
+    @transcript = Transcript.find(@transcript.id)
+    if @transcript.voicebase_status == "completed"
+      @file = VoiceBase::VoicebaseApiService.process_transcript(@transcript.id)
+    end
+    @transcript.reload
   end
 
   def destroy
@@ -84,7 +92,8 @@ class Admin::Cms::TranscriptsController < AdminController
       :image_catalogue_url,
       :notes, :vendor_id, :collection_id, :speakers,
       :publish, :audio_item_url_title,
-      :image_item_url_title
+      :image_item_url_title,
+      :transcript_type
     ).merge(
       project_uid: ENV["PROJECT_ID"],
     )

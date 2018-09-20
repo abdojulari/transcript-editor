@@ -86,6 +86,7 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rvm'
+  gem 'capistrano-sidekiq'
   gem 'rubocop'
 
   gem 'dotenv-rails'
@@ -103,6 +104,10 @@ group :test do
   gem 'pundit-matchers', '~> 1.6.0'
 end
 
+group :staging, :production do
+  gem 'executable-hooks'
+end
+
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # tracking errors
@@ -115,4 +120,10 @@ gem 'friendly_id', '~> 5.2.0'
 gem 'acts-as-taggable-on', '~> 6.0'
 gem 'seed_migration'
 gem 'acts_as_singleton'
+gem 'httparty'
+gem 'rest-client'
+gem 'formdata'
+gem 'sidekiq'
+gem 'whenever', require: false
 gem "chartkick"
+

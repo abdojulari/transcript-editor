@@ -8,9 +8,8 @@
 //= require components
 //= require users
 //= require editor
+//= require transcripts
 //= require Chart.bundle
 //= require chartkick
 //= require speaker_autocomplete
-
-
 

@@ -5,7 +5,7 @@ set :application, 'nsw-state-library-amplify'
 set :repo_url, 'git@github.com:slnswgithub/nsw-state-library-amplify.git'
 set :branch, :develop
 set :deploy_to, '/home/deploy/nsw-state-library-amplify'
-set :pty, true
+set :pty, false
 set :linked_files, %w{config/database.yml config/application.yml config/frontend.yml config/initializers/bugsnag.rb}
 set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle config/certificates app/files/uploads }
 set :keep_releases, 5
@@ -26,6 +26,17 @@ set :puma_workers, 0
 set :puma_worker_timeout, nil
 set :puma_init_active_record, true
 set :puma_preload_app, false
+
+# Necessary for Sidekiq support.
+set :sidekiq_processes, 5
+set :sidekiq_user, 'deploy'
+set :init_system, :systemd
+append :rvm1_map_bins, 'rake', 'gem', 'bundle', 'ruby', 'puma', 'pumactl', 'sidekiq', 'sidekiqctl'
+set :bundler_path, '/home/deploy/.rvm/wrappers/ruby-2.5.0@rails5/bundle'
+SSHKit.config.command_map[:sidekiq] = "bundle exec sidekiq"
+SSHKit.config.command_map[:sidekiqctl] = "bundle exec sidekiqctl"
+
+# Necessary for Whenever support.
 
 namespace :deploy do
   after :restart, :clear_cache do
