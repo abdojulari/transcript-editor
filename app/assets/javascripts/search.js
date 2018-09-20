@@ -89,7 +89,7 @@ $(document).ready(function(){
       collection_id: collectionId,
       q: searchText
     };
-    $(".transcript-list").html('<div class="loading"></div>')
+    $(".transcript-list-search").html('<div class="loading"></div>')
     $.ajax({
         url: "/search/query",
         data: {data: data},

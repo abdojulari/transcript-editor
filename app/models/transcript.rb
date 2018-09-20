@@ -393,7 +393,7 @@ class Transcript < ApplicationRecord
     transcripts = nil
 
     # Do a deep search
-    if options[:deep].present? && options[:q].present? && !options[:q].blank?
+    if options[:q].present?
       # Build initial query w/ pagination
       transcripts = TranscriptLine
         .select('transcripts.*, COALESCE(collections.title, \'\') AS collection_title, transcript_lines.guess_text, transcript_lines.original_text, transcript_lines.start_time, transcript_lines.transcript_id')
