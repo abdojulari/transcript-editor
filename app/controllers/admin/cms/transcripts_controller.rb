@@ -1,5 +1,6 @@
 class Admin::Cms::TranscriptsController < AdminController
-  before_action :set_transcript, only: [:edit, :update, :destroy, :reset_transcript]
+  before_action :set_transcript, only: [:edit, :update,
+                                        :destroy, :reset_transcript]
   before_action :set_transcript_by_id, only: [:process_transcript]
 
   def new
@@ -39,11 +40,12 @@ class Admin::Cms::TranscriptsController < AdminController
   end
 
   def speaker_search
-    speakers = Speaker.where("LOWER(name) LIKE ?", "%#{params[:q].downcase}%").
+    speakers = Speaker.
+      where("LOWER(name) LIKE ?", "%#{params[:query].downcase}%").
       map do |s|
-        { id: s.id, label: s.name, value: s.name }
+        { value: s.name, data: s.name }
       end
-    render json: speakers
+    render json: { suggestions: speakers }
   end
 
   def reset_transcript
@@ -72,6 +74,7 @@ class Admin::Cms::TranscriptsController < AdminController
     @transcript = Transcript.find(params[:id])
   end
 
+  # rubocop:disable Metrics/MethodLength
   def transcript_params
     params.require(:transcript).permit(
       :uid, :title,
@@ -86,6 +89,7 @@ class Admin::Cms::TranscriptsController < AdminController
       project_uid: ENV["PROJECT_ID"],
     )
   end
+  # rubocop:enable Metrics/MethodLength
 
   def collection_id
     Collection.find_by(uid: params[:collection_uid]).id

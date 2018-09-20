@@ -1,5 +1,6 @@
 //= require jquery
 //= require jquery_ujs
+//= require jquery.autocomplete.min.js
 //= require popper
 //= require bootstrap
 //= require summernote/summernote-bs4.min
@@ -9,3 +10,7 @@
 //= require editor
 //= require Chart.bundle
 //= require chartkick
+//= require speaker_autocomplete
+
+
+
