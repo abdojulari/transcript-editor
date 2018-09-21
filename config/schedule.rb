@@ -5,4 +5,3 @@ env :PATH, ENV['PATH']
 every 5.minutes do
   runner "VoiceBaseProcessingJob.perform_now"
 end
-

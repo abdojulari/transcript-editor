@@ -37,6 +37,9 @@ SSHKit.config.command_map[:sidekiq] = "bundle exec sidekiq"
 SSHKit.config.command_map[:sidekiqctl] = "bundle exec sidekiqctl"
 
 # Necessary for Whenever support.
+set :whenever_path, ->{ release_path }
+set :bundle_command, Whenever.bundler? ? "/home/deploy/.rvm/wrappers/ruby-2.5.0@rails5/bundle exec" : ""
+job_type :runner,  "cd :path && :bundle_command :runner_command -e :environment ':task' :output"
 
 namespace :deploy do
   after :restart, :clear_cache do
