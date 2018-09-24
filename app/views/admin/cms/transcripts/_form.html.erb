@@ -115,14 +115,19 @@
         <%= f.hidden_field(:collection_id, value: @transcript.collection_id) %>
       </div>
 
-      <div class="form-check">
+      <div class="form-check mb-2">
         <%= f.check_box :publish, {checked: @transcript.published?, class: 'form-check-input' } %>
         <%= f.label 'Publish item to live site', for: 'transcript_publish', class: 'form-check-label' %>
       </div>
 
-      <div class="form-group text-center">
-        <%= f.submit %>
-        <%= link_to "Cancel", admin_cms_collection_path(@transcript.collection.uid), class: "button" %>
+      <div class="alert-warning mb-2" role="alert">
+        Uploading your audio file may take a few minutes. After clicking the 'Save transcript' button, do not close your browser or navigate away from this page. When your file upload is complete you will be redirected to the transcript index page.
+      </div>
+
+
+      <div class="form-group text-center mb-2">
+        <%= f.submit('Save Transcript', class: 'btn btn-primary') %>
+        <%= link_to "Cancel", admin_cms_collection_path(@transcript.collection.uid) %>
       </div>
     <% end %>
   </div>

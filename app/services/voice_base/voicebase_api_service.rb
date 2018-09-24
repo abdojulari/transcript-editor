@@ -5,15 +5,19 @@ module VoiceBase
     def self.upload_media(transcript_id)
       transcript = Transcript.find(transcript_id)
 
-      #FIXME
+      #NOTE: this code is to test the functionality locally
+      #      otherwise, since the file is not uploading to aws
+      #      VoiceBase upload will not work as it cannot access
+      #      the image url
       if Rails.env.development?
         res = Voicebase::Client.new.upload_media("https://slnsw-amplify.s3.amazonaws.com/collections_v2/snowymountain_bushfires/audio/mloh307-0001-0004-s002-m.mp3")
       else
         res = Voicebase::Client.new.upload_media(transcript.audio_url)
       end
+      res = Voicebase::Client.new.upload_media(transcript.audio_url)
       status = JSON.parse res.body
       if status["errors"]
-        #TODO: upload to bugsnag
+        Bugsnag.notify("Voicebase errors for transcript #{transcript_id} :  #{status["errors"]}")
       else
         transcript.update_column("voicebase_media_id", status["mediaId"])
       end
@@ -27,7 +31,7 @@ module VoiceBase
       res = Voicebase::Client.new.check_progress(transcript.voicebase_media_id)
       status = JSON.parse res.body
       if status["errors"]
-        #TODO: upload to bugsnag
+        Bugsnag.notify("Voicebase errors for transcript #{transcript_id} :  #{status["errors"]}")
       else
         transcript.update_column("voicebase_status", status["progress"]["status"])
       end
@@ -54,7 +58,7 @@ module VoiceBase
       if res.code == "200"
         res.body
       else
-        #TODO: upload to bugsnag
+        Bugsnag.notify("Voicebase errors when reading transcript #{transcript_id}")
       end
     end
   end
