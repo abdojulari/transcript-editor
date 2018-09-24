@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_04_235053) do
+ActiveRecord::Schema.define(version: 2018_09_17_014306) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -287,6 +287,11 @@ ActiveRecord::Schema.define(version: 2018_09_04_235053) do
     t.string "audio_item_url_title", default: "View audio in Library catalogue"
     t.string "image_item_url_title", default: "View image in Library catalogue"
     t.boolean "publish", default: false
+    t.integer "transcript_type", default: 0
+    t.string "voicebase_media_id"
+    t.string "voicebase_status"
+    t.datetime "voicebase_processing_completed_at"
+    t.datetime "pickedup_for_voicebase_processing_at"
     t.index ["collection_id"], name: "index_transcripts_on_collection_id"
     t.index ["duration"], name: "index_transcripts_on_duration"
     t.index ["project_uid"], name: "index_transcripts_on_project_uid"

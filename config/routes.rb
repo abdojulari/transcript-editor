@@ -1,3 +1,4 @@
+require 'sidekiq/web'
 Rails.application.routes.draw do
 
   namespace :admin do
@@ -12,6 +13,16 @@ Rails.application.routes.draw do
     end
     resources :themes, except: [:show]
     resources :app_configs, only: [:edit, :update]
+    resources :stats, only: [:index] do
+      member do
+        get :institution
+      end
+    end
+    resources :summary, only: [:index] do
+      collection do
+        get :details
+      end
+    end
   end
   resources :flags, only: [:index, :show, :create]
   resources :transcript_speaker_edits, only: [:create]
@@ -36,6 +47,10 @@ Rails.application.routes.draw do
     passwords: "users/passwords"
   }
 
+  authenticate :user, lambda { |u| u.admin?  } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
+
   match 'page/faq' => 'page#faq', :via => [:get]
   match 'page/about' => 'page#about', :via => [:get]
   match 'page/tutorial' => 'page#tutotial', :via => [:get]
@@ -55,6 +70,7 @@ Rails.application.routes.draw do
       resources :collections, except: [:index]
       resources :transcripts, except: [:show, :index] do
         get "speaker_search", on: :collection
+        get "sync", on: :member
         post "process_transcript", on: :member
         delete "reset_transcript", on: :member
       end

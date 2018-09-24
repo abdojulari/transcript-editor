@@ -1,0 +1,17 @@
+[Unit]
+Description=Puma HTTP server for Amplify
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/deploy/nsw-state-library-amplify/current
+ExecStart=/bin/bash -lc 'RAILS_ENV=staging bundle exec pumactl -b /home/deploy/nsw-state-library-amplify/shared/tmp/sockets/puma.sock -C /home/deploy/nsw-state-library-amplify/shared/puma.rb -S /home/deploy/nsw-state-library-amplify/shared/tmp/pids/puma.state -P /home/deploy/nsw-state-library-amplify/shared/tmp/pids/puma.pid /home/deploy/nsw-state-library-amplify/config.ru'
+StandardOutput=/home/deploy/nsw-state-library-amplify/shared/log/puma_access.log
+StandardError=/home/deploy/nsw-state-library-amplify/shared/log/puma_error.log
+Restart=always
+RestartSec=3
+User=deploy
+Group=deploy
+
+[Install]
+WantedBy=multi-user.target

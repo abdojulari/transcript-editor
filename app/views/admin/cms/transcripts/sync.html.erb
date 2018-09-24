@@ -1,0 +1,18 @@
+<div class="accordion" id="accordionExample">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          <%= @transcript.voicebase_status %>
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body">
+        <%= "Transcript processed at #{@transcript.voicebase_processing_completed_at.strftime("%B %d, %Y")}" if @transcript.voicebase_processing_completed_at %>
+      </div>
+    </div>
+  </div>
+</div>
+<%= link_to "Back", admin_cms_collection_path(@transcript.collection.uid), class: "button" %>
