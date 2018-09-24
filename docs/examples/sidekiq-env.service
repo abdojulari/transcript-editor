@@ -1,0 +1,19 @@
+[Unit]
+Description=sidekiq for nsw-state-library-amplify (yourenv)
+After=syslog.target network.target
+
+[Service]
+Type=simple
+Environment=RAILS_ENV=yourenv
+WorkingDirectory=/home/deploy/nsw-state-library-amplify/current
+ExecStart=/bin/bash -lc '/home/deploy/.rvm/wrappers/ruby-2.5.0@nsl-rails5/bundle exec sidekiq -e yourenv'
+ExecReload=/bin/kill -TSTP $MAINPID
+ExecStop=/bin/kill -TERM $MAINPID
+
+RestartSec=5
+Restart=on-failure
+
+SyslogIdentifier=sidekiq
+
+[Install]
+WantedBy=default.target
