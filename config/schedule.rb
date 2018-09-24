@@ -10,6 +10,6 @@ deployed = ['staging', 'production'].include?(current_env)
 set :bundle_command, deployed ? '/home/deploy/.rvm/wrappers/ruby-2.5.0@rails5/bundle exec' : 'bundle exec'
 job_type :runner,  "cd :path && :bundle_command rails runner -e :environment ':task' :output"
 
-every 5.minutes do
+every 3.minutes do
   runner "VoiceBaseProcessingJob.perform_now"
 end
