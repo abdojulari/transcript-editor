@@ -71,11 +71,8 @@
   }
   &__fieldset {
     @include mobile {
-      position: absolute;
       left: 0;
       top: 0;
-      opacity: 0;
-      visibility: hidden;
       z-index: -1;
     }
   }
