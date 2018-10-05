@@ -39,7 +39,8 @@ State Library.
 You will need to have the following installed to run this project on your machine.
 
 - [Git](https://git-scm.com/)
-- [Ruby](https://www.ruby-lang.org/en/) - this app has been developed using 2.3.0. Older versions may not work
+- [Ruby](https://www.ruby-lang.org/en/) - this app has been developed using 2.5.0. Older versions may not work
+- [Rails](https://rubyonrails.org/) - rails  5.2.0
 - [PostgreSQL](http://www.postgresql.org/)
 
 Once everything is installed, clone this repository
