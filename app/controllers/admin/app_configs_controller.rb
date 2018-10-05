@@ -17,7 +17,9 @@ class Admin::AppConfigsController < AdminController
 
   def app_configs_params
     params.require(:app_config).permit(
-      :show_theme, :show_institutions
+      :show_theme, :show_institutions,
+      :main_title, :image,
+      :intro_title, :intro_text
     )
   end
 end

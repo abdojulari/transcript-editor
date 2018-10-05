@@ -13,7 +13,7 @@
           Filter by:
         </legend>
         <%= select_tag "institutions",
-              options_for_select([ "Library of Victoria", "Library of NSW", "Library of Wagga Wagga" ]),
+              options_from_collection_for_select(@institutions, :id, :name),
               prompt: "Institution"
         %>
         <%= select_tag "themes",

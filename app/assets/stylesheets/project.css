@@ -555,10 +555,10 @@ p.text-center {
     color: #FFFFFF;
 }
 .inverse a {
-    color: #6fc3e3;
+    color: #231F20;
 }
 .inverse a:hover {
-    color: #9ad4eb;
+  color: #231F20;
 }
 .loading:after {
     content: 'loading';
@@ -715,10 +715,11 @@ p.text-center {
     padding: 0.4em;
     line-height: 1;
     color: #FFFFFF;
+    text-transform: none;
 }
 .select .select-option:hover {
     color: #FFFFFF;
-    background: #2388b0;
+    background: #231F20;
 }
 .select .select-option.selected:after {
     margin-left: 5px;
@@ -1100,7 +1101,7 @@ body {
     display: block;
     height: 40px;
     line-height: 40px;
-    padding-top: 0;
+    padding-top: 10px;
     padding-bottom: 0;
 }
 .header .account-container .score {
@@ -1109,12 +1110,12 @@ body {
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
     border-radius: 10px;
-    background: #000000;
+    background: #F5C653;
     height: 20px;
     line-height: 21px;
     padding: 0 7px;
     margin-right: 3px;
-    vertical-align: middle;
+    vertical-align: top;
 }
 .header .account-container .score.active {
     display: inline-block;
