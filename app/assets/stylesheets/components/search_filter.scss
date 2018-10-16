@@ -1,0 +1,128 @@
+.transcript-facets {
+  position: relative;
+  z-index: 50;
+  text-align: center;
+  font-weight: bold;
+}
+
+.transcript-facets.sticky {
+  position: fixed;
+  /* @include box-shadow(0px 2px 2px rgba($black, 0.3)); */
+
+}
+
+.facet {
+  display: flex;
+  margin-bottom: 0.1em;
+  margin-left: 0.6em;
+  position: relative;
+}
+
+.facet:first-child {
+  margin-left: 0;
+}
+
+.facet #reset {
+  line-height: 30px;
+  margin-left: 0.6em;
+}
+
+.select-options {
+  left: auto;
+  right: 0;
+}
+
+.select-option {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.select.collection .select-options {
+  min-width: 400px;
+}
+
+.select.sort .select-options {
+  min-width: 240px;
+}
+
+/* Select Box */
+.select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: $drop-down-black, $soft-orange;
+  background-position: right 0.8em bottom 45%;
+  background-repeat: no-repeat;
+  background-size: 12px 12px;
+  color: $black;
+  border-radius: 0;
+  border: 0;
+  padding: 0.2em 2em 0.2em 0.8em;
+  font-size: 1rem;
+  cursor: pointer;
+  white-space: nowrap;
+  line-height: 24px;
+  transition: background-color 0.3s;
+}
+
+.select:hover {
+  /* background: $link-hover-color; */
+}
+
+
+.select-options {
+  display: none;
+  position: absolute;
+  width: 100%;
+  top: 100%;
+  left: 0;
+  border-top: none;
+  background: $soft-orange;
+  box-sizing: border-box;
+  z-index: 50;
+}
+
+.select-option {
+  display: block;
+  padding: 0.4em;
+  color: $black;
+  margin: 0;
+}
+
+.select-option:hover {
+  color: $white;
+  background: #D1AB4D;
+}
+
+.select-option.selected:after {
+  margin-left: 5px;
+  /* @include icon("\f00c"); // http://fortawesome.github.io/Font-Awesome/icon/check/ */
+
+}
+
+.select-option.active .select-options {
+  display: block;
+}
+
+.select.active .select-options {
+  display: block;
+}
+
+.filter-controls {
+  width: auto;
+  min-height: 30px;
+  line-height: 30px;
+  font-size: rem-calc(16);
+  border: 0;
+  border-radius: 0;
+  padding-left: 5px;
+  color: $input-foreground;
+  font-family: $body-font;
+  // Bugfix search on safari
+  -webkit-appearance: none;
+  &::placeholder {
+    color: $input-foreground;
+    font-family: $body-font;
+  }
+}

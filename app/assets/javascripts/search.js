@@ -90,7 +90,8 @@ $(document).ready(function(){
       q: searchText,
       theme: theme
     };
-    $(".transcript-list-search").html('<div class="loading"></div>')
+
+    $(".search_results").html('<div class="lds-ripple"><div></div><div></div></div>')
     $.ajax({
         url: "/search/query",
         data: {data: data},
@@ -99,7 +100,7 @@ $(document).ready(function(){
           scrollUp()
         }
         firstTimeLoad = false;
-        var instance = new Mark("a.item-line");
+        var instance = new Mark(".search_item");
         if (instance) {
           instance.mark(searchText)
         }

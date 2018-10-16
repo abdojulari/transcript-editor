@@ -12,6 +12,13 @@ SAML_ISSUER: xxx
 SAML_SSO_TARGET_URL: xxx
 SAML_IDP_CERT_PATH: xxx
 SAML_NAME_ID_FORMAT: urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress
+SENDER_EMAIL: xxx
+SMTP_URI: 
+SMTP_PORT: 
+SES_SMTP_USERNAME:
+SES_SMTP_PASSWORD: 
+DEFAULT_MAILER_HOST:
+VOICEBASE_API_KEY: 
 REDIS_URL: redis://localhost:6379
 
 development:

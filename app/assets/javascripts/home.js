@@ -35,7 +35,6 @@ $(document).ready(function(){
 
   $('#institution_search').on('click', '.select-option', function(){
     institutionId = $(this).attr('data-id')
-    console.log(institutionId)
     if (institutionId == 0) {
       collectionId = 0;
     }
@@ -70,6 +69,12 @@ $(document).ready(function(){
     loadTranscripts()
   })
 
+  $('.search_field .button').on('click', function(){
+    searchText = $('#searchText').val()
+    event.preventDefault();
+    loadTranscripts()
+  })
+
   $("#searchText").on('keyup',function(e){
     if (($(this).val() == "") && (e.keyCode == 8)){
       searchText = "";
@@ -79,10 +84,16 @@ $(document).ready(function(){
 
 
   function scrollUp(){
-    var target  = $('#search-form').offset().top;
+    var target  = $('#transcript-results').offset().top;
     $('html, body').animate({
-      scrollTop: target
+      scrollTop: (target - 170)
     }, 1000);
+  }
+
+  function loadFirstTime(){
+    institutionId = $('#instution_selected_id').val();
+    collectionId = $('#collection_selected_id').val();
+    loadTranscripts()
   }
 
   function loadTranscripts(){
@@ -93,7 +104,7 @@ $(document).ready(function(){
       text: searchText,
       theme: theme
     };
-    $(".transcript-list").html('<div class="loading"></div>')
+    $("#transcript-results").html('<div class="lds-ripple"><div></div><div></div></div>')
     $.ajax({
         type: "POST",
         url: "/home/transcripts",
@@ -109,5 +120,6 @@ $(document).ready(function(){
       }
     })
   }
-  loadTranscripts()
+
+  loadFirstTime();
 })

@@ -10,7 +10,8 @@ class TranscriptDecorator < Draper::Decorator
   end
 
   def homepage_description
-    Sanitize.fragment(object.description)
+    text = Sanitize.fragment(object.description)
+    h.truncate(text, length: 50, separator: ' ', escape: false)
   end
 
   def search_title
@@ -59,7 +60,7 @@ class TranscriptDecorator < Draper::Decorator
 
   def display_status(text, klass, percentage)
     if klass != 'completed' && object.percent_completed < 100
-      h.content_tag(:div, text, class: "item-status-text #{klass}") if percentage > 0
+      h.content_tag(:div, text, class: "transcript_item__status-text") if percentage > 0
     end
   end
 

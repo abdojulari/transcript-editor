@@ -39,7 +39,8 @@ State Library.
 You will need to have the following installed to run this project on your machine.
 
 - [Git](https://git-scm.com/)
-- [Ruby](https://www.ruby-lang.org/en/) - this app has been developed using 2.3.0. Older versions may not work
+- [Ruby](https://www.ruby-lang.org/en/) - this app has been developed using 2.5.0. Older versions may not work
+- [Rails](https://rubyonrails.org/) - rails  5.2.0
 - [PostgreSQL](http://www.postgresql.org/)
 
 Once everything is installed, clone this repository
@@ -83,6 +84,7 @@ The primary place for project configuration the file `project.json`. For now, we
 
 1. Run `bundle` - this will install all the necessary gems for this app.
 2. Run `rake db:setup` to setup the database based on `config/database.yml`.
+3. run `rake seed:migrate` to setup the data. (At the time of updating this doc, this is a manual command)
 3. Run `rake project:load['my-project']` to load your project folder (replace *my-project* with your project name).
 4. Run `rake cache:clear` to clear your cache if you've used Amplify previously.
 5. Run `rails s` to start your server. Go to [http://localhost:3000/](http://localhost:3000/) to view your project.
