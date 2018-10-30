@@ -45,6 +45,27 @@ namespace :transcripts do
     end
   end
 
+  # Usage rake transcripts:export_uids['fix_it_plus']
+  task :export_uids, [:project_key, :target] => :environment do |task, args|
+    args.with_defaults target: "exports"
+
+    transcripts = Transcript.getProjectTranscriptsUids(args[:project_key])
+
+    # Ensure dir exists
+    export_path = Rails.root.join('exports', args[:project_key])
+    FileUtils.mkdir_p(export_path) unless File.directory?(export_path)
+
+    filename = "#{args[:project_key]}-#{DateTime.now}"
+    export_file = Rails.root.join('exports', args[:project_key], filename)
+
+    open(export_file, 'wb') do |file|
+      transcripts.each do |transcript|
+        puts "Adding: #{transcript.uid}"
+        file.puts transcript.uid
+      end
+    end
+  end
+
   # Usage rake transcripts:load['oral-history','transcripts_seeds.csv']
   desc "Load transcripts by project key and csv file"
   task :load, [:project_key, :filename] => :environment do |task, args|

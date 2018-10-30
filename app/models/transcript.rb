@@ -28,6 +28,11 @@ class Transcript < ActiveRecord::Base
       .where(transcript_edits: {user_id: user_id}).distinct
   end
 
+  def self.getProjectTranscriptsUids(project_uid)
+    Transcript
+      .where(project_uid: project_uid)
+  end
+
   def self.getForExport(project_uid, collection_uid=false)
     if collection_uid
       Transcript
