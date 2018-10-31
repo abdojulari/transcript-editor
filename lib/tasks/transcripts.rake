@@ -69,7 +69,7 @@ namespace :transcripts do
   # Usage rake transcripts:load['oral-history','transcripts_seeds.csv']
   desc "Load transcripts by project key and csv file"
   task :load, [:project_key, :filename] => :environment do |task, args|
-
+    puts "Loading transcripts..."
     # Validate project
     project_path = Rails.root.join('project', args[:project_key])
     if !File.directory?(project_path)
@@ -237,8 +237,9 @@ namespace :transcripts do
   # Usage rake transcripts:convert['transcript_files_path','directory','webvtt']
   desc "Converts transcripts from one format to another (ie. json to webvtt."
   task :convert, [:transcript_files_path, :directory, :to_format] => :environment do |task, args|
-    raise "Not a valid transcript_files_path" unless Dir.exist?(args[:transcript_files_path])
-    raise "Not a valid directory" unless Dir.exist?(args[:directory])
+    puts "Starting transcript conversion..."
+    raise "Not a valid transcript_files_path: #{args[:transcript_files_path]}" unless Dir.exist?(args[:transcript_files_path])
+    raise "Not a valid directory: #{args[:directory]}" unless Dir.exist?(args[:directory])
 
     TranscriptConverter::Runner.new(args[:transcript_files_path], args[:directory], args[:to_format]).run!
   end
