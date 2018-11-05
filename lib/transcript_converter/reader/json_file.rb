@@ -21,9 +21,19 @@ module TranscriptConverter
       private
 
       def parse_json
-        json = JSON.parse(File.read(file))
-        raise "#{File.basename(file.path)}: JSON is not in the expected format." unless json.has_key?('parts')
-        { "file_name" => "#{File.basename(file.path, '.json')}", "parts" => json["parts"] }
+        if valid_json?(File.read(file))
+          json = JSON.parse(File.read(file))
+          raise "#{File.basename(file.path)}: JSON is not in the expected format." unless json.has_key?('parts')
+          { "file_name" => "#{File.basename(file.path, '.json')}", "parts" => json["parts"] }
+        else
+          nil
+        end
+      end
+
+      def valid_json?(json)
+        JSON.parse(json)
+      rescue JSON::ParserError => e
+        nil
       end
     end
   end
