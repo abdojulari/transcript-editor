@@ -6,6 +6,7 @@ class JSONFileTest < ActiveSupport::TestCase
   json_file = File.new(Rails.root + 'test/fixtures/lib/transcript_converter/cpb-aacip-106-0000000q-transcript.json' )
   invalid_file = File.new(Rails.root + 'test/fixtures/lib/transcript_converter/invalid.json')
   missing_parts_file = File.new(Rails.root + 'test/fixtures/lib/transcript_converter/missing-parts.json')
+  empty_file = File.new(Rails.root + 'test/fixtures/lib/transcript_converter/empty.json')
 
   test "JSONFile returns JSON in expected format" do
     content = TranscriptConverter::Reader::JSONFile.new(json_file).run!
@@ -18,8 +19,9 @@ class JSONFileTest < ActiveSupport::TestCase
     assert content["parts"].last == part_last
   end
 
-  test "JSONFile errors on invalid JSON" do
-    assert_raises(JSON::ParserError) { TranscriptConverter::Reader::JSONFile.new(invalid_file).run! }
+  test "JSONFile returns nil on invalid JSON" do
+    assert nil == TranscriptConverter::Reader::JSONFile.new(invalid_file).run!
+    assert nil == TranscriptConverter::Reader::JSONFile.new(empty_file).run!
   end
 
   test "JSONFile errors if it is missing 'parts' key" do
