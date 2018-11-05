@@ -21,7 +21,14 @@ module TranscriptConverter
     end
 
     def files_from_dir
-      Dir.glob("#{path}/**/*").select { |entry| File.file? entry }.map{ |entry| File.new(entry) } if File.directory?(path)
+      files = []
+      file_paths = Dir.glob("#{path}/**/*").select { |entry| File.file? entry } if File.directory?(path)
+      file_paths.each do |file_path|
+        file = File.new(file_path)
+        files << file
+        file.close
+      end
+      files
     end
 
   end
