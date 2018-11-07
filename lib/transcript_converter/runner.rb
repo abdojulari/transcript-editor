@@ -30,11 +30,7 @@ module TranscriptConverter
 
     def converters
       @converters ||= readers.map do |reader|
-        if reader.run! != nil
-          TranscriptConverter::Converter.factory(to_format, reader.run!, directory)
-        else
-          "Cannot convert: #{reader.file}"
-        end
+        TranscriptConverter::Converter.factory(to_format, reader.run!, directory)
       end
     end
 
