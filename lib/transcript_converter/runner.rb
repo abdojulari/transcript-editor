@@ -35,6 +35,7 @@ module TranscriptConverter
     def process_transcript_files_batches
       readers = []
       transcript_files_batches.each do |batch|
+        require 'pry';binding.pry
         batch.each do |file|
           readers << TranscriptConverter::Reader.factory(File.extname(File.basename(file.path)), file)
         end
