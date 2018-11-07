@@ -1,4 +1,6 @@
 require 'csv'
+require 'uri'
+require 'open-uri'
 
 module AAPB
   class TranscriptSeedsJob
@@ -29,7 +31,11 @@ module AAPB
         csv << [ 'uid', 'title', 'description', 'url', 'audio_url', 'image_url', 'collection', 'vendor', 'vendor_identifier', 'notes' ]
         (aapb_records[0..-1]).map do |rec|
           puts "Processing AAPBRecord: #{rec.uid}."
-          csv << [ rec.uid, rec.title, rec.description, rec.aapb_url, rec.audio_url, rec.image_url, rec.organization_pb_core_name, 'webvtt', "#{rec.uid}.vtt",  ]
+          begin
+            csv << [ rec.uid, rec.title, rec.description, rec.aapb_url, rec.audio_url, rec.image_url, rec.organization_pb_core_name, 'webvtt', "#{rec.uid}.vtt",  ]
+          rescue OpenURI::HTTPError => e
+            puts "No AAPB Record Found For: #{rec.uid}"
+          end
         end
       end
     end
