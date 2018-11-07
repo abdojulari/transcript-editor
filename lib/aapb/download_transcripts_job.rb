@@ -27,17 +27,21 @@ module AAPB
 
     def download_transcripts
       (aapb_records[0..-1]).each do |rec|
-        if !File.exists?("#{transcripts_directory}/#{rec.uid}.json")
-          puts "Downloading transcript for: #{rec.uid}."
-          if rec.has_transcript_url?
-            open("#{transcripts_directory}/#{rec.uid}.json", 'wb') do |file|
-              file << open(rec.transcript_url).read
+        begin
+          if !File.exists?("#{transcripts_directory}/#{rec.uid}.json")
+            puts "Downloading transcript for: #{rec.uid}."
+            if rec.has_transcript_url?
+              open("#{transcripts_directory}/#{rec.uid}.json", 'wb') do |file|
+                file << open(rec.transcript_url).read
+              end
+            else
+              puts "Skipping #{rec.uid}.json: no transcript_url"
             end
           else
-            puts "Skipping #{rec.uid}.json: no transcript_url"
+            puts "Skipping #{rec.uid}.json: It already exists."
           end
-        else
-          puts "Skipping #{rec.uid}.json: It already exists."
+        rescue OpenURI::HTTPError => e
+          puts "No AAPB Record Found For: #{rec.uid}"
         end
       end
     end
