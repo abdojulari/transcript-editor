@@ -23,16 +23,14 @@ module TranscriptConverter
     private
 
     def readers
-      @readers ||= process_transcript_files_batches
+      @readers ||= make_readers
     end
 
     def converters
-      @converters ||= readers.map do |reader|
-        TranscriptConverter::Converter.factory(to_format, reader.run!, directory)
-      end
+      @converters ||= make_converters
     end
 
-    def process_transcript_files_batches
+    def make_readers
       readers = []
       transcript_files_batches.each do |batch|
         batch.each do |file|
@@ -40,6 +38,16 @@ module TranscriptConverter
         end
       end
       readers
+    end
+
+    def make_converters
+      converters = []
+      readers.in_groups_of(100,false).each do |batch|
+        batch.map do |reader|
+          converters << TranscriptConverter::Converter.factory(to_format, reader.run!, directory)
+        end
+      end
+      converters
     end
   end
 end
