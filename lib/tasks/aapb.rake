@@ -1,6 +1,7 @@
 require 'fileutils'
 require_relative '../aapb/transcript_seeds_job'
 require_relative '../aapb/download_transcripts_job'
+require_relative '../aapb/delete_transcripts_job'
 
 namespace :aapb do
   # Usage rake aapb:create_seeds['ids_file_path','sample-project']
@@ -26,7 +27,7 @@ namespace :aapb do
   end
 
 
-  desc "Ingests transcripts from a file of file of AAPB GUIDs"
+  desc "Ingests transcripts from a file of AAPB GUIDs"
   task :ingest_guids, [:ids_file_path, :project_key] => :environment do |task, args|
     raise "Not a valid ids_file_path #{args[:ids_file_path]}" unless File.exist?(args[:ids_file_path])
     raise "Not a valid project_key" unless Dir.exist?(Rails.root.join('project', args[:project_key]))
@@ -37,6 +38,14 @@ namespace :aapb do
     Rake::Task["aapb:download_transcripts"].invoke("#{args[:ids_file_path]}","#{args[:project_key]}")
     Rake::Task["transcripts:convert"].invoke("#{Rails.root}/project/#{args[:project_key]}/transcripts/aapb","#{Rails.root}/project/#{args[:project_key]}/transcripts/webvtt","vtt")
     Rake::Task["webvtt:read"].invoke("#{args[:project_key]}")
+  end
+
+  desc "Deletes transcripts from a file of AAPB GUIDS"
+  task :delete_guids, [:ids_file_path] => :environment do |task,args|
+    raise "Not a valid ids_file_path #{args[:ids_file_path]}" unless File.exist?(args[:ids_file_path])
+
+    ids = build_ids_array(args[:ids_file_path])
+    AAPB::DeleteTranscriptsJob.new(ids).run!
   end
 
   def build_ids_array(file_path)
