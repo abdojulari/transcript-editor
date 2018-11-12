@@ -17,7 +17,13 @@ module AAPB
 
     def delete_transcripts
       uids.each do |uid|
-        Transcript.find_by_uid(uid).delete
+        transcript = Transcript.find_by_uid(uid)
+        if !transcript.nil?
+          puts "Deleting transcript: #{uid}"
+          transcript.delete
+        else
+          puts "Transcript not found: #{uid}"
+        end
       end
     end
   end
