@@ -43,6 +43,12 @@ You will need to have the following installed to run this project on your machin
 - [Rails](https://rubyonrails.org/) - rails  5.2.0
 - [PostgreSQL](http://www.postgresql.org/)
 
+If installing on, say, Ubuntu, the following system packages are required.
+
+* `libxml2-dev`
+* `libcurl4-openssl-dev` (or another `libcurl4-*-dev` package)
+* `libpq-dev`
+
 Once everything is installed, clone this repository
 
 ```
