@@ -18,6 +18,7 @@
       color: $dark-cyan;
     }
   }
+  @include wysiwyg-element-styles;
 }
 
 .wysiwyg-reset *{

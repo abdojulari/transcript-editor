@@ -43,6 +43,12 @@ You will need to have the following installed to run this project on your machin
 - [Rails](https://rubyonrails.org/) - rails  5.2.0
 - [PostgreSQL](http://www.postgresql.org/)
 
+If installing on, say, Ubuntu, the following system packages are required.
+
+* `libxml2-dev`
+* `libcurl4-openssl-dev` (or another `libcurl4-*-dev` package)
+* `libpq-dev`
+
 Once everything is installed, clone this repository
 
 ```
@@ -60,6 +66,13 @@ If you forked this repository, replace the URL with your repository
   - **SECRET_KEY_BASE**. You can generate this value by running `rake secret`
   - **PROJECT_ID**. A project id that will be used to identify this project (e.g. my-project). Must be alphanumeric; no spaces or periods; underscores and dashes okay
 3. Copy the folder `project/sample-project` and rename it to the **PROJECT_ID** from the previous step (e.g. `project/my-project`).  This folder will contain all the configuration, content, and language for your project.
+
+To speed up installation, especially on local development machines,
+here's a script you can run to populate your configuration files.
+
+```bash
+bundle exec bin/install-amplify
+```
 
 #### Configure Your Project Details
 
