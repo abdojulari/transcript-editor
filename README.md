@@ -67,6 +67,13 @@ If you forked this repository, replace the URL with your repository
   - **PROJECT_ID**. A project id that will be used to identify this project (e.g. my-project). Must be alphanumeric; no spaces or periods; underscores and dashes okay
 3. Copy the folder `project/sample-project` and rename it to the **PROJECT_ID** from the previous step (e.g. `project/my-project`).  This folder will contain all the configuration, content, and language for your project.
 
+To speed up installation, especially on local development machines,
+here's a script you can run to populate your configuration files.
+
+```bash
+bundle exec bin/install-amplify
+```
+
 #### Configure Your Project Details
 
 Your project folder has the following structure:
