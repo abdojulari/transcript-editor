@@ -110,3 +110,62 @@ $mobile-breakpoint:  768px; // 640px48em
     z-index: -1;
   }
 }
+
+$wysiwyg-left-padding: 32px;
+
+@mixin wysiwyg-element-styles {
+  b {
+    font-weight: bold;
+  }
+  i {
+    font-style: italic;
+  }
+  ul {
+    display: block;
+    padding-left: $wysiwyg-left-padding;
+    li {
+      display: list-item;
+      list-style: disc;
+    }
+    ul {
+      li {
+        list-style: circle;
+      }
+      ul {
+        li {
+          list-style: square;
+        }
+      }
+    }
+  }
+  ol {
+    display: block;
+    padding-left: $wysiwyg-left-padding;
+    li {
+      display: list-item;
+      list-style: decimal;
+    }
+    ol {
+      li {
+        list-style: lower-latin;
+      }
+      ol {
+        li {
+          list-style: lower-roman;
+        }
+      }
+    }
+  }
+  blockquote {
+    border-left: ($wysiwyg-left-padding * 0.2) solid $grey;
+    padding-left: ($wysiwyg-left-padding * 0.8);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    th, td {
+      padding: 10px;
+      border: 1px solid $grey;
+    }
+  }
+}
