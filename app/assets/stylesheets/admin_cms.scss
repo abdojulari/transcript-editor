@@ -16,3 +16,9 @@
 .multi-select:hover {
   background-color: #FFFFFF;
 }
+
+.note-editor {
+  .note-editable {
+    @include wysiwyg-element-styles;
+  }
+}

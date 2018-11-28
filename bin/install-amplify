@@ -1,0 +1,90 @@
+#!/usr/bin/env ruby
+# Installation script for Amplify.
+
+require 'etc'
+require 'yaml'
+require 'highline'
+require 'securerandom'
+
+def modify_yaml_file(root_path_to_file, changes = {})
+  yml_file_path = File.join(File.dirname(__FILE__), '..', root_path_to_file)
+  yaml_content = YAML.load_file(yml_file_path)
+  yaml_content = yaml_content.merge(changes)
+  File.open(yml_file_path, 'w') { |f| f.write(yaml_content.to_yaml) }
+end
+
+cli = HighLine.new
+
+env_name = cli.ask("Current environment? ") { |q| q.default = "development" }
+
+db_cfg_input = {}
+db_cfg_input[env_name] = {}
+
+db_cfg_input[env_name]['adapter'] = cli.ask("Database adapter? ") { |q| q.default = 'postgresql' }
+db_cfg_input[env_name]['database'] = cli.ask("Name of database? ") { |q| q.default = "nsw-state-library-amplify_#{env_name}" }
+db_cfg_input[env_name]['host'] = cli.ask("Database hostname? (Set blank to use local socket) ") { |q| q.default = 'localhost' }
+db_cfg_input[env_name]['username'] = cli.ask("Username to access database? ") { |q| q.default = Etc.getlogin }
+db_cfg_input[env_name]['password'] = cli.ask("Password to access database? ") { |q| q.default = '' }
+db_cfg_input[env_name]['encoding'] = cli.ask("Encoding for database? ") { |q| q.default = 'unicode' }
+if db_cfg_input[env_name]['password'].blank?
+  db_cfg_input[env_name]['password'] = nil
+end
+
+if env_name == 'development'
+  confirm_test = cli.ask("Set up test database as well? ") { |q| q.default = 'Y' }
+  if confirm_test.downcase == 'y'
+    db_cfg_input['test']['adapter'] = cli.ask("Test database adapter? ") { |q| q.default = 'postgresql' }
+    db_cfg_input['test']['database'] = cli.ask("Name of test database? ") { |q| q.default = "nsw-state-library-amplify_#{env_name}" }
+    db_cfg_input['test']['host'] = cli.ask("Test database hostname? (Set blank to use local socket) ") { |q| q.default = 'localhost' }
+    db_cfg_input['test']['username'] = cli.ask("Username to access test database? ") { |q| q.default = Etc.getlogin }
+    db_cfg_input['test']['password'] = cli.ask("Password to access test database? ") { |q| q.default = '' }
+    db_cfg_input['test']['encoding'] = cli.ask("Encoding for test database? ") { |q| q.default = 'unicode' }
+    if db_cfg_input['test']['password'].blank?
+      db_cfg_input['test']['password'] = nil
+    end
+  end
+end
+
+app_cfg_input = {}
+app_cfg_input[env_name] = {}
+
+app_cfg_input[env_name]['PROJECT_ID'] = cli.ask("Default project ID? ") { |q| q.default = "nsw-state-library-amplify" }
+
+app_cfg_input[env_name]['SECRET_KEY_BASE'] = SecureRandom.hex(64)
+# app_cfg_input[env_name]['PUA_CLIENT_ID'] = cli.ask("Pop-Up Archive client ID? ") { |q| q.default = "xxx" }
+# app_cfg_input[env_name]['PUA_CLIENT_SECRET'] = cli.ask("Pop-Up Archive client secret? ") { |q| q.default = "xxx" }
+app_cfg_input[env_name]['VOICEBASE_API_KEY'] = cli.ask("Voicebase API key? ") { |q| q.default = "xxx" }
+# app_cfg_input[env_name]['VOICEBASE_CLIENT_ID'] = cli.ask("Voicebase client ID? ") { |q| q.default = "xxx" }
+# app_cfg_input[env_name]['VOICEBASE_CLIENT_SECRET'] = cli.ask("Voicebase client secret? ") { |q| q.default = "xxx" }
+
+app_cfg_input[env_name]['AWS_S3_ACCESS_KEY_ID'] = cli.ask("AWS S3 client ID? ") { |q| q.default = "xxx" }
+app_cfg_input[env_name]['AWS_S3_SECRET_ACCESS_KEY'] = cli.ask("AWS S3 client secret? ") { |q| q.default = "xxx" }
+
+app_cfg_input[env_name]['GOOGLE_CLIENT_ID'] = cli.ask("Google client ID? ") { |q| q.default = "xxx" }
+app_cfg_input[env_name]['GOOGLE_CLIENT_SECRET'] = cli.ask("Google client secret? ") { |q| q.default = "xxx" }
+
+app_cfg_input[env_name]['FACEBOOK_APP_ID'] = cli.ask("Facebook client ID? ") { |q| q.default = "xxx" }
+app_cfg_input[env_name]['FACEBOOK_APP_SECRET'] = cli.ask("Facebook client secret? ") { |q| q.default = "xxx" }
+
+app_cfg_input[env_name]['SENDER_EMAIL'] = cli.ask("Email account to send from? ") { |q| q.default = "xxx" }
+app_cfg_input[env_name]['SMTP_URI'] = cli.ask("SMTP server URI? ") { |q| q.default = "xxx" }
+app_cfg_input[env_name]['SMTP_PORT'] = cli.ask("SMTP server port? ") { |q| q.default = "xxx" }
+app_cfg_input[env_name]['SES_SMTP_USERNAME'] = cli.ask("SMTP server username? ") { |q| q.default = "xxx" }
+app_cfg_input[env_name]['SES_SMTP_PASSWORD'] = cli.ask("SMTP server password? ") { |q| q.default = "xxx" }
+app_cfg_input[env_name]['DEFAULT_MAILER_HOST'] = cli.ask("Default mailer hostname? ") { |q| q.default = "xxx" }
+
+app_cfg_input[env_name]['REDIS_URL'] = cli.ask("Redis server URL? ") { |q| q.default = "redis://localhost:6379" }
+
+app_cfg_input[env_name]['NEW_RELIC_LICENSE_KEY'] = cli.ask("New Relic license key? ") { |q| q.default = "nsw-state-library-amplify" }
+
+modify_yaml_file(File.join('config', 'database.yml'), db_cfg_input)
+modify_yaml_file(File.join('config', 'application.yml'), app_cfg_input)
+
+puts ""
+puts "Config files have been set up."
+puts "Please check application.yml and database.yml for errors,"
+puts "and ensure that the credentials you specified can access"
+puts "your database, ${db_cfg_input[env_name]['database']}."
+puts ""
+puts "Once done, run the following to continue:"
+puts "bundle exec rake db:setup seed:migrate project:load['#{app_cfg_input[env_name]['PROJECT_ID']}']"

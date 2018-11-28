@@ -63,6 +63,9 @@ gem 'mini_magick', '~> 4.8'
 gem 'newrelic_rpm'
 gem 'rails_12factor'
 
+# Installation script.
+gem 'highline'
+
 # Use unicorn on linux only
 platforms :ruby do # linux
   gem 'unicorn'
