@@ -21,5 +21,4 @@
 //= require fixed_header
 //= require users
 //= require editor
-
-
+//= require mobile_warning
