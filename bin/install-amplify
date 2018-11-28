@@ -4,13 +4,16 @@
 require 'etc'
 require 'yaml'
 require 'highline'
+require 'securerandom'
 
 def modify_yaml_file(root_path_to_file, changes = {})
   yml_file_path = File.join(File.dirname(__FILE__), '..', root_path_to_file)
-  yaml_content = YAML.parse(File.open(yml_file_path, 'r') { |f| f.read })
-  yaml_content.merge!(changes)
-  File.open(yml_file_path, 'w') { |f| f.write(YAML.dump(yaml_content)) }
+  yaml_content = YAML.load_file(yml_file_path)
+  yaml_content = yaml_content.merge(changes)
+  File.open(yml_file_path, 'w') { |f| f.write(yaml_content.to_yaml) }
 end
+
+cli = HighLine.new
 
 env_name = cli.ask("Current environment? ") { |q| q.default = "development" }
 
