@@ -1,8 +1,13 @@
 <div class="item-image" style="background-image: url(<%= image_url %>)">
   <% if (percent_completed == 100) { %>
-    <div class="completed-check-container">
-      <div class="completed-check check-small"></div>
+    <div class="completed-small-box">
+
+      <div class="completed-check-container">
+        <div class="completed-check check-small"></div>
+        <div class="completed-check-tag-text">Completed</div>
+      </div>
     </div>
+    
   <% } %>
 </div>
 <% if (collection_title) { %>
