@@ -15,9 +15,10 @@ This is an open-source, self-hosted, web-based tool for correcting transcripts t
 6. [Deploying your project](#deploying-your-project-to-production)
 7. [Managing your project](#managing-your-project)
 8. [Retrieving your finished transcripts](#retrieving-your-finished-transcripts)
-9. [Contributing](#developers)
-10. [License](#license)
-11. [Attribution](#attribution)
+9. [Export UIDs by project](#export-uids-by-project)
+10. [Contributing](#developers)
+11. [License](#license)
+12. [Attribution](#attribution)
 
 ## Setting up the editor
 
@@ -608,6 +609,10 @@ You can add admins by editing your `project.json` file like so:
 ```
 
 Make sure these email addresses correspond to the email addresses that the user signs in with (i.e. Google or Facebook.) When the user signs in using this email address, they will be able to access their dashboard by clicking the drop-down menu on the top right side of the app.
+
+## Export UIDs by project
+
+Sometimes you just need all the transcript UIDs for a project, so we built a rake task for that: `rake transcripts:export_uids['my-project']`.
 
 ## Retrieving your finished transcripts
 
