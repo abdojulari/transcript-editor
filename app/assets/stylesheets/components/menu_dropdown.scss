@@ -1,6 +1,11 @@
 .menu_dropdown {
   position: relative;
   display: inline-block;
+  @include mobile {
+    display: block;
+    float: none;
+    clear: both;
+  }
 }
 
 .dropdown-content {
@@ -13,6 +18,10 @@
   padding: 12px 16px;
   z-index: 1;
   line-height: 180%;
+
+  @include mobile {
+    position: static;
+  }
 }
 
 .menu_select {
@@ -31,6 +40,10 @@
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s;
+
+  @include mobile {
+    height: auto;
+  }
 }
 
 .menu_select-active:after {
