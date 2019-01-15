@@ -25,9 +25,13 @@
         color: $header-text-active;
       }
 
-      &.auth-link {
+      &.dropdown-link {
         display: block;
         white-space: nowrap;
+        margin: 10px 0;
+      }
+
+      &.auth-link {
         padding: 10px;
         line-height: 32px;
         margin: 0;
