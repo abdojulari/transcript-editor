@@ -1,0 +1,153 @@
+@import "../../base/editor_mixins";
+@import "../../base/editor_variables";
+
+$header-image-width: 100%;
+$transcript-content-width: 800px;
+
+.transcript-header {
+  width: auto;
+  position: relative;
+  background: lighten($coolgray-color, 25%);
+  margin: (-$header-nav-height - 21px) -10px 20px;
+  padding-bottom: 10px;
+  min-height: 240px;
+  overflow-x: hidden;
+  @include box-sizing();
+
+  &:after {
+    content: ' ';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    @include box-shadow(inset 0px -20px 20px 0px rgba(0,0,0,0.2));
+  }
+
+  .transcript-header-image {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    height: 27em;
+    background-color: lighten($coolgray-color, 15%);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+  }
+
+  .metadata {
+    position: relative;
+    margin: 0 auto;
+    margin-top: 58px;
+    max-width: $transcript-content-width;
+    z-index: 5;
+    h1 {
+      margin-bottom: 0;
+      small {
+        color: darken($coolgray-dark-color, 10%);
+
+        &:after {
+          @include icon("\f105");
+        }
+      }
+    }
+    h1, h2 {
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+      font-family: $font-family;
+      line-height: 1.5;
+    }
+    p {
+      margin-top: 0;
+      font-family: $font-family;
+      line-height: 1.2;
+      color: inherit;
+      font-size: 1rem;
+    }
+    .duration, .speakers, .original-link, .download-link {
+      font-style: italic;
+      color: $coolgray-dark-color;
+    }
+    .speakers, .original-link, .download-link {
+      margin-top: -12px;
+      max-width: 500px;
+      color: $black;
+      font-size: 0.9em;
+      a {
+        color: $cyan;
+        font-size: 1rem;
+      }
+
+    }
+    .download-link a {
+      color: $cyan;
+      font-size: 1rem;
+    }
+    .original-link a:after {
+      @include icon("\f08e");
+      margin-left: 6px;
+      a {
+        color: $cyan;
+        font-size: 1rem;
+      }
+    }
+    .download-link a:after {
+      @include icon("\f019");
+      font-style: italic;
+      font-size: inherit;
+      line-height: 1.2;
+      margin-left: 6px;
+    }
+
+    .social {
+      padding-bottom: 1.5em;
+
+      // Align Facebook button nicely.
+      > * {
+        display: inline-block;
+        vertical-align: bottom;
+        max-height: 20px;
+        line-height: 20px;
+      }
+    }
+  }
+
+  .status-wrapper {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    width: 300px;
+    height: auto;
+    border: 1px solid $coolgray-color;
+    background: $white;
+    @include box-sizing();
+
+    .status-contributors {
+      padding: 5px;
+      font-size: 0.9em;
+    }
+  }
+
+}
+
+.transcript-page {
+  max-width: $transcript-content-width;
+  margin: 0 auto 40px;
+  padding: 0 20px;
+  @include box-sizing();
+
+  h1, h2 {
+    margin: 0;
+    text-align: center;
+  }
+
+  h2 {
+    color: $coolgray-dark-color;
+  }
+
+  p {
+    font-size: 1.1em;
+  }
+
+}

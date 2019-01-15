@@ -13365,7 +13365,9 @@ window.app.socialIntegration = function() {
     }
 
     // Insert Facebook script.
-    window.fbLoad = this.initFacebook(document, 'script', 'facebook-jssdk', facebookAppId);
+    if (typeof(facebookAppId) !== 'undefined') {
+      window.fbLoad = this.initFacebook(document, 'script', 'facebook-jssdk', facebookAppId);
+    }
 
     // Insert Twitter script.
     window.twttr = this.initTwitter(document, "script", "twitter-wjs");
@@ -13500,7 +13502,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
   _getData: function(data){
 
     var user = {};
-    if ($.auth.user && $.auth.user.signedIn) {
+    if ($.auth && $.auth.user && $.auth.user.signedIn) {
       user = $.auth.user;
     }
 
