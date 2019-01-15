@@ -24,6 +24,60 @@
       &:focus, &:hover, &.active {
         color: $header-text-active;
       }
+
+      &.dropdown-link {
+        display: block;
+        white-space: nowrap;
+        margin: 10px 0;
+      }
+
+      &.auth-link {
+        padding: 10px;
+        line-height: 32px;
+        margin: 0;
+        text-decoration: none;
+        border-bottom: 2px solid transparent;
+        &:focus, &:hover, &.active {
+          border-bottom: 2px solid white;
+        }
+      }
+
+      .auth-link__logo {
+        display: inline-block;
+        background-size: contain;
+        background-position: top left;
+        background-repeat: no-repeat;
+        width: 32px;
+        height: 32px;
+        margin: 0;
+        vertical-align: middle;
+        margin-right: 6px;
+      }
+
+      &.auth-link--email {
+        background-color: $auth-email-background;
+        color: $auth-email-foreground;
+        .auth-link__logo {
+          background-image: $auth-link-email-icon;
+        }
+      }
+      &.auth-link--facebook {
+        background-color: $third-party-facebook-background;
+        color: $third-party-facebook-foreground;
+        .auth-link__logo {
+          background-image: $auth-link-facebook-icon;
+        }
+      }
+      &.auth-link--google {
+        background: $third-party-google-background;
+        color: $third-party-google-foreground;
+        .auth-link__logo {
+          background-image: $auth-link-google-icon;
+          margin: -4px 2px -4px -4px;
+          width: 40px;
+          height: 40px;
+        }
+      }
     }
   }
   &__title {
@@ -69,6 +123,9 @@
   }
   &__links {
     float: left;
+    @include mobile {
+      float: none;
+    }
   }
 }
 

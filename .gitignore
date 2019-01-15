@@ -81,3 +81,7 @@ app/files/uploads/*
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# Allow for scratch space.
+/scratch/*
+!/scratch/.keep
