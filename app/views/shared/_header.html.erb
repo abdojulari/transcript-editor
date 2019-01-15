@@ -45,9 +45,18 @@
             <% end %>
             <%= link_to 'Sign out', destroy_user_session_path, class: "auth-link" %>
           <% else %>
-            <%= link_to 'Sign in w/ Email', "/users/sign_in", class: "auth-link"  %>
-            <%= link_to "Sign in w/ Google", "/users/auth/google_oauth2", class: "auth-link"  %>
-            <%= link_to "Sign in w/ Facebook", "/users/auth/facebook", class: "auth-link"  %>
+            <%= link_to "/users/sign_in", class: "auth-link auth-link--email" do %>
+              <span class="auth-link__logo">&nbsp;</span>
+              Sign in with Email
+            <% end %>
+            <%= link_to "/users/auth/google_oauth2", class: "auth-link auth-link--google" do %>
+              <span class="auth-link__logo">&nbsp;</span>
+              Sign in with Google
+            <% end %>
+            <%= link_to "/users/auth/facebook", class: "auth-link auth-link--facebook" do %>
+              <span class="auth-link__logo">&nbsp;</span>
+              Sign in with Facebook
+            <% end %>
           <% end %>
         </div>
       </div>
