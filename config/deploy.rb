@@ -10,7 +10,7 @@ set :linked_files, %w{config/database.yml config/application.yml config/frontend
 set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle config/certificates app/files/uploads }
 set :keep_releases, 5
 set :rvm_type, :user
-set :rvm_ruby_version, 'ruby-2.5.0'
+set :rvm_ruby_version, 'ruby-2.5.3'
 
 set :puma_rackup, -> { File.join(current_path, 'config.ru') }
 set :puma_state, "#{shared_path}/tmp/pids/puma.state"
@@ -32,7 +32,7 @@ set :sidekiq_processes, 5
 set :sidekiq_user, 'deploy'
 set :init_system, :systemd
 append :rvm1_map_bins, 'rake', 'gem', 'bundle', 'ruby', 'puma', 'pumactl', 'sidekiq', 'sidekiqctl'
-set :bundler_path, '/home/deploy/.rvm/wrappers/ruby-2.5.0@rails5/bundle'
+set :bundler_path, '/home/deploy/.rvm/wrappers/ruby-2.5.3@rails5/bundle'
 SSHKit.config.command_map[:sidekiq] = "bundle exec sidekiq"
 SSHKit.config.command_map[:sidekiqctl] = "bundle exec sidekiqctl"
 

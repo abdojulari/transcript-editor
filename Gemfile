@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.5.0'
+ruby '2.5.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.0'
@@ -39,9 +39,13 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # Rails app configuration / ENV management
 gem 'figaro'
 
-# User management / auth
+# User management / auth.
+# We have to force the version of OAuth because omniauth-google-oauth2 v0.6
+# requires jwt v2.0 or better.
+# Facebook's gem is a bit behind.
 gem 'devise'
-gem 'omniauth-google-oauth2'
+gem 'oauth2', github: 'oauth-xx/oauth2', ref: 'v1.4.1'
+gem 'omniauth-google-oauth2', '>= 0.6.0'
 gem 'omniauth-facebook'
 
 # Parsers for project asset precompilation
@@ -50,7 +54,6 @@ gem 'ejs'
 gem 'execjs'
 
 # For audio transcripts
-gem 'popuparchive'
 gem 'webvtt-ruby'
 
 # For uploading of transcipts and image files
