@@ -14,6 +14,9 @@ class ApplicationController < ActionController::Base
   before_action :set_ie_headers
   before_action :load_app_config
 
+  helper_method :project_key
+  helper_method :frontend_config
+
   # Ensure a session id is available for all!
   def touch_session
     session[:touched] = 1
@@ -42,6 +45,16 @@ class ApplicationController < ActionController::Base
 
   def set_ie_headers
     response.headers["X-UA-Compatible"] = "IE=edge"
+  end
+
+  def project_key
+    ENV['PROJECT_ID']
+  end
+
+  def frontend_config
+    frontend_config_obj = Rails.application.config_for(:frontend)
+    return {} if frontend_config_obj.blank?
+    frontend_config_obj
   end
 
   private

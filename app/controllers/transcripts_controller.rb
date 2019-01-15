@@ -1,5 +1,5 @@
 class TranscriptsController < ApplicationController
-  layout false, only: [:show]
+  layout 'application_v2'
 
   skip_before_action :verify_authenticity_token, only: [:index, :search, :show]
 
@@ -19,9 +19,7 @@ class TranscriptsController < ApplicationController
   # GET /search.json?sort_by=completeness&order=desc&collection_id=1&q=amy&page=1
   def search
     respond_to do |format|
-      format.html {
-        render file: environment_index_file
-      }
+      format.html
       format.json {
         project = Project.getActive
         @project_settings = project[:data]
@@ -39,7 +37,6 @@ class TranscriptsController < ApplicationController
         if request.user_agent.downcase.include?('facebookexternalhit')
           redirect_to facebook_share_transcript_path(@transcript.uid) and return
         end
-        render file: environment_index_file
       }
       format.json {
         @user_role = nil
