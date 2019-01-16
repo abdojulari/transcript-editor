@@ -62,7 +62,9 @@
 .conventions-page {
     &.sticky {
         z-index: 1200;
-        position: relative;
+        position: -webkit-sticky;
+        position: sticky;
+        top: 80px;
     }
 
     .page {
