@@ -65,12 +65,16 @@ $transcript-content-width: 800px;
       color: inherit;
       font-size: 1rem;
     }
+    a {
+      color: $cyan;
+      font-size: 1rem;
+    }
     .duration, .speakers, .original-link, .download-link {
       font-style: italic;
       color: $coolgray-dark-color;
+      margin: 0 0 0.3rem;
     }
     .speakers, .original-link, .download-link {
-      margin-top: -12px;
       max-width: 500px;
       color: $black;
       font-size: 0.9em;
@@ -80,24 +84,37 @@ $transcript-content-width: 800px;
       }
 
     }
-    .download-link a {
-      color: $cyan;
-      font-size: 1rem;
-    }
-    .original-link a:after {
-      @include icon("\f08e");
-      margin-left: 6px;
+    .disclaimer {
+      display: block;
+      font-style: italic;
+      font-size: 0.8em;
       a {
-        color: $cyan;
-        font-size: 1rem;
+        font-size: 1em;
       }
     }
-    .download-link a:after {
-      @include icon("\f019");
-      font-style: italic;
-      font-size: inherit;
-      line-height: 1.2;
-      margin-left: 6px;
+    .original-link {
+      a {
+        font-size: 1rem;
+        &:after {
+          @include icon("\f08e");
+          font-style: normal;
+          font-size: inherit;
+          line-height: 1.2;
+          margin-left: 6px;
+        }
+      }
+    }
+    .download-link {
+      a {
+        font-size: 1rem;
+        &:after {
+          @include icon("\f019");
+          font-style: normal;
+          font-size: inherit;
+          line-height: 1.2;
+          margin-left: 6px;
+        }
+      }
     }
 
     .social {
