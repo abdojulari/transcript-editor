@@ -1,11 +1,11 @@
 @import "../../base/settings_colours";
 
 .table-conventions {
-    width: 100%
+    width: 100%;
     td, th {
         box-sizing: border-box;
         width: 40%;
-        padding: 5px;
+        padding: 0.2em 0.6em;
     }
     th {
         background: #837E77;
@@ -13,7 +13,7 @@
         text-align: left;
 
         &:first-child {
-            width: 60%
+            width: 60%;
         }
     }
     td {
@@ -26,6 +26,7 @@
         }
         &:nth-child(3) {
             font-family: monospace;
+            font-size: 0.8em;
         }
     }
     tr {
@@ -76,7 +77,7 @@
 
     .tab {
         display: block;
-        min-width: 240px;
+        min-width: 260px;
         height: 28px;
         line-height: 28px;
         position: absolute;
@@ -86,8 +87,8 @@
 
         white-space: nowrap;
         text-align: center;
-        background: $dark-cyan;
-        color: $white;
+        background: $soft-orange;
+        color: $black;
 
         cursor: pointer;
         border-bottom-right-radius: 3px;
@@ -101,7 +102,7 @@
             content: attr(label-inactive);
         }
         &:hover {
-            background: lighten($dark-cyan, 10%);
+            background: darken($soft-orange, 10%);
         }
     }
 
