@@ -24,40 +24,40 @@
       <div class="main_header__links">
         <%= link_to "Browse",
               "/",
-              class: current_page?(v2_home_path) ? "active" : ""
+              class: current_page?(v2_home_path) ? "active" : "", 'data-menu-level': 1
         %>
         <%= link_to "Search",
               "/search",
-              class: current_page?(v2_search_path) ? "active" : ""
+              class: current_page?(v2_search_path) ? "active" : "", 'data-menu-level': 1
         %>
-        <%= link_to "Collections", "/collections" %>
-        <%= link_to "About", "/page/about" %>
-        <%= link_to "FAQs", "/page/faq" %>
-        <%= link_to "Tutorial", "/page/tutorial" %>
+        <%= link_to "Collections", "/collections", 'data-menu-level': 1 %>
+        <%= link_to "About", "/page/about", 'data-menu-level': 1 %>
+        <%= link_to "FAQs", "/page/faq", 'data-menu-level': 1 %>
+        <%= link_to "Tutorial", "/page/tutorial", 'data-menu-level': 1 %>
       </div>
       <div class="menu_dropdown main_header__links ">
         <div class="menu_select" id="select_title">
         <% if user_signed_in? %>
           <%= raw current_user_edits  %>
-          <%= link_to current_user.name, "" %>
+          <%= link_to current_user.name, "", 'data-menu-level': 1 %>
         <% else %>
-          <%= link_to "Track my progress", "/page/tutorial" %>
+          <%= link_to "Track my progress", "/page/tutorial", 'data-menu-level': 1 %>
         <% end  %>
         </div>
         <div class="dropdown-content">
           <% if user_signed_in? %>
-            <%= link_to "Dashboard", "/dashboard", class: "dropdown-link"%>
+            <%= link_to "Dashboard", "/dashboard", class: "dropdown-link", 'data-menu-level': 2 %>
             <% if current_user.staff? %>
-              <%= link_to "Admin CMS", "/admin", class: "dropdown-link"%>
+              <%= link_to "Admin CMS", "/admin", class: "dropdown-link", 'data-menu-level': 2 %>
             <% end %>
-            <%= link_to 'Sign out', destroy_user_session_path, class: "dropdown-link" %>
+            <%= link_to 'Sign out', destroy_user_session_path, class: "dropdown-link", 'data-menu-level': 2 %>
           <% else %>
-            <%= link_to "/users/sign_in", class: "dropdown-link auth-link auth-link--email" do %>
+            <%= link_to "/users/sign_in", class: "dropdown-link auth-link auth-link--email", 'data-menu-level': 2 do %>
               <span class="auth-link__logo">&nbsp;</span>
               Sign in with Email
             <% end %>
             <% Project::getActive[:data]['authProviders'].each do |p| %>
-              <%= link_to "/users#{p['path']}", class: "dropdown-link auth-link auth-link--#{p['name']}" do %>
+              <%= link_to "/users#{p['path']}", class: "dropdown-link auth-link auth-link--#{p['name']}", 'data-menu-level': 2 do %>
                 <span class="auth-link__logo">&nbsp;</span>
                 Sign in with <%= p['label'] %>
               <% end %>
