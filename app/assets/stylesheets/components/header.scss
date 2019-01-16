@@ -126,6 +126,10 @@
     @include mobile {
       float: none;
     }
+
+    a {
+      text-transform: uppercase;
+    }
   }
 }
 

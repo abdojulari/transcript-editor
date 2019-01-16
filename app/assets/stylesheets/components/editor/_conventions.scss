@@ -62,32 +62,47 @@
 .conventions-page {
     &.sticky {
         z-index: 1200;
-        position: -webkit-sticky;
-        position: sticky;
+        position: fixed;
         top: 80px;
+        width: 100%;
     }
 
     .page {
-        max-height: 0;
+        transition: transform 0.5s linear;
+        transform: scaleY(0);
+        transform-origin: 50% 0%;
         overflow: hidden;
-        transition: max-height 0.5s;
 
         .table-conventions {
             display: table;
+            // @TODO: Work out how to calculate transform per-frame.;
+            // transition: transform 0.5s linear;
+            // transform: scaleY(5);
+            // transform-origin: 50% 0%;
         }
     }
 
-    .tab {
-        display: block;
-        min-width: 260px;
-        height: 28px;
-        line-height: 28px;
+    .conventions-page__toggle-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
         position: absolute;
-        bottom: -50px;
-        left: 50%;
-        right: 50%;
+        top: 0%;
+        width: 100%;
 
-        white-space: nowrap;
+        transition: top 0.5s linear;
+
+        animation: fadeInDown 1s;
+        animation-fill-mode: both;
+        animation-delay: 1s;
+    }
+
+    .conventions-page__toggle-button {
+        display: block;
+        flex: 0 1 auto;
+        height: 28px;
+
+        line-height: 28px;
         text-align: center;
         background: $soft-orange;
         color: $black;
@@ -96,9 +111,6 @@
         border-bottom-right-radius: 3px;
         border-bottom-left-radius: 3px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-        animation: fadeInDown 1s;
-        animation-fill-mode: both;
-        animation-delay: 1s;
 
         &:before {
             content: attr(label-inactive);
@@ -110,9 +122,15 @@
 
     &.active {
         .page {
-            max-height: 460px;
+            transform: scaleY(1);
+            .table-conventions {
+                // transform: scaleY(1);
+            }
         }
-        .tab:before {
+        .conventions-page__toggle-container {
+            top: 100%;
+        }
+        .conventions-page__toggle-button:before {
             content: attr(label-active);
         }
     }

@@ -22,18 +22,18 @@
     <% end %>
     <div class="main_header__nav_list">
       <div class="main_header__links">
-        <%= link_to "BROWSE",
+        <%= link_to "Browse",
               "/",
               class: current_page?(v2_home_path) ? "active" : ""
         %>
-        <%= link_to "SEARCH",
+        <%= link_to "Search",
               "/search",
               class: current_page?(v2_search_path) ? "active" : ""
         %>
-        <%= link_to "COLLECTIONS", "/collections" %>
-        <%= link_to "ABOUT", "/page/about" %>
-        <%= link_to "FAQS", "/page/faq" %>
-        <%= link_to "TUTORIAL", "/page/tutorial" %>
+        <%= link_to "Collections", "/collections" %>
+        <%= link_to "About", "/page/about" %>
+        <%= link_to "FAQs", "/page/faq" %>
+        <%= link_to "Tutorial", "/page/tutorial" %>
       </div>
       <div class="menu_dropdown main_header__links ">
         <div class="menu_select" id="select_title">
@@ -41,7 +41,7 @@
           <%= raw current_user_edits  %>
           <%= link_to current_user.name, "" %>
         <% else %>
-          <%= link_to "TRACK MY PROGRESS", "/page/tutorial" %>
+          <%= link_to "Track my progress", "/page/tutorial" %>
         <% end  %>
         </div>
         <div class="dropdown-content">
