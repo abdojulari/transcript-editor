@@ -167,4 +167,10 @@ $transcript-content-width: 800px;
     font-size: 1.1em;
   }
 
+  .transcript_edit\.md.page {
+    ul li {
+      list-style: disc;
+    }
+  }
+
 }
