@@ -67,9 +67,11 @@
       </div>
     </div>
   </nav>
-  <nav id="secondary-navigation" class="navigation secondary">
-    <% if @secondary_navigation && @secondary_navigation == 'secondary_navigation' %>
-      <%= render partial: 'transcript_edit_toolbar', locals: { transcript_controls: [] } %>
-    <% end %>
-  </nav>
+  <% if defined?(@secondary_navigation) %>
+    <nav id="secondary-navigation" class="navigation secondary">
+      <% if @secondary_navigation == 'secondary_navigation' %>
+        <%= render partial: 'transcript_edit_toolbar', locals: { transcript_controls: [] } %>
+      <% end %>
+    </nav>
+  <% end %>
 </header>
