@@ -8,7 +8,7 @@
   padding: 10px;
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 2000;
   img {
     max-width: 100%;
     @include mobile {
@@ -21,8 +21,16 @@
       margin: 0 10px;
       font-weight: bold;
       font-size: rem-calc(16);
+
       &:focus, &:hover, &.active {
         color: $header-text-active;
+      }
+
+      &[data-menu-level="1"] {
+        text-transform: uppercase;
+      }
+      &[data-menu-level="2"] {
+        text-transform: none;
       }
 
       &.dropdown-link {

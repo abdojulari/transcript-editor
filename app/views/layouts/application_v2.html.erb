@@ -16,7 +16,7 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
   </head>
-  <body>
+  <body class="<%= @secondary_navigation ? 'body--has-secondary-nav' : '' %> <%= @body_class || '' %>">
     <%= render "shared/header" %>
     <main>
       <% unless flash[:notice].blank? %>

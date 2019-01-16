@@ -1,0 +1,52 @@
+@import "../../base/editor_mixins";
+@import "../../base/editor_variables";
+
+#transcript-line-verify {
+
+  header {
+    font-size: 1.8em;
+  }
+
+  .option {
+    display: block;
+    background: $coolgray-dark-color;
+    color: $white;
+    padding: 0.2em 0.4em;
+    font-size: 1.4em;
+    margin: 0.2em 0 0;
+
+    &:hover,
+    &.active {
+      background: $green-color;
+    }
+
+    &.active:before {
+      @include icon("\f00c");
+      margin-right: 5px;
+    }
+  }
+
+  .toggle-play:before {
+    @include icon("\f144");
+  }
+
+  // make room for conventions tab
+  .modal {
+    .modal-inner {
+      top: 80px;
+    }
+    .modal-close:after {
+      top: 76px;
+    }
+  }
+
+}
+
+#app[state=playing] #transcript-line-verify .toggle-play:before {
+  content: "\f28b";
+}
+#app[state=buffering] #transcript-line-verify .toggle-play:before {
+  content: "\f110";
+  color: $coolgray-color;
+  @include animation(spin 2s infinite linear);
+}

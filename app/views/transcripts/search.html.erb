@@ -1,0 +1,29 @@
+<%= stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" %>
+<%= stylesheet_link_tag "editor" %>
+<%= stylesheet_link_tag "/#{project_key}/assets/css/style.css" %>
+
+<div id="main" class="body"></div>
+
+<script type="text/javascript">
+  var Amplify = Amplify || {};
+  Amplify.config = <%= frontend_config.length > 0 ? frontend_config.to_json.html_safe : '{}' %>;
+  Amplify.getConfig = function(path, defaultValue) {
+    if (!defaultValue) {
+      defaultValue = null;
+    }
+    var out = path.split('.').reduce(function(prev, curr) {
+      return prev ? prev[curr] : undefined;
+    }, Amplify.config);
+    if (typeof(out) === 'undefined') {
+      return defaultValue;
+    }
+    else {
+      return out;
+    }
+  };
+</script>
+
+<%= javascript_include_tag "/#{project_key}/project.js" %>
+<%= javascript_include_tag "/assets/js/templates.js" %>
+<%= javascript_include_tag "/assets/js/default.js" %>
+<%= javascript_include_tag "/#{project_key}/assets/js/custom.js" %>
