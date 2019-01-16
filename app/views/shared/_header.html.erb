@@ -6,6 +6,13 @@
         root_url
     )
   %>
+  <% if defined?(@page_subtitle) %>
+    <div id="header-crumbs" class="crumbs-container">
+      <div class="crumb">
+        <div class="crumb-label"><%= @page_subtitle %></div>
+      </div>
+    </div>
+  <% end %>
   <nav class="main_header__nav">
     <%= check_box_tag "menu_toggle", "menu_toggle", false,
           class: "main_header__mobile_nav_toggle mobile-only"
@@ -59,5 +66,10 @@
         </div>
       </div>
     </div>
+  </nav>
+  <nav id="secondary-navigation" class="navigation secondary">
+    <% if @secondary_navigation && @secondary_navigation == 'secondary_navigation' %>
+      <%= render partial: 'transcript_edit_toolbar', locals: { transcript_controls: [] } %>
+    <% end %>
   </nav>
 </header>

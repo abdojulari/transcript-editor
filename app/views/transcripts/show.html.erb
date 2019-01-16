@@ -2,6 +2,8 @@
 <%= stylesheet_link_tag "editor" %>
 <%= stylesheet_link_tag "/#{project_key}/assets/css/style.css" %>
 
+<% render partial: 'transcript_edit_toolbar', locals: { transcript_controls: [] } %>
+
 <div id="main" class="body"></div>
 
 <script type="text/javascript">

@@ -5,6 +5,10 @@ html, body {
 }
 body {
   overflow-x: hidden;
+
+  &.body--has-secondary-nav {
+    padding-bottom: 51px;
+  }
 }
 
 html, body, div, span, applet, object, iframe,

@@ -37,6 +37,9 @@ class TranscriptsController < ApplicationController
         if request.user_agent.downcase.include?('facebookexternalhit')
           redirect_to facebook_share_transcript_path(@transcript.uid) and return
         end
+        @body_class = 'body--transcript-edit'
+        @page_subtitle = @transcript.title
+        @secondary_navigation = 'secondary_navigation'
       }
       format.json {
         @user_role = nil
