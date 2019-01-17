@@ -42,13 +42,11 @@ set :whenever_path, ->{ release_path }
 namespace :deploy do
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
-      # Here we can do anything such as:
-      # within release_path do
-      #   execute :rake, 'cache:clear'
-      # end
-      execute :rake, 'project:load[\'nsw-state-library-amplify\']'
-      execute :rake, 'assets:precompile'
-      execute :rake, 'cache:clear'
+      within release_path do
+        execute :rake, 'project:load[\'nsw-state-library-amplify\']'
+        execute :rake, 'assets:precompile'
+        execute :rake, 'cache:clear'
+      end
     end
   end
 end
