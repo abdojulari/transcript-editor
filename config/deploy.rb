@@ -40,7 +40,7 @@ SSHKit.config.command_map[:sidekiqctl] = "bundle exec sidekiqctl"
 set :whenever_path, ->{ release_path }
 
 namespace :deploy do
-  after :restart, :clear_cache do
+  after :updated do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
       within release_path do
         execute :rake, 'project:load[\'nsw-state-library-amplify\']'
