@@ -67,6 +67,11 @@
         width: 100%;
     }
 
+    [role="tabpanel"] {
+        max-height: calc(100vh - 160px);
+        overflow: auto;
+    }
+
     .page {
         transition: transform 0.5s linear;
         transform: scaleY(0);
