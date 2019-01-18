@@ -153,10 +153,12 @@
   }
   &__crumbs {
     flex: 1 1 auto;
-    text-align: center;
+    text-align: left;
+    padding-left: 10px;
 
     @include mobile {
       font-size: 0.8em;
+      padding-left: 6px;
     }
   }
   &__secondary_nav {
