@@ -16,6 +16,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :project_key
   helper_method :frontend_config
+  helper_method :facebook_app_id
 
   # Ensure a session id is available for all!
   def touch_session
@@ -55,6 +56,10 @@ class ApplicationController < ActionController::Base
     frontend_config_obj = Rails.application.config_for(:frontend)
     return {} if frontend_config_obj.blank?
     frontend_config_obj
+  end
+
+  def facebook_app_id
+    ENV['FACEBOOK_APP_ID']
   end
 
   private

@@ -15,6 +15,9 @@
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <script type="text/javascript">
+      var facebookAppId = '<%= facebook_app_id %>';
+    </script>
   </head>
   <body class="<%= @secondary_navigation ? 'body--has-secondary-nav' : '' %> <%= @body_class || '' %>">
     <%= render "shared/header" %>
