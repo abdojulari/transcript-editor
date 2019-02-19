@@ -16,7 +16,13 @@ app.views.TranscriptsIndex = app.views.Base.extend({
 
     this.$transcripts = this.$('#transcript-results');
     this.$facets = this.$('#transcript-facets');
-    this.transcripts = [];
+
+    // disable so we can try collection
+    // this.transcripts = [];
+    this.transcripts = this.transcripts || new app.collections.Transcripts({
+      endpoint: '/search.json',
+      params: this.data.queryParams
+    });
 
     if (this.data.queryParams) this.loadParams(this.data.queryParams);
     this.loadTranscripts();
@@ -63,6 +69,7 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   },
 
   facet: function(){
+    console.log('we faceted')
     // we have all the data, so just facet on the client
     if (this.collection.hasAllPages()) {
       this.facetOnClient();
@@ -114,9 +121,57 @@ app.views.TranscriptsIndex = app.views.Base.extend({
 
   facetOnServer: function(){
     // TODO: request from server if not all pages are present
+    console.log('we went there!')
 
-    this.facetOnClient();
+    // this.collection.where({})
+    // this.filters.
+    // $.get('/search.json?'+)
+    // console.log( this.collection.fetch({data: $.param({uid: 'cpb-aacip_60-81wdc1hh'}) }) )
+    // console.log( this.collection.fetch({
+    //   data: $.param({uid: 'cpb-aacip_60-81wdc1hh'}),
+    //   success: function(col, resp, opt){
+    //     console.log("success!")
+    //     console.log(col)
+    //     console.log(resp)
+    //   },
+    //   error: function(col, resp, opt){
+    //     console.log("shit!")
+    //     console.log(resp)
+    //   }
+
+    // }) )
+
+
+    // get keyword from this.searchKeyword
+    // call search(keyword)
+    // assign results to collection with
+      // this.app.collection.reset(<newmodels>) ? maybe that happens already
+
+
+    var keyword = this.searchKeyword;
+    // copied from search.js, the ONLY way to hit it from the front
+    // we are alrady listening to this because of index.js (subscribes)
+    PubSub.publish('transcripts.search', keyword);
+    return true;
   },
+
+  // copied/adapted from search.js
+  searchServer: function(keyword) {
+    console.log("I transcript searcheds")
+    this.setParams({
+      'q': keyword
+    });
+  },
+
+  setParams: function(params){
+    this.$transcripts.empty().addClass('loading');
+    params.page = 1;
+    this.transcripts.setParams(params);
+    this.loadTranscripts();
+    this.updateUrlParams();
+  },
+
+  // end copy
 
   filterBy: function(name, value){
     this.filters = this.filters || {};
@@ -158,7 +213,8 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     });
 
     PubSub.subscribe('transcripts.search', function(ev, keyword) {
-      _this.search(keyword);
+      console.log('received search with'+keyword)
+      _this.searchServer(keyword);
     });
   },
 
@@ -214,6 +270,8 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   render: function(){
     this.$el.attr('role', 'main');
     this.$el.html(this.template(this.data));
+    this.$transcripts = this.$('#transcript-results');
+    this.$facets = this.$('#transcript-facets');
     return this;
   },
 
@@ -238,6 +296,7 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     this.updateUrlParams();
   },
 
+  // dont need to adapt from search.js
   updateUrlParams: function(){
     var data = {};
     // check for sorting

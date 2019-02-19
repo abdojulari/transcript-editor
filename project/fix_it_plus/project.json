@@ -4,7 +4,7 @@
   "logo": "/fix_it_plus/assets/img/aapb-logo.png",
   "apiUrl": "",
   "useVendorAudio": true,
-  "transcriptsPerPage": 500,
+  "transcriptsPerPage": 10,
   "maxLineTimeOverlapMs": -1,
   "allowTranscriptDownload": false,
   "gaCode": "UA-60323667-4",

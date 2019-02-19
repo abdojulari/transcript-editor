@@ -55,6 +55,7 @@ app.views.Search = app.views.Base.extend({
     });
 
     PubSub.subscribe('transcripts.search', function(ev, keyword) {
+      console.log("I transcript searcheds")
       _this.setParams({
         'q': keyword
       });
@@ -128,6 +129,7 @@ app.views.Search = app.views.Base.extend({
   },
 
   search: function(keyword){
+    console.log("published search")
     PubSub.publish('transcripts.search', keyword);
   },
 
