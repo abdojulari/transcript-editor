@@ -21,14 +21,20 @@ app.views.TranscriptFacets = app.views.Base.extend({
     $(window).trigger('sticky-on', ['#header']);
   },
 
-  filter: function(name, value){
-    PubSub.publish('transcripts.filter', {name: name, value: value});
+  filter: function(name, value, query){
+    console.log('is this real life?')
+    PubSub.publish('transcripts.filter', {name: name, value: value, q: query});
   },
 
   filterFromEl: function(e){
     var $el = $(e.currentTarget);
+    var query = this.getQuery();
+    // we have already lost query params by this point... need to get them fresh from  url?
+    this.filter($el.attr('data-filter'), $el.attr('data-value'), query);
+  },
 
-    this.filter($el.attr('data-filter'), $el.attr('data-value'));
+  getQuery: function(){
+    return $('#search-form input#search-input').val();
   },
 
   initFacets: function(){
@@ -44,7 +50,7 @@ app.views.TranscriptFacets = app.views.Base.extend({
       if (params.sort_by) active_sort = params.sort_by;
       if (params.order) active_order = params.order;
       if (params.collection_id) active_collection_id = params.collection_id;
-      if (params.keyword) active_keyword = params.keyword;
+      if (params.q) active_keyword = params.q;
     }
 
     // add an "all collections" options
@@ -113,14 +119,14 @@ app.views.TranscriptFacets = app.views.Base.extend({
       this.search(keyword);
   },
 
-  sortTranscripts: function(name, order){
-    PubSub.publish('transcripts.sort', {name: name, order: order});
+  sortTranscripts: function(name, order, query){
+    PubSub.publish('transcripts.sort', {name: name, order: order, q: query});
   },
 
   sortFromEl: function(e){
     var $el = $(e.currentTarget);
-
-    this.sortTranscripts($el.attr('data-sort'), $el.attr('data-order'));
+    var query = this.getQuery();
+    this.sortTranscripts($el.attr('data-sort'), $el.attr('data-order'), query);
   }
 
 });

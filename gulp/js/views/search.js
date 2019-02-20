@@ -99,6 +99,8 @@ app.views.Search = app.views.Base.extend({
   },
 
   renderTranscripts: function(transcripts){
+    console.log("RIGHT OUT SIDE")
+    console.log(transcripts)
     var _this = this;
     var transcriptsData = transcripts.toJSON();
 
