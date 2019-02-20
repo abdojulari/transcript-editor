@@ -918,8 +918,14 @@ app.collections.Transcripts = Backbone.Collection.extend({
 
     console.log(params)
     _.each(params, function(value, key){
-      if (value=="ALL" || !value.length) _this.params = _.omit(_this.params, key);
-      else _this.params[key] = value;
+      if (value=="ALL" || !value.length) {
+        _this.params = _.omit(_this.params, key);
+      } else {
+        _this.params[key] = value;
+      }
+
+      console.log("THIS PARAMS")
+      console.log(_this.params)
     });
   },
 
@@ -2188,14 +2194,13 @@ app.views.TranscriptFacets = app.views.Base.extend({
   },
 
   filter: function(name, value, query){
-    console.log('is this real life?')
     PubSub.publish('transcripts.filter', {name: name, value: value, q: query});
   },
 
   filterFromEl: function(e){
     var $el = $(e.currentTarget);
     var query = this.getQuery();
-    // we have already lost query params by this point... need to get them fresh from  url?
+    // send query through msg because listener doesnt have this.searchKeyword
     this.filter($el.attr('data-filter'), $el.attr('data-value'), query);
   },
 
@@ -2270,10 +2275,10 @@ app.views.TranscriptFacets = app.views.Base.extend({
         keyword = $form.find('input[name="keyword"]').val();
 
     keyword = keyword.trim().toLowerCase();
-
     this.search(keyword);
   },
 
+  // refresh search if empty (nice function name!)
   searchFromInput: function(e){
     var $input = $(e.currentTarget),
         keyword = $input.val();
@@ -2292,9 +2297,9 @@ app.views.TranscriptFacets = app.views.Base.extend({
   sortFromEl: function(e){
     var $el = $(e.currentTarget);
     var query = this.getQuery();
+    // send query through msg because listener doesnt have this.searchKeyword
     this.sortTranscripts($el.attr('data-sort'), $el.attr('data-order'), query);
   }
-
 });
 
 app.views.TranscriptLineFlag = app.views.Base.extend({
@@ -3290,16 +3295,12 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     };
     this.data = _.extend({}, defaults, data);
 
-    // this.data = data;
-    // this.data.queryParams = {};
-
     this.render();
 
     this.$transcripts = this.$('#transcript-results');
     this.$facets = this.$('#transcript-facets');
 
-    // disable so we can try collection
-    // this.transcripts = [];
+    // init collection so we can search and facet
     this.transcripts = this.transcripts || new app.collections.Transcripts({
       endpoint: '/search.json',
       params: this.data.queryParams
@@ -3311,7 +3312,6 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     this.loadListeners();
   },
 
-  //  I think this paging sucks
   // addList: function(transcripts){
   //   this.transcripts = this.transcripts.concat(transcripts.toJSON());
 
@@ -3446,7 +3446,6 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   //   return true;
   // },
 
-  // copied/adapted from search.js
   searchServer: function(keyword) {
     console.log("Search Server")
     var sort_name = this.sortName || 'title'
@@ -3465,16 +3464,17 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     this.loadTranscripts();
   },
 
-  // end copy
-
   filterBy: function(name, value){
     this.filters = this.filters || {};
     this.filters[name] = value;
-    // omit all filters with value "ALL"
-    this.filters = _.omit(this.filters, function(value, key){ return value=='ALL'; });
-
-    console.log("FILTERBY METHOD")
-    console.log(this)
+    
+    // DONT OMIT HERE OR ELSE THERES NO WAY TO TELL BACKEND TO REMOVE COLLECTION FILTER AAAAAAH
+    // console.log("SET FILTER " + name + " TO " +value)
+    // // omit all filters with value "ALL"
+    // this.filters = _.omit(this.filters, function(value, key){ return value=='ALL'; });
+    // console.log(this.filters)
+    // console.log("FILTERBY METHOD")
+    // console.log(this)
     this.updateUrlParams();
     this.facet();
   },
@@ -3507,6 +3507,11 @@ app.views.TranscriptsIndex = app.views.Base.extend({
 
     PubSub.subscribe('transcripts.filter', function(ev, filter) {
       _this.setQuery(filter.q);
+
+
+      console.log(filter.name)
+      console.log(filter.value)
+
       _this.filterBy(filter.name, filter.value, filter.q);
     });
 
@@ -3564,7 +3569,6 @@ app.views.TranscriptsIndex = app.views.Base.extend({
 
     this.transcripts.fetch({
       success: function(collection, response, options){
-        console.log("Tran INdex init Success suckas!")
         _this.renderTranscripts(collection);
       },
       error: function(collection, response, options){
@@ -3664,8 +3668,8 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     this.sortName = name;
     this.sortOrder = order;
 
-    console.log("SORTBY METHOD")
-    console.log(this)
+    // console.log("SORTBY METHOD")
+    // console.log(this)
     this.updateUrlParams();
     this.facet();
   },

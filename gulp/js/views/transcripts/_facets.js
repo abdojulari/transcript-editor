@@ -22,14 +22,13 @@ app.views.TranscriptFacets = app.views.Base.extend({
   },
 
   filter: function(name, value, query){
-    console.log('is this real life?')
     PubSub.publish('transcripts.filter', {name: name, value: value, q: query});
   },
 
   filterFromEl: function(e){
     var $el = $(e.currentTarget);
     var query = this.getQuery();
-    // we have already lost query params by this point... need to get them fresh from  url?
+    // send query through msg because listener doesnt have this.searchKeyword
     this.filter($el.attr('data-filter'), $el.attr('data-value'), query);
   },
 
@@ -104,10 +103,10 @@ app.views.TranscriptFacets = app.views.Base.extend({
         keyword = $form.find('input[name="keyword"]').val();
 
     keyword = keyword.trim().toLowerCase();
-
     this.search(keyword);
   },
 
+  // refresh search if empty (nice function name!)
   searchFromInput: function(e){
     var $input = $(e.currentTarget),
         keyword = $input.val();
@@ -126,7 +125,7 @@ app.views.TranscriptFacets = app.views.Base.extend({
   sortFromEl: function(e){
     var $el = $(e.currentTarget);
     var query = this.getQuery();
+    // send query through msg because listener doesnt have this.searchKeyword
     this.sortTranscripts($el.attr('data-sort'), $el.attr('data-order'), query);
   }
-
 });

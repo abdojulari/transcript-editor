@@ -53,8 +53,14 @@ app.collections.Transcripts = Backbone.Collection.extend({
 
     console.log(params)
     _.each(params, function(value, key){
-      if (value=="ALL" || !value.length) _this.params = _.omit(_this.params, key);
-      else _this.params[key] = value;
+      if (value=="ALL" || !value.length) {
+        _this.params = _.omit(_this.params, key);
+      } else {
+        _this.params[key] = value;
+      }
+
+      console.log("THIS PARAMS")
+      console.log(_this.params)
     });
   },
 
