@@ -33,142 +33,13 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     this.loadListeners();
   },
 
-  // addList: function(transcripts){
-  //   this.transcripts = this.transcripts.concat(transcripts.toJSON());
-
-  //   if (this.isFaceted()) {
-  //     this.facet();
-
-  //   } else {
-  //     this.addListToUI(transcripts.toJSON(), transcripts.hasMorePages(), true, (transcripts.getPage() > 1));
-  //   }
-  // },
-
-  // addListToUI: function(transcripts, has_more, append, scroll_to){
-  //   var list = this.template_list({has_more: has_more});
-  //   var $list = $(list);
-  //   var $target = $list.first();
-
-  //   if (append) {
-  //     this.$transcripts.append($list);
-  //   } else {
-  //     this.$transcripts.empty();
-  //     if (transcripts.length){
-  //       this.$transcripts.html($list);
-  //     } else {
-  //       this.$transcripts.html('<p>No transcripts found!</p>');
-  //     }
-  //   }
-  //   this.$transcripts.removeClass('loading');
-
-  //   _.each(transcripts, function(transcript){
-  //     var transcriptView = new app.views.TranscriptItem({transcript: transcript});
-  //     $target.append(transcriptView.$el);
-  //   });
-
-  //   if (scroll_to) {
-  //     $(window).trigger('scroll-to', [$list, 110]);
-  //   }
-  // },
-
   facet: function(){
-
-    // this is silly v
-    // we have all the data, so just facet on the client
-    // if (this.collection.hasAllPages()) {
-    //   this.facetOnClient();
-
-    // // we don't have all the data, we must request from server
-    // } else {
-    //   this.facetOnServer();
-    // }
-
-    console.log("FACET METHOD")
-    console.log(this)    
     var keyword = this.searchKeyword || "";
     PubSub.publish('transcripts.search', keyword);
-
     return true;
   },
 
-
-  // facetOnClient: function(){
-  //   var _this = this,
-  //       filters = this.filters || {},
-  //       keyword = this.searchKeyword || '',
-  //       transcripts = _.map(this.transcripts, _.clone);
-
-  //   // do the filters
-  //   _.each(filters, function(value, key){
-  //     transcripts = _.filter(transcripts, function(transcript){ return !_.has(transcript, key) || transcript[key]==value; });
-  //   });
-
-  //   // do the searching
-  //   if (keyword.length){
-
-  //     // Use Fuse for fuzzy searching
-  //     var f = new Fuse(transcripts, { keys: ["title", "description"], threshold: 0.2 });
-  //     var result = f.search(keyword);
-
-  //     // Search description if fuzzy doesn't work
-  //     if (!result.length) {
-  //       transcripts = _.filter(transcripts, function(transcript){
-  //         return transcript.description.toLowerCase().indexOf(keyword) >= 0;
-  //       });
-  //     } else {
-  //       transcripts = result;
-  //     }
-
-  //   }
-
-  //   // do the sorting
-  //   if (this.sortName){
-  //     transcripts = _.sortBy(transcripts, function(transcript){ return transcript[_this.sortName]; });
-  //     if (this.sortOrder.toLowerCase()=="desc")
-  //       transcripts = transcripts.reverse();
-  //   }
-
-  //   this.renderTranscripts(transcripts);
-  // },
-
-  // facetOnServer: function(){
-  //   // TODO: request from server if not all pages are present
-  //   console.log('we went there!')
-
-  //   // this.collection.where({})
-  //   // this.filters.
-  //   // $.get('/search.json?'+)
-  //   // console.log( this.collection.fetch({data: $.param({uid: 'cpb-aacip_60-81wdc1hh'}) }) )
-  //   // console.log( this.collection.fetch({
-  //   //   data: $.param({uid: 'cpb-aacip_60-81wdc1hh'}),
-  //   //   success: function(col, resp, opt){
-  //   //     console.log("success!")
-  //   //     console.log(col)
-  //   //     console.log(resp)
-  //   //   },
-  //   //   error: function(col, resp, opt){
-  //   //     console.log("shit!")
-  //   //     console.log(resp)
-  //   //   }
-
-  //   // }) )
-
-
-  //   // get keyword from this.searchKeyword
-  //   // call search(keyword)
-  //   // assign results to collection with
-  //     // this.app.collection.reset(<newmodels>) ? maybe that happens already
-
-
-  //   var keyword = this.searchKeyword;
-  //   // copied from search.js, the ONLY way to hit it from the front
-  //   // we are alrady listening to this because of index.js (subscribes)
-  //   PubSub.publish('transcripts.search', keyword);
-  //   return true;
-  // },
-
   searchServer: function(keyword) {
-    console.log("Search Server")
     var sort_name = this.sortName || 'title'
     var sort_order = this.sortOrder || 'asc'
     var combined_params = _.extend(this.filters, {'q': keyword, sort_by: sort_name, order: sort_order});
@@ -186,14 +57,6 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   filterBy: function(name, value){
     this.filters = this.filters || {};
     this.filters[name] = value;
-    
-    // DONT OMIT HERE OR ELSE THERES NO WAY TO TELL BACKEND TO REMOVE COLLECTION FILTER AAAAAAH
-    // console.log("SET FILTER " + name + " TO " +value)
-    // // omit all filters with value "ALL"
-    // this.filters = _.omit(this.filters, function(value, key){ return value=='ALL'; });
-    // console.log(this.filters)
-    // console.log("FILTERBY METHOD")
-    // console.log(this)
     this.updateUrlParams();
     this.facet();
   },
@@ -226,11 +89,6 @@ app.views.TranscriptsIndex = app.views.Base.extend({
 
     PubSub.subscribe('transcripts.filter', function(ev, filter) {
       _this.setQuery(filter.q);
-
-
-      console.log(filter.name)
-      console.log(filter.value)
-
       _this.filterBy(filter.name, filter.value, filter.q);
     });
 
@@ -240,7 +98,6 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     });
 
     PubSub.subscribe('transcripts.search', function(ev, keyword) {
-      console.log('received search with'+keyword)
       _this.searchServer(keyword);
     });
   },
@@ -277,12 +134,6 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     var _this = this;
     var params = this.data.queryParams;
 
-    console.log("LOAD TRANS PARAMS")
-    console.log(params)
-
-    // do a deep search
-    // params.deep = 1;
-
     this.$transcripts.addClass('loading');
     this.transcripts = this.transcripts || new app.collections.Transcripts({
       endpoint: '/search.json',
@@ -298,24 +149,6 @@ app.views.TranscriptsIndex = app.views.Base.extend({
       }
     });
   },
-
-
-
-  // this relies on old paging approach
-  // loadTranscripts: function(){
-  //   var _this = this;
-
-  //   this.$transcripts.addClass('loading');
-
-  //   this.collection.fetch({
-  //     success: function(collection, response, options){
-  //       _this.addList(collection);
-  //     },
-  //     error: function(collection, response, options){
-  //       $(window).trigger('alert', ['Whoops! We seem to have trouble loading our transcripts. Please try again by refreshing your browser or come back later!']);
-  //     }
-  //   });
-  // },
 
   nextPage: function(e){
     e.preventDefault();
@@ -367,36 +200,15 @@ app.views.TranscriptsIndex = app.views.Base.extend({
       var transcriptView = new app.views.TranscriptItem({transcript: transcript});
       $target.append(transcriptView.$el);
     });
-
-    // wrong view for search.js
-    // _.each(transcriptsData, function(transcript){
-    //   var item = _this.template_item(_.extend({}, transcript, {query: query}));
-    //   $target.append($(item));
-    // });
-    // $(window).trigger('scroll-to', [this.$('#search-form'), 110]);
   },
-  // old paging
-  // renderTranscripts: function(transcripts){
-  //   this.addListToUI(transcripts, false, false, true);
-  // },
-
-  // does nothing at this poing
-  // search: function(keyword){
-  //   this.searchKeyword = keyword;
-  //   this.facet();
-  // },
 
   sortBy: function(name, order){
     this.sortName = name;
     this.sortOrder = order;
-
-    // console.log("SORTBY METHOD")
-    // console.log(this)
     this.updateUrlParams();
     this.facet();
   },
 
-  // dont need to adapt from search.js
   updateUrlParams: function(){
     var data = {};
     // check for sorting
@@ -421,5 +233,4 @@ app.views.TranscriptsIndex = app.views.Base.extend({
       window.history.pushState(data, document.title, url);
     }
   }
-
 });

@@ -15,7 +15,7 @@ class TranscriptsController < ApplicationController
   def search
     respond_to do |format|
       format.html {
-        render :file => "public/#{ENV['PROJECT_ID']}/index.html"
+        redirect_to root_path
       }
       format.json {
         project = Project.getActive
