@@ -3457,8 +3457,6 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   setParams: function(params){
     this.$transcripts.empty().addClass('loading');
     params.page = 1;
-    console.log("SEARCH SETPARAMS method")
-    console.log(params)
     this.transcripts.setParams(params);
     this.updateUrlParams();
     this.loadTranscripts();
@@ -3558,6 +3556,9 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     var _this = this;
     var params = this.data.queryParams;
 
+    console.log("LOAD TRANS PARAMS")
+    console.log(params)
+
     // do a deep search
     // params.deep = 1;
 
@@ -3598,7 +3599,14 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   nextPage: function(e){
     e.preventDefault();
     $(e.currentTarget).remove();
-    this.collection.nextPage();
+    // console.log("NEXTPAEG 2 things")
+    // console.log(this)
+    // console.log(this.data.queryParams)
+    // console.log(parseInt(this.data.queryParams.page))
+    // console.log(parseInt(this.data.queryParams.page)+1)
+    // this.data.queryParams.page = (parseInt(this.data.queryParams.page)+1);
+    // nah
+    this.transcripts.nextPage();
     this.loadTranscripts();
   },
 
