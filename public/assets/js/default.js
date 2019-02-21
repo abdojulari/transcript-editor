@@ -3599,13 +3599,6 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   nextPage: function(e){
     e.preventDefault();
     $(e.currentTarget).remove();
-    // console.log("NEXTPAEG 2 things")
-    // console.log(this)
-    // console.log(this.data.queryParams)
-    // console.log(parseInt(this.data.queryParams.page))
-    // console.log(parseInt(this.data.queryParams.page)+1)
-    // this.data.queryParams.page = (parseInt(this.data.queryParams.page)+1);
-    // nah
     this.transcripts.nextPage();
     this.loadTranscripts();
   },
