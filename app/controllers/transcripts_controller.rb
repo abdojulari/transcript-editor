@@ -50,8 +50,6 @@ class TranscriptsController < ApplicationController
         end
       }
     end
-
-
   end
 
   # POST /transcripts.json
