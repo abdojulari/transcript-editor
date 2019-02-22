@@ -11,8 +11,8 @@ namespace :aapb do
     raise "Not a valid ids_file_path #{args[:ids_file_path]}" unless File.exist?(args[:ids_file_path])
     raise "Not a valid project_key" unless Dir.exist?(Rails.root.join('project', args[:project_key]))
 
-    ids_file_path = '/Users/henry_neels/gbh/transcript-editor/ids'
-    project_key = 'fix_it_plus'
+    ids_file_path = args[:ids_file_path]
+    project_key = args[:project_key]
 
     ids = build_ids_array(ids_file_path)
     AAPB::TranscriptSeedsJob.new(ids,project_key).run!
