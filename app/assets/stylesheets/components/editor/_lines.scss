@@ -96,6 +96,10 @@ $transcript-line-options-reviewing-width: 80px;
     display: none;
     font-size: $transcript-line-height - 20px;
 
+    a {
+      font-size: $transcript-line-height - 20px;
+    }
+
     .control:before {
       @include icon("\f144");
     }
