@@ -21,7 +21,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
   },
 
   showConventions: function(){
-    this.$('.conventions-page').toggleClass( "active"  )
+    this.$('.conventions-page').toggleClass('active');
   },
 
   lineEditDelete: function(i){

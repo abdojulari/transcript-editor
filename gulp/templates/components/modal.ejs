@@ -2,7 +2,7 @@
 
   <div class="modal-inner">
     <% if (hasOwnProperty("title")) { %>
-      <header id="modal-label"><%= title %></header>
+      <header id="modal-label" class="modal-label"><%= title %></header>
     <% } %>
     <div class="modal-content">
       <% _.each(pages, function(page, i){ %>

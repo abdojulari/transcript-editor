@@ -1,7 +1,7 @@
 <section class="modal <%= active ? 'active': '' %>" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
 
   <div class="modal-inner">
-    <header id="modal-label"><%= title %> <a href="#toggle" class="control toggle-play" role="button"></a></header>
+    <header id="modal-label" class="modal-label"><%= title %> <a href="#toggle" class="control toggle-play" role="button"></a></header>
     <div class="modal-content" role="menu">
       <% _.each(edits, function(edit, i){ %>
         <a href="#option-<%= edit.id %>" class="option <%= edit.active ? 'active' : '' %>" edit-id="<%= edit.id %>" role="menuitemradio" aria-checked="<%= edit.active ? 'true' : 'false' %>"><%= UTIL.escapeInput(edit.text) %></a>

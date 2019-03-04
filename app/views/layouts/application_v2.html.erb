@@ -21,7 +21,7 @@
   </head>
   <body class="<%= @secondary_navigation ? 'body--has-secondary-nav' : '' %> <%= @body_class || '' %>">
     <%= render "shared/header" %>
-    <main>
+    <main id="app">
       <% unless flash[:notice].blank? %>
         <div class="notice alert alert-info">
           <%= flash[:notice] %>

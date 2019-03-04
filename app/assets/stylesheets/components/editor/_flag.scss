@@ -73,9 +73,9 @@
     border-top: 1px solid #ccc;
   }
 
-  textarea {
-    width: 60%;
-  }
+  // textarea {
+  //   width: 60%;
+  // }
 
   .toggle-play:before {
     @include icon("\f144");

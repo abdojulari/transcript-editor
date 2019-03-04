@@ -60,6 +60,7 @@
 }
 
 .conventions-page {
+    pointer-events: none;
     &.sticky {
         z-index: 1200;
         position: fixed;
@@ -68,8 +69,9 @@
     }
 
     [role="tabpanel"] {
-        max-height: calc(100vh - 160px);
-        overflow: auto;
+        max-height: 48px;
+        overflow: hidden;
+        transition: max-height 0.5s ease-in-out;
     }
 
     .page {
@@ -77,6 +79,7 @@
         transform: translateY(-100%);
         transform-origin: 50% 0%;
         overflow: hidden;
+        pointer-events: all;
 
         .table-conventions {
             display: table;
@@ -102,6 +105,7 @@
         display: block;
         flex: 0 1 auto;
         height: 28px;
+        pointer-events: all;
 
         line-height: 28px;
         text-align: center;
@@ -122,6 +126,9 @@
     }
 
     &.active {
+        [role="tabpanel"] {
+            max-height: calc(100vh - 160px);
+        }
         .page {
             transform: translateY(0);
         }
