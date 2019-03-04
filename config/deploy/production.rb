@@ -2,7 +2,7 @@ server 'amplify.sl.nsw.gov.au', user: 'deploy', roles: %w{web app db}
 
 set :rails_env, 'production'
 set :branch, :master
-set :bundler_path, '/home/deploy/.rvm/wrappers/ruby-2.5.0@nsl-rails5/bundle'
+set :bundler_path, '/home/deploy/.rvm/wrappers/ruby-2.5.3@rails5/bundle'
 
 # server-based syntax
 # ======================

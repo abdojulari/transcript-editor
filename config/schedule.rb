@@ -8,7 +8,7 @@ deployed = ['staging', 'production'].include?(current_env)
 
 path_to_bundle = '/home/deploy/.rvm/wrappers/ruby-2.5.3@rails5/bundle'
 if current_env == 'production'
-  path_to_bundle = '/home/deploy/.rvm/wrappers/ruby-2.5.3@nsl-rails5/bundle'
+  path_to_bundle = '/home/deploy/.rvm/wrappers/ruby-2.5.3@rails5/bundle'
 end
 
 # Alter cron job execution method depending on rails env.
