@@ -99,10 +99,10 @@
   }
 
   .button {
-    background: $green-color;
+    background: $editor-button-color;
 
     &:hover, &:focus, &:active {
-      background: darken($green-color, 10%);
+      background: darken($editor-button-color, 10%);
       color: $white;
       text-decoration: none; 
     }
