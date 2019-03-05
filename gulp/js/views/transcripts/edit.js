@@ -124,6 +124,11 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     // PubSub.unsubscribe('transcript.edit.delete');
     // this.$el.off('click.transcript', '.start-play');
 
+    PubSub.subscribe('transcript.play_all', function(ev, setting) {
+      _this.play_all = setting;
+      console.log('Set play all to', _this.play_all);
+    });
+
     // add link listeners
     $('.control').on('click.transcript', function(e){
       e.preventDefault();

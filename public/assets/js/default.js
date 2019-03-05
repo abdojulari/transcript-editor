@@ -13189,18 +13189,6 @@ window.app = {
   initialize: function(){
     // init auth
     var auth_provider_paths = _.object(_.map(PROJECT.authProviders, function(provider) { return [provider.name, provider.path]; }));
-    // NOTE: Authentication is now done via rails
-    //
-    // $.auth.configure({
-    //   apiUrl: API_URL,
-    //   authProviderPaths: auth_provider_paths
-    // });
-
-    // Debug
-    // DEBUG && console.log("Project", PROJECT);
-    // PubSub.subscribe('auth.validation.success', function(ev, user) {
-    //   DEBUG && console.log('User', user);
-    // });
 
     // Force a hard refresh after sign in/out
     PubSub.subscribe('auth.oAuthSignIn.success', function(ev, msg) {
@@ -15239,7 +15227,7 @@ app.views.TranscriptLineFlag = app.views.Base.extend({
 
   show: function(){
     this.render();
-    PubSub.publish('transcripts.play_all', false);
+    PubSub.publish('transcript.play_all', false);
     PubSub.publish('modal.invoke', this.id);
   },
 
@@ -15806,7 +15794,7 @@ app.views.TranscriptLineVerify = app.views.Base.extend({
   showEdits: function(edits){
     this.data.edits = edits;
     this.render();
-    PubSub.publish('transcripts.play_all', false);
+    PubSub.publish('transcript.play_all', false);
     PubSub.publish('modal.invoke', this.id);
   },
 
@@ -15949,6 +15937,11 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     // PubSub.unsubscribe('transcript.line.verify');
     // PubSub.unsubscribe('transcript.edit.delete');
     // this.$el.off('click.transcript', '.start-play');
+
+    PubSub.subscribe('transcript.play_all', function(ev, setting) {
+      _this.play_all = setting;
+      console.log('Set play all to', _this.play_all);
+    });
 
     // add link listeners
     $('.control').on('click.transcript', function(e){
@@ -16371,11 +16364,6 @@ app.views.TranscriptsIndex = app.views.Base.extend({
 
   loadListeners: function(){
     var _this = this;
-
-    PubSub.subscribe('transcripts.play_all', function(ev, setting) {
-      _this.play_all = setting;
-      console.log('Set play all to', _this.play_all);
-    });
 
     PubSub.subscribe('transcripts.filter', function(ev, filter) {
       _this.filterBy(filter.name, filter.value);
