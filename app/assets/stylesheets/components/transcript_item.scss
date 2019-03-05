@@ -96,9 +96,11 @@
     position: relative;
     padding: 0;
     height: 10px;
+    display: flex;
+    flex-direction: row;
   }
   &__status-bar {
-    position: absolute;
+    position: static;
     top: 0;
     left: 0;
     height: 100%;
