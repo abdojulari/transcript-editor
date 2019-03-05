@@ -107,11 +107,17 @@
     height: 100%;
     width: 0px;
     background: $progress-edits;
+    &.edited {
+      position: absolute;
+      z-index: 1;
+    }
     &.reviewing {
       background: $progress-awaiting;
+      z-index: 2;
     }
     &.completed {
       background: $progress-completed;
+      z-index: 2;
     }
   }
   &__key {
