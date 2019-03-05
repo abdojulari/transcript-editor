@@ -15239,6 +15239,7 @@ app.views.TranscriptLineFlag = app.views.Base.extend({
 
   show: function(){
     this.render();
+    PubSub.publish('transcripts.play_all', false);
     PubSub.publish('modal.invoke', this.id);
   },
 
@@ -15805,6 +15806,7 @@ app.views.TranscriptLineVerify = app.views.Base.extend({
   showEdits: function(edits){
     this.data.edits = edits;
     this.render();
+    PubSub.publish('transcripts.play_all', false);
     PubSub.publish('modal.invoke', this.id);
   },
 
@@ -16369,6 +16371,11 @@ app.views.TranscriptsIndex = app.views.Base.extend({
 
   loadListeners: function(){
     var _this = this;
+
+    PubSub.subscribe('transcripts.play_all', function(ev, setting) {
+      _this.play_all = setting;
+      console.log('Set play all to', _this.play_all);
+    });
 
     PubSub.subscribe('transcripts.filter', function(ev, filter) {
       _this.filterBy(filter.name, filter.value);

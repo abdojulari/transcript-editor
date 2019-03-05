@@ -66,6 +66,7 @@ app.views.TranscriptLineFlag = app.views.Base.extend({
 
   show: function(){
     this.render();
+    PubSub.publish('transcripts.play_all', false);
     PubSub.publish('modal.invoke', this.id);
   },
 

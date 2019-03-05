@@ -203,6 +203,11 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   loadListeners: function(){
     var _this = this;
 
+    PubSub.subscribe('transcripts.play_all', function(ev, setting) {
+      _this.play_all = setting;
+      console.log('Set play all to', _this.play_all);
+    });
+
     PubSub.subscribe('transcripts.filter', function(ev, filter) {
       _this.filterBy(filter.name, filter.value);
     });

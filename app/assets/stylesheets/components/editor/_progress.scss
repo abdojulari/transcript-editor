@@ -52,6 +52,10 @@
     font-weight: bold;
     margin-top: 5px;
 
+    p {
+      margin: 0;
+    }
+
     .percent-edited {
       color: $charcoal;
       font-size: 0.75em;

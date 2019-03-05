@@ -82,6 +82,7 @@ app.views.TranscriptLineVerify = app.views.Base.extend({
   showEdits: function(edits){
     this.data.edits = edits;
     this.render();
+    PubSub.publish('transcripts.play_all', false);
     PubSub.publish('modal.invoke', this.id);
   },
 
