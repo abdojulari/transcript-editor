@@ -237,6 +237,16 @@ $transcript-line-options-reviewing-width: 80px;
       height: $transcript-line-height / 2;
       line-height: $transcript-line-height / 2;
       visibility: hidden;
+
+      &.verify {
+        background: $green-color;
+
+        &:hover, &:focus, &:active {
+          background: darken($green-color, 10%);
+          color: $white;
+          text-decoration: none; 
+        }
+      }
     }
 
     .verify {

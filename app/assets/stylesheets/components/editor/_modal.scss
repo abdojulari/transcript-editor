@@ -97,4 +97,14 @@
     width: 100%;
     min-height: 100px;
   }
+
+  .button {
+    background: $green-color;
+
+    &:hover, &:focus, &:active {
+      background: darken($green-color, 10%);
+      color: $white;
+      text-decoration: none; 
+    }
+  }
 }
