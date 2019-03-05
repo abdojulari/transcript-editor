@@ -340,6 +340,9 @@ $transcript-line-options-reviewing-width: 80px;
       text-align: center;
       font-size: 1.5em;
     }
+    .change-speaker {
+      font-size: 1.5rem;
+    }
     .change-speaker:before {
       @include icon("\f234");
       color: $coolgray-dark-color;
@@ -372,20 +375,22 @@ $transcript-line-options-reviewing-width: 80px;
       border-top: 1px solid #ccc;
       @include box-sizing();
       h4 {
-        font-size: 0.6em;
+        font-size: 1rem;
         margin: 0 0 5px 0;
         text-transform: uppercase;
         color: $charcoal;
         small {
           font-weight: normal;
-          font-size: 0.6em;
+          font-size: 0.75rem;
           color: $coolgray-dark-color;
         }
       }
       .speaker-option {
         display: block;
-        font-size: 0.7em;
+        font-size: 1rem;
         padding: 5px 0;
+        margin: 0;
+        color: $editor-button-color;
 
         &:after {
           content: ' ';
