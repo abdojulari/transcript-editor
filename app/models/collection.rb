@@ -45,4 +45,15 @@ class Collection < ApplicationRecord
   def to_param
     uid
   end
+
+  def disk_usage
+    transcripts.map(&:disk_usage)
+      .inject({ collection: 1, transcript: 0, image: 0, audio: 0, script: 0 }) do |memo, tu|
+        memo[:transcript] += tu[:transcript]
+        memo[:image] += tu[:image]
+        memo[:audio] += tu[:audio]
+        memo[:script] += tu[:script]
+        memo
+      end
+  end
 end

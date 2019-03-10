@@ -552,4 +552,13 @@ class Transcript < ApplicationRecord
       # VoiceBase::VoicebaseApiService.upload_media(self.id)
     end
   end
+
+  def disk_usage
+    {
+      transcript: 1,
+      image: image.size,
+      audio: audio.size,
+      script: script.size
+    }
+  end
 end

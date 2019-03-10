@@ -52,4 +52,16 @@ class Institution < ApplicationRecord
     self.min_lines_for_consensus_no_edits = min_lines_for_consensus
     self.min_percent_consensus = min_lines_for_consensus.to_f / (max_line_edits + 1).to_f
   end
+
+  def disk_usage
+    collections.map(&:disk_usage)
+      .inject({ institution: 1, collection: 0, transcript: 0, image: 0, audio: 0, script: 0 }) do |memo, tu|
+        memo[:collection] += tu[:collection]
+        memo[:transcript] += tu[:transcript]
+        memo[:image] += tu[:image]
+        memo[:audio] += tu[:audio]
+        memo[:script] += tu[:script]
+        memo
+      end
+  end
 end
