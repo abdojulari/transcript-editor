@@ -555,7 +555,6 @@ class Transcript < ApplicationRecord
 
   def disk_usage
     {
-      transcript: 1,
       image: image.size,
       audio: audio.size,
       script: script.size

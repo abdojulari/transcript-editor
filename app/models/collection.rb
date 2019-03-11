@@ -48,8 +48,7 @@ class Collection < ApplicationRecord
 
   def disk_usage
     transcripts.map(&:disk_usage)
-      .inject({ collection: 1, transcript: 0, image: 0, audio: 0, script: 0 }) do |memo, tu|
-        memo[:transcript] += tu[:transcript]
+      .inject({ image: 0, audio: 0, script: 0 }) do |memo, tu|
         memo[:image] += tu[:image]
         memo[:audio] += tu[:audio]
         memo[:script] += tu[:script]

@@ -17,10 +17,13 @@ class Admin::SummaryController < AdminController
   private
 
   def load_stats(institution_id, collection_id)
-    hash = StatsService.new(current_user).
-      completion_stats(institution_id, collection_id)
-    @total = hash.extract!(:total)
-    @stats = hash
+    service = StatsService.new(current_user)
+
+    completion_stats = service.completion_stats(institution_id, collection_id)
+    @total = completion_stats.extract!(:total)
+    @stats = completion_stats
+
+    @disk_usage = service.disk_usage(institution_id, collection_id)
   end
 
   def collection_id

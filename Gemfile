@@ -56,6 +56,9 @@ gem 'execjs'
 # For audio transcripts
 gem 'webvtt-ruby'
 
+# Helpful stats.
+gem 'filesize'
+
 # For uploading of transcipts and image files
 # load fog-aws first to reduce the number of imported classes
 gem 'fog'
