@@ -1,5 +1,3 @@
-require 'filesize'
-
 module Admin::StatsHelper
 
   def display_name(key)
@@ -15,12 +13,6 @@ module Admin::StatsHelper
     content_tag :a, href: "#{transcript.path}?t=#{time}" do
       time
     end
-  end
-
-  def as_filesize(number)
-    Filesize.from(number).pretty
-  rescue ArgumentError
-    '0'
   end
 
 end

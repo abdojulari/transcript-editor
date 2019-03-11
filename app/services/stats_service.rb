@@ -55,10 +55,10 @@ class StatsService
 
   def disk_usage(institution_id = nil, collection_id = nil)
     unless collection_id.nil?
-      Collection.find(collection_id).disk_usage
+      return Collection.find(collection_id).disk_usage
     end
     unless institution_id.nil?
-      Institution.find(institution_id).disk_usage
+      return Institution.find(institution_id).disk_usage
     end
     Institution.all_institution_disk_usage
   end

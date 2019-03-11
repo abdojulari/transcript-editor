@@ -173,7 +173,6 @@ GEM
     ffi (1.9.25)
     figaro (1.1.1)
       thor (~> 0.14)
-    filesize (0.2.0)
     fission (0.5.0)
       CFPropertyList (~> 2.2)
     fog (2.0.0)
@@ -640,7 +639,6 @@ DEPENDENCIES
   factory_bot_rails
   faker
   figaro
-  filesize
   fog
   font-awesome-rails
   formdata

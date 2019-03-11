@@ -54,22 +54,26 @@ class Institution < ApplicationRecord
   end
 
   def self.all_institution_disk_usage
-    Institution.all.map { |i| i.disk_usage }
-      .inject({ image: 0, audio: 0, script: 0 }) do |memo, tu|
-        memo[:image] += tu[:image]
-        memo[:audio] += tu[:audio]
-        memo[:script] += tu[:script]
-        memo
-      end
+    Rails.cache.fetch("Institution:disk_usage:all", expires_in: 1.hour) do
+      Institution.all.map { |i| i.disk_usage }
+        .inject({ image: 0, audio: 0, script: 0 }) do |memo, tu|
+          memo[:image] += tu[:image]
+          memo[:audio] += tu[:audio]
+          memo[:script] += tu[:script]
+          memo
+        end
+    end
   end
 
   def disk_usage
-    collections.map(&:disk_usage)
-      .inject({ image: 0, audio: 0, script: 0 }) do |memo, tu|
-        memo[:image] += tu[:image]
-        memo[:audio] += tu[:audio]
-        memo[:script] += tu[:script]
-        memo
-      end
+    Rails.cache.fetch("Institution:disk_usage:#{self.id}", expires_in: 1.hour) do
+      collections.map(&:disk_usage)
+        .inject({ image: 0, audio: 0, script: 0 }) do |memo, tu|
+          memo[:image] += tu[:image]
+          memo[:audio] += tu[:audio]
+          memo[:script] += tu[:script]
+          memo
+        end
+    end
   end
 end

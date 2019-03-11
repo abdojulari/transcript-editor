@@ -12,12 +12,13 @@
 <%= pie_chart stats %>
 
 <h3>Disk usage</h3>
+<pre><%= disk_usage.inspect %></pre>
 <table class="table table table-striped">
   <tbody>
     <% disk_usage.each do |key, val| %>
       <tr>
         <th scope="row"><%= display_name key %></th>
-        <td><%= as_filesize val %></td>
+        <td><%= number_to_human_size val %></td>
       </tr>
     <% end %>
   </tbody>

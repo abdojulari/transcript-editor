@@ -1,18 +1,29 @@
 $(document).ready(function(){
-  $('#institution_id').change(function(){
-    loadSummary()
-  })
+  $('#institution_id').change(function() {
+   if (!$(this).val() || !$(this).val().length) {
+     $('#collection').val('');
+   }
+   loadSummary();
+  });
 
-  $('#collection').on("change", "#collection_select", function(){
-    loadSummary()
-  })
+  $('#collection').on("change", "#collection_select", function() {
+    loadSummary();
+  });
 
-
-  function loadSummary(){
+  function loadSummary() {
     var institutionId = $("#institution_id").val() || 0
-    var collectionId = $("#collection_select").val() || 0
+    var collectionId = (
+      institutionId === 0 ?
+      0 :
+      $("#collection_select").val() || 0
+    );
     $.ajax({
-        url: "/admin/summary/details?institution_id=" + institutionId + "&collection_id=" + collectionId
+      method: 'get',
+      url: '/admin/summary/details',
+      data: {
+        institution_id: institutionId,
+        collection_id: collectionId
+      }
     });
   }
 })

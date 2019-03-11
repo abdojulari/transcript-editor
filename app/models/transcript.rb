@@ -554,10 +554,12 @@ class Transcript < ApplicationRecord
   end
 
   def disk_usage
-    {
-      image: image.size,
-      audio: audio.size,
-      script: script.size
-    }
+    Rails.cache.fetch("Transcript:disk_usage:#{self.id}", expires_in: 1.hour) do
+      {
+        image: image.size,
+        audio: audio.size,
+        script: script.size
+      }
+    end
   end
 end
