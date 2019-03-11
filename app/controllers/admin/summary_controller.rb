@@ -4,7 +4,6 @@ class Admin::SummaryController < AdminController
   def index
     @collection = policy_scope(Collection).none
     @institutions = policy_scope(Institution)
-    load_stats(nil, nil)
   end
 
   def details

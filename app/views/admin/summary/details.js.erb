@@ -1,3 +1,2 @@
-$("#collection").html("<%= escape_javascript(render partial: 'collection', locals: { collection: @collection, selected_collection_id: @selected_collection_id
-  } ) %>");
+$("#collection").html("<%= escape_javascript(render partial: 'collection', locals: { collection: @collection, selected_collection_id: @selected_collection_id, aria: { controls: 'summary-stats' } } ) %>");
 $("#summary-stats").html("<%= escape_javascript(render partial: 'summary_stats', locals: { stats: @stats, disk_usage: @disk_usage, total: @total} ) %>");
