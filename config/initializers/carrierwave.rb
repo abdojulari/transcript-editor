@@ -17,6 +17,6 @@ CarrierWave.configure do |config|
     config.storage = :fog
   else
     # Use local storage if in development or test
-    config.storage = :file
+    config.storage = ENV['CARRIERWAVE_STORAGE'].to_sym || :file
   end
 end

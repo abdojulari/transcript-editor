@@ -53,6 +53,16 @@ class StatsService
       where(created_at: days.days.ago..Time.zone.now)
   end
 
+  def disk_usage(institution_id = nil, collection_id = nil)
+    unless collection_id.nil?
+      return Collection.find(collection_id).disk_usage
+    end
+    unless institution_id.nil?
+      return Institution.find(institution_id).disk_usage
+    end
+    Institution.all_institution_disk_usage
+  end
+
   private
 
   # rubocop:disable Metrics/LineLength

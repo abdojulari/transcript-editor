@@ -6,17 +6,20 @@
 <div class="card">
   <div class="card-header">
     <form>
-      <p>Institution:
-      <%= collection_select(:institution, :id, @institutions,
-                            :id, :name,
-                            include_blank: "All Institutions") %>
+      <p>
+        <label for="institution">Institution:</label>
+        <%= collection_select(:institution, :id, @institutions,
+                              :id, :name,
+                              { include_blank: 'All Institutions' },
+                              { aria: { controls: 'summary-stats' }}) %>
       </p>
       <span id="collection">
-        <%= render "collection", collection: @collection, selected_collection_id: @selected_collection_id %>
+        <%= render "collection",
+                   collection: @collection,
+                   selected_collection_id: @selected_collection_id,
+                   aria: { controls: 'summary-stats' } %>
       </span>
     </form>
   </div>
-  <div class="card-body" id="summary-stats">
-    <%= render "summary_stats", stats: @stats, total: @total %>
-  </div>
+  <div class="card-body" id="summary-stats" aria-busy="false"></div>
 </div>

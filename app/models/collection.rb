@@ -45,4 +45,16 @@ class Collection < ApplicationRecord
   def to_param
     uid
   end
+
+  def disk_usage
+    Rails.cache.fetch("Collection:disk_usage:#{self.id}", expires_in: 1.hour) do
+      transcripts.map(&:disk_usage)
+        .inject({ image: 0, audio: 0, script: 0 }) do |memo, tu|
+          memo[:image] += tu[:image]
+          memo[:audio] += tu[:audio]
+          memo[:script] += tu[:script]
+          memo
+        end
+    end
+  end
 end

@@ -15,6 +15,4 @@ module Admin::StatsHelper
     end
   end
 
-
-
 end

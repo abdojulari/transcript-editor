@@ -552,4 +552,14 @@ class Transcript < ApplicationRecord
       # VoiceBase::VoicebaseApiService.upload_media(self.id)
     end
   end
+
+  def disk_usage
+    Rails.cache.fetch("Transcript:disk_usage:#{self.id}", expires_in: 1.hour) do
+      {
+        image: image.size,
+        audio: audio.size,
+        script: script.size
+      }
+    end
+  end
 end

@@ -11,3 +11,15 @@
 </table>
 <%= pie_chart stats %>
 
+<h3>Disk usage</h3>
+<table class="table table table-striped">
+  <tbody>
+    <% disk_usage.each do |key, val| %>
+      <tr>
+        <th scope="row"><%= display_name key %></th>
+        <td><%= number_to_human_size val %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= pie_chart disk_usage %>
