@@ -20,6 +20,12 @@
         <td><%= number_to_human_size val %></td>
       </tr>
     <% end %>
+    <tr>
+      <th scope="row">Total</th>
+      <tr scope="row">
+        <%= number_to_human_size disk_usage.values.sum %>
+      </tr>
+    </tr>
   </tbody>
 </table>
 <%= pie_chart disk_usage, colors: ['#003f5c', '#bc5090', '#ffa600'] %>
