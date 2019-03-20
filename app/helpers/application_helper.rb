@@ -35,6 +35,10 @@ module ApplicationHelper
     @app_config.try(:show_institutions?)
   end
 
+  def gtm_id
+    ENV.key?('GOOGLE_TAG_MANAGER_ID') ?
+      ENV['GOOGLE_TAG_MANAGER_ID'] : nil
+  end
 
   # NOTE: format we need
   #       if the title is empty -> 'Amplify'
