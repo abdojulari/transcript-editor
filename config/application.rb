@@ -34,9 +34,18 @@ module TranscriptEditor
     end
 
     config.exception_handler = {
+      dev: true,
+      db: nil,
+      email: nil,
       exceptions: {
-        layout: 'application_v2',
-        notification: true,
+        all: {
+          layout: 'application_v2',
+          notification: true,
+        },
+        :"4xx" => {
+          layout: 'application_v2',
+          notification: false,
+        }
       }
     }
   end

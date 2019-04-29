@@ -33,3 +33,13 @@ en:
     messages:
       content_type_whitelist_error: "You are not allowed to upload %{content_type} files"
       mini_magick_processing_error: "Failed to manipulate with MiniMagick, maybe it is not an image? Original Error: %{e}"
+  exception_handler:
+    bad_request: The request you made was malformed or invalid.
+    method_not_allowed: We couldn't accept the request you made.
+    not_implemented: We don't know how to handle the request you made.
+    not_acceptable: We don't know how to accept the request you made.
+    not_found: The page or resource you tried to access could not be found.
+    unauthorized: You are not authorised to see this page.
+    conflict: You tried to make a change to an out of date resource.
+    unprocessable_entity: We couldn't accept the submission you made.
+    internal_server_error: An internal server error occurred.
