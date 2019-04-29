@@ -44,9 +44,17 @@ gem 'figaro'
 # requires jwt v2.0 or better.
 # Facebook's gem is a bit behind.
 gem 'devise'
+# gem 'devise-security'
 gem 'oauth2', github: 'oauth-xx/oauth2', ref: 'v1.4.1'
 gem 'omniauth-google-oauth2', '>= 0.6.0'
 gem 'omniauth-facebook'
+
+# Beef up security.
+gem 'invisible_captcha'
+gem 'rack-attack'
+
+# Niceties.
+gem 'exception_handler'
 
 # Parsers for project asset precompilation
 gem 'redcarpet'

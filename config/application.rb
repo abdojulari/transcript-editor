@@ -32,5 +32,23 @@ module TranscriptEditor
       Devise::UnlocksController.layout layout
       Devise::PasswordsController.layout layout
     end
+
+    config.exception_handler = {
+      dev: true,
+      db: nil,
+      email: nil,
+      exceptions: {
+        all: {
+          layout: 'application_v2',
+          notification: true,
+        },
+        :"4xx" => {
+          layout: 'application_v2',
+          notification: false,
+        }
+      }
+    }
+
+    config.middleware.use Rack::Attack
   end
 end

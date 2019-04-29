@@ -40,6 +40,8 @@
       </div>
     <% end -%>
 
+    <%= invisible_captcha %>
+
     <div class="form-group">
       <%= f.submit "Sign in", class: 'button cyan' %>
     </div>
@@ -47,4 +49,3 @@
   <br />
   <%= render "devise/shared/links" %>
 </article>
-
