@@ -14,7 +14,7 @@ if Rails.env.production? || Rails.env.staging?
   # Blocks all requests from misbehaving clients.
   Rack::Attack.blocklist("fail2ban pentesters") do |req|
     Rack::Attack::Fail2Ban.filter(
-      "pentesters-#{req.ip}",
+      "pentesters/#{req.ip}",
       maxretry: 3,
       findtime: 10.minutes,
       bantime: 5.minutes,
@@ -28,9 +28,9 @@ if Rails.env.production? || Rails.env.staging?
 
   # Throttles POST requests to /users pages by IP.
   Rack::Attack.throttle(
-    "limit users page attempts by ip",
+    "logins/ip",
     limit: 30,
-    period: 60,
+    period: 60.seconds,
   ) do |req|
     if req.path.include?("/users") && req.post?
       req.ip
@@ -39,22 +39,23 @@ if Rails.env.production? || Rails.env.staging?
 
   # Throttles POST requests to /users pages by email param.
   Rack::Attack.throttle(
-    "limit users page attempts by email",
+    "logins/ip+email",
     limit: 10,
-    period: 60,
+    period: 60.seconds,
   ) do |req|
-    if req.path.include?("/users") && req.post?
-      req.params['user']['email']
+    if req.path.include?("/users") && req.post? &&
+        req.params["user"]["email"].presence
+      "#{req.ip},#{req.params['user']['email']}"
     end
   end
 
   # Provides a custom response to blocked clients.
-  Rack::Attack.blocklisted_response = lambda do |env|
+  Rack::Attack.blocklisted_response = lambda do |_env|
     [503, {}, ["Server error\n"]]
   end
 
   # Provides a custom response to throttled clients.
-  Rack::Attack.throttled_response = lambda do |env|
+  Rack::Attack.throttled_response = lambda do |_env|
     [503, {}, ["Server error\n"]]
   end
 
