@@ -48,5 +48,7 @@ module TranscriptEditor
         }
       }
     }
+
+    config.middleware.use Rack::Attack
   end
 end

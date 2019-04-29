@@ -51,6 +51,7 @@ gem 'omniauth-facebook'
 
 # Beef up security.
 gem 'invisible_captcha'
+gem 'rack-attack'
 
 # Niceties.
 gem 'exception_handler'

@@ -460,6 +460,8 @@ GEM
     pundit-matchers (1.6.0)
       rspec-rails (>= 3.0.0)
     rack (2.0.6)
+    rack-attack (6.0.0)
+      rack (>= 1.0, < 3)
     rack-cors (1.0.2)
     rack-protection (2.0.5)
       rack
@@ -706,6 +708,7 @@ DEPENDENCIES
   puma
   pundit
   pundit-matchers (~> 1.6.0)
+  rack-attack
   rack-cors
   rails (~> 5.2.0)
   rails-controller-testing
