@@ -15,7 +15,7 @@ Devise.setup do |config|
   config.mailer_sender = ENV["SENDER_EMAIL"]
 
   # Configure the class responsible to send e-mails.
-  config.mailer = 'Devise::Mailer'
+  config.mailer = "Devise::Mailer"
 
   # Configure the parent class responsible to send e-mails.
   # config.parent_mailer = 'ActionMailer::Base'
@@ -24,7 +24,7 @@ Devise.setup do |config|
   # Load and configure the ORM. Supports :active_record (default) and
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
   # available as additional gems.
-  require 'devise/orm/active_record'
+  require "devise/orm/active_record"
 
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is
@@ -249,17 +249,17 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :google_oauth2,
-    ENV['GOOGLE_CLIENT_ID'],
-    ENV['GOOGLE_CLIENT_SECRET'],
-    skip_jwt: true,
-    provider_ignores_state: true
+                  ENV["GOOGLE_CLIENT_ID"],
+                  ENV["GOOGLE_CLIENT_SECRET"],
+                  skip_jwt: true,
+                  provider_ignores_state: true
   config.omniauth :facebook,
-    ENV['FACEBOOK_APP_ID'],
-    ENV['FACEBOOK_APP_SECRET'],
-    client_options: {
-      site: 'https://graph.facebook.com/v3.2',
-      authorize_url: 'https://www.facebook.com/v3.2/dialog/oauth'
-    }
+                  ENV["FACEBOOK_APP_ID"],
+                  ENV["FACEBOOK_APP_SECRET"],
+                  client_options: {
+                    site: "https://graph.facebook.com/v3.2",
+                    authorize_url: "https://www.facebook.com/v3.2/dialog/oauth",
+                  }
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
