@@ -161,6 +161,10 @@ GEM
     dry-inflector (0.1.2)
     ejs (1.1.1)
     erubi (1.8.0)
+    exception_handler (0.8.0.0)
+      bundler
+      rails (>= 4.2.0)
+      responders
     excon (0.62.0)
     execjs (2.7.0)
     executable-hooks (1.6.0)
@@ -366,6 +370,8 @@ GEM
     httpclient (2.8.3)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
+    invisible_captcha (0.12.0)
+      rails (>= 3.2.0)
     io-like (0.3.0)
     ipaddress (0.8.3)
     jaro_winkler (1.5.2)
@@ -672,6 +678,7 @@ DEPENDENCIES
   dotenv-rails
   draper
   ejs
+  exception_handler
   execjs
   executable-hooks
   factory_bot_rails
@@ -683,6 +690,7 @@ DEPENDENCIES
   friendly_id (~> 5.2.0)
   highline
   httparty
+  invisible_captcha
   jbuilder (~> 2.5)
   jquery-rails
   letter_opener

@@ -32,5 +32,12 @@ module TranscriptEditor
       Devise::UnlocksController.layout layout
       Devise::PasswordsController.layout layout
     end
+
+    config.exception_handler = {
+      exceptions: {
+        layout: 'application_v2',
+        notification: true,
+      }
+    }
   end
 end
