@@ -10,7 +10,7 @@ ra_whitelist.split(/\s+/).reject(&:empty?).
 
 # Blocks all requests from misbehaving clients.
 Rack::Attack.blocklist("fail2ban pentesters") do |req|
-  Rack::Attack.Fail2Ban.filter(
+  Rack::Attack::Fail2Ban.filter(
     "pentesters-#{req.ip}",
     maxretry: 3,
     findtime: 10.minutes,
@@ -26,11 +26,22 @@ end
 # Throttles POST requests to /users pages by IP.
 Rack::Attack.throttle(
   "limit users page attempts by ip",
-  limit: 10,
+  limit: 30,
   period: 60,
 ) do |req|
   if req.path.include?("/users") && req.post?
     req.ip
+  end
+end
+
+# Throttles POST requests to /users pages by email param.
+Rack::Attack.throttle(
+  "limit users page attempts by email",
+  limit: 10,
+  period: 60,
+) do |req|
+  if req.path.include?("/users") && req.post?
+    req.params['user']['email']
   end
 end
 
