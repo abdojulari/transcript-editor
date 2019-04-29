@@ -34,18 +34,12 @@ Rack::Attack.throttle(
   end
 end
 
+# Provides a custom response to blocked clients.
+Rack::Attack.blocklisted_response = lambda do |env|
+  [503, {}, ["Server error\n"]]
+end
+
 # Provides a custom response to throttled clients.
 Rack::Attack.throttled_response = lambda do |env|
-  match_data = env["rack.attack.match_data"]
-  now = match_data[:epoch_time]
-
-  headers = {
-    "RateLimit-Limit" => match_data[:limit].to_s,
-    "RateLimit-Remaining" => 0,
-    "RateLimit-Reset" => (now + (
-      match_data[:period] - now % match_data[:period]
-    )) / to_s,
-  }
-
-  [429, headers, ["Too many requests\n"]]
+  [503, {}, ["Server error\n"]]
 end
