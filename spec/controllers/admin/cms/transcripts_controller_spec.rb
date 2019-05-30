@@ -28,13 +28,7 @@ RSpec.describe Admin::Cms::TranscriptsController, type: :controller do
   let(:speaker) do
     Speaker.create!(name: 'Jane Bloggs')
   end
-  let(:user) do
-    User.create!(
-      email: "user@email.com",
-      password: "password",
-      user_role: UserRole.create!(name: "admin", hiearchy: 100)
-    )
-  end
+  let(:user) { create(:user, :admin, email: "user@email.com", password: "password") }
 
   before do
     sign_in user
@@ -165,7 +159,7 @@ RSpec.describe Admin::Cms::TranscriptsController, type: :controller do
 
   describe "GET speaker_search" do
     context "valid request" do
-      let (:action) { post :speaker_search, params: { q: 'jane'  } }
+      let (:action) { post :speaker_search, params: { query: 'jane'  } }
 
       it "responds with an ok status" do
         action
