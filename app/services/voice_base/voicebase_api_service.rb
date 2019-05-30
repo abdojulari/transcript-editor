@@ -42,9 +42,11 @@ module VoiceBase
 
       if transcript.voicebase_status == "completed"
         str = get_transcript(transcript_id)
-        imp = VoiceBase::ImportSrtTranscripts.new(project_id: ENV["PROJECT_ID"])
-        imp.update_from_voicebase(transcript, str)
-        transcript.update_column("voicebase_processing_completed_at", Time.zone.now)
+        if str
+          imp = VoiceBase::ImportSrtTranscripts.new(project_id: ENV["PROJECT_ID"])
+          imp.update_from_voicebase(transcript, str)
+          transcript.update_column("voicebase_processing_completed_at", Time.zone.now)
+        end
       else
         # reset back for next time
         transcript.update_column("pickedup_for_voicebase_processing_at", nil)
