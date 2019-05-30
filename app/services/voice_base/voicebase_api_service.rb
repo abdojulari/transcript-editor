@@ -46,11 +46,12 @@ module VoiceBase
           imp = VoiceBase::ImportSrtTranscripts.new(project_id: ENV["PROJECT_ID"])
           imp.update_from_voicebase(transcript, str)
           transcript.update_column("voicebase_processing_completed_at", Time.zone.now)
+          return
         end
-      else
-        # reset back for next time
-        transcript.update_column("pickedup_for_voicebase_processing_at", nil)
       end
+
+      # reset back for next time
+      transcript.update_column("pickedup_for_voicebase_processing_at", nil)
     end
 
     def self.get_transcript(transcript_id)
@@ -70,4 +71,3 @@ module VoiceBase
     end
   end
 end
-
