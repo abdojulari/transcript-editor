@@ -53,6 +53,11 @@ module VoiceBase
 
     def self.get_transcript(transcript_id)
       transcript = Transcript.find(transcript_id)
+      unless transcript.voicebase_media_id
+        transcript.voicebase_upload
+        return nil
+      end
+
       res = Voicebase::Client.new.get_transcript(transcript.voicebase_media_id)
 
       if res.code == "200"
