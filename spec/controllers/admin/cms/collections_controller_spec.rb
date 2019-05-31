@@ -13,13 +13,7 @@ RSpec.describe Admin::Cms::CollectionsController, type: :controller do
       institution_id: institution.id
     )
   end
-  let(:user) do
-    User.create!(
-      email: "user@email.com",
-      password: "password",
-      user_role: UserRole.create!(name: "admin", hiearchy: 100)
-    )
-  end
+  let(:user) { create(:user, :admin, email: "user@email.com", password: "password") }
 
   before do
     sign_in user
@@ -63,7 +57,8 @@ RSpec.describe Admin::Cms::CollectionsController, type: :controller do
           url: "new_collection_catalogue_reference",
           image: File.open(Rails.root.join('spec', 'fixtures', 'image.jpg')),
           vendor_id: vendor.id,
-          institution_id: institution.id
+          institution_id: institution.id,
+          theme_ids: ['']
         }
       end
       let(:action) { post :create, params: { collection: params  } }
@@ -80,7 +75,7 @@ RSpec.describe Admin::Cms::CollectionsController, type: :controller do
     end
 
     context "invalid request" do
-      let(:params) { { uid: "" } }
+      let(:params) { { uid: "", theme_ids: [''] } }
       let(:action) { post :create, params: { collection: params  } }
 
       it "responds with a bad request status" do
@@ -118,7 +113,7 @@ RSpec.describe Admin::Cms::CollectionsController, type: :controller do
   describe "PUT #update" do
     context "valid update request" do
       let(:params) do
-        { title: "Revised title" }
+        { title: "Revised title", theme_ids: [''] }
       end
       let(:action) { put :update, params: { id: collection.uid, collection: params } }
 
@@ -141,7 +136,7 @@ RSpec.describe Admin::Cms::CollectionsController, type: :controller do
     end
 
     context "invalid update request" do
-      let(:params) { { uid: "" } }
+      let(:params) { { uid: "", theme_ids: [''] } }
       let(:action) { put :update, params: {id: collection.uid, collection: params  } }
 
       it "responds with a bad request status" do
