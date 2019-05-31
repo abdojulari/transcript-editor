@@ -1,8 +1,9 @@
 <!-- find_each was removed to support odering in collection.transcripts -->
 <% order_transcripts_asc(@collection.transcripts).each do |item| %>
   <div class="row">
-    <div class="col-1"><%= publish_icon(item.published?) %></div>
-    <div class="col-5"><%= item.title %></div>
+    <div class="col-5">
+      <%= publish_icon(item.published?) %>
+      <%= item.title %></div>
     <div class="col-2">
       <%= image_tag(item.image_url(:thumb)) if item.image.url.present? %>
     </div>
@@ -19,11 +20,19 @@
       <% end if item.voicebase? %>
     </div>
     <div class="col-1">
+      <%= link_to transcript_path(item, preview: true),
+        method: "get",
+        data: { disable_with: "Loading..." }, target: '_blank' do
+      %>
+        <%= fa_icon "eye" %>
+      <% end %>
+    </div>
+    <div class="col-1">
       <%= button_to edit_admin_cms_transcript_path(item),
         method: "get",
         data: { disable_with: "Loading..." } do
       %>
-      <%= fa_icon "edit" %>
+        <%= fa_icon "edit" %>
       <% end %>
     </div>
     <div class="col-1">
