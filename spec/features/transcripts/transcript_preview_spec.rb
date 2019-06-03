@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.feature 'Transcript Preview', type: :feature do
+RSpec.feature 'Transcript Preview' do
   let(:transcript) { create(:transcript, published_at: nil) }
   let!(:my_page) { create(:page, page_type: 'instructions') }
   let!(:public_page) { create(:public_page, page: my_page) }
 
-  describe 'can see an unpublished transcript preview page' do
+  describe 'can see an unpublished transcript preview page', js: true do
     context 'as an admin' do
       let(:admin) { create(:user, :admin) }
 
@@ -14,7 +14,7 @@ RSpec.feature 'Transcript Preview', type: :feature do
         visit transcript_path(transcript, preview: true)
       end
 
-      it 'shows the preview page', js: true do
+      it 'shows the preview page' do
         expect(page).to have_text(transcript.title)
         expect(page).to have_current_path(transcript_path(transcript, preview: true))
       end
@@ -28,7 +28,7 @@ RSpec.feature 'Transcript Preview', type: :feature do
         visit transcript_path(transcript, preview: true)
       end
 
-      it 'shows the preview page', js: true do
+      it 'shows the preview page' do
         expect(page).to have_text(transcript.title)
         expect(page).to have_current_path(transcript_path(transcript, preview: true))
       end
@@ -42,7 +42,7 @@ RSpec.feature 'Transcript Preview', type: :feature do
         visit transcript_path(transcript, preview: true)
       end
 
-      it "doesn't show the preview of the unpublished transcript", js: true do
+      it "doesn't show the preview of the unpublished transcript" do
         expect(page).to_not have_text(transcript.title)
         expect(page).to_not have_text('Error 500 Internal server error')
         expect(page).to have_current_path(transcript_path(transcript, preview: true))
