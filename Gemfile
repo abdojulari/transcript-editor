@@ -140,4 +140,3 @@ gem 'formdata'
 gem 'sidekiq'
 gem 'whenever', require: false
 gem "chartkick"
-
