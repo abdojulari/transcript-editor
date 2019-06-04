@@ -32,6 +32,9 @@
     <div class="transcript-header-image" style="background-image: url('<%= transcript.image_url %>')"></div>
   <% } %>
   <div class="metadata">
+    <% if (!transcript.published_at) { %>
+      <h1 class='preview-tag'>[Preview]</h1>
+    <% } %>
     <h1><%= transcript.title %></h1>
     <p class="duration">Institution: <%= transcript.institution.name %></p>
 
