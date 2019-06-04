@@ -31,6 +31,10 @@ class TranscriptsController < ApplicationController
   # GET /transcripts/the-uid
   # GET /transcripts/the-uid.json
   def show
+    if logged_in_user.admin? || logged_in_user.content_editor?
+      @transcript = Transcript.find_by(uid: params[:id])
+    end
+
     respond_to do |format|
       format.html {
         # If this is the Facebook scraper, redirect to a page that includes the Open Graph meta tags.

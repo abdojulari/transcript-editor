@@ -2,7 +2,9 @@ json.extract! @transcript, :id, :uid, :title, :description, :url, :audio_url, :i
 :audio_item_url_title,
 :image_item_url_title
 
-json.transcript_status @transcript.transcript_status, :id, :name, :progress, :description
+unless @transcript.transcript_status.nil?
+  json.transcript_status @transcript.transcript_status, :id, :name, :progress, :description
+end
 
 collection = @transcript.collection
 
@@ -28,5 +30,7 @@ unless @user_role.nil?
   json.user_role @user_role, :id, :name, :hiearchy
 end
 
-json.conventions @transcription_conventions, :convention_key, :convention_text, :example
+unless @transcription_conventions.nil?
+  json.conventions @transcription_conventions, :convention_key, :convention_text, :example
+end
 json.instructions @instructions, :content
