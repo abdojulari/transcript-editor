@@ -172,3 +172,19 @@
     }
   }
 }
+
+.transcript-file-upload {
+  margin-bottom: 100px;
+  margin-right: 20px;
+  overflow: scroll;
+
+  .preview-container {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+  }
+
+  .actions {
+    margin-top: 10px;
+  }
+}

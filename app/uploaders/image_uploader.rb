@@ -86,4 +86,22 @@ class ImageUploader < CarrierWave::Uploader::Base
   # def scale(width, height)
   #   # do something
   # end
+
+  version :cropped_thumb do
+    process :crop
+    resize_to_fit(100, 100)
+  end
+
+  def crop
+    if model.crop_x.present?
+      resize_to_limit(100, 100)
+      manipulate! do |img|
+        x = model.crop_x.to_i
+        y = model.crop_y.to_i
+        w = model.crop_w.to_i
+        h = model.crop_h.to_i
+        img.crop!(x, y, w, h)
+      end
+    end
+  end
 end

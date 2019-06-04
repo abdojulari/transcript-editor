@@ -10,8 +10,12 @@ class Admin::Cms::TranscriptsController < AdminController
     @transcript = Transcript.new(transcript_params)
 
     if @transcript.save
-      flash[:notice] = "The new transcript has been saved."
-      redirect_to admin_cms_collection_path(@transcript.collection)
+      if params[:transcript][:image].present?
+        render :crop
+      else
+        flash[:notice] = "The new transcript has been saved."
+        redirect_to admin_cms_collection_path(@transcript.collection)
+      end
     else
       flash[:errors] = "The new transcript could not be saved."
       render :new, status: :unprocessable_entity
@@ -22,8 +26,12 @@ class Admin::Cms::TranscriptsController < AdminController
 
   def update
     if @transcript.update(transcript_params)
-      flash[:notice] = "The transcript updates have been saved."
-      redirect_to admin_cms_collection_path(@transcript.collection)
+      if params[:transcript][:image].present?
+        render :crop
+      else
+        flash[:notice] = "The transcript updates have been saved."
+        redirect_to admin_cms_collection_path(@transcript.collection)
+      end
     else
       flash[:errors] = "The transcript updates could not be saved."
       render :edit, status: :unprocessable_entity
@@ -93,7 +101,8 @@ class Admin::Cms::TranscriptsController < AdminController
       :notes, :vendor_id, :collection_id, :speakers,
       :publish, :audio_item_url_title,
       :image_item_url_title,
-      :transcript_type
+      :transcript_type,
+      :crop_x, :crop_y, :crop_w, :crop_h
     ).merge(
       project_uid: ENV["PROJECT_ID"],
     )

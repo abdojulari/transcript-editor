@@ -82,26 +82,11 @@
       <div class="form-group">
         <%= f.label 'Image file', for: 'transcript_image' %>
 
-        <div class="form-control">
-          <div class="image-section">
-            <% if @transcript.image.present? %>
-              <h1>Crop Image</h1>
-              <%= image_tag @transcript.image_url(:thumb), id: "cropbox" %>
-              <h4>Preview</h4>
-              <div style="width:100px; height:100px; overflow:hidden">
-                <%= image_tag @transcript.image_url(:thumb), :id => "preview" %>
-              </div>
-              <%= form_for @transcript do |f| %>
-                <% %w[x y w h].each do |attribute| %>
-                  <%= f.hidden_field "crop_#{attribute}" %>
-                <% end %>
-                <div class="actions">
-                  <%= f.submit "Crop" %>
-                </div>
-              <% end %>
-            <% end %>
-          </div>
+        <% if @transcript.image.present? %>
+          <%= image_tag @transcript.image_url(:cropped_thumb) %>
+        <% end %>
 
+        <div class="form-control">
           <%= f.file_field :image, class: "align-bottom" %>
         </div>
       </div>

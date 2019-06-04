@@ -46,15 +46,23 @@
       <div id="main" class="body">
         <div class="container-fluid">
           <%= yield :cms_heading %>
-          <div class="row">
-            <div class="col-md-2">
-              <%= yield :side_pane %>
+          <% if controller_name == 'transcripts' && (action_name == 'update' || action_name == 'create') %>
+            <div class="row">
+              <div class="col-md-12">
+                <%= yield %>
+              </div>
             </div>
-            <div class="col-md-10">
-              <%= render 'layouts/flash_notice' %>
-              <%= yield %>
+          <% else %>
+            <div class="row">
+              <div class="col-md-2">
+                <%= yield :side_pane %>
+              </div>
+              <div class="col-md-10">
+                <%= render 'layouts/flash_notice' %>
+                <%= yield %>
+              </div>
             </div>
-          </div>
+          <% end %>
         </div>
       </div>
     </div>

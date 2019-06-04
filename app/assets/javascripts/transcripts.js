@@ -24,12 +24,9 @@ ImageCrop = (function() {
   function ImageCrop() {
     this.updatePreview = bind(this.updatePreview, this);
     this.update = bind(this.update, this);
-    var height, width;
-    width = parseInt($('#cropbox').width());
-    height = parseInt($('#cropbox').height());
     $('#cropbox').Jcrop({
-      aspectRatio: 1,
-      setSelect: [0, 0, width, height],
+      allowResize: false,
+      setSelect: [0, 0, 600, 600],
       onSelect: this.update,
       onChange: this.update
     });
