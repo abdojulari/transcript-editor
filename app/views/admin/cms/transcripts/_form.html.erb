@@ -81,13 +81,16 @@
 
       <div class="form-group">
         <%= f.label 'Image file', for: 'transcript_image' %>
+        <div class="alert-warning mb-2" role="alert">
+          When uploading a new image you will always be asked to crop it after clicking save.
+        </div>
 
         <% if @transcript.image.present? %>
           <%= image_tag @transcript.image_url(:cropped_thumb) %>
         <% end %>
 
         <div class="form-control">
-          <%= f.file_field :image, class: "align-bottom" %>
+          <%= f.file_field :image, class: "align-bottom" %> <%= check_box_tag "transcript[image_crop]" %> Recrop original image
         </div>
       </div>
 

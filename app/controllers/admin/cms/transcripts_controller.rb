@@ -10,7 +10,7 @@ class Admin::Cms::TranscriptsController < AdminController
     @transcript = Transcript.new(transcript_params)
 
     if @transcript.save
-      if params[:transcript][:image].present?
+      if params[:transcript][:image].present? || params[:transcript][:image_crop].present?
         render :crop
       else
         flash[:notice] = "The new transcript has been saved."
@@ -26,7 +26,7 @@ class Admin::Cms::TranscriptsController < AdminController
 
   def update
     if @transcript.update(transcript_params)
-      if params[:transcript][:image].present?
+      if params[:transcript][:image].present? || params[:transcript][:image_crop].present?
         render :crop
       else
         flash[:notice] = "The transcript updates have been saved."
