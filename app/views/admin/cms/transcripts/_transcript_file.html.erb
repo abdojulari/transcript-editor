@@ -1,33 +1,34 @@
 <div class="row transcript-file-upload">
   <div class="col-md-12">
     <% if transcript.image.present? %>
-      <h4>
+      <h5>
         Current Image
-      </h4>
+      </h5>
       <div class="form-group dotted-border-container">
         <%= image_tag transcript.image_url(:cropped_thumb), id:"cropbox", src:"#" %>
       </div>
     <% else %>
-      <img src="#" id="cropbox">
+      <img id="cropbox">
     <% end %>
   </div>
 </div>
 <div class="row">
   <div class="col-md-12">
-    <h4>
+    <h5>
       Upload a New Image
-    </h4>
-    <p>
-      Your transcript image will be resized to 2000x900 pixels, so please make sure your image has the necessary dimensions.<br>
-      You are viewing a scalled down cropping version of 1000x450 as a preview.
-    </p>
-    <div class="form-group">
-      <div class="form-group">
-        <%= f.file_field :image, class:"btn btn-small btn-primary btn-inverse upload-image", type:'file', onchange:"readURL(this);" %>
-        <button type="button" name="button" class="btn btn-small btn-success recrop-original" data-original-url="<%= transcript.image_url %>">
+    </h5>
+    <div class="alert-warning mb-2" role="alert">
+      Your transcript image will be resized to 2000x900 pixels, so please make sure your image has the necessary dimensions.
+    </div>
+
+    <div class="form-group actions">
+      <%= f.file_field :image, class:"btn btn-primary btn-inverse upload-image", type:'file' %>
+
+      <% if transcript.image.present? %>
+        <button type="button" name="button" class="btn btn-success recrop-original" data-original-url="<%= transcript.image_url %>">
           Re-crop original image
         </button>
-      </div>
+      <% end %>
     </div>
   </div>
 </div>

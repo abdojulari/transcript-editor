@@ -12,23 +12,47 @@ $(document).ready(function(){
   }
   toggleTranscriptUpload()
 
-  $('.recrop-original').on('click', function(){
+  $('.upload-image').on('change', function() {
+    destroyImageCropObject();
+    var input = this;
+
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        $('#cropbox').attr('src', e.target.result);
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+    createImageCropObject()
+  });
+
+  $('.recrop-original').on('click', function() {
+    destroyImageCropObject();
+    $('.upload-image').val('');
+    var url = $(this).data('original-url');
+    $('#cropbox').attr('src', url);
+    createImageCropObject();
+  });
+
+  function destroyImageCropObject() {
     jcropAPI = $('#cropbox').data('Jcrop');
+
     if (jcropAPI) {
       jcropAPI.destroy();
     }
-    var url = $(this).data('original-url');
-    $('#cropbox').attr('src', url);
+  };
 
+  function createImageCropObject() {
     window.setTimeout(function() {
       new ImageCrop
     }, 100 );
-  })
-})
+  };
+});
 
 var ImageCrop,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  jcropAPI = $('#cropbox').data('Jcrop');
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
 ImageCrop = (function() {
   function ImageCrop() {
@@ -46,26 +70,6 @@ ImageCrop = (function() {
     $('#transcript_crop_y').val(coords.y);
     $('#transcript_crop_w').val(coords.w);
     $('#transcript_crop_h').val(coords.h);
-    console.log(coords)
   };
-
   return ImageCrop;
 })();
-
-function readURL(input) {
-  if (jcropAPI) {
-    jcropAPI.destroy();
-  }
-  if (input.files && input.files[0]) {
-    var reader = new FileReader();
-
-    reader.onload = function (e) {
-      $('#cropbox').attr('src', e.target.result);
-    };
-
-    reader.readAsDataURL(input.files[0]);
-  }
-  window.setTimeout(function() {
-    new ImageCrop
-  }, 100 );
-}

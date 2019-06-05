@@ -1,5 +1,5 @@
 <% @transcript = @transcript.decorate %>
-<div class="row">
+<div class="row transcript-form">
   <div class="col-12">
     <%= form_for [:admin, :cms, @transcript], html: { multipart: true } do |f| %>
       <%= render partial: 'layouts/cms_errors', locals: { object: @transcript } %>
@@ -81,11 +81,7 @@
 
       <div class="form-group">
         <%= f.label 'Image file', for: 'transcript_image' %>
-        <div class="alert-warning mb-2" role="alert">
-          When uploading a new image you will always be asked to crop it after clicking save.
-        </div>
-
-        <%= render 'transcript_file', f: f, transcript: @transcript %> 
+        <%= render 'transcript_file', f: f, transcript: @transcript %>
       </div>
 
       <div class="form-group">

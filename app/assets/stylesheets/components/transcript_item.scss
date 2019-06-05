@@ -173,12 +173,18 @@
   }
 }
 
-.transcript-file-upload {
-  margin-bottom: 100px;
-  margin-right: 20px;
-  overflow: scroll;
+.transcript-form {
+  .transcript-file-upload {
+    overflow: scroll;
 
-  #cropbox {
-    height: auto;
+    #cropbox {
+      height: auto;
+    }
+  }
+
+  .actions {
+    .recrop-original {
+      padding: 9px;
+    }
   }
 }

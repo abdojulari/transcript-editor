@@ -8,7 +8,6 @@ class Admin::Cms::TranscriptsController < AdminController
 
   def create
     @transcript = Transcript.new(transcript_params)
-    # update_coords
     if @transcript.save
       flash[:notice] = "The new transcript has been saved."
       redirect_to admin_cms_collection_path(@transcript.collection)
@@ -21,7 +20,7 @@ class Admin::Cms::TranscriptsController < AdminController
   def edit; end
 
   def update
-    update_coords
+    update_image_coords
     if @transcript.update(transcript_params)
       flash[:notice] = "The transcript updates have been saved."
       redirect_to admin_cms_collection_path(@transcript.collection)
@@ -111,7 +110,7 @@ class Admin::Cms::TranscriptsController < AdminController
     imp.process_single(@transcript.id)
   end
 
-  def update_coords
+  def update_image_coords
     @transcript.crop_x = params[:transcript][:crop_x]
     @transcript.crop_y = params[:transcript][:crop_y]
     @transcript.crop_h = params[:transcript][:crop_h]
