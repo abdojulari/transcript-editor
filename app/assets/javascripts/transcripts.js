@@ -26,7 +26,7 @@ ImageCrop = (function() {
     this.update = bind(this.update, this);
     $('#cropbox').Jcrop({
       allowResize: false,
-      setSelect: [0, 0, 600, 600],
+      setSelect: [0, 0, 2000, 900],
       onSelect: this.update,
       onChange: this.update
     });
@@ -42,8 +42,8 @@ ImageCrop = (function() {
 
   ImageCrop.prototype.updatePreview = function(coords) {
     var rx, ry;
-    rx = 100 / coords.w;
-    ry = 100 / coords.h;
+    rx = 2000 / coords.w;
+    ry = 900 / coords.h;
     return $('#preview').css({
       width: Math.round(rx * $('#cropbox').width()) + 'px',
       height: Math.round(ry * $('#cropbox').height()) + 'px',
