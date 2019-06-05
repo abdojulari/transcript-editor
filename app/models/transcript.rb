@@ -53,7 +53,7 @@ class Transcript < ApplicationRecord
   end
 
   def transcription_conventions
-    collection.institution.transcription_conventions
+    collection&.institution&.transcription_conventions
   end
 
   # speakers getters and setters used to manage the transcript_speakers
