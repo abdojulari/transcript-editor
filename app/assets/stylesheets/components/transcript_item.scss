@@ -178,13 +178,7 @@
   margin-right: 20px;
   overflow: scroll;
 
-  .preview-container {
-    width: 2000px;
-    height: 900px;
-    overflow: hidden;
-  }
-
-  .actions {
-    margin-top: 10px;
+  #cropbox {
+    height: auto;
   }
 }

@@ -8,10 +8,10 @@ class Transcript < ApplicationRecord
   mount_uploader :script, TranscriptUploader
 
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
-  after_update :crop_image
+  after_commit :crop_image
 
   def crop_image
-    image.recreate_versions! if crop_x.present?
+    image.recreate_versions! if (!image_changed? && crop_x.present?)
   end
 
   include PgSearch

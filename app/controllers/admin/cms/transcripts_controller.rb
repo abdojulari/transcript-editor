@@ -8,14 +8,10 @@ class Admin::Cms::TranscriptsController < AdminController
 
   def create
     @transcript = Transcript.new(transcript_params)
-
+    # update_coords
     if @transcript.save
-      if params[:transcript][:image].present? || params[:transcript][:image_crop].present?
-        render :crop
-      else
-        flash[:notice] = "The new transcript has been saved."
-        redirect_to admin_cms_collection_path(@transcript.collection)
-      end
+      flash[:notice] = "The new transcript has been saved."
+      redirect_to admin_cms_collection_path(@transcript.collection)
     else
       flash[:errors] = "The new transcript could not be saved."
       render :new, status: :unprocessable_entity
@@ -25,13 +21,10 @@ class Admin::Cms::TranscriptsController < AdminController
   def edit; end
 
   def update
+    update_coords
     if @transcript.update(transcript_params)
-      if params[:transcript][:image].present? || params[:transcript][:image_crop].present?
-        render :crop
-      else
-        flash[:notice] = "The transcript updates have been saved."
-        redirect_to admin_cms_collection_path(@transcript.collection)
-      end
+      flash[:notice] = "The transcript updates have been saved."
+      redirect_to admin_cms_collection_path(@transcript.collection)
     else
       flash[:errors] = "The transcript updates could not be saved."
       render :edit, status: :unprocessable_entity
@@ -96,13 +89,13 @@ class Admin::Cms::TranscriptsController < AdminController
       :uid, :title,
       :description, :url,
       :audio, :script,
+      :crop_x, :crop_y, :crop_w, :crop_h,
       :image, :image_caption,
       :image_catalogue_url,
       :notes, :vendor_id, :collection_id, :speakers,
       :publish, :audio_item_url_title,
       :image_item_url_title,
-      :transcript_type,
-      :crop_x, :crop_y, :crop_w, :crop_h
+      :transcript_type
     ).merge(
       project_uid: ENV["PROJECT_ID"],
     )
@@ -116,5 +109,12 @@ class Admin::Cms::TranscriptsController < AdminController
   def ingest_transcript
     imp = VoiceBase::ImportSrtTranscripts.new(project_id: ENV["PROJECT_ID"])
     imp.process_single(@transcript.id)
+  end
+
+  def update_coords
+    @transcript.crop_x = params[:transcript][:crop_x]
+    @transcript.crop_y = params[:transcript][:crop_y]
+    @transcript.crop_h = params[:transcript][:crop_h]
+    @transcript.crop_w = params[:transcript][:crop_w]
   end
 end

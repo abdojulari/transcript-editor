@@ -11,18 +11,27 @@ $(document).ready(function(){
     }
   }
   toggleTranscriptUpload()
+
+  $('.recrop-original').on('click', function(){
+    jcropAPI = $('#cropbox').data('Jcrop');
+    if (jcropAPI) {
+      jcropAPI.destroy();
+    }
+    var url = $(this).data('original-url');
+    $('#cropbox').attr('src', url);
+
+    window.setTimeout(function() {
+      new ImageCrop
+    }, 100 );
+  })
 })
 
 var ImageCrop,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-
-$(function() {
-  return new ImageCrop();
-});
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  jcropAPI = $('#cropbox').data('Jcrop');
 
 ImageCrop = (function() {
   function ImageCrop() {
-    this.updatePreview = bind(this.updatePreview, this);
     this.update = bind(this.update, this);
     $('#cropbox').Jcrop({
       allowResize: false,
@@ -37,21 +46,26 @@ ImageCrop = (function() {
     $('#transcript_crop_y').val(coords.y);
     $('#transcript_crop_w').val(coords.w);
     $('#transcript_crop_h').val(coords.h);
-    return this.updatePreview(coords);
-  };
-
-  ImageCrop.prototype.updatePreview = function(coords) {
-    var rx, ry;
-    rx = 2000 / coords.w;
-    ry = 900 / coords.h;
-    return $('#preview').css({
-      width: Math.round(rx * $('#cropbox').width()) + 'px',
-      height: Math.round(ry * $('#cropbox').height()) + 'px',
-      marginLeft: '-' + Math.round(rx * coords.x) + 'px',
-      marginTop: '-' + Math.round(ry * coords.y) + 'px'
-    });
+    console.log(coords)
   };
 
   return ImageCrop;
-
 })();
+
+function readURL(input) {
+  if (jcropAPI) {
+    jcropAPI.destroy();
+  }
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      $('#cropbox').attr('src', e.target.result);
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  }
+  window.setTimeout(function() {
+    new ImageCrop
+  }, 100 );
+}

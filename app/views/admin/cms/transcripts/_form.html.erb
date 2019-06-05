@@ -85,13 +85,7 @@
           When uploading a new image you will always be asked to crop it after clicking save.
         </div>
 
-        <% if @transcript.image.present? %>
-          <%= image_tag @transcript.image_url(:cropped_thumb) %>
-        <% end %>
-
-        <div class="form-control">
-          <%= f.file_field :image, class: "align-bottom" %> <%= check_box_tag "transcript[image_crop]" %> Recrop original image
-        </div>
+        <%= render 'transcript_file', f: f, transcript: @transcript %> 
       </div>
 
       <div class="form-group">
