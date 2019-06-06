@@ -1,5 +1,5 @@
 <% @transcript = @transcript.decorate %>
-<div class="row">
+<div class="row transcript-form">
   <div class="col-12">
     <%= form_for [:admin, :cms, @transcript], html: { multipart: true } do |f| %>
       <%= render partial: 'layouts/cms_errors', locals: { object: @transcript } %>
@@ -81,13 +81,7 @@
 
       <div class="form-group">
         <%= f.label 'Image file', for: 'transcript_image' %>
-
-        <div class="form-control">
-          <% if @transcript.image.present? %>
-            <%= image_tag(@transcript.image_url(:thumb)) %>
-          <% end %>
-          <%= f.file_field :image, class: "align-bottom" %>
-        </div>
+        <%= render 'transcript_file', f: f, transcript: @transcript %>
       </div>
 
       <div class="form-group">

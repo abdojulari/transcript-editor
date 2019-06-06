@@ -12,4 +12,4 @@
 //= require Chart.bundle
 //= require chartkick
 //= require speaker_autocomplete
-
+//= require jquery.Jcrop.min

@@ -42,8 +42,6 @@ class ImageUploader < CarrierWave::Uploader::Base
     process resize_to_fit: [100, 100]
   end
 
-
-
   # Add a white list of extensions which are allowed to be uploaded.
   def extension_whitelist
     %w(jpg jpeg gif png)
@@ -86,4 +84,20 @@ class ImageUploader < CarrierWave::Uploader::Base
   # def scale(width, height)
   #   # do something
   # end
+
+  version :cropped_thumb do
+    process :crop
+  end
+
+  def crop
+    if model.class.to_s == 'Transcript' && model.crop_x.present?
+      manipulate! do |img|
+        x = model.crop_x.to_i
+        y = model.crop_y.to_i
+        w = model.crop_w.to_i
+        h = model.crop_h.to_i
+        img.crop([[w, h].join('x'),[x, y].join('+')].join('+'))
+      end
+    end
+  end
 end

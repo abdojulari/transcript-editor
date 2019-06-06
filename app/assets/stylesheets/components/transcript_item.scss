@@ -172,3 +172,19 @@
     }
   }
 }
+
+.transcript-form {
+  .transcript-file-upload {
+    overflow: scroll;
+
+    #cropbox {
+      height: auto;
+    }
+  }
+
+  .actions {
+    .recrop-original {
+      padding: 9px;
+    }
+  }
+}

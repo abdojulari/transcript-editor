@@ -21,6 +21,7 @@ class Admin::Cms::TranscriptsController < AdminController
   def edit; end
 
   def update
+    update_image_coords
     if @transcript.update(transcript_params)
       flash[:notice] = "The transcript updates have been saved."
       redirect_to admin_cms_collection_path(@transcript.collection)
@@ -88,6 +89,7 @@ class Admin::Cms::TranscriptsController < AdminController
       :uid, :title,
       :description, :url,
       :audio, :script,
+      :crop_x, :crop_y, :crop_w, :crop_h,
       :image, :image_caption,
       :image_catalogue_url,
       :notes, :vendor_id, :collection_id, :speakers,
@@ -107,5 +109,12 @@ class Admin::Cms::TranscriptsController < AdminController
   def ingest_transcript
     imp = VoiceBase::ImportSrtTranscripts.new(project_id: ENV["PROJECT_ID"])
     imp.process_single(@transcript.id)
+  end
+
+  def update_image_coords
+    @transcript.crop_x = params[:transcript][:crop_x]
+    @transcript.crop_y = params[:transcript][:crop_y]
+    @transcript.crop_h = params[:transcript][:crop_h]
+    @transcript.crop_w = params[:transcript][:crop_w]
   end
 end

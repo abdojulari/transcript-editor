@@ -55,6 +55,7 @@
 /node_modules
 
 /public/collections/
+/public/collections_v2/
 
 /project/nsw-state-library-amplify/assets/img/Landing page/
 /public/nsw-state-library-amplify/assets/img/Landing page/
