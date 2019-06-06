@@ -87,7 +87,7 @@ ImageCrop = (function() {
 
   ImageCrop.prototype.update = function(coords) {
     // Ensuring the right coordinates are being set by calculating the differences
-    // between the original image size and the currently scaled (responisve) one.
+    // between the original image size and the currently scaled (responsive) one.
     var image = $('#cropbox');
     var oldWidth = parseInt(image[0].naturalWidth);
     var oldHeight = parseInt(image[0].naturalHeight);
