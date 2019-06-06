@@ -4,6 +4,6 @@
 <%= render partial: 'hero_content', locals: { institution: nil, app_config: @app_config }  %>
 <%= render 'sub_hero_content'  %>
 <!-- extended_controls -> sort and search boxes -->
-<%= render partial: 'filters', locals: { extended_controls: true }  %>
+<%= render 'filters', extended_controls: true  %>
 <section id="transcript-results">
 </section>

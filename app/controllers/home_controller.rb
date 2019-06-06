@@ -9,7 +9,7 @@ class HomeController < ApplicationController
 
   def index
     @sort_list = SortList.list
-    @themes = Theme.all
+    @themes = Theme.all.order(name: :asc)
     @collection = Collection.none
   end
 
@@ -17,7 +17,7 @@ class HomeController < ApplicationController
     @selected_collection_id = sort_params[:collection_id].to_i
     @selected_institution_id = select_institution_id
     @transcripts = TranscriptService.search(sort_params)
-    @themes = Theme.all
+    @themes = Theme.all.order(name: :asc)
     @sort_list = SortList.list
   end
 end
