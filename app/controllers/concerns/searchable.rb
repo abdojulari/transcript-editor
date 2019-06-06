@@ -27,9 +27,9 @@ module Searchable
     new_institution = Institution.new(id: 0, name: "All Institutions")
     collection_id = params[:data] && sort_params.fetch(:collection_id)
     @institutions = if collection_id.to_i == 0
-                      Institution.all
+                      Institution.all.order(name: :asc)
                     else
-                      Institution.joins(:collections).
+                      Institution.order(name: :asc).joins(:collections).
                         where("collections.id = ?", collection_id)
                     end.to_a.unshift(new_institution)
   end
