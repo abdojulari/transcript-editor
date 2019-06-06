@@ -59,6 +59,7 @@ ImageCrop = (function() {
     this.update = bind(this.update, this);
     $('#cropbox').Jcrop({
       allowResize: false,
+      allowSelect: false,
       setSelect: [0, 0, 2000, 900],
       onSelect: this.update,
       onChange: this.update
