@@ -91,7 +91,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   def crop
-    if model.crop_x.present?
+    if model.class.to_s == 'Transcript' && model.crop_x.present?
       manipulate! do |img|
         x = model.crop_x.to_i
         y = model.crop_y.to_i
