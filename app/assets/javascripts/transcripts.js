@@ -15,17 +15,33 @@ $(document).ready(function(){
   $('.upload-image').on('change', function() {
     destroyImageCropObject();
     var input = this;
+    var _URL = window.URL || window.webkitURL;
+    var img;
 
     if (input.files && input.files[0]) {
-      var reader = new FileReader();
+      img = new Image();
+      img.src = _URL.createObjectURL(input.files[0]);
 
-      reader.onload = function(e) {
-        $('#cropbox').attr('src', e.target.result);
-      };
+      // Adds a preview of the uploaded image if its dimensions are equal or above 1000x450.
+      window.setTimeout(function() {
+        var width = img.width;
+        var height = img.height;
 
-      reader.readAsDataURL(input.files[0]);
+        if (width >= 1000 && height >= 450) {
+          var reader = new FileReader();
+
+          reader.onload = function(e) {
+            $('#cropbox').attr('src', e.target.result);
+          };
+
+          reader.readAsDataURL(input.files[0]);
+          createImageCropObject();
+        } else {
+          $('.upload-image').val('');
+          alert('Please make sure your image dimensions are at least 1000x450.');
+        }
+      }, 100 );
     }
-    createImageCropObject()
   });
 
   $('.recrop-original').on('click', function() {
