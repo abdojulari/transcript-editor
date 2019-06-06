@@ -8,6 +8,7 @@ class Admin::Cms::TranscriptsController < AdminController
 
   def create
     @transcript = Transcript.new(transcript_params)
+
     if @transcript.save
       flash[:notice] = "The new transcript has been saved."
       redirect_to admin_cms_collection_path(@transcript.collection)
