@@ -57,20 +57,31 @@ var ImageCrop,
 ImageCrop = (function() {
   function ImageCrop() {
     this.update = bind(this.update, this);
-    $('#cropbox').Jcrop({
-      allowResize: false,
-      allowSelect: false,
-      setSelect: [0, 0, 2000, 900],
+    var image = $('#cropbox');
+
+    var width = parseInt(image.width());
+    var height = parseInt(image.height());
+    image.Jcrop({
+      aspectRatio: 20 / 9,
+      setSelect: [0, 0, width, height],
       onSelect: this.update,
       onChange: this.update
     });
   }
 
   ImageCrop.prototype.update = function(coords) {
-    $('#transcript_crop_x').val(coords.x);
-    $('#transcript_crop_y').val(coords.y);
-    $('#transcript_crop_w').val(coords.w);
-    $('#transcript_crop_h').val(coords.h);
+    // Ensuring the right coordinates are being set by calculating the differences
+    // between the original image size and the currently scaled (responisve) one.
+    var image = $('#cropbox');
+    var oldWidth = parseInt(image[0].naturalWidth);
+    var oldHeight = parseInt(image[0].naturalHeight);
+    var newWidth = parseInt(image.width());
+    var newHeight = parseInt(image.height());
+
+    $('#transcript_crop_x').val(coords.x * (oldWidth / newWidth));
+    $('#transcript_crop_y').val(coords.y * (oldHeight / newHeight));
+    $('#transcript_crop_w').val(coords.w * (oldWidth / newWidth));
+    $('#transcript_crop_h').val(coords.h * (oldHeight / newHeight));
   };
   return ImageCrop;
 })();
