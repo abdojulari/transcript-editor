@@ -2,7 +2,7 @@ lock '3.11.0'
 
 set :application, 'nsw-state-library-amplify'
 # set :scm, :git
-set :repo_url, 'git@github.com:slnsw/amplify.git'
+set :repo_url, 'https://github.com/slnsw/amplify.git'
 set :branch, :develop
 set :deploy_to, '/home/deploy/nsw-state-library-amplify'
 set :pty, false
