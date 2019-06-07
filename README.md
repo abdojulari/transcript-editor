@@ -49,6 +49,11 @@ If installing on, say, Ubuntu, the following system packages are required.
 * `libcurl4-openssl-dev` (or another `libcurl4-*-dev` package)
 * `libpq-dev`
 
+If installing on macOS, try installing XCode and running the following before
+you do a `bundle install`:
+
+`xcode-select --install`
+
 Once everything is installed, clone this repository
 
 ```
