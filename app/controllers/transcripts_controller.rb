@@ -107,11 +107,7 @@ class TranscriptsController < ApplicationController
     end
 
     def set_transcript_for_show
-      @transcript = if logged_in_user && (logged_in_user.admin? || logged_in_user.content_editor?)
-                      Transcript.find_by(uid: params[:id])
-                    else
-                      TranscriptService.find_by_uid(params[:id])
-                    end
+      @transcript = TranscriptService.find_by_uid_for_admin(params[:id], logged_in_user)
     end
 
     def transcript_params
