@@ -8,7 +8,7 @@ class Transcript < ApplicationRecord
   mount_uploader :script, TranscriptUploader
 
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
-  after_commit :crop_image
+  after_validation :crop_image, on: :update
 
   def crop_image
     image.recreate_versions! if (!image_changed? && crop_x.present?)
