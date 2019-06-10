@@ -569,4 +569,8 @@ class Transcript < ApplicationRecord
       }
     end
   end
+
+  def image_cropped_thumb_url
+    image_url(:cropped_thumb)
+  end
 end

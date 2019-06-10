@@ -28,8 +28,8 @@
 <% } %>
 
 <div class="transcript-header<%= transcript.image_url ? ' has-image' : '' %>" role="banner">
-  <% if (transcript.image_url) { %>
-    <div class="transcript-header-image" style="background-image: url('<%= transcript.image_url %>')"></div>
+  <% if (transcript.image_cropped_thumb_url) { %>
+    <div class="transcript-header-image" style="background-image: url('<%= transcript.image_cropped_thumb_url %>')"></div>
   <% } %>
   <div class="metadata">
     <% if (!transcript.published_at) { %>
