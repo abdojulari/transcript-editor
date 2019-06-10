@@ -7,7 +7,6 @@ class Transcript < ApplicationRecord
   mount_uploader :audio, AudioUploader
   mount_uploader :script, TranscriptUploader
 
-  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
   after_validation :crop_image, on: :update
 
   def crop_image
