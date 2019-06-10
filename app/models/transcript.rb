@@ -10,7 +10,7 @@ class Transcript < ApplicationRecord
   after_validation :crop_image, on: :update
 
   def crop_image
-    image.recreate_versions! if (!image_changed? && crop_x.present?)
+    image.recreate_versions! if (!image_changed? && crop_x_changed?)
   end
 
   include PgSearch

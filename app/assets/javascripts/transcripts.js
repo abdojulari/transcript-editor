@@ -83,11 +83,11 @@ ImageCrop = (function() {
     // cropping coordinations so the cropping can be easily re-adjusted.
     var cropX = Math.round((parseInt(image.data('crop-x')) / (oldWidth / newWidth))) || 0;
     var cropY = Math.round((parseInt(image.data('crop-y')) / (oldHeight / newHeight))) || 0;
-    var width = Math.round(cropX + (parseInt(image.data('crop-w')) / (oldWidth / newWidth))) || (newWidth / 2);
-    var height = Math.round(cropY + (parseInt(image.data('crop-h')) / (oldHeight / newHeight))) || (newHeight / 2);
+    var cropW = Math.round(cropX + (parseInt(image.data('crop-w')) / (oldWidth / newWidth))) || (newWidth / 2);
+    var cropH = Math.round(cropY + (parseInt(image.data('crop-h')) / (oldHeight / newHeight))) || (newHeight / 2);
     image.Jcrop({
       aspectRatio: 20 / 9,
-      setSelect: [cropX, cropY, width, height],
+      setSelect: [cropX, cropY, cropW, cropH],
       onSelect: this.update,
       onChange: this.update
     });
