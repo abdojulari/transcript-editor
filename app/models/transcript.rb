@@ -570,6 +570,6 @@ class Transcript < ApplicationRecord
   end
 
   def image_cropped_thumb_url
-    image_url(:cropped_thumb)
+    image&.cropped_thumb&.file&.exists? ? image_url(:cropped_thumb) : image_url
   end
 end
