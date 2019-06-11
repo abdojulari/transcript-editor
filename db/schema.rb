@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_05_005838) do
+ActiveRecord::Schema.define(version: 2019_06_10_192122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -296,6 +296,10 @@ ActiveRecord::Schema.define(version: 2018_10_05_005838) do
     t.string "voicebase_status"
     t.datetime "voicebase_processing_completed_at"
     t.datetime "pickedup_for_voicebase_processing_at"
+    t.integer "crop_x"
+    t.integer "crop_y"
+    t.integer "crop_w"
+    t.integer "crop_h"
     t.index ["collection_id"], name: "index_transcripts_on_collection_id"
     t.index ["duration"], name: "index_transcripts_on_duration"
     t.index ["project_uid"], name: "index_transcripts_on_project_uid"

@@ -7,11 +7,10 @@ class Transcript < ApplicationRecord
   mount_uploader :audio, AudioUploader
   mount_uploader :script, TranscriptUploader
 
-  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
-  after_commit :crop_image
+  after_validation :crop_image, on: :update
 
   def crop_image
-    image.recreate_versions! if (!image_changed? && crop_x.present?)
+    image.recreate_versions! if (!image_changed? && crop_x_changed?)
   end
 
   include PgSearch
@@ -568,5 +567,9 @@ class Transcript < ApplicationRecord
         script: script.size
       }
     end
+  end
+
+  def image_cropped_thumb_url
+    image_url(:cropped_thumb)
   end
 end

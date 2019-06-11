@@ -74,12 +74,20 @@ ImageCrop = (function() {
   function ImageCrop() {
     this.update = bind(this.update, this);
     var image = $('#cropbox');
+    var oldWidth = parseInt(image[0].naturalWidth);
+    var oldHeight = parseInt(image[0].naturalHeight);
+    var newWidth = parseInt(image.width());
+    var newHeight = parseInt(image.height());
 
-    var width = parseInt(image.width());
-    var height = parseInt(image.height());
+    // When re-cropping the original image, sets the cropping selection on the current
+    // cropping coordinations so the cropping can be easily re-adjusted.
+    var cropX = Math.round((parseInt(image.data('crop-x')) / (oldWidth / newWidth))) || 0;
+    var cropY = Math.round((parseInt(image.data('crop-y')) / (oldHeight / newHeight))) || 0;
+    var cropW = Math.round(cropX + (parseInt(image.data('crop-w')) / (oldWidth / newWidth))) || (newWidth / 2);
+    var cropH = Math.round(cropY + (parseInt(image.data('crop-h')) / (oldHeight / newHeight))) || (newHeight / 2);
     image.Jcrop({
       aspectRatio: 20 / 9,
-      setSelect: [0, 0, width, height],
+      setSelect: [cropX, cropY, cropW, cropH],
       onSelect: this.update,
       onChange: this.update
     });
