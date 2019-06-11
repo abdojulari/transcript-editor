@@ -1,4 +1,5 @@
 <h3>Total number of items: <%= total[:total] %></h3>
+<p>Total duration of items: <%= prettify_duration(duration) %></p>
 <table class="table table table-striped">
   <tbody>
     <% stats.each do |key, val| %>

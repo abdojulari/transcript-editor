@@ -20,6 +20,7 @@ class Admin::SummaryController < AdminController
 
     completion_stats = service.completion_stats(institution_id, collection_id)
     @total = completion_stats.extract!(:total)
+    @duration = completion_stats.extract!(:duration)
     @stats = completion_stats
 
     @disk_usage = service.disk_usage(institution_id, collection_id)
