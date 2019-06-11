@@ -6,8 +6,8 @@ class TranscriptsController < ApplicationController
   include ActionController::MimeResponds
   include IndexTemplate
 
-  before_action :set_transcript, only: [:show, :update, :destroy, :facebook_share]
-  before_action :set_transcript_if_admin, only: [:show]
+  before_action :set_transcript, only: [:update, :destroy, :facebook_share]
+  before_action :set_transcript_for_show, only: [:show]
 
   # GET /transcripts.json
   def index
@@ -106,11 +106,8 @@ class TranscriptsController < ApplicationController
       @transcript = TranscriptService.find_by_uid(params[:id])
     end
 
-    def set_transcript_if_admin
-      return if @transcript
-      return unless logged_in_user
-      return unless logged_in_user.admin? || logged_in_user.content_editor?
-      @transcript = Transcript.find_by(uid: params[:id])
+    def set_transcript_for_show
+      @transcript = TranscriptService.find_by_uid_for_admin(params[:id], logged_in_user)
     end
 
     def transcript_params

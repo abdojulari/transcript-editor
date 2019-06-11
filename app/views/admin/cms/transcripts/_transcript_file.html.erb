@@ -5,7 +5,7 @@
         Current Image
       </h5>
       <div class="form-group dotted-border-container">
-        <%= image_tag transcript.image_url(:cropped_thumb), class: 'img-fluid', id:"cropbox", src:"#" %>
+        <%= image_tag transcript.image_url(:cropped_thumb), class: 'img-fluid', id:"cropbox", src:"#", data: { crop_x: transcript.crop_x, crop_y: transcript.crop_y, crop_w: transcript.crop_w, crop_h: transcript.crop_h } %>
       </div>
     <% else %>
       <img id="cropbox">
