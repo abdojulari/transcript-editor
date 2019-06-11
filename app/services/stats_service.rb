@@ -30,6 +30,7 @@ class StatsService
       completed: (scope.completed.count.to_f / total_count.to_f) * 100,
       in_review: (scope.reviewing.count.to_f / total_count.to_f) * 100,
       in_draft: (scope.pending.count.to_f / total_count.to_f) * 100,
+      duration: scope.sum(&:duration)
     }
   end
   # rubocop:enable Metrics/AbcSize

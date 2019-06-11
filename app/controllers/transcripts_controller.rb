@@ -6,7 +6,8 @@ class TranscriptsController < ApplicationController
   include ActionController::MimeResponds
   include IndexTemplate
 
-  before_action :set_transcript, only: [:show, :update, :destroy, :facebook_share]
+  before_action :set_transcript, only: [:update, :destroy, :facebook_share]
+  before_action :set_transcript_for_show, only: [:show]
 
   # GET /transcripts.json
   def index
@@ -31,10 +32,6 @@ class TranscriptsController < ApplicationController
   # GET /transcripts/the-uid
   # GET /transcripts/the-uid.json
   def show
-    if logged_in_user.admin? || logged_in_user.content_editor?
-      @transcript = Transcript.find_by(uid: params[:id])
-    end
-
     respond_to do |format|
       format.html {
         # If this is the Facebook scraper, redirect to a page that includes the Open Graph meta tags.
@@ -107,6 +104,10 @@ class TranscriptsController < ApplicationController
 
     def set_transcript
       @transcript = TranscriptService.find_by_uid(params[:id])
+    end
+
+    def set_transcript_for_show
+      @transcript = TranscriptService.find_by_uid_for_admin(params[:id], logged_in_user)
     end
 
     def transcript_params

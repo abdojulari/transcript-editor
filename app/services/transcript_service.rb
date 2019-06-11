@@ -31,6 +31,14 @@ class TranscriptService
       find_by(uid: uid) || Transcript.new
   end
 
+  def self.find_by_uid_for_admin(uid, user)
+    if user && (user.admin? || user.content_editor?)
+      Transcript.find_by(uid: uid)
+    else
+      self.find_by_uid(uid)
+    end
+  end
+
   private
 
   # rubocop:disable Metrics/MethodLength

@@ -5,7 +5,7 @@
         Current Image
       </h5>
       <div class="form-group dotted-border-container">
-        <%= image_tag transcript.image_url(:cropped_thumb), id:"cropbox", src:"#" %>
+        <%= image_tag transcript.image_cropped_thumb_url, class: 'img-fluid', id:"cropbox", src:"#", data: { crop_x: transcript.crop_x, crop_y: transcript.crop_y, crop_w: transcript.crop_w, crop_h: transcript.crop_h } %>
       </div>
     <% else %>
       <img id="cropbox">
@@ -18,7 +18,7 @@
       Upload a New Image
     </h5>
     <div class="alert-warning mb-2" role="alert">
-      Your transcript image will be resized to 2000x900 pixels, so please make sure your image has the necessary dimensions.
+      Please make sure your image dimensions are at least 1000x450.
     </div>
 
     <div class="form-group actions">

@@ -5,7 +5,7 @@
       <%= publish_icon(item.published?) %>
       <%= item.title %></div>
     <div class="col-2">
-      <%= image_tag(item.image_url(:thumb)) if item.image.url.present? %>
+      <%= image_tag(item.image_cropped_thumb_url, class: 'img-fluid') if item.image.url.present? %>
     </div>
 
     <div class="col-1">
