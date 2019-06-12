@@ -31,16 +31,16 @@
             </div>
           </div>
           <% if transcript.has_started? %>
-          <div class="transcript_item__status">
-            <div class="transcript_item__status-bar edited" style="width: <%= transcript.percent_edited %>%"></div>
-            <div class="transcript_item__status-bar reviewing" style="width: <%= transcript.percent_reviewing %>%"></div>
-            <div class="transcript_item__status-bar completed" style="width: <%= transcript.percent_completed %>%"></div>
-          </div>
-          <div class="transcript_item__status-key">
-            <%= transcript.display_status_edited %>
-            <%= transcript.display_status_reviewing  %>
-            <%= transcript.display_status_consensus  %>
-          </div>
+            <div class="transcript_item__status">
+              <div class="transcript_item__status-bar edited" style="width: <%= transcript.percent_edited %>%"></div>
+              <div class="transcript_item__status-bar reviewing" style="width: <%= transcript.percent_reviewing %>%"></div>
+              <div class="transcript_item__status-bar completed" style="width: <%= transcript.percent_completed %>%"></div>
+            </div>
+            <div class="transcript_item__status-key">
+              <%= transcript.display_status_edited %>
+              <%= transcript.display_status_reviewing  %>
+              <%= transcript.display_status_consensus  %>
+            </div>
           <% end %>
         <% end %>
       <% end %>
