@@ -51,12 +51,27 @@
 
 <header class="container item-headings">
   <h3 class="item-list-title">Items</h3>
+  <label>
+    <input type="checkbox" class="check" id="checkAll"> Select All
+  </label>
   <br/>
   <div class="row item-list-headings">
-    <div class="col-5">Title</div>
+    <div class="col-5">
+      Title
+    </div>
     <div class="col-2">Image</div>
     <div class="col-1">status</div>
-    <div class="col-4 text-center">Actions</div>
+    <div class="col-4 text-center">
+      Actions
+
+    <%= submit_tag 'Publish', class: 'btn btn-success btn-sm update-multiple',
+      data: { action: 'publish', url: '#' } %> |
+    <%= submit_tag 'Unpublish', class: 'btn btn-primary btn-sm update-multiple',
+        data: { action: 'unpublish', url: '#' } %> |
+    <%= submit_tag 'Delete', class: 'btn btn-danger btn-sm update-multiple',
+        data: { action: 'delete', url: '#' } %>
+
+    </div>
   </div>
   <hr/>
 </header>

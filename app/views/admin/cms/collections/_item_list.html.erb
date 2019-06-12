@@ -2,6 +2,7 @@
 <% order_transcripts_asc(@collection.transcripts).each do |item| %>
   <div class="row">
     <div class="col-5">
+      <%= check_box_tag "transcript_ids[]", item.uid, nil, class: 'mr-2' %>
       <%= publish_icon(item.published?) %>
       <%= item.title %></div>
     <div class="col-2">
