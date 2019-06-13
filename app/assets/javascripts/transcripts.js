@@ -66,8 +66,8 @@ $(document).ready(function(){
     }, 100 );
   };
 
-  $("#check-all").click(function () {
-    $(".check").prop('checked', $(this).prop('checked'));
+  $('#select-all').click(function () {
+    $('.check').prop('checked', $(this).prop('checked'));
   });
 
   $('.item-list-headings').on('click', '.update-multiple', function(e) {

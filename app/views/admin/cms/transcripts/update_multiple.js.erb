@@ -1,5 +1,12 @@
-var $container = $('.transcripts-list');
-$container.html("<%= j render partial: 'admin/cms/collections/item', collection: order_transcripts_asc(@collection.transcripts) %>");
+// Appends the updated list of transcripts.
+$('.transcripts-list').html(
+  "<%= j render partial: 'admin/cms/collections/item',
+    collection: order_transcripts_asc(@collection.transcripts) %>"
+);
+
+// Removes stale flash and prepends the fresh one.
 $('.alert-primary').remove();
 $('#main').prepend("<%= j render('layouts/flash_notice') %>");
-$("#check-all").prop('checked', false);
+
+// Resets the select all checkbox.
+$("#select-all").prop('checked', false);
