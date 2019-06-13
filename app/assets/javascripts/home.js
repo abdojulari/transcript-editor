@@ -76,8 +76,15 @@ $(document).ready(function(){
   })
 
   $("#searchText").on('keyup',function(e){
+    // 8 = backspace
     if (($(this).val() == "") && (e.keyCode == 8)){
       searchText = "";
+      loadTranscripts()
+    }
+    // 13 = enter
+    if (e.keyCode == 13) {
+      searchText = $('#searchText').val()
+      event.preventDefault();
       loadTranscripts()
     }
   })
