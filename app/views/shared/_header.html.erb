@@ -14,9 +14,9 @@
   <% end %>
   <nav class="main_header__nav">
     <%= check_box_tag "menu_toggle", "menu_toggle", false,
-          class: "main_header__mobile_nav_toggle mobile-only"
+          class: "main_header__mobile_nav_toggle tablet-only"
     %>
-    <%= label_tag "menu_toggle", class: "button icon menu mobile-only" do %>
+    <%= label_tag "menu_toggle", class: "button icon menu tablet-only" do %>
       <span class="sr-only">Select top open navigation</span>
     <% end %>
     <div class="main_header__nav_list">

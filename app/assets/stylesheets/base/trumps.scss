@@ -16,6 +16,13 @@
   }
 }
 
+.tablet-only {
+  display: none;
+  @include tablet {
+    display: inherit;
+  }
+}
+
 .desktop-only {
   display: inherit;
   @include mobile {
