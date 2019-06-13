@@ -35,6 +35,10 @@
       color: $sub-footer-foreground;
       font-size: rem-calc(12);
       text-transform: uppercase;
+      margin: 0;
+      @include mobile {
+        font-size: rem-calc(10);
+      }
     }
   }
 }
