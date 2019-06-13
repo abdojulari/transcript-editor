@@ -1,4 +1,7 @@
 class Admin::Cms::TranscriptsController < AdminController
+  # Deals with publishing, unpublishing, and deleting multiple transcripts.
+  include UpdateMultipleTranscriptsConcern
+
   before_action :set_transcript, only: [:edit, :update, :destroy, :reset_transcript, :sync]
   before_action :set_transcript_by_id, only: [:process_transcript]
   before_action :set_collection, only: [:update_multiple]
@@ -77,19 +80,16 @@ class Admin::Cms::TranscriptsController < AdminController
     if params[:transcript_ids]
       case params[:commit]
       when 'publish'
-        Transcript.where(uid: params[:transcript_ids]).each { |t| t.publish! }
-        flash.now[:notice] = 'The selected transcripts were successfully published!'
+        publish_trancripts(params[:transcript_ids])
       when 'unpublish'
-        Transcript.where(uid: params[:transcript_ids]).each { |t| t.unpublish! }
-        flash.now[:notice] = 'The selected transcripts were successfully unpublished!'
+        unpublish_trancripts(params[:transcript_ids])
       when 'delete'
-        Transcript.where(uid: params[:transcript_ids]).each { |t| t.destroy }
-        flash.now[:notice] = 'The selected transcripts were successfully deleted!'
+        delete_trancripts(params[:transcript_ids])
       else
         flash.now[:notice] = 'Unknown action'
       end
     else
-      flash.now[:notice] = 'Please select some transcripts first'
+      flash.now[:notice] = 'Please select some transcripts'
     end
 
     respond_to do |format|
