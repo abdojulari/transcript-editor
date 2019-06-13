@@ -2,9 +2,7 @@
   position: relative;
   display: inline-block;
   @include mobile {
-    display: block;
-    float: none;
-    clear: both;
+    display: none;
   }
 }
 
@@ -25,8 +23,6 @@
 }
 
 .menu_select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
   appearance: none;
   background: $drop-down-yellow, $dark-red-black;
   background-position: 96% 50%, center center;
@@ -53,8 +49,6 @@
 }
 
 .score {
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
   border-radius: 10px;
   background: $soft-orange;
   height: 20px;

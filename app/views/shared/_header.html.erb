@@ -32,9 +32,9 @@
         <%= link_to "Collections", "/collections", 'data-menu-level': 1 %>
         <%= link_to "About", "/page/about", 'data-menu-level': 1 %>
         <%= link_to "FAQs", "/page/faq", 'data-menu-level': 1 %>
-        <%= link_to "Tutorial", "/page/tutorial", 'data-menu-level': 1 %>
+        <%= link_to "Tutorial", "/page/tutorial", 'data-menu-level': 1, class: "desktop-only" %>
       </div>
-      <div class="menu_dropdown main_header__links ">
+      <div class="menu_dropdown main_header__links">
         <div class="menu_select" id="select_title">
         <% if user_signed_in? %>
           <%= raw current_user_edits  %>

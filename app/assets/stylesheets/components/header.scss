@@ -45,6 +45,9 @@
         display: block;
         white-space: nowrap;
         margin: 10px 0;
+        @include mobile {
+          display: none;
+        }
       }
 
       &.auth-link {
@@ -134,7 +137,7 @@
       overflow: auto;
 
       background-color: rgba($header-background, 0.95);
-
+      flex-direction: column;
       a {
         width: 100%;
         text-align: center;
