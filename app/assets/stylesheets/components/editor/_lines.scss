@@ -9,10 +9,11 @@ $transcript-line-options-width: 80px; // 80px
 $transcript-line-options-reviewing-width: 80px;
 
 .transcript-lines {
-  margin: 0 0 400px 0;
   border-top: 10px solid $coolgray-color;
   border-bottom: 10px solid $coolgray-color;
-
+  @include desktop {
+    margin: 0 0 400px 0;
+  }
   .line {
     position: relative;
     width: 100%;
@@ -244,7 +245,7 @@ $transcript-line-options-reviewing-width: 80px;
         &:hover, &:focus, &:active {
           background: darken($editor-button-color, 10%);
           color: $white;
-          text-decoration: none; 
+          text-decoration: none;
         }
       }
     }

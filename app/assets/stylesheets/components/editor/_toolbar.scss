@@ -12,7 +12,9 @@ $toolbar-notifications-width: 0px; // 200px
   min-height: $secondary-header-nav-height;
   line-height: $secondary-header-nav-height;
   @include clearfix();
-
+  @include mobile {
+    display: none;
+  }
   .controls {
     width: auto;
     max-width: 1200px;
