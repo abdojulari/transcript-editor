@@ -12,7 +12,7 @@
 
   img {
     max-width: 100%;
-    @include mobile {
+    @include tablet {
       width: 100px;
     }
   }
@@ -20,7 +20,7 @@
   &__nav {
     flex: 0 1 auto;
 
-    @include mobile {
+    @include tablet {
       flex: 0 0 auto;
     }
 
@@ -45,6 +45,9 @@
         display: block;
         white-space: nowrap;
         margin: 10px 0;
+        @include mobile {
+          display: none;
+        }
       }
 
       &.auth-link {
@@ -120,7 +123,8 @@
     }
   }
   &__nav_list {
-    @include mobile {
+    display: flex;
+    @include tablet {
       position: absolute;
       left: 0;
       top: 0;
@@ -133,7 +137,7 @@
       overflow: auto;
 
       background-color: rgba($header-background, 0.95);
-
+      flex-direction: column;
       a {
         width: 100%;
         text-align: center;
@@ -142,9 +146,8 @@
     }
   }
   &__links {
-    float: left;
-    @include mobile {
-      float: none;
+    @include tablet {
+      width: 100%;
     }
   }
 
@@ -155,11 +158,6 @@
     flex: 1 1 auto;
     text-align: left;
     padding-left: 10px;
-
-    @include mobile {
-      font-size: 0.8em;
-      padding-left: 6px;
-    }
   }
   &__secondary_nav {
     flex: 0 0 0%;
@@ -188,5 +186,3 @@
     }
   }
 }
-
-
