@@ -10,3 +10,6 @@ $('#main').prepend("<%= j render('layouts/flash_notice') %>");
 
 // Resets the select all checkbox.
 $("#select-all").prop('checked', false);
+
+// Updates the total items count.
+$('.total-items').html("<%= @collection.transcripts.size %>")

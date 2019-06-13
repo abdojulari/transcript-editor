@@ -72,9 +72,8 @@ $(document).ready(function(){
 
   $('.item-list-headings').on('click', '.update-multiple', function(e) {
     e.preventDefault();
-    var $button = $(this);
-    debugger
 
+    var $button = $(this);
     var checkedTranscripts = [];
 
     $.each($("input[name='transcript_ids[]']:checked"), function() {
