@@ -65,6 +65,10 @@ $(document).ready(function(){
       new ImageCrop
     }, 100 );
   };
+
+  $("#check-all").click(function () {
+    $(".check").prop('checked', $(this).prop('checked'));
+  });
 });
 
 var ImageCrop,
