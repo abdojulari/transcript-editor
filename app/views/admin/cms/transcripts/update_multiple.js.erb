@@ -1,5 +1,5 @@
 var $container = $('.transcripts-list');
 $container.html("<%= j render partial: 'admin/cms/collections/item', collection: order_transcripts_asc(@collection.transcripts) %>");
 $('.alert-primary').remove();
-$('#main').prepend("<%= j render('layouts/flash_notice') %>")
+$('#main').prepend("<%= j render('layouts/flash_notice') %>");
 $("#check-all").prop('checked', false);

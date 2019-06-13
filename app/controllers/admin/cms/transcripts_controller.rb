@@ -86,10 +86,10 @@ class Admin::Cms::TranscriptsController < AdminController
         Transcript.where(uid: params[:transcript_ids]).each { |t| t.destroy }
         flash.now[:notice] = 'The selected transcripts were successfully deleted!'
       else
-        flash.now[:alert] = 'Unknown action'
+        flash.now[:notice] = 'Unknown action'
       end
     else
-      flash.now[:alert] = 'Please select some transcripts first'
+      flash.now[:notice] = 'Please select some transcripts first'
     end
 
     respond_to do |format|
