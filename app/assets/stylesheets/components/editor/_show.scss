@@ -170,10 +170,16 @@ $transcript-content-width: 800px;
 }
 
 .transcript-page {
-  max-width: $transcript-content-width;
-  margin: 0 auto 40px;
-  padding: 0 20px;
-  @include box-sizing();
+  height: 0;
+  visibility: hidden;
+  @include desktop {
+    max-width: $transcript-content-width;
+    height: auto;
+    visibility: visible;
+    margin: 0 auto 40px;
+    padding: 0 20px;
+    @include box-sizing();
+  }
 
   h1, h2 {
     margin: 0;
@@ -191,6 +197,17 @@ $transcript-content-width: 800px;
   .transcript_edit\.md.page {
     ul li {
       list-style: disc;
+    }
+  }
+
+  .play-all {
+    @include mobile {
+      position: fixed;
+      bottom: 5px;
+      left: calc(50% - 76px);
+      visibility: visible;
+      z-index: 50;
+      margin: 0;
     }
   }
 
