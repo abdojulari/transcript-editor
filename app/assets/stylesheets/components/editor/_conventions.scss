@@ -1,142 +1,142 @@
 @import "../../base/settings_colours";
 
 .table-conventions {
-    width: 100%;
-    td, th {
-        box-sizing: border-box;
-        width: 40%;
-        padding: 0.3em 0.6em 0.4em;
-    }
-    th {
-        background: #837E77;
-        color: $white;
-        text-align: left;
+  width: 100%;
+  td, th {
+    box-sizing: border-box;
+    width: 40%;
+    padding: 0.3em 0.6em 0.4em;
+  }
+  th {
+    background: #837E77;
+    color: $white;
+    text-align: left;
 
-        &:first-child {
-            width: 60%;
-        }
+    &:first-child {
+      width: 60%;
     }
-    td {
-        &:first-child {
-            width: 20%;
-            font-weight: bold;
-        }
-        &:nth-child(2) {
-            font-size: 1rem;
-        }
-        &:nth-child(3) {
-            font-family: monospace;
-            font-size: 1.1rem;
-        }
+  }
+  td {
+    &:first-child {
+      width: 20%;
+      font-weight: bold;
     }
-    tr {
-        &:nth-child(even) td {
-            background: $white;
-        }
-        &:nth-child(odd) td {
-            background: $light-grey;
-        }
+    &:nth-child(2) {
+      font-size: 1rem;
     }
+    &:nth-child(3) {
+      font-family: monospace;
+      font-size: 1.1rem;
+    }
+  }
+  tr {
+    &:nth-child(even) td {
+      background: $white;
+    }
+    &:nth-child(odd) td {
+      background: $light-grey;
+    }
+  }
 }
 
 .transcription_conventions\.md.page {
-    max-width: none;
-    background: #e1e0df;
+  max-width: none;
+  background: #e1e0df;
 
-    .table-conventions {
-        display: none;
-        width: 100%;
-        margin: 0;
-        border: none;
-        border-bottom: 2px solid #837E77;
+  .table-conventions {
+    display: none;
+    width: 100%;
+    margin: 0;
+    border: none;
+    border-bottom: 2px solid #837E77;
 
-        tbody {
-            overflow: hidden;
-            overflow-y: auto;
-            min-height: 80px;
-            max-height: 300px;
-        }
+    tbody {
+      overflow: hidden;
+      overflow-y: auto;
+      min-height: 80px;
+      max-height: 300px;
     }
+  }
 }
 
 .conventions-page {
-    pointer-events: none;
-    &.sticky {
-        z-index: 1200;
-        position: fixed;
-        top: 80px;
-        width: 100%;
-    }
+  pointer-events: none;
+  &.sticky {
+    z-index: 1200;
+    position: fixed;
+    top: 80px;
+    width: 100%;
+  }
 
+  [role="tabpanel"] {
+    max-height: 48px;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+  }
+
+  .page {
+    transition: transform 0.5s ease-in-out;
+    transform: translateY(-100%);
+    transform-origin: 50% 0%;
+    overflow: hidden;
+    pointer-events: all;
+
+    .table-conventions {
+        display: table;
+    }
+  }
+
+  .conventions-page__toggle-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: absolute;
+    top: 0%;
+    width: 100%;
+
+    transition: top 0.5s ease-in-out;
+
+    animation: fadeInDown 1s;
+    animation-fill-mode: both;
+    animation-delay: 1s;
+  }
+
+  .conventions-page__toggle-button {
+    display: block;
+    flex: 0 1 auto;
+    height: 28px;
+    pointer-events: all;
+
+    line-height: 28px;
+    text-align: center;
+    background: $soft-orange;
+    color: $black;
+
+    cursor: pointer;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+
+    &:before {
+      content: attr(label-inactive);
+    }
+    &:hover {
+      background: darken($soft-orange, 10%);
+    }
+  }
+
+  &.active {
     [role="tabpanel"] {
-        max-height: 48px;
-        overflow: hidden;
-        transition: max-height 0.5s ease-in-out;
+      max-height: calc(100vh - 160px);
     }
-
     .page {
-        transition: transform 0.5s ease-in-out;
-        transform: translateY(-100%);
-        transform-origin: 50% 0%;
-        overflow: hidden;
-        pointer-events: all;
-
-        .table-conventions {
-            display: table;
-        }
+      transform: translateY(0);
     }
-
     .conventions-page__toggle-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        position: absolute;
-        top: 0%;
-        width: 100%;
-
-        transition: top 0.5s ease-in-out;
-
-        animation: fadeInDown 1s;
-        animation-fill-mode: both;
-        animation-delay: 1s;
+      top: 100%;
     }
-
-    .conventions-page__toggle-button {
-        display: block;
-        flex: 0 1 auto;
-        height: 28px;
-        pointer-events: all;
-
-        line-height: 28px;
-        text-align: center;
-        background: $soft-orange;
-        color: $black;
-
-        cursor: pointer;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-
-        &:before {
-            content: attr(label-inactive);
-        }
-        &:hover {
-            background: darken($soft-orange, 10%);
-        }
+    .conventions-page__toggle-button:before {
+      content: attr(label-active);
     }
-
-    &.active {
-        [role="tabpanel"] {
-            max-height: calc(100vh - 160px);
-        }
-        .page {
-            transform: translateY(0);
-        }
-        .conventions-page__toggle-container {
-            top: 100%;
-        }
-        .conventions-page__toggle-button:before {
-            content: attr(label-active);
-        }
-    }
+  }
 }
