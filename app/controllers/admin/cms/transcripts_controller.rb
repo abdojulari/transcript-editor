@@ -1,6 +1,7 @@
 class Admin::Cms::TranscriptsController < AdminController
   before_action :set_transcript, only: [:edit, :update, :destroy, :reset_transcript, :sync]
   before_action :set_transcript_by_id, only: [:process_transcript]
+  before_action :set_collection, only: [:update_multiple]
 
   def new
     @transcript = Transcript.new(collection_id: collection_id)
@@ -72,6 +73,30 @@ class Admin::Cms::TranscriptsController < AdminController
     }
   end
 
+  def update_multiple
+    if params[:transcript_ids]
+      case params[:commit]
+      when 'publish'
+        Transcript.where(uid: params[:transcript_ids]).each { |t| t.publish! }
+        flash.now[:notice] = 'The selected transcripts were successfully published!'
+      when 'unpublish'
+        Transcript.where(uid: params[:transcript_ids]).each { |t| t.unpublish! }
+        flash.now[:notice] = 'The selected transcripts were successfully unpublished!'
+      when 'delete'
+        Transcript.where(uid: params[:transcript_ids]).each { |t| t.destroy }
+        flash.now[:notice] = 'The selected transcripts were successfully deleted!'
+      else
+        flash.now[:alert] = 'Unknown action'
+      end
+    else
+      flash.now[:alert] = 'Please select some transcripts first'
+    end
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
 
   def set_transcript
@@ -108,5 +133,9 @@ class Admin::Cms::TranscriptsController < AdminController
   def ingest_transcript
     imp = VoiceBase::ImportSrtTranscripts.new(project_id: ENV["PROJECT_ID"])
     imp.process_single(@transcript.id)
+  end
+
+  def set_collection
+    @collection = Collection.find_by(uid: params[:collection_uid])
   end
 end

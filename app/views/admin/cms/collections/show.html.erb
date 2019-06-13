@@ -65,11 +65,11 @@
       Actions
 
     <%= submit_tag 'Publish', class: 'btn btn-success btn-sm update-multiple',
-      data: { action: 'publish', url: '#' } %> |
+      data: { action: 'publish', url: update_multiple_admin_cms_transcripts_url, collection_uid: @collection.uid } %> |
     <%= submit_tag 'Unpublish', class: 'btn btn-primary btn-sm update-multiple',
-        data: { action: 'unpublish', url: '#' } %> |
+        data: { action: 'unpublish', url: update_multiple_admin_cms_transcripts_url, collection_uid: @collection.uid } %> |
     <%= submit_tag 'Delete', class: 'btn btn-danger btn-sm update-multiple',
-        data: { action: 'delete', url: '#' } %>
+        data: { action: 'delete', url: update_multiple_admin_cms_transcripts_url, collection_uid: @collection.uid } %>
 
     </div>
   </div>
