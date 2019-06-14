@@ -52,17 +52,14 @@
 
 <header class="container item-headings">
   <h3 class="item-list-title">Items</h3>
-  <label>
-    <input type="checkbox" class="check" id="select-all"> Select All
-  </label>
   <br/>
   <div class="row item-list-headings" id="item-list-headings">
-    <div class="col-5">
+    <div class="col-4">
       Title
     </div>
     <div class="col-2">Image</div>
     <div class="col-1">status</div>
-    <div class="col-4 text-center">
+    <div class="col-5 text-center">
       Actions
 
     <% if current_user && (current_user.admin? || current_user.content_editor?) %>
@@ -77,6 +74,9 @@
         data: { action: 'delete', url: update_multiple_admin_cms_transcripts_url, collection_uid: @collection.uid } %>
     <% end %>
 
+      <label>
+        <input type="checkbox" class="check" id="select-all"> Select All
+      </label>
     </div>
   </div>
   <hr/>
