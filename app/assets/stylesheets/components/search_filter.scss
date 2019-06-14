@@ -1,6 +1,6 @@
 .transcript-facets {
   position: relative;
-  z-index: 50;
+  z-index: 5;
   text-align: center;
   font-weight: bold;
 }
@@ -16,6 +16,10 @@
   margin-bottom: 0.1em;
   margin-left: 0.6em;
   position: relative;
+  @include mobile {
+    margin-left: 0;
+    margin-bottom: 0.6em;
+  }
 }
 
 .facet:first-child {
@@ -40,6 +44,9 @@
 
 .select.collection .select-options {
   min-width: 400px;
+  @include mobile {
+    min-width: 240px;
+  }
 }
 
 .select.sort .select-options {
@@ -64,6 +71,7 @@
   white-space: nowrap;
   line-height: 24px;
   transition: background-color 0.3s;
+  z-index: 1;
 }
 
 .select:hover {
@@ -80,14 +88,18 @@
   border-top: none;
   background: $soft-orange;
   box-sizing: border-box;
-  z-index: 50;
+  z-index: -1;
+  @include mobile {
+    left: calc(50% - 200px);
+    max-width: 350px;
+  }
 }
 
 .select-option {
-  display: block;
   padding: 0.4em;
   color: $black;
   margin: 0;
+  z-index: 0;
 }
 
 .select-option:hover {
@@ -103,10 +115,16 @@
 
 .select-option.active .select-options {
   display: block;
+  z-index: 50;
 }
 
-.select.active .select-options {
+.select.active .select-options,
+.select.active .select-option {
   display: block;
+  z-index: 50;
+  @include mobile {
+    position: inherit;
+  }
 }
 
 .filter-controls {
