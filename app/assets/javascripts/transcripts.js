@@ -70,7 +70,7 @@ $(document).ready(function(){
     $('.check').prop('checked', $(this).prop('checked'));
   });
 
-  $('.item-list-headings').on('click', '.update-multiple', function(e) {
+  $('#item-list-headings').on('click', '.update-multiple', function(e) {
     e.preventDefault();
 
     var $button = $(this);
