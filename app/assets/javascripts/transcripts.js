@@ -75,22 +75,29 @@ $(document).ready(function(){
 
     var $button = $(this);
     var checkedTranscripts = [];
+    var confirmationText = 'Are you sure you want to delete these items? This action cannot be undone.';
 
     $.each($("input[name='transcript_ids[]']:checked"), function() {
       checkedTranscripts.push($(this).val());
     });
 
+    if ($button.data('action') != 'delete' || ($button.data('action') == 'delete' && confirm(confirmationText))) {
+      updateMultipleTranscripts($button, checkedTranscripts);
+    }
+  });
+
+  function updateMultipleTranscripts($button, transcriptIds) {
     $.ajax({
       url:  $button.data('url'),
       type: 'PUT',
       data: {
         commit:          $button.data('action'),
-        transcript_ids:  checkedTranscripts,
+        transcript_ids:  transcriptIds,
         collection_uid:  $button.data('collection-uid')
       },
       cache: false
     })
-  });
+  }
 });
 
 var ImageCrop,
