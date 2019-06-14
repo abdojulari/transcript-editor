@@ -32,7 +32,6 @@ $(document).ready(function(){
 
   $('#collection_search').on('click', function(event){
     event.preventDefault();
-    $('#collection_search .select-options').toggle()
+    $(this).find('.select').toggleClass('active')
   })
 })
-
