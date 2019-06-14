@@ -232,6 +232,9 @@ $transcript-line-options-reviewing-width: 80px;
     overflow: hidden;
     white-space: nowrap;
     @include box-sizing();
+    @include mobile {
+      display: none;
+    }
 
     .button {
       padding: 0 0.2em;
@@ -323,7 +326,9 @@ $transcript-line-options-reviewing-width: 80px;
     margin-right: $transcript-line-options-reviewing-width;
   }
   .line.completed .text {
-    margin-right: $transcript-line-options-width;
+    @include desktop {
+      margin-right: $transcript-line-options-width;
+    }
   }
 
   .speaker {
