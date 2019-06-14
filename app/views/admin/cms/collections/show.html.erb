@@ -43,7 +43,8 @@
   <br/>
 
   <div class="collection-total-items">
-    <strong>Total items:</strong> <%= @collection.transcripts.size %>
+    <strong>Total items:</strong>
+    <span class="total-items"><%= @collection.transcripts.size %></span>
   </div>
 
   <br/>
@@ -51,12 +52,32 @@
 
 <header class="container item-headings">
   <h3 class="item-list-title">Items</h3>
+  <label>
+    <input type="checkbox" class="check" id="select-all"> Select All
+  </label>
   <br/>
-  <div class="row item-list-headings">
-    <div class="col-5">Title</div>
+  <div class="row item-list-headings" id="item-list-headings">
+    <div class="col-5">
+      Title
+    </div>
     <div class="col-2">Image</div>
     <div class="col-1">status</div>
-    <div class="col-4 text-center">Actions</div>
+    <div class="col-4 text-center">
+      Actions
+
+    <% if current_user && (current_user.admin? || current_user.content_editor?) %>
+      <%= submit_tag 'Publish', class: 'btn btn-success btn-sm update-multiple',
+        data: { action: 'publish', url: update_multiple_admin_cms_transcripts_url, collection_uid: @collection.uid } %> |
+      <%= submit_tag 'Unpublish', class: 'btn btn-primary btn-sm update-multiple',
+          data: { action: 'unpublish', url: update_multiple_admin_cms_transcripts_url, collection_uid: @collection.uid } %>
+    <% end %>
+    <% if current_user && current_user.admin? %>
+      |
+      <%= submit_tag 'Delete', class: 'btn btn-danger btn-sm update-multiple',
+        data: { action: 'delete', url: update_multiple_admin_cms_transcripts_url, collection_uid: @collection.uid } %>
+    <% end %>
+
+    </div>
   </div>
   <hr/>
 </header>

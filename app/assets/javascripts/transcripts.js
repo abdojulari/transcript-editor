@@ -65,6 +65,32 @@ $(document).ready(function(){
       new ImageCrop
     }, 100 );
   };
+
+  $('#select-all').click(function () {
+    $('.check').prop('checked', $(this).prop('checked'));
+  });
+
+  $('#item-list-headings').on('click', '.update-multiple', function(e) {
+    e.preventDefault();
+
+    var $button = $(this);
+    var checkedTranscripts = [];
+
+    $.each($("input[name='transcript_ids[]']:checked"), function() {
+      checkedTranscripts.push($(this).val());
+    });
+
+    $.ajax({
+      url:  $button.data('url'),
+      type: 'PUT',
+      data: {
+        commit:          $button.data('action'),
+        transcript_ids:  checkedTranscripts,
+        collection_uid:  $button.data('collection-uid')
+      },
+      cache: false
+    })
+  });
 });
 
 var ImageCrop,

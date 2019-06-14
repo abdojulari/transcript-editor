@@ -69,6 +69,7 @@ Rails.application.routes.draw do
     namespace :cms do
       resources :collections, except: [:index]
       resources :transcripts, except: [:show, :index] do
+        put :update_multiple, on: :collection
         get "speaker_search", on: :collection
         get "sync", on: :member
         post "process_transcript", on: :member

@@ -1,6 +1,10 @@
 class Admin::Cms::TranscriptsController < AdminController
+  # Deals with publishing, unpublishing, and deleting multiple transcripts.
+  include UpdateMultipleTranscriptsConcern
+
   before_action :set_transcript, only: [:edit, :update, :destroy, :reset_transcript, :sync]
   before_action :set_transcript_by_id, only: [:process_transcript]
+  before_action :set_collection, only: [:update_multiple]
 
   def new
     @transcript = Transcript.new(collection_id: collection_id)
@@ -72,6 +76,27 @@ class Admin::Cms::TranscriptsController < AdminController
     }
   end
 
+  def update_multiple
+    if params[:transcript_ids]
+      case params[:commit]
+      when 'publish'
+        publish_trancripts(params[:transcript_ids])
+      when 'unpublish'
+        unpublish_trancripts(params[:transcript_ids])
+      when 'delete'
+        delete_trancripts(params[:transcript_ids])
+      else
+        flash.now[:notice] = 'Unknown action'
+      end
+    else
+      flash.now[:notice] = 'Please select some transcripts'
+    end
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
 
   def set_transcript
@@ -108,5 +133,9 @@ class Admin::Cms::TranscriptsController < AdminController
   def ingest_transcript
     imp = VoiceBase::ImportSrtTranscripts.new(project_id: ENV["PROJECT_ID"])
     imp.process_single(@transcript.id)
+  end
+
+  def set_collection
+    @collection = Collection.find_by(uid: params[:collection_uid])
   end
 end
