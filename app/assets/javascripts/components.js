@@ -75,11 +75,6 @@ var COMPONENTS = (function() {
   COMPONENTS.prototype.selectInit = function(){
     var _this = this;
 
-    // select box
-    $(document).on('click', '.select-active', function(){
-      _this.selectMenu($(this).closest('.select'));
-    });
-
     // select option
     $(document).on('click', '.select-option', function(){
       _this.select($(this));
@@ -186,4 +181,3 @@ $(function() {
 // $(document).on('turbolinks:load',function(){
 //   var components = new COMPONENTS();
 // });
-
