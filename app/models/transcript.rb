@@ -569,7 +569,8 @@ class Transcript < ApplicationRecord
     end
   end
 
+  # If the image has a cropped version we display it, otherwise we display the original image.
   def image_cropped_thumb_url
-    image&.cropped_thumb&.file&.exists? ? image_url(:cropped_thumb) : image_url
+    crop_x.present? ? image_url(:cropped_thumb) : image_url
   end
 end
