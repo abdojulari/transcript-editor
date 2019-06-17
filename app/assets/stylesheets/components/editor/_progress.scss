@@ -16,6 +16,9 @@
     @include box-shadow(0px 1px 1px 1px rgba($black, 0.1));
     @include box-sizing();
     @include animation(minimizeUpRight 0.5s);
+    @include mobile {
+      display: none;
+    }
   }
 
   &.active {
