@@ -147,14 +147,18 @@ $small-transcript-line-time-width: 36px;
       left: 10px - $transcript-line-time-width;
       text-align: center;
       background-color: rgba($white, 0.9);
-      height: 20px;
-      line-height: 20px;
-      white-space: nowrap;
       padding-left: 5px;
       padding-right: 5px;
       font-size: 15px;
+      line-height: 20px;
+      @include desktop {
+        height: 20px;
+        white-space: nowrap;
+      }
       @include mobile {
         left: 10px - $small-transcript-line-time-width;
+        top: -60%;
+        width: 300px;
       }
 
       &:before {
