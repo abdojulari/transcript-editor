@@ -5,11 +5,10 @@ $transcript-line-height: 56px;
 $transcript-line-speaker-width: 40px;
 $transcript-line-time-width: 80px;
 $transcript-line-status-width: 34px;
-$transcript-line-options-width: 80px; // 80px
+$transcript-line-options-width: 80px;
 $transcript-line-options-reviewing-width: 80px;
 
-
-$small-transcript-line-time-width: 36px;
+$small-transcript-line-time-width: 50px;
 
 .transcript-lines {
   border-top: 10px solid $coolgray-color;
@@ -104,6 +103,7 @@ $small-transcript-line-time-width: 36px;
   }
   .time {
     @include mobile {
+      text-align: right;
       font-size: 0.8rem;
       line-height: $transcript-line-height;
       padding: 0 5px;
