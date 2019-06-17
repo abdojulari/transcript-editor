@@ -414,6 +414,9 @@ $small-transcript-line-time-width: 36px;
           font-size: 0.75rem;
           color: $coolgray-dark-color;
         }
+        @include mobile {
+          display: none;
+        }
       }
       .speaker-option {
         display: block;
@@ -421,6 +424,11 @@ $small-transcript-line-time-width: 36px;
         padding: 5px 0;
         margin: 0;
         color: $editor-button-color;
+
+        // Disable changing speaker on mobile
+        @include mobile {
+          pointer-events: none;
+        }
 
         &:after {
           content: ' ';
