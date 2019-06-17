@@ -20,11 +20,14 @@ $small-transcript-line-time-width: 36px;
   .line {
     position: relative;
     width: 100%;
-    height: $transcript-line-height;
-    line-height: $transcript-line-height;
+
     background: $coolgray-color;
     color: darken($coolgray-dark-color, 15%);
     @include clearfix();
+    @include desktop {
+      height: $transcript-line-height;
+      line-height: $transcript-line-height;
+    }
 
     &:hover {
       background: lighten($coolgray-color, 5%);
@@ -102,6 +105,7 @@ $small-transcript-line-time-width: 36px;
   .time {
     @include mobile {
       font-size: 0.8rem;
+      line-height: $transcript-line-height;
       padding: 0 5px;
     }
   }
@@ -122,10 +126,12 @@ $small-transcript-line-time-width: 36px;
     height: $transcript-line-height;
     line-height: $transcript-line-height;
     float: left;
-    background: rgba($black, 0.05);
     text-align: center;
     position: relative;
     @include box-sizing();
+    @include desktop {
+      background: rgba($black, 0.05);
+    }
 
     &:before {
       @include icon("\f10c");
@@ -209,10 +215,14 @@ $small-transcript-line-time-width: 36px;
     display: block;
   }
   .line.active .time {
-    display: none;
+    @include desktop {
+      display: none;
+    }
   }
   .line.active .controls {
-    display: block;
+    @include desktop {
+      display: block;
+    }
   }
   .text {
     margin-left: $transcript-line-time-width + $transcript-line-status-width;
@@ -222,6 +232,13 @@ $small-transcript-line-time-width: 36px;
     @include box-sizing();
     @include mobile {
       margin-left: $small-transcript-line-time-width + $transcript-line-status-width;
+      padding-left: 0;
+    }
+    .mobile-text {
+      display: inline-block;
+      max-width: 100%;
+      padding: 10px;
+      margin: 0;
     }
 
     > div {
@@ -243,6 +260,9 @@ $small-transcript-line-time-width: 36px;
     height: $transcript-line-height;
     line-height: $transcript-line-height;
     background: none;
+    @include mobile {
+      font-size: $transcript-line-height - 40px;
+    }
 
     &:focus {
       outline: none;
