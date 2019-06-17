@@ -366,7 +366,9 @@ $small-transcript-line-time-width: 50px;
     width: $transcript-line-options-reviewing-width;
   }
   .line.reviewing .text {
-    margin-right: $transcript-line-options-reviewing-width;
+    @include desktop {
+      margin-right: $transcript-line-options-reviewing-width;
+    }
   }
   .line.completed .text {
     @include desktop {
