@@ -26,7 +26,7 @@
   &.dark {
     @include button-background($button-dark);
   }
-  &:disabled {
+  &:disabled, &.disabled {
     cursor: default;
     background: $button-disabled;
     &:hover, &:focus {
