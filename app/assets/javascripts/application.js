@@ -22,4 +22,5 @@
 //= require users
 //= require editor
 //= require mobile_warning
+//= require mobile_transcripts
 //= require jquery.Jcrop.min
