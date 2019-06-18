@@ -16015,6 +16015,12 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
       _this.playAll();
     });
 
+    this.$el.on('click.transcript', '.mobile-play', function(e) {
+      e.preventDefault();
+      _this.playerToggle();
+      $(this).children('i.fa').toggleClass('fa-play-circle, fa-pause-circle');
+    });
+
     this.loadAnalytics();
   },
 
