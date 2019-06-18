@@ -20,7 +20,7 @@
   </div>
 <% end %>
 
-<div class="card">
+<div class="card mb-4">
   <div class="card-header">
     <h3><%= @collection.title %></h3>
   </div>
@@ -35,43 +35,51 @@
   </div>
 </div>
 
-<header class="container item-headings">
-  <h3 class="item-list-title">Items</h3>
-  <br/>
-  <div class="row item-list-headings" id="item-list-headings">
-    <div class="col-4">
-      Title
-    </div>
-    <div class="col-2">Image</div>
-    <div class="col-1">status</div>
-    <div class="col-5 text-center">
-      Actions
+<section class="card">
+  <header class="card-header">
+    <h3>Items</h3>
+  </header>
+  <div class="card-body">
+    <table class="table" id="item-list-headings">
+      <thead class="thead-dark">
+        <tr>
+          <th colspan="7"></th>
+          <th class="text-center">
+            Bulk Actions:
+            <label>
+              <input type="checkbox" class="check" id="select-all"> Select All
+            </label>
+          </th>
+        <tr>
+          <th>Published</th>
+          <th>Title</th>
+          <th>Image</th>
+          <th>Status</th>
+          <th class="text-center">Preview</th>
+          <th class="text-center">Edit</th>
+          <th class="text-center">Delete</th>
+          <th class="text-center">
+          <% if current_user && (current_user.admin? || current_user.content_editor?) %>
 
-    <% if current_user && (current_user.admin? || current_user.content_editor?) %>
-      <%= submit_tag 'Publish', class: 'btn btn-success btn-sm update-multiple',
-        data: { action: 'publish', url: update_multiple_admin_cms_transcripts_url, collection_uid: @collection.uid } %> |
-      <%= submit_tag 'Unpublish', class: 'btn btn-primary btn-sm update-multiple',
-          data: { action: 'unpublish', url: update_multiple_admin_cms_transcripts_url, collection_uid: @collection.uid } %>
-    <% end %>
-    <% if current_user && current_user.admin? %>
-      |
-      <%= submit_tag 'Delete', class: 'btn btn-danger btn-sm update-multiple',
-        data: { action: 'delete', url: update_multiple_admin_cms_transcripts_url, collection_uid: @collection.uid } %>
-    <% end %>
+            <%= submit_tag 'Publish', class: 'btn btn-success btn-sm update-multiple',
+              data: { action: 'publish', url: update_multiple_admin_cms_transcripts_url, collection_uid: @collection.uid } %> |
+            <%= submit_tag 'Unpublish', class: 'btn btn-primary btn-sm update-multiple',
+                data: { action: 'unpublish', url: update_multiple_admin_cms_transcripts_url, collection_uid: @collection.uid } %>
+          <% end %>
 
-      <label>
-        <input type="checkbox" class="check" id="select-all"> Select All
-      </label>
-    </div>
+          <% if current_user && current_user.admin? %>
+            | <%= submit_tag 'Delete', class: 'btn btn-danger btn-sm update-multiple',
+              data: { action: 'delete', url: update_multiple_admin_cms_transcripts_url, collection_uid: @collection.uid } %>
+          <% end %>
+
+          </th>
+        </tr>
+      </thead>
+      <% if @collection.transcripts.any? %>
+        <%= render "item_list" %>
+      <% else %>
+        <%= render "item_placeholder" %>
+      <% end %>
+    </table>
   </div>
-  <hr/>
-</header>
-
-<section class="container item_list">
-  <% if @collection.transcripts.any? %>
-    <%= render "item_list" %>
-  <% else %>
-    <%= render "item_placeholder" %>
-  <% end %>
-  <br/>
 </section>
