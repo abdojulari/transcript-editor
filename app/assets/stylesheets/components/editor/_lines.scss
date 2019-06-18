@@ -393,10 +393,16 @@ $small-transcript-line-time-width: 50px;
     }
     .change-speaker {
       font-size: 1.5rem;
-    }
-    .change-speaker:before {
-      @include icon("\f234");
-      color: $coolgray-dark-color;
+      &:before {
+        @include icon("\f234");
+        color: $coolgray-dark-color;
+      }
+      &.active {
+        + .speaker-options {
+          display: block;
+          z-index: 10;
+        }
+      }
     }
     .speaker.selected {
       .change-speaker:before {

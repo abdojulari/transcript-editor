@@ -200,21 +200,13 @@ $transcript-content-width: 800px;
     }
   }
 
-  .mobile-play {
+  .mobile-toggle {
     position: fixed;
     bottom: 5px;
-    left: calc(50% - 25px);
+    left: calc(50% - 72px);
     visibility: visible;
     z-index: 50;
-    width: 50px;
     margin: 0;
-    padding: 0;
-    border-radius: 50%;
-    font-size: 0px;
-    i.fa {
-      font-size: 45px;
-      padding: 3px 6px;
-    }
   }
 
 }

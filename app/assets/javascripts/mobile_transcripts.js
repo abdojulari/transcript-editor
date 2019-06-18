@@ -1,7 +1,7 @@
 $(window).load(function(){
   // Hides the line text input on mobile
   // Replaces with static text
-
+  $('.mobile-toggle').removeClass('disabled');
   generateStaticText();
 
   $(window).on('resize', function(){

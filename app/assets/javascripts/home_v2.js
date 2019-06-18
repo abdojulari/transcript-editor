@@ -58,6 +58,10 @@ $(document).ready(function(){
     }
   })
 
+  $(".change-speaker").on('click', function(e){
+    e.preventDefault();
+    $(this).toggleClass('active');
+  })
 
   function scrollUp(){
     var target  = $('.search_field').offset().top;
