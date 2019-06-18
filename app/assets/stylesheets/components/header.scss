@@ -18,7 +18,7 @@
   }
 
   &__nav {
-    flex: 0 1 auto;
+    flex-grow: 1;
 
     @include tablet {
       flex: 0 0 auto;
@@ -124,6 +124,7 @@
   }
   &__nav_list {
     display: flex;
+    justify-content: flex-end;
     @include tablet {
       position: absolute;
       left: 0;
@@ -155,9 +156,19 @@
     flex: 0 0 auto;
   }
   &__crumbs {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     flex: 1 1 auto;
     text-align: left;
     padding-left: 10px;
+    @include desktop {
+      max-width: 35%;
+    }
+    @include tablet {
+      flex-grow: 1;
+      max-width: 100%;
+    }
   }
   &__secondary_nav {
     flex: 0 0 0%;
@@ -167,22 +178,30 @@
 .select-active{
   text-transform: none;
   &__admin-score {
+    display: inline-block;
     border-radius: 10px;
     background: $bright-orange;
     color: $very-dark-cyan;
     height: 20px;
     line-height: 21px;
     padding: 0 7px;
-    margin-right: 3px;
-    display: inline-block;
-    margin-top: auto;
+    margin: 0;
   }
 }
 
-.admin{
-  .select{
-    .select-active {
-      margin-top: 10px;
-    }
+// Overriding styles from app/assets/stylesheets/project.css
+.header .navigation.primary {
+  .header-menu {
+    padding-top: 0;
+  }
+  .account-container {
+    float: none;
+    top: 15px;
+  }
+}
+
+.admin {
+  .select .select-active:after {
+    content: none;
   }
 }
