@@ -23,22 +23,27 @@
 }
 
 .menu_select {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   appearance: none;
   background: $drop-down-yellow, $dark-red-black;
   background-position: 96% 50%, center center;
   background-repeat: no-repeat;
   background-size: 12px 12px;
-  color: #272727;
+  color: $black;
   border-radius: 0;
   border: 0;
-  height: 23px;
+  min-height: 23px;
   padding: 0 20px 0 10px;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s;
-
-  @include tablet {
-    height: auto;
+  a {
+    @include tablet {
+      width: auto;
+      margin: 15px 10px;
+    }
   }
 }
 
