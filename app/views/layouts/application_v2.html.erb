@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title><%= page_title  %></title>
     <meta name="description" content="<%= project_description %>">
@@ -24,13 +24,17 @@
     <%= render "shared/header" %>
     <main id="app">
       <% unless flash[:notice].blank? %>
-        <div class="notice alert alert-info">
+        <div class="notice alert alert-info" role="alertdialog">
           <%= flash[:notice] %>
         </div>
       <% end %>
       <%= yield %>
     </main>
     <%= render "shared/footer" %>
-    <%= render "shared/mobile_warning" %>
+
+    <%= render "shared/mobile_warning",
+          title: @body_class == "body--transcript-edit" ? "Notice errors in this transcript?" : "Visiting from a mobile device?"
+    %>
+
   </body>
 </html>
