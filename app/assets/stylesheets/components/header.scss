@@ -18,7 +18,7 @@
   }
 
   &__nav {
-    flex: 0 1 auto;
+    flex-grow: 1;
 
     @include tablet {
       flex: 0 0 auto;
@@ -124,6 +124,7 @@
   }
   &__nav_list {
     display: flex;
+    justify-content: flex-end;
     @include tablet {
       position: absolute;
       left: 0;
@@ -155,9 +156,19 @@
     flex: 0 0 auto;
   }
   &__crumbs {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     flex: 1 1 auto;
     text-align: left;
     padding-left: 10px;
+    @include desktop {
+      max-width: 35%;
+    }
+    @include tablet {
+      flex-grow: 1;
+      max-width: 100%;
+    }
   }
   &__secondary_nav {
     flex: 0 0 0%;
