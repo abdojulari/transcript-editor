@@ -5,11 +5,10 @@ $transcript-line-height: 56px;
 $transcript-line-speaker-width: 40px;
 $transcript-line-time-width: 80px;
 $transcript-line-status-width: 34px;
-$transcript-line-options-width: 80px; // 80px
+$transcript-line-options-width: 80px;
 $transcript-line-options-reviewing-width: 80px;
 
-
-$small-transcript-line-time-width: 36px;
+$small-transcript-line-time-width: 50px;
 
 .transcript-lines {
   border-top: 10px solid $coolgray-color;
@@ -104,6 +103,7 @@ $small-transcript-line-time-width: 36px;
   }
   .time {
     @include mobile {
+      text-align: right;
       font-size: 0.8rem;
       line-height: $transcript-line-height;
       padding: 0 5px;
@@ -125,12 +125,13 @@ $small-transcript-line-time-width: 36px;
     width: $transcript-line-status-width;
     height: $transcript-line-height;
     line-height: $transcript-line-height;
+    background: rgba($black, 0.05);
     float: left;
     text-align: center;
     position: relative;
     @include box-sizing();
-    @include desktop {
-      background: rgba($black, 0.05);
+    @include mobile {
+      display: none;
     }
 
     &:before {
@@ -151,14 +152,10 @@ $small-transcript-line-time-width: 36px;
       padding-right: 5px;
       font-size: 15px;
       line-height: 20px;
-      @include desktop {
-        height: 20px;
-        white-space: nowrap;
-      }
+      height: 20px;
+      white-space: nowrap;
       @include mobile {
-        left: 10px - $small-transcript-line-time-width;
-        top: -60%;
-        width: 300px;
+        display: none;
       }
 
       &:before {
@@ -174,9 +171,6 @@ $small-transcript-line-time-width: 36px;
         position: absolute;
         bottom: -6px;
         left: $transcript-line-time-width + $transcript-line-status-width / 2 - 16px;
-        @include mobile {
-          left: $small-transcript-line-time-width + $transcript-line-status-width / 2 - 16px;
-        }
       }
     }
 
@@ -235,7 +229,7 @@ $small-transcript-line-time-width: 36px;
     padding-left: 10px;
     @include box-sizing();
     @include mobile {
-      margin-left: $small-transcript-line-time-width + $transcript-line-status-width;
+      margin-left: $small-transcript-line-time-width;
       padding-left: 0;
     }
     .mobile-text {
@@ -243,6 +237,7 @@ $small-transcript-line-time-width: 36px;
       max-width: 100%;
       padding: 10px;
       margin: 0;
+      color: $black;
     }
 
     > div {
@@ -371,7 +366,9 @@ $small-transcript-line-time-width: 36px;
     width: $transcript-line-options-reviewing-width;
   }
   .line.reviewing .text {
-    margin-right: $transcript-line-options-reviewing-width;
+    @include desktop {
+      margin-right: $transcript-line-options-reviewing-width;
+    }
   }
   .line.completed .text {
     @include desktop {
@@ -494,7 +491,7 @@ $small-transcript-line-time-width: 36px;
     .text {
       margin-left: $transcript-line-time-width + $transcript-line-status-width + $transcript-line-speaker-width;
       @include mobile {
-        margin-left: $small-transcript-line-time-width + $transcript-line-status-width + $transcript-line-speaker-width;
+        margin-left: $small-transcript-line-time-width + $transcript-line-speaker-width;
       }
     }
   }

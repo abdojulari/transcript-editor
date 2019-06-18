@@ -32,6 +32,11 @@
 
   // make room for conventions tab
   .modal {
+    &.active {
+      @include mobile {
+        display: none !important;
+      }
+    }
     .modal-inner {
       top: 80px;
     }

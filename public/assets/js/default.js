@@ -15869,8 +15869,9 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     // implicit save; save even when user has not edited original text
     // only save if line is editable
     if (text != userText && line.is_editable) {
+      // Don't save if user is in read only mode (mobile view)
       // Don't save if the user is in Play All mode and hasn't changed the text.
-      if ((this.play_all) && (line.display_text == text)) {
+      if (($(window).width() < 768) || ((this.play_all) && (line.display_text == text))) {
         return;
       }
 
@@ -16012,6 +16013,12 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.$el.on('click.transcript', '.play-all', function(e) {
       e.preventDefault();
       _this.playAll();
+    });
+
+    this.$el.on('click.transcript', '.mobile-play', function(e) {
+      e.preventDefault();
+      _this.playerToggle();
+      $(this).children('i.fa').toggleClass('fa-play-circle, fa-pause-circle');
     });
 
     this.loadAnalytics();
