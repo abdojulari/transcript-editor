@@ -9,6 +9,10 @@
   border: 0;
 }
 
+.hidden {
+  display: none;
+}
+
 .mobile-only {
   @include desktop {
     display: none;

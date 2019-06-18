@@ -201,7 +201,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
       _this.playAll();
     });
 
-    this.$el.on('click.transcript', '.mobile-play', function(e) {
+    this.$el.on('click.transcript', '.mobile-toggle', function(e) {
       e.preventDefault();
       _this.mobileToggle();
     });

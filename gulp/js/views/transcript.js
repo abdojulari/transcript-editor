@@ -485,8 +485,32 @@ app.views.Transcript = app.views.Base.extend({
   },
 
   mobileToggle: function(){
-    this.playerToggle();
-    this.$('.mobile-play i.fa').toggleClass('fa-play-circle, fa-pause-circle');
+    var pauseButton  = this.$('.mobile-toggle.pause')
+
+    if ( pauseButton.hasClass('hidden') ) {
+      // Play button
+      this.play_all = true;
+
+      // If nothing has been selected start at the start
+      if (this.current_line_i < 0) {
+        this.lineSelect(0);
+      } else {
+        this.lineSelect(this.current_line_i);
+      }
+
+      // Toggle buttons
+      playButton.addClass('hidden')
+      pauseButton.removeClass('hidden')
+
+    } else {
+      // Pause button
+
+      this.playerPause({trigger: 'manual'});
+
+      // Toggle buttons
+      pauseButton.addClass('hidden')
+      playButton.removeClass('hidden')
+    }
   },
 
   start: function(){
