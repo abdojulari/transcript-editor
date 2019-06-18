@@ -178,10 +178,19 @@
   }
 }
 
-.admin{
-  .select{
-    .select-active {
-      margin-top: 10px;
-    }
+// Overriding styles from app/assets/stylesheets/project.css
+.header .navigation.primary {
+  .header-menu {
+    padding-top: 0;
+  }
+  .account-container {
+    float: none;
+    top: 15px;
+  }
+}
+
+.admin {
+  .select .select-active:after {
+    content: none;
   }
 }
