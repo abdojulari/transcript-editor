@@ -485,6 +485,7 @@ app.views.Transcript = app.views.Base.extend({
   },
 
   mobileToggle: function(){
+    var playButton   = this.$('.mobile-toggle.play')
     var pauseButton  = this.$('.mobile-toggle.pause')
 
     if ( pauseButton.hasClass('hidden') ) {
