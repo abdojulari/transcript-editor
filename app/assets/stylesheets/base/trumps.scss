@@ -10,9 +10,8 @@
 }
 
 .mobile-only {
-  display: none;
-  @include mobile {
-    display: inherit;
+  @include desktop {
+    display: none;
   }
 }
 
@@ -24,7 +23,6 @@
 }
 
 .desktop-only {
-  display: inherit;
   @include mobile {
     display: none !important;
   }
