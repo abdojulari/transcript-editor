@@ -40,9 +40,10 @@
   left: 0;
   right: 0;
   width: 100%;
-  padding: 20px 10px 25px;
-  background-color: $cyan;
-  color: $white;
+  padding: 20px;
+  background-color: $soft-orange;
+  color: $black;
+  text-align: center;
   z-index: 2010;
   transition: all 1s ease-out;
   transform: translateY(0);
@@ -52,8 +53,10 @@
     max-width: 600px;
     margin: 0 auto;
 
-    > *:first-child {
+    h5 {
       margin-top: 0;
+      font-size: 1.125rem;
+      font-weight: bold;
     }
   }
 
