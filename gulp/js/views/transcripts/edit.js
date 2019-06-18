@@ -203,8 +203,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
 
     this.$el.on('click.transcript', '.mobile-play', function(e) {
       e.preventDefault();
-      _this.playerToggle();
-      $(this).children('i.fa').toggleClass('fa-play-circle, fa-pause-circle');
+      _this.mobileToggle();
     });
 
     this.loadAnalytics();

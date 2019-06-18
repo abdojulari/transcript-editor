@@ -484,6 +484,11 @@ app.views.Transcript = app.views.Base.extend({
     $container.append($lines);
   },
 
+  mobileToggle: function(){
+    this.playerToggle();
+    this.$('.mobile-play i.fa').toggleClass('fa-play-circle, fa-pause-circle');
+  },
+
   start: function(){
     this.$('.start-play, .play-all').addClass('disabled');
 
