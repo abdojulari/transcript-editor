@@ -14910,7 +14910,7 @@ app.views.Transcript = app.views.Base.extend({
       if (this.current_line_i < 0) {
         this.lineSelect(0);
       } else {
-        this.lineSelect(this.current_line_i);
+        this.playerPlay();
       }
 
       // Toggle buttons
