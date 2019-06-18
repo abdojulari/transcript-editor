@@ -14545,6 +14545,14 @@ app.views.Transcript = app.views.Base.extend({
     // fit input
     this.fitInput($input);
 
+    // Adjusts mobile button to show pause
+    var playButton   = this.$('.mobile-toggle.play')
+    var pauseButton  = this.$('.mobile-toggle.pause')
+    if (pauseButton.hasClass('hidden')) {
+      playButton.addClass('hidden')
+      pauseButton.removeClass('hidden')
+    }
+
     // play audio
     this.pause_at_time = this.current_line.end_time * 0.001;
     this.playerPlay(this.current_line.start_time);
