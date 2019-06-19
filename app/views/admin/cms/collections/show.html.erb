@@ -59,19 +59,25 @@
           <th class="text-center">Edit</th>
           <th class="text-center">Delete</th>
           <th class="text-center">
-          <% if current_user && (current_user.admin? || current_user.content_editor?) %>
+            <div class="dropdown">
+              <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Actions
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <% if current_user && (current_user.admin? || current_user.content_editor?) %>
 
-            <%= submit_tag 'Publish', class: 'btn btn-success btn-sm update-multiple',
-              data: { action: 'publish', url: update_multiple_admin_cms_transcripts_url, collection_uid: @collection.uid } %> |
-            <%= submit_tag 'Unpublish', class: 'btn btn-primary btn-sm update-multiple',
-                data: { action: 'unpublish', url: update_multiple_admin_cms_transcripts_url, collection_uid: @collection.uid } %>
-          <% end %>
+                  <%= submit_tag 'Publish', class: 'dropdown-item update-multiple',
+                    data: { action: 'publish', url: update_multiple_admin_cms_transcripts_url, collection_uid: @collection.uid } %>
+                  <%= submit_tag 'Unpublish', class: 'dropdown-item update-multiple',
+                      data: { action: 'unpublish', url: update_multiple_admin_cms_transcripts_url, collection_uid: @collection.uid } %>
+                <% end %>
 
-          <% if current_user && current_user.admin? %>
-            | <%= submit_tag 'Delete', class: 'btn btn-danger btn-sm update-multiple',
-              data: { action: 'delete', url: update_multiple_admin_cms_transcripts_url, collection_uid: @collection.uid } %>
-          <% end %>
-
+                <% if current_user && current_user.admin? %>
+                  <%= submit_tag 'Delete', class: 'dropdown-item btn update-multiple',
+                    data: { action: 'delete', url: update_multiple_admin_cms_transcripts_url, collection_uid: @collection.uid } %>
+                <% end %>
+              </div>
+            </div>
           </th>
         </tr>
       </thead>

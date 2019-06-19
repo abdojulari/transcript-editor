@@ -34,4 +34,8 @@ $(document).ready(function(){
     event.preventDefault();
     $(this).find('.select').toggleClass('active')
   })
+
+  $('#account-container').on('click', function(event){
+    $(this).find('.select').toggleClass('active')
+  })
 })
