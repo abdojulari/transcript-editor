@@ -7,9 +7,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  width: auto;
-  height: auto;
-  z-index: 2000;
+  z-index: -1;
   overflow: auto;
   transform: translate3d(0, 100%, 0);
   transition: transform 0.25s ease-out;
@@ -22,6 +20,19 @@
     transform: none;
     width: auto;
     height: auto;
+    z-index: 2000;
+    .modal-inner {
+      z-index: 20;
+      min-height: 100vh;
+      @media (min-width: 768px) {
+        position: absolute;
+        top: 60px;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 650px;
+        min-height: 0;
+      }
+    }
   }
 
   .modal-close {
@@ -61,21 +72,11 @@
     }
   }
   .modal-inner {
-    z-index: 20;
+    z-index: -1;
     width: 100%;
     overflow-x: hidden;
     background: white;
     padding: 20px;
-    min-height: 100vh;
-
-    @media (min-width: 768px) {
-      position: absolute;
-      top: 60px;
-      left: 50%;
-      transform: translateX(-50%);
-      max-width: 650px;
-      min-height: 0;
-    }
   }
 
   .modal-label {
@@ -104,7 +105,7 @@
     &:hover, &:focus, &:active {
       background: darken($editor-button-color, 10%);
       color: $white;
-      text-decoration: none; 
+      text-decoration: none;
     }
   }
 }
