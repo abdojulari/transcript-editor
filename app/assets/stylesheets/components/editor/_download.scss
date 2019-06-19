@@ -37,4 +37,9 @@
       display: block;
     }
   }
+  .modal.active {
+    @include mobile {
+      display: none !important;
+    }
+  }
 }
