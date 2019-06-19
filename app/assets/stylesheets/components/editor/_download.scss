@@ -37,7 +37,7 @@
       display: block;
     }
   }
-  .modal.active {
+  .modal {
     @include mobile {
       display: none !important;
     }
