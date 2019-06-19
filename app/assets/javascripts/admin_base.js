@@ -9,6 +9,7 @@
 //= require users
 //= require editor
 //= require transcripts
+//= require fixed_header
 //= require Chart.bundle
 //= require chartkick
 //= require speaker_autocomplete
