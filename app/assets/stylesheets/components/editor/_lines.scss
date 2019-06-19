@@ -233,11 +233,13 @@ $small-transcript-line-time-width: 50px;
       padding-left: 0;
     }
     .mobile-text {
-      display: inline-block;
-      max-width: 100%;
-      padding: 10px;
-      margin: 0;
-      color: $black;
+      @include mobile {
+        display: inline-block;
+        max-width: 100%;
+        padding: 10px;
+        margin: 0;
+        color: $black;
+      }
     }
 
     > div {

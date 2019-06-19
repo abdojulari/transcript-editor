@@ -198,8 +198,10 @@
     float: none;
     top: 15px;
   }
+  .account-container .select .select-options {
+    left: auto;
+  }
 }
-
 .admin {
   .select .select-active:after {
     content: none;
