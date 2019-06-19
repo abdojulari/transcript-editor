@@ -32,10 +32,22 @@
     </main>
     <%= render "shared/footer" %>
 
-    <%= render "shared/mobile_warning",
-          title: @body_class == "body--transcript-edit" ? "Notice errors in this transcript?" : "Visiting from a mobile device?",
-          type: @body_class == "body--transcript-edit" ? "transcript" : "home"
-    %>
-
+    <% if @body_class == "body--transcript-edit" %>
+      <%= render "shared/mobile_warning",
+            type: "transcript",
+            title: "Notice errors in this transcript?",
+            body: "Amplify is a community tool and anyone can help improve the quality of our transcripts.
+            For full editing functionality, please visit Amplify from a computer, laptop or tablet.
+            For now you can continue to enjoy listening to this interview and reading its existing transcript from your mobile device."
+      %>
+    <% else %>
+      <%= render "shared/mobile_warning",
+            type: "home",
+            title: "Visiting from a mobile device?",
+            body: "Amplify is a community tool and anyone can help improve the quality of our transcripts.
+            For full editing functionality, please visit Amplify from a computer, laptop or tablet.
+            Otherwise please enjoy browsing and listening to our fascinating audio collections from your mobile device."
+      %>
+    <% end %>
   </body>
 </html>
