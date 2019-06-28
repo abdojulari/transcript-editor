@@ -109,7 +109,7 @@ GEM
       rack
       rake (>= 0.8.1)
     pg (0.21.0)
-    pg_search (2.2.0)
+    pg_search (2.1.4)
       activerecord (>= 4.2)
       activesupport (>= 4.2)
     popuparchive (1.0.0)
@@ -199,7 +199,7 @@ DEPENDENCIES
   omniauth-google-oauth2
   passenger
   pg (= 0.21.0)
-  pg_search
+  pg_search (= 2.1.4)
   popuparchive
   pry
   rack-cors
@@ -211,5 +211,8 @@ DEPENDENCIES
   webvtt-ruby
   will_paginate
 
+RUBY VERSION
+   ruby 2.3.0p0
+
 BUNDLED WITH
-   1.16.2
+   1.16.6
