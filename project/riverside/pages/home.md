@@ -3,7 +3,7 @@
   <div style="height: 1em; min-height: 1em;"></div>
 
   <div class="container" role="banner">
-    <h1><img class="logo-lg" src="/peabody/assets/img/riverside-bar.png" alt="Peabody Award Nominees" title="Peabody Transcript Editor" /></h1>
+    <h1><img class="logo-lg" src="/riverside/assets/img/riverside-bar.png" alt="Riverside" title="Riverside Transcript Editor" /></h1>
     <h2>Preserving the Historic Broadcasts of WRVR-FM Public Radio</h2>
   </div>
 </div>
