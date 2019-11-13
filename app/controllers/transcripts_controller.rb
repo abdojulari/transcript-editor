@@ -88,6 +88,11 @@ class TranscriptsController < ApplicationController
     head :no_content
   end
 
+  def release_count
+    puts 'howbowdat'
+    return render json: {data: Transcript.where(released: false).all.map {|t| t.uid }}, status: 200
+  end
+
   private
 
     def set_transcript

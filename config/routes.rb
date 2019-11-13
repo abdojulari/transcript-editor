@@ -16,6 +16,9 @@ Rails.application.routes.draw do
 
   # Adds route for AAPB JSON transcript
   match 'transcripts/aapb/:id' => 'transcripts#aapb', :via => [:get], :as => :aapb_transcript
+  
+  # route for release count
+  match 'release_count' => 'transcripts#release_count', via: [:get]
 
   # admin
   namespace :admin do
