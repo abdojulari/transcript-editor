@@ -22,11 +22,12 @@ File.open("ready_for_release_guids_#{ right_now }.txt", "w+") do |f|
 end
 
 quips = ['Wow, neat. We ', 'Great news - we ','You are not going to believe this! We ']
-
+filename = nil
 release_needin_ids.each do |guid|
   transcript_json = RestClient.get(TX_HOST + "/transcripts/aapb/#{ guid }.json")
-  filename = "./transcript-json/transcript-#{ right_now }-#{guid}.json"
-  File.open(filename, 'w+') do |f|
+  # filename = "transcript-#{ right_now }-#{guid}.json"
+  filename = "#{guid.gsub('_','-')}-transcript.json"
+  File.open(%(./transcript-json/#{filename}), 'w+') do |f|
     f << transcript_json
     puts quips.sample + " wrote #{guid} data to #{filename}."
   end
@@ -34,6 +35,6 @@ end
 
 puts "Well, that was fun. Now we've got all the files we need."
 
-puts `./shellScriptToDuplicateAndPushNewFilesToS3.sh transcript-json/`
+puts `./shellScriptToDuplicateAndPushNewFilesToS3.sh #{__dir__}/transcript-json/#{filename}`
 
 puts 'Ah... That is the stuff.'

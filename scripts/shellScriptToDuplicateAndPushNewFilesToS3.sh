@@ -9,7 +9,6 @@ export profileName='transcript-editor-script'   # personalize this for your own 
 export profileNameList=$(grep '\[' "$HOME/.aws/config" | tr -d '\[\]') ;
 export profileNameCount=$(echo "$profileNameList" | wc -l | tr -dC '[0-9]') ;
 
-
 function usage {
 clear ;
 echo "$1" ;
@@ -68,6 +67,8 @@ arg=$1;
 			echo "copying $arg to S3 $copyVersion" ;
 			aws s3api copy-object --profile "$profileName" --bucket "$bucketName" --copy-source "$bucketName/transcripts/$guid/$fileName" --key "transcripts/ORIGINAL-""$guid"/"$guid""-transcript""$copyVersion"".json" --metadata-directive 'COPY' --tagging-directive 'COPY'
 			aws s3api put-object --profile "$profileName" --bucket "$bucketName" --key "transcripts/$guid/$fileName" --body "$arg"
+
+			curl -X PATCH -d released=true  "$TRANSCRIPT_HOST/transcripts/$guid.json"
 		else
 			echo "ERROR:  $errString" >&2 ;
 			continue ;

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :transcript_speaker_edits, only: [:create]
   resources :transcript_edits, only: [:index, :show, :create]
   resources :transcript_files, only: [:index, :show]
-  resources :transcripts, only: [:index, :show]
+  resources :transcripts, only: [:index, :show, :update]
   resources :collections, only: [:index, :show]
 
   mount_devise_token_auth_for 'User', at: 'auth', controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
