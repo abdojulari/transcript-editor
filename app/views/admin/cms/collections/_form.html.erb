@@ -69,4 +69,8 @@
     <%= f.submit "Save", class: "btn btn-primary" %>
     <%= link_to "Cancel", admin_cms_path %>
   </div>
+
+  <div class="form-group">
+    <%= render partial: "admin/cms/shared/stats", locals: { stats_type: 'collection', transcript_count: @collection.transcripts.length, duration: @collection.duration, usage: @collection.disk_usage } %>
+  </div>
 <% end %>

@@ -46,6 +46,12 @@ class Collection < ApplicationRecord
     uid
   end
 
+  def duration
+    Rails.cache.fetch("Collection:duration:#{self.id}", expires_in: 1.hour) do
+      transcripts.map(&:duration).inject(0) { |memo, duration| memo + duration }
+    end
+  end
+
   def disk_usage
     Rails.cache.fetch("Collection:disk_usage:#{self.id}", expires_in: 1.hour) do
       transcripts.map(&:disk_usage)

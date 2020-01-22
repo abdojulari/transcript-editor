@@ -1,0 +1,28 @@
+<div class="well">
+  <h2>Statistics for this <%= stats_type %></h2>
+  <dl>
+    <% if defined?(collection_count) && stats_type == 'institution' %>
+      <dt>Collections</dt>
+      <dd data-raw="<%= collection_count %>"><%= number_to_human collection_count %></dd>
+    <% end %>
+    <% if defined?(transcript_count) && (stats_type == 'collection' || stats_type == 'institution') %>
+      <dt>Transcripts</dt>
+      <dd data-raw="<%= transcript_count %>"><%= number_to_human transcript_count %></dd>
+    <% end %>
+    <dt>Audio duration</dt>
+    <dd data-raw="<%= duration %>">
+      <%= duration_to_hms duration %>
+    </dd>
+    <dt>File sizes per type</dt>
+    <dd data-raw="<%= usage.to_json %>">
+      <ul>
+        <% usage.each do |ft, u| %>
+          <li>
+            <strong><%= ft.capitalize %>:</strong>
+            <span><%= number_to_human_size u %></span>
+          </li>
+        <% end %>
+      </ul>
+    </dd>
+  </dl>
+</div>
