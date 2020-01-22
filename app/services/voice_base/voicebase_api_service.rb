@@ -42,17 +42,25 @@ module VoiceBase
 
       if transcript.voicebase_status == "completed"
         str = get_transcript(transcript_id)
-        imp = VoiceBase::ImportSrtTranscripts.new(project_id: ENV["PROJECT_ID"])
-        imp.update_from_voicebase(transcript, str)
-        transcript.update_column("voicebase_processing_completed_at", Time.zone.now)
-      else
-        # reset back for next time
-        transcript.update_column("pickedup_for_voicebase_processing_at", nil)
+        if str
+          imp = VoiceBase::ImportSrtTranscripts.new(project_id: ENV["PROJECT_ID"])
+          imp.update_from_voicebase(transcript, str)
+          transcript.update_column("voicebase_processing_completed_at", Time.zone.now)
+          return
+        end
       end
+
+      # reset back for next time
+      transcript.update_column("pickedup_for_voicebase_processing_at", nil)
     end
 
     def self.get_transcript(transcript_id)
       transcript = Transcript.find(transcript_id)
+      unless transcript.voicebase_media_id
+        transcript.voicebase_upload
+        return nil
+      end
+
       res = Voicebase::Client.new.get_transcript(transcript.voicebase_media_id)
 
       if res.code == "200"
@@ -63,4 +71,3 @@ module VoiceBase
     end
   end
 end
-
