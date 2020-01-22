@@ -22,3 +22,19 @@
     @include wysiwyg-element-styles;
   }
 }
+
+.well--statistics {
+  margin-top: 36px;
+  padding: 15px;
+  border-radius: 4px;
+  background: #eee;
+}
+
+.statistics-table {
+  display: flex;
+  flex-direction: row;
+
+  &__item {
+    flex: 1 1 auto;
+  }
+}

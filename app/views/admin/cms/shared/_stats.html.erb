@@ -1,28 +1,36 @@
-<div class="well">
+<div class="well well--statistics">
   <h2>Statistics for this <%= stats_type %></h2>
-  <dl>
+  <dl class="statistics-table">
     <% if defined?(collection_count) && stats_type == 'institution' %>
-      <dt>Collections</dt>
-      <dd data-raw="<%= collection_count %>"><%= number_to_human collection_count %></dd>
+      <div class="statistics-table__item">
+        <dt>Collections</dt>
+        <dd data-raw="<%= collection_count %>"><%= number_to_human collection_count %></dd>
+      </div>
     <% end %>
     <% if defined?(transcript_count) && (stats_type == 'collection' || stats_type == 'institution') %>
-      <dt>Transcripts</dt>
-      <dd data-raw="<%= transcript_count %>"><%= number_to_human transcript_count %></dd>
+      <div class="statistics-table__item">
+        <dt>Items</dt>
+        <dd data-raw="<%= transcript_count %>"><%= number_to_human transcript_count %></dd>
+      </div>
     <% end %>
-    <dt>Audio duration</dt>
-    <dd data-raw="<%= duration %>">
-      <%= duration_to_hms duration %>
-    </dd>
-    <dt>File sizes per type</dt>
-    <dd data-raw="<%= usage.to_json %>">
-      <ul>
-        <% usage.each do |ft, u| %>
-          <li>
-            <strong><%= ft.capitalize %>:</strong>
-            <span><%= number_to_human_size u %></span>
-          </li>
-        <% end %>
-      </ul>
-    </dd>
+    <div class="statistics-table__item">
+      <dt>Audio duration</dt>
+      <dd data-raw="<%= duration %>">
+        <%= duration_to_hms duration %>
+      </dd>
+    </div>
+    <div class="statistics-table__item">
+      <dt>File sizes per type</dt>
+      <dd data-raw="<%= usage.to_json %>">
+        <ul>
+          <% usage.each do |ft, u| %>
+            <li>
+              <strong><%= ft.capitalize %>:</strong>
+              <span><%= number_to_human_size u %></span>
+            </li>
+          <% end %>
+        </ul>
+      </dd>
+    </div>
   </dl>
 </div>

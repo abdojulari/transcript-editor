@@ -124,7 +124,7 @@
       </div>
 
       <div class="form-group">
-        <%= render partial: "admin/cms/shared/stats", locals: { stats_type: 'transcript', duration: @transcript.duration, usage: @transcript.disk_usage } %>
+        <%= render partial: "admin/cms/shared/stats", locals: { stats_type: 'item', duration: @transcript.duration, usage: @transcript.disk_usage } %>
       </div>
     <% end %>
   </div>
