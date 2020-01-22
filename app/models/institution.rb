@@ -65,6 +65,12 @@ class Institution < ApplicationRecord
     end
   end
 
+  def duration
+    Rails.cache.fetch("Institution:duration:#{self.id}", expires_in: 1.hour) do
+      collections.map(&:duration).inject(0) { |memo, duration| memo + duration }
+    end
+  end
+
   def disk_usage
     Rails.cache.fetch("Institution:disk_usage:#{self.id}", expires_in: 1.hour) do
       collections.map(&:disk_usage)

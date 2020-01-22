@@ -118,10 +118,13 @@
         Uploading your audio file may take a few minutes. After clicking the 'Save transcript' button, do not close your browser or navigate away from this page. When your file upload is complete you will be redirected to the transcript index page.
       </div>
 
-
       <div class="form-group text-center mb-2">
         <%= f.submit('Save Transcript', class: 'btn btn-primary') %>
         <%= link_to "Cancel", admin_cms_collection_path(@transcript.collection.uid) %>
+      </div>
+
+      <div class="form-group">
+        <%= render partial: "admin/cms/shared/stats", locals: { stats_type: 'transcript', duration: @transcript.duration, usage: @transcript.disk_usage } %>
       </div>
     <% end %>
   </div>

@@ -48,4 +48,8 @@
 
 
   <%= form.submit 'Save', class: 'btn btn-primary' %>
+
+  <div class="form-group">
+    <%= render partial: "admin/cms/shared/stats", locals: { stats_type: 'institution', collection_count: institution.collections.count, transcript_count: institution.collections.map { |c| c.transcripts.length }.inject(0, :+), duration: institution.duration, usage: institution.disk_usage } %>
+  </div>
 <% end %>
