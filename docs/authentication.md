@@ -9,12 +9,9 @@ authentication to work independently of the user interface.
 
 * Google OAuth2
 * Facebook
-* SAML
+* Email login
+* SAML (WIP)
   * Works against Azure AD
-
-Considering implementing:
-
-* Gigya
 
 ## Connecting auth providers to project
 
