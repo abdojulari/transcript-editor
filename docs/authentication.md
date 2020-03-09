@@ -9,12 +9,9 @@ authentication to work independently of the user interface.
 
 * Google OAuth2
 * Facebook
-* SAML
+* Email login
+* SAML (WIP)
   * Works against Azure AD
-
-Considering implementing:
-
-* Gigya
 
 ## Connecting auth providers to project
 
@@ -110,6 +107,25 @@ After updating your `project.json` file, always run
      FACEBOOK_APP_ID: "7890123456123456"
      FACEBOOK_APP_SECRET: nopqrstuvwxyz123456abcdefghijklm
   ```
+
+### Email login
+
+Email login is managed via Devise, and transactional emails are sent
+using SMTP. It requires the following parameters to be set up in
+your `config/application.yml` file.
+
+* **SENDER_EMAIL**  
+  Email address to send from.
+* **SMTP_URI**  
+  SMTP server hostname.
+* **SMTP_PORT**  
+  SMTP server port.
+* **SES_SMTP_USERNAME**  
+  SMTP server username.
+* **SES_SMTP_PASSWORD**  
+  SMTP server password.
+* **DEFAULT_MAILER_HOST**  
+  The default host for your webserver.
 
 ### SAML
 
