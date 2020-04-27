@@ -2,6 +2,7 @@
 
 # Institution represents each library
 class Institution < ApplicationRecord
+  has_paper_trail
   include ImageSizeValidation
 
   extend FriendlyId

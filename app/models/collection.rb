@@ -1,4 +1,6 @@
 class Collection < ApplicationRecord
+  has_paper_trail
+
   include ImageSizeValidation
   include UidValidationOnUpdate
   include Publishable #NOTE: default scope is used to filter published_at
@@ -16,7 +18,6 @@ class Collection < ApplicationRecord
   validates :uid, :title, presence: true, uniqueness: true
   validate :image_size_restriction
   validate :uid_not_changed
-
 
   attribute :collection_url_title, :string, default: ' View in Library catalogue'
 

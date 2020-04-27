@@ -1,4 +1,5 @@
 class Transcript < ApplicationRecord
+  has_paper_trail
   include ImageSizeValidation
   include UidValidationOnUpdate
   include UidValidation

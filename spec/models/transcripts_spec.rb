@@ -222,4 +222,16 @@ RSpec.describe Transcript, type: :model do
       end
     end
   end
+
+  describe "versioning", versioning: true do
+    let(:transcript) { create :transcript, percent_completed: 100 }
+
+    describe "have_a_version_with matcher" do
+      it "is possible to do assertions on version attributes" do
+        transcript.update!(description: "Old description")
+        transcript.update!(description: "New description")
+        expect(transcript).to have_a_version_with description: "Old description"
+      end
+    end
+  end
 end
