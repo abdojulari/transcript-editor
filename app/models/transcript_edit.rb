@@ -1,5 +1,5 @@
 class TranscriptEdit < ApplicationRecord
-
+  has_paper_trail
   belongs_to :transcript
   belongs_to :transcript_line
 
@@ -57,5 +57,4 @@ class TranscriptEdit < ApplicationRecord
     user = User.find(user_id)
     user.incrementLinesEdited(edits.length) if user && edits.length > 0
   end
-
 end

@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_paper_trail
   # Include default devise modules.
   devise :database_authenticatable,
           :recoverable, :confirmable, :registerable,

@@ -1,5 +1,5 @@
 class TranscriptSpeakerEdit < ApplicationRecord
-
+  has_paper_trail
   belongs_to :transcript_line
   belongs_to :transcript
 
@@ -14,5 +14,4 @@ class TranscriptSpeakerEdit < ApplicationRecord
       .joins('LEFT OUTER JOIN users ON users.id = transcript_speaker_edits.user_id LEFT OUTER JOIN user_roles ON user_roles.id = users.user_role_id')
       .where(transcript_line_id: transcript_line_id)
   end
-
 end

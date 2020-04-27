@@ -1,5 +1,5 @@
 class TranscriptLine < ApplicationRecord
-
+  has_paper_trail
   include PgSearch
   multisearchable :against => [:original_text, :guess_text]
   pg_search_scope :search_by_all_text, :against => [:guess_text, :original_text] # User text weighted more than original text
@@ -256,5 +256,4 @@ class TranscriptLine < ApplicationRecord
       group: best_group
     }
   end
-
 end

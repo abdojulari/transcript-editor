@@ -1,4 +1,5 @@
 class Flag < ApplicationRecord
+  has_paper_trail
   belongs_to :transcript_line
   belongs_to :flag_type, optional: true
 

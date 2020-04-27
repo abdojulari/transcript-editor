@@ -1,5 +1,5 @@
 class TranscriptSpeaker < ApplicationRecord
-
+  has_paper_trail
   belongs_to :speaker
   belongs_to :transcript
 
@@ -8,5 +8,4 @@ class TranscriptSpeaker < ApplicationRecord
       Speaker.joins(:transcript_speakers).where(transcript_speakers:{transcript_id: transcript_id})
     end
   end
-
 end

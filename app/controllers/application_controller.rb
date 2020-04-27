@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   # Allow us to use JBuilder
   include ActionController::ImplicitRender
 
+  before_action :set_paper_trail_whodunnit
   before_action :touch_session
   before_action :load_user_edits
   before_action :load_footer

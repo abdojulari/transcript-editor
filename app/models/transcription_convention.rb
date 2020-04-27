@@ -1,4 +1,5 @@
 class TranscriptionConvention < ApplicationRecord
+  has_paper_trail
   belongs_to :institution
 
   def self.create_default(institution_id)

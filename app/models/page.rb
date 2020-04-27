@@ -1,4 +1,5 @@
 class Page < ApplicationRecord
+  has_paper_trail
   has_one :public_page, dependent: :destroy
 
   validates :page_type, presence: true
