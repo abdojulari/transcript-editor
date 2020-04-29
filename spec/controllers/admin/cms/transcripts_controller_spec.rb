@@ -178,4 +178,44 @@ RSpec.describe Admin::Cms::TranscriptsController, type: :controller do
       end
     end
   end
+
+  describe "update_multiple" do
+    context "when publishing" do
+      let(:transcripts) { create_list(:transcript, 3) }
+      let(:transcript) { transcripts.first }
+      let(:action) { patch :update_multiple, params: { commit: "publish", transcript_ids: transcripts.map(&:uid), collection_uid: transcript.collection.uid }, format: :js }
+
+      it "publishes all transcripts" do
+        action
+        transcript.reload
+        expect(transcript.publish).to be_truthy
+        expect(transcript.published_at).to be_truthy
+
+        transcript.update(title: Faker::Lorem.sentence)
+        transcript.reload
+
+        expect(transcript.publish).to be_truthy
+        expect(transcript.published_at).to be_truthy
+      end
+    end
+
+    context "when publishing" do
+      let(:transcripts) { create_list(:transcript, 3, :published) }
+      let(:transcript) { transcripts.first }
+      let(:action) { patch :update_multiple, params: { commit: "unpublish", transcript_ids: transcripts.map(&:uid), collection_uid: transcript.collection.uid }, format: :js }
+
+      it "publishes all transcripts" do
+        action
+        transcript.reload
+        expect(transcript.publish).to be_falsy
+        expect(transcript.published_at).to be_falsy
+
+        transcript.update(title: Faker::Lorem.sentence)
+        transcript.reload
+
+        expect(transcript.publish).to be_falsy
+        expect(transcript.published_at).to be_falsy
+      end
+    end
+  end
 end
