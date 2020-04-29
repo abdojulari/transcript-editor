@@ -52,6 +52,14 @@ class Transcript < ApplicationRecord
     5
   end
 
+  def publish!
+    update_columns(published_at: Time.current, publish: true)
+  end
+
+  def unpublish!
+    update_columns(published_at: nil, publish: false)
+  end
+
   def transcription_conventions
     collection&.institution&.transcription_conventions
   end
