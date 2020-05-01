@@ -65,7 +65,7 @@ GEM
       activerecord (>= 3.1.0)
     addressable (2.6.0)
       public_suffix (>= 2.0.2, < 4.0)
-    airbrussh (1.3.1)
+    airbrussh (1.4.0)
       sshkit (>= 1.6.1, != 1.7.0)
     archive-zip (0.12.0)
       io-like (~> 0.3.0)
@@ -85,7 +85,7 @@ GEM
       concurrent-ruby (~> 1.0)
     builder (3.2.3)
     byebug (11.0.0)
-    capistrano (3.11.0)
+    capistrano (3.11.2)
       airbrussh (>= 1.0.0)
       i18n
       rake (>= 10.0.0)
@@ -132,7 +132,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.1.5)
+    concurrent-ruby (1.1.6)
     connection_pool (2.2.2)
     crass (1.0.4)
     dalli (2.7.9)
@@ -170,8 +170,8 @@ GEM
     executable-hooks (1.6.0)
     factory_bot (5.0.2)
       activesupport (>= 4.2.0)
-    factory_bot_rails (5.0.1)
-      factory_bot (~> 5.0.0)
+    factory_bot_rails (5.0.2)
+      factory_bot (~> 5.0.2)
       railties (>= 4.2.0)
     faker (1.9.3)
       i18n (>= 0.7)
@@ -368,7 +368,7 @@ GEM
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
     httpclient (2.8.3)
-    i18n (1.6.0)
+    i18n (1.8.2)
       concurrent-ruby (~> 1.0)
     invisible_captcha (0.12.0)
       rails (>= 3.2.0)
@@ -414,9 +414,9 @@ GEM
     multi_json (1.13.1)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
-    net-scp (1.2.1)
-      net-ssh (>= 2.6.5)
-    net-ssh (5.2.0)
+    net-scp (3.0.0)
+      net-ssh (>= 2.6.5, < 7.0.0)
+    net-ssh (6.0.2)
     netrc (0.11.0)
     newrelic_rpm (6.1.0.352)
     nio4r (2.3.1)
@@ -462,11 +462,11 @@ GEM
       activesupport (>= 3.0.0)
     pundit-matchers (1.6.0)
       rspec-rails (>= 3.0.0)
-    rack (2.0.6)
+    rack (2.2.2)
     rack-attack (6.0.0)
       rack (>= 1.0, < 3)
     rack-cors (1.0.2)
-    rack-protection (2.0.5)
+    rack-protection (2.0.8.1)
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -505,7 +505,7 @@ GEM
       thor (>= 0.19.0, < 2.0)
     rainbow (3.0.0)
     raindrops (0.19.0)
-    rake (12.3.2)
+    rake (13.0.1)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
@@ -518,7 +518,7 @@ GEM
       nokogiri (~> 1.5)
       trollop (~> 2.1)
     redcarpet (3.4.0)
-    redis (4.1.0)
+    redis (4.1.3)
     regexp_parser (1.3.0)
     reinteractive-style (0.2.8)
       rubocop (~> 0.57)
@@ -589,11 +589,11 @@ GEM
       rubyzip (~> 1.2, >= 1.2.2)
     shoulda-matchers (3.1.3)
       activesupport (>= 4.0.0)
-    sidekiq (5.2.5)
-      connection_pool (~> 2.2, >= 2.2.2)
-      rack (>= 1.5.0)
-      rack-protection (>= 1.5.0)
-      redis (>= 3.3.5, < 5)
+    sidekiq (6.0.7)
+      connection_pool (>= 2.2.2)
+      rack (~> 2.0)
+      rack-protection (>= 2.0.0)
+      redis (>= 4.1.0)
     signet (0.11.0)
       addressable (~> 2.3)
       faraday (~> 0.9)
@@ -616,7 +616,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sshkit (1.18.2)
+    sshkit (1.21.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     summernote-rails (0.8.10.0)
@@ -661,84 +661,84 @@ PLATFORMS
 
 DEPENDENCIES
   acts-as-taggable-on (~> 6.0)
-  acts_as_singleton
+  acts_as_singleton (~> 0.0.8)
   autoprefixer-rails (~> 8.6, >= 8.6.5)
   bootsnap (>= 1.1.0)
   bootstrap (~> 4.1.1)
-  bugsnag
-  byebug
-  capistrano
-  capistrano-bundler
-  capistrano-rails
-  capistrano-rvm
-  capistrano-sidekiq
-  capistrano3-puma
+  bugsnag (~> 6.11.1)
+  byebug (~> 11.0.0)
+  capistrano (~> 3.11.0)
+  capistrano-bundler (~> 1.5.0)
+  capistrano-rails (~> 1.4.0)
+  capistrano-rvm (~> 0.1.2)
+  capistrano-sidekiq (~> 1.0.2)
+  capistrano3-puma (~> 3.1.1)
   capybara (>= 2.15, < 4.0)
   carrierwave (~> 1.1)
-  chartkick
-  chromedriver-helper
+  chartkick (~> 3.0.2)
+  chromedriver-helper (~> 2.1.0)
   coffee-rails (~> 4.2)
-  dalli
-  devise
-  dotenv-rails
-  draper
-  ejs
-  exception_handler
-  execjs
-  executable-hooks
-  factory_bot_rails
-  faker
-  figaro
-  fog
-  font-awesome-rails
-  formdata
+  dalli (~> 2.7.9)
+  devise (~> 4.6.1)
+  dotenv-rails (~> 2.7.1)
+  draper (~> 3.1.0)
+  ejs (~> 1.1.1)
+  exception_handler (~> 0.8.0)
+  execjs (~> 2.7.0)
+  executable-hooks (~> 1.6.0)
+  factory_bot_rails (~> 5.0.2)
+  faker (~> 1.9.3)
+  figaro (~> 1.1.1)
+  fog (~> 2.1.0)
+  font-awesome-rails (~> 4.7.0)
+  formdata (~> 0.1.2)
   friendly_id (~> 5.2.0)
-  highline
-  httparty
-  invisible_captcha
+  highline (~> 2.0.1)
+  httparty (~> 0.16.4)
+  invisible_captcha (~> 0.12.0)
   jbuilder (~> 2.5)
-  jquery-rails
+  jquery-rails (~> 4.3.3)
   launchy (~> 2.4.0)
-  letter_opener
+  letter_opener (~> 1.7.0)
   listen (>= 3.0.5, < 3.2)
   mini_magick (~> 4.8)
-  newrelic_rpm
+  newrelic_rpm (~> 6.1.0)
   oauth2!
-  omniauth-facebook
+  omniauth-facebook (~> 5.0.0)
   omniauth-google-oauth2 (>= 0.6.0)
-  paper_trail
-  pg
-  pg_search
-  pry
-  puma
-  pundit
+  paper_trail (~> 10.3.1)
+  pg (~> 1.1.4)
+  pg_search (~> 2.1.4)
+  pry (~> 0.12.2)
+  puma (~> 3.12.0)
+  pundit (~> 2.0.1)
   pundit-matchers (~> 1.6.0)
-  rack-attack
-  rack-cors
+  rack-attack (~> 6.0.0)
+  rack-cors (~> 1.0.2)
   rails (~> 5.2.0)
-  rails-controller-testing
-  rails_12factor
-  redcarpet
-  reinteractive-style
-  rest-client
+  rails-controller-testing (~> 1.0.4)
+  rails_12factor (~> 0.0.3)
+  redcarpet (~> 3.4.0)
+  reinteractive-style (~> 0.2.8)
+  rest-client (~> 2.0.2)
   rspec-rails (~> 3.4)
-  rubocop
-  sanitize
+  rubocop (~> 0.65.0)
+  sanitize (~> 5.0.0)
   sass-rails (~> 5.0)
-  seed_migration
-  selenium-webdriver
+  seed_migration (~> 1.2.3)
+  selenium-webdriver (~> 3.141.0)
   shoulda-matchers (~> 3.1)
-  sidekiq
-  simplecov
+  sidekiq (~> 6.0.7)
+  simplecov (~> 0.16.1)
   spring-watcher-listen (~> 2.0.0)
-  summernote-rails
+  summernote-rails (~> 0.8.10)
   tzinfo-data
   uglifier (>= 1.3.0)
-  unicorn
+  unicorn (~> 5.5.0)
   web-console (>= 3.3.0)
-  webvtt-ruby
-  whenever
-  will_paginate
+  webvtt-ruby (~> 0.3.2)
+  whenever (~> 0.10.0)
+  will_paginate (~> 3.1.6)
 
 RUBY VERSION
    ruby 2.5.3p105
