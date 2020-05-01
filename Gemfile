@@ -52,6 +52,9 @@ gem 'pry'
 
 gem 'passenger'
 
+# for the screep
+gem 'rest-client'
+
 # Use unicorn on linux only
 platforms :ruby do # linux
   gem 'unicorn'

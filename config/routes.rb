@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :transcript_speaker_edits, only: [:create]
   resources :transcript_edits, only: [:index, :show, :create]
   resources :transcript_files, only: [:index, :show]
-  resources :transcripts, only: [:index, :show]
+  resources :transcripts, only: [:index, :show, :update]
   resources :collections, only: [:index, :show]
 
   mount_devise_token_auth_for 'User', at: 'auth', controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
@@ -16,6 +16,9 @@ Rails.application.routes.draw do
 
   # Adds route for AAPB JSON transcript
   match 'transcripts/aapb/:id' => 'transcripts#aapb', :via => [:get], :as => :aapb_transcript
+  
+  # route for release count
+  match 'release_count' => 'transcripts#release_count', via: [:get]
 
   # admin
   namespace :admin do

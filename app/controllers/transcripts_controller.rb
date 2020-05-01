@@ -73,8 +73,8 @@ class TranscriptsController < ApplicationController
 
   # PATCH/PUT /transcripts/the-uid.json
   def update
-
-    if @transcript.update(transcript_params)
+    return 400 unless params[:released] == 'true'
+    if @transcript.update({released: true})
       head :no_content
     else
       render json: @transcript.errors, status: :unprocessable_entity
@@ -86,6 +86,10 @@ class TranscriptsController < ApplicationController
     @transcript.destroy
 
     head :no_content
+  end
+
+  def release_count
+    return render json: {data: Transcript.where(released: false).all.map {|t| t.uid }}, status: 200
   end
 
   private

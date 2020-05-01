@@ -39,3 +39,6 @@
 
 # .DS_Store
 .DS_store
+scripts/*.txt
+scripts/transcript-json/*.json
+project/fix_it_plus/data/*.csv
