@@ -138,7 +138,7 @@ gem "httparty", "~> 0.16.4"
 gem "pundit", "~> 2.0.1"
 gem "rest-client", "~> 2.0.2"
 gem "seed_migration", "~> 1.2.3"
-gem "sidekiq", "~> 6.0.7"
+gem "sidekiq", "< 6"
 gem "whenever", "~> 0.10.0", require: false
 
 # Track object changes
