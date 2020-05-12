@@ -38,3 +38,14 @@
     flex: 1 1 auto;
   }
 }
+
+.delete-user {
+  display: none;
+}
+
+.each-user:hover {
+  .delete-user {
+    float: right;
+    display: block;
+  }
+}

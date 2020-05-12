@@ -1,13 +1,9 @@
 class Admin::UsersController < AdminController
-  before_action :set_user, only: [:update]
+  before_action :set_user, only: [:update, :destroy]
+  before_action :load_collections, only: [:index, :destroy]
 
   def index
     authorize User
-
-    @users = policy_scope(User).only_public_users.getAll.decorate
-    @staff = policy_scope(User).only_staff_users.getAll.decorate
-    @user_roles = policy_scope(UserRole).getAll
-    @institutions = policy_scope(Institution).all
   end
 
   # PATCH/PUT /admin/users/{id}.json
@@ -21,7 +17,23 @@ class Admin::UsersController < AdminController
     end
   end
 
+  # DELETE /admin/users/{id}.json
+  def destroy
+    authorize User
+
+    unless @user.delete
+      render json: @user.errors, status: :unprocessable_entity
+    end
+  end
+
   private
+
+  def load_collections
+    @users = policy_scope(User).only_public_users.getAll.decorate
+    @staff = policy_scope(User).only_staff_users.getAll.decorate
+    @user_roles = policy_scope(UserRole).getAll
+    @institutions = policy_scope(Institution).all
+  end
 
   def set_user
     @user = User.find(params[:id])

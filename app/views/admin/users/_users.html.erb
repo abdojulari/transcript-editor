@@ -10,13 +10,20 @@
   </thead>
   <tbody>
     <% users.each do |user| %>
-      <tr>
+      <tr class="each-user">
         <td>
           <%= image_tag user.avatar_image, class: 'avatar'  %>
           </th>
           <td>
             <%= user.name  %>
             (<%= user.email  %>)
+            <% if can_delete %>
+              <span class="delete-user">
+                <%= button_to admin_user_path(user), method: :delete, remote: true, data: {confirm: 'Are you sure you want to delete this user? This action cannot be undone.'} do %>
+                  <%= fa_icon "trash" %>
+                <% end %>
+              </span>
+            <% end %>
           </td>
           <td>
             <%= user.lines_edited %>
