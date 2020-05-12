@@ -58,9 +58,9 @@
     }
   }
   &__subtitle {
-    font-size: rem-calc(28);
+    font-size: rem-calc(24);
     @include mobile {
-      font-size: rem-calc(18);
+      font-size: rem-calc(16);
     }
   }
 }
