@@ -10,7 +10,7 @@ module Admin::StatsHelper
 
   def link_to_line(line, transcript)
     time = time_display(line.start_time)
-    content_tag :a, href: "#{transcript.path}?t=#{time}" do
+    content_tag :a, href: "#{transcript.path}?t=#{time}", target: :_blank do
       time
     end
   end
