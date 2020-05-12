@@ -3,14 +3,14 @@
   <div class="select">
     <div class="select-active" title="Signed in as <%= user.name %>">
       <% if (score > 0) { %>
-        <span class="score<%= score > 0 ? ' active':'' %>"><%= UTIL.formatNumberTiny(score) %></span> 
+        <span class="score<%= score > 0 ? ' active':'' %>"><%= UTIL.formatNumberTiny(score) %></span>
       <% } %>
       <%= user.name %>
     </div>
     <div class="select-options account-menu menu" role="menu" aria-hidden="true" aria-label="User account menu">
       <a href="/dashboard" class="select-option menu-item" role="menuitem">Dashboard</a>
       <% if (user.user_role_id > 1) { %>
-        <a href="/admin" class="select-option menu-item" role="menuitem">Admin CMS</a>
+        <a href="/admin" class="select-option menu-item" role="menuitem">Admin Portal</a>
       <% } %>
       <a class="select-option menu-item" rel="nofollow" href="/users/sign_out">Sign out</a>
     </div>
@@ -21,7 +21,7 @@
   <div class="select">
     <div class="select-active">
       <% if (score > 0) { %>
-          <span class="score<%= score > 0 ? ' active':'' %>"><%= UTIL.formatNumberTiny(score) %></span> 
+          <span class="score<%= score > 0 ? ' active':'' %>"><%= UTIL.formatNumberTiny(score) %></span>
         <% } %>
       <span id="sign-in-label" class="sign-in-copy">TRACK MY PROGRESS</span>
     </div>
