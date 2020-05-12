@@ -1,0 +1,3 @@
+$('#collapseOne .card-body').html(
+  "<%= j render partial: 'admin/users/users', locals: { users: @users, user_roles: @user_roles, institutions: @institutions, can_delete: true } %>"
+);

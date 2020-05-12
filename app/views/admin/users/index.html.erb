@@ -11,7 +11,7 @@
 
     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionUser">
       <div class="card-body">
-        <%= render "users", users: @users, user_roles: @user_roles, institutions: @institutions %>
+        <%= render "users", users: @users, user_roles: @user_roles, institutions: @institutions, can_delete: true %>
       </div>
     </div>
   </div>
@@ -25,7 +25,7 @@
     </div>
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionUser">
       <div class="card-body">
-        <%= render "users", users: @staff, user_roles: @user_roles, institutions: @institutions %>
+        <%= render "users", users: @staff, user_roles: @user_roles, institutions: @institutions, can_delete: false %>
       </div>
     </div>
   </div>

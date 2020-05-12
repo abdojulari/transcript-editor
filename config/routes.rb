@@ -61,7 +61,7 @@ Rails.application.routes.draw do
 
   # admin
   namespace :admin do
-    resources :users, only: [:index, :update]
+    resources :users, only: [:index, :update, :destroy]
     resources :transcripts, only: [:index]
     resources :flags, only: [:index]
 
