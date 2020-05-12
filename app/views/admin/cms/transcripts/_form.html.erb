@@ -47,7 +47,7 @@
         </div>
       </div>
       <div class="form-group" id="transcript_upload">
-        <%= f.label "Transcript file", for: 'transcript_script' %><br/>
+        <%= f.label "Item file", for: 'transcript_script' %><br/>
 
         <div class="form-control">
           <% if @transcript.script.present? %>
@@ -61,9 +61,9 @@
               Process
             </button>
           <% elsif current_user.admin? && @transcript.lines > 0 %>
-            <%= link_to reset_transcript_admin_cms_transcript_path(@transcript), data: {confirm: 'Are you sure you want to reset this transcript back to its original and uncorrected version? This action cannot be undone.'}, method: :delete do %>
+            <%= link_to reset_transcript_admin_cms_transcript_path(@transcript), data: {confirm: 'Are you sure you want to reset this item back to its original and uncorrected version? This action cannot be undone.'}, method: :delete do %>
               <%= fa_icon "trash-o" %>
-              Reset transcript
+              Reset item
             <% end %>
           <% end %>
         </div>
@@ -115,11 +115,11 @@
       </div>
 
       <div class="alert-warning mb-2" role="alert">
-        Uploading your audio file may take a few minutes. After clicking the 'Save transcript' button, do not close your browser or navigate away from this page. When your file upload is complete you will be redirected to the transcript index page.
+        Uploading your audio file may take a few minutes. After clicking the 'Save item' button, do not close your browser or navigate away from this page. When your file upload is complete you will be redirected to the transcript index page.
       </div>
 
       <div class="form-group text-center mb-2">
-        <%= f.submit('Save Transcript', class: 'btn btn-primary') %>
+        <%= f.submit('Save Item', class: 'btn btn-primary') %>
         <%= link_to "Cancel", admin_cms_collection_path(@transcript.collection.uid) %>
       </div>
 
