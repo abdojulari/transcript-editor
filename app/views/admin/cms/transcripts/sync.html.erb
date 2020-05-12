@@ -10,7 +10,7 @@
 
     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
       <div class="card-body">
-        <%= "Transcript processed at #{@transcript.voicebase_processing_completed_at.strftime("%B %d, %Y")}" if @transcript.voicebase_processing_completed_at %>
+        <%= "Item processed at #{@transcript.voicebase_processing_completed_at.strftime("%B %d, %Y")}" if @transcript.voicebase_processing_completed_at %>
       </div>
     </div>
   </div>
