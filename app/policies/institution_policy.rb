@@ -32,9 +32,9 @@ class InstitutionPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      if @user.admin?
+      if @user.admin? || @user.content_editor?
         Institution.order_asc
-      elsif @user.content_editor?
+      elsif
         Institution.where(id: @user.institution_id).order_asc
       else
         Institution.none
