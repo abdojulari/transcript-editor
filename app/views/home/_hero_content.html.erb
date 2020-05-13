@@ -17,12 +17,9 @@
 <section class="main_hero home" style="background-image: url('<%= background_image_url %>')">
   <article class="main_hero__content">
     <header class="main_hero__header">
-      <%= image_tag logo,
-            alt: logo_alt,
-            width: 300
-      %>
+      <%= image_tag logo, alt: logo_alt, width: 300 if logo.present? %>
       <h1 class="main_hero__title">
-        <%= raw title_text  %>
+        <%= raw title_text %>
       </h1>
       <%= link_to "Powered by the State Library of NSW",
             "https://www.sl.nsw.gov.au/",
