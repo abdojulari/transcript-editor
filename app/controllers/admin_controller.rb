@@ -3,6 +3,6 @@ class AdminController < ApplicationController
   layout "admin"
 
   def authenticate_staff!
-    redirect_to root_url unless current_user.staff?
+    redirect_to root_url unless current_user&.staff?
   end
 end
