@@ -14,7 +14,7 @@ class UserRolePolicy < ApplicationPolicy
       when "moderator"
         UserRole.where(name: ["moderator"])
       when "content_editor"
-        UserRole.where(name: ["moderator", "content_editor"])
+        UserRole.where(name: ["guest", "user", "moderator", "content_editor"])
       else
         UserRole.none
       end
