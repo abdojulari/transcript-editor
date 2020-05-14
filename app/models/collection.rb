@@ -48,13 +48,13 @@ class Collection < ApplicationRecord
   end
 
   def duration
-    Rails.cache.fetch("Collection:duration:#{self.id}", expires_in: 1.hour) do
+    Rails.cache.fetch("Collection:duration:#{self.id}", expires_in: 23.hours) do
       transcripts.map(&:duration).inject(0) { |memo, duration| memo + duration }
     end
   end
 
   def disk_usage
-    Rails.cache.fetch("Collection:disk_usage:#{self.id}", expires_in: 1.hour) do
+    Rails.cache.fetch("Collection:disk_usage:#{self.id}", expires_in: 23.hours) do
       transcripts.map(&:disk_usage)
         .inject({ image: 0, audio: 0, script: 0 }) do |memo, tu|
           memo[:image] += tu[:image]

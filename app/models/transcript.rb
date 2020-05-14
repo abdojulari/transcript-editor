@@ -569,7 +569,7 @@ class Transcript < ApplicationRecord
   end
 
   def disk_usage
-    Rails.cache.fetch("Transcript:disk_usage:#{self.id}", expires_in: 1.hour) do
+    Rails.cache.fetch("Transcript:disk_usage:#{self.id}", expires_in: 23.hours) do
       {
         image: image.size,
         audio: audio.size,
