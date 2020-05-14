@@ -11,6 +11,6 @@ class Site
   end
 
   def links
-    YAML.load_file('config/footer.yml')
+    Institution.default_links.sort_by(&:position)
   end
 end

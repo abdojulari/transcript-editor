@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_27_013735) do
+ActiveRecord::Schema.define(version: 2020_05_14_061205) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,16 @@ ActiveRecord::Schema.define(version: 2020_04_27_013735) do
     t.index ["transcript_id"], name: "index_flags_on_transcript_id"
     t.index ["transcript_line_id"], name: "index_flags_on_transcript_line_id"
     t.index ["user_id"], name: "index_flags_on_user_id"
+  end
+
+  create_table "institution_links", force: :cascade do |t|
+    t.bigint "institution_id"
+    t.string "title"
+    t.string "url"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["institution_id"], name: "index_institution_links_on_institution_id"
   end
 
   create_table "institutions", force: :cascade do |t|

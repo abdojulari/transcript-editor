@@ -5,10 +5,12 @@
     <%= form.label :name %>
     <%= form.text_field :name, class: 'form-control' %>
   </div>
+
   <div class="form-group">
     <%= form.label :url %>
     <%= form.text_field :url, class: 'form-control' %>
   </div>
+
   <div class="form-group">
     <%= form.label(:slug, "UID") %>
     <%= form.text_field :slug, class: 'form-control' %>
@@ -16,14 +18,17 @@
       * only characters, numbers and '-' are allowed
     </div>
   </div>
+
   <div class="form-group">
     <%= form.label :introductory_text %>
     <%= form.text_area :introductory_text, class: 'form-control' %>
   </div>
+
   <div class="form-group">
     <%= form.label 'Item consensus number', for: 'institution_min_lines_for_consensus' %>
     <%= form.text_field :min_lines_for_consensus, class: 'form-control' %>
   </div>
+
   <div class="form-group">
     <%= form.label :image, "Logo" %>
     <div class="form-control">
@@ -34,6 +39,7 @@
       <%= form.file_field :image, class: "align-bottom" %>
     </div>
   </div>
+
   <div class="form-group">
     <%= form.label :hero_image, "Hero image" %>
     <div class="form-control">
@@ -45,7 +51,26 @@
     </div>
   </div>
 
-
+  <table style="border:0; width:100%;">
+    Institution Links
+    <% @institution_links.each_with_index do |link, index| %>
+      <tr>
+        <%= hidden_field_tag("institution[institution_links][][position]", index) %>
+        <td>
+          <div class="form-group">
+            <%= label_tag "Title" %>
+            <%= text_field_tag "institution[institution_links][][title]", link.title, class: 'form-control' %>
+          </div>
+        </td>
+        <td>
+          <div class="form-group">
+            <%= label_tag "Url" %>
+            <%= text_field_tag "institution[institution_links][][url]", link.url, class: 'form-control' %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </table>
 
   <%= form.submit 'Save', class: 'btn btn-primary' %>
 

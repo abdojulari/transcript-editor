@@ -7,7 +7,6 @@ class InstitutionsController < ApplicationController
 
   layout "application_v2"
 
-
   include Searchable
 
   def index
