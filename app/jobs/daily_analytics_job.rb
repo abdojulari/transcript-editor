@@ -1,4 +1,4 @@
-class DailySummaryJob < ApplicationJob
+class DailyAnalyticsJob < ApplicationJob
   queue_as :default
 
   def perform
