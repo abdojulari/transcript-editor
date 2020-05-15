@@ -28,8 +28,7 @@ class InstitutionsController < ApplicationController
   private
 
   def load_institution_footer
-    @global_content[:footer_links] = @institution.institution_links if
-      @institution.institution_links.any?
+    @global_content[:footer_links] = @institution.institution_links
   end
 
   def render_404

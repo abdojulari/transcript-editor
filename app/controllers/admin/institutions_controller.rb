@@ -1,6 +1,5 @@
 class Admin::InstitutionsController < AdminController
   before_action :set_institution, only: [:edit, :update, :destroy]
-  before_action :load_institution_links, only: [:edit]
 
   def index
     @institutions = policy_scope(Institution).order("LOWER(name)")
@@ -10,7 +9,6 @@ class Admin::InstitutionsController < AdminController
     authorize Institution
 
     @institution = Institution.new
-    load_institution_links
   end
 
   def edit; end
@@ -48,16 +46,11 @@ class Admin::InstitutionsController < AdminController
 
   private
 
-  def load_institution_links
-    @institution_links = @institution.institution_links
-    @institution_links = @global_content[:footer_links] if @institution_links.empty?
-  end
-
   def save_institution_links
-    @institution.institution_links.clear
+    InstitutionLink.where(institution: @institution).delete_all
 
-    links = institution_links_params[:institution_links].to_a.each do |link|
-      @institution.institution_links.create(title: link[:title], url: link[:url], position: link[:position])
+    institution_links_params[:institution_links].to_a.each do |link|
+      InstitutionLink.create(title: link[:title], url: link[:url], position: link[:position], institution: @institution)
     end
   end
 

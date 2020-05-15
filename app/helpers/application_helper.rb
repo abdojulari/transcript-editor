@@ -59,8 +59,16 @@ module ApplicationHelper
     time_string
   end
 
+  def footer_link(link)
+    return if link.title.blank? || link.url.blank?
+
+    link_to link.title, link.url, target: :_blank
+  end
+
   def conditional_separator(collection, index)
-    "/" if collection[index + 1]&.title&.present? &&
-      collection[index + 1]&.url&.present?
+    next_element = collection[index + 1]
+    return unless next_element
+
+    "/" if next_element.title&.present? && next_element.url&.present?
   end
 end

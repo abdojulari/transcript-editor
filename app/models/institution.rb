@@ -35,6 +35,12 @@ class Institution < ApplicationRecord
     HUMANIZED_ATTRIBUTES[attr.to_sym] || super
   end
 
+  def institution_links
+    return Institution.default_links if InstitutionLink.where(institution_id: id).empty?
+
+    super.order(:position)
+  end
+
   def should_generate_new_friendly_id?
     false
   end

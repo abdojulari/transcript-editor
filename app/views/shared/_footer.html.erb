@@ -19,7 +19,7 @@
 <footer class="sub_footer">
   <nav class="sub_footer__content">
     <% @global_content[:footer_links].each_with_index do |link, index| %>
-      <%= link_to link.title, link.url, target: :_blank %>
+      <%= footer_link(link) %>
       <%= conditional_separator(@global_content[:footer_links], index) %>
     <% end %>
   </nav>
