@@ -68,6 +68,7 @@ class Transcript < ApplicationRecord
   # when creating or editing a transcript
   def speakers
     return "" if transcript_speakers.blank?
+
     transcript_speakers.includes(:speaker).pluck(:name).join("; ") + "; "
   end
 

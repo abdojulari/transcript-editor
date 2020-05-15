@@ -50,7 +50,7 @@ class Admin::InstitutionsController < AdminController
 
   def load_institution_links
     @institution_links = @institution.institution_links
-    @institution_links = @global_content[:footer_links] if @institution_links.blank?
+    @institution_links = @global_content[:footer_links] if @institution_links.empty?
   end
 
   def save_institution_links

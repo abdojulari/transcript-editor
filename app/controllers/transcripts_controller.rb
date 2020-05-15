@@ -1,5 +1,5 @@
 class TranscriptsController < ApplicationController
-  layout 'application_v2'
+  layout "application_v2"
 
   skip_before_action :verify_authenticity_token, only: [:index, :search, :show]
 
@@ -8,12 +8,13 @@ class TranscriptsController < ApplicationController
 
   before_action :set_transcript, only: [:update, :destroy, :facebook_share]
   before_action :set_transcript_for_show, only: [:show]
+  before_action :load_institution_footer, only: [:show]
 
   # GET /transcripts.json
   def index
     project = Project.getActive
     @project_settings = project[:data]
-    @transcripts = Transcript.getForHomepage(params[:page], {order: 'id'})
+    @transcripts = Transcript.getForHomepage(params[:page], order: "id")
   end
 
   # GET /search?sort_by=completeness&order=desc&collection_id=1&q=amy&page=1
@@ -21,11 +22,11 @@ class TranscriptsController < ApplicationController
   def search
     respond_to do |format|
       format.html
-      format.json {
+      format.json do
         project = Project.getActive
         @project_settings = project[:data]
         @transcripts = Transcript.search(search_params)
-      }
+      end
     end
   end
 
@@ -33,16 +34,16 @@ class TranscriptsController < ApplicationController
   # GET /transcripts/the-uid.json
   def show
     respond_to do |format|
-      format.html {
+      format.html do
         # If this is the Facebook scraper, redirect to a page that includes the Open Graph meta tags.
-        if request.user_agent.downcase.include?('facebookexternalhit')
-          redirect_to facebook_share_transcript_path(@transcript.uid) and return
+        if request.user_agent.downcase.include?("facebookexternalhit")
+          redirect_to(facebook_share_transcript_path(@transcript.uid)) && return
         end
-        @body_class = 'body--transcript-edit'
+        @body_class = "body--transcript-edit"
         @page_subtitle = @transcript.title
-        @secondary_navigation = 'secondary_navigation'
-      }
-      format.json {
+        @secondary_navigation = "secondary_navigation"
+      end
+      format.json do
         @user_role = nil
         @user_edits = []
         @transcript_line_statuses = TranscriptLineStatus.allCached
@@ -50,7 +51,7 @@ class TranscriptsController < ApplicationController
         @flag_types = FlagType.byCategory("error")
         @user_flags = []
         @transcription_conventions = @transcript.transcription_conventions
-        @instructions = Page.find_by(page_type: 'instructions').public_page.decorate
+        @instructions = Page.find_by(page_type: "instructions").public_page.decorate
 
         user = logged_in_user
 
@@ -62,10 +63,8 @@ class TranscriptsController < ApplicationController
           @user_edits = TranscriptEdit.getByTranscriptSession(@transcript.id, session.id)
           @user_flags = Flag.getByTranscriptSession(@transcript.id, session.id)
         end
-      }
+      end
     end
-
-
   end
 
   # POST /transcripts.json
@@ -81,7 +80,6 @@ class TranscriptsController < ApplicationController
 
   # PATCH/PUT /transcripts/the-uid.json
   def update
-
     if @transcript.update(transcript_params)
       head :no_content
     else
@@ -102,26 +100,31 @@ class TranscriptsController < ApplicationController
 
   private
 
-    def set_transcript
-      @transcript = TranscriptService.find_by_uid(params[:id])
-    end
+  def set_transcript
+    @transcript = TranscriptService.find_by(uid: params[:id])
+  end
 
-    def set_transcript_for_show
-      @transcript = TranscriptService.find_by_uid_for_admin(params[:id], logged_in_user)
-    end
+  def set_transcript_for_show
+    @transcript = TranscriptService.find_by_uid_for_admin(params[:id], logged_in_user)
+  end
 
-    def transcript_params
-      params.require(:transcript).permit(:title, :description, :url, :audio_url, :image_url, :collection_id, :notes, :transcript_status_id)
-    end
+  def transcript_params
+    params.require(:transcript).permit(:title, :description, :url, :audio_url, :image_url, :collection_id, :notes, :transcript_status_id)
+  end
 
-    def search_params
-      params.permit(:sort_by, :order, :collection_id, :q, :page, :deep)
-    end
+  def search_params
+    params.permit(:sort_by, :order, :collection_id, :q, :page, :deep)
+  end
 
-    # since we we using a combination of devise + rails and
-    # API authenticatoin (with backbone in transcript edits page)
-    # we need to check warden session here
-    def logged_in_user
-      warden.user
-    end
+  # since we we using a combination of devise + rails and
+  # API authenticatoin (with backbone in transcript edits page)
+  # we need to check warden session here
+  def logged_in_user
+    warden.user
+  end
+
+  def load_institution_footer
+    links = @transcript&.collection&.institution&.institution_links
+    @global_content[:footer_links] = links if links&.any?
+  end
 end

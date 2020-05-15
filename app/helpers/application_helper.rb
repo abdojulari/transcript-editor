@@ -1,23 +1,16 @@
 module ApplicationHelper
+  def project_name; end
 
-  def project_name
+  def project_description; end
 
-  end
-
-  def project_description
-
-  end
-
-  def data_title_template
-
-  end
+  def data_title_template; end
 
   def staging?
     Rails.env.staging?
   end
 
   def current_user_edits
-    number = number_to_human(current_user.total_edits, :format => '%n%u', :units => { :thousand => 'K+'  })
+    number = number_to_human(current_user.total_edits, format: "%n%u", units: { thousand: "K+" })
     content_tag :span, number, class: "select-active__admin-score"
   end
 
@@ -36,8 +29,7 @@ module ApplicationHelper
   end
 
   def gtm_id
-    ENV.key?('GOOGLE_TAG_MANAGER_ID') ?
-      ENV['GOOGLE_TAG_MANAGER_ID'] : nil
+    ENV["GOOGLE_TAG_MANAGER_ID"] if ENV.key?("GOOGLE_TAG_MANAGER_ID")
   end
 
   # NOTE: format we need
@@ -49,11 +41,10 @@ module ApplicationHelper
     title
   end
 
-
-  #FIXME: this needs to be changed to the current time format
+  # FIXME: this needs to be changed to the current time format
   def display_time(time)
     time_string = ""
-    t =  Time.at(time).utc
+    t = Time.at(time).utc
     h = t.hour
     m = t.min
     s = t.sec
@@ -66,5 +57,10 @@ module ApplicationHelper
       time_string = "#{s}s"
     end
     time_string
+  end
+
+  def conditional_separator(collection, index)
+    "/" if collection[index + 1]&.title&.present? &&
+      collection[index + 1]&.url&.present?
   end
 end
