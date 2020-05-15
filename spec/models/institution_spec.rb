@@ -43,4 +43,22 @@ RSpec.describe Institution, type: :model do
       expect(institution.min_lines_for_consensus_no_edits).to eq(4)
     end
   end
+
+  describe "institution links association" do
+    let(:institution) { create(:institution) }
+
+    context "when they exist" do
+      let!(:institution_link) { create(:institution_link, institution: institution) }
+
+      it "returns the association" do
+        expect(institution.institution_links).to include(institution_link)
+      end
+    end
+
+    context "when they do not exist" do
+      it "returns a default list" do
+        expect(institution.institution_links.pluck(:url)).to eq(Institution.default_links.pluck(:url))
+      end
+    end
+  end
 end

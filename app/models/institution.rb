@@ -14,6 +14,7 @@ class Institution < ApplicationRecord
   has_many :collections, dependent: :destroy
   has_many :transcription_conventions, dependent: :destroy
   has_many :users, dependent: :destroy
+  has_many :institution_links, dependent: :destroy
 
   validates :name, presence: true
   validates :name, uniqueness: true
@@ -32,6 +33,12 @@ class Institution < ApplicationRecord
 
   def self.human_attribute_name(attr, options = {})
     HUMANIZED_ATTRIBUTES[attr.to_sym] || super
+  end
+
+  def institution_links
+    return Institution.default_links if InstitutionLink.where(institution_id: id).empty?
+
+    super.order(:position)
   end
 
   def should_generate_new_friendly_id?
@@ -82,5 +89,18 @@ class Institution < ApplicationRecord
           memo
         end
     end
+  end
+
+  def self.default_links
+    [
+      InstitutionLink.new(title: "Disclaimer", url: "https://www.sl.nsw.gov.au/disclaimer", position: 0),
+      InstitutionLink.new(title: "Privacy", url: " https://www.sl.nsw.gov.au/privacy", position: 1),
+      InstitutionLink.new(title: "Copyright", url: "https://www.sl.nsw.gov.au/copyright", position: 2),
+      InstitutionLink.new(title: "Right to Information", url: "https://www.sl.nsw.gov.au/right-to-information", position: 3),
+      InstitutionLink.new(title: "Website Accessibility", url: "https://www.sl.nsw.gov.au/website-accessibility", position: 4),
+      InstitutionLink.new(title: "Contact Us", url: "https://amplify.sl.nsw.gov.au/page/about", position: 5),
+      InstitutionLink.new(title: "Feedback", url: "https://www.sl.nsw.gov.au/feedback", position: 6),
+      InstitutionLink.new(title: "", url: "", position: 7),
+    ]
   end
 end

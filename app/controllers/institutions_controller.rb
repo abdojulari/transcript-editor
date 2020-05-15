@@ -7,7 +7,6 @@ class InstitutionsController < ApplicationController
 
   layout "application_v2"
 
-
   include Searchable
 
   def index
@@ -20,11 +19,17 @@ class InstitutionsController < ApplicationController
 
     @selected_collection_id = @institution.collections.
       where(uid: params_list[:collection_id]).first.try(:id) if @institution
+
+    load_institution_footer
   rescue ActiveRecord::RecordNotFound
     render_404
   end
 
   private
+
+  def load_institution_footer
+    @global_content[:footer_links] = @institution.institution_links
+  end
 
   def render_404
     respond_to do |format|
