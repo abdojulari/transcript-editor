@@ -66,9 +66,24 @@ module ApplicationHelper
   end
 
   def conditional_separator(collection, index)
-    next_element = collection[index + 1]
-    return unless next_element
+    return unless collection[index + 1] # in case it's the last element
 
-    "/" if next_element.title&.present? && next_element.url&.present?
+    "/" if display_separator?(collection, index)
+  end
+
+  def display_separator?(collection, index)
+    (presence_of(collection[index]) && future_element(collection, index + 1))
+  end
+
+  def presence_of(element)
+    element&.title&.present? && element&.url&.present?
+  end
+
+  def future_element(collection, next_index)
+    last_index = collection.size - 1
+
+    (next_index..last_index).map do |i|
+      presence_of(collection[i])
+    end.any?
   end
 end

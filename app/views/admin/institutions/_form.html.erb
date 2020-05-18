@@ -52,7 +52,7 @@
   </div>
 
   <table style="border:0; width:100%;" id="institution-links">
-    Institution Links
+    Custom footer links
     <% @institution.institution_links.each_with_index do |link, index| %>
       <tr id="institution-link-<%= index %>">
         <%= hidden_field_tag("institution[institution_links][][position]", index) %>
