@@ -26,7 +26,7 @@ RSpec.feature "Institution Page" do
 
       it "shows the institution fields" do
         expect(page).to have_text("New Institution")
-        expect(page).to have_text("Institution Links")
+        expect(page).to have_text("Custom footer links")
       end
     end
 
@@ -38,7 +38,7 @@ RSpec.feature "Institution Page" do
 
       it "shows the institution fields" do
         expect(page).to have_text("Editing Institution")
-        expect(page).to have_text("Institution Links")
+        expect(page).to have_text("Custom footer links")
       end
 
       it "allows an admin to save institution details" do
