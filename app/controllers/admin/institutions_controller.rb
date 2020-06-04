@@ -41,7 +41,8 @@ class Admin::InstitutionsController < AdminController
   def destroy
     authorize Institution
 
-    institution.destroy
+    DeleteInstitutionJob.perform_later(@institution.name, @institution.id, current_user.email)
+    flash[:notice] = "Institution is being deleted in the background. You will receive an email when it's finished."
     redirect_to admin_institutions_path
   end
 

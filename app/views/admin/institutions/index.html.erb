@@ -21,13 +21,13 @@
         <td><%= institution.slug %></td>
         <td><%= institution.url %></td>
         <td>
-          <%= link_to admin_institution_transcription_conventions_path(institution)  do %>
+          <%= link_to admin_institution_transcription_conventions_path(institution) do %>
             <%= fa_icon "table" %>
           <% end %>
         </td>
 
         <td>
-          <%= link_to edit_admin_institution_path(institution)  do %>
+          <%= link_to edit_admin_institution_path(institution) do %>
             <%= fa_icon "edit" %>
           <% end %>
         </td>
@@ -37,4 +37,3 @@
 </table>
 
 <br>
-
