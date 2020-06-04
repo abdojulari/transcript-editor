@@ -29,6 +29,7 @@ class Admin::InstitutionsController < AdminController
     authorize Institution
 
     save_institution_links
+    remove_images
 
     if @institution.update(institution_params)
       redirect_to admin_institutions_path
@@ -40,7 +41,8 @@ class Admin::InstitutionsController < AdminController
   def destroy
     authorize Institution
 
-    institution.destroy
+    DeleteInstitutionJob.perform_later(@institution.name, @institution.id, current_user.email)
+    flash[:notice] = "Institution is being deleted in the background. You will receive an email when it's finished."
     redirect_to admin_institutions_path
   end
 
@@ -52,6 +54,11 @@ class Admin::InstitutionsController < AdminController
     institution_links_params[:institution_links].to_a.each do |link|
       InstitutionLink.create(title: link[:title], url: link[:url], position: link[:position], institution: @institution)
     end
+  end
+
+  def remove_images
+    @institution.remove_image! if remove_image_params.present?
+    @institution.remove_hero_image! if remove_hero_image_params.present?
   end
 
   # Use callbacks to share common setup or constraints between actions.
@@ -69,5 +76,13 @@ class Admin::InstitutionsController < AdminController
 
   def institution_links_params
     params.require(:institution).permit(institution_links: [:title, :url, :position])
+  end
+
+  def remove_image_params
+    params.require(:institution).permit(:remove_image)
+  end
+
+  def remove_hero_image_params
+    params.require(:institution).permit(:remove_hero_image)
   end
 end

@@ -49,3 +49,13 @@
     display: block;
   }
 }
+
+.form-group {
+  .form-control.image {
+    height: unset;
+  }
+}
+
+.alert-primary {
+  padding: 5px 10px;
+}

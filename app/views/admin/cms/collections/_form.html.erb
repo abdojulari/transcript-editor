@@ -51,9 +51,15 @@
   <div class="form-group">
     <%= f.label :image, "Default Collection Image" %>
 
-    <div class="form-control">
+    <div class="form-control image">
       <% if @collection.image.present? %>
-        <%= image_tag(@collection.image_url(:thumb)) %>
+        <div><%= image_tag(@collection.image_url(:thumb)) %></div>
+        <br>
+        <% if current_user.admin? %>
+          <%= check_box_tag "collection[remove_image]" %>
+          <%= label_tag :remove_image %>
+          <br>
+        <% end %>
       <% end %>
 
       <%= f.file_field :image, class: "align-bottom" %>
