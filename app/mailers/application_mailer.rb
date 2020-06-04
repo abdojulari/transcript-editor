@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "admin@amplify.gov.au"
+  default from: "web.development@sl.nsw.gov.au"
   layout "mailer"
 end
