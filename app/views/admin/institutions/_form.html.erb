@@ -31,9 +31,15 @@
 
   <div class="form-group">
     <%= form.label :image, "Logo" %>
-    <div class="form-control">
+    <div class="form-control image">
       <% if institution.image.present? %>
-        <%= image_tag(institution.image_url(:thumb)) %>
+        <div><%= image_tag(institution.image_url(:thumb)) %></div>
+        <br>
+        <% if current_user.admin? %>
+          <%= check_box_tag "institution[remove_image]" %>
+          <%= label_tag :remove_image %>
+          <br>
+        <% end %>
       <% end %>
 
       <%= form.file_field :image, class: "align-bottom" %>
@@ -42,9 +48,15 @@
 
   <div class="form-group">
     <%= form.label :hero_image, "Hero image" %>
-    <div class="form-control">
+    <div class="form-control image">
       <% if institution.hero_image.present? %>
-        <%= image_tag(institution.hero_image_url(:thumb)) %>
+        <div><%= image_tag(institution.hero_image_url(:thumb)) %></div>
+        <br>
+        <% if current_user.admin? %>
+          <%= check_box_tag "institution[remove_hero_image]" %>
+          <%= label_tag :remove_hero_image %>
+          <br>
+        <% end %>
       <% end %>
 
       <%= form.file_field :hero_image, class: "align-bottom" %>

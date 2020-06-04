@@ -49,3 +49,9 @@
     display: block;
   }
 }
+
+.form-group {
+  .form-control.image {
+    height: unset;
+  }
+}

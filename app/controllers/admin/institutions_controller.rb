@@ -29,6 +29,7 @@ class Admin::InstitutionsController < AdminController
     authorize Institution
 
     save_institution_links
+    remove_images
 
     if @institution.update(institution_params)
       redirect_to admin_institutions_path
@@ -54,6 +55,11 @@ class Admin::InstitutionsController < AdminController
     end
   end
 
+  def remove_images
+    @institution.remove_image! if remove_image_params.present?
+    @institution.remove_hero_image! if remove_hero_image_params.present?
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_institution
     @institution = Institution.friendly.find(params[:id])
@@ -69,5 +75,13 @@ class Admin::InstitutionsController < AdminController
 
   def institution_links_params
     params.require(:institution).permit(institution_links: [:title, :url, :position])
+  end
+
+  def remove_image_params
+    params.require(:institution).permit(:remove_image)
+  end
+
+  def remove_hero_image_params
+    params.require(:institution).permit(:remove_hero_image)
   end
 end
