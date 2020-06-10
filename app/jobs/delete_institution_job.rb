@@ -5,6 +5,6 @@ class DeleteInstitutionJob < ApplicationJob
     institution = Institution.find_by id: institution_id
     institution&.destroy
 
-    DeleteInstitutionMailer.perform(institution_name, user_email).deliver_now
+    InstitutionMailer.delete_institution(institution_name, user_email).deliver_now
   end
 end

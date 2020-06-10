@@ -90,7 +90,7 @@
 <br>
 <%= button_to admin_institution_path(institution), data: {confirm: 'Are you sure you want to delete this institution and any associated items? This action cannot be undone.'}, class: "btn btn-danger", method: :delete do %>
   Delete
-<% end if current_user.admin? %>
+<% end if !institution.new_record? && current_user.admin? %>
 
 <div class="form-group">
   <%= render partial: "admin/cms/shared/stats", locals: { stats_type: 'institution', collection_count: institution.collections.count, transcript_count: institution.collections.map { |c| c.transcripts.length }.inject(0, :+), duration: institution.duration, usage: institution.disk_usage } %>
