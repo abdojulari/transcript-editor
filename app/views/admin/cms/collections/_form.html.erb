@@ -55,7 +55,7 @@
       <% if @collection.image.present? %>
         <div><%= image_tag(@collection.image_url(:thumb)) %></div>
         <br>
-        <% if current_user.admin? %>
+        <% if current_user.admin? || current_user.content_editor? %>
           <%= check_box_tag "collection[remove_image]" %>
           <%= label_tag :remove_image %>
           <br>
