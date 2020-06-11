@@ -25,6 +25,7 @@ class Admin::Cms::TranscriptsController < AdminController
   def edit; end
 
   def update
+    remove_image
     if @transcript.update(transcript_params)
       flash[:notice] = "The transcript updates have been saved."
       redirect_to admin_cms_collection_path(@transcript.collection)
@@ -137,5 +138,13 @@ class Admin::Cms::TranscriptsController < AdminController
 
   def set_collection
     @collection = Collection.find_by(uid: params[:collection_uid])
+  end
+
+  def remove_image
+    @transcript.remove_image! if remove_image_params.present?
+  end
+
+  def remove_image_params
+    params.require(:transcript).permit(:remove_image)
   end
 end

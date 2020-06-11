@@ -35,7 +35,7 @@
       <% if institution.image.present? %>
         <div><%= image_tag(institution.image_url(:thumb)) %></div>
         <br>
-        <% if current_user.admin? %>
+        <% if current_user.admin? || current_user.content_editor? %>
           <%= check_box_tag "institution[remove_image]" %>
           <%= label_tag :remove_image %>
           <br>
@@ -52,7 +52,7 @@
       <% if institution.hero_image.present? %>
         <div><%= image_tag(institution.hero_image_url(:thumb)) %></div>
         <br>
-        <% if current_user.admin? %>
+        <% if current_user.admin? || current_user.content_editor? %>
           <%= check_box_tag "institution[remove_hero_image]" %>
           <%= label_tag :remove_hero_image %>
           <br>
