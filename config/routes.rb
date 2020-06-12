@@ -29,11 +29,7 @@ Rails.application.routes.draw do
   resources :transcript_speaker_edits, only: [:create]
   resources :transcript_edits, only: [:index, :show, :create]
   resources :transcript_files, only: [:index, :show]
-  resources :transcripts, only: [:index, :show] do
-    member do
-      get :facebook_share
-    end
-  end
+  resources :transcripts, only: [:index, :show]
   resources :collections, only: [:index, :show] do
     collection do
       post :list
