@@ -1,3 +1,14 @@
+<% content_for :metatags do %>
+  <!-- Facebook Share button meta tags. -->
+  <meta property='og:type' content='website' />
+  <meta property='og:title' content='Amplify' />
+  <meta property='og:description' content='Bringing together the voices of New South Wales for you to explore, listen to and transcribe.' />
+  <meta property='og:url' content='https://amplify.gov.au/' />
+  <meta property='og:image' content="<%= image_url('Amplify_logo_WHITE_COLOUR') %>" />
+  <meta property='og:image:width' content='300' />
+  <meta property='og:image:height' content='119' />
+<% end %>
+
 <% content_for :javascripts do %>
   <%= javascript_include_tag 'home' %>
 <% end %>
