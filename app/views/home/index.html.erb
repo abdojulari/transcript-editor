@@ -4,9 +4,10 @@
   <meta property='og:title' content='<%= @app_config.app_name %>' />
   <meta property='og:description' content='<%= @app_config.main_title %>' />
   <meta property='og:url' content='<%= url_for(only_path: false) %>' />
-  <meta property='og:image' content="<%= @app_config.image_url %>" />
-  <meta property='og:image:width' content='300' />
-  <meta property='og:image:height' content='119' />
+  <meta property='og:image' content='<%= @app_config.image_url %>' />
+  <meta property='og:image:width' content='1400' />
+  <meta property='og:image:height' content='1063' />
+  <meta property='fb:app_id' content='<%= facebook_app_id %>' />
 <% end %>
 
 <% content_for :javascripts do %>
@@ -16,5 +17,5 @@
 <%= render 'sub_hero_content'  %>
 <!-- extended_controls -> sort and search boxes -->
 <%= render 'filters', extended_controls: true  %>
-<section id="transcript-results">
+<section id='transcript-results'>
 </section>
