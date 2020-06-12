@@ -109,7 +109,7 @@ end
 
 group :test do
   gem "capybara", ">= 2.15", "< 4.0"
-  gem "chromedriver-helper", "~> 2.1.0"
+  gem "webdrivers", "~> 4.1.2"
   gem "launchy", "~> 2.4.0"
   gem "pundit-matchers", "~> 1.6.0"
   gem "rails-controller-testing", "~> 1.0.4"

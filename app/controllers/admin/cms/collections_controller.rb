@@ -28,6 +28,7 @@ class Admin::Cms::CollectionsController < AdminController
 
   def update
     @collection.theme_list = theme_list
+    remove_image
     if @collection.update(resource_params)
       flash[:notice] = "The collection updates have been saved."
       redirect_to admin_cms_path
@@ -75,5 +76,13 @@ class Admin::Cms::CollectionsController < AdminController
     ).merge(
       project_uid: ENV["PROJECT_ID"],
     )
+  end
+
+  def remove_image
+    @collection.remove_image! if remove_image_params.present?
+  end
+
+  def remove_image_params
+    params.require(:collection).permit(:remove_image)
   end
 end

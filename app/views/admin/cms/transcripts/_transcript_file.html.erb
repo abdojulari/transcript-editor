@@ -7,6 +7,12 @@
       <div class="form-group dotted-border-container">
         <%= image_tag transcript.image_cropped_thumb_url, class: 'img-fluid', id:"cropbox", src:"#", data: { crop_x: transcript.crop_x, crop_y: transcript.crop_y, crop_w: transcript.crop_w, crop_h: transcript.crop_h } %>
       </div>
+      <br>
+      <% if current_user.admin? || current_user.content_editor? %>
+        <%= check_box_tag "transcript[remove_image]" %>
+        <%= label_tag :remove_image %>
+        <br>
+      <% end %>
     <% else %>
       <img id="cropbox">
     <% end %>
