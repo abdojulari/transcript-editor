@@ -6,7 +6,7 @@ class TranscriptsController < ApplicationController
   include ActionController::MimeResponds
   include IndexTemplate
 
-  before_action :set_transcript, only: [:update, :destroy, :facebook_share]
+  before_action :set_transcript, only: [:update, :destroy]
   before_action :set_transcript_for_show, only: [:show]
   before_action :load_institution_footer, only: [:show]
 
@@ -35,10 +35,6 @@ class TranscriptsController < ApplicationController
   def show
     respond_to do |format|
       format.html do
-        # If this is the Facebook scraper, redirect to a page that includes the Open Graph meta tags.
-        if request.user_agent.downcase.include?("facebookexternalhit")
-          redirect_to(facebook_share_transcript_path(@transcript.uid)) && return
-        end
         @body_class = "body--transcript-edit"
         @page_subtitle = @transcript.title
         @secondary_navigation = "secondary_navigation"
@@ -92,10 +88,6 @@ class TranscriptsController < ApplicationController
     @transcript.destroy
 
     head :no_content
-  end
-
-  def facebook_share
-    render file: "public/#{ENV['PROJECT_ID']}/facebook_share.html.erb"
   end
 
   private
