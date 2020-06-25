@@ -8,7 +8,7 @@
   <tbody>
     <tr>
       <td>General Guidelines</td>
-      <td>Transcripts aare searched for specific and complete keywords. Focus on transcribing the substance of the conversation rather than speech inflections such as 'um' or partial words.</td>
+      <td>Transcripts are searched for specific and complete keywords. Focus on transcribing the substance of the conversation rather than speech inflections such as 'um' or partial words.</td>
       <td></td>
     </tr>
     <tr>
@@ -29,7 +29,7 @@
     <tr>
       <td>Names</td>
       <td>For names that are difficult to transcribe, use quotation marks before and after</td>
-      <td>“Christina ?Mimis?”</td>
+      <td>"Christina ?Mimis?"</td>
     </tr>
     <tr>
       <td>Partial words</td>
