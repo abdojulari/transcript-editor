@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :authenticate_user!, except: [:index, :transcripts]
-  before_action :load_collection, except: [:index]
+  before_action :load_collection
   before_action :load_institutions
   layout "application_v2"
 
@@ -10,7 +10,6 @@ class HomeController < ApplicationController
   def index
     @sort_list = SortList.list
     @themes = Theme.all.order(name: :asc)
-    @collection = Collection.none
   end
 
   def transcripts

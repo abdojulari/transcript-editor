@@ -12,8 +12,6 @@
                 <!-- sort themes -->
                 <% if show_theme? %>
                   <div class="facet">
-                    <%= hidden_field_tag "data[institution_id]", 0  %>
-                    <%= hidden_field_tag "data[collection_id]", 0  %>
                     <%= hidden_field_tag "data[sort_id]", "text"  %>
                     <%= select_tag "data[theme]", options_from_collection_for_select(@themes, "name", "name"), prompt: "All Themes" %>
                   </div>
@@ -31,48 +29,40 @@
 
                 <%= hidden_field_tag :collection_selected_id, @selected_collection_id.to_i  %>
                 <div class="facet" id="collection_search">
+                  <%= render partial: 'home/collection', locals: { collection: @collection, selected_id: @selected_collection_id } %>
                 </div>
-                <!-- Sort  collection -->
-                <% unless extended_controls  %>
-                  <div>
-                    <%= link_to '', id: 'reset'  do %>
-                      <%= fa_icon "refresh" %>
-                      Reset
-                    <% end %>
-                  </div>
-                <% end %>
               </div>
-              <% if extended_controls %>
-                <div class="filter_bar__fieldset">
-                  <legend class="desktop-only">
-                    Sort by:
-                  </legend>
-                  <div class="facet">
-                    <div name="sort-by" class="select collection">
-                      <div class="select-active">Random</div>
-                      <div class="select-options sort-by-filter" role="menu" aria-hidden="true">
-                        <%= raw sorting_list(@sort_list) %>
-                      </div>
+
+              <div class="filter_bar__fieldset">
+                <% if extended_controls %>
+                <legend class="desktop-only">
+                  Sort by:
+                </legend>
+                <div class="facet">
+                  <div name="sort-by" class="select collection">
+                    <div class="select-active">Random</div>
+                    <div class="select-options sort-by-filter" role="menu" aria-hidden="true">
+                      <%= raw sorting_list(@sort_list) %>
                     </div>
                   </div>
-                  <!--  end of sort  collection -->
-                  <!-- search text box -->
-                  <div class="facet">
-                    <div class="search_field">
-                      <input type="search" name="searchText" id="searchText" placeholder="Search title/description">
-                      <button name="button" type="submit" class="button icon search">Start</button>
-                    </div>
-                    <div>
-                      <%= link_to '', id: 'reset'  do %>
-                        <%= fa_icon "refresh" %>
-                        Reset
-                      <% end %>
-                      <%= submit_tag %>
-                    </div>
-                  </div>
-                  <!-- end of search textbox -->
                 </div>
-              <% end %>
+                <!--  end of sort  collection -->
+                <!-- search text box -->
+                <div class="facet">
+                  <div class="search_field">
+                    <input type="search" name="searchText" id="searchText" placeholder="Search title/description">
+                  </div>
+                </div>
+                <!-- end of search textbox -->
+                <% end %>
+                <div>
+                  <%= link_to '', id: 'reset'  do %>
+                    <%= fa_icon "refresh" %>
+                    Reset
+                  <% end %>
+                  <%= submit_tag 'Search' %>
+                </div>
+              </div>
             </div>
           <% end %>
         </div>

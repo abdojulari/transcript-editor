@@ -1,18 +1,13 @@
 <%
-    index = institutions.index { |e| e.id == selected_id }
-    if index
-      first_institution = institutions[index]
-    else
-      first_institution = institutions.first
-    end
+  index = institutions.index { |e| e.id == selected_id }
+  if index
+    first_institution = institutions[index]
+  else
+    first_institution = institutions.first
+  end
 %>
 <% if institutions.any? %>
-  <div name="filter-by-collection" class="select collection">
-    <div class="select-active collection-filter selected"><%= first_institution.name %></div>
-    <div class="select-options collection-filter" role="menu" aria-hidden="true">
-      <%= raw institution_list(institutions, index) %>
-    </div>
-  </div>
+  <%= select_tag "data[institution_id]", options_from_collection_for_select(institutions, "id", "name", index) %>
 <% else %>
   No institution found
 <% end %>
