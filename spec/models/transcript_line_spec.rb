@@ -36,6 +36,22 @@ RSpec.describe TranscriptLine, type: :model do
     end
 
     # rubocop:disable RSpec/ExampleLength: Example has too many lines
+    describe "when min_lines_for_consensus is saved in collection" do
+      context "when verifying with 4 min_lines_for_consensus when institution is set as 2 min_lines_for_consensus" do
+        let!(:min_lines_for_consensus) { 2 }
+        let(:collection) { FactoryBot.create :collection, institution: institution, min_lines_for_consensus: 4 }
+
+        it "uses collection min_lines_for_consensus" do
+          create_edit_and_recalculate("first")
+          create_edit_and_recalculate("first")
+          create_edit_and_recalculate("first")
+          expect(transcript_line.transcript_line_status.name).to eq("editing")
+
+          create_edit_and_recalculate("second")
+        end
+      end
+    end
+
     context "when verifying with 2 min_lines_for_consensus" do
       let!(:min_lines_for_consensus) { 2 }
 
@@ -89,7 +105,7 @@ RSpec.describe TranscriptLine, type: :model do
         create_edit_and_recalculate("first")
         create_edit_and_recalculate("second")
         create_edit_and_recalculate("third")
-        create_edit_and_recalculate("forth")
+        create_edit_and_recalculate("fourth")
         expect(transcript_line.transcript_line_status.name).to eq("reviewing")
 
         create_edit_and_recalculate("first")

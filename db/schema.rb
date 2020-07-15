@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_14_061205) do
+ActiveRecord::Schema.define(version: 2020_07_15_030715) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "hstore"
   enable_extension "plpgsql"
 
   create_table "app_configs", force: :cascade do |t|
@@ -48,6 +49,10 @@ ActiveRecord::Schema.define(version: 2020_05_14_061205) do
     t.integer "institution_id"
     t.string "collection_url_title", default: " View in Library catalogue"
     t.boolean "publish", default: false
+    t.integer "max_line_edits"
+    t.integer "min_lines_for_consensus"
+    t.integer "min_lines_for_consensus_no_edits"
+    t.decimal "min_percent_consensus"
     t.index ["project_uid"], name: "index_collections_on_project_uid"
     t.index ["uid"], name: "index_collections_on_uid", unique: true
     t.index ["vendor_id"], name: "index_collections_on_vendor_id"
@@ -273,7 +278,7 @@ ActiveRecord::Schema.define(version: 2020_05_14_061205) do
     t.integer "duration", default: 0, null: false
     t.integer "lines", default: 0, null: false
     t.text "notes"
-    t.integer "transcript_status_id", default: 0, null: false
+    t.integer "transcript_status_id", default: 1, null: false
     t.integer "order", default: 0, null: false
     t.integer "created_by", default: 0, null: false
     t.string "batch_id", default: "unknown", null: false
