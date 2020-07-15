@@ -2,7 +2,7 @@
 class InstitutionsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :authenticate_user!, except: [:index, :transcripts]
-  before_action :load_collection, except: [:index]
+  before_action :load_collection
   before_action :load_institutions
 
   layout "application_v2"
@@ -12,7 +12,6 @@ class InstitutionsController < ApplicationController
   def index
     @sort_list = SortList.list
     @themes = Theme.all
-    @collection = Collection.none
 
     @institution = Institution.friendly.find(params_list[:institution_id])
     @selected_institution_id = @institution.id
