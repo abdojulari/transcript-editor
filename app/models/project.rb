@@ -18,12 +18,13 @@ class Project
 
   # rubocop:disable Metrics/LineLength
   def self.institution_config(collection_id)
-    institution = Collection.find(collection_id).institution
+    collection = Collection.find(collection_id)
+    institution = collection.institution
     {
-      "maxLineEdits" => institution.max_line_edits,
-      "minLinesForConsensus" => institution.min_lines_for_consensus,
-      "minLinesForConsensusNoEdits" => institution.min_lines_for_consensus_no_edits,
-      "minPercentConsensus" => institution.min_percent_consensus,
+      "maxLineEdits" => (collection.max_line_edits || institution.max_line_edits),
+      "minLinesForConsensus" => (collection.min_lines_for_consensus || institution.min_lines_for_consensus),
+      "minLinesForConsensusNoEdits" => (collection.min_lines_for_consensus_no_edits || institution.min_lines_for_consensus_no_edits),
+      "minPercentConsensus" => (collection.min_percent_consensus || institution.min_percent_consensus),
       "lineDisplayMethod" => institution.line_display_method,
       "superUserHiearchy" => institution.super_user_hiearchy,
     }

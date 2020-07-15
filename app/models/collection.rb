@@ -18,10 +18,20 @@ class Collection < ApplicationRecord
   validates :uid, :title, presence: true, uniqueness: true
   validate :image_size_restriction
   validate :uid_not_changed
+  validates :min_lines_for_consensus, numericality: true, if: -> { min_lines_for_consensus.present? }
 
   attribute :collection_url_title, :string, default: ' View in Library catalogue'
 
   scope :by_institution, ->(institution_id) { where(institution_id: institution_id) }
+
+  before_save :save_consensus_params, if: -> { min_lines_for_consensus.present? }
+
+
+  def save_consensus_params
+    self.max_line_edits = min_lines_for_consensus
+    self.min_lines_for_consensus_no_edits = min_lines_for_consensus
+    self.min_percent_consensus = min_lines_for_consensus.to_f / (max_line_edits + 1).to_f
+  end
 
   # Class Methods
   def self.getForHomepage
