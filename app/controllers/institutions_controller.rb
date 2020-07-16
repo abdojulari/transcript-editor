@@ -19,6 +19,10 @@ class InstitutionsController < ApplicationController
     @selected_collection_id = @institution.collections.
       where(uid: params_list[:collection_id]).first.try(:id) if @institution
 
+
+    @form_path = transcripts_home_index_url
+    @form_method = :post
+
     load_institution_footer
   rescue ActiveRecord::RecordNotFound
     render_404
