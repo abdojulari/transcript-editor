@@ -12,6 +12,9 @@
 
                 <% if show_theme? %>
                   <div class="facet">
+                    <div name="filter-by-collection" class="select collection">
+                      <div class="select-active collection-filter toggle-data_theme_">All Themes</div>
+                    </div>
                     <%= select_tag "data[theme][]", options_from_collection_for_select(@themes, "name", "name"), prompt: "All Themes", multiple: true %>
                   </div>
                 <% end %>
@@ -24,8 +27,13 @@
                 <% end %>
 
                 <%= hidden_field_tag :collection_selected_id, @selected_collection_id.to_i  %>
-                <div class="facet" id="collection_search">
-                  <%= render partial: 'home/collection', locals: { collection: @collection, selected_id: @selected_collection_id } %>
+                <div class="facet">
+                  <div name="filter-by-collection" class="select collection">
+                    <div class="select-active collection-filter toggle-data_collection_id_">All Collections</div>
+                  </div>
+                  <div id="collection_search">
+                    <%= render partial: 'home/collection', locals: { collection: @collection, selected_id: @selected_collection_id } %>
+                  </div>
                 </div>
               </div>
 

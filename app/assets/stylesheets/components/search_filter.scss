@@ -73,6 +73,10 @@
       min-width: 150px;
     }
 
+    option {
+      width: 120px;
+    }
+
     &:hover, &:focus {
       background-color: $soft-orange;
     }
@@ -136,6 +140,16 @@ a#reset {
       z-index: 100;
     }
   }
+}
+
+select[multiple] {
+  display: none;
+  height: 300px;
+  position: absolute;
+  z-index: 1000;
+  top: -5px;
+  background-size: 0;
+  left: -5px;
 }
 
 

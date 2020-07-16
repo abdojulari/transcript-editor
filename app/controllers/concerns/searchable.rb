@@ -44,7 +44,7 @@ module Searchable
                       Institution.all.order(name: :asc)
                     else
                       Institution.order(name: :asc).joins(:collections).
-                        where("collections.id = (?)", collection_ids)
+                        where("collections.id in (?)", collection_ids)
                     end.to_a.unshift(new_institution)
   end
 

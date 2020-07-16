@@ -1,13 +1,2 @@
-$("#transcript-results").html('<div class="lds-ripple"><div></div><div></div></div>');
-
- function scrollUp(){
-    var target  = $('#transcript-results').offset().top;
-    $('html, body').animate({
-      scrollTop: (target - 170)
-    }, 1000);
-  }
-
 $("#collection_search").html("<%= escape_javascript(render partial: 'home/collection', locals: { collection: @collection, selected_id: @selected_collection_id} ) %>");
 $("#transcript-results").html("<%= escape_javascript(render partial: 'home/transcript_list', locals: { transcripts: @transcripts } ) %>");
-
-scrollUp();
