@@ -3,7 +3,7 @@
     <article class="filter_bar__content">
       <div class="transcripts-wrapper" role="main">
         <div data-sticky="#transcript-facets" class="sticky-on-scroll" id="fixedHeader">
-          <%= form_tag "/home/transcripts", remote: true do %>
+          <%= form_tag @form_path, method: @form_method, remote: true do %>
             <div id="transcript-facets" class="filter_bar__form transcript-facets filter_bar">
               <div class="filter_bar__fieldset">
                 <legend class="desktop-only">
@@ -33,7 +33,6 @@
               </div>
 
               <div class="filter_bar__fieldset">
-                <% if extended_controls %>
                 <legend class="desktop-only">
                   Sort by:
                 </legend>
@@ -45,11 +44,10 @@
                 <div class="facet">
                   <div class="search_field">
                     <%= text_field_tag "data[text]", nil, placeholder: "Search title/description" %>
-                    <button name="button" type="submit" class="button icon search">Start</button>
+                    <%= submit_tag "Start", class: "button icon search" %>
                   </div>
                 </div>
-                <!-- end of search textbox -->
-                <% end %>
+
                 <div>
                   <%= link_to '', id: 'reset'  do %>
                     <%= fa_icon "refresh" %>
@@ -57,6 +55,7 @@
                   <% end %>
                 </div>
               </div>
+
             </div>
           <% end %>
         </div>

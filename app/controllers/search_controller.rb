@@ -9,8 +9,10 @@ class SearchController < ApplicationController
   def index
     new_collection = Collection.new(id: 0, title: "All Collections")
     @collection = Collection.published.to_a.unshift(new_collection)
-    @themes = Theme.all
+    @themes = Theme.all.order(name: :asc)
     @page_title = "Search"
+    @form_path = query_search_index_url
+    @form_method = :get
   end
 
   def query

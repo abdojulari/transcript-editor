@@ -10,6 +10,8 @@ class HomeController < ApplicationController
   def index
     @sort_list = SortList.list
     @themes = Theme.all.order(name: :asc)
+    @form_path = transcripts_home_index_url
+    @form_method = :post
   end
 
   def transcripts

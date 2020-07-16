@@ -3,7 +3,7 @@
   color: $filter-foreground;
   &__content {
     @include content_wrap;
-    padding: 0px 0;
+    padding: 10px 0;
   }
   &__form {
     display: flex;
@@ -21,7 +21,6 @@
     justify-content: center;
     flex-wrap: wrap;
     padding: 5px;
-    height: 40px;
     @include mobile {
       flex-direction: column;
       padding: 0;
