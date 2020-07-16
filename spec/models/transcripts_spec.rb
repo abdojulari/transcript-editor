@@ -147,8 +147,8 @@ RSpec.describe Transcript, type: :model do
 
   describe "#get_for_home_page" do
     let(:params) do
-      { collection_id: 0, sort_id: sort_id,
-      text: "", institution_id: 0, theme: "" }
+      { collection_id: [0], sort_id: sort_id,
+      text: "", institution_id: 0, theme: [""] }
     end
 
     before do
@@ -197,7 +197,7 @@ RSpec.describe Transcript, type: :model do
     context "with options" do
       it "shows only the filtered trasncripts" do
         expect(described_class.search(
-          collection_id: collection1.id,
+          collection_id: [collection1.id],
           institution_id: institution1.id,
         ).count).to eq(1)
       end
@@ -217,7 +217,7 @@ RSpec.describe Transcript, type: :model do
 
       it "shows theme1 records" do
         expect(described_class.search({
-          theme: "theme1",
+          theme: ["theme1"],
         })).to eq([transcript2])
       end
     end
