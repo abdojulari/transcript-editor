@@ -69,12 +69,6 @@ $(document).ready(function(){
     loadTranscripts()
   })
 
-  $('.search_field .button').on('click', function(){
-    searchText = $('#searchText').val()
-    event.preventDefault();
-    loadTranscripts()
-  })
-
   $("#searchText").on('keyup',function(e){
     // 8 = backspace
     if (($(this).val() == "") && (e.keyCode == 8)){

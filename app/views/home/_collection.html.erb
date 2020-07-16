@@ -1,14 +1,5 @@
-<%
-  index = collection.index { |e| e.id == selected_id }
-  if index
-    first_collection = collection[index]
-  else
-    first_collection = collection.first
-  end
-%>
 <% if collection.any? %>
-  <% rest_of_the_collection = collection %>
-  <%= select_tag "data[collection_id]", options_from_collection_for_select(rest_of_the_collection, "id", "title", index) %>
+  <%= select_tag "data[collection_id]", options_from_collection_for_select(collection, "id", "title", selected_id) %>
 <% else %>
   No collection found
 <% end %>

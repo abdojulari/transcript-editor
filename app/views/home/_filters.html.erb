@@ -9,22 +9,19 @@
                 <legend class="desktop-only">
                   Filter by:
                 </legend>
-                <!-- sort themes -->
+
                 <% if show_theme? %>
                   <div class="facet">
                     <%= select_tag "data[theme]", options_from_collection_for_select(@themes, "name", "name"), prompt: "All Themes" %>
                   </div>
                 <% end %>
-                <!-- end themes -->
 
-                <!-- sort institution -->
                 <% if show_institutions? %>
                   <div class="facet" id="institution_search">
                     <%= hidden_field_tag :instution_selected_id, @selected_institution_id.to_i  %>
                     <%= render partial: 'home/institutions', locals: { institutions: @institutions, selected_id: @selected_institution_id.to_i, hide_label: false } %>
                   </div>
                 <% end %>
-                <!-- end institution -->
 
                 <%= hidden_field_tag :collection_selected_id, @selected_collection_id.to_i  %>
                 <div class="facet" id="collection_search">
@@ -33,20 +30,28 @@
               </div>
 
               <div class="filter_bar__fieldset">
+                <% if extended_controls %>
                 <legend class="desktop-only">
                   Sort by:
                 </legend>
                 <div class="facet">
                   <%= select_tag "data[sort_id]", options_from_collection_for_select(@sort_list, "id", "title"), prompt: "Random" %>
                 </div>
-                <!--  end of sort  collection -->
-                <!-- search text box -->
+
                 <div class="facet">
                   <div class="search_field">
                     <%= text_field_tag "data[text]", nil, placeholder: "Search title/description" %>
                     <%= submit_tag "Start", class: "button icon search" %>
                   </div>
                 </div>
+                <% else %>
+                <div class="facet">
+                  <div class="search_field">
+                    <%= text_field_tag "data[q]", nil, placeholder: "Search all transcripts" %>
+                    <%= submit_tag "Start", class: "button icon search" %>
+                  </div>
+                </div>
+                <% end %>
 
                 <div>
                   <%= link_to '', id: 'reset'  do %>
