@@ -7,7 +7,7 @@ module Searchable
     params.require(:data).permit(
       :collection_id, :sort_id, :text,
       :institution_id,
-      :theme
+      theme: []
     )
   end
 

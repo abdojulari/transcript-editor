@@ -8,11 +8,6 @@ $(document).ready(function(){
   var firstTimeLoad = true;
   var theme = '';
 
-
-  $('.select.collection').click(function(){
-    $(this).toggleClass( "active" )
-  });
-
   $('#reset').on('click', function(){
     collectionId = 0;
     institutionId = 0;
@@ -24,49 +19,6 @@ $(document).ready(function(){
     loadTranscripts();
 
   });
-
-  $('#collection_search').on('click', '.select-option', function(){
-    collectionId = $(this).attr('data-id')
-    if (collectionId == 0) {
-      institutionId = 0;
-    }
-    loadTranscripts();
-  });
-
-  $('#institution_search').on('click', '.select-option', function(){
-    institutionId = $(this).attr('data-id')
-    if (institutionId == 0) {
-      collectionId = 0;
-    }
-    loadTranscripts();
-  });
-
-  $('.select-option').on('click', function(){
-    if (this.classList.contains('menu-item')) {
-      return true
-    }
-    if ($(this).attr('data-filter') === 'collection'){
-      collectionId = $(this).attr('data-id');
-    }
-    if ($(this).attr('data-filter') === 'institution'){
-      institutionId = $(this).attr('data-id');
-      // when institution changes, reset the collection id
-      collectionId = 0;
-    }
-    if ($(this).attr('data-filter') === 'theme'){
-      theme = $(this).attr('data-id');
-    }
-
-    loadTranscripts();
-  })
-
-  $("#keyword").on('keyup',function(e){
-    if (($(this).val() == "") && (e.keyCode == 8)){
-      searchText = "";
-      loadTranscripts()
-    }
-  })
-
 
   function scrollUp(){
     var target  = $('#search-form').offset().top;

@@ -3,7 +3,7 @@
     <article class="filter_bar__content">
       <div class="transcripts-wrapper" role="main">
         <div data-sticky="#transcript-facets" class="sticky-on-scroll" id="fixedHeader">
-          <%= form_tag @form_path, method: @form_method, remote: true do %>
+          <%= form_tag @form_path, method: @form_method, remote: true, class: 'home-form' do %>
             <div id="transcript-facets" class="filter_bar__form transcript-facets filter_bar">
               <div class="filter_bar__fieldset">
                 <legend class="desktop-only">
@@ -12,7 +12,7 @@
 
                 <% if show_theme? %>
                   <div class="facet">
-                    <%= select_tag "data[theme]", options_from_collection_for_select(@themes, "name", "name"), prompt: "All Themes" %>
+                    <%= select_tag "data[theme][]", options_from_collection_for_select(@themes, "name", "name"), prompt: "All Themes", multiple: true %>
                   </div>
                 <% end %>
 
