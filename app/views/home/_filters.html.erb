@@ -45,6 +45,7 @@
                 <div class="facet">
                   <div class="search_field">
                     <%= text_field_tag "data[text]", nil, placeholder: "Search title/description" %>
+                    <button name="button" type="submit" class="button icon search">Start</button>
                   </div>
                 </div>
                 <!-- end of search textbox -->
@@ -54,7 +55,6 @@
                     <%= fa_icon "refresh" %>
                     Reset
                   <% end %>
-                  <%= submit_tag 'Search' %>
                 </div>
               </div>
             </div>

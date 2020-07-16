@@ -3,14 +3,19 @@
   z-index: 5;
   text-align: center;
   font-weight: bold;
+  height: 110px;
+  padding: 5px;
   &.sticky {
     position: fixed;
   }
+
+  .desktop-only {
+    margin-right: 0.3rem;
+  }
 }
+
 .facet {
   display: flex;
-  margin-bottom: 0.1em;
-  margin-left: 0.6em;
   position: relative;
   @include mobile {
     margin-left: 0;
@@ -19,10 +24,70 @@
   &:first-child {
     margin-left: 0;
   }
-  #reset {
+
+  input[type=text] {
+    width: auto;
+    min-height: 30px;
     line-height: 30px;
-    margin-left: 0.6em;
+    font-size: 1rem;
+    border: 0;
+    border-radius: 0;
+    padding-left: 5px;
+    color: #272727;
+    font-family: "Muli", sans-serif;
+    -webkit-appearance: none;
+    margin-left: 0.3em;
   }
+
+  #data_theme {
+    width: 127px;
+  }
+
+  #data_institution_id, #data_collection_id {
+    width: 150px;
+  }
+
+  #data_sort_id {
+    width: 108px;
+  }
+
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: $drop-down-black, $soft-orange;
+    background-position: right 0.8em bottom 45%;
+    background-repeat: no-repeat;
+    background-size: 12px 12px;
+    color: $black;
+    border-radius: 0;
+    border: 0;
+    padding: 0.2em 2em 0.2em 0.8em;
+    font-size: 1rem;
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 24px;
+    transition: background-color 0.3s;
+    z-index: 1;
+    height: 30px;
+    font-weight: bold;
+    @include mobile {
+      min-width: 150px;
+    }
+
+    &:hover, &:focus {
+      background-color: $soft-orange;
+    }
+  }
+}
+
+a#reset {
+  margin-left: 0.6rem;
+
+  &:hover, &:focus {
+    text-decoration: none;
+  }
+
 }
 
 /* Select Box */
