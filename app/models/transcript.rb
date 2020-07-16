@@ -149,16 +149,16 @@ class Transcript < ApplicationRecord
       .where("transcripts.lines > 0 AND transcripts.project_uid = :project_uid AND transcripts.published_at is NOT NULL and collections.published_at is NOT NULL", {project_uid: ENV['PROJECT_ID']})
 
     # scope by collection
-    query = query.where("transcripts.collection_id = #{params[:collection_id]}") if params[:collection_id].to_i > 0
+    query = query.where("transcripts.collection_id in (?)", params[:collection_id]) if params[:collection_id].reject {|id| id == "0"}.any?
 
     # scope by institution
     query = query.where("collections.institution_id = #{params[:institution_id]}") if params[:institution_id].to_i > 0
 
     # scope for theme
     # since the theme is coming from the dropdown, we can use it as is
-    if params[:theme].present?
+    if params[:theme].present? && params[:theme].reject {|t| t == ""}.any?
       query = query.joins('inner join taggings on taggings.taggable_id = collections.id inner join tags on tags.id =  taggings.tag_id')
-      query = query.where("tags.name = ?", params[:theme])
+      query = query.where("tags.name in (?)", params[:theme])
     end
 
     # search text
@@ -447,7 +447,7 @@ class Transcript < ApplicationRecord
     transcripts = transcripts.where("transcripts.project_uid = :project_uid", {project_uid: ENV['PROJECT_ID']}).paginate(:page => options[:page], :per_page => per_page)
 
     # Check for collection filter
-    transcripts = transcripts.where("transcripts.collection_id = :collection_id", {collection_id: options[:collection_id].to_i}) if options[:collection_id].present?
+    transcripts = transcripts.where("transcripts.collection_id IN (:collection_id)", {collection_id: options[:collection_id]}) if options[:collection_id].present?
 
     # check for institution
     transcripts = transcripts.where("institutions.id = :id", {id: options[:institution_id].to_i}) if options[:institution_id].present?

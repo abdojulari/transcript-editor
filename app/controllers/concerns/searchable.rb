@@ -5,9 +5,23 @@ module Searchable
 
   def sort_params
     params.require(:data).permit(
-      :collection_id, :sort_id, :text,
+      :sort_id, :text,
       :institution_id,
-      theme: []
+      theme: [],
+      collection_id: []
+    )
+  end
+
+  def build_params
+    search_params.reject { |_key, value| value.blank? || value.to_s == "0" }
+  end
+
+  def search_params
+    params.require(:data).permit(
+      :q,
+      :institution_id,
+      theme: [],
+      collection_id: []
     )
   end
 
@@ -25,12 +39,12 @@ module Searchable
 
   def load_institutions
     new_institution = Institution.new(id: 0, name: "All Institutions")
-    collection_id = params[:data] && sort_params.fetch(:collection_id)
-    @institutions = if collection_id.to_i == 0
+    collection_ids = params[:data] && sort_params[:collection_id]
+    @institutions = if collection_ids&.first&.to_i == 0
                       Institution.all.order(name: :asc)
                     else
                       Institution.order(name: :asc).joins(:collections).
-                        where("collections.id = ?", collection_id)
+                        where("collections.id = (?)", collection_ids)
                     end.to_a.unshift(new_institution)
   end
 

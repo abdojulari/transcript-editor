@@ -16,20 +16,9 @@ class SearchController < ApplicationController
   end
 
   def query
-    @selected_collection_id = sort_params[:collection_id].to_i
+    @selected_collection_id = sort_params[:collection_id]
     @selected_institution_id = select_institution_id
     @transcripts = Transcript.search(build_params)
     @query = build_params[:q]
-  end
-
-  private
-
-  def build_params
-    search_params.reject { |_key, value| value.blank? || value.to_s == "0" }
-  end
-
-  def search_params
-    params.require(:data).permit(:collection_id, :q,
-                                 :institution_id, :theme)
   end
 end
