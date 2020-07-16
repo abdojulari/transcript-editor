@@ -40,7 +40,7 @@ module Searchable
   def load_institutions
     new_institution = Institution.new(id: 0, name: "All Institutions")
     collection_ids = params[:data] && sort_params[:collection_id]
-    @institutions = if collection_ids&.first&.to_i == 0
+    @institutions = if (collection_ids&.first).to_i == 0
                       Institution.all.order(name: :asc)
                     else
                       Institution.order(name: :asc).joins(:collections).

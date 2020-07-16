@@ -149,7 +149,7 @@ class Transcript < ApplicationRecord
       .where("transcripts.lines > 0 AND transcripts.project_uid = :project_uid AND transcripts.published_at is NOT NULL and collections.published_at is NOT NULL", {project_uid: ENV['PROJECT_ID']})
 
     # scope by collection
-    query = query.where("transcripts.collection_id in (?)", params[:collection_id]) if params[:collection_id].reject {|id| id == "0"}.any?
+    query = query.where("transcripts.collection_id in (?)", params[:collection_id]) if params[:collection_id].present? && params[:collection_id].reject {|id| id == "0"}.any?
 
     # scope by institution
     query = query.where("collections.institution_id = #{params[:institution_id]}") if params[:institution_id].to_i > 0
