@@ -5,7 +5,7 @@ module Searchable
 
   def sort_params
     params.require(:data).permit(
-      :sort_id, :text,
+      :sort_id, :text, :q,
       :institution_id,
       theme: [],
       collection_id: []
@@ -13,16 +13,10 @@ module Searchable
   end
 
   def build_params
-    search_params.reject { |_key, value| value.blank? || value.to_s == "0" }
-  end
-
-  def search_params
-    params.require(:data).permit(
-      :q,
-      :institution_id,
-      theme: [],
-      collection_id: []
-    )
+    sort_params.reject { |_key, value|
+      value.blank? ||
+      value.to_s == "0" ||
+      (value&.first && (value.first.blank? || value.first == "0")) }
   end
 
   def select_institution_id
