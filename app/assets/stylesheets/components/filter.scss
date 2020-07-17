@@ -26,6 +26,9 @@
       padding: 0;
     }
   }
+  .facet {
+    margin-right: 5px;
+  }
   select {
     margin: 5px;
     @include desktop {

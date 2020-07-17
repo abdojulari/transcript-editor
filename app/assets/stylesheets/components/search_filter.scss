@@ -34,7 +34,6 @@
     color: #272727;
     font-family: "Muli", sans-serif;
     -webkit-appearance: none;
-    margin-left: 0.3em;
   }
 
   #data_theme {
@@ -71,10 +70,6 @@
     font-weight: bold;
     @include mobile {
       min-width: 150px;
-    }
-
-    option {
-      width: 120px;
     }
 
     &:hover, &:focus {
@@ -150,8 +145,13 @@ select[multiple] {
   top: -5px;
   background-size: 0;
   left: -5px;
-}
+  width: 250px;
+  max-width: unset;
 
+  option {
+    width: fit-content;
+  }
+}
 
 .select-options {
   display: none;
