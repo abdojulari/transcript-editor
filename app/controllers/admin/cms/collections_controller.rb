@@ -72,7 +72,8 @@ class Admin::Cms::CollectionsController < AdminController
       :library_catalogue_title, :description,
       :url, :image,
       :vendor_id, :institution_id,
-      :publish, :collection_url_title
+      :publish, :collection_url_title,
+      :min_lines_for_consensus
     ).merge(
       project_uid: ENV["PROJECT_ID"],
     )
