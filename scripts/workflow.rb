@@ -1,7 +1,10 @@
 require 'restclient'
-require 'pry'
+require 'date'
+require 'json'
 
-TX_HOST = 'localhost:3000'
+TX_HOST = '127.0.0.1:80'
+
+# run with `sudo ruby scripts/workflow.rb`
 
 puts 'Oh wow!'
 puts "Lemme get this straight - you want to release some transcripts?"
@@ -31,10 +34,20 @@ release_needin_ids.each do |guid|
     f << transcript_json
     puts quips.sample + " wrote #{guid} data to #{filename}."
   end
+
 end
 
 puts "Well, that was fun. Now we've got all the files we need."
 
-puts `./shellScriptToDuplicateAndPushNewFilesToS3.sh #{__dir__}/transcript-json/#{filename}`
+Dir.glob(__dir__ + "/transcript-json/*.json").each do |filename|
+  puts `./shellScriptToDuplicateAndPushNewFilesToS3.sh #{filename}`
+  puts "Deleting file: #{filename}"
+  File.delete(filename)
+end
+
+release_needin_ids.each do |id|
+  puts "Updating the released flag on: #{id}"
+  RestClient.patch(TX_HOST + '/transcripts/' + id, { 'released' => true } )
+end
 
 puts 'Ah... That is the stuff.'
