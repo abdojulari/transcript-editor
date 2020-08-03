@@ -24,3 +24,4 @@
 //= require mobile_warning
 //= require mobile_transcripts
 //= require jquery.Jcrop.min
+//= require select2

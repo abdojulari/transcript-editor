@@ -80,6 +80,9 @@
       background-image: $search-icon;
       background-size: 20px 20px;
       cursor: pointer;
+      &:hover {
+        background-color: #eead0e;
+      }
     }
   }
 }

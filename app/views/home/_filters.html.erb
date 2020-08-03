@@ -1,9 +1,22 @@
-<div id="filters">
-  <section class="filter_bar">
-    <article class="filter_bar__content">
-      <div class="transcripts-wrapper" role="main">
-        <div data-sticky="#transcript-facets" class="sticky-on-scroll" id="fixedHeader">
-          <%= form_tag @form_path, method: @form_method, remote: true, class: 'home-form' do %>
+<%= form_tag @form_path, method: @form_method, remote: true, class: 'home-form' do %>
+  <% unless extended_controls %>
+    <section class="search_bar">
+      <article class="search_bar__content">
+        <div class="search_bar__form" id="search-form">
+          <div class="search_field">
+            <%= search_field_tag "data[q]", nil, placeholder: "Search all transcripts" %>
+            <%= submit_tag "Start", class: "button icon search" %>
+          </div>
+        </div>
+      </article>
+    </section>
+  <% end %>
+
+  <div id="filters">
+    <section class="filter_bar">
+      <article class="filter_bar__content">
+        <div class="transcripts-wrapper" role="main">
+          <div data-sticky="#transcript-facets" class="sticky-on-scroll" id="fixedHeader">
             <div id="transcript-facets" class="filter_bar__form transcript-facets filter_bar">
               <div class="filter_bar__fieldset">
                 <legend class="desktop-only">
@@ -35,57 +48,63 @@
                     <%= render partial: 'home/collection', locals: { collection: @collection, selected_id: @selected_collection_id } %>
                   </div>
                 </div>
-              </div>
 
-              <div class="filter_bar__fieldset">
-                <% if extended_controls %>
-                <legend class="desktop-only">
-                  Sort by:
-                </legend>
-                <div class="facet">
-                  <%= select_tag "data[sort_id]", options_from_collection_for_select(@sort_list, "id", "title"), prompt: "Random" %>
-                </div>
-
-                <div class="facet">
-                  <div class="search_field">
-                    <%= text_field_tag "data[text]", nil, placeholder: "Search title/description" %>
-                    <%= submit_tag "Start", class: "button icon search" %>
+                <% unless extended_controls %>
+                  <div>
+                    <%= link_to '', id: 'reset'  do %>
+                      <%= fa_icon "refresh" %>
+                      Reset
+                    <% end %>
                   </div>
-                </div>
-                <% else %>
-                <div class="facet">
-                  <div class="search_field">
-                    <%= text_field_tag "data[q]", nil, placeholder: "Search all transcripts" %>
-                    <%= submit_tag "Start", class: "button icon search" %>
-                  </div>
-                </div>
                 <% end %>
-
-                <div>
-                  <%= link_to '', id: 'reset'  do %>
-                    <%= fa_icon "refresh" %>
-                    Reset
-                  <% end %>
-                </div>
               </div>
 
+              <% if extended_controls %>
+                <div class="filter_bar__fieldset">
+                  <legend class="desktop-only">
+                    Sort by:
+                  </legend>
+                  <div class="facet">
+                    <%= select_tag "data[sort_id]", options_from_collection_for_select(@sort_list, "id", "title"), prompt: "Random" %>
+                  </div>
+
+                  <div class="facet">
+                    <div class="search_field">
+                      <%= text_field_tag "data[text]", nil, placeholder: "Search title/description" %>
+                      <%= submit_tag "Start", class: "button icon search" %>
+                    </div>
+                  </div>
+
+                  <div>
+                    <%= link_to '', id: 'reset'  do %>
+                      <%= fa_icon "refresh" %>
+                      Reset
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
             </div>
-          <% end %>
+          </div>
         </div>
-      </div>
-    </article>
-  </section>
-</div>
+      </article>
+    </section>
+  </div>
+<% end %>
 
 <script type="text/javascript">
   $(document).ready(function() {
-    $('select#data_sort_id, select#data_institution_id').change(function(){
-      var text = $(this).find('option:selected').text()
-      var $aux = $('<select/>').append($('<option/>').text(text))
-      $(this).after($aux)
-      $(this).width($aux.width())
-      $aux.remove()
+    $( "select:not([multiple=multiple])" ).select2({
+      theme: "amplify",
+      minimumResultsForSearch: Infinity
     });
+
+    // $('select#data_sort_id, select#data_institution_id').change(function(){
+    //   var text = $(this).find('option:selected').text()
+    //   var $aux = $('<select/>').append($('<option/>').text(text))
+    //   $(this).after($aux)
+    //   $(this).width($aux.width())
+    //   $aux.remove()
+    // });
 
     $('select#data_theme_').change(function() {
       var text = $(this).find('option:selected')[0].text;
