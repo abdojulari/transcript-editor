@@ -222,6 +222,8 @@ $amplify-theme-dark-color: #D1AB4D;;
 .select2-container--open .select2-dropdown--above {
   background: $amplify-theme-light-color;
   min-width: 250px;
+  max-height: 300px;
+  overflow-y: auto;
 }
 .select2-dropdown--below {
   margin-top: -10px;
