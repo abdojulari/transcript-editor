@@ -15,7 +15,6 @@ $(document).ready(function(){
     if (!container.is(e.target) && container.has(e.target).length === 0)
     {
       container.hide();
-      $('.toggle-data_theme_').css('visibility','visible');
     }
 
     var container2 = $("#data_collection_id_");
@@ -24,17 +23,24 @@ $(document).ready(function(){
     if (!container2.is(e.target) && container2.has(e.target).length === 0)
     {
       container2.hide();
-      $('.toggle-data_collection_id_').css('visibility','visible');
     }
   });
 
+  $("select:not([multiple=multiple])").select2({
+    theme: "amplify",
+    minimumResultsForSearch: Infinity
+  });
+
+  $('select#data_theme_').change(function() {
+    var text = $(this).find('option:selected')[0].text;
+    $('#theme-filter').text(text);
+  });
+
   $('.toggle-data_theme_').click(function() {
-    $('.toggle-data_theme_').css('visibility','hidden')
     $('#data_theme_').show();
   });
 
   $('.toggle-data_collection_id_').click(function() {
-    $('.toggle-data_collection_id_').css('visibility','hidden')
     $('#data_collection_id_').show();
   });
 

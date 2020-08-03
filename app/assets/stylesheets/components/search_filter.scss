@@ -131,18 +131,26 @@ select[multiple] {
   height: 300px;
   position: absolute;
   z-index: 1000;
-  top: -5px;
+  top: 25px;
   background-size: 0;
   left: -5px;
   width: 400px;
   max-width: unset;
   padding: 0;
 
+  &:focus {
+    outline: 0;
+  }
+
   option {
     width: fit-content;
     width: 100%;
     text-align: center;
     padding: 0.4em;
+
+    &:checked {
+      background-color: #fff !important;
+    }
 
     &:hover {
       color: #FFFFFF;
@@ -213,10 +221,18 @@ $amplify-theme-dark-color: #D1AB4D;;
 .select2-container--open .select2-dropdown--below,
 .select2-container--open .select2-dropdown--above {
   background: $amplify-theme-light-color;
+  min-width: 250px;
+}
+.select2-dropdown--below {
+  margin-top: -10px;
 }
 .select2-container--amplify {
   .select2-container--focus .select2-selection--multiple {
     border: 1px solid $amplify-theme-dark-color;
+  }
+  .select2-results__option {
+    margin: 0;
+    padding: 0.4em;
   }
   .select2-results__option--highlighted[aria-selected] {
     background: $amplify-theme-dark-color !important;
