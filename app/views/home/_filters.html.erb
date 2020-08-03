@@ -1,67 +1,80 @@
-<div id="filters">
-  <section class="filter_bar">
-    <article class="filter_bar__content">
-      <div class="transcripts-wrapper" role="main">
-        <div data-sticky="#transcript-facets" class="sticky-on-scroll" id="fixedHeader">
-          <div id="transcript-facets" class="filter_bar__form transcript-facets filter_bar">
-            <div class="filter_bar__fieldset">
-              <legend class="desktop-only">
-                Filter by:
-              </legend>
-              <!-- sort themes -->
-              <% if show_theme? %>
-                <div class="facet">
-                  <div name="filter-by-collection" class="select collection">
-                    <div class="select-active collection-filter">All Themes</div>
-                    <div class="select-options collection-filter" role="menu" aria-hidden="true">
-                      <%= raw theme_list(@themes) %>
-                    </div>
-                  </div>
-                </div>
-              <% end %>
-              <!-- end themes -->
+<%= form_tag @form_path, method: @form_method, remote: true, class: 'home-form' do %>
+  <% unless extended_controls %>
+    <section class="search_bar">
+      <article class="search_bar__content">
+        <div class="search_bar__form" id="search-form">
+          <div class="search_field">
+            <%= search_field_tag "data[q]", nil, placeholder: "Search all transcripts" %>
+            <%= submit_tag "Start", class: "button icon search" %>
+          </div>
+        </div>
+      </article>
+    </section>
+  <% end %>
 
-              <!-- sort institution -->
-              <% if show_institutions? %>
-                <div class="facet" id="institution_search">
-                  <%= hidden_field_tag :instution_selected_id, @selected_institution_id.to_i  %>
-                  <%= render partial: 'home/institutions', locals: { institutions: @institutions, selected_id: @selected_institution_id.to_i, hide_label: false } %>
-                </div>
-              <% end %>
-              <!-- end institution -->
-              <%= hidden_field_tag :collection_selected_id, @selected_collection_id.to_i  %>
-              <div class="facet" id="collection_search">
-              </div>
-              <!-- Sort  collection -->
-              <% unless extended_controls  %>
-                <div>
-                  <%= link_to '', id: 'reset'  do %>
-                    <%= fa_icon "refresh" %>
-                    Reset
-                  <% end %>
-                </div>
-              <% end %>
-            </div>
-            <% if extended_controls %>
+  <div id="filters">
+    <section class="filter_bar">
+      <article class="filter_bar__content">
+        <div class="transcripts-wrapper" role="main">
+          <div data-sticky="#transcript-facets" class="sticky-on-scroll" id="fixedHeader">
+            <div id="transcript-facets" class="filter_bar__form transcript-facets filter_bar">
               <div class="filter_bar__fieldset">
                 <legend class="desktop-only">
-                  Sort by:
+                  Filter by:
                 </legend>
-                <div class="facet">
-                  <div name="sort-by" class="select collection">
-                    <div class="select-active">Random</div>
-                    <div class="select-options sort-by-filter" role="menu" aria-hidden="true">
-                      <%= raw sorting_list(@sort_list) %>
+
+                <% if show_theme? %>
+                  <div class="facet">
+                    <div name="filter-by-theme" class="select theme">
+                      <div class="select-active toggle-data_theme_" id="theme-filter">All Themes</div>
                     </div>
+                    <%= select_tag "data[theme][]", options_from_collection_for_select(@themes, "name", "name"), prompt: "All Themes", multiple: true %>
+                  </div>
+                <% end %>
+
+                <% if show_institutions? %>
+                  <div class="facet" id="institution_search">
+                    <%= hidden_field_tag :instution_selected_id, @selected_institution_id.to_i  %>
+                    <%= render partial: 'home/institutions', locals: { institutions: @institutions, selected_id: @selected_institution_id.to_i, hide_label: false } %>
+                  </div>
+                <% end %>
+
+                <%= hidden_field_tag :collection_selected_id, @selected_collection_id.to_i  %>
+                <div class="facet">
+                  <div name="filter-by-collection" class="select collection">
+                    <div class="select-active toggle-data_collection_id_" id="collection-filter">All Collections</div>
+                  </div>
+                  <div id="collection_search">
+                    <%= render partial: 'home/collection', locals: { collection: @collection, selected_id: @selected_collection_id } %>
                   </div>
                 </div>
-                <!--  end of sort  collection -->
-                <!-- search text box -->
-                <div class="facet">
-                  <div class="search_field">
-                    <input type="search" name="searchText" id="searchText" placeholder="Search title/description">
-                    <button name="button" type="submit" class="button icon search">Start</button>
+
+                <% unless extended_controls %>
+                  <div>
+                    <%= link_to '', id: 'reset'  do %>
+                      <%= fa_icon "refresh" %>
+                      Reset
+                    <% end %>
                   </div>
+                <% end %>
+              </div>
+
+              <% if extended_controls %>
+                <div class="filter_bar__fieldset">
+                  <legend class="desktop-only">
+                    Sort by:
+                  </legend>
+                  <div class="facet">
+                    <%= select_tag "data[sort_id]", options_from_collection_for_select(@sort_list, "id", "title"), prompt: "Random" %>
+                  </div>
+
+                  <div class="facet">
+                    <div class="search_field">
+                      <%= text_field_tag "data[text]", nil, placeholder: "Search title/description" %>
+                      <%= submit_tag "Start", class: "button icon search" %>
+                    </div>
+                  </div>
+
                   <div>
                     <%= link_to '', id: 'reset'  do %>
                       <%= fa_icon "refresh" %>
@@ -69,16 +82,11 @@
                     <% end %>
                   </div>
                 </div>
-                <!-- end of search textbox -->
-              </div>
-            <% end %>
+              <% end %>
+            </div>
           </div>
         </div>
-        <%# <div id="transcript-results" class="transcript-results"> %>
-          <%#   <div class="transcript-list" role="list"> %>
-            <%#   </div> %>
-          <%# </div> %>
-      </div>
-    </article>
-  </section>
-</div>
+      </article>
+    </section>
+  </div>
+<% end %>

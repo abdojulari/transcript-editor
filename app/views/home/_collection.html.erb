@@ -1,21 +1,15 @@
-<%
-    index = collection.index { |e| e.id == selected_id }
-    if index
-      first_collection = collection[index]
-    else
-      first_collection = collection.first
-    end
-%>
 <% if collection.any? %>
-  <% rest_of_the_collection = collection %>
-  <div name="filter-by-collection" class="select collection">
-    <div class="select-active collection-filter selected"><%= first_collection.title %></div>
-    <div class="select-options collection-filter" id="collection-options" role="menu" aria-hidden="true">
-      <%= raw collection_list(rest_of_the_collection, index) %>
-    </div>
-  </div>
+  <%= select_tag "data[collection_id][]", options_from_collection_for_select(collection, "id", "title", selected_id), multiple: true %>
 <% else %>
   No collection found
 <% end %>
 
 
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('select#data_collection_id_').change(function() {
+      var text = $(this).find('option:selected')[0].text;
+      $('#collection-filter').text(text);
+    });
+  })
+</script>

@@ -3,7 +3,7 @@
   color: $filter-foreground;
   &__content {
     @include content_wrap;
-    padding: 10px 0;
+    padding: 6px 0 15px 0;
   }
   &__form {
     display: flex;
@@ -20,11 +20,15 @@
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    padding: 5px;
+    padding: 0px;
+    height: 42px;
     @include mobile {
       flex-direction: column;
       padding: 0;
     }
+  }
+  .facet {
+    margin-left: 0.6em;
   }
   select {
     margin: 5px;
@@ -47,6 +51,23 @@
       line-height: 40px;
       height: 30px;
       width: 30px;
+
+      &:disabled, &.disabled {
+        cursor: default;
+        background: $button-yellow;
+        background-image: $search-icon;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 20px 20px;
+        &:hover, &:focus {
+          background: $button-yellow;
+          background-image: $search-icon;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: 20px 20px;
+          background-color: #eead0e;
+        }
+      }
     }
   }
   // Hides and shows the filters on mobile
@@ -94,6 +115,23 @@
     align-items: center;
     input[type="search"], .button {
       border: 1px solid $input-border;
+
+      &:disabled, &.disabled {
+        cursor: default;
+        background: $button-yellow;
+        background-image: $search-icon;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 20px 20px;
+        &:hover, &:focus {
+          background: $button-yellow;
+          background-image: $search-icon;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: 20px 20px;
+          background-color: #eead0e;
+        }
+      }
     }
     input[type="search"] {
       min-width: 450px;

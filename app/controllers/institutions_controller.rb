@@ -2,7 +2,7 @@
 class InstitutionsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :authenticate_user!, except: [:index, :transcripts]
-  before_action :load_collection, except: [:index]
+  before_action :load_collection
   before_action :load_institutions
 
   layout "application_v2"
@@ -12,13 +12,16 @@ class InstitutionsController < ApplicationController
   def index
     @sort_list = SortList.list
     @themes = Theme.all
-    @collection = Collection.none
 
     @institution = Institution.friendly.find(params_list[:institution_id])
     @selected_institution_id = @institution.id
 
     @selected_collection_id = @institution.collections.
       where(uid: params_list[:collection_id]).first.try(:id) if @institution
+
+
+    @form_path = transcripts_home_index_url
+    @form_method = :post
 
     load_institution_footer
   rescue ActiveRecord::RecordNotFound

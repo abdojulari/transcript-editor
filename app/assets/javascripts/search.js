@@ -8,9 +8,40 @@ $(document).ready(function(){
   var firstTimeLoad = true;
   var theme = '';
 
+  $(document).mouseup(function(e) {
+    var container = $("#data_theme_");
 
-  $('.select.collection').click(function(){
-    $(this).toggleClass( "active" )
+    // if the target of the click isn't the container nor a descendant of the container
+    if (!container.is(e.target) && container.has(e.target).length === 0)
+    {
+      container.hide();
+    }
+
+    var container2 = $("#data_collection_id_");
+
+    // if the target of the click isn't the container nor a descendant of the container
+    if (!container2.is(e.target) && container2.has(e.target).length === 0)
+    {
+      container2.hide();
+    }
+  });
+
+  $("select:not([multiple=multiple])").select2({
+    theme: "amplify",
+    minimumResultsForSearch: Infinity
+  });
+
+  $('select#data_theme_').change(function() {
+    var text = $(this).find('option:selected')[0].text;
+    $('#theme-filter').text(text);
+  });
+
+  $('.toggle-data_theme_').click(function() {
+    $('#data_theme_').show();
+  });
+
+  $('.toggle-data_collection_id_').click(function() {
+    $('#data_collection_id_').show();
   });
 
   $('#reset').on('click', function(){
@@ -24,49 +55,6 @@ $(document).ready(function(){
     loadTranscripts();
 
   });
-
-  $('#collection_search').on('click', '.select-option', function(){
-    collectionId = $(this).attr('data-id')
-    if (collectionId == 0) {
-      institutionId = 0;
-    }
-    loadTranscripts();
-  });
-
-  $('#institution_search').on('click', '.select-option', function(){
-    institutionId = $(this).attr('data-id')
-    if (institutionId == 0) {
-      collectionId = 0;
-    }
-    loadTranscripts();
-  });
-
-  $('.select-option').on('click', function(){
-    if (this.classList.contains('menu-item')) {
-      return true
-    }
-    if ($(this).attr('data-filter') === 'collection'){
-      collectionId = $(this).attr('data-id');
-    }
-    if ($(this).attr('data-filter') === 'institution'){
-      institutionId = $(this).attr('data-id');
-      // when institution changes, reset the collection id
-      collectionId = 0;
-    }
-    if ($(this).attr('data-filter') === 'theme'){
-      theme = $(this).attr('data-id');
-    }
-
-    loadTranscripts();
-  })
-
-  $("#keyword").on('keyup',function(e){
-    if (($(this).val() == "") && (e.keyCode == 8)){
-      searchText = "";
-      loadTranscripts()
-    }
-  })
-
 
   function scrollUp(){
     var target  = $('#search-form').offset().top;
