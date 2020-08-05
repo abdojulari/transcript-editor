@@ -49,7 +49,13 @@
                   </div>
                 </div>
 
-                <% unless extended_controls %>
+                <% if extended_controls %>
+                <div class="facet">
+                  <div class="search_field">
+                    <%= text_field_tag "data[text]", nil, placeholder: "Search title/description" %>
+                  </div>
+                </div>
+                <% else %>
                   <div>
                     <%= link_to '', id: 'reset'  do %>
                       <%= fa_icon "refresh" %>
@@ -68,12 +74,7 @@
                     <%= select_tag "data[sort_id]", options_from_collection_for_select(@sort_list, "id", "title"), prompt: "Random" %>
                   </div>
 
-                  <div class="facet">
-                    <div class="search_field">
-                      <%= text_field_tag "data[text]", nil, placeholder: "Search title/description" %>
-                      <%= submit_tag "Start", class: "button icon search" %>
-                    </div>
-                  </div>
+                  <%= submit_tag "Apply Filters", class: "button icon search", id: "filters-submit" %>
 
                   <div>
                     <%= link_to '', id: 'reset'  do %>
