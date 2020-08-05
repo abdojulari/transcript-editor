@@ -10,18 +10,12 @@ $(document).ready(function(){
 
   $(document).mouseup(function(e) {
     var container = $("#data_theme_");
-
-    // if the target of the click isn't the container nor a descendant of the container
-    if (!container.is(e.target) && container.has(e.target).length === 0)
-    {
+    if (!container.is(e.target) && container.has(e.target).length === 0) {
       container.hide();
     }
 
     var container2 = $("#data_collection_id_");
-
-    // if the target of the click isn't the container nor a descendant of the container
-    if (!container2.is(e.target) && container2.has(e.target).length === 0)
-    {
+    if (!container2.is(e.target) && container2.has(e.target).length === 0) {
       container2.hide();
     }
   });
@@ -34,6 +28,10 @@ $(document).ready(function(){
   $('#data_theme_').change(function() {
     var size = $(this).find('input[type=checkbox]:checked').size();
     $('#theme-filter').text("Themes (" + size + ")");
+  });
+
+  $('#data_theme_ input[type=checkbox]').change(function() {
+    $(this).parent(".option").toggleClass("checked");
   });
 
   $('.toggle-data_theme_').click(function() {
@@ -49,7 +47,6 @@ $(document).ready(function(){
     theme = '';
     preventDefault();
     loadTranscripts();
-
   });
 
   function scrollUp(){

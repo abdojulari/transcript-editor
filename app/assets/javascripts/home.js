@@ -36,6 +36,10 @@ $(document).ready(function(){
     $('#theme-filter').text("Themes (" + size + ")");
   });
 
+  $('#data_theme_ input[type=checkbox]').change(function() {
+    $(this).parent(".option").toggleClass("checked");
+  });
+
   $('.toggle-data_theme_').click(function() {
     $('#data_theme_').show();
   });

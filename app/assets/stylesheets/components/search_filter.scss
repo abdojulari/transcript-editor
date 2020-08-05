@@ -1,3 +1,6 @@
+$amplify-theme-light-color: #F5C653;
+$amplify-theme-dark-color: #D1AB4D;
+
 .transcript-facets {
   position: relative;
   z-index: 5;
@@ -35,17 +38,21 @@
       padding: 0.4em;
       font-weight: bold;
 
+      &.checked {
+        background: #D8B04E;
+
+        label {
+          color: #FFF;
+        }
+      }
+
       label {
         margin: 0;
         padding-left: 5px;
       }
 
-      &:checked {
-        background-color: #fff !important;
-      }
-
       &:hover {
-        background: #D1AB4D;
+        background: $amplify-theme-dark-color;
 
         label {
           color: #FFF;
@@ -191,11 +198,10 @@ a#reset {
     z-index: 0;
     &:hover {
       color: $white;
-      background: #D1AB4D;
+      background: $amplify-theme-dark-color;
     }
     &.selected:after {
       margin-left: 5px;
-      /* @include icon("\f00c"); // http://fortawesome.github.io/Font-Awesome/icon/check/ */
     }
   }
 }
@@ -221,9 +227,6 @@ a#reset {
 /*********************************
 Select 2 styling
 *********************************/
-
-$amplify-theme-light-color: #F5C653;
-$amplify-theme-dark-color: #D1AB4D;;
 
 .select2-container--open .select2-dropdown--below,
 .select2-container--open .select2-dropdown--above {
