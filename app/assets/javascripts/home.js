@@ -31,8 +31,8 @@ $(document).ready(function(){
     minimumResultsForSearch: Infinity
   });
 
-  $('select#data_theme_').change(function() {
-    var size = $(this).find('option:selected').size();
+  $('#data_theme_').change(function() {
+    var size = $(this).find('input[type=checkbox]:checked').size();
     $('#theme-filter').text("Themes (" + size + ")");
   });
 

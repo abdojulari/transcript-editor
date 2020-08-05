@@ -454,7 +454,7 @@ class Transcript < ApplicationRecord
 
     if options[:theme].present?
       transcripts = transcripts.joins('inner join taggings on taggings.taggable_id = collections.id inner join tags on tags.id =  taggings.tag_id')
-      transcripts = transcripts.where("tags.name = ?", options[:theme])
+      transcripts = transcripts.where("tags.name in (?)", options[:theme])
     end
 
 

@@ -28,7 +28,14 @@
                     <div name="filter-by-theme" class="select theme">
                       <div class="select-active toggle-data_theme_" id="theme-filter">All Themes</div>
                     </div>
-                    <%= select_tag "data[theme][]", options_from_collection_for_select(@themes, "name", "name"), prompt: "All Themes", multiple: true %>
+                    <div class="checkbox-list" id="data_theme_">
+                      <%= collection_check_boxes('data', 'theme', @themes, "name", "name", include_hidden: false) do |b| %>
+                        <div class="option">
+                          <%= b.check_box %> <%= b.label %> <br>
+                        </div>
+                      <% end %>
+                    </div>
+                    <% select_tag "data[theme][]", options_from_collection_for_select(@themes, "name", "name"), prompt: "All Themes", multiple: true %>
                   </div>
                 <% end %>
 
@@ -56,6 +63,11 @@
                   </div>
                 </div>
                 <% else %>
+
+                  <div class="search_field">
+                    <%= submit_tag "Apply Filters", class: "button icon search", id: "filters-submit" %>
+                  </div>
+
                   <div>
                     <%= link_to '', id: 'reset'  do %>
                       <%= fa_icon "refresh" %>
@@ -73,8 +85,9 @@
                   <div class="facet">
                     <%= select_tag "data[sort_id]", options_from_collection_for_select(@sort_list, "id", "title"), prompt: "Random" %>
                   </div>
-
-                  <%= submit_tag "Apply Filters", class: "button icon search", id: "filters-submit" %>
+                  <div class="search_field">
+                    <%= submit_tag "Apply Filters", class: "button icon search", id: "filters-submit" %>
+                  </div>
 
                   <div>
                     <%= link_to '', id: 'reset'  do %>
