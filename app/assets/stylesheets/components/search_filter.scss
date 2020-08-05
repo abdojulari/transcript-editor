@@ -140,6 +140,7 @@ select[multiple] {
     width: 100%;
     text-align: center;
     padding: 0.4em;
+    font-weight: bold;
 
     &:checked {
       background-color: #fff !important;
@@ -228,6 +229,7 @@ $amplify-theme-dark-color: #D1AB4D;;
   .select2-results__option {
     margin: 0;
     padding: 0.4em;
+    font-weight: bold;
   }
   .select2-results__option--highlighted[aria-selected] {
     background: $amplify-theme-dark-color !important;
@@ -393,7 +395,6 @@ $amplify-theme-dark-color: #D1AB4D;;
     .select2-selection__clear {
       cursor: pointer;
       float: right;
-      font-weight: bold;
     }
   }
 }
