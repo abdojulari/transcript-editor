@@ -40,10 +40,6 @@ $(document).ready(function(){
     $('#data_theme_').show();
   });
 
-  $('.toggle-data_collection_id_').click(function() {
-    $('#data_collection_id_').show();
-  });
-
   $('#reset').on('click', function(){
     collectionId = 0;
     institutionId = 0;

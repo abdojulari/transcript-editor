@@ -38,10 +38,6 @@
       label {
         margin: 0;
         padding-left: 5px;
-
-        &:hover {
-          color: #fff;
-        }
       }
 
       &:checked {
@@ -49,8 +45,11 @@
       }
 
       &:hover {
-        color: #FFFFFF;
         background: #D1AB4D;
+
+        label {
+          color: #FFF;
+        }
       }
     }
   }

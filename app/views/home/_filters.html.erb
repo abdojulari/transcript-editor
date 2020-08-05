@@ -31,7 +31,7 @@
                     <div class="checkbox-list" id="data_theme_">
                       <%= collection_check_boxes('data', 'theme', @themes, "name", "name", include_hidden: false) do |b| %>
                         <div class="option">
-                          <%= b.check_box %> <%= b.label %> <br>
+                          <%= b.check_box %> <%= b.label %>
                         </div>
                       <% end %>
                     </div>
@@ -48,9 +48,6 @@
 
                 <%= hidden_field_tag :collection_selected_id, @selected_collection_id.to_i  %>
                 <div class="facet">
-                  <div name="filter-by-collection" class="select collection">
-                    <div class="select-active toggle-data_collection_id_" id="collection-filter">All Collections</div>
-                  </div>
                   <div id="collection_search">
                     <%= render partial: 'home/collection', locals: { collection: @collection, selected_id: @selected_collection_id } %>
                   </div>
