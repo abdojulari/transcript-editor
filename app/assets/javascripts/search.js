@@ -32,8 +32,8 @@ $(document).ready(function(){
   });
 
   $('select#data_theme_').change(function() {
-    var text = $(this).find('option:selected')[0].text;
-    $('#theme-filter').text(text);
+    var size = $(this).find('option:selected').size();
+    $('#theme-filter').text("Themes (" + size + ")");
   });
 
   $('.toggle-data_theme_').click(function() {

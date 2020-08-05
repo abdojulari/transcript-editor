@@ -8,8 +8,8 @@
 <script type="text/javascript">
   $(document).ready(function() {
     $('select#data_collection_id_').change(function() {
-      var text = $(this).find('option:selected')[0].text;
-      $('#collection-filter').text(text);
+        var size = $(this).find('option:selected').size();
+        $('#collection-filter').text("Collections (" + size + ")");
     });
   })
 </script>
