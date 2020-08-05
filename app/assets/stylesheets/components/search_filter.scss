@@ -6,6 +6,40 @@
   &.sticky {
     position: fixed;
   }
+
+  select[multiple] {
+    display: none;
+    height: 300px;
+    position: absolute;
+    z-index: 1000;
+    top: 25px;
+    background-size: 0;
+    left: -5px;
+    width: 400px;
+    max-width: unset;
+    padding: 0;
+
+    &:focus {
+      outline: 0;
+    }
+
+    option {
+      width: fit-content;
+      width: 100%;
+      text-align: center;
+      padding: 0.4em;
+      font-weight: bold;
+
+      &:checked {
+        background-color: #fff !important;
+      }
+
+      &:hover {
+        color: #FFFFFF;
+        background: #D1AB4D;
+      }
+    }
+  }
 }
 
 .facet {
@@ -115,40 +149,6 @@ a#reset {
     .select-option {
       display: block;
       z-index: 100;
-    }
-  }
-}
-
-select[multiple] {
-  display: none;
-  height: 300px;
-  position: absolute;
-  z-index: 1000;
-  top: 25px;
-  background-size: 0;
-  left: -5px;
-  width: 400px;
-  max-width: unset;
-  padding: 0;
-
-  &:focus {
-    outline: 0;
-  }
-
-  option {
-    width: fit-content;
-    width: 100%;
-    text-align: center;
-    padding: 0.4em;
-    font-weight: bold;
-
-    &:checked {
-      background-color: #fff !important;
-    }
-
-    &:hover {
-      color: #FFFFFF;
-      background: #D1AB4D;
     }
   }
 }
