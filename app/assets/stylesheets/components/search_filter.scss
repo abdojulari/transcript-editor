@@ -37,6 +37,11 @@ $amplify-theme-dark-color: #D1AB4D;
       width: 100%;
       padding: 0.4em;
       font-weight: bold;
+      display: flex;
+
+      input[type=checkbox] {
+        margin-top: 2px;
+      }
 
       &.checked {
         background: #D8B04E;
@@ -48,7 +53,7 @@ $amplify-theme-dark-color: #D1AB4D;
 
       label {
         margin: 0;
-        padding-left: 5px;
+        padding-left: 7px;
       }
 
       &:hover {
