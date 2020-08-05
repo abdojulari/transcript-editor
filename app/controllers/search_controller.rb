@@ -7,8 +7,7 @@ class SearchController < ApplicationController
   include Searchable
 
   def index
-    new_collection = Collection.new(id: 0, title: "All Collections")
-    @collection = Collection.published.to_a.unshift(new_collection)
+    @collection = Collection.published
     @themes = Theme.all.order(name: :asc)
     @page_title = "Search"
     @form_path = query_search_index_url

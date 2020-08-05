@@ -1,5 +1,15 @@
 <% if collection.any? %>
-  <%= select_tag "data[collection_id][]", options_from_collection_for_select(collection, "id", "title", selected_id), multiple: true %>
+  <div name="filter-by-collection" class="select collection">
+    <div class="select-active toggle-data_collection_id_" id="collection-filter"></div>
+  </div>
+
+  <div class="checkbox-list" id="data_collection_id_">
+    <%= collection_check_boxes('data', 'collection_id', collection, "id", "title", include_hidden: false) do |b| %>
+      <div class="option">
+        <%= b.check_box(checked: collection_checked?(b)) %> <%= b.label %>
+      </div>
+    <% end %>
+  </div>
 <% else %>
   No collection found
 <% end %>
@@ -7,9 +17,27 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-    $('select#data_collection_id_').change(function() {
-      var text = $(this).find('option:selected')[0].text;
-      $('#collection-filter').text(text);
+    var checked = $('#data_collection_id_ input[type=checkbox]:checked').size();
+    if (checked === 0) {
+      $('#collection-filter').text("All Collections");
+    } else {
+      $('#collection-filter').text("Collections (" + checked + ")");
+      $('#data_collection_id_ input[type=checkbox]:checked').each(function(i, checkbox) {
+        checkbox.parentElement.className = "option checked"
+      })
+    }
+
+    $('.toggle-data_collection_id_').click(function() {
+      $('#data_collection_id_').show();
+    });
+
+    $('#data_collection_id_').change(function() {
+      var size = $(this).find('input[type=checkbox]:checked').size();
+      $('#collection-filter').text("Collections (" + size + ")");
+    });
+
+    $('#data_collection_id_ input[type=checkbox]').change(function() {
+      $(this).parent().toggleClass("checked");
     });
   })
 </script>

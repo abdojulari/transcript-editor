@@ -31,17 +31,17 @@ $(document).ready(function(){
     minimumResultsForSearch: Infinity
   });
 
-  $('select#data_theme_').change(function() {
-    var text = $(this).find('option:selected')[0].text;
-    $('#theme-filter').text(text);
+  $('#data_theme_').change(function() {
+    var size = $(this).find('input[type=checkbox]:checked').size();
+    $('#theme-filter').text("Themes (" + size + ")");
+  });
+
+  $('#data_theme_ input[type=checkbox]').change(function() {
+    $(this).parent(".option").toggleClass("checked");
   });
 
   $('.toggle-data_theme_').click(function() {
     $('#data_theme_').show();
-  });
-
-  $('.toggle-data_collection_id_').click(function() {
-    $('#data_collection_id_').show();
   });
 
   $('#reset').on('click', function(){

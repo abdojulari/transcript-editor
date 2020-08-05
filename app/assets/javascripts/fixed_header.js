@@ -30,11 +30,6 @@ $(document).ready(function(){
     $('.dropdown-content').toggle();
   })
 
-  $('#collection_search').on('click', function(event){
-    event.preventDefault();
-    $(this).find('.select').toggleClass('active')
-  })
-
   $('#account-container').on('click', function(event){
     $(this).find('.select').toggleClass('active')
   })

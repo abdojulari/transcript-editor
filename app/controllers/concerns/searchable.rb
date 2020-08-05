@@ -43,13 +43,12 @@ module Searchable
   end
 
   def load_collection
-    new_collection = Collection.new(id: 0, title: "All Collections")
     institution_id = params[:data] && sort_params[:institution_id]
     collection = Collection.published.order(title: :asc)
     @collection = if institution_id.to_i == 0
                     collection
                   else
                     collection.where(institution_id: institution_id)
-                  end.to_a.unshift(new_collection)
+                  end
   end
 end
