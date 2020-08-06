@@ -3,7 +3,7 @@
   color: $filter-foreground;
   &__content {
     @include content_wrap;
-    padding: 6px 0 15px 0;
+    padding: 6px 0 10px 0;
   }
   &__form {
     display: flex;
@@ -25,10 +25,21 @@
     @include mobile {
       flex-direction: column;
       padding: 0;
+      height: unset;
+      width: 100%;
     }
   }
   .facet {
     margin-left: 0.6em;
+    @include mobile {
+      width: 80%;
+    }
+
+    .select {
+      @include mobile {
+        width: 100%;
+      }
+    }
   }
   select {
     margin: 5px;
@@ -41,31 +52,34 @@
     }
   }
   .search_field  {
+    margin-right: 10px;
+    @include mobile {
+      width: 100%;
+      margin-right: unset;
+    }
     .button.search {
       background-position: 120px;
       margin-left: 10px;
       height: 30px;
       width: 150px;
       line-height: 1em;
-      padding-left: 10px;
+      padding-left: 15px;
       color: black;
       font-size: 16px;
       text-align: left;
+      background-color: #96CD7A;
 
       &:disabled, &.disabled {
         cursor: default;
-        background: $button-yellow;
         background-image: $search-icon;
         background-position: 120px;
         background-repeat: no-repeat;
         background-size: 20px 20px;
         &:hover, &:focus {
-          background: $button-yellow;
           background-image: $search-icon;
           background-position: 120px;
           background-repeat: no-repeat;
           background-size: 20px 20px;
-          background-color: #eead0e;
         }
       }
     }

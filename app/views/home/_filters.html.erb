@@ -26,7 +26,7 @@
                 <% if show_theme? %>
                   <div class="facet">
                     <div name="filter-by-theme" class="select theme">
-                      <div class="select-active toggle-data_theme_" id="theme-filter">All Themes</div>
+                      <div class="select-active" id="theme-filter">All Themes</div>
                     </div>
                     <div class="checkbox-list" id="data_theme_">
                       <%= collection_check_boxes('data', 'theme', @themes, "name", "name", include_hidden: false) do |b| %>
@@ -61,7 +61,7 @@
                 <% else %>
 
                   <div class="search_field">
-                    <%= submit_tag "Apply Filters", class: "button icon search", id: "filters-submit" %>
+                    <%= submit_tag "Apply filters", class: "button icon search", id: "filters-submit" %>
                   </div>
 
                   <div>
@@ -82,7 +82,7 @@
                     <%= select_tag "data[sort_id]", options_from_collection_for_select(@sort_list, "id", "title"), prompt: "Random" %>
                   </div>
                   <div class="search_field">
-                    <%= submit_tag "Apply Filters", class: "button icon search", id: "filters-submit" %>
+                    <%= submit_tag "Apply filters", class: "button icon search", id: "filters-submit" %>
                   </div>
 
                   <div>
