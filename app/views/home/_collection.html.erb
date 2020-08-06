@@ -1,6 +1,6 @@
 <% if collection.any? %>
   <div name="filter-by-collection" class="select collection">
-    <div class="select-active toggle-data_collection_id_" id="collection-filter"></div>
+    <div class="select-active" id="collection-filter"></div>
   </div>
 
   <div class="checkbox-list" id="data_collection_id_">
@@ -18,18 +18,15 @@
 <script type="text/javascript">
   $(document).ready(function() {
     var checked = $('#data_collection_id_ input[type=checkbox]:checked').size();
+
     if (checked === 0) {
       $('#collection-filter').text("All Collections");
     } else {
       $('#collection-filter').text("Collections (" + checked + ")");
       $('#data_collection_id_ input[type=checkbox]:checked').each(function(i, checkbox) {
-        checkbox.parentElement.className = "option checked"
+        $(checkbox).parent().addClass("checked");
       })
     }
-
-    $('.toggle-data_collection_id_').click(function() {
-      $('#data_collection_id_').show();
-    });
 
     $('#data_collection_id_').change(function() {
       var size = $(this).find('input[type=checkbox]:checked').size();

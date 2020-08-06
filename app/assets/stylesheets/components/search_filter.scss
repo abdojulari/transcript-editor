@@ -28,6 +28,10 @@ $amplify-theme-dark-color: #D1AB4D;
     border-top: 0;
     border-radius: 0 0 5px 5px;
 
+    @include mobile {
+      width: 100%;
+    }
+
     &:focus {
       outline: 0;
     }
@@ -89,6 +93,9 @@ $amplify-theme-dark-color: #D1AB4D;
     color: #272727;
     font-family: "Muli", sans-serif;
     -webkit-appearance: none;
+    @include mobile {
+      width: 100%;
+    }
   }
 
   .select2 { width: 100% !important; }
@@ -122,12 +129,17 @@ $amplify-theme-dark-color: #D1AB4D;
 }
 
 a#reset {
-  margin-left: 0.6rem;
+  display: flex;
 
   &:hover, &:focus {
     text-decoration: none;
   }
+}
 
+#collection_search {
+  @include mobile {
+    width: 100%;
+  }
 }
 
 /* Select Box */
@@ -151,6 +163,10 @@ a#reset {
     transition: background-color 0.3s;
     z-index: 1;
     min-width: 150px;
+    @include mobile {
+      width: 100%;
+      min-width: unset;
+    }
   }
 
   &.collection .select-options {
@@ -239,9 +255,13 @@ Select 2 styling
   min-width: 250px;
   max-height: 300px;
   overflow-y: auto;
+
+  @include mobile {
+    min-width: unset;
+  }
 }
 .select2-dropdown--below {
-  margin-top: -10px;
+  margin-top: 0px;
 }
 .select2-container--amplify {
   .select2-container--focus .select2-selection--multiple {
@@ -263,15 +283,6 @@ Select 2 styling
   }
   .select2-selection--single {
     border-radius: 0px;
-  }
-  &.select2-container--open {
-    .select2-selection__arrow {
-      b {
-        transform: rotate(180deg);
-        -webkit-transform: rotate(180deg);
-        -moz-transform: rotate(180deg);
-      }
-    }
   }
   span.select2-search {
     input {
@@ -383,14 +394,18 @@ Select 2 styling
     background: $amplify-theme-light-color;
     border: 0px;
     height: 30.39px !important;
+    margin-top: unset;
+    margin-bottom: unset;
     .select2-selection__rendered {
       color: #000;
       line-height: 30px;
       padding-right: 30px !important;
       min-width: 150px;
+      margin-top: unset;
+      margin-bottom: unset;
     }
     .select2-selection__arrow {
-      height: 26px;
+      height: 12px;
       position: absolute;
       top: 1px;
       right: 1px;

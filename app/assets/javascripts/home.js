@@ -10,19 +10,28 @@ $(document).ready(function(){
 
   $(document).mouseup(function(e) {
     var container = $("#data_theme_");
+    var container2 = $("#data_collection_id_");
+    var handler = $("#theme-filter:not('.open')");
+    var handler2 = $("#collection-filter:not('.open')");
 
-    // if the target of the click isn't the container nor a descendant of the container
-    if (!container.is(e.target) && container.has(e.target).length === 0)
-    {
+    if (!container.is(e.target) && container.has(e.target).length === 0) {
+      $("#theme-filter").removeClass('open');
       container.hide();
     }
 
-    var container2 = $("#data_collection_id_");
-
-    // if the target of the click isn't the container nor a descendant of the container
-    if (!container2.is(e.target) && container2.has(e.target).length === 0)
-    {
+    if (!container2.is(e.target) && container2.has(e.target).length === 0) {
+      $("#collection-filter").removeClass('open');
       container2.hide();
+    }
+
+    if (handler.is(e.target) || handler.has(e.target).length > 0) {
+      handler.addClass('open');
+      container.show();
+    }
+
+    if (handler2.is(e.target) || handler2.has(e.target).length > 0) {
+      handler2.addClass('open');
+      container2.show();
     }
   });
 
@@ -40,18 +49,14 @@ $(document).ready(function(){
     $(this).parent(".option").toggleClass("checked");
   });
 
-  $('.toggle-data_theme_').click(function() {
-    $('#data_theme_').show();
-  });
-
-  $('#reset').on('click', function(){
+  $('#reset').on('click', function(e){
     collectionId = 0;
     institutionId = 0;
     sortId = '';
     searchText = '';
     firstTimeLoad = true;
     theme = '';
-    preventDefault();
+    e.preventDefault();
     loadTranscripts();
   });
 
