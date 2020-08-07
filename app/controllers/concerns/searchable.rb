@@ -5,10 +5,18 @@ module Searchable
 
   def sort_params
     params.require(:data).permit(
-      :collection_id, :sort_id, :text,
+      :sort_id, :text, :q,
       :institution_id,
-      :theme
+      theme: [],
+      collection_id: []
     )
+  end
+
+  def build_params
+    sort_params.reject { |_key, value|
+      value.blank? ||
+      value.to_s == "0" ||
+      (value&.first && (value.first.blank? || value.first == "0")) }
   end
 
   def select_institution_id
@@ -25,23 +33,22 @@ module Searchable
 
   def load_institutions
     new_institution = Institution.new(id: 0, name: "All Institutions")
-    collection_id = params[:data] && sort_params.fetch(:collection_id)
-    @institutions = if collection_id.to_i == 0
+    collection_ids = params[:data] && sort_params[:collection_id]
+    @institutions = if (collection_ids&.first).to_i == 0
                       Institution.all.order(name: :asc)
                     else
                       Institution.order(name: :asc).joins(:collections).
-                        where("collections.id = ?", collection_id)
+                        where("collections.id in (?)", collection_ids)
                     end.to_a.unshift(new_institution)
   end
 
   def load_collection
-    new_collection = Collection.new(id: 0, title: "All Collections")
-    institution_id = sort_params[:institution_id].to_i
+    institution_id = params[:data] && sort_params[:institution_id]
     collection = Collection.published.order(title: :asc)
-    @collection = if institution_id > 0
-                    collection.where(institution_id: institution_id)
-                  else
+    @collection = if institution_id.to_i == 0
                     collection
-                  end.to_a.unshift(new_collection)
+                  else
+                    collection.where(institution_id: institution_id)
+                  end
   end
 end

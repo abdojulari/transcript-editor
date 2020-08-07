@@ -25,6 +25,7 @@ gem "jquery-rails", "~> 4.3.3"
 gem "sass-rails", "~> 5.0"
 gem "summernote-rails", "~> 0.8.10"
 gem "uglifier", ">= 1.3.0"
+gem "select2-rails"
 
 # Back-end App is treated mostly as a JSON API
 gem "jbuilder", "~> 2.5"

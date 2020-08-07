@@ -8,65 +8,57 @@ $(document).ready(function(){
   var firstTimeLoad = true;
   var theme = '';
 
+  $(document).mouseup(function(e) {
+    var container = $("#data_theme_");
+    var container2 = $("#data_collection_id_");
+    var handler = $("#theme-filter:not('.open')");
+    var handler2 = $("#collection-filter:not('.open')");
 
-  $('.select.collection').click(function(){
-    $(this).toggleClass( "active" )
+    if (!container.is(e.target) && container.has(e.target).length === 0) {
+      $("#theme-filter").removeClass('open');
+      container.hide();
+    }
+
+    if (!container2.is(e.target) && container2.has(e.target).length === 0) {
+      $("#collection-filter").removeClass('open');
+      container2.hide();
+    }
+
+    if (handler.is(e.target) || handler.has(e.target).length > 0) {
+      handler.addClass('open');
+      container.show();
+    }
+
+    if (handler2.is(e.target) || handler2.has(e.target).length > 0) {
+      handler2.addClass('open');
+      container2.show();
+    }
   });
 
-  $('#reset').on('click', function(){
+  $("select:not([multiple=multiple])").select2({
+    theme: "amplify",
+    minimumResultsForSearch: Infinity
+  });
+
+  $('#data_theme_').change(function() {
+    var size = $(this).find('input[type=checkbox]:checked').size();
+    $('#theme-filter').text("Themes (" + size + ")");
+  });
+
+  $('#data_theme_ input[type=checkbox]').change(function() {
+    $(this).parent(".option").toggleClass("checked");
+  });
+
+  $('#reset').on('click', function(e){
     collectionId = 0;
     institutionId = 0;
     sortId = '';
     searchText = '';
     firstTimeLoad = true;
     theme = '';
-    preventDefault();
-    loadTranscripts();
-
-  });
-
-  $('#collection_search').on('click', '.select-option', function(){
-    collectionId = $(this).attr('data-id')
-    if (collectionId == 0) {
-      institutionId = 0;
-    }
+    e.preventDefault();
     loadTranscripts();
   });
-
-  $('#institution_search').on('click', '.select-option', function(){
-    institutionId = $(this).attr('data-id')
-    if (institutionId == 0) {
-      collectionId = 0;
-    }
-    loadTranscripts();
-  });
-
-  $('.select-option').on('click', function(){
-    if (this.classList.contains('menu-item')) {
-      return true
-    }
-    if ($(this).attr('data-filter') === 'collection'){
-      collectionId = $(this).attr('data-id');
-    }
-    if ($(this).attr('data-filter') === 'institution'){
-      institutionId = $(this).attr('data-id');
-      // when institution changes, reset the collection id
-      collectionId = 0;
-    }
-    if ($(this).attr('data-filter') === 'theme'){
-      theme = $(this).attr('data-id');
-    }
-
-    loadTranscripts();
-  })
-
-  $("#keyword").on('keyup',function(e){
-    if (($(this).val() == "") && (e.keyCode == 8)){
-      searchText = "";
-      loadTranscripts()
-    }
-  })
-
 
   function scrollUp(){
     var target  = $('#search-form').offset().top;
