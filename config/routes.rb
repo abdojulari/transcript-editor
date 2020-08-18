@@ -30,6 +30,8 @@ Rails.application.routes.draw do
   resources :transcript_edits, only: [:index, :show, :create]
   resources :transcript_files, only: [:index, :show]
   resources :transcripts, only: [:index, :show]
+  get 'transcripts/:institution/:id', to: 'transcripts#show', as: 'institution_transcript'
+
   resources :collections, only: [:index, :show] do
     collection do
       post :list
