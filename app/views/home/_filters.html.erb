@@ -31,7 +31,7 @@
                     <div class="checkbox-list" id="data_theme_">
                       <%= collection_check_boxes('data', 'theme', @themes, "name", "name", include_hidden: false) do |b| %>
                         <div class="option">
-                          <%= b.check_box %> <%= b.label %>
+                          <%= b.check_box(checked: themes_checked?(b)) %> <%= b.label %>
                         </div>
                       <% end %>
                     </div>
@@ -45,17 +45,16 @@
                   </div>
                 <% end %>
 
-                <%= hidden_field_tag :collection_selected_id, @selected_collection_id.to_i  %>
                 <div class="facet">
                   <div id="collection_search">
-                    <%= render partial: 'home/collection', locals: { collection: @collection, selected_id: @selected_collection_id } %>
+                    <%= render partial: 'home/collection', locals: { collection: @collection } %>
                   </div>
                 </div>
 
                 <% if extended_controls %>
                 <div class="facet">
                   <div class="search_field">
-                    <%= text_field_tag "data[text]", nil, placeholder: "Search title/description" %>
+                    <%= text_field_tag "data[text]", params.dig(:data, :text), placeholder: "Search title/description" %>
                   </div>
                 </div>
                 <% else %>

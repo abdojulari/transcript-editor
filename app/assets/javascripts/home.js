@@ -77,8 +77,6 @@ $(document).ready(function(){
   }
 
   function loadFirstTime(){
-    institutionId = $('#instution_selected_id').val();
-    collectionId = $('#collection_selected_id').val();
     loadTranscripts();
   }
 

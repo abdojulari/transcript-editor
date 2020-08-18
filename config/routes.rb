@@ -87,6 +87,7 @@ Rails.application.routes.draw do
   resources :home, only: [:index, :transcripts] do
     collection do
       post "transcripts"
+      get "transcripts"
     end
   end
 
