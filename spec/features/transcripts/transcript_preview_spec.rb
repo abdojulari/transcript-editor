@@ -16,7 +16,9 @@ RSpec.feature 'Transcript Preview' do
 
       it 'shows the preview page' do
         expect(page).to have_text(transcript.title)
-        expect(page).to have_current_path(institution_transcript_path(transcript.collection.institution.slug, transcript, preview: true))
+        expect(page).to have_current_path(institution_transcript_path(
+          transcript.collection.institution.slug, transcript.collection.uid, transcript, preview: true)
+        )
       end
     end
 
@@ -30,7 +32,9 @@ RSpec.feature 'Transcript Preview' do
 
       it 'shows the preview page' do
         expect(page).to have_text(transcript.title)
-        expect(page).to have_current_path(institution_transcript_path(transcript.collection.institution.slug, transcript, preview: true))
+        expect(page).to have_current_path(institution_transcript_path(
+          transcript.collection.institution.slug, transcript.collection.uid, transcript, preview: true)
+        )
       end
     end
 
