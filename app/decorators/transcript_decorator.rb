@@ -2,7 +2,7 @@ class TranscriptDecorator < Draper::Decorator
   delegate_all
 
   def path
-    "/transcripts/#{institution.slug}/#{object.uid}"
+    "/transcripts/#{institution.slug}/#{collection.uid}/#{object.uid}"
   end
 
   def collection

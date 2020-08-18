@@ -34,14 +34,12 @@ class TranscriptsController < ApplicationController
   # GET /transcripts/the-uid
   # GET /transcripts/the-uid.json
   def show
-    if @institution && !params[:institution] && !params[:format]
-      url = if params[:preview]
-        institution_transcript_path(@institution&.slug, params[:id], preview: true)
-      else
-        institution_transcript_path(@institution&.slug, params[:id])
-      end
+    if @institution && @collection && (!params[:institution] || !params[:collection]) && !params[:format]
+      transcript_params = [@institution&.slug, @collection.uid, params[:id]]
+      transcript_params.push({t: params[:t]}) if params[:t]
+      transcript_params.push({preview: true}) if params[:preview]
 
-      return redirect_to url
+      return redirect_to institution_transcript_path(*transcript_params)
     end
 
     respond_to do |format|
@@ -126,8 +124,12 @@ class TranscriptsController < ApplicationController
     warden.user
   end
 
+  def collection
+    @collection ||= @transcript&.collection
+  end
+
   def load_institution
-    @institution = @transcript&.collection&.institution
+    @institution ||= collection&.institution
   end
 
   def load_institution_footer
