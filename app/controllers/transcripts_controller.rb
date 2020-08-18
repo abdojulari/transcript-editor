@@ -9,6 +9,7 @@ class TranscriptsController < ApplicationController
   before_action :set_transcript, only: [:update, :destroy]
   before_action :set_transcript_for_show, only: [:show]
   before_action :load_institution_footer, only: [:show]
+  before_action :load_institution, only: [:show]
 
   # GET /transcripts.json
   def index
@@ -33,6 +34,16 @@ class TranscriptsController < ApplicationController
   # GET /transcripts/the-uid
   # GET /transcripts/the-uid.json
   def show
+    if @institution && !params[:institution] && !params[:format]
+      url = if params[:preview]
+        institution_transcript_path(@institution&.slug, params[:id], preview: true)
+      else
+        institution_transcript_path(@institution&.slug, params[:id])
+      end
+
+      return redirect_to url
+    end
+
     respond_to do |format|
       format.html do
         @body_class = "body--transcript-edit"
@@ -93,7 +104,7 @@ class TranscriptsController < ApplicationController
   private
 
   def set_transcript
-    @transcript = TranscriptService.find_by(uid: params[:id])
+    @transcript = TranscriptService.find_by_uid(params[:id])
   end
 
   def set_transcript_for_show
@@ -113,6 +124,10 @@ class TranscriptsController < ApplicationController
   # we need to check warden session here
   def logged_in_user
     warden.user
+  end
+
+  def load_institution
+    @institution = @transcript&.collection&.institution
   end
 
   def load_institution_footer

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'Transcript Preview' do
-  let(:transcript) { create(:transcript, published_at: nil) }
+  let!(:transcript) { create(:transcript, published_at: nil) }
   let!(:my_page) { create(:page, page_type: 'instructions') }
   let!(:public_page) { create(:public_page, page: my_page) }
 
@@ -16,7 +16,7 @@ RSpec.feature 'Transcript Preview' do
 
       it 'shows the preview page' do
         expect(page).to have_text(transcript.title)
-        expect(page).to have_current_path(transcript_path(transcript, preview: true))
+        expect(page).to have_current_path(institution_transcript_path(transcript.collection.institution.slug, transcript, preview: true))
       end
     end
 
@@ -30,7 +30,7 @@ RSpec.feature 'Transcript Preview' do
 
       it 'shows the preview page' do
         expect(page).to have_text(transcript.title)
-        expect(page).to have_current_path(transcript_path(transcript, preview: true))
+        expect(page).to have_current_path(institution_transcript_path(transcript.collection.institution.slug, transcript, preview: true))
       end
     end
 
