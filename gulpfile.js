@@ -17,8 +17,7 @@ const hash = require('gulp-hash-filename');
 const sass = require('gulp-sass');
 
 gulp.task('sass-cleanup', () => {
-  return gulp.src(path.join(config.sass.dest, '*.css'))
-    .pipe(del());
+  return del([path.join(config.sass.dest, '*.css')]);
 });
 
 gulp.task('sass', ['sass-cleanup'], function () {
@@ -50,6 +49,10 @@ gulp.task('js-deps.j-toker', function() {
 
 gulp.task('js-deps', ['js-deps.jquery', 'js-deps.js-cookie', 'js-deps.j-toker']);
 
+gulp.task('js-cleanup', () => {
+  return del([path.join(config.include.dest, '*.js'), path.join(config.uglify.dest, '*.js')]);
+});
+
 const buildJsBase = () => {
   return gulp.src(config.include.src)
     .pipe(hash())
@@ -68,12 +71,11 @@ gulp.task('js-minified', ['js-deps'], () => {
     .pipe(gulp.dest(config.uglify.dest));
 });
 
-gulp.task('js', ['js-unminified', 'js-minified']);
-
 // Templates
 
 gulp.task('templates', function() {
   return gulp.src(config.templates.src)
+    .pipe(hash())
     .pipe(map(function(contents, filename){
       contents = contents.toString();
       var name = config.templates.variable;
@@ -86,12 +88,13 @@ gulp.task('templates', function() {
     .pipe(gulp.dest(config.templates.dest));
 });
 
+gulp.task('js', ['js-cleanup', 'js-unminified', 'js-minified', 'templates']);
+
 // Watchers
 
 gulp.task('watch', function () {
   gulp.watch(config.sass.src, ['sass']);
-  gulp.watch(config.uglify.src, ['js']);
-  gulp.watch(config.templates.src, ['templates']);
+  gulp.watch([config.uglify.src, config.templates.src], ['js']);
 });
 
-gulp.task('default', ['watch', 'sass', 'js', 'templates']);
+gulp.task('default', ['watch', 'sass', 'js']);
