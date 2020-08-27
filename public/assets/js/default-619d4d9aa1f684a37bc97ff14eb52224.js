@@ -17354,8 +17354,8 @@ app.routers.DefaultRouter = Backbone.Router.extend({
   routes: {
     "":                             			"index",
     "?*queryString":                			"index",
-    "transcripts/:instituion/:collection/:id":  			"transcriptEdit",
-    "transcripts/:instituion/:collection/:id?*queryString": "transcriptEdit",
+    "transcripts/:institution/:collection/:id":  			"transcriptEdit",
+    "transcripts/:institution/:collection/:id?*queryString": "transcriptEdit",
     "page/:id":                     			"pageShow",
     "dashboard":                    			"dashboard",
     "search":                       			"search",

@@ -109,6 +109,30 @@ The primary place for project configuration the file `project.json`. For now, we
 
 Your project should load, but since there's no transcripts, all you'll see is a header and blank screen! The next step is to seed the app with some transcripts
 
+#### Local development
+
+When developing locally, if doing any front-end changes to the transcript editor,
+you'll need to use Node.JS and Gulp to update any of the remaining editing app
+Javascript files that are managed by Gulp. You can find these source files in
+`gulp/js/`, and branch off `gulp/js/default.js`
+
+To get set up to update these files:
+
+```bash
+npm i
+npm i -g gulp
+```
+
+To update the files:
+
+```bash
+gulp # Keeps running and watching for changes
+gulp sass js # Runs once
+```
+
+Be sure to commit the changes to `public/assets/css` and
+`public/assets/js`.
+
 ## Generating your transcripts
 
 For our installation, we did not automatically integrate Amplify and
