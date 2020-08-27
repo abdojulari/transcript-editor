@@ -21,6 +21,9 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "gulp": "^3.9.1"
+    "del": "^5.1.0",
+    "gulp": "^3.9.1",
+    "gulp-hash": "^4.2.2",
+    "gulp-hash-filename": "^3.0.0"
   }
 }

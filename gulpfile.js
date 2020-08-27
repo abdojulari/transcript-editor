@@ -1,21 +1,29 @@
-var gulp = require('gulp');
+const gulp = require('gulp');
 
 // config
-var config = require('./gulp/config');
+const config = require('./gulp/config');
 
 // utilities
-var concat = require('gulp-concat');
-var include = require('gulp-include');
-var map = require('vinyl-map');
-var path = require('path');
-var rename = require('gulp-rename');
+const del = require('del');
+const concat = require('gulp-concat');
+const include = require('gulp-include');
+const map = require('vinyl-map');
+const path = require('path');
+const rename = require('gulp-rename');
+const hash = require('gulp-hash-filename');
 
 // Sass compilation
 
-var sass = require('gulp-sass');
+const sass = require('gulp-sass');
 
-gulp.task('sass', function () {
-  gulp.src(config.sass.src)
+gulp.task('sass-cleanup', () => {
+  return gulp.src(path.join(config.sass.dest, '*.css'))
+    .pipe(del());
+});
+
+gulp.task('sass', ['sass-cleanup'], function () {
+  return gulp.src(config.sass.src)
+    .pipe(hash())
     .pipe(sass.sync().on('error', sass.logError))
     .pipe(sass(config.sass.opt))
     .pipe(gulp.dest(config.sass.dest));
@@ -26,35 +34,46 @@ gulp.task('sass', function () {
 var uglify = require('gulp-uglify');
 
 gulp.task('js-deps.jquery', function() {
-  gulp.src('./node_modules/jquery/dist/jquery.js')
-  .pipe(gulp.dest('./gulp/js/vendor'))
+  return gulp.src('./node_modules/jquery/dist/jquery.js')
+    .pipe(gulp.dest('./gulp/js/vendor'))
 });
 
 gulp.task('js-deps.js-cookie', function() {
-  gulp.src('./node_modules/js-cookie/src/js.cookie.js')
-  .pipe(gulp.dest('./gulp/js/vendor'))
+  return gulp.src('./node_modules/js-cookie/src/js.cookie.js')
+    .pipe(gulp.dest('./gulp/js/vendor'))
 });
 
 gulp.task('js-deps.j-toker', function() {
-  gulp.src('./node_modules/j-toker/dist/jquery.j-toker.js')
-  .pipe(gulp.dest('./gulp/js/vendor'))
+  return gulp.src('./node_modules/j-toker/dist/jquery.j-toker.js')
+    .pipe(gulp.dest('./gulp/js/vendor'))
 });
 
-gulp.task('js', ['js-deps.jquery', 'js-deps.js-cookie', 'js-deps.j-toker'], function() {
-  gulp.src(config.include.src)
-    // include non-minified version
-    .pipe(include(config.include.opt).on('error', console.error.bind(console)))
-    .pipe(gulp.dest(config.include.dest))
-    // and the minified version
+gulp.task('js-deps', ['js-deps.jquery', 'js-deps.js-cookie', 'js-deps.j-toker']);
+
+const buildJsBase = () => {
+  return gulp.src(config.include.src)
+    .pipe(hash())
+    .pipe(include(config.include.opt).on('error', console.error.bind(console)));
+};
+
+gulp.task('js-unminified', ['js-deps'], () => {
+  return buildJsBase()
+    .pipe(gulp.dest(config.include.dest));
+});
+
+gulp.task('js-minified', ['js-deps'], () => {
+  return buildJsBase()
     .pipe(uglify(config.uglify.opt).on('error', console.error.bind(console)))
     .pipe(rename({ extname: '.min.js' }))
     .pipe(gulp.dest(config.uglify.dest));
 });
 
+gulp.task('js', ['js-unminified', 'js-minified']);
+
 // Templates
 
 gulp.task('templates', function() {
-  gulp.src(config.templates.src)
+  return gulp.src(config.templates.src)
     .pipe(map(function(contents, filename){
       contents = contents.toString();
       var name = config.templates.variable;

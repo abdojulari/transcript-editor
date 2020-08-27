@@ -12659,128 +12659,6 @@ return jQuery;
   return root.auth;
 }));
 
-/*!
- * Fuse.js v3.0.3 - Lightweight fuzzy-search (http://fusejs.io)
- * 
- * Copyright (c) 2012-2017 Kirollos Risk (http://kiro.me)
- * All Rights Reserved. Apache Software License 2.0
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- */
-!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define("Fuse",[],t):"object"==typeof exports?exports.Fuse=t():e.Fuse=t()}(this,function(){return function(e){function t(r){if(n[r])return n[r].exports;var o=n[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,t),o.l=!0,o.exports}var n={};return t.m=e,t.c=n,t.i=function(e){return e},t.d=function(e,n,r){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:r})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=8)}([function(e,t,n){"use strict";e.exports=function(e){return"[object Array]"===Object.prototype.toString.call(e)}},function(e,t,n){"use strict";function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var o=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),i=n(5),s=n(7),a=n(4),c=function(){function e(t,n){var o=n.location,i=void 0===o?0:o,s=n.distance,c=void 0===s?100:s,h=n.threshold,u=void 0===h?.6:h,l=n.maxPatternLength,f=void 0===l?32:l,v=n.isCaseSensitive,d=void 0!==v&&v,p=n.tokenSeparator,g=void 0===p?/ +/g:p,m=n.findAllMatches,y=void 0!==m&&m,k=n.minMatchCharLength,x=void 0===k?1:k;r(this,e),this.options={location:i,distance:c,threshold:u,maxPatternLength:f,isCaseSensitive:d,tokenSeparator:g,findAllMatches:y,minMatchCharLength:x},this.pattern=this.options.isCaseSensitive?t:t.toLowerCase(),this.pattern.length<=f&&(this.patternAlphabet=a(this.pattern))}return o(e,[{key:"search",value:function(e){if(this.options.isCaseSensitive||(e=e.toLowerCase()),this.pattern===e)return{isMatch:!0,score:0,matchedIndices:[[0,e.length-1]]};var t=this.options,n=t.maxPatternLength,r=t.tokenSeparator;if(this.pattern.length>n)return i(e,this.pattern,r);var o=this.options,a=o.location,c=o.distance,h=o.threshold,u=o.findAllMatches,l=o.minMatchCharLength;return s(e,this.pattern,this.patternAlphabet,{location:a,distance:c,threshold:h,findAllMatches:u,minMatchCharLength:l})}}]),e}();e.exports=c},function(e,t,n){"use strict";var r=n(0),o=function e(t,n,o){if(n){var i=n.indexOf("."),s=n,a=null;-1!==i&&(s=n.slice(0,i),a=n.slice(i+1));var c=t[s];if(null!==c&&void 0!==c)if(a||"string"!=typeof c&&"number"!=typeof c)if(r(c))for(var h=0,u=c.length;h<u;h+=1)e(c[h],a,o);else a&&e(c,a,o);else o.push(c)}else o.push(t);return o};e.exports=function(e,t){return o(e,t,[])}},function(e,t,n){"use strict";e.exports=function(){for(var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:1,n=[],r=-1,o=-1,i=0,s=e.length;i<s;i+=1){var a=e[i];a&&-1===r?r=i:a||-1===r||(o=i-1,o-r+1>=t&&n.push([r,o]),r=-1)}return e[i-1]&&i-r>=t&&n.push([r,i-1]),n}},function(e,t,n){"use strict";e.exports=function(e){for(var t={},n=e.length,r=0;r<n;r+=1)t[e.charAt(r)]=0;for(var o=0;o<n;o+=1)t[e.charAt(o)]|=1<<n-o-1;return t}},function(e,t,n){"use strict";e.exports=function(e,t){var n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:/ +/g,r=e.match(new RegExp(t.replace(n,"|"))),o=!!r,i=[];if(o)for(var s=0,a=r.length;s<a;s+=1)match=r[s],i.push([e.indexOf(match),match.length-1]);return{score:o?.5:1,isMatch:o,matchedIndices:i}}},function(e,t,n){"use strict";e.exports=function(e,t){var n=t.errors,r=void 0===n?0:n,o=t.currentLocation,i=void 0===o?0:o,s=t.expectedLocation,a=void 0===s?0:s,c=t.distance,h=void 0===c?100:c,u=r/e.length,l=Math.abs(a-i);return h?u+l/h:l?1:u}},function(e,t,n){"use strict";var r=n(6),o=n(3);e.exports=function(e,t,n,i){for(var s=i.location,a=void 0===s?0:s,c=i.distance,h=void 0===c?100:c,u=i.threshold,l=void 0===u?.6:u,f=i.findAllMatches,v=void 0!==f&&f,d=i.minMatchCharLength,p=void 0===d?1:d,g=a,m=e.length,y=l,k=e.indexOf(t,g),x=t.length,S=[],M=0;M<m;M+=1)S[M]=0;if(-1!=k){var b=r(t,{errors:0,currentLocation:k,expectedLocation:g,distance:h});if(y=Math.min(b,y),-1!=(k=e.lastIndexOf(t,g+x))){var _=r(t,{errors:0,currentLocation:k,expectedLocation:g,distance:h});y=Math.min(_,y)}}k=-1;for(var L=[],w=1,A=x+m,C=1<<x-1,F=0;F<x;F+=1){for(var O=0,P=A;O<P;){r(t,{errors:F,currentLocation:g+P,expectedLocation:g,distance:h})<=y?O=P:A=P,P=Math.floor((A-O)/2+O)}A=P;var j=Math.max(1,g-P+1),z=v?m:Math.min(g+P,m)+x,I=Array(z+2);I[z+1]=(1<<F)-1;for(var T=z;T>=j;T-=1){var E=T-1,K=n[e.charAt(E)];if(K&&(S[E]=1),I[T]=(I[T+1]<<1|1)&K,0!==F&&(I[T]|=(L[T+1]|L[T])<<1|1|L[T+1]),I[T]&C&&(w=r(t,{errors:F,currentLocation:E,expectedLocation:g,distance:h}))<=y){if(y=w,(k=E)<=g)break;j=Math.max(1,2*g-k)}}if(r(t,{errors:F+1,currentLocation:g,expectedLocation:g,distance:h})>y)break;L=I}return{isMatch:k>=0,score:0===w?.001:w,matchedIndices:o(S,p)}}},function(e,t,n){"use strict";function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var o=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),i=n(1),s=n(2),a=n(0),c=function(){function e(t,n){var o=n.location,i=void 0===o?0:o,a=n.distance,c=void 0===a?100:a,h=n.threshold,u=void 0===h?.6:h,l=n.maxPatternLength,f=void 0===l?32:l,v=n.caseSensitive,d=void 0!==v&&v,p=n.tokenSeparator,g=void 0===p?/ +/g:p,m=n.findAllMatches,y=void 0!==m&&m,k=n.minMatchCharLength,x=void 0===k?1:k,S=n.id,M=void 0===S?null:S,b=n.keys,_=void 0===b?[]:b,L=n.shouldSort,w=void 0===L||L,A=n.getFn,C=void 0===A?s:A,F=n.sortFn,O=void 0===F?function(e,t){return e.score-t.score}:F,P=n.tokenize,j=void 0!==P&&P,z=n.matchAllTokens,I=void 0!==z&&z,T=n.includeMatches,E=void 0!==T&&T,K=n.includeScore,R=void 0!==K&&K,q=n.verbose,B=void 0!==q&&q;r(this,e),this.options={location:i,distance:c,threshold:u,maxPatternLength:f,isCaseSensitive:d,tokenSeparator:g,findAllMatches:y,minMatchCharLength:x,id:M,keys:_,includeMatches:E,includeScore:R,shouldSort:w,getFn:C,sortFn:O,verbose:B,tokenize:j,matchAllTokens:I},this.set(t)}return o(e,[{key:"set",value:function(e){return this.list=e,e}},{key:"search",value:function(e){this._log('---------\nSearch pattern: "'+e+'"');var t=this._prepareSearchers(e),n=t.tokenSearchers,r=t.fullSearcher,o=this._search(n,r),i=o.weights,s=o.results;return this._computeScore(i,s),this.options.shouldSort&&this._sort(s),this._format(s)}},{key:"_prepareSearchers",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"",t=[];if(this.options.tokenize)for(var n=e.split(this.options.tokenSeparator),r=0,o=n.length;r<o;r+=1)t.push(new i(n[r],this.options));return{tokenSearchers:t,fullSearcher:new i(e,this.options)}}},{key:"_search",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],t=arguments[1],n=this.list,r={},o=[];if("string"==typeof n[0]){for(var i=0,s=n.length;i<s;i+=1)this._analyze({key:"",value:n[i],record:i,index:i},{resultMap:r,results:o,tokenSearchers:e,fullSearcher:t});return{weights:null,results:o}}for(var a={},c=0,h=n.length;c<h;c+=1)for(var u=n[c],l=0,f=this.options.keys.length;l<f;l+=1){var v=this.options.keys[l];if("string"!=typeof v){if(a[v.name]={weight:1-v.weight||1},v.weight<=0||v.weight>1)throw new Error("Key weight has to be > 0 and <= 1");v=v.name}else a[v]={weight:1};this._analyze({key:v,value:this.options.getFn(u,v),record:u,index:c},{resultMap:r,results:o,tokenSearchers:e,fullSearcher:t})}return{weights:a,results:o}}},{key:"_analyze",value:function(e,t){var n=e.key,r=e.value,o=e.record,i=e.index,s=t.tokenSearchers,c=void 0===s?[]:s,h=t.fullSearcher,u=void 0===h?[]:h,l=t.resultMap,f=void 0===l?{}:l,v=t.results,d=void 0===v?[]:v;if(void 0!==r&&null!==r){var p=!1,g=-1,m=0;if("string"==typeof r){this._log("\nKey: "+(""===n?"-":n));var y=u.search(r);if(this._log('Full text: "'+r+'", score: '+y.score),this.options.tokenize){for(var k=r.split(this.options.tokenSeparator),x=[],S=0;S<c.length;S+=1){var M=c[S];this._log('\nPattern: "'+M.pattern+'"');for(var b=!1,_=0;_<k.length;_+=1){var L=k[_],w=M.search(L),A={};w.isMatch?(A[L]=w.score,p=!0,b=!0,x.push(w.score)):(A[L]=1,this.options.matchAllTokens||x.push(1)),this._log('Token: "'+L+'", score: '+A[L])}b&&(m+=1)}g=x[0];for(var C=x.length,F=1;F<C;F+=1)g+=x[F];g/=C,this._log("Token score average:",g)}var O=y.score;g>-1&&(O=(O+g)/2),this._log("Score average:",O);var P=!this.options.tokenize||!this.options.matchAllTokens||m>=c.length;if(this._log("\nCheck Matches: "+P),(p||y.isMatch)&&P){var j=f[i];j?j.output.push({key:n,score:O,matchedIndices:y.matchedIndices}):(f[i]={item:o,output:[{key:n,score:O,matchedIndices:y.matchedIndices}]},d.push(f[i]))}}else if(a(r))for(var z=0,I=r.length;z<I;z+=1)this._analyze({key:n,value:r[z],record:o,index:i},{resultMap:f,results:d,tokenSearchers:c,fullSearcher:u})}}},{key:"_computeScore",value:function(e,t){this._log("\n\nComputing score:\n");for(var n=0,r=t.length;n<r;n+=1){for(var o=t[n].output,i=o.length,s=0,a=1,c=0;c<i;c+=1){var h=o[c].score,u=e?e[o[c].key].weight:1,l=h*u;1!==u?a=Math.min(a,l):(o[c].nScore=l,s+=l)}t[n].score=1===a?s/i:a,this._log(t[n])}}},{key:"_sort",value:function(e){this._log("\n\nSorting...."),e.sort(this.options.sortFn)}},{key:"_format",value:function(e){var t=[];this._log("\n\nOutput:\n\n",e);var n=[];this.options.includeMatches&&n.push(function(e,t){var n=e.output;t.matches=[];for(var r=0,o=n.length;r<o;r+=1){var i=n[r],s={indices:i.matchedIndices};i.key&&(s.key=i.key),t.matches.push(s)}}),this.options.includeScore&&n.push(function(e,t){t.score=e.score});for(var r=0,o=e.length;r<o;r+=1){var i=e[r];if(this.options.id&&(i.item=this.options.getFn(i.item,this.options.id)[0]),n.length){for(var s={item:i.item},a=0,c=n.length;a<c;a+=1)n[a](i,s);t.push(s)}else t.push(i.item)}return t}},{key:"_log",value:function(){if(this.options.verbose){var e;(e=console).log.apply(e,arguments)}}}]),e}();e.exports=c}])});
-/*
- * Natural Sort algorithm for Javascript - Version 0.8.1 - Released under MIT license
- * Author: Jim Palmer (based on chunking idea from Dave Koelle)
- */
-function naturalSort (a, b) {
-    var re = /(^([+\-]?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?(?=\D|\s|$))|^0x[\da-fA-F]+$|\d+)/g,
-        sre = /^\s+|\s+$/g,   // trim pre-post whitespace
-        snre = /\s+/g,        // normalize all whitespace to single ' ' character
-        dre = /(^([\w ]+,?[\w ]+)?[\w ]+,?[\w ]+\d+:\d+(:\d+)?[\w ]?|^\d{1,4}[\/\-]\d{1,4}[\/\-]\d{1,4}|^\w+, \w+ \d+, \d{4})/,
-        hre = /^0x[0-9a-f]+$/i,
-        ore = /^0/,
-        i = function(s) {
-            return (naturalSort.insensitive && ('' + s).toLowerCase() || '' + s).replace(sre, '');
-        },
-        // convert all to strings strip whitespace
-        x = i(a),
-        y = i(b),
-        // chunk/tokenize
-        xN = x.replace(re, '\0$1\0').replace(/\0$/,'').replace(/^\0/,'').split('\0'),
-        yN = y.replace(re, '\0$1\0').replace(/\0$/,'').replace(/^\0/,'').split('\0'),
-        // numeric, hex or date detection
-        xD = parseInt(x.match(hre), 16) || (xN.length !== 1 && Date.parse(x)),
-        yD = parseInt(y.match(hre), 16) || xD && y.match(dre) && Date.parse(y) || null,
-        normChunk = function(s, l) {
-            // normalize spaces; find floats not starting with '0', string or 0 if not defined (Clint Priest)
-            return (!s.match(ore) || l == 1) && parseFloat(s) || s.replace(snre, ' ').replace(sre, '') || 0;
-        },
-        oFxNcL, oFyNcL;
-    // first try and sort Hex codes or Dates
-    if (yD) {
-        if (xD < yD) { return -1; }
-        else if (xD > yD) { return 1; }
-    }
-    // natural sorting through split numeric strings and default strings
-    for(var cLoc = 0, xNl = xN.length, yNl = yN.length, numS = Math.max(xNl, yNl); cLoc < numS; cLoc++) {
-        oFxNcL = normChunk(xN[cLoc] || '', xNl);
-        oFyNcL = normChunk(yN[cLoc] || '', yNl);
-        // handle numeric vs string comparison - number < string - (Kyle Adams)
-        if (isNaN(oFxNcL) !== isNaN(oFyNcL)) {
-            return isNaN(oFxNcL) ? 1 : -1;
-        }
-        // if unicode use locale comparison
-        if (/[^\x00-\x80]/.test(oFxNcL + oFyNcL) && oFxNcL.localeCompare) {
-            var comp = oFxNcL.localeCompare(oFyNcL);
-            return comp / Math.abs(comp);
-        }
-        if (oFxNcL < oFyNcL) { return -1; }
-        else if (oFxNcL > oFyNcL) { return 1; }
-    }
-}
-/*
-* Backbone.js & Underscore.js Natural Sorting
-*
-* @author Kevin Jantzer <https://gist.github.com/kjantzer/7027717>
-* @since 2013-10-17
-* 
-* NOTE: make sure to include the Natural Sort algorithm by Jim Palmer (https://github.com/overset/javascript-natural-sort)
-*/
-
-// add _.sortByNat() method
-_.mixin({
-
-	sortByNat: function(obj, value, context) {
-	    var iterator = _.isFunction(value) ? value : function(obj){ return obj[value]; };
-	    return _.pluck(_.map(obj, function(value, index, list) {
-	      return {
-	        value: value,
-	        index: index,
-	        criteria: iterator.call(context, value, index, list)
-	      };
-	    }).sort(function(left, right) {
-	      var a = left.criteria;
-	      var b = right.criteria;
-	      return naturalSort(a, b);
-	    }), 'value');
-	}
-});
-
-
-// add _.sortByNat to Backbone.Collection
-Backbone.Collection.prototype.sortByNat = function(value, context) {
-  var iterator = _.isFunction(value) ? value : function(model) {
-    return model.get(value);
-  };
-  return _.sortByNat(this.models, iterator, context);
-};
-
-// new Natural Sort method on Backbone.Collection
-Backbone.Collection.prototype.sortNat = function(options) {
-  if (!this.comparator) throw new Error('Cannot sortNat a set without a comparator');
-  options || (options = {});
-
-  if (_.isString(this.comparator) || this.comparator.length === 1) {
-    this.models = this.sortByNat(this.comparator, this);
-  } else {
-    this.models.sortNat(_.bind(this.comparator, this));
-  }
-
-  if (!options.silent) this.trigger('sort', this, options);
-  return this;
-};
-
-// save the oringal sorting method
-Backbone.Collection.prototype._sort = Backbone.Collection.prototype.sort;
-
-// override the default sort method to determine if "regular" or "natural" sorting should be used
-Backbone.Collection.prototype.sort = function(){
-	
-	if( this.sortType && this.sortType === 'natural' )
-		Backbone.Collection.prototype.sortNat.apply(this, arguments);
-	else
-		Backbone.Collection.prototype._sort.apply(this, arguments);
-};
 // Plugin: add "playing" property for media
 Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
   get: function(){
@@ -13163,19 +13041,6 @@ $(function() {
   var components = new COMPONENTS();
 });
 
-// Analytics functions
-(function() {
-  window.ANALYTICS = {};
-
-  ANALYTICS.event = function(category, ev, label, value) {
-    if (typeof(ga) !== 'undefined') {
-      if (label && value) ga('send', 'event', category, ev, label, value);
-      else if (label) ga('send', 'event', category, ev, label);
-      else ga('send', 'event', category, ev);
-    }
-  };
-})();
-
 window.API_URL = PROJECT.apiUrl || window.location.protocol + '//' + window.location.hostname;
 if (window.location.port && !PROJECT.apiUrl) window.API_URL += ':' + window.location.port
 
@@ -13251,245 +13116,53 @@ $(function(){
   app.initialize();
 });
 
-// Social media integration.
-window.app.socialIntegration = function() {
-  this.intervalStage1 = null;
-  this.intervalStage2 = null;
-  this.initialised = false;
-  this.attempts = 0;
-  this.maxAttempts = 100;
-  this.shown = false;
-
-  // Tests whether social media JS has loaded and initialised.
-  var readyForSocial = function(win) {
-    return (
-      !!win.twttr &&
-      !!win.twttr.widgets &&
-      !!win.twttr.widgets.load &&
-      !!win.FB &&
-      !!win.FB.XFBML &&
-      !!win.FB.XFBML.parse
-    );
-  };
-
-  // Shows social media widgets.
-  // Must be called after readyForSocial resolves to TRUE.
-  this.showSocialWidgets = function() {
-    window.twttr.widgets.load();
-    FB.XFBML.parse();
-    this.shown = true;
-  };
-
-  // Checks the progress of the loader so far.
-  this.runIntervalStage2 = function() {
-    // Short circuit.
-    if (this.shown) {
-      return;
-    }
-
-    // Check to see if we are ready to display.
-    var ready = readyForSocial(window);
-    if (!!ready) {
-      clearInterval(this.socialLoadIntId);
-      this.showSocialWidgets();
-      return;
-    }
-
-    // Check to see if we've let it go on too long.
-    this.attempts++;
-    if (this.attempts >= this.maxAttempts) {
-      console.error('Gave up on loading social widgets.');
-      clearInterval(this.socialLoadIntId);
-      return;
-    }
-  };
-
-  // Load Facebook.
-  this.initFacebook = function(d, s, id, fbAppId) {
-    // Check for existence of fb-root first.
-    if (!document.getElementById('fb-root')) {
-      return false;
-    }
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) {
-      return;
-    }
-    js = d.createElement(s);
-    js.id = id;
-    js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.8&appId=" + fbAppId;
-    fjs.parentNode.insertBefore(js, fjs);
-    return true;
-  };
-
-  // Load Twitter.
-  this.initTwitter = function(d, s, id) {
-    var js,
-    fjs = d.getElementsByTagName(s)[0],
-    t = window.twttr || {};
-    if (d.getElementById(id)) {
-      return t;
-    }
-    js = d.createElement(s);
-    js.id = id;
-    js.src = "https://platform.twitter.com/widgets.js";
-    fjs.parentNode.insertBefore(js, fjs);
-    t._e = [];
-    t.ready = function(f) {
-      t._e.push(f);
-    };
-    return t;
-  };
-
-  // Initialise social media external Javascript,
-  // and set up any HTML scaffolding.
-  this.initSocialScripts = function() {
-    // Insert fb-root element.
-    if (!document.getElementById('fb-root')) {
-      var body = document.getElementsByTagName('body')[0];
-      var fbRoot = document.createElement('div');
-      fbRoot.setAttribute('id', 'fb-root');
-      body.insertBefore(fbRoot, body.firstChild);
-    }
-
-    // Insert Facebook script.
-    if (typeof(facebookAppId) !== 'undefined') {
-      window.fbLoad = this.initFacebook(document, 'script', 'facebook-jssdk', facebookAppId);
-    }
-
-    // Insert Twitter script.
-    window.twttr = this.initTwitter(document, "script", "twitter-wjs");
-
-    // Minimum initialisation prerequisites.
-    this.initialised = (
-      !!document.getElementById('fb-root') &&
-      !!window.fbLoad &&
-      !!window.twttr
-    );
-    return;
-  };
-
-  // Once the social scripts have been initialised,
-  // show the widgets.
-  this.completeStage1 = function() {
-    this.attempts = 0;
-    this.shown = false;
-    if (!!this.intervalStage2) {
-      clearInterval(this.intervalStage2);
-    }
-    this.intervalStage2 = setInterval(this.runIntervalStage2.bind(this), 250);
-  };
-
-  // Stage 1: Initialise social scripts, and don't continue until we have.
-  this.runIntervalStage1 = function() {
-    if (!!this.initialised) {
-      clearInterval(this.intervalStage1);
-      this.completeStage1();
-    }
-    else {
-      this.initSocialScripts();
-    }  
-  };
-
-  // Initialises entire social widget stack.
-  this.init = function() {
-    if (!!this.intervalStage1) {
-      clearInterval(this.intervalStage1);
-    }
-    this.intervalStage1 = setInterval(this.runIntervalStage1.bind(this), 250);
-  };
-};
-
-window.app.social = new window.app.socialIntegration();
-document.addEventListener("DOMContentLoaded", function(event) {
-  window.app.social.init();
-});
-
 app.routers.DefaultRouter = Backbone.Router.extend({
 
   routes: {
-    "":                             "index",
-    "?*queryString":                "index",
-    "transcripts/:id":              "transcriptEdit",
-    "transcripts/:id?*queryString": "transcriptEdit",
-    "page/:id":                     "pageShow",
-    "dashboard":                    "dashboard",
-    "search":                       "search",
-    "search?*queryString":          "search",
-    "collections":                  "collections",
+    "admin":                "stats",
+    "moderator":            "flags"
   },
 
-  before: function( route, params ) {
-    $('#main').empty().addClass('loading');
+  before: function(route, params) {
+
   },
 
-  after: function( route, params ) {
-    window.scrollTo(0, 0);
+  after: function(route, params) {
+
   },
 
-  dashboard: function(){
+  flags: function(){
     var data = this._getData(data);
     var header = new app.views.Header(data);
-    var main = new app.views.Dashboard(data);
+    var flags = new app.views.AdminFlags(data);
     var footer = new app.views.Footer(data);
-    main.$el.attr('role', 'main');
+
+    $('#main').append(flags.$el);
   },
 
-  index: function(queryString) {
-    var data = this._getData(data);
-    if (queryString) data.queryParams = deparam(queryString);
-    var header = new app.views.Header(data);
-    var main = new app.views.Home(data);
-    var footer = new app.views.Footer(data);
-  },
-
-  pageShow: function(id){
+  stats: function(){
     var data = this._getData(data);
     var header = new app.views.Header(data);
-    var main = new app.views.Page(_.extend({}, data, {el: '#main', page_key: id}));
-    var footer = new app.views.Footer(data);
-    main.$el.removeClass('loading').attr('role', 'main');
-  },
-
-  search: function(queryString) {
-    var data = this._getData(data);
-    if (queryString) data.queryParams = deparam(queryString);
-    var header = new app.views.Header(data);
-    var main = new app.views.Search(data);
-    var footer = new app.views.Footer(data);
-  },
-
-  collections: function() {
-    var data = this._getData(data);
-    var header = new app.views.Header(data);
-    var main = new app.views.Collections(data);
-    var footer = new app.views.Footer(data);
-  },
-
-  transcriptEdit: function(id, queryString) {
-    var data = this._getData(data);
-    if (queryString) data.queryParams = deparam(queryString);
-    var header = new app.views.Header(data);
-    var toolbar = new app.views.TranscriptToolbar(_.extend({}, data, {el: '#secondary-navigation', menu: 'transcript_edit'}));
-    var modals = new app.views.Modals(data);
+    var stats = new app.views.AdminStats(data);
+    var users = new app.views.AdminUsers(data);
+    var flags = new app.views.AdminFlags(data);
     var footer = new app.views.Footer(data);
 
-    var verifyView = new app.views.TranscriptLineVerify(data);
-    modals.addModal(verifyView.$el);
-
-    var flagView = new app.views.TranscriptLineFlag(data);
-    modals.addModal(flagView.$el);
-
-    var downloadView = new app.views.TranscriptDownload(_.extend({}, data, {transcript_id: id}));
-    modals.addModal(downloadView.$el);
-
-    var transcript_model = new app.models.Transcript({id: id});
-    var main = new app.views.TranscriptEdit(_.extend({}, data, {el: '#main', model: transcript_model}));
+    var $row1 = $('<div class="row"></div>');
+    var $col1 = $('<div class="col"></div>');
+    var $col2 = $('<div class="col"></div>');
+    var $row2 = $('<div class="row"></div>');
+    $col1.append(stats.$el);
+    $col2.append(users.$el);
+    $row1.append($col1).append($col2);
+    $row2.append(flags.$el);
+    $('#main').append($row1).append($row2);
   },
 
   _getData: function(data){
 
     var user = {};
-    if ($.auth && $.auth.user && $.auth.user.signedIn) {
+    if ($.auth.user && $.auth.user.signedIn) {
       user = $.auth.user;
     }
 
@@ -13531,134 +13204,71 @@ app.routers.DefaultRouter = Backbone.Router.extend({
 
 });
 
-app.models.Transcript = Backbone.Model.extend({
-
-  parse: function(resp){
-    return resp;
-  },
-
-  url: function(){
-    var id = this.get('uid') || this.id;
-    return API_URL + '/transcripts/'+id+'.json';
-  }
-
-});
-
-app.collections.Collections = Backbone.Collection.extend({
-
-  url: function() {
-    return API_URL + '/collections.json';
-  }
-
-});
-
-app.collections.Transcripts = Backbone.Collection.extend({
-  sortType: 'natural',
-
-  initialize: function(params) {
-    var defaults = {
-      endpoint: '/transcripts.json'
-    };
-    this.options = _.extend({}, defaults, params);
-
-    this.params = {page: 1};
-    if (this.options.params) this.params = _.extend({}, this.params, this.options.params);
-  },
-
-  getPage: function(){
-    return this.params.page;
-  },
-
-  getParam: function(name){
-    return this.params[name];
-  },
-
-  getParams: function(){
-    return this.params;
-  },
-
-  hasAllPages: function(){
-    return !this.hasMorePages();
-  },
-
-  hasMorePages: function(){
-    return (this.params.page * this.per_page < this.total);
-  },
-
-  nextPage: function(){
-    this.params.page += 1;
-  },
-
-  parse: function(resp){
-    this.params.page = resp.current_page;
-    this.per_page = resp.per_page;
-    this.total = resp.total_entries;
-
-    var entries = [];
-    _.each(resp.entries, function(t, i){
-      t.completeness = t.percent_completed + t.percent_edited * 0.01;
-      entries.push(t);
-    });
-
-    return entries;
-  },
-
-  setParams: function(params){
-    var _this = this;
-
-    _.each(params, function(value, key){
-      if (value=="ALL" || !value.length) _this.params = _.omit(_this.params, key);
-      else _this.params[key] = value;
-    });
-  },
-
-  url: function() {
-    var params = '?' + $.param(this.params);
-    return API_URL + this.options.endpoint + params;
-  }
-
-});
-
 app.views.Base = Backbone.View.extend({
 
 });
 
-app.views.Collections = app.views.Base.extend({
+app.views.Header = app.views.Base.extend({
 
-  el: '#main',
-  template: _.template(TEMPLATES['collections_index.ejs']),
+  el: '#header',
+
+  title_template: _.template(TEMPLATES['header_title.ejs']),
 
   initialize: function(data){
-    var defaults = {
-      queryParams: {}
-    };
-
-    this.data = _.extend({}, defaults, data);
+    this.data = data;
 
     this.render();
   },
 
-  onCollectionsLoaded: function(collection){
-    var data = collection.toJSON();
-    this.$el.html(this.template({collections: data}));
-    this.$el.removeClass('loading');
+  render: function() {
+    // render the title
+    this.renderTitle();
+
+    // render the header crumbs
+    var header_crumbs = new app.views.Crumbs(_.extend({}, this.data, {el: '#header-crumbs'}));
+
+    // render the primary menu
+    var primary_menu = new app.views.Menu(_.extend({}, this.data, {el: '#primary-menu-container', menu_key: 'header'}));
+
+    // render the account
+    var account = new app.views.Account(this.data);
+
+    return this;
+  },
+
+  renderTitle: function(){
+    this.$el.find('#header-title').html(this.title_template(this.data));
+  }
+
+});
+
+app.views.Footer = app.views.Base.extend({
+
+  el: '#footer',
+
+  initialize: function(data){
+    this.data = _.extend({}, data);
+
+    this.render();
   },
 
   render: function() {
-    document.title = app.pageTitle('Collections');
-
-    this.collections = this.collections || new app.collections.Collections({
-      endpoint: '/collections.json'
-    });
-
-    this.collections.fetch({
-      success: this.onCollectionsLoaded.bind(this),
-      error: function(collection, response, options){
-        $(window).trigger('alert', ['Whoops! We seem to have trouble loading our transcripts. Please try again by refreshing your browser or come back later!']);
-      }
-    });
+    this.renderContent();
+    this.renderMenu();
 
     return this;
+  },
+
+  renderContent: function(){
+    if (this.data.project.pages['footer.md']) {
+      var page = new app.views.Page(_.extend({}, this.data, {page_key: 'footer.md'}))
+      this.$el.append(page.render().$el);
+    }
+  },
+
+  renderMenu: function(){
+    // render the menu
+    var menu = new app.views.Menu(_.extend({}, this.data, {el: '#footer-menu-container', menu_key: 'footer'}));
   }
 
 });
@@ -13998,2410 +13608,232 @@ app.views.Page = app.views.Base.extend({
 
 });
 
-app.views.Dashboard = app.views.Base.extend({
+app.views.AdminFlags = app.views.Base.extend({
 
-  template: _.template(TEMPLATES['user_dashboard.ejs']),
+  template: _.template(TEMPLATES['admin_flags.ejs']),
+
+  className: 'flags',
+
+  initialize: function(data){
+    this.data = _.extend({}, data);
+
+    this.render();
+    this.loadData();
+  },
+
+  loadData: function(){
+    var _this = this;
+    $.getJSON("/admin/flags.json", function(data) {
+      _this.renderFlags(data.flags);
+    });
+  },
+
+  render: function() {
+    this.$el.html(this.template(this.data));
+
+    return this;
+  },
+
+  renderFlags: function(flags){
+    var $flags = this.$('#flags-container');
+
+    $flags.empty();
+
+    _.each(flags, function(flag){
+      var flagView = new app.views.FlagItem({flag: flag});
+      $flags.append(flagView.$el);
+    });
+  }
+
+});
+
+app.views.FlagItem = app.views.Base.extend({
+
+  template: _.template(TEMPLATES['admin_flag_item.ejs']),
+
+  tagName: "tr",
+  className: "flag-item",
+
+  initialize: function(data){
+    this.data = _.extend({}, data);
+    this.flag = this.data.flag;
+
+    this.render();
+  },
+
+  render: function(){
+    this.$el.html(this.template(this.flag));
+    return this;
+  }
+
+});
+
+app.views.AdminStats = app.views.Base.extend({
+
+  className: 'stats',
+
+  template: _.template(TEMPLATES['admin_stats.ejs']),
+
+  initialize: function(data){
+    this.data = _.extend({}, data);
+
+    this.loadData();
+  },
+
+  loadData: function(){
+    var _this = this;
+    $.getJSON("/admin.json", function(data) {
+      _this.parseData(data.stats);
+    });
+  },
+
+  parseData: function(stats){
+    var day = 24 * 60 * 60 * 1000;
+
+    _.each(stats, function(stat, i){
+      var data = _.map(stat.data, function(row){
+        row.date = Date.parse(row.date);
+        return row;
+      });
+
+      var sums = [];
+
+      // All time
+      sums.push({
+        label: 'All Time',
+        value: _.reduce(data, function(memo, stat){ return memo + stat.count; }, 0)
+      });
+
+      // Past 30 days
+      var thirty_days_ago = new Date().getTime() - 30 * day;
+      data = _.filter(data, function(stat){ return stat.date > thirty_days_ago; });
+      sums.push({
+        label: 'Past 30 days',
+        value: _.reduce(data, function(memo, stat){ return memo + stat.count; }, 0)
+      });
+
+      // Past 7 days
+      var seven_days_ago = new Date().getTime() - 7 * day;
+      data = _.filter(data, function(stat){ return stat.date > seven_days_ago; });
+      sums.push({
+        label: 'Past 7 days',
+        value: _.reduce(data, function(memo, stat){ return memo + stat.count; }, 0)
+      });
+
+      // Past 24 hours
+      var one_day_ago = new Date().getTime() - day;
+      data = _.filter(data, function(stat){ return stat.date > one_day_ago; });
+      sums.push({
+        label: 'Past 24 hours',
+        value: _.reduce(data, function(memo, stat){ return memo + stat.count; }, 0)
+      });
+
+      // add sums to stats
+      stats[i]['sums'] = sums;
+    });
+
+    this.data.stats = stats;
+    // console.log(stats);
+    this.render();
+  },
+
+  render: function() {
+    this.$el.html(this.template(this.data));
+
+    return this;
+  }
+
+});
+
+app.views.AdminTranscripts = app.views.Base.extend({
 
   el: '#main',
 
   initialize: function(data){
-    this.data = data;
-    this.secondsPerLine = 5;
-    this.listenForAuth();
-  },
-
-  listenForAuth: function(){
-    var _this = this;
-
-    // check auth validation
-    PubSub.subscribe('auth.validation.success', function(ev, user) {
-      _this.loadData(user);
-    });
-  },
-
-  loadData: function(user){
-    var _this = this;
-
-    this.data.transcripts = [];
-
-    $.getJSON("/transcript_edits.json", {user_id: user.id}, function(data) {
-      if (data.edits && data.edits.length) {
-        _this.parseEdits(data.edits, data.transcripts);
-      }
-      _this.render();
-    });
-  },
-
-  parseEdits: function(edits, transcripts){
-    var _this = this;
-
-    edits = _.map(edits, function(edit){
-      var e = _.clone(edit);
-      e.updated_at = Date.parse(e.updated_at)/1000;
-      return e;
-    });
-
-    var transcripts = _.map(transcripts, function(transcript, i){
-      var t = _.clone(transcript);
-      t.index = i;
-      t.edits = _.filter(edits, function(e){ return e.transcript_id==transcript.id; });
-      t.edit_count = t.edits.length;
-      t.seconds_edited = t.edit_count * _this.secondsPerLine;
-      var last_edit = _.max(t.edits, function(e){ return e.updated_at; });
-      if (last_edit) t.updated_at = last_edit.updated_at;
-      return t;
-    });
-
-    this.data.transcripts = _.sortBy(transcripts, function(t){ return t.updated_at; }).reverse();
-    this.data.edit_count = edits.length;
-    this.data.seconds_edited = this.data.edit_count * this.secondsPerLine;
-  },
-
-  render: function() {
-    this.$el.html(this.template(this.data));
-    this.$el.removeClass('loading');
-
-    return this;
-  }
-
-});
-
-app.views.Footer = app.views.Base.extend({
-
-  el: '#footer',
-
-  initialize: function(data){
     this.data = _.extend({}, data);
 
     this.render();
   },
 
   render: function() {
-    this.renderContent();
-    this.renderMenu();
-
-    return this;
-  },
-
-  renderContent: function(){
-    if (this.data.project.pages['footer.md']) {
-      var page = new app.views.Page(_.extend({}, this.data, {page_key: 'footer.md'}))
-      this.$el.append(page.render().$el);
-    }
-  },
-
-  renderMenu: function(){
-    // render the menu
-    var menu = new app.views.Menu(_.extend({}, this.data, {el: '#footer-menu-container', menu_key: 'footer'}));
-  }
-
-});
-
-app.views.Header = app.views.Base.extend({
-
-  el: '#header',
-
-  title_template: _.template(TEMPLATES['header_title.ejs']),
-
-  initialize: function(data){
-    this.data = data;
-
-    this.render();
-  },
-
-  render: function() {
-    // render the title
-    this.renderTitle();
-
-    // render the header crumbs
-    var header_crumbs = new app.views.Crumbs(_.extend({}, this.data, {el: '#header-crumbs'}));
-
-    // render the primary menu
-    var primary_menu = new app.views.Menu(_.extend({}, this.data, {el: '#primary-menu-container', menu_key: 'header'}));
-
-    // render the account
-    var account = new app.views.Account(this.data);
-
-    return this;
-  },
-
-  renderTitle: function(){
-    this.$el.find('#header-title').html(this.title_template(this.data));
-  }
-
-});
-
-app.views.Home = app.views.Base.extend({
-
-  el: '#main',
-
-  initialize: function(data){
-    this.data = data;
-
-    this.render();
-  },
-
-  render: function() {
-
-    // write page contents
-    var home_page = new app.views.Page(_.extend({}, this.data, {page_key: 'home.md'}));
-
-    // get transcripts
-    var transcript_collection = new app.collections.Transcripts();
-    var collection_collection = new app.collections.Collections();
-    var transcripts_view = new app.views.TranscriptsIndex(_.extend({}, this.data, {collection: transcript_collection, collections: collection_collection}));
-
-    this.$el.append(home_page.render().$el);
-    this.$el.append(transcripts_view.$el);
-    this.$el.removeClass('loading');
+    // this.$el.html(this.template(this.data));
+    this.$el.html('<p>Hello Admin - Transcripts</p>');
 
     return this;
   }
 
 });
 
-app.views.Modals = app.views.Base.extend({
+app.views.AdminUsers = app.views.Base.extend({
 
-  el: '#app',
+  template: _.template(TEMPLATES['admin_users.ejs']),
 
-  events: {
-    "click .modal-dismiss": "dismissModals",
-    "click .modal-invoke": "invokeModalFromLink"
-  },
+  className: 'users',
 
   initialize: function(data){
-    this.data = data;
-    this.lastInvoked = false;
-
-    this.loadListeners();
-    this.render();
-  },
-
-  addModal: function($modal){
-    this.$el.append($modal);
-  },
-
-  dismissModals: function(e){
-    e && e.preventDefault();
-    this.$('.modal').removeClass('active');
-  },
-
-  invokeModal: function(id){
-    this.$('#'+id).find('.modal').addClass('active');
-    this.lastInvoked = id;
-  },
-
-  invokeModalFromLink: function(e){
-    e.preventDefault();
-
-    this.invokeModal($(e.currentTarget).attr('data-modal'));
-  },
-
-  loadListeners: function(){
-    var _this = this;
-
-    PubSub.subscribe('modal.invoke', function(ev, id) {
-      _this.invokeModal(id);
-    });
-
-    PubSub.subscribe('modals.dismiss', function(ev, data) {
-      _this.dismissModals();
-    });
-
-    // listen for player state change
-    PubSub.subscribe('player.state.change', function(ev, state) {
-      _this.$el.attr('state', state);
-    });
-  },
-
-  render: function() {
-    // modals have already been rendered
-    if (this.$('.modal').length) return this;
-
-    var _this = this,
-        pages = this.data.project.pages;
-
-    _.each(this.data.project.modals, function(modal, id){
-      // render modal
-      var data = _.extend({}, modal, {id: id, project: _this.data.project});
-      var modal = new app.views.Modal(data);
-      _this.$el.append(modal.$el);
-    });
-
-    return this;
-  }
-
-});
-
-app.views.Search = app.views.Base.extend({
-
-  el: '#main',
-  template: _.template(TEMPLATES['transcript_search.ejs']),
-  template_list: _.template(TEMPLATES['transcript_list.ejs']),
-  template_item: _.template(TEMPLATES['transcript_search_item.ejs']),
-
-  events: {
-    "submit .search-form": "searchFromForm",
-    "keyup .search-form input": "searchFromInput"
-  },
-
-  initialize: function(data){
-    var defaults = {
-      queryParams: {}
-    };
-
-    this.data = _.extend({}, defaults, data);
+    this.data = _.extend({}, data);
 
     this.render();
-    this.loadListeners();
-    this.loadTranscripts();
-    this.loadCollections();
+    this.loadData();
   },
 
-  loadCollections: function(){
+  loadData: function(){
     var _this = this;
-
-    this.collections = this.collections || new app.collections.Collections();
-
-    this.collections.fetch({
-      success: function(collection, response, options){
-        _this.renderFacets(collection.toJSON());
-      },
-      error: function(collection, response, options){
-        _this.renderFacets([]);
-      }
-    });
-  },
-
-  loadListeners: function(){
-    var _this = this;
-
-    PubSub.subscribe('transcripts.filter', function(ev, filter) {
-      var data = {};
-      data[filter.name] = filter.value;
-      _this.setParams(data);
-    });
-
-    PubSub.subscribe('transcripts.sort', function(ev, sort_option) {
-      _this.setParams({
-        'sort_by': sort_option.name,
-        'order': sort_option.order
-      });
-    });
-
-    PubSub.subscribe('transcripts.search', function(ev, keyword) {
-      _this.setParams({
-        'q': keyword
-      });
-    });
-  },
-
-  loadTranscripts: function(){
-    var _this = this;
-    var params = this.data.queryParams;
-
-    // do a deep search
-    params.deep = 1;
-
-    this.$transcripts.addClass('loading');
-    this.transcripts = this.transcripts || new app.collections.Transcripts({
-      endpoint: '/search.json',
-      params: params
-    });
-
-    this.transcripts.fetch({
-      success: function(collection, response, options){
-        _this.renderTranscripts(collection);
-      },
-      error: function(collection, response, options){
-        $(window).trigger('alert', ['Whoops! We seem to have trouble loading our transcripts. Please try again by refreshing your browser or come back later!']);
-      }
+    $.getJSON("/admin/users.json", function(data) {
+      _this.renderUsers(data);
     });
   },
 
   render: function() {
     this.$el.html(this.template(this.data));
-    this.$el.removeClass('loading');
-    this.$transcripts = this.$('#transcript-results');
-    this.$facets = this.$('#transcript-facets');
-    document.title = app.pageTitle('Search');
+
     return this;
   },
 
-  renderFacets: function(collections){
-    this.facetsView = this.facetsView || new app.views.TranscriptFacets({collections: collections, queryParams: this.data.queryParams, disableSearch: true, disableSort: true});
-    this.$facets.html(this.facetsView.render().$el);
-  },
+  renderUsers: function(data){
+    var $users = this.$('#users-container');
+    var users = data.users;
+    var roles = data.roles;
 
-  renderTranscripts: function(transcripts){
-    var _this = this;
-    var transcriptsData = transcripts.toJSON();
+    $users.empty();
 
-    var list = this.template_list({has_more: transcripts.hasMorePages()});
-    var $list = $(list);
-    var $target = $list.first();
-    var query = transcripts.getParam('q') || '';
-
-    if (transcripts.getPage() > 1) {
-      this.$transcripts.append($list);
-
-    } else {
-      this.$transcripts.empty();
-      if (transcriptsData.length){
-        this.$transcripts.html($list);
-      } else {
-        this.$transcripts.html('<p>No transcripts found!</p>');
-      }
-    }
-    this.$transcripts.removeClass('loading');
-
-    _.each(transcriptsData, function(transcript){
-      var item = _this.template_item(_.extend({}, transcript, {query: query}));
-      $target.append($(item));
+    _.each(users, function(user){
+      var userView = new app.views.UserItem({user: user, roles: roles});
+      $users.append(userView.$el);
     });
-
-    $(window).trigger('scroll-to', [this.$('#search-form'), 110]);
-  },
-
-  search: function(keyword){
-    PubSub.publish('transcripts.search', keyword);
-  },
-
-  searchFromForm: function(e){
-    e.preventDefault();
-    var $form = $(e.currentTarget),
-        keyword = $form.find('input[name="keyword"]').val();
-
-    keyword = keyword.trim().toLowerCase();
-
-    this.search(keyword);
-  },
-
-  searchFromInput: function(e){
-    var $input = $(e.currentTarget),
-        keyword = $input.val();
-
-    keyword = keyword.trim();
-
-    // only submit if empty
-    if (!keyword.length)
-      this.search(keyword);
-  },
-
-  setParams: function(params){
-    this.$transcripts.empty().addClass('loading');
-    params.page = 1;
-    this.transcripts.setParams(params);
-    this.loadTranscripts();
-    this.updateUrlParams();
-  },
-
-  updateUrlParams: function(){
-    // get params
-    var params = this.transcripts.getParams();
-    // update URL if there's facet data
-    if (_.keys(params).length > 0 && window.history) {
-      var url = '/' + this.data.route.route + '?' + $.param(params);
-      window.history.pushState(params, document.title, url);
-    }
-    else if (window.history) {
-      var url = '/' + this.data.route.route;
-      window.history.pushState(params, document.title, url);
-    }
   }
 
 });
 
-// Core Transcript view to be extended
-app.views.Transcript = app.views.Base.extend({
+app.views.UserItem = app.views.Base.extend({
 
-  current_line_i: -1,
-  play_all: false,
+  template: _.template(TEMPLATES['admin_user_item.ejs']),
 
-  centerOn: function($el){
-    var offset = $el.offset().top,
-        height = $el.height(),
-        windowHeight = $(window).height(),
-        animationDuration = 500,
-        animationPadding = 100,
-        timeSinceLastAction = 9999,
-        currentTime = +new Date(),
-        scrollOffset;
+  tagName: "tr",
+  className: "user-item",
 
-    // determine time since last action to prevent too many queued animations
-    if (this.lastCenterActionTime) {
-      timeSinceLastAction = currentTime - this.lastCenterActionTime;
-    }
-    this.lastCenterActionTime = currentTime;
+  initialize: function(data){
+    this.data = _.extend({}, data);
 
-    // determine scroll offset
-    if (height < windowHeight) {
-      scrollOffset = offset - ((windowHeight / 2) - (height / 2));
-
-    } else {
-      scrollOffset = offset;
-    }
-
-    // user is clicking rapidly; don't animate
-    if (timeSinceLastAction < (animationDuration+animationPadding)) {
-      $('html, body').scrollTop(scrollOffset);
-    }
-    else {
-      $('html, body').animate({scrollTop: scrollOffset}, animationDuration);
-    }
-
+    this.render();
+    this.loadListeners();
   },
 
-  checkForStartTime: function(){
-    if (!this.data.queryParams || !this.data.queryParams.t) return false;
-
-    var seconds = UTIL.getSeconds(this.data.queryParams.t);
-    if (!seconds) return false;
-
-    var select_line_i = 0;
-    _.each(this.data.transcript.lines, function(line, i){
-      var line_seconds = UTIL.getSeconds(UTIL.formatTime(line.start_time/1000));
-      if (line_seconds <= seconds) select_line_i = i;
-    });
-
-    this.lineSelect(select_line_i);
-
-  },
-
-  fitInput: function($input){
-    var fontSize = parseInt($input.css('font-size')),
-        maxWidth = $input.width() + 5;
-
-    // store the original font size
-    if (!$input.attr('original-font-size')) $input.attr('original-font-size', fontSize);
-
-    // see how big the text is at the default size
-    var textWidth = $input.getTextSize().width;
-    if (textWidth > maxWidth) {
-        // the extra .8 here makes up for some over-measures
-        fontSize = fontSize * maxWidth / textWidth * 0.8;
-    }
-
-    $input.css({fontSize: fontSize + 'px'});
-  },
-
-  fitInputReset: function($input){
-    // store the original font size
-    if ($input.attr('original-font-size')) {
-      $input.css({fontSize: $input.attr('original-font-size') + 'px'});
-    }
-  },
-
-  getPageTitle: function() {
-    if (!!this.data.transcript) {
-      return this.data.transcript.title;
-    }
-    return '';
-  },
-
-  lineNext: function(){
-    this.lineSelect(this.current_line_i + 1);
-  },
-
-  linePrevious: function(){
-    this.lineSelect(this.current_line_i - 1);
-  },
-
-  lineSave: function(i){
-    // override me
-  },
-
-  lineSelect: function(i){
-    // check if in bounds
-    var lines = this.data.transcript.lines;
-    // the last one
-    if (i >= lines.length) {
-      this.onLineOff(this.current_line_i);
-      PubSub.publish('transcript.finished', true);
-      return false;
-    }
-    if (i < 0 || i==this.current_line_i) return false;
-
-    this.onLineOff(this.current_line_i);
-
-    // select line
-    this.current_line_i = i;
-    this.current_line = this.data.transcript.lines[i];
-
-    // update UI
-    var $active = $('.line[sequence="' + i + '"]').first();
-    var $input = $active.find('input');
-
-    $('.line.active').removeClass('active');
-    $active.addClass('active');
-
-    this.centerOn($active);
-
-    if (!this.play_all) {
-      // focus on input
-      if ($input.length) $input.first().focus();
-    }
-
-    // fit input
-    this.fitInput($input);
-
-    // Adjusts mobile button to show pause
-    var playButton   = this.$('.mobile-toggle.play')
-    var pauseButton  = this.$('.mobile-toggle.pause')
-    if (pauseButton.hasClass('hidden')) {
-      playButton.addClass('hidden')
-      pauseButton.removeClass('hidden')
-    }
-
-    // play audio
-    this.pause_at_time = this.current_line.end_time * 0.001;
-    this.playerPlay(this.current_line.start_time);
-  },
-
-  lineSubmit: function(){
-    this.lineNext();
-  },
-
-  lineToggle: function(){
-    // not started yet, initialize to first line
-    if (this.current_line_i < 0) {
-      this.lineSelect(0);
-
-    // replay the line if end-of-line reached
-    } else if (this.pause_at_time !== undefined && this.player.currentTime >= this.pause_at_time && !this.player.playing) {
-      this.playerPlay(this.current_line.start_time);
-
-    // otherwise, just toggle play
-    } else {
-      this.playerToggle();
-    }
-  },
-
-  listenForAuth: function(){
+  changeRole: function(user_role_id){
+    if (this.data.user.user_role_id == user_role_id) return false;
     var _this = this;
 
-    // check auth sign in
-    PubSub.subscribe('auth.oAuthSignIn.success', function(ev, msg) {
-      _this.refresh();
-    });
-
-    // check sign out
-    PubSub.subscribe('auth.signOut.success', function(ev, msg) {
-      _this.refresh();
-    });
-  },
-
-  loadAudio: function(){
-    // Player already loaded
-    if (this.player) {
-
-      // Transcript audio already loaded
-      if ($(this.player).attr('data-transcript') == ""+this.data.transcript.id) {
-        this.onAudioLoad();
-        return false;
-      }
-      $(this.player).remove();
-    }
-
-    var _this = this,
-      audio_urls = this.data.project.useVendorAudio && this.data.transcript.vendor_audio_urls.length ? this.data.transcript.vendor_audio_urls : [this.data.transcript.audio_url];
-
-    // build audio string
-    var audio_string = '<audio data-transcript="'+this.data.transcript.id+'" preload>';
-    _.each(audio_urls, function(url){
-      var ext = url.substr(url.lastIndexOf('.') + 1),
-          type = ext;
-      if (ext == 'mp3' || ext == 'm4a') type = 'mpeg';
-      audio_string += '<source src="'+url+'" type="audio/'+type+'">';
-    });
-    audio_string += '</audio>';
-
-    // create audio object
-    var $audio = $(audio_string);
-    this.player = $audio[0];
-
-    // wait for audio to start to load
-    this.player.onloadstart = function(){
-      if (!_this.player_loaded) {
-        _this.player_loaded = true;
-        _this.onAudioLoad();
-      }
-    };
-
-    // wait for it to load
-    // this.player.oncanplay = function(){
-    //   if (!_this.player_loaded) {
-    //     _this.player_loaded = true;
-    //     _this.onAudioLoad();
-    //   }
-    // };
-
-    // check for time update
-    this.player.ontimeupdate = function() {
-      _this.onTimeUpdate();
-    };
-
-    // check for buffer time
-    this.player.onwaiting = function(){
-      _this.message('Buffering audio...');
-      _this.playerState('buffering');
-    };
-
-  },
-
-  loadListeners: function(){ /* override me */ },
-
-  loadTranscript: function(){
-    var _this = this;
-
-    this.$el.addClass('loading');
-
-    this.model.fetch({
-      success: function(model, response, options){
-        _this.onTranscriptLoad(model);
-      },
-      error: function(model, response, options){
-        $(window).trigger('alert', ['Whoops! We seem to have trouble loading this transcript. Please try again by refreshing your browser or come back later!']);
-      }
-    });
-  },
-
-  loadUserProgress: function(){ /* override me */ },
-
-  message: function(text){
-    // $('#transcript-notifications').text(text);
-  },
-
-  messageHide: function(text){
-    // if ($('#transcript-notifications').text()==text) {
-    //   $('#transcript-notifications').text('');
-    // }
-  },
-
-  onAudioLoad: function(){ /* override me */ },
-
-  onLineOff: function(i){
-    // close all modals
-    PubSub.publish('modals.dismiss', true);
-
-    // save line always
-    this.lineSave(i);
-
-    // reset input
-    var $input = $('.line[sequence="'+i+'"] input').first();
-    this.fitInputReset($input);
-  },
-
-  onTranscriptLoad: function(transcript){ /* override me */ },
-
-  onTimeUpdate: function(){ /* override me */ },
-
-  parseTranscript: function(){
-    var _this = this,
-        lines = this.data.transcript.lines,
-        user_edits = this.data.transcript.user_edits,
-        line_statuses = this.data.transcript.transcript_line_statuses,
-        speakers = this.data.transcript.speakers || [],
-        superUserHiearchy = PROJECT.consensus.superUserHiearchy,
-        user_role = this.data.transcript.user_role,
-        user_flags = this.data.transcript.user_flags,
-        maxLineTimeOverlapMs = PROJECT.maxLineTimeOverlapMs,
-        allowTranscriptDownload = PROJECT.allowTranscriptDownload;
-
-    // map edits for easy lookup
-    var user_edits_map = _.object(_.map(user_edits, function(edit) {
-      return [""+edit.transcript_line_id, edit.text]
-    }));
-
-    // map statuses for easy lookup
-    var line_statuses_map = _.object(_.map(line_statuses, function(status) {
-      return [""+status.id, status]
-    }));
-
-    // add multiple speaker option
-    var speaker_options = _.map(speakers, _.clone);
-    if (speakers.length > 1) {
-      speaker_options.push({id: -1, name: "Multiple Speakers"});
-    }
-    this.data.transcript.speaker_options = speaker_options;
-
-    // map speakers for easy lookup
-    var speakers_map = _.object(_.map(speaker_options, function(speaker) {
-      return [""+speaker.id, speaker]
-    }));
-    var speaker_ids = _.pluck(speaker_options, 'id');
-
-    // map flags for easy lookup
-    var user_flags_map = _.object(_.map(user_flags, function(flag) {
-      return [""+flag.transcript_line_id, flag]
-    }));
-
-    // check to see if download is allowed
-    this.data.transcript.can_download = allowTranscriptDownload && this.data.transcript.can_download;
-
-    // process each line
-    _.each(lines, function(line, i){
-      // add user text to lines
-      var user_text = "";
-      if (_.has(user_edits_map, ""+line.id)) {
-        user_text = user_edits_map[""+line.id];
-      }
-      _this.data.transcript.lines[i].user_text = user_text;
-
-      // add statuses to lines
-      var status = line_statuses[0];
-      if (_.has(line_statuses_map, ""+line.transcript_line_status_id)) {
-        status = line_statuses_map[""+line.transcript_line_status_id];
-      }
-      _this.data.transcript.lines[i].status = status;
-
-      // determine display text; default to original
-      var display_text = line.original_text;
-      // show final text if final
-      if (line.text && status.name=="completed") display_text = line.text;
-      // otherwise, show user's text
-      else if (user_text) display_text = user_text;
-      // otherwise show guess text
-      else if (PROJECT.consensus.lineDisplayMethod=="guess" && line.guess_text) display_text = line.guess_text;
-      // set the display text
-      _this.data.transcript.lines[i].display_text = display_text;
-
-      // determine if text is editable
-      var is_editable = true;
-      // input is locked when reviewing/completed/flagged/archived
-      if (_.contains(["reviewing","completed","flagged","archived"], status.name)) is_editable = false;
-      // in review, but user submitted, so may edit
-      if (status.name=="reviewing" && user_text) is_editable = true;
-      // admins/mods can always edit
-      if (user_role && user_role.hiearchy >= superUserHiearchy) is_editable = true;
-      _this.data.transcript.lines[i].is_editable = is_editable;
-
-      // determine if text is available
-      var is_available = true;
-      // input is available when not completed/archived
-      if (_.contains(["completed","archived"], status.name)) is_available = false;
-      _this.data.transcript.lines[i].is_available = is_available;
-
-      // check for speaker
-      var speaker = false;
-      var speaker_pos = -1;
-      if (_.has(speakers_map, ""+line.speaker_id)) {
-        speaker = speakers_map[""+line.speaker_id];
-        speaker_pos = speaker_ids.indexOf(speaker.id);
-      }
-      _this.data.transcript.lines[i].speaker = speaker;
-      _this.data.transcript.lines[i].speaker_pos = speaker_pos;
-      _this.data.transcript.lines[i].has_speakers = speakers.length > 1 ? true : false;
-
-      // check for flag
-      var user_flag = {flag_type_id: 0, text: ""};
-      if (_.has(user_flags_map, ""+line.id)) {
-        user_flag = user_flags_map[""+line.id];
-      }
-      _this.data.transcript.lines[i].user_flag = user_flag;
-
-      // can user resolve a flag
-      var can_resolve = false;
-      if (user_role && user_role.hiearchy >= superUserHiearchy) can_resolve = true;
-      _this.data.transcript.lines[i].can_resolve = can_resolve;
-
-      // adjust timestamps overlap
-      if (maxLineTimeOverlapMs >= 0 && i > 0) {
-        var prevLine = _this.data.transcript.lines[i-1];
-        var overlapMs = prevLine.end_time - line.start_time;
-        // overlap is larger than threshold
-        if (overlapMs > maxLineTimeOverlapMs) {
-          // var adjustMs = Math.round((overlapMs - maxLineTimeOverlapMs) / 2);
-          var paddingMs = 0;
-          _this.data.transcript.lines[i-1].end_time = _this.data.transcript.lines[i].start_time + paddingMs;
-          _this.data.transcript.lines[i].start_time = _this.data.transcript.lines[i].start_time - paddingMs;
+    $.ajax({
+      url: '/admin/users/'+this.data.user.id+'.json',
+      data: {
+        user: {
+          user_role_id: user_role_id
         }
-      }
-    });
-
-    // add data about lines that are being reviewed
-    if (this.data.transcript.percent_reviewing > 0) this.data.transcript.hasLinesInReview = true;
-    if (this.data.transcript.percent_completed > 0) this.data.transcript.hasLinesCompleted = true;
-  },
-
-  playerPause: function(options) {
-    if (options === undefined) options = {};
-
-    if (this.player.playing) {
-      this.player.pause();
-      this.message('Paused');
-      this.playerState('paused');
-
-      if (this.play_all && (options.trigger == 'end_of_line')) {
-        this.lineNext();
-      }
-    }
-  },
-
-  playerPlay: function(ms){
-
-    // set time if passed
-    if (ms !== undefined) {
-      this.player.currentTime = ms * 0.001;
-    }
-
-    if (!this.player.playing) {
-      this.player.play();
-    }
-  },
-
-  playerState: function(state) {
-    if (this.state==state) return false;
-    this.state = state;
-    this.$el.attr('state', state);
-    PubSub.publish('player.state.change', state);
-  },
-
-  playerToggle: function(){
-    if (this.player.playing) {
-      this.playerPause({trigger: 'manual'});
-
-    } else {
-      this.playerPlay();
-    }
-  },
-
-  refresh: function(){
-    this.current_line_i = -1;
-
-    this.loadTranscript();
-  },
-
-  render: function(){
-    this.$el.html(this.template(this.data));
-    this.renderLines();
-    this.loadUserProgress();
-    var pageTitle = this.getPageTitle();
-    if (!!pageTitle.length) {
-      document.title = app.pageTitle(pageTitle);
-    }
-    // Reload social media.
-    // window.app.social.init();
-  },
-
-  renderLines: function(){
-    var $container = this.$el.find('#transcript-lines'),
-        $lines = $('<div>');
-
-    if (!$container.length) return false;
-    $container.empty();
-
-    var speakers = this.data.transcript.speaker_options;
-    var transcript_id = this.data.transcript.id;
-    var flag_types = this.data.transcript.flag_types;
-    _.each(this.data.transcript.lines, function(line) {
-      var lineView = new app.views.TranscriptLine({
-        transcript_id: transcript_id,
-        line: line,
-        speakers: speakers,
-        flag_types: flag_types
-      });
-      $lines.append(lineView.$el);
-    });
-    $container.append($lines);
-  },
-
-  mobileToggle: function(){
-    var playButton   = this.$('.mobile-toggle.play')
-    var pauseButton  = this.$('.mobile-toggle.pause')
-
-    if ( pauseButton.hasClass('hidden') ) {
-      // Play button
-      this.play_all = true;
-
-      // If nothing has been selected start at the start
-      if (this.current_line_i < 0) {
-        this.lineSelect(0);
-      } else {
-        this.playerPlay();
-      }
-
-      // Toggle buttons
-      playButton.addClass('hidden')
-      pauseButton.removeClass('hidden')
-
-    } else {
-      // Pause button
-
-      this.playerPause({trigger: 'manual'});
-
-      // Toggle buttons
-      pauseButton.addClass('hidden')
-      playButton.removeClass('hidden')
-    }
-  },
-
-  start: function(){
-    this.$('.start-play, .play-all').addClass('disabled');
-
-    var selectLine = 0,
-        lines = this.data.transcript.lines;
-
-    // Find the first line that is editable
-    $.each(lines, function(i, line){
-      if (line.is_editable) {
-        selectLine = i;
-        return false;
-      }
-    });
-
-    // when `Play All` always select from the first line
-    if (this.play_all) {
-      selectLine = 0;
-    }
-    this.lineSelect(selectLine);
-  },
-
-  playAll: function() {
-    this.play_all = true;
-
-    this.start();
-  },
-
-  submitEdit: function(data){
-    var _this = this;
-    this.message('Saving changes...');
-
-    $.post(API_URL + "/transcript_edits.json", {transcript_edit: data}, function(resp) {
-      _this.message('Changes saved.');
-    });
-
-    PubSub.publish('transcript.edit.submit', data);
-  }
-
-});
-
-app.views.TranscriptDownload = app.views.Base.extend({
-
-  id: "transcript-download",
-  className: "modal-wrapper",
-
-  template: _.template(TEMPLATES['transcript_download.ejs']),
-
-  events: {
-    "click .download": "download",
-    "submit .download-form": "download",
-    "change .formatOption": "selectFormat",
-    "change .format-options input": "updateURL"
-  },
-
-  initialize: function(data){
-    var _this = this;
-
-    this.data = _.extend({}, data);
-    this.data.active = false;
-    this.data.transcript = false;
-
-    this.base_url = API_URL + '/transcript_files/' + this.data.transcript_id;
-
-    // check for transcript load
-    PubSub.subscribe('transcript.load', function(ev, data) {
-      _this.onTranscriptLoad(data.transcript);
-    });
-  },
-
-  download: function(e){
-    e && e.preventDefault();
-
-    var url = this.$('#transcript-download-url').val();
-    window.open(url);
-  },
-
-  onTranscriptLoad: function(transcript){
-    this.data.transcript = transcript;
-    this.render();
-    this.updateURL();
-  },
-
-  render: function(){
-    this.$el.html(this.template(this.data));
-  },
-
-  selectFormat: function(e){
-    var $input = $(e.currentTarget),
-        format = $input.val();
-
-    this.$('.format-options').removeClass('active');
-    this.$('.format-options[data-format="'+format+'"]').addClass('active');
-
-    this.updateURL();
-  },
-
-  updateURL: function(e){
-    var format = this.$('input:radio[name="format"]:checked').val();
-    var options = this.$('.format-options.active input').serialize();
-    var url = this.base_url + '.' + format;
-
-    if (options.length) {
-      url += "?" + options;
-    }
-
-    this.$('#transcript-download-url').val(url);
-  }
-
-});
-
-app.views.TranscriptFacets = app.views.Base.extend({
-
-  template: _.template(TEMPLATES['transcript_facets.ejs']),
-
-  events: {
-    "click .filter-by": "filterFromEl",
-    "click .sort-by": "sortFromEl",
-    "submit .search-form": "searchFromForm",
-    "keyup .search-form input": "searchFromInput"
-  },
-
-  initialize: function(data){
-    this.data = _.extend({
-      disableSearch: false,
-      disableSort: false
-    }, data);
-
-    this.initFacets();
-
-    // turn sticky on
-    $(window).trigger('sticky-on', ['#header']);
-  },
-
-  filter: function(name, value){
-    PubSub.publish('transcripts.filter', {name: name, value: value});
-  },
-
-  filterFromEl: function(e){
-    var $el = $(e.currentTarget);
-
-    this.filter($el.attr('data-filter'), $el.attr('data-value'));
-  },
-
-  initFacets: function(){
-    // set defaults
-    var active_collection_id = Amplify.getConfig('homepage.search.sort_options.active_collection_id', 'ALL');
-    var active_sort = Amplify.getConfig('homepage.search.sort_options.active_sort', 'id');
-    var active_order = Amplify.getConfig('homepage.search.sort_options.active_order', 'asc');
-    var active_keyword = Amplify.getConfig('homepage.search.sort_options.active_keyword', '');
-
-    // check for query params
-    if (this.data.queryParams) {
-      var params = this.data.queryParams;
-      if (params.sort_by) {
-        active_sort = params.sort_by;
-      }
-      if (params.order) {
-        active_order = params.order;
-      }
-      if (params.collection_id) {
-        active_collection_id = params.collection_id;
-      }
-      if (params.keyword) {
-        active_keyword = params.keyword;
-      }
-    }
-
-    // Add an "all collections" options.
-    if (this.data.collections.length) {
-      var all_collections = {
-        id: 'ALL',
-        title: 'All Collections'
-      };
-      this.data.collections.unshift(all_collections);
-      this.data.collections = _.map(this.data.collections, function(c){
-        c.active = false;
-        if (c.id == active_collection_id) c.active = true;
-        return c;
-      });
-      this.data.active_collection = _.findWhere(this.data.collections, {active: true});
-    }
-
-    // set sort option
-    this.data.sort_options = [
-      {id: 'random_asc', name: 'random', order: 'asc', label: 'Random'},
-      {id: 'title_asc', name: 'title', order: 'asc', label: 'Title (A to Z)'},
-      {id: 'title_desc', name: 'title', order: 'desc', label: 'Title (Z to A)'},
-      {id: 'completeness_desc', name: 'completeness', order: 'desc', label: 'Completeness (most to least)'},
-      {id: 'completeness_asc', name: 'completeness', order: 'asc', label: 'Completeness (least to most)'},
-      {id: 'duration_asc', name: 'duration', order: 'asc', label: 'Duration (short to long)'},
-      {id: 'duration_desc', name: 'duration', order: 'desc', label: 'Duration (long to short)'},
-      {id: 'collection_asc', name: 'collection_id', order: 'asc', label: 'Collection'}
-    ];
-    this.data.sort_options = _.map(this.data.sort_options, function(option){
-      option.active = false;
-      if (option.name == active_sort && option.order == active_order) option.active = true;
-      return option;
-    });
-    this.data.active_sort = _.findWhere(this.data.sort_options, {active: true});
-
-    // set keyword
-    this.data.active_keyword = active_keyword;
-  },
-
-  render: function(){
-    this.$el.html(this.template(
-      this.sanitiseRenderData(this.data)
-    ));
-    return this;
-  },
-
-  /**
-   * Remove HTML markup from collection descriptions before sending to facet template.
-   */
-  sanitiseRenderData: function(data) {
-    data.collections = data.collections.map(function(collection) {
-      if (collection.hasOwnProperty('description')) {
-        collection.description = collection.description.replace(/<[^>]+>/g, '');
-      }
-      return collection;
-    });
-    return data;
-  },
-
-  search: function(keyword){
-    PubSub.publish('transcripts.search', keyword);
-  },
-
-  searchFromForm: function(e){
-    e.preventDefault();
-    var $form = $(e.currentTarget),
-        keyword = $form.find('input[name="keyword"]').val();
-
-    keyword = keyword.trim().toLowerCase();
-
-    this.search(keyword);
-  },
-
-  searchFromInput: function(e){
-    var $input = $(e.currentTarget),
-        keyword = $input.val();
-
-    keyword = keyword.trim();
-
-    // only submit if empty
-    if (!keyword.length)
-      this.search(keyword);
-  },
-
-  sortTranscripts: function(name, order){
-    PubSub.publish('transcripts.sort', {name: name, order: order});
-  },
-
-  sortFromEl: function(e){
-    var $el = $(e.currentTarget);
-
-    this.sortTranscripts($el.attr('data-sort'), $el.attr('data-order'));
-  }
-
-});
-
-app.views.TranscriptLineFlag = app.views.Base.extend({
-
-  id: "transcript-line-flag",
-  className: "modal-wrapper",
-
-  template: _.template(TEMPLATES['transcript_line_flag.ejs']),
-
-  events: {
-    "click .option": "select",
-    "click .submit": "submit",
-    "click .toggle-play": "togglePlay",
-    "click .view-flags": "viewFlags",
-    "click .view-add-flag": "viewForm"
-  },
-
-  initialize: function(data){
-    var _this = this;
-
-    // for storing line data
-    this.lines = {};
-
-    this.data = _.extend({}, data);
-    this.data.title = this.data.title || "Flag this transcript line";
-    this.data.active = this.data.active || false;
-
-    PubSub.subscribe('transcript.flags.load', function(ev, data) {
-      _this.onLoad(data);
-    });
-  },
-
-  onLoad: function(data){
-    if (!this.lines[data.line.id]) {
-      var line = _.extend({}, data.line);
-      this.lines[data.line.id] = line;
-    }
-    this.data.transcript_id = data.transcript_id;
-    this.data.flags = data.flags;
-    this.data.flag_types = data.flag_types;
-    this.data.line = this.lines[data.line.id];
-
-    this.show();
-  },
-
-  render: function(){
-    this.$el.html(this.template(this.data));
-  },
-
-  select: function(e){
-    e.preventDefault();
-
-    var $options = this.$('.option'),
-        $option = $(e.currentTarget),
-        type_id = parseInt($option.attr('type-id'));
-
-    $options.not('[type-id="'+type_id+'"]').removeClass('active').attr('aria-checked', 'false');
-    $option.toggleClass('active');
-
-    // set selected flag type as active
-    var flag_type_id = 0;
-    if ($option.hasClass('active')) {
-      $option.attr('aria-checked', 'true');
-      flag_type_id = type_id;
-    }
-    this.data.line.user_flag.flag_type_id = flag_type_id;
-  },
-
-  show: function(){
-    this.render();
-    PubSub.publish('transcript.play_all', false);
-    PubSub.publish('modal.invoke', this.id);
-  },
-
-  submit: function(e){
-    e && e.preventDefault();
-    var _this = this;
-
-    this.data.line.user_flag.text = this.$('.input-text').val();
-    this.lines[this.data.line.id] = _.extend({}, this.data.line);
-
-    var data = {
-      flag_type_id: this.data.line.user_flag.flag_type_id,
-      text: this.data.line.user_flag.text,
-      transcript_line_id: this.data.line.id,
-      transcript_id: this.data.transcript_id
-    };
-
-    // user haven't seleted a flag type
-    if (data['flag_type_id'] == 0){
-      _this.$('.message').addClass('active').html('<p>Please select one of the above options to submit your flag.</p>');
-       return;
-    }
-
-    $.post(API_URL + "/flags.json", {flag: data}, function(resp) {
-      _this.$('.message').addClass('active').html('<p>Thank you for flagging this line. We will be periodically reviewing and correcting flagged errors.</p>');
-      setTimeout(function(){
-        PubSub.publish('modals.dismiss', true);
-      }, 3000)
-
-    });
-  },
-
-  togglePlay: function(e){
-    e && e.preventDefault();
-
-    PubSub.publish('player.toggle-play', true);
-  },
-
-  viewFlags: function(e){
-    e && e.preventDefault();
-
-    this.$('footer .button, .flag-content').removeClass('active');
-    this.$('.view-add-flag, #flag-index').addClass('active');
-  },
-
-  viewForm: function(e){
-    e && e.preventDefault();
-
-    this.$('footer .button, .flag-content').removeClass('active');
-    this.$('.submit, .view-flags, #flag-add').addClass('active');
-  }
-
-});
-
-app.views.TranscriptItem = app.views.Base.extend({
-
-  template: _.template(TEMPLATES['transcript_item.ejs']),
-
-  tagName: "a",
-  className: "transcript-item",
-  audioDelay: 500,
-
-  events: {
-    'mouseover .item-image': 'on',
-    'mouseout .item-image': 'off'
-  },
-
-  initialize: function(data){
-    this.data = _.extend({}, data);
-    this.transcript = this.data.transcript;
-    this.timeout = false;
-    this.player = false;
-    this.player_enabled = PROJECT.previewAudioOnHover;
-    this.render();
-    this.loadListeners();
-  },
-
-  audioInit: function(audio_urls){
-    var _this = this;
-
-    // build audio string
-    var audio_string = '<audio preload>';
-    _.each(audio_urls, function(url){
-      var ext = url.substr(url.lastIndexOf('.') + 1),
-          type = ext;
-      if (ext == 'mp3' || ext == 'm4a') type = 'mpeg';
-      audio_string += '<source src="'+url+'" type="audio/'+type+'">';
-    });
-    audio_string += '</audio>';
-
-    // create audio object
-    var $audio = $(audio_string);
-    // attach to view so it gets destroyed when view gets destroyed
-    this.$el.append($audio);
-    this.player = $audio[0];
-
-    // check for buffer time
-    this.player.onwaiting = function(){
-      _this.$el.addClass('buffering');
-    };
-
-    // check for time update
-    this.player.ontimeupdate = function() {
-      _this.$el.removeClass('buffering');
-      if (_this.queue_pause) _this.audioPause();
-    };
-  },
-
-  audioPause: function(){
-    if (this.player) {
-      this.player.pause();
-    }
-  },
-
-  audioPlay: function(){
-    if (!this.transcript.audio_urls.length) return false;
-
-    PubSub.publish('player.playing', this.transcript.id);
-
-    if (!this.player) {
-      this.audioInit(this.transcript.audio_urls);
-    }
-
-    if (!this.player.playing && !this.queue_pause) {
-      this.player.play();
-    }
-  },
-
-  loadListeners: function(){
-    var _this = this;
-
-    // ensure only one player is playing at a time
-    PubSub.subscribe('player.playing', function(e, id){
-      if (_this.transcript.id != id) {
-        _this.off();
-      }
-    });
-  },
-
-  off: function(e){
-    if (!this.player_enabled) return false;
-
-    this.queue_pause = true;
-    if (this.timeout) clearTimeout(this.timeout);
-    this.audioPause();
-  },
-
-  on: function(e){
-    if (!this.player_enabled) return false;
-
-    this.queue_pause = false;
-    var _this = this;
-    if (this.timeout) clearTimeout(this.timeout);
-    this.timeout = setTimeout(function(){_this.audioPlay()}, this.audioDelay);
-  },
-
-  render: function(){
-    var transcript = this.transcript;
-
-    // build title
-    var title = transcript.title;
-    if (transcript.collection_title) title = transcript.collection_title + ': ' + title;
-    this.$el.attr('title', title);
-    this.$el.attr('role', 'listitem');
-    this.$el.attr('href', transcript.path);
-    this.$el.html(this.template(transcript));
-    return this;
-  }
-
-});
-
-app.views.TranscriptLine = app.views.Base.extend({
-
-  template: _.template(TEMPLATES['transcript_line.ejs']),
-
-  events: {
-    "click": "select",
-    "click .star": "star",
-    "click .flag": "flag",
-    "click .resolve": "resolve",
-    "click .verify": "verify",
-    "click .speaker-option": "selectSpeaker"
-  },
-
-  initialize: function(data){
-    this.data = _.extend({}, data);
-    this.line = this.data.line || {};
-    this.edits = this.data.edits || [];
-    this.speakers = this.data.speakers || [];
-    this.flag_types = this.data.flag_types || [];
-    this.flags = this.data.flags || [];
-    this.flagsLoaded = false;
-    this.render();
-  },
-
-  flag: function(e){
-    if (e) {
-      e.preventDefault();
-      $(e.currentTarget).addClass('active');
-    }
-    var _this = this;
-
-    this.select();
-
-    if (!this.flagsLoaded) {
-      this.flagsLoaded = true;
-
-      this.loadFlags(function(){
-        _this.flag();
-      });
-      return false;
-    }
-
-    PubSub.publish('transcript.flags.load', {
-      flags: this.flags,
-      line: this.line,
-      flag_types: this.flag_types,
-      transcript_id: this.data.transcript_id
-    });
-
-  },
-
-  loadEdits: function(onSuccess){
-    var _this = this;
-    $.getJSON(API_URL + "/transcript_edits.json", {transcript_line_id: this.line.id}, function(data) {
-      if (data.edits && data.edits.length) {
-        _this.edits = _this.parseEdits(data.edits);
-        onSuccess && onSuccess();
-      }
-    });
-  },
-
-  loadFlags: function(onSuccess){
-    var _this = this;
-    $.getJSON(API_URL + "/flags.json", {transcript_line_id: this.line.id}, function(data) {
-      _this.flags = data.flags || [];
-      onSuccess && onSuccess();
-    });
-  },
-
-  parseEdits: function(_edits){
-    var line = this.line,
-        edits = [],
-        texts = [];
-
-    _.each(_edits, function(edit, i){
-      if (!_.contains(texts, edit.text)) {
-        if (line.user_text == edit.text) {
-          edit.active = true;
-        }
-        texts.push(edit.text);
-        edits.push(edit);
-      }
-    });
-
-    return edits;
-  },
-
-  render: function(){
-    this.$el.html(this.template(_.extend({},this.line,{speakers: this.speakers})));
-  },
-
-  resolve: function(e){
-    if (e) {
-      e.preventDefault();
-      $(e.currentTarget).addClass('active');
-    }
-
-    $.post(API_URL + "/transcript_lines/"+this.line.id+"/resolve.json");
-    this.$('.button.flag').removeClass('active');
-  },
-
-  select: function(e){
-    e && e.preventDefault();
-    PubSub.publish('transcript.line.select', this.line);
-
-    // invoke verify task if reviewing
-    if (e && !$(e.currentTarget).hasClass('verify') && this.line.status.name == 'reviewing' && !this.line.is_editable) {
-      this.verify();
-    }
-
-  },
-
-  selectSpeaker: function(e){
-    e.preventDefault();
-
-    var $option = $(e.currentTarget),
-        speaker_id = parseInt($option.attr('data-id')),
-        old_speaker_id = this.line.speaker_id;
-
-    this.$('.speaker-option').removeClass('selected').attr('aria-checked', 'false');
-    this.$('.speaker').removeClass('selected c0 c1 c2 c3 c4 c5 c6 c7');
-
-    // didn't change, unselect
-    if (speaker_id == old_speaker_id) {
-      this.line.speaker_id = 0;
-
-    // new speaker selection
-    } else {
-      var position = _.pluck(this.speakers, 'id').indexOf(speaker_id);
-      this.line.speaker_id = speaker_id;
-      $option.addClass('selected').attr('aria-checked', 'true');
-      this.$('.speaker').addClass('selected c'+position);
-    }
-
-    var data = {transcript_id: this.data.transcript_id, transcript_line_id: this.line.id, speaker_id: this.line.speaker_id};
-
-    // save speaker
-    $.post(API_URL + "/transcript_speaker_edits.json", {transcript_speaker_edit: data}, function(resp) {
-      // console.log('Changes saved.')
-    });
-  },
-
-  star: function(e){
-    e.preventDefault();
-    $(e.currentTarget).toggleClass('active');
-  },
-
-  verify: function(e){
-    e && e.preventDefault();
-    this.select();
-
-    var _this = this;
-
-    if (!this.edits.length) {
-      this.loadEdits(function(){
-        _this.verify();
-      });
-      return false;
-    }
-
-    PubSub.publish('transcript.edits.load', {
-      edits: this.edits,
-      line: this.line
-    });
-  }
-
-});
-
-app.views.TranscriptUserProgress = app.views.Base.extend({
-
-  template: _.template(TEMPLATES['transcript_user_progress.ejs']),
-
-  el: '#transcript-user-progress',
-
-  events: {
-    'click .progress-toggle': 'toggle'
-  },
-
-  initialize: function(data){
-    var _this = this;
-
-    this.data = {};
-
-    // create a copy with only necessary values
-    this.lines = _.map(data.lines, function(line, i){
-      return {
-        index: i,
-        id: line.id,
-        sequence: line.sequence,
-        edited: line.user_text.length > 0
-      }
-    });
-
-    this.calculate();
-    this.render();
-    this.loadListeners();
-  },
-
-  calculate: function(){
-    var available_lines = this.lines.length;
-    var edited_lines = _.reduce(this.lines, function(memo, line){
-      var add = line.edited ? 1 : 0;
-      return memo + add;
-    }, 0);
-
-    this.data.lines_edited = edited_lines;
-    this.data.percent_edited = 0;
-    this.data.lines_available = 0;
-
-    if (available_lines > 0) {
-      this.data.percent_edited = UTIL.round(edited_lines/available_lines*100, 1);
-      this.data.lines_available = available_lines;
-    }
-  },
-
-  loadListeners: function(){
-    var _this = this;
-
-    PubSub.subscribe('transcript.edit.submit', function(ev, data) {
-      _this.onLineEdit(data.transcript_line_id);
-    });
-  },
-
-  onLineEdit: function(line_id){
-    if (this.data.lines_available <= 0) return;
-
-    var line = _.find(this.lines, function(line){ return line.id == line_id; });
-    if (line && !line.edited) {
-      this.lines[line.index].edited = true;
-      this.calculate();
-      this.render();
-    }
-
-    if (this.data.percent_edited >= 1) {
-      PubSub.publish('transcript.finished', true);
-    }
-  },
-
-  render: function(){
-    if (this.data.lines_edited > 0) this.$el.addClass('active');
-    this.$('.progress-content').html(this.template(this.data));
-  },
-
-  toggle: function(e){
-    e.preventDefault();
-
-    this.$el.toggleClass('minimized');
-  }
-
-});
-
-app.views.TranscriptToolbar = app.views.Base.extend({
-
-  template: _.template(TEMPLATES['transcript_toolbar.ejs']),
-
-  initialize: function(data) {
-    this.data = _.extend({}, data);
-
-    this.loadControls();
-    this.loadListeners();
-    this.loadMenu();
-
-    this.render();
-  },
-
-  loadControls: function() {
-    var controls = this.data.controls || this.data.project.controls;
-    this.data.controls = _.map(controls, _.clone);
-
-    this.data.controls = _.map(this.data.controls, function(control){
-      var key = control.key;
-      // change brackets to spans
-      if (key.indexOf('[') >= 0 && key.indexOf(']') >= 0) {
-        control.key = control.key.replace(/\[/g, '<span title="'+control.keyLabel+'">').replace(/\]/g, '</span>');
-      } else {
-        control.key = '<span title="'+control.keyLabel+'">' + control.key + '</span>';
-      }
-      return control;
-    });
-
-    this.data.control_width_percent = 1.0 / this.data.controls.length * 100;
-  },
-
-  loadListeners: function() {
-    var _this = this;
-
-    // listen for player state change
-    PubSub.subscribe('player.state.change', function(ev, state) {
-      _this.$el.attr('state', state);
-    });
-  },
-
-  loadMenu: function() {
-    var menu = this.data.menu,
-        menus = this.data.project.menus;
-
-    this.data.menu = "";
-
-    if (menu && menus[menu] && menus[menu].length) {
-      var data = _.extend({}, this.data, {tagName: "div", menu_key: "transcript_edit"});
-      var menuView = new app.views.Menu(data);
-      this.data.menu = menuView.toString();
-    }
-  },
-
-  render: function() {
-    this.$el.html(this.template(this.data));
-  }
-
-});
-
-app.views.TranscriptLineVerify = app.views.Base.extend({
-
-  id: "transcript-line-verify",
-  className: "modal-wrapper",
-
-  template: _.template(TEMPLATES['transcript_line_verify.ejs']),
-
-  events: {
-    "click .option": "select",
-    "click .submit": "submit",
-    "click .none-correct": "noneCorrect",
-    "click .toggle-play": "togglePlay"
-  },
-
-  initialize: function(data){
-    var _this = this;
-
-    this.data = _.extend({}, data);
-    this.data.title = this.data.title || "Choose the best transcription";
-    this.data.active = this.data.active || false;
-
-    PubSub.subscribe('transcript.edits.load', function(ev, data) {
-      _this.data.line = data.line;
-      _this.showEdits(data.edits);
-    });
-  },
-
-  noneCorrect: function(e){
-    e.preventDefault();
-    var _this = this,
-        line = this.data.line;
-
-    PubSub.publish('transcript.edit.delete', line);
-
-    // make all edits inactive
-    this.$el.find('.option').removeClass('active');
-    this.data.edits = _.map(this.data.edits, function(edit){
-      edit.active = false;
-      return edit;
-    });
-
-    setTimeout(function(){
-      _this.submit();
-    }, 800);
-  },
-
-  render: function(){
-    this.$el.html(this.template(this.data));
-  },
-
-  select: function(e){
-    e.preventDefault();
-
-    var line = this.data.line,
-        $options = this.$el.find('.option'),
-        $option = $(e.currentTarget),
-        edit_id = parseInt($option.attr('edit-id'));
-
-    $options.not('[edit-id="'+edit_id+'"]').removeClass('active').attr('aria-checked', 'false');
-    $option.toggleClass('active');
-
-    // set selected edit as active
-    this.data.edits = _.map(this.data.edits, function(edit){
-      edit.active = false;
-      if (edit.id == edit_id && $option.hasClass('active')) {
-        edit.active = true;
-      }
-      return edit;
-    });
-
-    // edit is selected
-    if ($option.hasClass('active')) {
-      $option.attr('aria-checked', 'true');
-      PubSub.publish('transcript.line.verify', {line: line, text: $option.text()});
-
-    // edit is deleted
-    } else {
-      PubSub.publish('transcript.edit.delete', line);
-    }
-  },
-
-  showEdits: function(edits){
-    this.data.edits = edits;
-    this.render();
-    PubSub.publish('transcript.play_all', false);
-    PubSub.publish('modal.invoke', this.id);
-  },
-
-  submit: function(e){
-    e && e.preventDefault();
-
-    PubSub.publish('transcript.line.submit', true);
-  },
-
-  togglePlay: function(e){
-    e && e.preventDefault();
-
-    PubSub.publish('player.toggle-play', true);
-  }
-
-});
-
-app.views.TranscriptEdit = app.views.Transcript.extend({
-
-  template: _.template(TEMPLATES['transcript_edit.ejs']),
-
-  events: {
-    'click #conventions-link': 'showConventions'
-  },
-
-  initialize: function(data){
-
-    this.data = data;
-
-    this.loadTranscript();
-    this.listenForAuth();
-  },
-
-  finished: function(){
-    this.$('.transcript-finished').addClass('disabled');
-    this.$('.show-when-finished').addClass('active');
-    $(window).trigger('scroll-to', [$('#completion-content'), 100]);
-  },
-
-  showConventions: function(){
-    this.$('.conventions-page').toggleClass('active');
-  },
-
-  lineEditDelete: function(i){
-    if (i < 0) return false;
-
-    var $input = $('.line[sequence="'+i+'"] .text-input').first();
-    if (!$input.length) return false;
-    var line = this.data.transcript.lines[i];
-
-    // display the original text
-    $input.val(line.display_text);
-
-    // update UI
-    $input.attr('user-value', '');
-    $input.closest('.line').removeClass('user-edited');
-
-    // submit edit
-    this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: '', is_deleted: 1, is_new: false});
-  },
-
-  lineSave: function(i){
-    if (i < 0) return false;
-
-    var $input = $('.line[sequence="'+i+'"] .text-input').first();
-    if (!$input.length) return false;
-
-    var line = this.data.transcript.lines[i];
-    var text = $input.val();
-    var userText = $input.attr('user-value');
-
-    // implicit save; save even when user has not edited original text
-    // only save if line is editable
-    if (text != userText && line.is_editable) {
-      // Don't save if user is in read only mode (mobile view)
-      // Don't save if the user is in Play All mode and hasn't changed the text.
-      if (($(window).width() < 768) || ((this.play_all) && (line.display_text == text))) {
-        return;
-      }
-
-      var is_new = !$input.closest('.line').hasClass('user-edited');
-
-      // update UI
-      $input.attr('user-value', text);
-      $input.closest('.line').addClass('user-edited');
-
-      // submit edit
-      this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text, is_deleted: 0, is_new: is_new});
-    }
-  },
-
-  lineVerify: function(data){
-    var line = data.line,
-        text = data.text;
-
-    var $input = $('.line[sequence="'+line.sequence+'"] .text-input').first();
-    if (!$input.length) return false;
-    var is_new = !$input.closest('.line').hasClass('user-edited');
-
-    // update UI
-    $input.val(text);
-    $input.attr('user-value', text);
-    $input.closest('.line').addClass('user-edited');
-
-    // submit edit
-    this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text, is_deleted: 0, is_new: is_new});
-  },
-
-  loadAnalytics: function(){
-    this.$el.on('click', '.conventions-link', function(){
-      ANALYTICS.event('transcript', 'invoke-conventions');
-    });
-
-    this.$el.on('click', '.tutorial-link', function(){
-      ANALYTICS.event('transcript', 'invoke-tutorial');
-    });
-  },
-
-  loadCompletionContent: function(){
-    this.data.completion_content = '';
-
-    if (this.data.project.pages['transcript_finished.md']) {
-      var page = new app.views.Page(_.extend({}, {project: this.data.project, page_key: 'transcript_finished.md'}))
-      this.data.completion_content = page.toString();
-    }
-  },
-
-  loadConventions: function(){
-    this.data.page_conventions = this.data.transcript.conventions
-  },
-
-  loadListeners: function(){
-    var _this = this,
-        controls = this.data.project.controls;
-
-    // remove existing listeners
-    // $('.control').off('click.transcript');
-    // $(window).off('keydown.transcript');
-    // PubSub.unsubscribe('transcript.line.select');
-    // PubSub.unsubscribe('transcript.line.submit');
-    // PubSub.unsubscribe('transcript.line.verify');
-    // PubSub.unsubscribe('transcript.edit.delete');
-    // this.$el.off('click.transcript', '.start-play');
-
-    PubSub.subscribe('transcript.play_all', function(ev, setting) {
-      _this.play_all = setting;
-      console.log('Set play all to', _this.play_all);
-    });
-
-    // add link listeners
-    $('.control').on('click.transcript', function(e){
-      e.preventDefault();
-      var $el = $(this);
-
-      _.each(controls, function(control){
-        if ($el.hasClass(control.id)) {
-          _this[control.action]();
-        }
-      });
-
-    });
-
-    // add keyboard listeners
-    $(window).on('keydown.transcript', function(e){
-      _.each(controls, function(control){
-        var keycodes = [control.keyCode];
-        if (control.keyCode.constructor === Array) keycodes = control.keyCode;
-        if (keycodes.indexOf(e.keyCode)>=0 && (control.shift && e.shiftKey || !control.shift)) {
-          e.preventDefault();
-          _this[control.action] && _this[control.action]();
-          return false;
-        }
-      });
-    });
-
-    // add line listeners
-    PubSub.subscribe('transcript.line.select', function(ev, line) {
-      _this.lineSelect(line.sequence);
-    });
-    PubSub.subscribe('transcript.line.submit', function(ev, data){
-      _this.lineSubmit();
-    });
-
-    // add verify listener
-    PubSub.subscribe('transcript.line.verify', function(ev, data) {
-      _this.lineVerify(data);
-    });
-
-    // add edit delete listener
-    PubSub.subscribe('transcript.edit.delete', function(ev, line) {
-      _this.lineEditDelete(line.sequence);
-    });
-
-    // add transcript finished listener
-    PubSub.subscribe('transcript.finished', function(ev) {
-      _this.onTranscriptFinished();
-    });
-
-    // add player listener
-    PubSub.subscribe('player.toggle-play', function(ev, data) {
-      _this.lineToggle();
-    });
-
-    // add start listener
-    this.$el.on('click.transcript', '.start-play', function(e){
-      e.preventDefault();
-      _this.start();
-    });
-
-    // add start listener
-    this.$el.on('click.transcript', '.transcript-finished', function(e){
-      e.preventDefault();
-      _this.finished();
-    });
-
-    this.$el.on('click.transcript', '.play-all', function(e) {
-      e.preventDefault();
-      _this.playAll();
-    });
-
-    this.$el.on('click.transcript', '.mobile-toggle', function(e) {
-      e.preventDefault();
-      _this.mobileToggle();
-    });
-
-    this.loadAnalytics();
-  },
-
-  loadPageContent: function(){
-    this.data.page_content = '';
-
-    if (this.data.project.pages['transcript_edit.md']) {
-      var page = new app.views.Page(_.extend({}, {transcript: this.data.transcript, project: this.data.project, page_key: 'transcript_edit.md'}))
-      this.data.page_content = page.toString();
-    }
-  },
-
-  loadTutorial: function(){
-    var _this = this,
-        tutorial = this.data.project.modals['tutorial_edit'];
-
-    // show the tutorial if it hasn't been seen yet or should always be seen
-    if (tutorial && (tutorial.displayMethod=="always" || !$.cookie('tutorial_edit-tutorial'))) {
-      PubSub.publish('modal.invoke', 'tutorial_edit');
-      $.cookie('tutorial_edit-tutorial', 1);
-    }
-  },
-
-  loadUserProgress: function(){
-    var availableLines = _.filter(this.data.transcript.lines, function(line){ return line.is_available; });
-    var userProgressView = new app.views.TranscriptUserProgress({lines: availableLines});
-    this.$('#transcript-user-progress').append(userProgressView.$el);
-  },
-
-  onAudioLoad: function(){
-    this.data.debug && console.log("Loaded audio files");
-
-    this.render();
-    this.$el.removeClass('loading');
-    this.$('.start-play, .play-all').removeClass('disabled');
-    this.loadListeners();
-    this.message('Loaded transcript');
-    if (!this.loaded) this.loaded = true;
-    if (this.queue_start) this.start();
-    this.queue_start = false;
-    this.checkForStartTime();
-  },
-
-  onTranscriptFinished: function(){
-    this.$('.completion-content').addClass('active');
-  },
-
-  onTranscriptLoad: function(transcript){
-    this.data.debug && console.log("Transcript", transcript.toJSON());
-
-    PubSub.publish('transcript.load', {
-      transcript: transcript.toJSON(),
-      action: 'edit',
-      label: transcript.get('title')
-    });
-
-    this.data.transcript = transcript.toJSON();
-    this.parseTranscript();
-    this.loadPageContent();
-    this.loadCompletionContent();
-    this.loadConventions()
-    this.loadAudio();
-  },
-
-  onTimeUpdate: function(){
-    if (this.player.playing) this.playerState('playing');
-    if (this.pause_at_time !== undefined && this.player.currentTime >= this.pause_at_time) {
-      this.playerPause({trigger: 'end_of_line'});
-    }
-  },
-
-  selectTextRange: function(increment){
-    var $input = $('.line.active input').first();
-    if (!$input.length) return false;
-
-    var input = $input[0],
-        text = input.value.replace(/\s{2,}/g, ' ').trim(),
-        words = text.split(/\ +/),
-        start = 0,
-        end = 0;
-
-    // remove multiple spaces
-    if (text.length != input.value.length) {
-      var cursorPos = $input.getInputSelection().start;
-      $input.val(text);
-      $input.setInputPosition(cursorPos);
-    }
-
-    // default to select where the cursor is
-    var selection = $input.getInputSelection(),
-        sub_text = text.substring(0, selection.start),
-        sel_index = sub_text.split(/\ +/).length - 2;
-
-    // text is selected
-    if (selection.end > selection.start) {
-      sel_index++;
-
-    // no text selected
-    } else {
-
-      // moving left
-      if (increment < 0) sel_index+=2;
-
-      // if beginning of word
-      if (selection.start <= 0 || text.charAt(selection.start-1)==' ') {
-        if (increment < 0) sel_index--;
-
-      // if end of word
-      } else if (selection.start >= text.length-1 || text.charAt(selection.start)==' ') {
-        if (increment > 0) sel_index++;
-      }
-    }
-
-    // determine word selection
-    sel_index += increment;
-    if (sel_index >= words.length) {
-      sel_index = 0;
-    }
-    if (sel_index < 0) {
-      sel_index = words.length - 1;
-    }
-
-    // determine start/end of current word
-    $.each(words, function(i, w){
-      if (i==sel_index) {
-        end = start + w.length;
-        return false;
-      }
-      start += w.length + 1;
-    });
-
-    if (input.setSelectionRange){
-      input.setSelectionRange(start, end);
-    }
-  },
-
-  wordPrevious: function(){
-    this.selectTextRange(-1);
-  },
-
-  wordNext: function(){
-    this.selectTextRange(1);
-  }
-
-});
-
-app.views.TranscriptsIndex = app.views.Base.extend({
-
-  template: _.template(TEMPLATES['transcript_index.ejs']),
-  template_list: _.template(TEMPLATES['transcript_list.ejs']),
-  template_item: _.template(TEMPLATES['transcript_item.ejs']),
-
-  className: 'transcripts-wrapper',
-
-  events: {
-    'click .list-next': 'nextPage'
-  },
-
-  initialize: function(data){
-    this.data = data;
-    this.render();
-
-    this.$transcripts = this.$('#transcript-results');
-    this.$facets = this.$('#transcript-facets');
-    this.transcripts = [];
-
-    // Allow config to specify default sort name and order.
-    this.defaultSortName = null;
-    this.defaultSortOrder = null;
-    if (!!Amplify.getConfig('homepage.search.sort_options.active_sort')) {
-      this.sortName = this.defaultSortName = Amplify.getConfig('homepage.search.sort_options.active_sort');
-    }
-    if (!!Amplify.getConfig('homepage.search.sort_options.active_order')) {
-      this.sortOrder = this.defaultSortOrder = Amplify.getConfig('homepage.search.sort_options.active_order');
-    }
-    if (this.data.queryParams) {
-      this.loadParams(this.data.queryParams);
-    }
-    this.loadTranscripts();
-    this.loadCollections();
-    this.loadListeners();
-  },
-
-  addList: function(transcripts) {
-    this.transcripts = this.transcripts.concat(transcripts.toJSON());
-
-    if (this.isFaceted()) {
-      this.facet();
-    }
-    else {
-      // Use default sort.
-      if (!!this.defaultSortName) {
-        this.transcripts = this.sortTranscripts(this.transcripts, this.defaultSortName, this.defaultSortOrder);
-      }
-      // Instead of using .toJSON on the original collectiom,
-      // we send the sorted array.
-      this.addListToUI(this.transcripts, transcripts.hasMorePages(), true, (transcripts.getPage() > 1));
-    }
-  },
-
-  addListToUI: function(transcripts, has_more, append, scroll_to){
-    var list = this.template_list({has_more: has_more});
-    var $list = $(list);
-    var $target = $list.first();
-
-    if (append) {
-      this.$transcripts.append($list);
-    }
-    else {
-      this.$transcripts.empty();
-      if (transcripts.length){
-        this.$transcripts.html($list);
-      }
-      else {
-        this.$transcripts.html('<p>No transcripts found!</p>');
-      }
-    }
-    this.$transcripts.removeClass('loading');
-
-    _.each(transcripts, function(transcript){
-      var transcriptView = new app.views.TranscriptItem({transcript: transcript});
-      $target.append(transcriptView.$el);
-    });
-
-    if (scroll_to) {
-      $(window).trigger('scroll-to', [$list, 110]);
-    }
-  },
-
-  facet: function(){
-    // we have all the data, so just facet on the client
-    if (this.collection.hasAllPages()) {
-      this.facetOnClient();
-    }
-    // we don't have all the data, we must request from server
-    else {
-      this.facetOnServer();
-    }
-  },
-
-  /**
-   * Sorts transcripts according to a given field name and order.
-   *
-   * A random sort doesn't use a fieldname, just sorts randomly.
-   *
-   * @param array transcripts
-   *   The array of transcripts.
-   * @param string sortName
-   *   The field name to sort on.
-   * @param string sortOrder
-   *   The sort ordering.
-   *
-   * @return array
-   *   The sorted transcripts.
-   */
-  sortTranscripts: function(transcripts, sortName, sortOrder) {
-    var sortedTranscripts = _.sortByNat(transcripts, function(transcript) {
-      if (sortName == 'random') {
-        return Math.floor(Math.random() * transcripts.length);
-      }
-      else {
-        return transcript[sortName];
-      }
-    });
-    if (sortOrder.toLowerCase() == 'desc') {
-      sortedTranscripts = sortedTranscripts.reverse();
-    }
-    return sortedTranscripts;
-  },
-
-  facetOnClient: function(){
-    var _this = this,
-        filters = this.filters || {},
-        keyword = this.searchKeyword || '',
-        transcripts = _.map(this.transcripts, _.clone);
-
-    // do the filters
-    _.each(filters, function(value, key) {
-      transcripts = _.filter(transcripts, function(transcript) {
-        return !_.has(transcript, key) || transcript[key]==value;
-      });
-    });
-
-    // do the searching
-    if (keyword.length) {
-
-      // Use Fuse for fuzzy searching
-      var f = new Fuse(transcripts, { keys: ["title", "description"], threshold: 0.2 });
-
-      // Combine the results of a string match and fuzzy search.
-      transcripts = _.union(
-        _.filter(transcripts, function(transcript) {
-          return (
-            transcript.title.toLowerCase().indexOf(keyword.toLowerCase()) >= 0 ||
-            transcript.description.toLowerCase().indexOf(keyword.toLowerCase()) >= 0
-          );
-        }),
-        f.search(keyword)
-      );
-    }
-
-    // Do the sorting.
-    if (this.sortName) {
-      transcripts = this.sortTranscripts(transcripts, this.sortName, this.sortOrder);
-    }
-
-    this.renderTranscripts(transcripts);
-  },
-
-  facetOnServer: function() {
-    // TODO: request from server if not all pages are present
-
-    this.facetOnClient();
-  },
-
-  filterBy: function(name, value){
-    this.filters = this.filters || {};
-    this.filters[name] = value;
-    // omit all filters with value "ALL"
-    this.filters = _.omit(this.filters, function(value, key){ return value=='ALL'; });
-    this.facet();
-    this.updateUrlParams();
-  },
-
-  isFaceted: function() {
-    return (
-      this.filters ||
-      (!!this.sortName && this.sortName != this.defaultSortName) ||
-      (!!this.sortOrder && this.sortOrder != this.defaultSortOrder) ||
-      this.searchKeyword
-    );
-  },
-
-  loadCollections: function(){
-    var _this = this;
-
-    this.collections = this.collections || this.data.collections;
-
-    this.collections.fetch({
-      success: function(collection, response, options){
-        _this.renderFacets(collection.toJSON());
       },
-      error: function(collection, response, options){
-        _this.renderFacets([]);
+      type: 'PUT',
+      success: function(resp) {
+        console.log(resp);
+        _this.data.user.user_role_id = user_role_id;
       }
     });
   },
@@ -16409,115 +13841,14 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   loadListeners: function(){
     var _this = this;
 
-    PubSub.subscribe('transcripts.filter', function(ev, filter) {
-      _this.filterBy(filter.name, filter.value);
+    this.$el.on('change', '.roleSelect', function(e){
+      _this.changeRole(parseInt($(this).val()));
     });
-
-    PubSub.subscribe('transcripts.sort', function(ev, sort_option) {
-      _this.sortBy(sort_option.name, sort_option.order);
-    });
-
-    PubSub.subscribe('transcripts.search', function(ev, keyword) {
-      _this.search(keyword);
-    });
-  },
-
-  loadParams: function(params){
-    var _this = this;
-
-    this.filters = this.filters || {};
-
-    _.each(params, function(value, key){
-      // sort name
-      if (key == 'sort_by') {
-        _this.sortName = value;
-      }
-      // sort order
-      else if (key == 'order') {
-        _this.sortOrder = value;
-      }
-      // keyword
-      else if (key == 'keyword') {
-        _this.searchKeyword = value;
-      }
-      // otherwise, assume it's a filter
-      else {
-        _this.filters[key] = value;
-      }
-    });
-  },
-
-  loadTranscripts: function(){
-    var _this = this;
-
-    this.$transcripts.addClass('loading');
-
-    this.collection.fetch({
-      success: function(collection, response, options) {
-        _this.addList(collection);
-      },
-      error: function(collection, response, options) {
-        $(window).trigger('alert', ['Whoops! We seem to have trouble loading our transcripts. Please try again by refreshing your browser or come back later!']);
-      }
-    });
-  },
-
-  nextPage: function(e){
-    e.preventDefault();
-    $(e.currentTarget).remove();
-    this.collection.nextPage();
-    this.loadTranscripts();
   },
 
   render: function(){
-    this.$el.attr('role', 'main');
     this.$el.html(this.template(this.data));
     return this;
-  },
-
-  renderFacets: function(collections){
-    this.facetsView = this.facetsView || new app.views.TranscriptFacets({collections: collections, queryParams: this.data.queryParams});
-    this.$facets.html(this.facetsView.render().$el);
-  },
-
-  renderTranscripts: function(transcripts){
-    this.addListToUI(transcripts, false, false, true);
-  },
-
-  search: function(keyword){
-    this.searchKeyword = keyword;
-    this.facet();
-  },
-
-  sortBy: function(name, order){
-    this.sortName = name;
-    this.sortOrder = order;
-    this.facet();
-    this.updateUrlParams();
-  },
-
-  updateUrlParams: function(){
-    var data = {};
-    // check for sorting
-    if (this.sortName && this.sortOrder) {
-      data.sort_by = this.sortName;
-      data.order = this.sortOrder;
-    }
-    // check for filters
-    if (this.filters) {
-      _.each(this.filters, function(value, key){
-        data[key] = value;
-      });
-    }
-    // update URL if there's facet data
-    if (_.keys(data).length > 0 && window.history) {
-      var url = '/' + this.data.route.route + '?' + $.param(data);
-      window.history.pushState(data, document.title, url);
-    }
-    else if (window.history) {
-      var url = '/' + this.data.route.route;
-      window.history.pushState(data, document.title, url);
-    }
   }
 
 });
