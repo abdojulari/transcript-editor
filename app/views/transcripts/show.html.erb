@@ -36,6 +36,6 @@
 </script>
 
 <%= javascript_include_tag "/#{project_key}/project.js" %>
-<%= javascript_include_tag gulp_asset('js', 'templates', false) %>
-<%= javascript_include_tag gulp_asset('js', 'default', false) %>
+<%= javascript_include_tag gulp_asset('js', 'templates') %>
+<%= javascript_include_tag gulp_asset('js', 'default', true) %>
 <%= javascript_include_tag "/#{project_key}/assets/js/custom.js" %>
