@@ -15,13 +15,16 @@ module ApplicationHelper
   end
 
   # Generates paths for Gulp assets.
+  # Cached to ensure it stays around.
   def gulp_asset_plain(asset_type, asset_name, suffix = "")
-    globbed = Dir.glob(
-      Rails.root.join('public', 'assets', asset_type, "#{asset_name}*#{suffix}.#{asset_type}")
-    )
-    first = globbed.first
-    return "" if first.nil?
-    first.gsub(Rails.root.join('public').to_s, "")
+    Rails.cache.fetch("gulp_asset_plain:#{asset_type}:#{asset_name}:#{suffix}", expires_in: 12.hours) do
+      globbed = Dir.glob(
+        Rails.root.join('public', 'assets', asset_type, "#{asset_name}*#{suffix}.#{asset_type}")
+      ).sort_by(&:length)
+      first = globbed.first
+      return "" if first.nil?
+      first.gsub(Rails.root.join('public').to_s, "")
+    end
   end
 
   def staging?

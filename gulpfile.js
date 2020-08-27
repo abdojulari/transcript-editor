@@ -11,6 +11,7 @@ const map = require('vinyl-map');
 const path = require('path');
 const rename = require('gulp-rename');
 const hash = require('gulp-hash-filename');
+const shell = require('gulp-shell');
 
 // Sass compilation
 
@@ -75,7 +76,6 @@ gulp.task('js-minified', ['js-deps'], () => {
 
 gulp.task('templates', function() {
   return gulp.src(config.templates.src)
-    .pipe(hash())
     .pipe(map(function(contents, filename){
       contents = contents.toString();
       var name = config.templates.variable;
@@ -85,10 +85,15 @@ gulp.task('templates', function() {
       return contents;
     }))
     .pipe(concat(config.templates.outputFile))
+    .pipe(hash())
     .pipe(gulp.dest(config.templates.dest));
 });
 
-gulp.task('js', ['js-cleanup', 'js-unminified', 'js-minified', 'templates']);
+gulp.task('clear-cache', function () {
+  return shell('bundle exec rake cache:clear');
+})
+
+gulp.task('js', ['js-cleanup', 'js-unminified', 'js-minified', 'templates', 'clear-cache']);
 
 // Watchers
 
