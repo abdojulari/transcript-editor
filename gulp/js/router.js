@@ -1,15 +1,15 @@
 app.routers.DefaultRouter = Backbone.Router.extend({
 
   routes: {
-    "":                             "index",
-    "?*queryString":                "index",
-    "transcripts/:id":              "transcriptEdit",
-    "transcripts/:id?*queryString": "transcriptEdit",
-    "page/:id":                     "pageShow",
-    "dashboard":                    "dashboard",
-    "search":                       "search",
-    "search?*queryString":          "search",
-    "collections":                  "collections",
+    "":                             			"index",
+    "?*queryString":                			"index",
+    "transcripts/:instituion/:id":  			"transcriptEdit",
+    "transcripts/:instituion/:id?*queryString": "transcriptEdit",
+    "page/:id":                     			"pageShow",
+    "dashboard":                    			"dashboard",
+    "search":                       			"search",
+    "search?*queryString":          			"search",
+    "collections":                  			"collections",
   },
 
   before: function( route, params ) {
@@ -59,7 +59,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var footer = new app.views.Footer(data);
   },
 
-  transcriptEdit: function(id, queryString) {
+  transcriptEdit: function(institution, id, queryString) {
     var data = this._getData(data);
     if (queryString) data.queryParams = deparam(queryString);
     var header = new app.views.Header(data);
