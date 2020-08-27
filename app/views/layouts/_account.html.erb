@@ -1,5 +1,5 @@
 <div class="select">
-  <% if user_signed_in? %>
+  <% if user_signed_in? and current_user %>
     <div class="select-active" title="Signed in as <%= current_user.name %>">
       <%= raw current_user_edits %>
       <%= current_user.name %>

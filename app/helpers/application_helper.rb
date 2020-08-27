@@ -5,11 +5,31 @@ module ApplicationHelper
 
   def data_title_template; end
 
+  # Generates paths for Gulp assets with optional minification.
+  def gulp_asset(asset_type, asset_name, minified = false)
+    if minified
+      fn = gulp_asset_plain(asset_type, asset_name, ".min")
+      return fn if fn.length > 0
+    end
+    gulp_asset_plain(asset_type, asset_name)
+  end
+
+  # Generates paths for Gulp assets.
+  def gulp_asset_plain(asset_type, asset_name, suffix = "")
+    globbed = Dir.glob(
+      Rails.root.join('public', 'assets', asset_type, "#{asset_name}*#{suffix}.#{asset_type}")
+    )
+    first = globbed.first
+    return "" if first.nil?
+    first.gsub(Rails.root.join('public').to_s, "")
+  end
+
   def staging?
     Rails.env.staging?
   end
 
   def current_user_edits
+    return unless current_user
     number = number_to_human(current_user.total_edits, format: "%n%u", units: { thousand: "K+" })
     content_tag :span, number, class: "select-active__admin-score"
   end
