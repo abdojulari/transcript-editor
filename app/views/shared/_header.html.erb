@@ -36,7 +36,7 @@
       </div>
       <div class="menu_dropdown main_header__links">
         <div class="menu_select" id="select_title">
-        <% if user_signed_in? %>
+        <% if user_signed_in? and current_user %>
           <%= raw current_user_edits  %>
           <%= link_to current_user.name, "", 'data-menu-level': 1 %>
         <% else %>
@@ -44,7 +44,7 @@
         <% end  %>
         </div>
         <div class="dropdown-content">
-          <% if user_signed_in? %>
+          <% if user_signed_in? and current_user %>
             <%= link_to "Dashboard", "/dashboard", class: "dropdown-link", 'data-menu-level': 2 %>
             <% if current_user.staff? %>
               <%= link_to "Admin Portal", "/admin", class: "dropdown-link", 'data-menu-level': 2 %>

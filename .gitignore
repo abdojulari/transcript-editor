@@ -78,6 +78,8 @@ app/files/uploads/*
 /yarn-error.log
 
 /public/assets
+!/public/assets/css
+!/public/assets/js
 .byebug_history
 
 # Ignore master key for decrypting credentials and more.

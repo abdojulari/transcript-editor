@@ -1,21 +1,29 @@
-var gulp = require('gulp');
+const gulp = require('gulp');
 
 // config
-var config = require('./gulp/config');
+const config = require('./gulp/config');
 
 // utilities
-var concat = require('gulp-concat');
-var include = require('gulp-include');
-var map = require('vinyl-map');
-var path = require('path');
-var rename = require('gulp-rename');
+const del = require('del');
+const concat = require('gulp-concat');
+const include = require('gulp-include');
+const map = require('vinyl-map');
+const path = require('path');
+const rename = require('gulp-rename');
+const hash = require('gulp-hash-filename');
+const shell = require('gulp-shell');
 
 // Sass compilation
 
-var sass = require('gulp-sass');
+const sass = require('gulp-sass');
 
-gulp.task('sass', function () {
-  gulp.src(config.sass.src)
+gulp.task('sass-cleanup', () => {
+  return del([path.join(config.sass.dest, '*.css')]);
+});
+
+gulp.task('sass', ['sass-cleanup'], function () {
+  return gulp.src(config.sass.src)
+    .pipe(hash())
     .pipe(sass.sync().on('error', sass.logError))
     .pipe(sass(config.sass.opt))
     .pipe(gulp.dest(config.sass.dest));
@@ -26,26 +34,39 @@ gulp.task('sass', function () {
 var uglify = require('gulp-uglify');
 
 gulp.task('js-deps.jquery', function() {
-  gulp.src('./node_modules/jquery/dist/jquery.js')
-  .pipe(gulp.dest('./gulp/js/vendor'))
+  return gulp.src('./node_modules/jquery/dist/jquery.js')
+    .pipe(gulp.dest('./gulp/js/vendor'))
 });
 
 gulp.task('js-deps.js-cookie', function() {
-  gulp.src('./node_modules/js-cookie/src/js.cookie.js')
-  .pipe(gulp.dest('./gulp/js/vendor'))
+  return gulp.src('./node_modules/js-cookie/src/js.cookie.js')
+    .pipe(gulp.dest('./gulp/js/vendor'))
 });
 
 gulp.task('js-deps.j-toker', function() {
-  gulp.src('./node_modules/j-toker/dist/jquery.j-toker.js')
-  .pipe(gulp.dest('./gulp/js/vendor'))
+  return gulp.src('./node_modules/j-toker/dist/jquery.j-toker.js')
+    .pipe(gulp.dest('./gulp/js/vendor'))
 });
 
-gulp.task('js', ['js-deps.jquery', 'js-deps.js-cookie', 'js-deps.j-toker'], function() {
-  gulp.src(config.include.src)
-    // include non-minified version
-    .pipe(include(config.include.opt).on('error', console.error.bind(console)))
-    .pipe(gulp.dest(config.include.dest))
-    // and the minified version
+gulp.task('js-deps', ['js-deps.jquery', 'js-deps.js-cookie', 'js-deps.j-toker']);
+
+gulp.task('js-cleanup', () => {
+  return del([path.join(config.include.dest, '*.js'), path.join(config.uglify.dest, '*.js')]);
+});
+
+const buildJsBase = () => {
+  return gulp.src(config.include.src)
+    .pipe(hash())
+    .pipe(include(config.include.opt).on('error', console.error.bind(console)));
+};
+
+gulp.task('js-unminified', ['js-deps'], () => {
+  return buildJsBase()
+    .pipe(gulp.dest(config.include.dest));
+});
+
+gulp.task('js-minified', ['js-deps'], () => {
+  return buildJsBase()
     .pipe(uglify(config.uglify.opt).on('error', console.error.bind(console)))
     .pipe(rename({ extname: '.min.js' }))
     .pipe(gulp.dest(config.uglify.dest));
@@ -54,7 +75,7 @@ gulp.task('js', ['js-deps.jquery', 'js-deps.js-cookie', 'js-deps.j-toker'], func
 // Templates
 
 gulp.task('templates', function() {
-  gulp.src(config.templates.src)
+  return gulp.src(config.templates.src)
     .pipe(map(function(contents, filename){
       contents = contents.toString();
       var name = config.templates.variable;
@@ -64,15 +85,21 @@ gulp.task('templates', function() {
       return contents;
     }))
     .pipe(concat(config.templates.outputFile))
+    .pipe(hash())
     .pipe(gulp.dest(config.templates.dest));
 });
+
+gulp.task('clear-cache', function () {
+  return shell('bundle exec rake cache:clear');
+})
+
+gulp.task('js', ['js-cleanup', 'js-unminified', 'js-minified', 'templates', 'clear-cache']);
 
 // Watchers
 
 gulp.task('watch', function () {
   gulp.watch(config.sass.src, ['sass']);
-  gulp.watch(config.uglify.src, ['js']);
-  gulp.watch(config.templates.src, ['templates']);
+  gulp.watch([config.uglify.src, config.templates.src], ['js']);
 });
 
-gulp.task('default', ['watch', 'sass', 'js', 'templates']);
+gulp.task('default', ['watch', 'sass', 'js']);

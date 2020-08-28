@@ -12,7 +12,7 @@
 
 <%= stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" %>
 <%= stylesheet_link_tag "editor" %>
-<%= stylesheet_link_tag "/#{project_key}/assets/css/style.css" %>
+<%= stylesheet_link_tag "/#{project_key}/assets/css/styles.css" %>
 
 <div id="main" class="body"></div>
 
@@ -36,6 +36,6 @@
 </script>
 
 <%= javascript_include_tag "/#{project_key}/project.js" %>
-<%= javascript_include_tag "/assets/js/templates.js" %>
-<%= javascript_include_tag "/assets/js/default.js" %>
+<%= javascript_include_tag gulp_asset('js', 'templates') %>
+<%= javascript_include_tag gulp_asset('js', 'default', true) %>
 <%= javascript_include_tag "/#{project_key}/assets/js/custom.js" %>
