@@ -6,7 +6,6 @@
 
     <%= stylesheet_link_tag    'application_v2', media: 'all', 'data-turbolinks-track': true %>
     <%= stylesheet_link_tag    'admin_base', media: 'all' %>
-    <%= stylesheet_link_tag    'application', '/assets/css/app.css' %>
     <%= javascript_include_tag 'admin_base' %>
     <%= javascript_include_tag 'summernote-cleaner' %>
     <%= yield :javascripts %>
@@ -14,51 +13,23 @@
   </head>
 
   <body>
-    <div id="app" class="container-fluid">
-      <div id="header" class="header edit_page_header">
-        <nav id="primary-navigation" class="navigation primary inverse" role="navigation">
-          <div>
-            <div id="header-title" class="title-container">
-              <style type="text/css">
-                .header .title-container {
-                  width: auto;
-                  float: left;
-                }
-              </style>
-              <div class="header-bar">
-                <%= link_to((image_tag("Amplify_logo_WHITE_COLOUR", alt: "Amplify logo", width: 150)), root_url) %>
-              </div>
-            </div>
-            <div id="header-crumbs" class="crumbs-container"></div>
-            <div id="account-container" class="account-container admin">
-              <%= render partial: 'layouts/account' %>
-            </div>
-
-            <div id="primary-menu-container" class="menu-container">
-              <%= render 'layouts/navigation' %>
-            </div>
+    <%= render "shared/gtm" %>
+    <%= render "shared/header" %>
+    <main id="app">
+      <div id="primary-alert" class="alert" role="alert" aria-atomic="true"></div>
+      <div class="container-fluid">
+        <%= yield :cms_heading %>
+        <div class="row">
+          <div class="col-md-2">
+            <%= yield :side_pane %>
           </div>
-        </nav>
-        <nav id="secondary-navigation" class="navigation secondary"></nav>
-        <div id="primary-alert" class="alert" role="alert" aria-atomic="true"></div>
-      </div>
-
-      <div id="main" class="body">
-        <div class="container-fluid">
-          <%= yield :cms_heading %>
-          <div class="row">
-            <div class="col-md-2">
-              <%= yield :side_pane %>
-            </div>
-            <div class="col-md-10">
-              <%= render 'layouts/flash_notice' %>
-              <%= yield %>
-            </div>
+          <div class="col-md-10">
+            <%= render 'layouts/flash_notice' %>
+            <%= yield %>
           </div>
         </div>
       </div>
-    </div>
-
+    </main>
     <%= render 'shared/footer' %>
   </body>
 </html>

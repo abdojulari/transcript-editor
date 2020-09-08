@@ -1,0 +1,19 @@
+#app {
+  a {
+    color: $cyan;
+    &:hover {
+      color: $dark-cyan;
+    }
+  }
+
+  .btn-primary,
+  .btn-success,
+  .btn-warning,
+  .btn-danger,
+  .button.cyan {
+    color: $white;
+    &:hover {
+      color: $white;
+    }
+  }
+}

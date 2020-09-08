@@ -13,22 +13,6 @@ const rename = require('gulp-rename');
 const hash = require('gulp-hash-filename');
 const shell = require('gulp-shell');
 
-// Sass compilation
-
-const sass = require('gulp-sass');
-
-gulp.task('sass-cleanup', () => {
-  return del([path.join(config.sass.dest, '*.css')]);
-});
-
-gulp.task('sass', ['sass-cleanup'], function () {
-  return gulp.src(config.sass.src)
-    .pipe(hash())
-    .pipe(sass.sync().on('error', sass.logError))
-    .pipe(sass(config.sass.opt))
-    .pipe(gulp.dest(config.sass.dest));
-});
-
 // Javascript compilation
 
 var uglify = require('gulp-uglify');
@@ -98,8 +82,7 @@ gulp.task('js', ['js-cleanup', 'js-unminified', 'js-minified', 'templates', 'cle
 // Watchers
 
 gulp.task('watch', function () {
-  gulp.watch(config.sass.src, ['sass']);
   gulp.watch([config.uglify.src, config.templates.src], ['js']);
 });
 
-gulp.task('default', ['watch', 'sass', 'js']);
+gulp.task('default', ['watch', 'js']);
