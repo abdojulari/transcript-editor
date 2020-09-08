@@ -40,8 +40,16 @@ You will need to have the following installed to run this project on your machin
 
 - [Git](https://git-scm.com/)
 - [Ruby](https://www.ruby-lang.org/en/) - this app has been developed using 2.5.0. Older versions may not work
-- [Rails](https://rubyonrails.org/) - rails  5.2.0
+- [Rails](https://rubyonrails.org/) - rails 5.2.0
 - [PostgreSQL](http://www.postgresql.org/)
+
+For local development:
+
+- [Node.JS](https://nodejs.org/en/) version 8 or greater
+  - npm version 6 or greater
+  - Recommended that you use [nvm](https://github.com/nvm-sh/nvm) to manage your Node.JS versions
+- [Gulp](https://gulpjs.com/) version 3
+  - Installed using npm
 
 If installing on, say, Ubuntu, the following system packages are required.
 
@@ -54,7 +62,7 @@ you do a `bundle install`:
 
 `xcode-select --install`
 
-Once everything is installed, clone this repository
+Once everything is installed, clone this repository:
 
 ```
 cd /my/projects/folder
@@ -113,10 +121,7 @@ Your project should load, but since there's no transcripts, all you'll see is a 
 
 When developing locally, if doing any front-end changes to the transcript editor,
 you'll need to use Node.JS and Gulp to update any of the remaining editing app
-SASS and Javascript files that are managed by Gulp. This app requires Node.JS v8
-at a minimum; for example, an environment using both Node v8.17.0 and npm v6.14.5
-will work. We recommend you use a tool such as NVM to manage node versions, and
-this repository is set up to use the `.nvmrc` file to specify the correct Node version.
+SASS and Javascript files that are managed by Gulp.
 
 The source files can be found in `gulp/js/`, and branch off `gulp/js/default.js`.
 To get set up to update these files:
