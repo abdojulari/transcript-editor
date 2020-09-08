@@ -113,9 +113,12 @@ Your project should load, but since there's no transcripts, all you'll see is a 
 
 When developing locally, if doing any front-end changes to the transcript editor,
 you'll need to use Node.JS and Gulp to update any of the remaining editing app
-Javascript files that are managed by Gulp. You can find these source files in
-`gulp/js/`, and branch off `gulp/js/default.js`
+SASS and Javascript files that are managed by Gulp. This app requires Node.JS v8
+at a minimum; for example, an environment using both Node v8.17.0 and npm v6.14.5
+will work. We recommend you use a tool such as NVM to manage node versions, and
+this repository is set up to use the `.nvmrc` file to specify the correct Node version.
 
+The source files can be found in `gulp/js/`, and branch off `gulp/js/default.js`.
 To get set up to update these files:
 
 ```bash
