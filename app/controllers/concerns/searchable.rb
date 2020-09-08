@@ -4,6 +4,10 @@ module Searchable
   private
 
   def sort_params
+    if params.dig(:data, :collection_id).is_a? String
+      params[:data][:collection_id] = [params[:data][:collection_id]]
+    end
+
     params.require(:data).permit(
       :sort_id, :text, :q,
       :institution_id,
