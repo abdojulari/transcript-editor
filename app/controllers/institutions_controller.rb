@@ -1,9 +1,10 @@
 # public institutions controller
 class InstitutionsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :authenticate_user!, except: [:index, :transcripts]
+  before_action :authenticate_user!, except: [:index]
   before_action :load_collection
   before_action :load_institutions
+  before_action :filter_requests, only: [:index]
 
   layout "application_v2"
 
@@ -48,5 +49,9 @@ class InstitutionsController < ApplicationController
       institution_id: list.shift,
       collection_id: list.shift
     }
+  end
+
+  def filter_requests
+    return head :not_found if (params[:format] && params[:format] != "html")
   end
 end
