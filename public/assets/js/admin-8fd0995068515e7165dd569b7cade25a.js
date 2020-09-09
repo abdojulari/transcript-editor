@@ -11020,14 +11020,14 @@ var n="object"==typeof self&&self.self===self&&self||"object"==typeof global&&gl
 * Copyright (c) 2014 Boaz Sender; Licensed MIT */
 (function(e){typeof define=="function"&&define.amd?define(["backbone","underscore"],e):typeof exports=="object"?module.exports=e(require("backbone"),require("underscore")):e(window.Backbone,window._)})(function(e,t){var n=e.Router.prototype.route,r=function(){};t.extend(e.Router.prototype,{before:r,after:r,route:function(e,i,s){s||(s=this[i]);var o=t.bind(function(){var n=[e,t.toArray(arguments)],i;t.isFunction(this.before)?i=this.before:typeof this.before[e]!="undefined"?i=this.before[e]:i=r;if(i.apply(this,n)===!1)return;s&&s.apply(this,arguments);var o;t.isFunction(this.after)?o=this.after:typeof this.after[e]!="undefined"?o=this.after[e]:o=r,o.apply(this,n)},this);return n.call(this,e,i,o)}})});
 /*!
- * JavaScript Cookie v2.2.0
+ * JavaScript Cookie v2.2.1
  * https://github.com/js-cookie/js-cookie
  *
  * Copyright 2006, 2015 Klaus Hartl & Fagner Brack
  * Released under the MIT license
  */
 ;(function (factory) {
-	var registeredInModuleLoader = false;
+	var registeredInModuleLoader;
 	if (typeof define === 'function' && define.amd) {
 		define(factory);
 		registeredInModuleLoader = true;
@@ -11057,125 +11057,123 @@ var n="object"==typeof self&&self.self===self&&self||"object"==typeof global&&gl
 		return result;
 	}
 
+	function decode (s) {
+		return s.replace(/(%[0-9A-Z]{2})+/g, decodeURIComponent);
+	}
+
 	function init (converter) {
-		function api (key, value, attributes) {
-			var result;
+		function api() {}
+
+		function set (key, value, attributes) {
 			if (typeof document === 'undefined') {
 				return;
 			}
 
-			// Write
+			attributes = extend({
+				path: '/'
+			}, api.defaults, attributes);
 
-			if (arguments.length > 1) {
-				attributes = extend({
-					path: '/'
-				}, api.defaults, attributes);
-
-				if (typeof attributes.expires === 'number') {
-					var expires = new Date();
-					expires.setMilliseconds(expires.getMilliseconds() + attributes.expires * 864e+5);
-					attributes.expires = expires;
-				}
-
-				// We're using "expires" because "max-age" is not supported by IE
-				attributes.expires = attributes.expires ? attributes.expires.toUTCString() : '';
-
-				try {
-					result = JSON.stringify(value);
-					if (/^[\{\[]/.test(result)) {
-						value = result;
-					}
-				} catch (e) {}
-
-				if (!converter.write) {
-					value = encodeURIComponent(String(value))
-						.replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g, decodeURIComponent);
-				} else {
-					value = converter.write(value, key);
-				}
-
-				key = encodeURIComponent(String(key));
-				key = key.replace(/%(23|24|26|2B|5E|60|7C)/g, decodeURIComponent);
-				key = key.replace(/[\(\)]/g, escape);
-
-				var stringifiedAttributes = '';
-
-				for (var attributeName in attributes) {
-					if (!attributes[attributeName]) {
-						continue;
-					}
-					stringifiedAttributes += '; ' + attributeName;
-					if (attributes[attributeName] === true) {
-						continue;
-					}
-					stringifiedAttributes += '=' + attributes[attributeName];
-				}
-				return (document.cookie = key + '=' + value + stringifiedAttributes);
+			if (typeof attributes.expires === 'number') {
+				attributes.expires = new Date(new Date() * 1 + attributes.expires * 864e+5);
 			}
 
-			// Read
+			// We're using "expires" because "max-age" is not supported by IE
+			attributes.expires = attributes.expires ? attributes.expires.toUTCString() : '';
 
-			if (!key) {
-				result = {};
+			try {
+				var result = JSON.stringify(value);
+				if (/^[\{\[]/.test(result)) {
+					value = result;
+				}
+			} catch (e) {}
+
+			value = converter.write ?
+				converter.write(value, key) :
+				encodeURIComponent(String(value))
+					.replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g, decodeURIComponent);
+
+			key = encodeURIComponent(String(key))
+				.replace(/%(23|24|26|2B|5E|60|7C)/g, decodeURIComponent)
+				.replace(/[\(\)]/g, escape);
+
+			var stringifiedAttributes = '';
+			for (var attributeName in attributes) {
+				if (!attributes[attributeName]) {
+					continue;
+				}
+				stringifiedAttributes += '; ' + attributeName;
+				if (attributes[attributeName] === true) {
+					continue;
+				}
+
+				// Considers RFC 6265 section 5.2:
+				// ...
+				// 3.  If the remaining unparsed-attributes contains a %x3B (";")
+				//     character:
+				// Consume the characters of the unparsed-attributes up to,
+				// not including, the first %x3B (";") character.
+				// ...
+				stringifiedAttributes += '=' + attributes[attributeName].split(';')[0];
 			}
 
+			return (document.cookie = key + '=' + value + stringifiedAttributes);
+		}
+
+		function get (key, json) {
+			if (typeof document === 'undefined') {
+				return;
+			}
+
+			var jar = {};
 			// To prevent the for loop in the first place assign an empty array
-			// in case there are no cookies at all. Also prevents odd result when
-			// calling "get()"
+			// in case there are no cookies at all.
 			var cookies = document.cookie ? document.cookie.split('; ') : [];
-			var rdecode = /(%[0-9A-Z]{2})+/g;
 			var i = 0;
 
 			for (; i < cookies.length; i++) {
 				var parts = cookies[i].split('=');
 				var cookie = parts.slice(1).join('=');
 
-				if (!this.json && cookie.charAt(0) === '"') {
+				if (!json && cookie.charAt(0) === '"') {
 					cookie = cookie.slice(1, -1);
 				}
 
 				try {
-					var name = parts[0].replace(rdecode, decodeURIComponent);
-					cookie = converter.read ?
-						converter.read(cookie, name) : converter(cookie, name) ||
-						cookie.replace(rdecode, decodeURIComponent);
+					var name = decode(parts[0]);
+					cookie = (converter.read || converter)(cookie, name) ||
+						decode(cookie);
 
-					if (this.json) {
+					if (json) {
 						try {
 							cookie = JSON.parse(cookie);
 						} catch (e) {}
 					}
 
-					if (key === name) {
-						result = cookie;
-						break;
-					}
+					jar[name] = cookie;
 
-					if (!key) {
-						result[name] = cookie;
+					if (key === name) {
+						break;
 					}
 				} catch (e) {}
 			}
 
-			return result;
+			return key ? jar[key] : jar;
 		}
 
-		api.set = api;
+		api.set = set;
 		api.get = function (key) {
-			return api.call(api, key);
+			return get(key, false /* read as raw */);
 		};
-		api.getJSON = function () {
-			return api.apply({
-				json: true
-			}, [].slice.call(arguments));
+		api.getJSON = function (key) {
+			return get(key, true /* read as json */);
 		};
-		api.defaults = {};
-
 		api.remove = function (key, attributes) {
-			api(key, '', extend(attributes, {
+			set(key, '', extend(attributes, {
 				expires: -1
 			}));
 		};
+
+		api.defaults = {};
 
 		api.withConverter = init;
 
