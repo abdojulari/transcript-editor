@@ -10,17 +10,17 @@
   "dependencies": {
     "j-toker": "github:jclif/j-toker",
     "jquery": "^1.12.4",
-    "js-cookie": "^2.2.0"
+    "js-cookie": "^2.2.1"
   },
   "license": "MIT",
   "devDependencies": {
     "del": "^5.1.0",
-    "gulp": "^3.9.1",
+    "gulp": "^4",
     "gulp-concat": "^2.6.0",
     "gulp-hash-filename": "^3.0.0",
-    "gulp-include": "^2.1.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-sass": "^2.1.1",
+    "gulp-include": "^2.4.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4",
     "gulp-shell": "^0.8.0",
     "gulp-uglify": "^1.5.1",
     "vinyl-map": "^1.0.1"

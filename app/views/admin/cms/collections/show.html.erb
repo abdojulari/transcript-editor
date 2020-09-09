@@ -9,12 +9,12 @@
           new_admin_cms_transcript_path(collection_uid: @collection.uid),
           method: "get",
           data: { disable_with: "Loading..." },
-          class: "button"
+          class: "button cyan"
       %>
       <%= link_to "All Collections",
           admin_cms_path,
           data: { disable_with: "Loading..." },
-          class: "button"
+          class: "button cyan"
       %>
     </div>
   </div>
@@ -60,7 +60,7 @@
           <th class="text-center">Delete</th>
           <th class="text-center">
             <div class="dropdown">
-              <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <button class="btn btn-success dropdown-toggle" type="button cyan" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Actions
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

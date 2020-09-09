@@ -207,3 +207,17 @@
     content: none;
   }
 }
+
+
+.edit_page_header {
+  display: block;
+}
+
+.edit_page__header,
+.header .menu-container .menu-item,
+.header .account-container .select {
+  background: #231F20;
+  display: inline-block;
+  font-weight: bold;
+  font-size: 1rem;
+}
