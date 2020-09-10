@@ -45,6 +45,7 @@
         display: block;
         white-space: nowrap;
         margin: 10px 0;
+        text-transform: uppercase;
         @include mobile {
           display: none;
         }
@@ -147,6 +148,8 @@
     }
   }
   &__links {
+    line-height: 30px;
+    margin-left: 10px;
     @include tablet {
       width: 100%;
     }
@@ -186,6 +189,7 @@
     line-height: 21px;
     padding: 0 7px;
     margin: 0;
+    font-weight: bold;
   }
 }
 
