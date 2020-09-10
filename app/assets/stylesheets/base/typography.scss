@@ -1,35 +1,35 @@
 h1, h1 strong, h1 em {
   font-size: rem-calc(48);
   color: inherit;
-  font-family: $title-font;
+  font-family: $body-font;
   line-height: 1.5;
 }
 
 h2, h2 strong, h2 em {
   font-size: rem-calc(36);
   color: inherit;
-  font-family: $title-font;
+  font-family: $body-font;
   line-height: 1.5;
 }
 
 h3, h3 strong, h3 em {
   font-size: rem-calc(24);
   color: inherit;
-  font-family: $title-font;
+  font-family: $body-font;
   line-height: 1.2;
 }
 
 h4, h4 strong, h4 em {
   font-size: rem-calc(18);
   color: inherit;
-  font-family: $title-font;
+  font-family: $body-font;
   line-height: 1.2;
 }
 
 h5, h5 strong, h5 em {
   font-size: rem-calc(16);
   color: inherit;
-  font-family: $title-font;
+  font-family: $body-font;
   line-height: 1.2;
 }
 

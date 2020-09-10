@@ -17,3 +17,25 @@
     }
   }
 }
+
+table {
+  border: 1px solid #A3A19E;
+  margin: 1em 0;
+}
+
+.alert {
+  background: #FEE24A;
+  max-width: 50%;
+  margin: 0 auto;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  max-height: 0px;
+  overflow: hidden;
+  opacity: 0;
+  -moz-transition: max-height 0.5s, opacity 0.5s;
+  -o-transition: max-height 0.5s, opacity 0.5s;
+  -webkit-transition: max-height 0.5s, opacity 0.5s;
+  -ms-transition: max-height 0.5s, opacity 0.5s;
+  transition: max-height 0.5s, opacity 0.5s;
+}
