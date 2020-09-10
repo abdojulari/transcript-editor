@@ -42,3 +42,40 @@ table {
   -ms-transition: max-height 0.5s, opacity 0.5s;
   transition: max-height 0.5s, opacity 0.5s;
 }
+
+.main_header {
+  &__nav {
+    a {
+      &.dropdown-link {
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  &__links {
+    line-height: 30px;
+    margin-left: 10px;
+  }
+}
+
+.select-active{
+  &__admin-score {
+    font-weight: bold;
+  }
+}
+
+.menu_select#select_title {
+  background: $drop-down-black, $soft-orange;
+  background-position: 96% 50%, center center;
+  background-repeat: no-repeat;
+  background-size: 12px 12px;
+  padding: 5px 20px 5px 10px;
+  a[data-menu-level="1"] {
+    color: $black;
+    text-transform: none;
+    text-decoration: none;
+    &:hover {
+      color: $black;
+    }
+  }
+}

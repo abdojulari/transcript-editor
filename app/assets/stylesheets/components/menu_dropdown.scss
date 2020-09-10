@@ -22,30 +22,23 @@
   }
 }
 
-.menu_select#select_title {
+.menu_select {
   display: flex;
   align-items: center;
   justify-content: center;
   appearance: none;
-  background: $drop-down-black, $soft-orange;
+  background: $drop-down-yellow, $dark-red-black;
   background-position: 96% 50%, center center;
   background-repeat: no-repeat;
   background-size: 12px 12px;
   color: $black;
   border-radius: 0;
   border: 0;
-  min-height: 23px;
-  padding: 5px 20px 5px 10px;
+  padding: 0 20px 0 10px;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s;
-  a[data-menu-level="1"] {
-    color: $black;
-    text-transform: none;
-    text-decoration: none;
-    &:hover {
-      color: $black;
-    }
+  a {
     @include tablet {
       width: auto;
       margin: 15px 10px;
