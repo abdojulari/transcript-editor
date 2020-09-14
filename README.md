@@ -45,10 +45,10 @@ You will need to have the following installed to run this project on your machin
 
 For local development:
 
-- [Node.JS](https://nodejs.org/en/) version 8 or greater
+- [Node.JS](https://nodejs.org/en/) version 12 or greater
   - npm version 6 or greater
   - Recommended that you use [nvm](https://github.com/nvm-sh/nvm) to manage your Node.JS versions
-- [Gulp](https://gulpjs.com/) version 3
+- [Gulp](https://gulpjs.com/) version 4
   - Installed using npm
 
 If installing on, say, Ubuntu, the following system packages are required.

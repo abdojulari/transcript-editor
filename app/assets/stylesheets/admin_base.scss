@@ -2,11 +2,24 @@
 @import "font-awesome";
 @import "summernote-bs4";
 @import "summernote-custom-theme.min";
+
 @import "base/tools";
-@import "base/settings_colours";
-@import "header";
+@import 'base/settings_colours';
+@import 'base/settings_images';
+@import 'base/settings_other';
+@import 'base/typography';
+
+@import 'objects/buttons';
+
+@import 'components/header';
+
 @import "fixed_header";
 @import "admin";
 @import "admin_cms";
+
+@import "components/admin_main";
+@import 'base/trumps';
+
 @import "speaker_autocomplete";
 @import "jquery.Jcrop.min";
+
