@@ -89,7 +89,7 @@ class TranscriptsController < ApplicationController
   end
 
   def release_count
-    return render json: {data: Transcript.where(released: false).all.map {|t| t.uid }}, status: 200
+    return render json: {data: Transcript.where(released: false, percent_completed: 100).all.map {|t| t.uid }}, status: 200
   end
 
   private
