@@ -60,7 +60,7 @@ class Transcript < ActiveRecord::Base
       Transcript
         .select('transcripts.*, COALESCE(collections.title, \'\') as collection_title')
         .joins('LEFT OUTER JOIN collections ON collections.id = transcripts.collection_id')
-        .where("transcripts.lines > 0 AND transcripts.project_uid = :project_uid AND transcripts.is_published = :is_published", {project_uid: ENV['PROJECT_ID'], is_published: 1})
+        .where("transcripts.lines > 0 AND transcripts.project_uid = :project_uid AND transcripts.is_published = :is_published AND transcripts.released = false", {project_uid: ENV['PROJECT_ID'], is_published: 1})
         .paginate(:page => page, :per_page => per_page).order("transcripts.#{options[:order]}")
     end
   end
@@ -283,7 +283,7 @@ class Transcript < ActiveRecord::Base
     transcripts = nil
     transcripts = Transcript.select('transcripts.*, COALESCE(collections.title, \'\') as collection_title')
         .joins('LEFT OUTER JOIN collections ON collections.id = transcripts.collection_id')
-        .where("transcripts.lines > 0 AND transcripts.project_uid = :project_uid AND transcripts.is_published = :is_published", {project_uid: ENV['PROJECT_ID'], is_published: 1})
+        .where("transcripts.lines > 0 AND transcripts.project_uid = :project_uid AND transcripts.is_published = :is_published AND transcripts.released = false", {project_uid: ENV['PROJECT_ID'], is_published: 1})
 
     # Check for collection filter
     transcripts = transcripts.where("transcripts.collection_id = :collection_id", {collection_id: options[:collection_id].to_i}) if options[:collection_id].present?
