@@ -62,8 +62,8 @@
       // NOTE: we only capture the recognized text. everything else will be ignored.
       if (e.result.reason === sdk.ResultReason.RecognizedSpeech) {
         lines.push({
-          start_time: e.result.offset,
-          end_time: e.result.offset + e.result.duration,
+          start_time: e.result.offset / 10000, // in milliseconds
+          end_time: (e.result.offset + e.result.duration) / 10000, // in milliseconds
           original_text: e.result.text,
           sequence: lines.length
         })
