@@ -28,6 +28,8 @@
         <%= f.radio_button :transcript_type, 'voicebase', checked: @transcript.check_status("voicebase") %> Upload with VoiceBase
         <br />
         <%= f.radio_button :transcript_type, 'manual', checked: @transcript.check_status("manual") %> Manual Upload
+        <br />
+        <%= f.radio_button :transcript_type, 'azure', checked: @transcript.check_status("azure") %> Upload with Azure
       </div>
       <div class="form-group">
         <span id="transcript-line-count">

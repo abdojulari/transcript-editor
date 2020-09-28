@@ -10,10 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_15_030715) do
+ActiveRecord::Schema.define(version: 2020_09_23_075332) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "hstore"
   enable_extension "plpgsql"
 
   create_table "app_configs", force: :cascade do |t|
@@ -315,6 +314,8 @@ ActiveRecord::Schema.define(version: 2020_07_15_030715) do
     t.integer "crop_y"
     t.integer "crop_w"
     t.integer "crop_h"
+    t.string "process_status"
+    t.string "process_message"
     t.index ["collection_id"], name: "index_transcripts_on_collection_id"
     t.index ["duration"], name: "index_transcripts_on_duration"
     t.index ["project_uid"], name: "index_transcripts_on_project_uid"
