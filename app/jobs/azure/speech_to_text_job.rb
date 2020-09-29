@@ -29,11 +29,10 @@ module Azure
     end
 
     def download(audio)
-      sanitized_file = audio.file
-      # copy the file to ./tmp folder
-      Rails.root.join("tmp", sanitized_file.filename).tap do |path|
-        sanitized_file.copy! path
-      end
+      audio.cache_stored_file!
+      Rails.root.join(
+        "public", audio.cache_dir, audio.cached?, audio.sanitized_file.filename
+      )
     end
   end
 end

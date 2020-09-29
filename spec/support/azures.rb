@@ -19,8 +19,7 @@ module AzuresHelper
     status:
   )
     expect(Open3).to receive(:capture3).with(
-      a_string_including("SPEECH_TO_TEXT_KEY="),
-      a_string_including("SPEECH_TO_TEXT_REGION="),
+      a_hash_including({}),
       "node",
       a_string_including("speech-to-text.js"),
       input_file
