@@ -336,6 +336,7 @@ GEM
       nokogiri (>= 1.5.11, < 2.0.0)
     font-awesome-rails (4.7.0.4)
       railties (>= 3.2, < 6.0)
+    foreman (0.87.2)
     formatador (0.2.5)
     formdata (0.1.2)
     friendly_id (5.2.5)
@@ -698,6 +699,7 @@ DEPENDENCIES
   figaro (~> 1.1.1)
   fog (~> 2.1.0)
   font-awesome-rails (~> 4.7.0)
+  foreman
   formdata (~> 0.1.2)
   friendly_id (~> 5.2.0)
   highline (~> 2.0.1)

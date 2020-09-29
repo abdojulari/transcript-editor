@@ -9,6 +9,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'spec_helper'
 require 'rspec/rails'
 require 'paper_trail/frameworks/rspec'
+require 'open3'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'shoulda/matchers'
@@ -65,10 +66,6 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
   config.include FactoryBot::Syntax::Methods
-  config.before(:each) do
-    allow($stdout).to receive(:puts)
-    allow($stdout).to receive(:write)
-  end
 end
 
 Shoulda::Matchers.configure do |config|

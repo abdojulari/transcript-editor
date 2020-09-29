@@ -4,10 +4,10 @@ $(document).ready(function(){
   });
 
   function toggleTranscriptUpload(){
-    if ($("#transcript_transcript_type_voicebase").is(":checked")){
-      $("#transcript_upload").hide();
-    } else {
+    if ($("#transcript_transcript_type_manual").is(":checked")){
       $("#transcript_upload").show();
+    } else {
+      $("#transcript_upload").hide();
     }
   }
   toggleTranscriptUpload()

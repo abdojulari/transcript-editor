@@ -10,11 +10,13 @@
   "dependencies": {
     "j-toker": "github:jclif/j-toker",
     "jquery": "^1.12.4",
-    "js-cookie": "^2.2.1"
+    "js-cookie": "^2.2.1",
+    "microsoft-cognitiveservices-speech-sdk": "^1.13.1"
   },
   "license": "MIT",
   "devDependencies": {
     "del": "^5.1.0",
+    "dotenv": "^8.2.0",
     "gulp": "^4",
     "gulp-concat": "^2.6.0",
     "gulp-hash-filename": "^3.0.0",
