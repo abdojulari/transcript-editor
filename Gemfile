@@ -102,6 +102,7 @@ group :development do
   gem "capistrano-rvm", "~> 0.1.2"
   gem "capistrano-sidekiq", "~> 1.0.2"
   gem "capistrano3-puma", "~> 3.1.1"
+  gem "capistrano-npm", "~>1.0.3"
   gem "rubocop", "~> 0.65.0"
 
   gem "dotenv-rails", "~> 2.7.1"

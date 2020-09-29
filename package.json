@@ -16,7 +16,6 @@
   "license": "MIT",
   "devDependencies": {
     "del": "^5.1.0",
-    "dotenv": "^8.2.0",
     "gulp": "^4",
     "gulp-concat": "^2.6.0",
     "gulp-hash-filename": "^3.0.0",
