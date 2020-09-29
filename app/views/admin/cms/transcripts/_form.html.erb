@@ -25,11 +25,17 @@
         <%= f.text_field :url, class: "form-control" %>
       </div>
       <div class="form-group">
-        <%= f.radio_button :transcript_type, 'voicebase', checked: @transcript.check_status("voicebase") %> Upload with VoiceBase
+        <label>
+          <%= f.radio_button :transcript_type, 'voicebase', checked: @transcript.check_status("voicebase") %> Upload with VoiceBase
+        </label>
         <br />
-        <%= f.radio_button :transcript_type, 'manual', checked: @transcript.check_status("manual") %> Manual Upload
+        <label>
+          <%= f.radio_button :transcript_type, 'manual', checked: @transcript.check_status("manual") %> Manual Upload
+        </label>
         <br />
-        <%= f.radio_button :transcript_type, 'azure', checked: @transcript.check_status("azure") %> Upload with Azure
+        <label>
+          <%= f.radio_button :transcript_type, 'azure', checked: @transcript.check_status("azure") %> Upload with Azure
+        </label>
       </div>
       <div class="form-group">
         <span id="transcript-line-count">
