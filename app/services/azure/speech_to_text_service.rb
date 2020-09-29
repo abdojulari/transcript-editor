@@ -36,7 +36,11 @@ module Azure
 
     def transcripts_from_sdk
       stdout, stderr, status =
-        Open3.capture3("node", Rails.root.join("speech-to-text.js").to_s, wav_file)
+        Open3.capture3(
+          "SPEECH_TO_TEXT_KEY=#{ENV['SPEECH_TO_TEXT_KEY']}",
+          "SPEECH_TO_TEXT_REGION=#{ENV['SPEECH_TO_TEXT_REGION']}",
+          "node", Rails.root.join("speech-to-text.js").to_s, wav_file
+        )
       raise Exception, stderr unless status.success?
       stdout
     end

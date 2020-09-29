@@ -14,15 +14,18 @@ SAML_SSO_TARGET_URL: xxx
 SAML_IDP_CERT_PATH: xxx
 SAML_NAME_ID_FORMAT: urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress
 SENDER_EMAIL: xxx
-SMTP_URI: 
-SMTP_PORT: 
+SMTP_URI:
+SMTP_PORT:
 SES_SMTP_USERNAME:
-SES_SMTP_PASSWORD: 
+SES_SMTP_PASSWORD:
 DEFAULT_MAILER_HOST:
-VOICEBASE_API_KEY: 
+VOICEBASE_API_KEY:
 REDIS_URL: redis://localhost:6379
 GOOGLE_TAG_MANAGER_ID: GTM-XXXXXX
 RACK_ATTACK_WHITELIST: ""
+# Used by speech-to-text.js
+SPEECH_TO_TEXT_KEY: Ask admin to obtain the subscription key from Azure portal -> Cognitive Services -> Keys and Endpoint
+SPEECH_TO_TEXT_REGION: Ask admin to obtain the region from Azure portal -> Cognitive Services -> Keys and Endpoint
 
 development:
   GOOGLE_CLIENT_ID: xxx
