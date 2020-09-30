@@ -49,6 +49,10 @@ $(document).ready(function(){
     $(this).parent(".option").toggleClass("checked");
   });
 
+  $('#data_institution_id').change(function() {
+    $(this.form).submit();
+  });
+
   $('#reset').on('click', function(e){
     collectionId = 0;
     institutionId = 0;
