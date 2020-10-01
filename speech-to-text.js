@@ -14,6 +14,7 @@
   try { require('dotenv').config(); } catch (err) {};
   const sdk = require("microsoft-cognitiveservices-speech-sdk");
   const fs = require("fs");
+  const JSONStream = require("JSONStream");
 
   const filename = process.argv[2];
   if (!filename) {
@@ -77,7 +78,11 @@
         exitLog(`${e.errorCode}: ${e.errorDetails}`);
       } else {
         // it ends without any error
-        console.log(JSON.stringify(lines));
+        // we need to stream the output as it might get pretty huge
+        const stringifyStream = JSONStream.stringify();
+        stringifyStream.pipe(process.stdout);
+        lines.forEach(line => stringifyStream.write(line));
+        stringifyStream.end();
         process.exit();
       }
     };
