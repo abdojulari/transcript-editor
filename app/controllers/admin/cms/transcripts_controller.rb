@@ -7,7 +7,7 @@ class Admin::Cms::TranscriptsController < AdminController
   before_action :set_collection, only: [:update_multiple]
 
   def new
-    @transcript = Transcript.new(collection_id: collection_id)
+    @transcript = Transcript.new(collection_id: collection_id, transcript_type: :azure)
   end
 
   def create
