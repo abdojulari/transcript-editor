@@ -26,15 +26,15 @@
       </div>
       <div class="form-group">
         <label>
+          <%= f.radio_button :transcript_type, 'azure', checked: @transcript.check_status("azure") %> Upload with Azure
+        </label>
+        <br />
+        <label>
           <%= f.radio_button :transcript_type, 'voicebase', checked: @transcript.check_status("voicebase") %> Upload with VoiceBase
         </label>
         <br />
         <label>
           <%= f.radio_button :transcript_type, 'manual', checked: @transcript.check_status("manual") %> Manual Upload
-        </label>
-        <br />
-        <label>
-          <%= f.radio_button :transcript_type, 'azure', checked: @transcript.check_status("azure") %> Upload with Azure
         </label>
       </div>
       <div class="form-group">

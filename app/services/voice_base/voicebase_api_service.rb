@@ -43,14 +43,14 @@ module VoiceBase
 
       # Mark the record as processing, so that other processors
       # will not pick it up.
-      transcript.update_column("pickedup_for_voicebase_processing_at", Time.zone.now)
+      transcript.update_column("process_started_at", Time.zone.now)
       res = Voicebase::Client.new.check_progress(transcript.voicebase_media_id)
       status = JSON.parse(res.body)
       if status["errors"]
         Bugsnag.notify("Voicebase processing errors for transcript #{transcript_id}: #{status["errors"]}")
         return false
       else
-        transcript.update_column("voicebase_status", status["progress"]["status"])
+        transcript.update_column("process_status", status["progress"]["status"])
       end
     end
 
@@ -58,18 +58,18 @@ module VoiceBase
     def self.process_transcript(transcript_id)
       transcript = Transcript.find(transcript_id)
 
-      if transcript.voicebase_status == "completed"
+      if transcript.process_status == "completed"
         str = get_transcript(transcript_id)
         if str
           imp = VoiceBase::ImportSrtTranscripts.new(project_id: ENV["PROJECT_ID"])
           imp.update_from_voicebase(transcript, str)
-          transcript.update_column("voicebase_processing_completed_at", Time.zone.now)
+          transcript.update_column("process_completed_at", Time.zone.now)
           return
         end
       end
 
       # reset back for next time
-      transcript.update_column("pickedup_for_voicebase_processing_at", nil)
+      transcript.update_column("process_started_at", nil)
     end
 
     # Download completed transcript from Voicebase.

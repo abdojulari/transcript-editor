@@ -30,8 +30,10 @@ module Azure
     # @see speech-to-text.js
     def convert_audio_to_wav
       stdout, stderr, status =
-        Open3.capture3("ffmpeg", "-i", file.to_s, "-ac", "1", "-ar", "16000", wav_file)
+        Open3.capture3("ffmpeg", "-i", file.to_s, "-ac", "1", "-ar", "8000", wav_file)
       raise Exception, stderr unless status.success?
+      Rails.logger.debug("--- transcripts_from_sdk ---")
+      Rails.logger.debug(wav_file.size)
     end
 
     def transcripts_from_sdk
@@ -40,7 +42,10 @@ module Azure
           ENV.to_h.slice("SPEECH_TO_TEXT_KEY", "SPEECH_TO_TEXT_REGION"),
           "node", Rails.root.join("speech-to-text.js").to_s, wav_file
         )
-      raise Exception, stderr unless status.success?
+      Rails.logger.debug("--- transcripts_from_sdk ---")
+      Rails.logger.debug(stdout)
+      Rails.logger.debug(stderr)
+      raise Exception, stderr.presence || stdout unless status.success?
       stdout
     end
 

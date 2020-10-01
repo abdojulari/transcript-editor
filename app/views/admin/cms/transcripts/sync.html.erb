@@ -3,14 +3,14 @@
     <div class="card-header" id="headingOne">
       <h5 class="mb-0">
         <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          <%= @transcript.voicebase_status %>
+          <%= @transcript.process_status %>
         </button>
       </h5>
     </div>
 
     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
       <div class="card-body">
-        <%= "Item processed at #{@transcript.voicebase_processing_completed_at.strftime("%B %d, %Y")}" if @transcript.voicebase_processing_completed_at %>
+        <%= "Item processed at #{@transcript.process_completed_at.strftime("%B %d, %Y")}" if @transcript.process_completed_at %>
       </div>
     </div>
   </div>

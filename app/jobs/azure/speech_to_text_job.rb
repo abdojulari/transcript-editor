@@ -8,7 +8,8 @@ module Azure
       transcript = Transcript.find transcript_id
       file = download(transcript.audio)
       return unless file
-      transcript.update_columns(process_status: :processing)
+
+      transcript.update_columns(process_status: :started)
       lines = Azure::SpeechToTextService.new(file: file).recognize
       ActiveRecord::Base.transaction do
         transcript.transcript_lines.clear
