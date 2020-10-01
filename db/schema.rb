@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_23_075332) do
+ActiveRecord::Schema.define(version: 2020_10_01_004510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -307,14 +307,13 @@ ActiveRecord::Schema.define(version: 2020_09_23_075332) do
     t.boolean "publish", default: false
     t.integer "transcript_type", default: 0
     t.string "voicebase_media_id"
-    t.string "voicebase_status"
-    t.datetime "voicebase_processing_completed_at"
-    t.datetime "pickedup_for_voicebase_processing_at"
+    t.string "process_status"
+    t.datetime "process_completed_at"
+    t.datetime "process_started_at"
     t.integer "crop_x"
     t.integer "crop_y"
     t.integer "crop_w"
     t.integer "crop_h"
-    t.string "process_status"
     t.string "process_message"
     t.index ["collection_id"], name: "index_transcripts_on_collection_id"
     t.index ["duration"], name: "index_transcripts_on_duration"
