@@ -30,7 +30,7 @@ module Azure
     # @see speech-to-text.js
     def convert_audio_to_wav
       stdout, stderr, status =
-        Open3.capture3("ffmpeg", "-i", file.to_s, "-ac", "1", "-ar", "8000", wav_file)
+        Open3.capture3("ffmpeg", "-i", file.to_s, "-ac", "1", "-ar", "16000", wav_file)
       raise Exception, stderr unless status.success?
       Rails.logger.debug("--- convert_audio_to_wav ---")
       Rails.logger.debug(wav_file.size)

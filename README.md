@@ -141,6 +141,13 @@ gulp sass js # Runs once
 Be sure to commit the changes to `public/assets/css` and
 `public/assets/js`.
 
+## Get a database copy from staging
+
+```sh
+ssh ubuntu@stage.amplify.gov.au "pg_dump -U amplify amplify_staging -h localhost" \ >> latest.dump
+
+```
+
 ## Generating your transcripts
 
 For our installation, we did not automatically integrate Amplify and

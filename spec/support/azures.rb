@@ -7,7 +7,7 @@ module AzuresHelper
       "ffmpeg",
       "-i", a_string_including("aboutSpeechSdk.mp3"),
       "-ac", "1",
-      "-ar", "8000",
+      "-ar", "16000",
       a_string_including("aboutSpeechSdk.")
     ).and_call_original
   end
