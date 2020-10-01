@@ -564,7 +564,13 @@ class Transcript < ApplicationRecord
     # no change? no process
     return unless audio.identifier && saved_change_to_attribute?(:audio)
 
-    Azure::SpeechToTextJob.perform_later(id) if azure?
+    if voicebase?
+      # this means the file is either added or changed
+      # We upload the file to VoiceBase
+      VoiceBaseUploadJob.perform_later(id)
+    elsif azure?
+      Azure::SpeechToTextJob.perform_later(id)
+    end
   end
 
   def disk_usage
