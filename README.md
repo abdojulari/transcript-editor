@@ -39,6 +39,7 @@ State Library.
 You will need to have the following installed to run this project on your machine.
 
 - [Git](https://git-scm.com/)
+- [FFmpeg](https://ffmpeg.org/) - convert the file and process the transcript using azure cognitive service
 - [Ruby](https://www.ruby-lang.org/en/) - this app has been developed using 2.5.0. Older versions may not work
 - [Rails](https://rubyonrails.org/) - rails 5.2.0
 - [PostgreSQL](http://www.postgresql.org/)
@@ -111,9 +112,9 @@ The primary place for project configuration the file `project.json`. For now, we
 1. Run `bundle` - this will install all the necessary gems for this app.
 2. Run `rake db:setup` to setup the database based on `config/database.yml`.
 3. run `rake seed:migrate` to setup the data. (At the time of updating this doc, this is a manual command)
-3. Run `rake project:load['my-project']` to load your project folder (replace *my-project* with your project name).
-4. Run `rake cache:clear` to clear your cache if you've used Amplify previously.
-5. Run `rails s` to start your server. Go to [http://localhost:3000/](http://localhost:3000/) to view your project.
+4. Run `rake project:load['my-project']` to load your project folder (replace *my-project* with your project name).
+5. Run `rake cache:clear` to clear your cache if you've used Amplify previously.
+6. Run `rails s` to start your server. Go to [http://localhost:3000/](http://localhost:3000/) to view your project.
 
 Your project should load, but since there's no transcripts, all you'll see is a header and blank screen! The next step is to seed the app with some transcripts
 
@@ -150,14 +151,8 @@ ssh ubuntu@stage.amplify.gov.au "pg_dump -U amplify amplify_staging -h localhost
 
 ## Generating your transcripts
 
-For our installation, we did not automatically integrate Amplify and
-[VoiceBase](http://voicebase.com), our transcript provider.
-If this function is built in at a later date we will update the
-documentation but otherwise please see the section on
-[importing existing transcripts](#importing-existing-transcripts)
-to follow our own process.
-To see documentation on automatic generation, please refer to the
-[NYPL documentation](https://github.com/NYPL/transcript-editor/).
+Amplify is integrated with Azure Cognitive Speech-to-Text service. And the process will be kicked off after user uploads an audio file.
+The process will be started as a background job `Azure::SpeechToTextJob` and it calls `speech-to-text.js` to use Speech-to-Text SDK to get the transcripts.
 
 ## Creating a manifest file
 

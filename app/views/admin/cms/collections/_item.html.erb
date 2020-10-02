@@ -10,7 +10,7 @@
   </td>
 
   <td>
-    <span><%= item.process_status %></span>
+    <span><%= item.process_status || :started %></span>
     <%= button_to sync_admin_cms_transcript_path(item),
       method: "get",
       data: { disable_with: "Loading..." } do

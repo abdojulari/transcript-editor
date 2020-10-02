@@ -56,6 +56,8 @@ app_cfg_input[env_name]['SECRET_KEY_BASE'] = SecureRandom.hex(64)
 app_cfg_input[env_name]['VOICEBASE_API_KEY'] = cli.ask("Voicebase API key? ") { |q| q.default = "xxx" }
 # app_cfg_input[env_name]['VOICEBASE_CLIENT_ID'] = cli.ask("Voicebase client ID? ") { |q| q.default = "xxx" }
 # app_cfg_input[env_name]['VOICEBASE_CLIENT_SECRET'] = cli.ask("Voicebase client secret? ") { |q| q.default = "xxx" }
+app_cfg_input[env_name]['SPEECH_TO_TEXT_KEY'] = cli.ask("Azure Cognitive Services API Key? ") { |q| q.default = "xxx" }
+app_cfg_input[env_name]['SPEECH_TO_TEXT_REGION'] = cli.ask("Azure Cognitive Services API Region? ") { |q| q.default = "xxx" }
 
 app_cfg_input[env_name]['AWS_S3_ACCESS_KEY_ID'] = cli.ask("AWS S3 client ID? ") { |q| q.default = "xxx" }
 app_cfg_input[env_name]['AWS_S3_SECRET_ACCESS_KEY'] = cli.ask("AWS S3 client secret? ") { |q| q.default = "xxx" }
