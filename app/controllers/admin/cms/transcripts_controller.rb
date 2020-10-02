@@ -36,10 +36,13 @@ class Admin::Cms::TranscriptsController < AdminController
   end
 
   def sync
-    VoiceBase::VoicebaseApiService.check_progress(@transcript.id)
-    @transcript = Transcript.find(@transcript.id)
-    if @transcript.process_status == "completed"
-      @file = VoiceBase::VoicebaseApiService.process_transcript(@transcript.id)
+    if @transcript.azure?
+      Azure::SpeechToTextJob.perform_later @transcript.id
+    elsif @transcript.voicebase?
+      VoiceBase::VoicebaseApiService.check_progress(@transcript.id)
+      if @transcript.process_status == "completed"
+        @file = VoiceBase::VoicebaseApiService.process_transcript(@transcript.id)
+      end
     end
     @transcript.reload
   end
