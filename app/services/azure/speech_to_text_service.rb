@@ -44,15 +44,12 @@ module Azure
     end
 
     def transcripts_from_sdk
-      now = Time.current
       stdout, stderr, status =
         Open3.capture3(
           ENV.to_h.slice("SPEECH_TO_TEXT_KEY", "SPEECH_TO_TEXT_REGION"),
           "node", Rails.root.join("speech-to-text.js").to_s, wav_file
         )
-      duration = Time.current - now
       Rails.logger.debug("--- transcripts_from_sdk ---")
-      Rails.logger.debug("process duration: #{ActiveSupport::Duration.build(duration).inspect}")
       Rails.logger.debug(stdout)
       Rails.logger.debug(stderr)
       raise Exception, stderr.presence || stdout unless status.success?
