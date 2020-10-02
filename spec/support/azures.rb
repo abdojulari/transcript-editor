@@ -9,7 +9,9 @@ module AzuresHelper
       "-ac", "1",
       "-ar", "16000",
       a_string_including("aboutSpeechSdk.")
-    ).and_call_original
+    ).and_return([
+      "", "", double("command execution status", :success? => true)
+    ])
   end
 
   def stub_azure_speech_to_text(

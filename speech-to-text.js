@@ -62,6 +62,11 @@
     recognizer.recognized = (s, e) => {
       // NOTE: we only capture the recognized text. everything else will be ignored.
       if (e.result.reason === sdk.ResultReason.RecognizedSpeech) {
+        const lastIndex = lines.length - 1;
+        if (lines[lastIndex]) {
+          // make sure end_time the same as the new start time
+          lines[lastIndex].end_time = e.result.offset / 10000; // in milliseconds
+        }
         lines.push({
           start_time: e.result.offset / 10000, // in milliseconds
           end_time: (e.result.offset + e.result.duration) / 10000, // in milliseconds
