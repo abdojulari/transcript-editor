@@ -44,9 +44,11 @@ namespace :deploy do
   after :updated, :update_config do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
       within release_path do
-        execute :rake, 'project:load[\'nsw-state-library-amplify\']'
-        execute :rake, 'assets:precompile'
-        execute :rake, 'cache:clear'
+        with rails_env: fetch(:rails_env) do
+          execute :rake, 'project:load[\'nsw-state-library-amplify\']'
+          execute :rake, 'assets:precompile'
+          execute :rake, 'cache:clear'
+        end
       end
     end
   end
