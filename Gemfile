@@ -143,7 +143,6 @@ gem "rest-client", "~> 2.0.2"
 gem "seed_migration", "~> 1.2.3"
 gem "sidekiq", "< 6"
 gem "sidekiq-cron", "~> 1.2.0"
-gem "whenever", "~> 0.10.0", require: false
 
 # Track object changes
 gem "paper_trail", "~> 10.3.1"

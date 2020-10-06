@@ -30,10 +30,6 @@
         </label>
         <br />
         <label>
-          <%= f.radio_button :transcript_type, 'voicebase', checked: @transcript.check_status("voicebase") %> Upload with VoiceBase
-        </label>
-        <br />
-        <label>
           <%= f.radio_button :transcript_type, 'manual', checked: @transcript.check_status("manual") %> Manual Upload
         </label>
       </div>
@@ -106,11 +102,6 @@
       <div class="form-group">
         <%= f.label :image_catalogue_url, 'Image item URL', for: 'image_catalogue_url' %>
         <%= f.text_field :image_catalogue_url, class: "form-control" %>
-      </div>
-
-      <div class="form-group">
-        <%= f.label :vendor_id %>
-        <%= f.select :vendor_id, Vendor.pluck(:name, :id), class: "form-control" %>
       </div>
 
       <div class="hidden-form-fields">
