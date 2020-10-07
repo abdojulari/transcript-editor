@@ -103,18 +103,25 @@ Your project folder has the following structure:
  +-- pages/
  +-- transcripts/
  +-- project.json
+ +-- speech-to-text.js
  ```
 
 The primary place for project configuration the file `project.json`. For now, we can keep everything as defaults. We will cover the details of this folder in later steps.
 
 ### Setup and run the app
 
-1. Run `bundle` - this will install all the necessary gems for this app.
-2. Run `rake db:setup` to setup the database based on `config/database.yml`.
-3. run `rake seed:migrate` to setup the data. (At the time of updating this doc, this is a manual command)
-4. Run `rake project:load['my-project']` to load your project folder (replace *my-project* with your project name).
-5. Run `rake cache:clear` to clear your cache if you've used Amplify previously.
-6. Run `rails s` to start your server. Go to [http://localhost:3000/](http://localhost:3000/) to view your project.
+- Run `bundle` - this will install all the necessary gems for this app.
+- Run `npm install` - this will install all the necessary npm packages for this app.
+- Make sure ffmpeg is installed, or you could install it by `sudo apt-get install ffmpeg`.
+- Run `rake db:setup` to setup the database based on `config/database.yml`.
+- Get a database copy from staging and restore it to your local database.
+  ```sh
+  ssh ubuntu@stage.amplify.gov.au "pg_dump -U amplify amplify_staging -h localhost" \ >> latest.dump
+  psql -d amplify_development < latest.dump
+  ```
+- Run `rake project:load['my-project']` to load your project folder (replace *my-project* with your project name).
+- Run `rake cache:clear` to clear your cache if you've used Amplify previously.
+- Run `foreman start` to start your server. Go to [http://localhost:5000/](http://localhost:5000/) to view your project.
 
 Your project should load, but since there's no transcripts, all you'll see is a header and blank screen! The next step is to seed the app with some transcripts
 
@@ -142,17 +149,16 @@ gulp sass js # Runs once
 Be sure to commit the changes to `public/assets/css` and
 `public/assets/js`.
 
-## Get a database copy from staging
-
-```sh
-ssh ubuntu@stage.amplify.gov.au "pg_dump -U amplify amplify_staging -h localhost" \ >> latest.dump
-
-```
-
 ## Generating your transcripts
 
 Amplify is integrated with Azure Cognitive Speech-to-Text service. And the process will be kicked off after user uploads an audio file.
 The process will be started as a background job `Azure::SpeechToTextJob` and it calls `speech-to-text.js` to use Speech-to-Text SDK to get the transcripts.
+
+> NOTE: this requires two environment variables set in `config/application.yml` (if you run `install-amplify`, it will ask you for these two variables as well):
+> ```
+> SPEECH_TO_TEXT_KEY: Ask admin to obtain the subscription key from Azure portal -> Cognitive Services -> Keys and Endpoint
+> SPEECH_TO_TEXT_REGION: Ask admin to obtain the region from Azure portal -> Cognitive Services -> Keys and Endpoint
+> ```
 
 ## Creating a manifest file
 
@@ -242,26 +248,26 @@ You can activate this by the following procedures.
 8. Open up your `config/application.yml`
 9. For each development and production, copy the values listed for *Client ID* and *Client secret* into the appropriate key-value entry, e.g.
 
-   ```
-   development:
-     GOOGLE_CLIENT_ID: 1234567890-abcdefghijklmnop.apps.googleusercontent.com
-     GOOGLE_CLIENT_SECRET: aAbBcCdDeEfFgGhHiIjKlLmM
-   production:
-     GOOGLE_CLIENT_ID: 0987654321-ghijklmnopabcdef.apps.googleusercontent.com
-     GOOGLE_CLIENT_SECRET: gGhHiIjKlLmMaAbBcCdDeEfF
+  ```
+  development:
+    GOOGLE_CLIENT_ID: 1234567890-abcdefghijklmnop.apps.googleusercontent.com
+    GOOGLE_CLIENT_SECRET: aAbBcCdDeEfFgGhHiIjKlLmM
+  production:
+    GOOGLE_CLIENT_ID: 0987654321-ghijklmnopabcdef.apps.googleusercontent.com
+    GOOGLE_CLIENT_SECRET: gGhHiIjKlLmMaAbBcCdDeEfF
   ```
 
 10. Google login is now enabled in the Rails app. Now we need to enable it in the UI. Open up `project/my-project/project.json`.  Under `auth_providers` enter:
 
-   ```
-   "authProviders": [
-     {
-       "name": "google",
-       "label": "Google",
-       "path": "/auth/google_oauth2"
-     }
-   ],
-   ```
+  ```
+  "authProviders": [
+    {
+      "name": "google",
+      "label": "Google",
+      "path": "/auth/google_oauth2"
+    }
+  ],
+  ```
 
 11. Run `rake project:load['my-project']` to refresh this config in the interface
 12. Finally, restart your server and visit `http://localhost:3000`.  Now you should see the option to sign in via Google.
@@ -280,26 +286,26 @@ You can activate this by the following procedures.
 7. Open up your `config/application.yml`
 8. For each development and production, copy the values listed for *App ID* and *App Secret* into the appropriate key-value entry, e.g.
 
-   ```
-   development:
-     FACEBOOK_APP_ID: "1234567890123456"
-     FACEBOOK_APP_SECRET: abcdefghijklmnopqrstuvwxyz123456
-   production:
-     FACEBOOK_APP_ID: "7890123456123456"
-     FACEBOOK_APP_SECRET: nopqrstuvwxyz123456abcdefghijklm
+  ```
+  development:
+    FACEBOOK_APP_ID: "1234567890123456"
+    FACEBOOK_APP_SECRET: abcdefghijklmnopqrstuvwxyz123456
+  production:
+    FACEBOOK_APP_ID: "7890123456123456"
+    FACEBOOK_APP_SECRET: nopqrstuvwxyz123456abcdefghijklm
   ```
 
 10. Facebook login is now enabled in the Rails app. Now we need to enable it in the UI. Open up `project/my-project/project.json`.  Under `auth_providers` enter:
 
-   ```
-   "authProviders": [
-     {
-       "name": "facebook",
-       "label": "Facebook",
-       "path": "/auth/facebook"
-     }
-   ],
-   ```
+  ```
+  "authProviders": [
+    {
+      "name": "facebook",
+      "label": "Facebook",
+      "path": "/auth/facebook"
+    }
+  ],
+  ```
 
 11. Run `rake project:load['my-project']` to refresh this config in the interface
 12. Finally, restart your server and visit `http://localhost:3000`.  Now you should see the option to sign in via Facebook.
@@ -567,6 +573,8 @@ rake transcripts:recalculate
 
 ## Deploying your project to production
 
+> NOTE: before that, you will need to ask Admin to add your SSH key to the server or use a pem key to do the deploy.
+
 The State Library of New South Wales hosts Amplify on [Amazon AWS](https://aws.amazon.com)
 EC2  instances, but you can host Amplify on more or less any webserver that
 runs Ruby on Rails and PostgreSQL.
@@ -583,6 +591,15 @@ The EC2 servers run the following:
 * RVM
 * Ruby 2.3.0
 * ImageMagick
+* Nodejs
+* FFmpeg
+
+> NOTE: fstab is changed to map the `releases` and `/tmp` folders under `/mnt/data01` as below config:
+> ```
+> /mnt/data01/releases /home/deploy/nsw-state-library-amplify/releases none bind
+> /mnt/data01/tmp /tmp none bind
+> ```
+> Run `sudo mount -av` to make this config effective.
 
 Deployments are done via Capistrano. The configuration for this is
 checked into this repository, under `config/deploy.rb` and the per-environment
