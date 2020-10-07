@@ -6,4 +6,8 @@ class AudioUploader < CarrierWave::Uploader::Base
   def store_dir
     "collections_v2/#{s3_collection_uid}/audio/"
   end
+
+  def cache_dir
+    "/tmp/carrierwave/"
+  end
 end

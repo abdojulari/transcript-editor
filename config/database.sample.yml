@@ -4,7 +4,7 @@ development:
   encoding: unicode
   username: postgres
   password: password
-  database: app_name
+  database: amplify_development
   port: 5432
   pool: 5
   timeout: 5000
@@ -18,7 +18,7 @@ test:
   encoding: unicode
   username: user
   password: password
-  database: app_name
+  database: amplify_test
   port: 5432
   pool: 5
   timeout: 5000

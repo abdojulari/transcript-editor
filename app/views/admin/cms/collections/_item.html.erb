@@ -10,13 +10,13 @@
   </td>
 
   <td>
-    <%= item.voicebase_status %>
+    <span><%= item.process_status || :started %></span>
     <%= button_to sync_admin_cms_transcript_path(item),
       method: "get",
       data: { disable_with: "Loading..." } do
     %>
     Sync
-    <% end if item.voicebase? %>
+    <% end if policy(item).syncable? %>
   </td>
   <td class="text-center">
     <%= link_to transcript_path(item, preview: true),

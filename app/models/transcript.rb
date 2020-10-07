@@ -21,8 +21,8 @@ class Transcript < ApplicationRecord
   pg_search_scope :search_default, :against => [:title, :description]
   pg_search_scope :search_by_title, :against => :title
 
-  scope :voicebase_processing_pending, -> { voicebase.where(voicebase_processing_completed_at: nil) }
-  scope :not_picked_up_for_voicebase_processing, -> { voicebase.where.not(pickedup_for_voicebase_processing_at: nil) }
+  scope :voicebase_processing_pending, -> { voicebase.where(process_completed_at: nil) }
+  scope :not_picked_up_for_voicebase_processing, -> { voicebase.where.not(process_started_at: nil) }
   scope :completed, -> { where(percent_completed: 100) }
   scope :reviewing, -> { where("percent_reviewing > 0 and percent_completed < 100") }
   scope :pending, -> { where("percent_reviewing = 0 and percent_completed < 100") }
@@ -42,11 +42,11 @@ class Transcript < ApplicationRecord
   attribute :audio_item_url_title, :string, default: "View audio in Library catalogue"
   attribute :image_item_url_title, :string, default: "View image in Library catalogue"
 
-  after_save :voicebase_upload
+  after_save :process_speech_to_text_for_audio_file
 
-  # 0 - voice base upload (default)
-  # 1 - manual upload
-  enum transcript_type: { voicebase: 0, manual: 1  }
+  enum transcript_type: { voicebase: 0, manual: 1, azure: 2 }
+
+  enum process_status: { started: 'started', completed: 'completed', failed: 'failed' }, _prefix: :process
 
   def self.seconds_per_line
     5
@@ -560,13 +560,11 @@ class Transcript < ApplicationRecord
     end
   end
 
-  def voicebase_upload
-    if voicebase? && audio.identifier
-      # this means the file is either added or changed
-      # We upload the file to VoiceBase
-      VoiceBaseUploadJob.perform_later(self.id)
-      # VoiceBase::VoicebaseApiService.upload_media(self.id)
-    end
+  def process_speech_to_text_for_audio_file
+    # no change? no process
+    return unless audio.identifier && saved_change_to_attribute?(:audio)
+
+    Azure::SpeechToTextJob.perform_later(id) if azure?
   end
 
   def disk_usage

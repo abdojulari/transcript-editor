@@ -8,12 +8,11 @@ require "capistrano/deploy"
 require "capistrano/scm/git"
 install_plugin Capistrano::SCM::Git
 
+require 'capistrano/npm'
 require 'capistrano/bundler'
 require 'capistrano/rvm'
 require 'capistrano/rails/migrations'
 require 'capistrano/sidekiq'
-
-require 'whenever/capistrano'
 
 require 'capistrano/puma'
 install_plugin Capistrano::Puma

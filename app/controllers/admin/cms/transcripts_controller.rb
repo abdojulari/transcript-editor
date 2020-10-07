@@ -7,11 +7,11 @@ class Admin::Cms::TranscriptsController < AdminController
   before_action :set_collection, only: [:update_multiple]
 
   def new
-    @transcript = Transcript.new(collection_id: collection_id)
+    @transcript = Transcript.new(collection_id: collection_id, transcript_type: :azure)
   end
 
   def create
-    @transcript = Transcript.new(transcript_params)
+    @transcript = Transcript.new(transcript_params.merge vendor_id: Vendor.first&.id)
 
     if @transcript.save
       flash[:notice] = "The new transcript has been saved."
@@ -36,10 +36,8 @@ class Admin::Cms::TranscriptsController < AdminController
   end
 
   def sync
-    VoiceBase::VoicebaseApiService.check_progress(@transcript.id)
-    @transcript = Transcript.find(@transcript.id)
-    if @transcript.voicebase_status == "completed"
-      @file = VoiceBase::VoicebaseApiService.process_transcript(@transcript.id)
+    if @transcript.azure?
+      Azure::SpeechToTextJob.perform_later @transcript.id
     end
     @transcript.reload
   end
@@ -117,7 +115,7 @@ class Admin::Cms::TranscriptsController < AdminController
       :crop_x, :crop_y, :crop_w, :crop_h,
       :image, :image_caption,
       :image_catalogue_url,
-      :notes, :vendor_id, :collection_id, :speakers,
+      :notes, :collection_id, :speakers,
       :publish, :audio_item_url_title,
       :image_item_url_title,
       :transcript_type

@@ -91,6 +91,7 @@ group :development, :test do
 end
 
 group :development do
+  gem "foreman"
   gem "listen", ">= 3.0.5", "< 3.2"
   gem "spring-watcher-listen", "~> 2.0.0"
   gem "web-console", ">= 3.3.0"
@@ -101,6 +102,7 @@ group :development do
   gem "capistrano-rvm", "~> 0.1.2"
   gem "capistrano-sidekiq", "~> 1.0.2"
   gem "capistrano3-puma", "~> 3.1.1"
+  gem "capistrano-npm", "~>1.0.3"
   gem "rubocop", "~> 0.65.0"
 
   gem "dotenv-rails", "~> 2.7.1"
@@ -141,7 +143,6 @@ gem "rest-client", "~> 2.0.2"
 gem "seed_migration", "~> 1.2.3"
 gem "sidekiq", "< 6"
 gem "sidekiq-cron", "~> 1.2.0"
-gem "whenever", "~> 0.10.0", require: false
 
 # Track object changes
 gem "paper_trail", "~> 10.3.1"
