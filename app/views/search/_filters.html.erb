@@ -1,4 +1,16 @@
-<%= form_tag transcripts_home_index_url, method: :get, remote: true, class: 'home-form' do %>
+<%= form_tag query_search_index_url, method: :get, remote: true, class: 'home-form' do %>
+
+  <section class="search_bar">
+    <article class="search_bar__content">
+      <div class="search_bar__form" id="search-form">
+        <div class="search_field">
+          <%= search_field_tag "data[q]", nil, placeholder: "Search all transcripts" %>
+          <%= submit_tag "Start", class: "button icon search" %>
+        </div>
+      </div>
+    </article>
+  </section>
+
   <div id="filters">
     <section class="filter_bar">
       <article class="filter_bar__content">
@@ -38,20 +50,7 @@
                   </div>
                 </div>
 
-                <div class="facet">
-                  <div class="search_field">
-                    <%= text_field_tag "data[text]", params.dig(:data, :text), placeholder: "Search title/description" %>
-                  </div>
-                </div>
-              </div>
 
-              <div class="filter_bar__fieldset">
-                <legend class="desktop-only">
-                  Sort by:
-                </legend>
-                <div class="facet">
-                  <%= select_tag "data[sort_id]", options_from_collection_for_select(@sort_list, "id", "title"), prompt: "Random" %>
-                </div>
                 <div class="search_field">
                   <%= submit_tag "Apply filters", class: "button icon search", id: "filters-submit" %>
                 </div>
