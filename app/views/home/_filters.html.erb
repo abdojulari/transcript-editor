@@ -1,4 +1,4 @@
-<%= form_tag root_path, method: :get, class: 'home-form' do %>
+<%= form_tag root_path, method: :get, enforce_utf8: false, data: { 'turbolinks-scroll': false }, class: 'home-form' do %>
   <div id="filters">
     <section class="filter_bar">
       <article class="filter_bar__content">
@@ -18,7 +18,7 @@
 
                 <% if show_institutions? %>
                   <div class="facet" id="institution_search">
-                    <%= render partial: 'home/institutions', locals: { institutions: @institutions, selected_id: @selected_institution_id.to_i } %>
+                    <%= render partial: 'home/institutions', locals: { institutions: @institutions, selected_id: @selected_institution_id } %>
                   </div>
                 <% end %>
 
@@ -30,7 +30,7 @@
 
                 <div class="facet">
                   <div class="search_field">
-                    <%= text_field_tag "data[text]", params.dig(:data, :text), placeholder: "Search title/description" %>
+                    <%= text_field_tag "search", params[:search], placeholder: "Search title/description" %>
                   </div>
                 </div>
               </div>
@@ -40,14 +40,14 @@
                   Sort by:
                 </legend>
                 <div class="facet">
-                  <%= select_tag "data[sort_id]", options_from_collection_for_select(@sort_list, "id", "title", params.dig(:data, :sort_id)), prompt: "Random" %>
+                  <%= select_tag "sort_by", options_from_collection_for_select(@sort_list, "id", "title", params[:sort_by]), prompt: "Random" %>
                 </div>
                 <div class="search_field">
-                  <%= submit_tag "Apply filters", class: "button icon search", id: "filters-submit" %>
+                  <%= submit_tag "Apply filters", class: "button icon search", id: "filters-submit", name: nil %>
                 </div>
 
                 <div>
-                  <%= link_to root_path, id: 'reset'  do %>
+                  <%= link_to root_path, id: 'reset', 'data-turbolinks-scroll': false do %>
                     <%= fa_icon "refresh" %>
                     Reset
                   <% end %>

@@ -20,9 +20,7 @@ class InstitutionsController < ApplicationController
     @selected_collection_id = @institution.collections.
       where(uid: params_list[:collection_id]).first.try(:id) if @institution
 
-
-    @form_path = transcripts_home_index_url
-    @form_method = :post
+    @transcripts = TranscriptService.search(build_params)
 
     load_institution_footer
   rescue ActiveRecord::RecordNotFound

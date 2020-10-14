@@ -29,6 +29,7 @@ $(document).ready(function() {
   });
 
   $(".home-form").submit(function(event){
+    $(this).find(":input").filter(function(){ return !this.value; }).attr("disabled", "disabled");
     $("#transcript-results").html('<div class="lds-ripple"><div></div><div></div></div>');
   })
 
@@ -51,11 +52,38 @@ $(document).ready(function() {
   });
 
   $(document).on('turbolinks:load', function() {
+    $(".home-form").find( ":input" ).prop( "disabled", false );
     setSelect2();
     scrollDown();
 
-    $('#data_institution_id').change(function() {
+    $('#institution').change(function() {
       $(this.form).submit();
     });
   });
 })
+
+// Turbolinks scroll
+Turbolinks.scroll = {};
+
+document.addEventListener("turbolinks:load", function() {
+
+  const elements = document.querySelectorAll("[data-turbolinks-scroll]");
+
+  elements.forEach(function(element){
+
+    element.addEventListener("click", function() {
+      Turbolinks.scroll['top'] = document.scrollingElement.scrollTop;
+    });
+
+    element.addEventListener("submit", function() {
+      Turbolinks.scroll['top'] = document.scrollingElement.scrollTop;
+    });
+
+  });
+
+  if (Turbolinks.scroll['top']) {
+    document.scrollingElement.scrollTo(0, Turbolinks.scroll['top']);
+  }
+
+  Turbolinks.scroll = {};
+});

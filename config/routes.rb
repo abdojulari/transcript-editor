@@ -84,12 +84,7 @@ Rails.application.routes.draw do
   end
   match 'moderator' => 'admin/flags#index', :via => [:get], :as => :moderator
 
-  resources :home, only: [:index, :transcripts] do
-    collection do
-      post "transcripts"
-      get "transcripts"
-    end
-  end
+  resources :home, only: [:index]
 
   resources :dashboard, only: [:index]
   resources :search, only: [:index] do

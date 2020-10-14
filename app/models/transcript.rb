@@ -141,34 +141,35 @@ class Transcript < ApplicationRecord
   end
 
   def self.get_for_home_page(params)
-    sort = params[:sort_id].to_s
+    sort = params[:sort_by].to_s
 
     query = Transcript.
       select('transcripts.*, COALESCE(collections.title, \'\') as collection_title').
       joins('LEFT OUTER JOIN collections ON collections.id = transcripts.collection_id').
+      joins('LEFT OUTER JOIN institutions ON institutions.id = collections.institution_id').
       where("transcripts.lines > 0 AND transcripts.project_uid = :project_uid AND transcripts.published_at is NOT NULL and collections.published_at is NOT NULL", {project_uid: ENV['PROJECT_ID']})
 
     # scope by collection
-    query = query.where("transcripts.collection_id in (?)", params[:collection_id]) if params[:collection_id].present? && params[:collection_id].reject {|id| id.to_i == 0}.any?
+    query = query.where("collections.title in (?)", params[:collections]) if params[:collections].present?
 
     # scope by institution
-    query = query.where("collections.institution_id = #{params[:institution_id]}") if params[:institution_id].to_i > 0
+    query = query.where("institutions.slug = '#{params[:institution]}'") if params[:institution].present?
 
     # scope for theme
     # since the theme is coming from the dropdown, we can use it as is
-    if params[:theme].present? && params[:theme].reject {|t| t == ""}.any?
+    if params[:themes].present?
       query = query.joins('inner join taggings on taggings.taggable_id = collections.id inner join tags on tags.id =  taggings.tag_id')
-      query = query.where("tags.name in (?)", params[:theme])
+      query = query.where("tags.name in (?)", params[:themes])
     end
 
     # search text
-    query = query.where("transcripts.title ILIKE :search or transcripts.description ILIKE :search", search: "%#{params[:text]}%") if params[:text].present?
+    query = query.where("transcripts.title ILIKE :search or transcripts.description ILIKE :search", search: "%#{params[:search]}%") if params[:search].present?
 
     if sort.match(/title/i)
       arr = query.sort_by {|e| e.title.gsub(/\d+/) {|num| "#{num.length} #{num}"}}
       sort == "title_asc" ? arr : arr.reverse
     else
-      order = sort_string(params[:sort_id])
+      order = sort_string(params[:sort_by])
       # if the order is nil, that means random
       order ? query.order(order) : randomize_list(query)
     end
