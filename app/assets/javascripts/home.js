@@ -53,17 +53,6 @@ $(document).ready(function(){
     $(this.form).submit();
   });
 
-  $('#reset').on('click', function(e){
-    collectionId = 0;
-    institutionId = 0;
-    sortId = '';
-    searchText = '';
-    firstTimeLoad = true;
-    theme = '';
-    e.preventDefault();
-    loadTranscripts();
-  });
-
   $(".home-form").submit(function(event){
     $("#transcript-results").html('<div class="lds-ripple"><div></div><div></div></div>')
     scrollUp();
@@ -75,37 +64,4 @@ $(document).ready(function(){
       scrollTop: (target - 200)
     }, 1000);
   }
-
-  function loadFirstTime(){
-    loadTranscripts();
-  }
-
-  function loadTranscripts(){
-    data = {
-      institution_id: institutionId,
-      collection_id: collectionId,
-      sort_id: sortId,
-      text: searchText,
-      theme: theme
-    };
-
-    $("#transcript-results").html('<div class="lds-ripple"><div></div><div></div></div>')
-
-    $.ajax({
-        type: "POST",
-        url: "/home/transcripts",
-        data: {data: data},
-      success: function(data, textStatus, jqXHR){
-        if (!firstTimeLoad) {
-          scrollUp()
-        }
-        firstTimeLoad = false;
-      },
-      error: function(jqXHR, textStatus, errorThrown){
-
-      }
-    })
-  }
-
-  loadFirstTime();
 })

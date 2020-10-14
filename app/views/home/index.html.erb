@@ -18,4 +18,5 @@
 <!-- extended_controls -> sort and search boxes -->
 <%= render 'filters', extended_controls: true  %>
 <section id='transcript-results'>
+  <%= render partial: 'home/transcript_list', locals: { transcripts: (@transcripts || []) } %>
 </section>

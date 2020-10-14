@@ -8,16 +8,17 @@ class HomeController < ApplicationController
   include Searchable
 
   def index
-    @sort_list = SortList.list
+    @selected_collection_id = build_params[:collection_id]
+    @selected_institution_id = select_institution_id
+    @transcripts = TranscriptService.search(build_params)
     @themes = Theme.all.order(name: :asc)
-    @form_path = transcripts_home_index_url
-    @form_method = :get
+    @sort_list = SortList.list
   end
 
   def transcripts
-    @selected_collection_id = sort_params[:collection_id]
+    @selected_collection_id = build_params[:collection_id]
     @selected_institution_id = select_institution_id
-    @transcripts = TranscriptService.search(sort_params)
+    @transcripts = TranscriptService.search(build_params)
     @themes = Theme.all.order(name: :asc)
     @sort_list = SortList.list
   end

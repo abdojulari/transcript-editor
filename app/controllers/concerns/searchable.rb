@@ -4,6 +4,8 @@ module Searchable
   private
 
   def sort_params
+    return {} if params[:data].blank?
+
     if params.dig(:data, :collection_id).is_a? String
       params[:data][:collection_id] = [params[:data][:collection_id]]
     end
