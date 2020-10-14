@@ -11,24 +11,14 @@
                 </legend>
 
                 <% if show_theme? %>
-                  <div class="facet">
-                    <div name="filter-by-theme" class="select theme">
-                      <div class="select-active" id="theme-filter">All Themes</div>
-                    </div>
-                    <div class="checkbox-list" id="data_theme_">
-                      <%= collection_check_boxes('data', 'theme', @themes, "name", "name", include_hidden: false) do |b| %>
-                        <div class="option">
-                          <%= b.check_box(checked: themes_checked?(b)) %> <%= b.label %>
-                        </div>
-                      <% end %>
-                    </div>
+                  <div class="facet" id="theme_search">
+                    <%= render partial: 'home/themes', locals: { themes: @themes } %>
                   </div>
                 <% end %>
 
                 <% if show_institutions? %>
                   <div class="facet" id="institution_search">
-                    <%= hidden_field_tag :instution_selected_id, @selected_institution_id.to_i  %>
-                    <%= render partial: 'home/institutions', locals: { institutions: @institutions, selected_id: @selected_institution_id.to_i, hide_label: false } %>
+                    <%= render partial: 'home/institutions', locals: { institutions: @institutions, selected_id: @selected_institution_id.to_i } %>
                   </div>
                 <% end %>
 
@@ -50,7 +40,7 @@
                   Sort by:
                 </legend>
                 <div class="facet">
-                  <%= select_tag "data[sort_id]", options_from_collection_for_select(@sort_list, "id", "title"), prompt: "Random" %>
+                  <%= select_tag "data[sort_id]", options_from_collection_for_select(@sort_list, "id", "title", params.dig(:data, :sort_id)), prompt: "Random" %>
                 </div>
                 <div class="search_field">
                   <%= submit_tag "Apply filters", class: "button icon search", id: "filters-submit" %>

@@ -1,0 +1,34 @@
+<div name="filter-by-theme" class="select theme">
+  <div class="select-active" id="theme-filter"></div>
+</div>
+<div class="checkbox-list" id="data_theme_">
+  <%= collection_check_boxes('data', 'theme', themes, "name", "name", include_hidden: false) do |b| %>
+    <div class="option">
+      <%= b.check_box(checked: themes_checked?(b)) %> <%= b.label %>
+    </div>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    var checked = $('#data_theme_ input[type=checkbox]:checked').size();
+
+    if (checked === 0) {
+      $('#theme-filter').text("All Themes");
+    } else {
+      $('#theme-filter').text("Themes (" + checked + ")");
+      $('#data_theme_ input[type=checkbox]:checked').each(function(i, checkbox) {
+        $(checkbox).parent().addClass("checked");
+      })
+    }
+
+    $('#data_theme_').change(function() {
+      var size = $(this).find('input[type=checkbox]:checked').size();
+      $('#theme-filter').text("Themes (" + size + ")");
+    });
+
+    $('#data_theme_ input[type=checkbox]').change(function() {
+      $(this).parent().toggleClass("checked");
+    });
+  })
+</script>

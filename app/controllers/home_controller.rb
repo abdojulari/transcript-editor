@@ -8,7 +8,6 @@ class HomeController < ApplicationController
   include Searchable
 
   def index
-    @selected_collection_id = build_params[:collection_id]
     @selected_institution_id = select_institution_id
     @transcripts = TranscriptService.search(build_params)
     @themes = Theme.all.order(name: :asc)

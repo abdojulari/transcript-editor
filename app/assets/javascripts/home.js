@@ -1,13 +1,6 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
-$(document).ready(function(){
-  var collectionId = 0;
-  var institutionId = 0;
-  var sortId = '';
-  var searchText = '';
-  var firstTimeLoad = true;
-  var theme = '';
-
+$(document).ready(function() {
   $(document).mouseup(function(e) {
     var container = $("#data_theme_");
     var container2 = $("#data_collection_id_");
@@ -35,33 +28,34 @@ $(document).ready(function(){
     }
   });
 
-  $("select:not([multiple=multiple])").select2({
-    theme: "amplify",
-    minimumResultsForSearch: Infinity
-  });
-
-  $('#data_theme_').change(function() {
-    var size = $(this).find('input[type=checkbox]:checked').size();
-    $('#theme-filter').text("Themes (" + size + ")");
-  });
-
-  $('#data_theme_ input[type=checkbox]').change(function() {
-    $(this).parent(".option").toggleClass("checked");
-  });
-
-  $('#data_institution_id').change(function() {
-    $(this.form).submit();
-  });
-
   $(".home-form").submit(function(event){
-    $("#transcript-results").html('<div class="lds-ripple"><div></div><div></div></div>')
-    scrollUp();
+    $("#transcript-results").html('<div class="lds-ripple"><div></div><div></div></div>');
   })
 
-  function scrollUp(){
+  function setSelect2() {
+    $("select:not([multiple=multiple])").select2({
+      theme: "amplify",
+      minimumResultsForSearch: Infinity
+    });
+  }
+
+  function scrollDown(){
     var target  = $('#transcript-results').offset().top;
     $('html, body').animate({
       scrollTop: (target - 200)
     }, 1000);
   }
+
+  $(document).on("turbolinks:before-cache", function() {
+    $("select:not([multiple=multiple])").select2('destroy');
+  });
+
+  $(document).on('turbolinks:load', function() {
+    setSelect2();
+    scrollDown();
+
+    $('#data_institution_id').change(function() {
+      $(this.form).submit();
+    });
+  });
 })
