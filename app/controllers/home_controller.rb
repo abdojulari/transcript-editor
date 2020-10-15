@@ -8,6 +8,7 @@ class HomeController < ApplicationController
   include HomeSearch
 
   def index
+    @build_params = build_params
     @transcripts = TranscriptService.search(build_params)
     @themes = Theme.all.order(name: :asc)
     @sort_list = SortList.list

@@ -24,6 +24,11 @@ class InstitutionsController < ApplicationController
 
   private
 
+  def load_institution
+    @institution = Institution.friendly.find(params_list[:institution_id])
+    @build_params = build_params.to_h
+  end
+
   def load_institutions
     @institutions = [@institution]
     @build_params[:institution] = @institution.slug
@@ -63,10 +68,5 @@ class InstitutionsController < ApplicationController
 
   def filter_requests
     return head :not_found if (params[:format] && params[:format] != "html")
-  end
-
-  def load_institution
-    @institution = Institution.friendly.find(params_list[:institution_id])
-    @build_params = build_params.to_h
   end
 end

@@ -8,10 +8,11 @@
    transcript = transcript.decorate
 %>
   <div class="search_item">
-    <div
-      class="search_item__image"
-      style="background-image: url('<%= transcript.image_url %>')"
-    ></div>
+    <% if transcript.image_url %>
+      <div class="search_item__image" style="background-image: url('<%= transcript.image_url %>')"></div>
+    <% else %>
+      <div class="search_item__image"></div>
+    <% end %>
     <div class="search_item__details">
       <div class="search_item__title">
         <%= transcript.title %>

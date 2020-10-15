@@ -10,7 +10,6 @@ class SearchController < ApplicationController
     @collection = Collection.published
     @themes = Theme.all.order(name: :asc)
     @page_title = "Search"
-    @build_params = build_params
   end
 
   def query
@@ -18,6 +17,5 @@ class SearchController < ApplicationController
     @selected_institution_id = select_institution_id
     @transcripts = Transcript.search(build_params)
     @query = build_params[:q]
-    @build_params = build_params
   end
 end

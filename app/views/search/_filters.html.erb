@@ -29,7 +29,7 @@
                     <div class="checkbox-list" id="data_theme_">
                       <%= collection_check_boxes('data', 'theme', @themes, "name", "name", include_hidden: false) do |b| %>
                         <div class="option">
-                          <%= b.check_box(checked: themes_checked?(b)) %> <%= b.label %>
+                          <%= b.check_box(checked: search_themes_checked?(b)) %> <%= b.label %>
                         </div>
                       <% end %>
                     </div>
