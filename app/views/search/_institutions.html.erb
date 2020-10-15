@@ -1,0 +1,5 @@
+<% if institutions.any? %>
+  <%= select_tag "data[institution_id]", options_from_collection_for_select(institutions, "id", "name", selected_id) %>
+<% else %>
+  No institution found
+<% end %>
