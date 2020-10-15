@@ -39,13 +39,13 @@
                 <% if show_institutions? %>
                   <div class="facet" id="institution_search">
                     <%= hidden_field_tag :instution_selected_id, @selected_institution_id.to_i  %>
-                    <%= render partial: 'home/institutions', locals: { institutions: @institutions, selected_id: @selected_institution_id.to_i, hide_label: false } %>
+                    <%= render partial: 'search/institutions', locals: { institutions: @institutions, selected_id: @selected_institution_id.to_i, hide_label: false } %>
                   </div>
                 <% end %>
 
                 <div class="facet">
                   <div id="collection_search">
-                    <%= render partial: 'home/collection', locals: { collection: @collection } %>
+                    <%= render partial: 'search/collection', locals: { collection: @collection } %>
                   </div>
                 </div>
 
