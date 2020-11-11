@@ -12,7 +12,7 @@ end
 
 unless %w(test development).include?(Rails.env)
   Sidekiq::Cron::Job.create(
-    name: "Cache Analytics data - at 3AM Sydney time",
+    name: "Cache Analytics data - at 4PM UTC",
     cron: "0 16 * * *",
     class: "DailyAnalyticsJob",
   )
