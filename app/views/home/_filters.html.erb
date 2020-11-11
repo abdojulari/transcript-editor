@@ -1,17 +1,4 @@
-<%= form_tag @form_path, method: @form_method, remote: true, class: 'home-form' do %>
-  <% unless extended_controls %>
-    <section class="search_bar">
-      <article class="search_bar__content">
-        <div class="search_bar__form" id="search-form">
-          <div class="search_field">
-            <%= search_field_tag "data[q]", nil, placeholder: "Search all transcripts" %>
-            <%= submit_tag "Start", class: "button icon search" %>
-          </div>
-        </div>
-      </article>
-    </section>
-  <% end %>
-
+<%= form_tag @form_url, method: :get, enforce_utf8: false, data: { 'turbolinks-scroll': false }, class: 'home-form' do %>
   <div id="filters">
     <section class="filter_bar">
       <article class="filter_bar__content">
@@ -24,75 +11,48 @@
                 </legend>
 
                 <% if show_theme? %>
-                  <div class="facet">
-                    <div name="filter-by-theme" class="select theme">
-                      <div class="select-active" id="theme-filter">All Themes</div>
-                    </div>
-                    <div class="checkbox-list" id="data_theme_">
-                      <%= collection_check_boxes('data', 'theme', @themes, "name", "name", include_hidden: false) do |b| %>
-                        <div class="option">
-                          <%= b.check_box %> <%= b.label %>
-                        </div>
-                      <% end %>
-                    </div>
+                  <div class="facet" id="theme_search">
+                    <%= render partial: 'home/themes', locals: { themes: @themes } %>
                   </div>
                 <% end %>
 
                 <% if show_institutions? %>
                   <div class="facet" id="institution_search">
-                    <%= hidden_field_tag :instution_selected_id, @selected_institution_id.to_i  %>
-                    <%= render partial: 'home/institutions', locals: { institutions: @institutions, selected_id: @selected_institution_id.to_i, hide_label: false } %>
+                    <%= render partial: 'home/institutions', locals: { institutions: @institutions } %>
                   </div>
                 <% end %>
 
-                <%= hidden_field_tag :collection_selected_id, @selected_collection_id.to_i  %>
                 <div class="facet">
                   <div id="collection_search">
-                    <%= render partial: 'home/collection', locals: { collection: @collection, selected_id: @selected_collection_id } %>
+                    <%= render partial: 'home/collection', locals: { collection: @collection } %>
                   </div>
                 </div>
 
-                <% if extended_controls %>
                 <div class="facet">
                   <div class="search_field">
-                    <%= text_field_tag "data[text]", nil, placeholder: "Search title/description" %>
+                    <%= text_field_tag "search", @build_params[:search], placeholder: "Search title/description" %>
                   </div>
                 </div>
-                <% else %>
-
-                  <div class="search_field">
-                    <%= submit_tag "Apply filters", class: "button icon search", id: "filters-submit" %>
-                  </div>
-
-                  <div>
-                    <%= link_to '', id: 'reset'  do %>
-                      <%= fa_icon "refresh" %>
-                      Reset
-                    <% end %>
-                  </div>
-                <% end %>
               </div>
 
-              <% if extended_controls %>
-                <div class="filter_bar__fieldset">
-                  <legend class="desktop-only">
-                    Sort by:
-                  </legend>
-                  <div class="facet">
-                    <%= select_tag "data[sort_id]", options_from_collection_for_select(@sort_list, "id", "title"), prompt: "Random" %>
-                  </div>
-                  <div class="search_field">
-                    <%= submit_tag "Apply filters", class: "button icon search", id: "filters-submit" %>
-                  </div>
-
-                  <div>
-                    <%= link_to '', id: 'reset'  do %>
-                      <%= fa_icon "refresh" %>
-                      Reset
-                    <% end %>
-                  </div>
+              <div class="filter_bar__fieldset">
+                <legend class="desktop-only">
+                  Sort by:
+                </legend>
+                <div class="facet">
+                  <%= select_tag "sort_by", options_from_collection_for_select(@sort_list, "id", "title", @build_params[:sort_by]), prompt: "Random" %>
                 </div>
-              <% end %>
+                <div class="search_field">
+                  <%= submit_tag "Apply filters", class: "button icon search", id: "filters-submit", name: nil %>
+                </div>
+
+                <div>
+                  <%= link_to @form_url, id: 'reset', 'data-turbolinks-scroll': false do %>
+                    <%= fa_icon "refresh" %>
+                    Reset
+                  <% end %>
+                </div>
+              </div>
             </div>
           </div>
         </div>

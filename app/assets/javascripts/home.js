@@ -1,13 +1,6 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
-$(document).ready(function(){
-  var collectionId = 0;
-  var institutionId = 0;
-  var sortId = '';
-  var searchText = '';
-  var firstTimeLoad = true;
-  var theme = '';
-
+$(document).ready(function() {
   $(document).mouseup(function(e) {
     var container = $("#data_theme_");
     var container2 = $("#data_collection_id_");
@@ -35,79 +28,62 @@ $(document).ready(function(){
     }
   });
 
-  $("select:not([multiple=multiple])").select2({
-    theme: "amplify",
-    minimumResultsForSearch: Infinity
-  });
-
-  $('#data_theme_').change(function() {
-    var size = $(this).find('input[type=checkbox]:checked').size();
-    $('#theme-filter').text("Themes (" + size + ")");
-  });
-
-  $('#data_theme_ input[type=checkbox]').change(function() {
-    $(this).parent(".option").toggleClass("checked");
-  });
-
-  $('#data_institution_id').change(function() {
-    $(this.form).submit();
-  });
-
-  $('#reset').on('click', function(e){
-    collectionId = 0;
-    institutionId = 0;
-    sortId = '';
-    searchText = '';
-    firstTimeLoad = true;
-    theme = '';
-    e.preventDefault();
-    loadTranscripts();
-  });
-
   $(".home-form").submit(function(event){
-    $("#transcript-results").html('<div class="lds-ripple"><div></div><div></div></div>')
-    scrollUp();
+    $(this).find(":input").filter(function(){ return !this.value; }).attr("disabled", "disabled");
+    $("#transcript-results").html('<div class="lds-ripple"><div></div><div></div></div>');
   })
 
-  function scrollUp(){
+  function setSelect2() {
+    $("select:not([multiple=multiple])").select2({
+      theme: "amplify",
+      minimumResultsForSearch: Infinity
+    });
+  }
+
+  function scrollDown(){
     var target  = $('#transcript-results').offset().top;
     $('html, body').animate({
       scrollTop: (target - 200)
     }, 1000);
   }
 
-  function loadFirstTime(){
-    institutionId = $('#instution_selected_id').val();
-    collectionId = $('#collection_selected_id').val();
-    loadTranscripts();
-  }
+  $(document).on("turbolinks:before-cache", function() {
+    $("select:not([multiple=multiple])").select2('destroy');
+  });
 
-  function loadTranscripts(){
-    data = {
-      institution_id: institutionId,
-      collection_id: collectionId,
-      sort_id: sortId,
-      text: searchText,
-      theme: theme
-    };
+  $(document).on('turbolinks:load', function() {
+    $(".home-form").find( ":input" ).prop( "disabled", false );
+    setSelect2();
+    scrollDown();
 
-    $("#transcript-results").html('<div class="lds-ripple"><div></div><div></div></div>')
-
-    $.ajax({
-        type: "POST",
-        url: "/home/transcripts",
-        data: {data: data},
-      success: function(data, textStatus, jqXHR){
-        if (!firstTimeLoad) {
-          scrollUp()
-        }
-        firstTimeLoad = false;
-      },
-      error: function(jqXHR, textStatus, errorThrown){
-
-      }
-    })
-  }
-
-  loadFirstTime();
+    $('#institution').change(function() {
+      $(this.form).submit();
+    });
+  });
 })
+
+// Turbolinks scroll
+Turbolinks.scroll = {};
+
+document.addEventListener("turbolinks:load", function() {
+
+  const elements = document.querySelectorAll("[data-turbolinks-scroll]");
+
+  elements.forEach(function(element){
+
+    element.addEventListener("click", function() {
+      Turbolinks.scroll['top'] = document.scrollingElement.scrollTop;
+    });
+
+    element.addEventListener("submit", function() {
+      Turbolinks.scroll['top'] = document.scrollingElement.scrollTop;
+    });
+
+  });
+
+  if (Turbolinks.scroll['top']) {
+    document.scrollingElement.scrollTo(0, Turbolinks.scroll['top']);
+  }
+
+  Turbolinks.scroll = {};
+});
