@@ -6,9 +6,6 @@ ruby "2.5.3"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "rails", "~> 5.2.0"
 
-# Use turbolinks so filtering does not refresh whole page
-gem "turbolinks", "~> 5.2.0"
-
 # Use PostgreSQL as the database for Active Record
 gem "pg", "~> 1.1.4"
 gem "pg_search", "~> 2.1.4"

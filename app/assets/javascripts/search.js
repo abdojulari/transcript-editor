@@ -85,15 +85,6 @@ $(document).ready(function(){
     });
   }
 
-  $(document).on("turbolinks:before-cache", function() {
-    $("select:not([multiple=multiple])").select2('destroy');
-  });
-
-  $(document).on('turbolinks:load', function() {
-    $(".home-form").find( ":input" ).prop( "disabled", false );
-    setSelect2();
-  });
-
   function loadTranscripts(){
     data = {
       institution_id: institutionId,
@@ -118,5 +109,6 @@ $(document).ready(function(){
       }
     })
   }
-  loadTranscripts()
+  loadTranscripts();
+  setSelect2();
 })
