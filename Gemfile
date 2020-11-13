@@ -23,9 +23,9 @@ gem "coffee-rails", "~> 4.2"
 gem "font-awesome-rails", "~> 4.7.0"
 gem "jquery-rails", "~> 4.3.3"
 gem "sass-rails", "~> 5.0"
+gem "select2-rails", "~> 4.0.13"
 gem "summernote-rails", "~> 0.8.10"
 gem "uglifier", ">= 1.3.0"
-gem "select2-rails"
 
 # Back-end App is treated mostly as a JSON API
 gem "jbuilder", "~> 2.5"
@@ -98,11 +98,11 @@ group :development do
 
   gem "capistrano", "~> 3.11.0"
   gem "capistrano-bundler", "~> 1.6.0", require: false
+  gem "capistrano-npm", "~>1.0.3"
   gem "capistrano-rails", "~> 1.4.0", require: false
   gem "capistrano-rvm", "~> 0.1.2"
   gem "capistrano-sidekiq", "~> 1.0.2"
   gem "capistrano3-puma", "~> 3.1.1"
-  gem "capistrano-npm", "~>1.0.3"
   gem "rubocop", "~> 0.65.0"
 
   gem "dotenv-rails", "~> 2.7.1"
@@ -112,13 +112,13 @@ end
 
 group :test do
   gem "capybara", ">= 2.15", "< 4.0"
-  gem "webdrivers", "~> 4.1.2"
   gem "launchy", "~> 2.4.0"
   gem "pundit-matchers", "~> 1.6.0"
   gem "rails-controller-testing", "~> 1.0.4"
   gem "selenium-webdriver", "~> 3.141.0"
   gem "shoulda-matchers", "~> 3.1", require: false
   gem "simplecov", "~> 0.16.1"
+  gem "webdrivers", "~> 4.1.2"
 end
 
 group :staging, :production do

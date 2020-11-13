@@ -735,7 +735,7 @@ DEPENDENCIES
   sanitize (~> 5.0.0)
   sass-rails (~> 5.0)
   seed_migration (~> 1.2.3)
-  select2-rails
+  select2-rails (~> 4.0.13)
   selenium-webdriver (~> 3.141.0)
   shoulda-matchers (~> 3.1)
   sidekiq (< 6)

@@ -78,6 +78,12 @@ $(document).ready(function(){
     scrollUp()
   })
 
+  function setSelect2() {
+    $("select:not([multiple=multiple])").select2({
+      theme: "amplify",
+      minimumResultsForSearch: Infinity
+    });
+  }
 
   function loadTranscripts(){
     data = {
@@ -103,5 +109,6 @@ $(document).ready(function(){
       }
     })
   }
-  loadTranscripts()
+  loadTranscripts();
+  setSelect2();
 })

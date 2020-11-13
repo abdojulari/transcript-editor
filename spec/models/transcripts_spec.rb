@@ -146,14 +146,14 @@ RSpec.describe Transcript, type: :model do
   # rubocop:enable RSpec/PredicateMatcher
 
   describe "#get_for_home_page" do
+    let(:collection) { create :collection, :published }
     let(:params) do
-      { collection_id: [0], sort_id: sort_id,
-      text: "", institution_id: 0, theme: [""] }
+      { collections: [collection.title], sort_by: sort_by,
+      search: "", institution: nil, theme: [""] }
     end
 
     before do
       %w[B A].each do |title|
-        collection =  create :collection, :published
         create :transcript, :published,
           title: title,
           collection: collection,
@@ -163,7 +163,7 @@ RSpec.describe Transcript, type: :model do
     end
 
     context "when sorting by title A-Z" do
-      let!(:sort_id) { "title_asc" }
+      let!(:sort_by) { "title_asc" }
 
       it "sorts the records" do
         expect(described_class.get_for_home_page(params).map(&:title)).
@@ -172,7 +172,7 @@ RSpec.describe Transcript, type: :model do
     end
 
     context "when sorting random" do
-      let!(:sort_id) { "" } # blank means reandom
+      let!(:sort_by) { "" } # blank means random
 
       it "return random records" do
         expect(Transcript).to receive(:randomize_list)

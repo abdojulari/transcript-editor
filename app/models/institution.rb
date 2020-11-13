@@ -62,7 +62,7 @@ class Institution < ApplicationRecord
   end
 
   def self.all_institution_disk_usage
-    Rails.cache.fetch("Institution:disk_usage:all", expires_in: 23.hours) do
+    Rails.cache.fetch("Institution:disk_usage:all", expires_in: 48.hours) do
       Institution.all.map { |i| i.disk_usage }
         .inject({ image: 0, audio: 0, script: 0 }) do |memo, tu|
           memo[:image] += tu[:image]

@@ -84,11 +84,7 @@ Rails.application.routes.draw do
   end
   match 'moderator' => 'admin/flags#index', :via => [:get], :as => :moderator
 
-  resources :home, only: [:index, :transcripts] do
-    collection do
-      post "transcripts"
-    end
-  end
+  resources :home, only: [:index]
 
   resources :dashboard, only: [:index]
   resources :search, only: [:index] do
@@ -107,5 +103,5 @@ Rails.application.routes.draw do
   # root :to => 'default#index'
   root :to => 'home#index'
 
-  match '*path' => "institutions#index", via: [:get]
+  match '*path' => "institutions#index", via: [:get], as: :institution
 end

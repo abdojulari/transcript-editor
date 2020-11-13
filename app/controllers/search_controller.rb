@@ -10,8 +10,6 @@ class SearchController < ApplicationController
     @collection = Collection.published
     @themes = Theme.all.order(name: :asc)
     @page_title = "Search"
-    @form_path = query_search_index_url
-    @form_method = :get
   end
 
   def query
