@@ -1,4 +1,4 @@
-<%= form_tag @form_url, method: :get, enforce_utf8: false, data: { 'turbolinks-scroll': false }, class: 'home-form' do %>
+<%= form_tag @form_url, method: :get, enforce_utf8: false, class: 'home-form' do %>
   <div id="filters">
     <section class="filter_bar">
       <article class="filter_bar__content">
@@ -47,7 +47,7 @@
                 </div>
 
                 <div>
-                  <%= link_to @form_url, id: 'reset', 'data-turbolinks-scroll': false do %>
+                  <%= link_to @form_url, id: 'reset' do %>
                     <%= fa_icon "refresh" %>
                     Reset
                   <% end %>

@@ -21,27 +21,23 @@
                   Filter by:
                 </legend>
 
-                <% if show_theme? %>
-                  <div class="facet">
-                    <div name="filter-by-theme" class="select theme">
-                      <div class="select-active" id="theme-filter">All Themes</div>
-                    </div>
-                    <div class="checkbox-list" id="data_theme_">
-                      <%= collection_check_boxes('data', 'theme', @themes, "name", "name", include_hidden: false) do |b| %>
-                        <div class="option">
-                          <%= b.check_box(checked: search_themes_checked?(b)) %> <%= b.label %>
-                        </div>
-                      <% end %>
-                    </div>
+                <div class="facet">
+                  <div name="filter-by-theme" class="select theme">
+                    <div class="select-active" id="theme-filter">All Themes</div>
                   </div>
-                <% end %>
+                  <div class="checkbox-list" id="data_theme_">
+                    <%= collection_check_boxes('data', 'theme', @themes, "name", "name", include_hidden: false) do |b| %>
+                      <div class="option">
+                        <%= b.check_box(checked: search_themes_checked?(b)) %> <%= b.label %>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
 
-                <% if show_institutions? %>
-                  <div class="facet" id="institution_search">
-                    <%= hidden_field_tag :instution_selected_id, @selected_institution_id.to_i  %>
-                    <%= render partial: 'search/institutions', locals: { institutions: @institutions, selected_id: @selected_institution_id.to_i, hide_label: false } %>
-                  </div>
-                <% end %>
+                <div class="facet" id="institution_search">
+                  <%= hidden_field_tag :instution_selected_id, @selected_institution_id.to_i  %>
+                  <%= render partial: 'search/institutions', locals: { institutions: @institutions, selected_id: @selected_institution_id.to_i, hide_label: false } %>
+                </div>
 
                 <div class="facet">
                   <div id="collection_search">

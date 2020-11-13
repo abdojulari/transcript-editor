@@ -50,43 +50,10 @@ $(document).ready(function() {
     }
   }
 
-  $(document).on("turbolinks:before-cache", function() {
-    $("select:not([multiple=multiple])").select2('destroy');
-  });
+  setSelect2();
+  scrollDown();
 
-  $(document).on('turbolinks:load', function() {
-    $(".home-form").find( ":input" ).prop( "disabled", false );
-    setSelect2();
-    scrollDown();
-
-    $('#institution').change(function() {
-      $(this.form).submit();
-    });
+  $('#institution').change(function() {
+    $(this.form).submit();
   });
 })
-
-// Turbolinks scroll
-Turbolinks.scroll = {};
-
-document.addEventListener("turbolinks:load", function() {
-
-  const elements = document.querySelectorAll("[data-turbolinks-scroll]");
-
-  elements.forEach(function(element){
-
-    element.addEventListener("click", function() {
-      Turbolinks.scroll['top'] = document.scrollingElement.scrollTop;
-    });
-
-    element.addEventListener("submit", function() {
-      Turbolinks.scroll['top'] = document.scrollingElement.scrollTop;
-    });
-
-  });
-
-  if (Turbolinks.scroll['top']) {
-    document.scrollingElement.scrollTo(0, Turbolinks.scroll['top']);
-  }
-
-  Turbolinks.scroll = {};
-});
