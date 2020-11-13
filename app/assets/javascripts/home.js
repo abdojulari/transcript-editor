@@ -41,10 +41,13 @@ $(document).ready(function() {
   }
 
   function scrollDown(){
-    var target  = $('#transcript-results').offset().top;
-    $('html, body').animate({
-      scrollTop: (target - 200)
-    }, 1000);
+    var results = $('#transcript-results');
+    if (results[0]) {
+      var target  = results.offset().top;
+      $('html, body').animate({
+        scrollTop: (target - 200)
+      }, 1000);
+    }
   }
 
   $(document).on("turbolinks:before-cache", function() {
