@@ -85,13 +85,8 @@ Rails.application.routes.draw do
   match 'moderator' => 'admin/flags#index', :via => [:get], :as => :moderator
 
   resources :home, only: [:index]
-
+  resources :search, only: [:index]
   resources :dashboard, only: [:index]
-  resources :search, only: [:index] do
-    collection do
-      get 'query'
-    end
-  end
 
   match 'authenticate' => "authentication#authenticate", :via => [:post]
 
