@@ -3,9 +3,9 @@
     <div class="select-active" id="collection-filter"></div>
   </div>
   <div class="checkbox-list" id="data_collection_id_">
-    <%= collection_check_boxes('data', 'collection_id', collection, "id", "title", include_hidden: false) do |b| %>
+    <%= collection_check_boxes(nil, :collections, collection, "title", "title", include_hidden: false) do |b| %>
       <div class="option">
-        <%= b.check_box(checked: search_collection_checked?(b)) %> <%= b.label %>
+        <%= b.check_box(checked: collection_checked?(b)) %> <%= b.label %>
       </div>
     <% end %>
   </div>

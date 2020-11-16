@@ -20,8 +20,8 @@
           (<%= time_display(transcript.start_time) %>)
         <% end %>
       </div>
-      <%= raw search_text(transcript, query) %>
-      <%= raw item_tag(transcript, query) %>
+      <%= raw search_text(transcript, @build_params) %>
+      <%= raw item_tag(transcript, @build_params) %>
     </div>
   </div>
 <% end %>
