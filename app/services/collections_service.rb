@@ -3,13 +3,9 @@ class CollectionsService
     Collection.all
   end
 
-  def self.by_institution(institution_id)
-    id = if institution_id.to_i == 0
-           # 0 or nil consider as NSW state library
-           Institution.state_library_nsw.try(:id)
-         else
-           institution_id
-         end
-    Collection.published.where(institution_id: id)
+  def self.by_institution(institution_slug)
+    institution_slug ||= Institution.state_library_nsw.try(:slug)
+
+    Collection.published.order(title: :asc).joins(:institution).where("institutions.slug in (?)", institution_slug)
   end
 end
