@@ -11,6 +11,7 @@ class CollectionsController < ApplicationController
     @page_title = "Collections"
     @institutions = Institution.all
     @page = Page.find_by(page_type: "collections")&.public_page&.decorate
+    @build_params = params
   end
 
   def list
