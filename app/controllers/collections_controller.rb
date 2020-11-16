@@ -15,7 +15,7 @@ class CollectionsController < ApplicationController
   end
 
   def list
-    @collections = CollectionsService.by_institution(params[:institution_id])
+    @collections = CollectionsService.by_institution(params[:institution_slug])
   end
 
   # GET /collections/the-uid.json
