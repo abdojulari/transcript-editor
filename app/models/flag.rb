@@ -17,21 +17,11 @@ class Flag < ApplicationRecord
   end
 
   def self.getByTranscriptSession(transcript_id, session_id)
-    user = User.find user_id
-    if user.staff?
-      Flag.joins(:flag_type).where(transcript_id: transcript_id, is_resolved: 0, is_deleted: 0, flag_types: { category: 'error'})
-    else
-      Flag.where(transcript_id: transcript_id, session_id: session_id, is_deleted: 0)
-    end
+    Flag.where(transcript_id: transcript_id, session_id: session_id, is_deleted: 0)
   end
 
   def self.getByTranscriptUser(transcript_id, user_id)
-    user = User.find user_id
-    if user.staff?
-      Flag.joins(:flag_type).where(transcript_id: transcript_id, is_resolved: 0, is_deleted: 0, flag_types: { category: 'error'})
-    else
-      Flag.where(transcript_id: transcript_id, user_id: user_id, is_deleted: 0)
-    end
+    Flag.where(transcript_id: transcript_id, user_id: user_id, is_deleted: 0)
   end
 
   def self.pending_flags(institution_id = nil)
