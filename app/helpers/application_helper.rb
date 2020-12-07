@@ -39,7 +39,6 @@ module ApplicationHelper
 
   def time_display(start_time)
     time = Time.at((start_time / 1000)).utc.strftime("%M:%S")
-    time.to_s.slice!(0)
     time
   end
 

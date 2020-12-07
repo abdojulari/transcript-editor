@@ -17,11 +17,21 @@ class Flag < ApplicationRecord
   end
 
   def self.getByTranscriptSession(transcript_id, session_id)
-    Flag.where(transcript_id: transcript_id, session_id: session_id, is_deleted: 0)
+    user = User.find user_id
+    if user.staff?
+      Flag.joins(:flag_type).where(transcript_id: transcript_id, is_resolved: 0, is_deleted: 0, flag_types: { category: 'error'})
+    else
+      Flag.where(transcript_id: transcript_id, session_id: session_id, is_deleted: 0)
+    end
   end
 
   def self.getByTranscriptUser(transcript_id, user_id)
-    Flag.where(transcript_id: transcript_id, user_id: user_id, is_deleted: 0)
+    user = User.find user_id
+    if user.staff?
+      Flag.joins(:flag_type).where(transcript_id: transcript_id, is_resolved: 0, is_deleted: 0, flag_types: { category: 'error'})
+    else
+      Flag.where(transcript_id: transcript_id, user_id: user_id, is_deleted: 0)
+    end
   end
 
   def self.pending_flags(institution_id = nil)
@@ -35,7 +45,7 @@ class Flag < ApplicationRecord
       .where("flags.is_resolved = :is_resolved AND flags.is_deleted = :is_deleted AND flag_types.category = :category",
       {is_resolved: 0, is_deleted: 0, category: 'error'})
    ar_relation = ar_relation.joins('INNER JOIN collections on transcripts.collection_id = collections.id').where("collections.institution_id = ?", institution_id) if institution_id
-   ar_relation
+   ar_relation.order(:transcript_id, "transcript_lines.start_time")
   end
 
   def self.resolve(transcript_line_id)
