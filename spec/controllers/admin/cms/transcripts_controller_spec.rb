@@ -72,6 +72,17 @@ RSpec.describe Admin::Cms::TranscriptsController, type: :controller do
         action
         expect(response).to be_redirect
       end
+
+      it "creates a new transcript" do
+        expect do
+          action
+        end.to change { Transcript.count }
+      end
+
+      it "saves speaker data" do
+        action
+        expect(Transcript.last.speakers).to eq "Anonymous; "
+      end
     end
 
     context "invalid request" do

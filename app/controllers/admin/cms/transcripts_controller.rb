@@ -13,7 +13,7 @@ class Admin::Cms::TranscriptsController < AdminController
   def create
     @transcript = Transcript.new(transcript_params.merge vendor_id: Vendor.first&.id)
 
-    if @transcript.save
+    if @transcript.save && @transcript.update(speakers: transcript_params[:speakers])
       flash[:notice] = "The new transcript has been saved."
       redirect_to admin_cms_collection_path(@transcript.collection)
     else
