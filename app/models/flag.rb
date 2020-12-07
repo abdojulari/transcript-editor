@@ -35,7 +35,7 @@ class Flag < ApplicationRecord
       .where("flags.is_resolved = :is_resolved AND flags.is_deleted = :is_deleted AND flag_types.category = :category",
       {is_resolved: 0, is_deleted: 0, category: 'error'})
    ar_relation = ar_relation.joins('INNER JOIN collections on transcripts.collection_id = collections.id').where("collections.institution_id = ?", institution_id) if institution_id
-   ar_relation
+   ar_relation.order(:transcript_id, "transcript_lines.start_time")
   end
 
   def self.resolve(transcript_line_id)

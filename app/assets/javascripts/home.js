@@ -51,7 +51,9 @@ $(document).ready(function() {
   }
 
   setSelect2();
-  scrollDown();
+  if (window.location.search.length > 0) {
+    scrollDown();
+  }
 
   $('#institution').change(function() {
     $(this.form).submit();
