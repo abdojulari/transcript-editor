@@ -32,9 +32,9 @@
   </div>
   <div class="text">
     <% if (is_editable) { %>
-      <span class="text-input desktop-only" role="textbox" value="<%= UTIL.escapeInput(display_text) %>" user-value="<%= UTIL.escapeInput(user_text) %>" contenteditable><%= UTIL.escapeInput(display_text) %></span>
+      <input class="text-input desktop-only" type="text" value="<%= UTIL.escapeInput(display_text) %>" user-value="<%= UTIL.escapeInput(user_text) %>"  />
     <% } else { %>
-      <span class="text-input not-editable desktop-only" role="textbox" value="<%= UTIL.escapeInput(display_text) %>" user-value="<%= UTIL.escapeInput(user_text) %>"><%= UTIL.escapeInput(display_text) %></span>
+      <input class="text-input not-editable desktop-only" type="text" value="<%= UTIL.escapeInput(display_text) %>" user-value="<%= UTIL.escapeInput(user_text) %>" disabled="true"  />
     <% } %>
     <span class="mobile-only mobile-text"><%= UTIL.escapeInput(display_text) %></span>
   </div>
