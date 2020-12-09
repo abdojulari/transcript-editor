@@ -24,8 +24,8 @@ $small-transcript-line-time-width: 50px;
     color: darken($coolgray-dark-color, 15%);
     @include clearfix();
     @include desktop {
-      height: $transcript-line-height;
-      line-height: $transcript-line-height;
+      line-height: 30px;
+      padding: 5px 0;
     }
 
     &:hover {
