@@ -24,8 +24,8 @@ $small-transcript-line-time-width: 50px;
     color: darken($coolgray-dark-color, 15%);
     @include clearfix();
     @include desktop {
-      line-height: 30px;
       padding: 5px 0;
+      line-height: $transcript-line-height;
     }
 
     &:hover {
@@ -55,12 +55,15 @@ $small-transcript-line-time-width: 50px;
     }
 
     &,
-    input {
+    input, .text-input {
       cursor: pointer;
     }
 
-    input {
+    input, .text-input {
       @include transition(font-size 0.4s);
+      @include desktop {
+        font-size: $transcript-line-height - 24px;
+      }
     }
 
     &.not-editable input,
@@ -81,7 +84,7 @@ $small-transcript-line-time-width: 50px;
         background: $white;
       }
 
-      input {
+      input, .text-input {
         cursor: text;
       }
     }
