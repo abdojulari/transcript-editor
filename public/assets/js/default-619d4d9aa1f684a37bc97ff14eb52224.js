@@ -19827,7 +19827,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     var line = this.data.transcript.lines[i];
 
     // display the original text
-    $input.val(line.display_text);
+    $input.text(line.display_text);
 
     // update UI
     $input.attr('user-value', '');
@@ -19844,7 +19844,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     if (!$input.length) return false;
 
     var line = this.data.transcript.lines[i];
-    var text = $input.val();
+    var text = $input.text();
     var userText = $input.attr('user-value');
 
     // implicit save; save even when user has not edited original text
@@ -19876,7 +19876,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     var is_new = !$input.closest('.line').hasClass('user-edited');
 
     // update UI
-    $input.val(text);
+    $input.text(text);
     $input.attr('user-value', text);
     $input.closest('.line').addClass('user-edited');
 
@@ -20085,7 +20085,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     // remove multiple spaces
     if (text.length != input.value.length) {
       var cursorPos = $input.getInputSelection().start;
-      $input.val(text);
+      $input.text(text);
       $input.setInputPosition(cursorPos);
     }
 
