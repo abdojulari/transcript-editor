@@ -12,7 +12,11 @@
               role: "listitem" do
         %>
           <% if transcript.image_cropped_thumb_url.present? %>
-            <div class="transcript_item__image" style="background-image: url('<%= transcript.image_cropped_thumb_url %>')"></div>
+            <img
+              class="transcript_item__image"
+              src="<%= transcript.image_cropped_thumb_url %>"
+              loading="lazy"
+            />
           <% else %>
             <div class="transcript_item__image"></div>
           <% end %>
