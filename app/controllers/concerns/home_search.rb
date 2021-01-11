@@ -21,7 +21,7 @@ module HomeSearch
 
   def load_institutions
     @institutions = if sort_params[:collections].blank?
-                      Institution.all.order(name: :asc)
+                      Institution.all.joins(:collections).order(name: :asc).uniq
                     else
                       Institution.order(name: :asc).joins(:collections).
                         where("collections.title in (?)", sort_params[:collections])
