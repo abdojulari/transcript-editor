@@ -44,6 +44,7 @@
   audio {
     display: none;
   }
+
   &__image {
     height: 200px;
     width: 100%;
@@ -51,7 +52,12 @@
     background-size: cover;
     border-bottom: 1px solid $list-border;
     transition: opacity 0.5s;
+
+    @supports (object-fit: cover) {
+      object-fit: cover;
+    }
   }
+
   &__subtitle {
     font-family: $title-font;
     color: $list-sub-title;
