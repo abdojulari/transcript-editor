@@ -56,4 +56,10 @@ $(document).ready(function(){
   $('#institution').change(function() {
     $(this.form).submit();
   });
+
+  var searchText = $('input#search').val();
+  var instance = new Mark(".search_item");
+  if (instance) {
+    instance.mark(searchText)
+  }
 })
