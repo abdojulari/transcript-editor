@@ -70,6 +70,17 @@ $(document).ready(function(){
     }, 1000);
   }
 
+  function legacyThumbnails() {
+    console.log(Modernizr, Modernizr.testProp('objectFit'));
+    if (Modernizr && !Modernizr.testProp('objectFit')) {
+      console.log($('img.transcript_item__image').length);
+      $('img.transcript_item__image').each(function () {
+        var imageSrc = $(this).attr('src');
+        $(this).replaceWith('<div class="transcript_item__image object-fit-compat" style="background-image: url(' + imageSrc + ');"></div>')
+      });
+    }
+  }
+
   function loadTranscripts(){
     data = {
       institution_id: institutionId,
@@ -88,6 +99,7 @@ $(document).ready(function(){
           scrollUp()
         }
         firstTimeLoad = false;
+        legacyThumbnails();
       },
       error: function(jqXHR, textStatus, errorThrown){
 

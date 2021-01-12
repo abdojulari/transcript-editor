@@ -25,3 +25,15 @@
 //= require mobile_transcripts
 //= require jquery.Jcrop.min
 //= require select2
+
+// Convert legacy thumbnails.
+(function () {
+  window.legacyThumbnails = function () {
+    if (Modernizr && !Modernizr.testProp('objectFit')) {
+      $('img.transcript_item__image').each(function () {
+        var imageSrc = $(this).attr('src');
+        $(this).replaceWith('<div class="transcript_item__image object-fit-compat" style="background-image: url(' + imageSrc + ');"></div>')
+      });
+    }
+  };
+})(jQuery);
