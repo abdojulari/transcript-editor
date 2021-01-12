@@ -51,6 +51,7 @@ $(document).ready(function(){
   }
 
   setSelect2();
+  window.legacyThumbnails();
   scrollDown();
 
   $('#institution').change(function() {

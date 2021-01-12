@@ -51,6 +51,7 @@ $(document).ready(function() {
   }
 
   setSelect2();
+  window.legacyThumbnails();
   if (window.location.search.length > 0) {
     scrollDown();
   }

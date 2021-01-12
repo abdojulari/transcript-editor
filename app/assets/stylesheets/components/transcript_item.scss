@@ -53,6 +53,11 @@
     border-bottom: 1px solid $list-border;
     transition: opacity 0.5s;
 
+    &.object-fit-compat {
+      background-size: cover;
+      background-position: center center;
+    }
+
     @supports (object-fit: cover) {
       object-fit: cover;
     }
