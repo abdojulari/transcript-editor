@@ -33,10 +33,7 @@
     <%= f.text_field :url, class: "form-control" %>
   </div>
 
-  <div class="form-group">
-    <%= f.label :vendor_id %>
-    <%= f.select :vendor_id, Vendor.pluck(:name, :id), class: "form-control" %>
-  </div>
+  <%= f.hidden_field :vendor_id, value: Vendor.first.id %>
 
   <div class="form-group">
     <%= f.label :institution_id %>

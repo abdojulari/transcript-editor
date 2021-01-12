@@ -3,10 +3,12 @@
       title: transcript.title,
       role: "listitem" do
 %>
-  <div
+  <img
     class="transcript_item__image"
-    style="background-image: url('<%= transcript.image_url %>')">
-  </div>
+    src="<%= transcript.image_url %>"
+    loading="lazy"
+    alt=""
+  />
   <div class="transcript_item__subtitle">
     <%= transcript.collection_title  %>
   </div>
