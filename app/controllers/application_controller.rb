@@ -77,9 +77,11 @@ class ApplicationController < ActionController::Base
       collection  = transcript.collection.uid
       institution = transcript.collection.institution.slug
 
-      return institution_transcript_path(institution: institution, collection: collection, id: transcript.uid)
+      institution_transcript_path(institution: institution, collection: collection, id: transcript.uid)
+    elsif params[:redirect_uri].present?
+      params[:redirect_uri]
+    else
+      super
     end
-
-    super
   end
 end
