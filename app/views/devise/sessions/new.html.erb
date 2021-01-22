@@ -3,7 +3,7 @@
   <h3>Sign in</h3>
   <br />
 
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name, { return_to: params[:return_to]})) do |f| %>
     <%- unless flash[:alert].blank? -%>
       <%= content_tag :div, flash[:alert], :id => "flash_#{flash[:alert]}", class: "alert alert-danger",
         id: "error_explanation" %>

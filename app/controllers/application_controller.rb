@@ -69,4 +69,17 @@ class ApplicationController < ActionController::Base
   def after_sign_up_path_for(resource_or_scope)
     new_user_session_path
   end
+
+  def after_sign_in_path_for(resource)
+    if params[:return_to].present?
+      uid         = params[:return_to]
+      transcript  = Transcript.find_by uid: uid
+      collection  = transcript.collection.uid
+      institution = transcript.collection.institution.slug
+
+      return institution_transcript_path(institution: institution, collection: collection, id: transcript.uid)
+    end
+
+    super
+  end
 end
