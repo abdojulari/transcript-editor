@@ -11,7 +11,6 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
-    params[:user].merge!(remember_me: 1)
     super
   end
 

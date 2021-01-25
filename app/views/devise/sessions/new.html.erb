@@ -19,6 +19,7 @@
         placeholder: 'Email address'
       %>
     </div>
+
     <br />
 
     <div class="form-group">
@@ -31,7 +32,11 @@
       %>
     </div>
 
+    <%= f.hidden_field :remember_me, value: 1 %>
+
     <%= invisible_captcha %>
+
+    <br />
 
     <div class="form-group">
       <%= f.submit "Sign in", class: 'button cyan' %>
