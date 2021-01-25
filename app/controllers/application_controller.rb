@@ -71,6 +71,8 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
+    resource.update(remember_me: true)
+
     if params[:return_to].present?
       uid         = params[:return_to]
       transcript  = Transcript.find_by uid: uid
