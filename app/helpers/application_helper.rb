@@ -108,4 +108,8 @@ module ApplicationHelper
       presence_of(collection[i])
     end.any?
   end
+
+  def oauth_url(p)
+    "/users#{p['path']}?state=#{@transcript.try(:uid)}"
+  end
 end
