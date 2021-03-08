@@ -22,6 +22,7 @@
     </script>
   </head>
   <body class="<%= @secondary_navigation ? 'body--has-secondary-nav' : '' %> <%= @body_class || '' %>">
+    <%= render "shared/staging_notice" %>
     <%= render "shared/gtm" %>
     <%= render "shared/header" %>
     <main id="app">
