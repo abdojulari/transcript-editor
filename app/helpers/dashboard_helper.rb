@@ -25,4 +25,8 @@ module DashboardHelper
   def time_in_seconds(time)
     display_time(time.to_i * Transcript.seconds_per_line)
   end
+
+  def edits_min_display
+    7 # assign to environment variable maybe?, so there will be no code change if client decides to change the minimum display
+  end
 end
