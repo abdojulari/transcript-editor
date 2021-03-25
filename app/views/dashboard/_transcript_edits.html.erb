@@ -13,7 +13,7 @@
   </div>
   <div class="flex-container__edits_div">
     <div class="transcript-edits">
-       <% edits.first(7).each do |e| %>
+       <% edits.first(edits_min_display).each do |e| %>
          <div class="transcript-edit">
            <%= e.text %>
          </div>
@@ -21,7 +21,7 @@
     </div>
     <% if edits.length > edits_min_display %>
       <div class="transcript-edits collapsed" id="collapsed-<%= transcript.id %>">
-        <% edits[7..-1].each do |e| %>
+        <% edits[edits_min_display..-1].each do |e| %>
             <div class="transcript-edit">
               <%= e.text %>
             </div>
