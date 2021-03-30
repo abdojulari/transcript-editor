@@ -80,6 +80,10 @@ class User < ApplicationRecord
     User.order("lines_edited DESC").limit(1000)
   end
 
+  def self.orderByInstitution
+    self.includes(:institution).order("institutions.name ASC NULLS FIRST").limit(1000)
+  end
+
   def self.getStatsByDay
     Rails.cache.fetch("#{ENV['PROJECT_ID']}/users/stats", expires_in: 10.minutes) do
       User
