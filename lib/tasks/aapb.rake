@@ -51,6 +51,6 @@ namespace :aapb do
   end
 
   def build_ids_array(file_path)
-    File.readlines(file_path).map { |id| id.tr("\n","") }
+    File.readlines(file_path).map { |id| id.tr("\n","") }.delete_if { |id| id.empty? }
   end
 end
