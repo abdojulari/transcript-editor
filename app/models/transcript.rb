@@ -387,10 +387,10 @@ class Transcript < ApplicationRecord
 
     # And all the completed/reviewing lines
     statuses = TranscriptLineStatus.allCached
-    completed_status = statuses.find{|s| s[:name]=="completed"}
-    completed_lines = edited_lines.select{|s| s[:transcript_line_status_id]==completed_status[:id]}
-    reviewing_status = statuses.find{|s| s[:name]=="reviewing"}
-    reviewing_lines = edited_lines.select{|s| s[:transcript_line_status_id]==reviewing_status[:id]}
+    completed_status = statuses.find { |s| s[:name] == "completed" }
+    completed_lines = edited_lines.select { |s| s[:transcript_line_status_id] == completed_status[:id] }
+    reviewing_status = statuses.find { |s| s[:name] == "reviewing" }
+    reviewing_lines = edited_lines.select { |s| s[:transcript_line_status_id] == reviewing_status[:id] }
 
     # Calculate
     _lines_edited = edited_lines.length
@@ -401,10 +401,14 @@ class Transcript < ApplicationRecord
     _percent_reviewing = (1.0 * _lines_reviewing / lines * 100).round.to_i
 
     # Get user count
-    _users_contributed = getUsersContributedCount()
+    _users_contributed = getUsersContributedCount
 
     # Update
-    update_attributes(lines_edited: _lines_edited, lines_completed: _lines_completed, lines_reviewing: _lines_reviewing, percent_edited: _percent_edited, percent_completed: _percent_completed, percent_reviewing: _percent_reviewing, users_contributed: _users_contributed)
+    update_attributes(
+      lines_edited: _lines_edited, lines_completed: _lines_completed, lines_reviewing: _lines_reviewing,
+      percent_edited: _percent_edited, percent_completed: _percent_completed, percent_reviewing: _percent_reviewing,
+      users_contributed: _users_contributed
+    )
   end
 
   def self.search(options)
@@ -567,7 +571,7 @@ class Transcript < ApplicationRecord
 
   def process_speech_to_text_for_audio_file
     # no change? no process
-    return unless audio.identifier && saved_change_to_attribute?(:audio)
+    return unless audio.identifier && saved_change_to_attribute?(:audio) && !process_started?
 
     Azure::SpeechToTextJob.perform_later(id) if azure?
   end
@@ -584,6 +588,6 @@ class Transcript < ApplicationRecord
 
   # If the image has a cropped version we display it, otherwise we display the original image.
   def image_cropped_thumb_url
-    crop_x.present? ? image_url(:cropped_thumb) : image_url
+    crop_x.present? ? image_url(:cropped_thumb) : (image_url || collection.image_url)
   end
 end
