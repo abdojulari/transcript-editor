@@ -26,7 +26,7 @@ gem "font-awesome-rails", "~> 4.7.0"
 gem "jquery-rails", "~> 4.3.3"
 gem "sass-rails", "~> 5.0"
 gem "select2-rails", "~> 4.0.13"
-gem "summernote-rails", "~> 0.8.10"
+gem "summernote-rails", "0.8.10"
 gem "uglifier", ">= 1.3.0"
 
 # Back-end App is treated mostly as a JSON API
@@ -49,7 +49,7 @@ gem "devise", "~> 4.6.1"
 # gem 'devise-security'
 gem "oauth2", github: "oauth-xx/oauth2", ref: "v1.4.1"
 gem "omniauth-facebook", "~> 5.0.0"
-gem "omniauth-google-oauth2", ">= 0.6.0"
+gem "omniauth-google-oauth2", "< 1.0"
 
 # Beef up security.
 gem "invisible_captcha", "~> 0.12.0"
@@ -137,6 +137,7 @@ gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # tracking errors
 gem "bugsnag", "~> 6.11.1"
 gem "draper", "~> 3.1.0"
+gem 'nokogiri', '1.12.5'
 gem "sanitize", "~> 5.2.0"
 
 gem "acts_as_singleton", "~> 0.0.8"
