@@ -26,6 +26,7 @@
 /config/application.yml
 /config/database.yml
 /config/application.*.yml
+/config/ci.yml
 !/config/application.sample.yml
 
 # Ignore downloaded transcripts/audio
