@@ -13,6 +13,10 @@ module TranscriptConverter
       end
 
       def run!
+        unless content
+          puts "no content found!!!"
+          return
+        end
         puts "Converting file: #{content['file_name']}.json" 
         create_file
       end
