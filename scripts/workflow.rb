@@ -3,7 +3,7 @@ require 'date'
 require 'json'
 require 'optparse'
 
-TX_HOST = '127.0.0.1:80'
+TX_HOST = '127.0.0.1:3000'
 
 # run with `bundle exec ruby workflow.rb [--option]`
 
@@ -11,11 +11,10 @@ class TranscriptReleaser
 
   QUIPS = ['Wow, neat. We ', 'Great news - we ','You are not going to believe this! We ', 'Good golly! We ', 'Holy cow! We ']
 
-  def initialize(completed: false , all: false)
-    raise "`completed` and `all` cannot be set to the same value. completed: #{completed} | all: #{all}" if completed == all
+  def initialize(completed: false , all: false, release_guids_path: false)
 
     @right_now = DateTime.now
-    @completed, @all = completed, all
+    @completed, @all, @release_guids_path = completed, all, release_guids_path
   end
 
   def release
@@ -27,14 +26,19 @@ class TranscriptReleaser
                           get_from_release_count_json
                         elsif @all
                           get_from_all_uids_json
+                        elsif @release_guids_path
+                          File.read(@release_guids_path).split("\n")
                         end
 
     puts "Now we're going to write those release guids (#{ release_needin_ids.count }) to a file..."
     create_guid_file(release_needin_ids)
 
+    puts "Now clearing old transcript files out from local folder..."
+    `rm ./transcript-json/*`
+
     filename = nil
     release_needin_ids.each do |guid|
-      transcript_json = RestClient.get(TX_HOST + "/transcripts/aapb/#{ guid }.json")
+      transcript_json = get_transcript_json(guid)
       # filename = "transcript-#{ right_now }-#{guid}.json"
       filename = "#{guid.gsub('_','-')}-transcript.json"
       File.open(%(./transcript-json/#{filename}), 'w+') do |f|
@@ -46,17 +50,40 @@ class TranscriptReleaser
     puts "Well, that was fun. Now we've got all the files we need."
 
     Dir.glob(__dir__ + "/transcript-json/*.json").each do |filename|
-      puts `./shellScriptToDuplicateAndPushNewFilesToS3.sh #{filename}`
+      puts "OTHER WISE I WOULD RUN HERE #{filename}"
+      #puts `./shellScriptToDuplicateAndPushNewFilesToS3.sh #{filename}`
       puts "Deleting file: #{filename}"
       File.delete(filename)
     end
 
-    set_released_flag_for_completed_transcripts(release_needin_ids) if @completed
+    set_released_flag_for_completed_transcripts(release_needin_ids) if (@completed || @release_guids_path)
 
     puts 'Ah... That is the stuff.'
   end
 
   private
+  
+  def id_styles(guid)
+    guidstem = guid.gsub(/cpb-aacip./, '')
+    # no slash version because this is only used for URLS
+    ['cpb-aacip-', 'cpb-aacip_'].map { |style| style + guidstem }
+  end
+
+  def get_transcript_json(guid)
+    id_styles(guid).each do |guid_style|
+      puts "Trying #{guid_style}"
+      begin
+        transcript_json = RestClient.get(TX_HOST + "/transcripts/aapb/#{ guid_style }.json")
+      rescue RestClient::NotFound
+        # no need to raise here
+      end
+      if transcript_json
+               
+        return transcript_json 
+      end
+    end
+
+  end
 
   def create_guid_file(guids)
     # write guids to file
@@ -97,6 +124,13 @@ OptionParser.new do |opts|
   end
   opts.on("-a", "--all", "Release ALL the transcripts to S3 with blatant disregard for completeness") do |a|
     options[:all] = a
+  end
+  opts.on("-i", "--id-file", "Release transcripts based on guids in a newline-delimited text file") do |a|
+    if File.exist?(ARGV[0])
+      options[:release_guids_path] = ARGV[0]
+    else
+      raise "No id file was found at #{ARGV[0]}"
+    end
   end
 end.parse!
 
