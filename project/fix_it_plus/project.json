@@ -35,7 +35,8 @@
     "karen_cariani@wgbh.org",
     "miranda_villesvik@wgbh.org",
     "chiharu5847@gmail.com",
-    "michael_grasso@wgbh.org"
+    "michael_grasso@wgbh.org",
+    "raananah_sarid-segal@wgbh.org"
   ],
   "authProviders": [{ "name": "google", "label": "Google", "path": "/auth/google_oauth2" }],
   "consensus": {
