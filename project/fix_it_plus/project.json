@@ -38,7 +38,8 @@
     "michael_grasso@wgbh.org",
     "raananah_sarid-segal@wgbh.org",
     "isabel_tehan@wgbh.org",
-    "ryan_harbert@wgbh.org"
+    "ryan_harbert@wgbh.org",
+    "alison_smith@wgbh.org"
   ],
   "authProviders": [{ "name": "google", "label": "Google", "path": "/auth/google_oauth2" }],
   "consensus": {
