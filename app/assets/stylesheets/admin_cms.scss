@@ -1,8 +1,5 @@
-.modal.show {
-  width: 400px;
-  height: 400px;
-  left: 33%;
-  top: -30%;
+.modal {
+  z-index: 2011;
 }
 #sn-checkbox-open-in-new-window {
   position: inherit;
