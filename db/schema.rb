@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_01_004510) do
+ActiveRecord::Schema.define(version: 2023_01_16_013105) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -139,6 +139,18 @@ ActiveRecord::Schema.define(version: 2020_10_01_004510) do
     t.string "version"
     t.integer "runtime"
     t.datetime "migrated_on"
+  end
+
+  create_table "site_alerts", force: :cascade do |t|
+    t.string "machine_name", null: false
+    t.integer "level", default: 0, null: false
+    t.text "message"
+    t.integer "user_id", default: 0, null: false
+    t.datetime "publish_at"
+    t.datetime "unpublish_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["machine_name"], name: "index_site_alerts_on_machine_name", unique: true
   end
 
   create_table "speakers", id: :serial, force: :cascade do |t|
