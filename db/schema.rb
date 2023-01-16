@@ -143,9 +143,12 @@ ActiveRecord::Schema.define(version: 2023_01_16_013105) do
 
   create_table "site_alerts", force: :cascade do |t|
     t.string "machine_name", null: false
-    t.integer "level", default: 0, null: false
+    t.string "level", default: "status", null: false
     t.text "message"
     t.integer "user_id", default: 0, null: false
+    t.boolean "published", default: false
+    t.boolean "admin_access", default: false
+    t.boolean "scheduled", default: false
     t.datetime "publish_at"
     t.datetime "unpublish_at"
     t.datetime "created_at", null: false
