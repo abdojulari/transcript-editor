@@ -105,4 +105,8 @@ module ApplicationHelper
   def oauth_url(p)
     "/users#{p['path']}?state=#{@transcript.try(:uid)}"
   end
+
+  def site_alerts
+    SiteAlert.where(published: true)
+  end
 end

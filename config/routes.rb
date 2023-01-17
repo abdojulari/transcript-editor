@@ -65,6 +65,7 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :update, :destroy]
     resources :transcripts, only: [:index]
     resources :flags, only: [:index]
+    resources :site_alerts
 
     get 'cms', to: 'cms#show'
     namespace :cms do

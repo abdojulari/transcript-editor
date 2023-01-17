@@ -75,6 +75,11 @@
       background-size: 20px 20px;
       cursor: pointer;
     }
+    &.cross-black {
+      background-image: $cross-icon-black;
+      background-size: 20px 20px;
+      cursor: pointer;
+    }
     &.search {
       @include button-background($button-yellow);
       background-image: $search-icon;
