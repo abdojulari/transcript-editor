@@ -31,22 +31,25 @@
       <%= form.check_box :published, class: 'form-check-input' %>
       <%= form.label 'Publish version to live site', for: 'site_alert_published', class: 'form-check-label' %>
     </div>
-    # <div class="form-check">
-    #   <%= form.check_box :admin_access, class: 'form-check-input' %>
-    #   <%= form.label 'Restrict access for public users', for: 'site_alert_admin_access', class: 'form-check-label' %>
-    # </div>
-    # <div class="form-check">
-    #   <%= form.check_box :scheduled, class: 'form-check-input' %>
-    #   <%= form.label 'Manage published state on schedule', for: 'site_alert_scheduled', class: 'form-check-label' %>
-    # </div>
-    # <div class="form-group">
-    #     <%= form.label :publish_at %>
-    #     <%= form.date_select :publish_at %>
-    # </div>
-    # <div class="form-group">
-    #     <%= form.label :unpublish_at %>
-    #     <%= form.date_select :unpublish_at %>
-    # </div>
+
+    <% if false %>
+      <div class="form-check">
+        <%= form.check_box :admin_access, class: 'form-check-input' %>
+        <%= form.label 'Restrict access for public users', for: 'site_alert_admin_access', class: 'form-check-label' %>
+      </div>
+      <div class="form-check">
+        <%= form.check_box :scheduled, class: 'form-check-input' %>
+        <%= form.label 'Manage published state on schedule', for: 'site_alert_scheduled', class: 'form-check-label' %>
+      </div>
+      <div class="form-group">
+          <%= form.label :publish_at %>
+          <%= form.date_select :publish_at %>
+      </div>
+      <div class="form-group">
+          <%= form.label :unpublish_at %>
+          <%= form.date_select :unpublish_at %>
+      </div>
+    <% end %>
   
     <br />
   
