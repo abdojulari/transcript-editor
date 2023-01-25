@@ -41,7 +41,8 @@
     "ryan_harbert@wgbh.org",
     "alison_smith@wgbh.org",
     "leah_weisse@wgbh.org",
-    "james_auclair@wgbh.org"
+    "james_auclair@wgbh.org",
+    "alliesuzmoran@gmail.com"
   ],
   "authProviders": [{ "name": "google", "label": "Google", "path": "/auth/google_oauth2" }],
   "consensus": {

@@ -49,7 +49,7 @@ arg=$1;
 		fileName=$(basename "$arg");
 		guid=$(echo "$fileName" | cut -f1-4 -d \- ) ;
 
-				# sanity checks for GUID-ness
+				# sanity checks for GUID-ness, but does crash if you have an extra hyphen in your path.
 		if [ "$(echo "$fileName" | tr -dC '-' | wc -c | tr -dC '[0-9]')" != 4 ] ; then
 			errString=$(echo "$errString '$arg' file name must have 5 hyphenated parts") ;
 		fi
@@ -129,3 +129,4 @@ else
 fi
 
 exit ;
+

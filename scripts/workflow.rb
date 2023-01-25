@@ -3,7 +3,7 @@ require 'date'
 require 'json'
 require 'optparse'
 
-TX_HOST = '127.0.0.1:3000'
+TX_HOST = 'localhost'
 
 # run with `bundle exec ruby workflow.rb [--option]`
 
@@ -34,14 +34,14 @@ class TranscriptReleaser
     create_guid_file(release_needin_ids)
 
     puts "Now clearing old transcript files out from local folder..."
-    `rm ./transcript-json/*`
+    `rm ./transcriptJson/*`
 
     filename = nil
     release_needin_ids.each do |guid|
       transcript_json = get_transcript_json(guid)
       # filename = "transcript-#{ right_now }-#{guid}.json"
       filename = "#{guid.gsub('_','-')}-transcript.json"
-      File.open(%(./transcript-json/#{filename}), 'w+') do |f|
+      File.open(%(./transcriptJson/#{filename}), 'w+') do |f|
         f << transcript_json
         puts QUIPS.sample + " wrote #{guid} data to #{filename}."
       end
@@ -49,9 +49,9 @@ class TranscriptReleaser
 
     puts "Well, that was fun. Now we've got all the files we need."
 
-    Dir.glob(__dir__ + "/transcript-json/*.json").each do |filename|
-      puts "OTHER WISE I WOULD RUN HERE #{filename}"
-      #puts `./shellScriptToDuplicateAndPushNewFilesToS3.sh #{filename}`
+    Dir.glob(__dir__ + "/transcriptJson/*.json").each do |filename|
+      # puts "OTHER WISE I WOULD RUN HERE #{filename}"
+      puts `./shellScriptToDuplicateAndPushNewFilesToS3.sh #{filename}`
       puts "Deleting file: #{filename}"
       File.delete(filename)
     end
@@ -135,3 +135,4 @@ OptionParser.new do |opts|
 end.parse!
 
 TranscriptReleaser.new(options).release
+
