@@ -28,15 +28,7 @@ module AAPB
     end
 
     def process_id(id)
-      raise "Unexpected GUID format" unless id =~ /^cpb-aacip(\/|_)\d{2,3}-\w{8}/
-      case id
-      when /^cpb-aacip\/{1}/
-        return id.sub(/\//, '_')
-      when /^cpb-aacip_{1}/
-        return id
-      else
-        raise "Unable to parse AAPB ID"
-      end
+      raise "Unexpected AAPB GUID format" unless id =~ /^cpb-aacip(\/|_|-).*/
     end
   end
 end
