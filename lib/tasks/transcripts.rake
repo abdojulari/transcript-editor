@@ -89,29 +89,32 @@ namespace :transcripts do
     puts "Retrieved #{transcripts.length} rows from file"
 
     # Write to database
-    transcripts.each do |attributes|
-      if attributes[:vendor].blank?
-        attributes.delete(:vendor)
+    transcripts.each do |transcript_params|
+      if transcript_params[:vendor].blank?
+        transcript_params.delete(:vendor)
       else
-        attributes[:vendor] = Vendor.find_by_uid(attributes[:vendor])
+        transcript_params[:vendor] = Vendor.find_by_uid(transcript_params[:vendor])
       end
-      if attributes[:vendor_identifier].blank?
-        attributes.delete(:vendor_identifier)
+      if transcript_params[:vendor_identifier].blank?
+        transcript_params.delete(:vendor_identifier)
       end
       # Check for collection
-      if attributes.key?(:collection)
-        attributes[:collection] = Collection.find_by_uid(attributes[:collection])
+      if transcript_params.key?(:collection)
+        # :collection key gets overwritten with collection object
+        ts_org_value = transcript_params[:collection]
+
+        transcript_params[:collection] = Collection.find_by_uid(ts_org_value)
+
+        raise "Transcript #{transcript_params[:uid]} did not find a matching Fixit Collection from provided organization value #{ts_org_value}" unless transcript_params[:collection]
       end
-      if attributes[:collection].blank?
-        attributes.delete(:collection)
-      end
+
       # Make the filename the batch id
-      attributes[:batch_id] = args[:filename]
-      attributes[:project_uid] = args[:project_key]
-      attributes[:can_download] = attributes[:can_download].to_i if attributes[:can_download].present?
-      # puts attributes
-      transcript = Transcript.find_or_initialize_by(uid: attributes[:uid])
-      transcript.update(attributes)
+      transcript_params[:batch_id] = args[:filename]
+      transcript_params[:project_uid] = args[:project_key]
+      transcript_params[:can_download] = transcript_params[:can_download].to_i if transcript_params[:can_download].present?
+      # puts transcript_params
+      transcript = Transcript.find_or_initialize_by(uid: transcript_params[:uid])
+      transcript.update(transcript_params)
     end
 
     puts "Wrote #{transcripts.length} transcripts to database"
