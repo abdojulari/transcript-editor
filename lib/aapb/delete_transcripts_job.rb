@@ -29,6 +29,7 @@ module AAPB
 
     def process_id(id)
       raise "Unexpected AAPB GUID format" unless id =~ /^cpb-aacip(\/|_|-).*/
+      id
     end
   end
 end
