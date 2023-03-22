@@ -73,7 +73,7 @@ class AAPBRecord
   def process_id(id)
     raise "Unexpected AAPB GUID format" unless id =~ /^cpb-aacip(\/|_|-).*/
 
-    id.include?("\/") ? id.tr("\/", '_') : id
+    id.delete(" ").include?("\/") ? id.tr("\/", '_') : id
   end
 
   def get_pbcore
