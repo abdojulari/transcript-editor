@@ -110,7 +110,7 @@ gem "fog", "~> 2.1.0"
 gem "mini_magick", "~> 4.8"
 
 # Error logging
-gem "newrelic_rpm", "~> 6.1.0"
+gem "newrelic_rpm"
 gem "rails_12factor", "~> 0.0.3"
 
 # Installation script.
