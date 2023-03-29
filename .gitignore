@@ -46,3 +46,5 @@ project/fix_it_plus/data/*.csv
 
 # ci api creds
 /config/ci.yml
+
+list.txt
