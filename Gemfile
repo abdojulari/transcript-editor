@@ -1,19 +1,59 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.5.3"
+ruby "2.7.2"
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~> 5.2.0"
+# Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
+gem "rails", "~> 7.0.4", ">= 7.0.4.3"
 
-gem "marcel", "~> 0.3"
+# The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
+gem "sprockets-rails"
+
+# Use sqlite3 as the database for Active Record
+gem "sqlite3", "~> 1.4"
+
+# Use the Puma web server [https://github.com/puma/puma]
+gem "puma", "~> 5.0"
+
+# Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
+gem "importmap-rails"
+
+# Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
+gem "turbo-rails"
+
+# Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
+gem "stimulus-rails"
+
+# Build JSON APIs with ease [https://github.com/rails/jbuilder]
+gem "jbuilder"
+
+# Use Redis adapter to run Action Cable in production
+# gem "redis", "~> 4.0"
+
+# Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
+# gem "kredis"
+
+# Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
+# gem "bcrypt", "~> 3.1.7"
+
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+
+# Reduces boot times through caching; required in config/boot.rb
+gem "bootsnap", require: false
+
+# Use Sass to process CSS
+# gem "sassc-rails"
+
+# Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
+# gem "image_processing", "~> 1.2"
+
+gem "marcel", "~> 1.0.2"
 
 # Use PostgreSQL as the database for Active Record
 gem "pg", "~> 1.1.4"
 gem "pg_search", "~> 2.1.4"
 gem "will_paginate", "~> 3.1.6"
-
-gem "puma", "~> 3.12.0"
 
 # Caching
 gem "dalli", "~> 2.7.9"
@@ -29,23 +69,17 @@ gem "select2-rails", "~> 4.0.13"
 gem "summernote-rails", "0.8.10"
 gem "uglifier", ">= 1.3.0"
 
-# Back-end App is treated mostly as a JSON API
-gem "jbuilder", "~> 2.5"
-
 # gem 'rails-api' # pare down rails to act like an API; disabling unnecessary middleware
 gem "rack-cors", "~> 1.0.2", require: "rack/cors"
 
-# Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", ">= 1.1.0", require: false
-
 # Rails app configuration / ENV management
-gem "figaro", "~> 1.1.1"
+gem "figaro"
 
 # User management / auth.
 # We have to force the version of OAuth because omniauth-google-oauth2 v0.6
 # requires jwt v2.0 or better.
 # Facebook's gem is a bit behind.
-gem "devise", "~> 4.6.1"
+gem "devise", "~> 4.9.0"
 # gem 'devise-security'
 gem "oauth2", github: "oauth-xx/oauth2", ref: "v1.4.1"
 gem "omniauth-facebook", "~> 5.0.0"
@@ -69,11 +103,14 @@ gem "webvtt-ruby", "~> 0.3.2"
 # For uploading of transcipts and image files
 # load fog-aws first to reduce the number of imported classes
 gem "carrierwave", "~> 1.1"
+# require installation of the following
+# sudo apt-get install build-essential libcurl4-openssl-dev
+# this is to allow fog get installed with ovirt-engine-sdk
 gem "fog", "~> 2.1.0"
 gem "mini_magick", "~> 4.8"
 
 # Error logging
-gem "newrelic_rpm", "~> 6.1.0"
+gem "newrelic_rpm"
 gem "rails_12factor", "~> 0.0.3"
 
 # Installation script.
@@ -85,23 +122,33 @@ platforms :ruby do # linux
 end
 
 group :development, :test do
+  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  gem "debug", platforms: %i[ mri mingw x64_mingw ]
+
   gem "byebug", "~> 11.0.0", platforms: [:mri, :mingw, :x64_mingw]
   gem "factory_bot_rails", "~> 5.0.2"
   gem "faker", "~> 1.9.3"
   gem "pry", "~> 0.12.2"
-  gem "rspec-rails", "~> 3.4"
+  gem 'rspec-rails', '~> 6.0.0'
 end
 
 group :development do
+  # Use console on exceptions pages [https://github.com/rails/web-console]
+  gem "web-console"
+
+  # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
+  # gem "rack-mini-profiler"
+
+  # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
+  # gem "spring"
+
   gem "foreman"
   gem "listen", ">= 3.0.5", "< 3.2"
   gem 'spring'
   gem 'spring-commands-rspec'
-  gem "spring-watcher-listen", "~> 2.0.0"
-  gem "web-console", ">= 3.3.0"
 
   gem "capistrano", "~> 3.11.0"
-  gem "capistrano3-puma", "~> 3.1.1"
+  gem "capistrano3-puma", "~> 5.2.0"
   gem "capistrano-bundler", "~> 1.6.0", require: false
   gem "capistrano-npm", "~>1.0.3"
   gem "capistrano-rails", "~> 1.4.0", require: false
@@ -118,14 +165,16 @@ group :development do
 end
 
 group :test do
-  gem "capybara", ">= 2.15", "< 4.0"
+  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
+  gem "capybara"
+  gem "selenium-webdriver"
+  gem "webdrivers"
+
   gem "launchy", "~> 2.4.0"
   gem "pundit-matchers", "~> 1.6.0"
   gem "rails-controller-testing", "~> 1.0.4"
-  gem "selenium-webdriver", "~> 3.141.0"
   gem "shoulda-matchers", "~> 3.1", require: false
   gem "simplecov", "~> 0.16.1"
-  gem "webdrivers", "~> 4.1.2"
 end
 
 group :staging, :production do
@@ -141,7 +190,7 @@ gem 'nokogiri', '1.12.5'
 gem "sanitize", "~> 5.2.0"
 
 gem "acts_as_singleton", "~> 0.0.8"
-gem "acts-as-taggable-on", "~> 6.0"
+gem "acts-as-taggable-on", "~> 9.0.1"
 gem "chartkick", "~> 3.0.2"
 gem "formdata", "~> 0.1.2"
 gem "friendly_id", "~> 5.2.0"

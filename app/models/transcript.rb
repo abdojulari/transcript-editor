@@ -301,7 +301,7 @@ class Transcript < ApplicationRecord
       new_percent_completed = (1.0 * new_lines_completed / lines * 100).round.to_i
       new_percent_reviewing = (1.0 * new_lines_reviewing / lines * 100).round.to_i
 
-      update_attributes(lines_edited: new_lines_edited, lines_completed: new_lines_completed, lines_reviewing: new_lines_reviewing, percent_edited: new_percent_edited, percent_completed: new_percent_completed, percent_reviewing: new_percent_reviewing)
+      update(lines_edited: new_lines_edited, lines_completed: new_lines_completed, lines_reviewing: new_lines_reviewing, percent_edited: new_percent_edited, percent_completed: new_percent_completed, percent_reviewing: new_percent_reviewing)
     end
   end
 
@@ -336,13 +336,13 @@ class Transcript < ApplicationRecord
       transcript_duration = _getDurationFromHash(contents)
       vendor_audio_urls = _getAudioUrlsFromHash(contents)
 
-      update_attributes(lines: transcript_lines.length, transcript_status_id: transcript_status[:id], duration: transcript_duration, vendor_audio_urls: vendor_audio_urls, transcript_retrieved_at: DateTime.now)
+      update(lines: transcript_lines.length, transcript_status_id: transcript_status[:id], duration: transcript_duration, vendor_audio_urls: vendor_audio_urls, transcript_retrieved_at: DateTime.now)
       puts "Created #{transcript_lines.length} lines from transcript #{uid}"
 
     # transcript is still processing
     elsif contents["audio_files"] && contents["audio_files"].length > 0
       transcript_status = TranscriptStatus.find_by_name("transcript_processing")
-      update_attributes(transcript_status_id: transcript_status[:id])
+      update(transcript_status_id: transcript_status[:id])
       puts "Transcript #{uid} still processing with status: #{contents["audio_files"][0]["current_status"]}"
 
     # no audio recognized
@@ -365,7 +365,7 @@ class Transcript < ApplicationRecord
       transcript_status = TranscriptStatus.find_by_name("transcript_downloaded")
       transcript_duration = _getDurationFromWebVTT(webvtt)
 
-      update_attributes(lines: transcript_lines.length, transcript_status_id: transcript_status[:id], duration: transcript_duration, transcript_retrieved_at: DateTime.now)
+      update(lines: transcript_lines.length, transcript_status_id: transcript_status[:id], duration: transcript_duration, transcript_retrieved_at: DateTime.now)
       puts "Created #{transcript_lines.length} lines from transcript #{uid}"
     end
 
@@ -404,7 +404,7 @@ class Transcript < ApplicationRecord
     _users_contributed = getUsersContributedCount
 
     # Update
-    update_attributes(
+    update(
       lines_edited: _lines_edited, lines_completed: _lines_completed, lines_reviewing: _lines_reviewing,
       percent_edited: _percent_edited, percent_completed: _percent_completed, percent_reviewing: _percent_reviewing,
       users_contributed: _users_contributed
@@ -473,14 +473,14 @@ class Transcript < ApplicationRecord
 
   def updateFromHash(contents)
     vendor_audio_urls = _getAudioUrlsFromHash(contents)
-    update_attributes(vendor_audio_urls: vendor_audio_urls)
+    update(vendor_audio_urls: vendor_audio_urls)
   end
 
   def updateUsersContributed(edits=[])
     _users_contributed = getUsersContributedCount(edits)
 
     if _users_contributed != users_contributed
-      update_attributes(users_contributed: _users_contributed)
+      update(users_contributed: _users_contributed)
     end
   end
 
