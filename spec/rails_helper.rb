@@ -37,18 +37,6 @@ ActionController::Base.logger.level = Logger::ERROR
 ActiveSupport::Deprecation.silenced = true
 Rails.logger.level = Logger::ERROR
 
-if Rails::VERSION::MAJOR >= 7
-  require 'rspec/rails/version'
-
-  RSpec::Core::ExampleGroup.module_eval do
-    include ActiveSupport::Testing::TaggedLogging
-
-    def name
-      'foobar'
-    end
-  end
-end
-
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   # config.fixture_path = "#{::Rails.root}/spec/fixtures"

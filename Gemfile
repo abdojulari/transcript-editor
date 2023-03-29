@@ -129,7 +129,7 @@ group :development, :test do
   gem "factory_bot_rails", "~> 5.0.2"
   gem "faker", "~> 1.9.3"
   gem "pry", "~> 0.12.2"
-  gem "rspec-rails", "~> 3.4"
+  gem 'rspec-rails', '~> 6.0.0'
 end
 
 group :development do
