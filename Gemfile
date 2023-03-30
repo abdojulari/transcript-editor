@@ -181,8 +181,6 @@ group :staging, :production do
   gem "executable-hooks", "~> 1.6.0"
 end
 
-gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
 # tracking errors
 gem "bugsnag", "~> 6.11.1"
 gem "draper", "~> 3.1.0"
