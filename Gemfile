@@ -118,7 +118,7 @@ gem "highline", "~> 2.0.1"
 
 # Use unicorn on linux only
 platforms :ruby do # linux
-  gem "unicorn", "~> 5.5.0"
+  gem "unicorn", "~> 5.6.0"
 end
 
 group :development, :test do
