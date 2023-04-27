@@ -43,6 +43,11 @@
     line-height: 51px;
     font-size: rem-calc(20);
   }
+  &.medium {
+    height: 35px;
+    line-height: 36px;
+    font-size: rem-calc(16);
+  }
   &.small {
     height: 26px;
     line-height: 24px;
@@ -89,5 +94,8 @@
         background-color: #eead0e;
       }
     }
+  }
+  &.pill {
+    border-radius: 16px;
   }
 }
