@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.7.2"
+ruby "3.0.0"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4", ">= 7.0.4.3"
@@ -82,9 +82,9 @@ gem "figaro"
 # Facebook's gem is a bit behind.
 gem "devise", "~> 4.9.0"
 # gem 'devise-security'
-gem "oauth2", github: "oauth-xx/oauth2", ref: "v1.4.1"
-gem "omniauth-facebook", "~> 5.0.0"
-gem "omniauth-google-oauth2", "< 1.0"
+gem "oauth2", github: "oauth-xx/oauth2", ref: "v2.0.1"
+gem "omniauth-facebook", "~> 9.0.0"
+gem "omniauth-google-oauth2", "< 1.1.1"
 
 # Beef up security.
 gem "invisible_captcha", "~> 0.12.0"
@@ -119,7 +119,7 @@ gem "highline", "~> 2.0.1"
 
 # Use unicorn on linux only
 platforms :ruby do # linux
-  gem "unicorn", "~> 5.6.0"
+  gem "unicorn"
 end
 
 group :development, :test do
@@ -128,7 +128,7 @@ group :development, :test do
 
   gem "byebug", "~> 11.0.0", platforms: [:mri, :mingw, :x64_mingw]
   gem "factory_bot_rails", "~> 5.0.2"
-  gem "faker", "~> 1.9.3"
+  gem "faker"
   gem "pry", "~> 0.12.2"
   gem 'rspec-rails', '~> 6.0.0'
 end
@@ -184,13 +184,13 @@ end
 
 # tracking errors
 gem "bugsnag", "~> 6.11.1"
-gem "draper", "~> 3.1.0"
+gem "draper", "~> 4.0.2"
 gem 'nokogiri', '1.12.5'
 gem "sanitize", "~> 5.2.0"
 
 gem "acts_as_singleton", "~> 0.0.8"
 gem "acts-as-taggable-on", "~> 9.0.1"
-gem "chartkick", "~> 3.0.2"
+gem "chartkick", "~> 5.0.1"
 gem "formdata", "~> 0.1.2"
 gem "friendly_id", "~> 5.2.0"
 gem "httparty", "~> 0.16.4"
