@@ -13,6 +13,13 @@
     <div>
       <%= @global_content[:footer_content]&.html_safe %>
     </div>
+    <% unless Rails.env.production? %>
+      <p>
+        <em>
+          Release: <i><%= RUBY_DESCRIPTION %></i>
+        </em>
+      </p>
+    <% end %>
   </div>
 </footer>
 
