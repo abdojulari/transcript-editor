@@ -148,13 +148,13 @@ group :development do
   gem 'spring'
   gem 'spring-commands-rspec'
 
-  gem "capistrano", "~> 3.11.0"
-  gem "capistrano3-puma", "~> 5.2.0"
-  gem "capistrano-bundler", "~> 1.6.0", require: false
-  gem "capistrano-npm", "~>1.0.3"
-  gem "capistrano-rails", "~> 1.4.0", require: false
-  gem "capistrano-rvm", "~> 0.1.2"
-  gem "capistrano-sidekiq", "~> 1.0.2"
+  gem "capistrano", "~> 3.17", require: false
+  gem "capistrano3-puma", github: "seuros/capistrano-puma"
+  gem "capistrano-bundler", '~> 2.0'
+  gem "capistrano-npm"
+  gem "capistrano-rails", "~> 1.6", require: false
+  gem "capistrano-rvm"
+  gem "capistrano-sidekiq"
   gem "rubocop", "~> 0.65.0"
 
   gem "bcrypt_pbkdf", "~> 1.1"
