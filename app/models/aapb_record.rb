@@ -1,5 +1,5 @@
 require 'open-uri'
-require_relative '../../lib/html_scrubber'
+require "#{Rails.root}/lib/html_scrubber"
 
 class AAPBRecord
   attr_reader :uid, :pbcore_url, :pbcore, :title, :description, :aapb_url, :audio_url, :image_url, :transcript_url
@@ -9,8 +9,34 @@ class AAPBRecord
   OTHER = 'other'.freeze
   S3_BASE = 'https://s3.amazonaws.com/americanarchive.org'.freeze
 
-  def initialize(id)
-    @uid = process_id(id)
+  def initialize(uid, options={})
+    @uid = process_uid(uid)
+    @errors = []
+    @options = options
+    @create_missing_collections = @options[:create_missing_collections]
+
+    validate
+
+  end
+
+  def validate
+    if Transcript.where(uid: uid).first && !@options[:force_reingest]
+      @errors << "#{uid} already exists in Fixit database!"
+    end
+
+    # fetches from aapb 
+    pbcore if errors.empty?
+
+    # grab vals from xml and validate alloooong the way
+    transcript_url if errors.empty?
+    transcript_data if errors.empty?
+
+    organization_pbcore_name if errors.empty?
+    collection if errors.empty?
+  end
+
+  def errors
+    @errors ||= []
   end
 
   def aapb_url
@@ -26,7 +52,9 @@ class AAPBRecord
   end
 
   def pbcore
-    @pbcore ||= get_pbcore
+    @pbcore ||= REXML::Document.new(open(pbcore_url).read)
+  rescue OpenURI::HTTPError => e
+    @errors << "Transcript file was not accessible! #{e}"
   end
 
   def titles
@@ -39,6 +67,18 @@ class AAPBRecord
 
   def description
     @description ||= xpaths('/*/pbcoreDescription').map { |desc| HtmlScrubber.scrub(desc) }.join(' ')
+  end
+
+  def collection
+    @collection ||= begin
+      collection = Collection.where(uid: organization_pbcore_name).first
+      unless collection || @create_missing_collections
+        # dont record error if 'allow empty', because we will create missing collections in the next step
+        @errors << "Found no matching collection #{organization_pbcore_name} for record #{uid}!"
+      end
+      
+      collection
+    end
   end
 
   def image_url
@@ -56,28 +96,49 @@ class AAPBRecord
   def transcript_url
     @transcript_url ||= xpath("/*/pbcoreAnnotation[@annotationType='Transcript URL']")
   rescue NoMatchError
+    errors << "#{uid} does not have Transcript URL annotation!"
     nil
   end
 
-  def has_transcript_url?
-    return true if !transcript_url.nil?
-    false
+  def transcript_data
+    @transcript ||= begin
+      content = URI.open(transcript_url).read
+
+      if !content.empty?
+        begin
+          # gets parsed again in the JSONFile 'reader' class, but do it here to validate
+          json = JSON.parse(content)
+
+          unless json['parts']
+            @errors << "Transcript json did not have 'parts' key - invalid transcript format!"
+          end
+        rescue JSON::ParserError
+          @errors << "Transcript file had invalid JSON!"
+        end
+
+      else
+        @errors << "Transcript file was empty!"
+      end
+
+      json
+    rescue OpenURI::HTTPError => e
+      @errors << "Transcript file was not accessible! #{e}"
+    end
+
   end
 
-  def organization_pb_core_name
+  def organization_pbcore_name
+    # TODO: switch to organ uid service
     @organization_pbcore_name ||= xpath('/*/pbcoreAnnotation[@annotationType="organization"]')
+  rescue NoMatchError
+    errors << "#{uid} does not have a pbcoreAnnotation type='organization'!"
   end
 
   private
 
-  def process_id(id)
-    raise "Unexpected AAPB GUID format" unless id =~ /^cpb-aacip(\/|_|-).*/
-
-    id.delete(" ").include?("\/") ? id.tr("\/", '_') : id
-  end
-
-  def get_pbcore
-    REXML::Document.new(open(pbcore_url).read)
+  def process_uid(input_uid)
+    raise "Unexpected AAPB GUID format" unless input_uid =~ /^cpb-aacip(\/|_|-).*/
+    input_uid.delete(" ").include?("\/") ? input_uid.tr("\/", '_') : input_uid
   end
 
   def xpath(xpath)

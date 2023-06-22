@@ -80,6 +80,7 @@ namespace :transcripts do
     # Validate file
     file_path = Rails.root.join('project', args[:project_key], 'data', args[:filename])
     if !File.exist? file_path
+      # not transcript file, transcript seed csv
       puts "No transcript file found: #{file_path}"
       exit
     end

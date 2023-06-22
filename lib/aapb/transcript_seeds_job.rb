@@ -32,7 +32,7 @@ module AAPB
         (aapb_records[0..-1]).map do |rec|
           puts "Processing AAPBRecord: #{rec.uid}."
           begin
-            csv << [ rec.uid, rec.title, rec.description, rec.aapb_url, rec.audio_url, rec.image_url, rec.organization_pb_core_name, 'webvtt', "#{rec.uid}.vtt",  ]
+            csv << [ rec.uid, rec.title, rec.description, rec.aapb_url, rec.audio_url, rec.image_url, rec.organization_pbcore_name, 'webvtt', "#{rec.uid}.vtt",  ]
           rescue OpenURI::HTTPError => e
             puts "No AAPB Record Found For: #{rec.uid}"
           end

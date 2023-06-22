@@ -39,5 +39,7 @@ Rails.application.routes.draw do
   # mediacontroller
   match 'media/:id' => 'media#show', :via => [:get]
 
+  match 'api/ingest' => 'api#ingest', :via => [:post]
+
   root :to => 'default#index'
 end
