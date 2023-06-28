@@ -14,9 +14,7 @@ class AAPBRecord
     @errors = []
     @options = options
     @create_missing_collections = @options[:create_missing_collections]
-
     validate
-
   end
 
   def validate
@@ -26,12 +24,13 @@ class AAPBRecord
 
     # fetches from aapb 
     pbcore if errors.empty?
-
     # grab vals from xml and validate alloooong the way
     transcript_url if errors.empty?
-    transcript_data if errors.empty?
 
     organization_pbcore_name if errors.empty?
+
+    transcript_data if errors.empty?
+
     collection if errors.empty?
   end
 
@@ -54,7 +53,7 @@ class AAPBRecord
   def pbcore
     @pbcore ||= REXML::Document.new(open(pbcore_url).read)
   rescue OpenURI::HTTPError => e
-    @errors << "Transcript file was not accessible! #{e}"
+    @errors << "PBCore file was not accessible!"
   end
 
   def titles
@@ -100,9 +99,13 @@ class AAPBRecord
     nil
   end
 
+  def get_transcript_data(url)
+    URI.open(url).read
+  end
+
   def transcript_data
     @transcript ||= begin
-      content = URI.open(transcript_url).read
+      content = get_transcript_data(transcript_url)
 
       if !content.empty?
         begin
