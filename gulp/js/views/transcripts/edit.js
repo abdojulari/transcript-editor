@@ -3,6 +3,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
   template: _.template(TEMPLATES['transcript_edit.ejs']),
 
   initialize: function(data){
+    console.log( 'initialize edit page' )
     this.data = data;
 
     this.loadConventions();
@@ -224,6 +225,9 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     if (this.queue_start) this.start();
     this.queue_start = false;
     this.checkForStartTime();
+    
+    document.getElementById("video-player").appendChild(this.player)
+    console.log( 'wahhh',document.getElementById("video-player") )
   },
 
   onTranscriptFinished: function(){

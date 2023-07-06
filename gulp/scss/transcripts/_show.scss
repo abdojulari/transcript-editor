@@ -39,8 +39,9 @@ $transcript-content-width: 800px;
   }
 
   .metadata {
+    display: inline-block;
     position: relative;
-    margin: 0 auto;
+    margin-right: 0 auto;
     max-width: $transcript-content-width;
     z-index: 5;
     h1 {

@@ -168,21 +168,30 @@ app.views.Transcript = app.views.Base.extend({
       $(this.player).remove();
     }
 
-    var _this = this,
-      audio_urls = this.data.project.useVendorAudio && this.data.transcript.vendor_audio_urls.length ? this.data.transcript.vendor_audio_urls : [this.data.transcript.audio_url];
-
+    var _this = this
+    // var audio_urls = this.data.project.useVendorAudio && this.data.transcript.vendor_audio_urls.length ? this.data.transcript.vendor_audio_urls : [this.data.transcript.audio_url];
     // build audio string
-    var audio_string = '<audio data-transcript="'+this.data.transcript.id+'" preload>';
-    _.each(audio_urls, function(url){
-      var ext = url.substr(url.lastIndexOf('.') + 1),
-          type = ext;
-      audio_string += '<source src="'+url+'" type="audio/mpeg">';
-    });
-    audio_string += '</audio>';
+    // var audio_string = '<audio data-transcript="'+this.data.transcript.id+'" preload>';
+    // _.each(audio_urls, function(url){
+    //   var ext = url.substr(url.lastIndexOf('.') + 1),
+    //       type = ext;
+    //   audio_string += '<source src="'+url+'" type="audio/mpeg">';
+    // });
+    // audio_string += '</audio>';
 
-    // create audio object
-    var $audio = $(audio_string);
-    this.player = $audio[0];
+
+    // // create audio object
+    // var $audio = $(audio_string);
+    // this.player = $audio[0];
+
+    var video_string = '<video type="application/x-mpegURL" data-transcript="' + this.data.transcript.id + '" controls preload><source src="' + this.data.transcript.audio_url + '"></video>'
+
+    // // create audio object
+    // var $audio = $(audio_string);
+    // this.player = $audio[0];
+    var $video = $(video_string)
+    this.player = $video[0]
+    console.log( 'duh dummy!', this.data, this.player, video_string, $video )
 
     // wait for audio to start to load
     this.player.onloadstart = function(){
@@ -216,6 +225,7 @@ app.views.Transcript = app.views.Base.extend({
   loadListeners: function(){ /* override me */ },
 
   loadTranscript: function(){
+    console.log( 'i load this' )
     var _this = this;
 
     this.$el.addClass('loading');
