@@ -1,0 +1,41 @@
+select {
+  appearance: none;
+  background: $drop-down-black, $select-background;
+  background-position: 96% 50%, center center;
+  background-repeat: no-repeat;
+  background-size: 12px 12px;
+  color: $input-foreground;
+  border-radius: 0;
+  border: 0;
+  height: 30px;
+  padding: 0 20px 0 10px;
+  font-size: rem-calc(16);
+  cursor: pointer;
+  transition: background-color 0.3s;
+  &:focus, &:hover {
+    background-color: darken($select-background, 15%);
+  }
+}
+
+input[type="text"],
+input[type="email"],
+input[type="search"],
+input[type="password"],
+input[type="tel"],
+textarea {
+  width: auto;
+  min-height: 30px;
+  line-height: 30px;
+  font-size: rem-calc(16);
+  border: 0;
+  border-radius: 0;
+  padding-left: 5px;
+  color: $input-foreground;
+  font-family: $body-font;
+  // Bugfix search on safari
+  -webkit-appearance: none;
+  &::placeholder {
+    color: $input-foreground;
+    font-family: $body-font;
+  }
+}

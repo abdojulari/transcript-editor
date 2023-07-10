@@ -1,0 +1,76 @@
+<header class="main_header">
+  <%= link_to(
+    image_tag("Amplify_logo_WHITE_COLOUR",
+        alt: "Amplify logo",
+        width: 150),
+        root_url,
+        class: "main_header__logo"
+    )
+  %>
+  <% if defined?(@page_subtitle) %>
+    <div class="main_header__crumbs">
+      <%= @page_subtitle %>
+    </div>
+  <% end %>
+  <nav class="main_header__nav">
+    <%= check_box_tag "menu_toggle", "menu_toggle", false,
+          class: "main_header__mobile_nav_toggle tablet-only"
+    %>
+    <%= label_tag "menu_toggle", class: "button icon menu tablet-only" do %>
+      <span class="sr-only">Select top open navigation</span>
+    <% end %>
+    <div class="main_header__nav_list">
+      <div class="main_header__links">
+        <%= link_to "Browse",
+              "/",
+              class: current_page?(v2_home_path) ? "active" : "", 'data-menu-level': 1
+        %>
+        <%= link_to "Search",
+              "/search",
+              class: current_page?(v2_search_path) ? "active" : "", 'data-menu-level': 1
+        %>
+        <%= link_to "Collections", "/collections", 'data-menu-level': 1 %>
+        <%= link_to "About", "/page/about", 'data-menu-level': 1 %>
+        <%= link_to "FAQ", "/page/faq", 'data-menu-level': 1 %>
+        <%= link_to "Tutorial", "/page/tutorial", 'data-menu-level': 1, class: "desktop-only" %>
+      </div>
+      <div class="menu_dropdown main_header__links">
+        <div class="menu_select" id="select_title">
+        <% if user_signed_in? and current_user %>
+          <%= raw current_user_edits  %>
+          <%= link_to current_user.name, "", 'data-menu-level': 1 %>
+        <% else %>
+          <%= link_to "Track my progress", "/page/tutorial", 'data-menu-level': 1 %>
+        <% end  %>
+        </div>
+        <div class="dropdown-content">
+          <% if user_signed_in? and current_user %>
+            <%= link_to "Dashboard", "/dashboard", class: "dropdown-link", 'data-menu-level': 2 %>
+            <% if current_user.staff? %>
+              <%= link_to "Admin Portal", "/admin", class: "dropdown-link", 'data-menu-level': 2 %>
+            <% end %>
+            <%= link_to 'Sign out', destroy_user_session_path, class: "dropdown-link", 'data-menu-level': 2 %>
+          <% else %>
+            <%= link_to new_user_session_path(return_to: @transcript.try(:uid)), class: "dropdown-link auth-link auth-link--email", 'data-menu-level': 2 do %>
+              <span class="auth-link__logo">&nbsp;</span>
+              Sign in with Email
+            <% end %>
+            <% Project::getActive[:data]['authProviders'].each do |p| %>
+              <%= link_to oauth_url(p), class: "dropdown-link auth-link auth-link--#{p['name']}", 'data-menu-level': 2 do %>
+                <span class="auth-link__logo">&nbsp;</span>
+                Sign in with <%= p['label'] %>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <% if defined?(@secondary_navigation) %>
+    <nav id="secondary-navigation" class="navigation secondary main_header__secondary_nav">
+      <% if @secondary_navigation == 'secondary_navigation' %>
+        <%= render partial: 'transcript_edit_toolbar', locals: { transcript_controls: [] } %>
+      <% end %>
+    </nav>
+  <% end %>
+</header>

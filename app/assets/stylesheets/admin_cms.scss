@@ -1,0 +1,63 @@
+.modal {
+  z-index: 2011;
+}
+#sn-checkbox-open-in-new-window {
+  position: inherit;
+  z-index: 1;
+  opacity: 1;
+}
+.multi-select{
+  height: 30%
+}
+
+.multi-select:hover {
+  background-color: #FFFFFF;
+}
+
+.note-editor {
+  .note-editable {
+    @include wysiwyg-element-styles;
+  }
+}
+
+.well--statistics {
+  margin-top: 36px;
+  padding: 15px;
+  border-radius: 4px;
+  background: #eee;
+}
+
+.statistics-table {
+  display: flex;
+  flex-direction: row;
+
+  &__item {
+    flex: 1 1 auto;
+  }
+}
+
+.delete-user {
+  display: none;
+}
+
+.each-user:hover {
+  .delete-user {
+    float: right;
+    display: block;
+  }
+}
+
+.form-group {
+  .form-control.image {
+    height: unset;
+  }
+}
+
+.alert-primary {
+  padding: 5px 10px;
+}
+
+#users-tab a {
+  font-weight: bold;
+  font-size: 20px;
+}

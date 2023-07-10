@@ -1,0 +1,33 @@
+<footer class="main_footer">
+  <div class="main_footer__content">
+    <div class="main_footer__logos">
+      <%= image_tag "slnsw-175-white",
+        alt: "State library of NSW logo",
+        width: 100
+      %>
+    <%= image_tag "nsw-government-white",
+      alt: "NSW Government logo",
+      width: 75
+    %>
+    </div>
+    <div>
+      <%= @global_content[:footer_content]&.html_safe %>
+    </div>
+    <% unless Rails.env.production? %>
+      <p>
+        <em>
+          Release: <i><%= RUBY_DESCRIPTION %></i>
+        </em>
+      </p>
+    <% end %>
+  </div>
+</footer>
+
+<footer class="sub_footer">
+  <nav class="sub_footer__content">
+    <% @global_content[:footer_links].each_with_index do |link, index| %>
+      <%= footer_link(link) %>
+      <%= conditional_separator(@global_content[:footer_links], index) %>
+    <% end %>
+  </nav>
+</footer>

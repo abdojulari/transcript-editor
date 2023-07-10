@@ -1,0 +1,15 @@
+// Appends the updated list of transcripts.
+$('.transcripts-list').html(
+  "<%= j render partial: 'admin/cms/collections/item',
+    collection: order_transcripts_asc(@collection.transcripts) %>"
+);
+
+// Removes stale flash and prepends the fresh one.
+$('.alert-primary').remove();
+$('#main').prepend("<%= j render('layouts/flash_notice') %>");
+
+// Resets the select all checkbox.
+$("#select-all").prop('checked', false);
+
+// Updates the total items count.
+$('.total-items').html("<%= @collection.transcripts.size %>")

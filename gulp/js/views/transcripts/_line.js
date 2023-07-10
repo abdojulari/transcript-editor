@@ -6,6 +6,7 @@ app.views.TranscriptLine = app.views.Base.extend({
     "click": "select",
     "click .star": "star",
     "click .flag": "flag",
+    "click .resolve": "resolve",
     "click .verify": "verify",
     "click .speaker-option": "selectSpeaker"
   },
@@ -15,21 +16,54 @@ app.views.TranscriptLine = app.views.Base.extend({
     this.line = this.data.line || {};
     this.edits = this.data.edits || [];
     this.speakers = this.data.speakers || [];
+    this.flag_types = this.data.flag_types || [];
+    this.flags = this.data.flags || [];
+    this.flagsLoaded = false;
     this.render();
   },
 
   flag: function(e){
-    e.preventDefault();
-    $(e.currentTarget).toggleClass('active');
+    if (e) {
+      e.preventDefault();
+      $(e.currentTarget).addClass('active');
+    }
+    var _this = this;
+
+    this.select();
+
+    if (!this.flagsLoaded) {
+      this.flagsLoaded = true;
+
+      this.loadFlags(function(){
+        _this.flag();
+      });
+      return false;
+    }
+
+    PubSub.publish('transcript.flags.load', {
+      flags: this.flags,
+      line: this.line,
+      flag_types: this.flag_types,
+      transcript_id: this.data.transcript_id
+    });
+
   },
 
   loadEdits: function(onSuccess){
     var _this = this;
-    $.getJSON("/transcript_edits.json", {transcript_line_id: this.line.id}, function(data) {
+    $.getJSON(API_URL + "/transcript_edits.json", {transcript_line_id: this.line.id}, function(data) {
       if (data.edits && data.edits.length) {
         _this.edits = _this.parseEdits(data.edits);
         onSuccess && onSuccess();
       }
+    });
+  },
+
+  loadFlags: function(onSuccess){
+    var _this = this;
+    $.getJSON(API_URL + "/flags.json", {transcript_line_id: this.line.id}, function(data) {
+      _this.flags = data.flags || [];
+      onSuccess && onSuccess();
     });
   },
 
@@ -55,6 +89,16 @@ app.views.TranscriptLine = app.views.Base.extend({
     this.$el.html(this.template(_.extend({},this.line,{speakers: this.speakers})));
   },
 
+  resolve: function(e){
+    if (e) {
+      e.preventDefault();
+      $(e.currentTarget).addClass('active');
+    }
+
+    $.post(API_URL + "/transcript_lines/"+this.line.id+"/resolve.json");
+    this.$('.button.flag').removeClass('active');
+  },
+
   select: function(e){
     e && e.preventDefault();
     PubSub.publish('transcript.line.select', this.line);
@@ -73,7 +117,7 @@ app.views.TranscriptLine = app.views.Base.extend({
         speaker_id = parseInt($option.attr('data-id')),
         old_speaker_id = this.line.speaker_id;
 
-    this.$('.speaker-option').removeClass('selected');
+    this.$('.speaker-option').removeClass('selected').attr('aria-checked', 'false');
     this.$('.speaker').removeClass('selected c0 c1 c2 c3 c4 c5 c6 c7');
 
     // didn't change, unselect
@@ -84,7 +128,7 @@ app.views.TranscriptLine = app.views.Base.extend({
     } else {
       var position = _.pluck(this.speakers, 'id').indexOf(speaker_id);
       this.line.speaker_id = speaker_id;
-      $option.addClass('selected');
+      $option.addClass('selected').attr('aria-checked', 'true');
       this.$('.speaker').addClass('selected c'+position);
     }
 

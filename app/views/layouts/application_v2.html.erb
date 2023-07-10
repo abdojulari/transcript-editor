@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= page_title  %></title>
+    <meta name="description" content="<%= project_description %>">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= yield :metatags %>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Muli">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather">
+    <%= stylesheet_link_tag    'application_v2', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <%= yield :javascripts %>
+    <%= favicon_link_tag 'favicon.ico' %>
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <script type="text/javascript">
+      var facebookAppId = '<%= facebook_app_id %>';
+    </script>
+  </head>
+  <body class="<%= @secondary_navigation ? 'body--has-secondary-nav' : '' %> <%= @body_class || '' %>">
+    <%= render "shared/staging_notice" %>
+    <%= render "shared/gtm" %>
+    <%= render "shared/header" %>
+    <%= render "shared/site_alerts" %>
+    <main id="app">
+      <% unless flash[:notice].blank? %>
+        <div class="notice alert alert-info" role="alertdialog">
+          <%= flash[:notice] %>
+        </div>
+      <% end %>
+      <%= yield %>
+    </main>
+    <%= render "shared/footer" %>
+
+    <% if @body_class == "body--transcript-edit" %>
+      <%= render "shared/mobile_warning",
+            type: "transcript",
+            title: "Notice errors in this transcript?",
+            body: "Amplify is a community tool and anyone can help improve the quality of our transcripts.
+            For full editing functionality, please visit Amplify from a computer, laptop or tablet.
+            For now you can continue to enjoy listening to this interview and reading its existing transcript from your mobile device."
+      %>
+    <% else %>
+      <%= render "shared/mobile_warning",
+            type: "home",
+            title: "Visiting from a mobile device?",
+            body: "Amplify is a community tool and anyone can help improve the quality of our transcripts.
+            For full editing functionality, please visit Amplify from a computer, laptop or tablet.
+            Otherwise please enjoy browsing and listening to our fascinating audio collections from your mobile device."
+      %>
+    <% end %>
+  </body>
+</html>

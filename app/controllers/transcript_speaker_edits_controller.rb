@@ -1,4 +1,7 @@
 class TranscriptSpeakerEditsController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: [:create]
+  before_action :authenticate_user, only: [:create]
+
   before_action :set_transcript_speaker_edit, only: [:show, :update, :destroy]
 
   # GET /transcript_speaker_edits.json
@@ -18,7 +21,7 @@ class TranscriptSpeakerEditsController < ApplicationController
   # POST /transcript_speaker_edits.json
   def create
     @transcript_speaker_edit = nil
-    params[:transcript_speaker_edit][:session_id] = session.id
+    params[:transcript_speaker_edit][:session_id] = session.id.to_s
     t = params[:transcript_speaker_edit]
     line = TranscriptLine.find t[:transcript_line_id]
     project = Project.getActive

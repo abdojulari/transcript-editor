@@ -11,7 +11,7 @@ namespace :project do
   #        rake project:load['oral-history','assets']
   desc "Load project by key: Builds main index.html and project.js which contains all project data (metadata, pages, templates)"
   task :load, [:project_key, :scope] => :environment do |task, args|
-    args.with_defaults project_key: 'sample'
+    args.with_defaults project_key: 'nsw-state-library-amplify'
     args.with_defaults scope: 'all'
 
     # Validate project
@@ -102,15 +102,35 @@ namespace :project do
   end
 
   def load_layouts(project, project_key)
+    # EJS .html files.
+    app_env = Rails.application.config_for(:application)
     layout_files = Rails.root.join('project', project_key, 'layouts', '*.html')
-
+    frontend_config = Rails.application.config_for(:frontend)
+    if frontend_config.blank?
+      frontend_config = {}
+    end
     Dir.glob(layout_files).each do |layout_file|
       content = File.read(layout_file)
-      compiled = EJS.evaluate(content, :project => project, :project_key => project_key)
+      compiled = EJS.evaluate(
+        content,
+        :project => project,
+        :project_key => project_key,
+        :env => app_env,
+        :frontend_config => frontend_config,
+        :last_update => Time.now.to_i,
+      )
       target_file = Rails.root.join('public', project_key, File.basename(layout_file))
       File.open(target_file, 'w') { |file| file.write(compiled) }
     end
 
+    # ERB .html.erb files.
+    layout_files = Rails.root.join('project', project_key, 'layouts', '*.html.erb')
+    Dir.glob(layout_files).each do |layout_file|
+      target_file = Rails.root.join('public', project_key, File.basename(layout_file))
+      File.open(target_file, 'w') do |file|
+        file.write(File.read(layout_file))
+      end
+    end
   end
 
   def save_project_to_file(project_key, project)

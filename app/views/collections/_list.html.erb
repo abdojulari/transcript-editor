@@ -1,0 +1,16 @@
+<% if collections.any?  %>
+  <% collections.each do |collection| %>
+    <div class="collection-item">
+      <h3><%= collection.title %></h3>
+      <p><strong><%= collection.library_catalogue_title %></strong></p>
+      <p><%=  raw collection.description %></p>
+      <p>
+      <%= link_to collection.collection_url_title, collection.url %>
+      </p>
+      <br />
+    </div>
+  <% end %>
+<%  else  %>
+  <p>No collections have been added yet!</p>
+<% end %>
+

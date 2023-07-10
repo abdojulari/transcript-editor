@@ -1,0 +1,130 @@
+<% @transcript = @transcript.decorate %>
+<div class="row transcript-form">
+  <div class="col-12">
+    <%= form_for [:admin, :cms, @transcript], html: { multipart: true } do |f| %>
+      <%= render partial: 'layouts/cms_errors', locals: { object: @transcript } %>
+
+      <div class="form-group">
+        <%= f.label :uid %>
+        <%= f.text_field :uid, class: "form-control" %>
+        <%= render "admin/cms/collections/uid_note" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :title %>
+        <%= f.text_field :title, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :transcript_audio_item_url_title, 'Audio item URL title', for: 'transcript_audio_item_url_title' %>
+        <%= f.text_field :audio_item_url_title, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :transcript_url, 'Audio item URL',  for: 'transcript_url' %>
+        <%= f.text_field :url, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <label>
+          <%= f.radio_button :transcript_type, 'azure', checked: @transcript.check_status("azure") %> Upload with Azure
+        </label>
+        <br />
+        <label>
+          <%= f.radio_button :transcript_type, 'manual', checked: @transcript.check_status("manual") %> Manual Upload
+        </label>
+      </div>
+      <div class="form-group">
+        <span id="transcript-line-count">
+            <%= pluralize(@transcript.lines, 'line') %> in database
+          </span>
+      </div>
+      <div class="form-group">
+        <%= f.label 'Audio file', for: 'transcript_audio' %>
+
+        <div class="form-control">
+          <% if @transcript.audio.present? %>
+            <span class="font-italic text-success">
+              <%= @transcript.audio.file.filename %>
+            <span/>
+          <% end %>
+          <span class="text-muted"><%= f.file_field :audio %><span/>
+        </div>
+      </div>
+      <div class="form-group" id="transcript_upload">
+        <%= f.label "Item file", for: 'transcript_script' %><br/>
+
+        <div class="form-control">
+          <% if @transcript.script.present? %>
+            <span class="font-italic text-success">
+              <%= @transcript.script.file.filename %>
+            </span>
+          <% end %>
+          <span class="text-muted"><%= f.file_field :script %></span>
+          <% if @transcript.script.present? and @transcript.lines == 0 %>
+            <button type="button" class="btn btn-default" id="update-transcript" data-id="<%= @transcript.id %>">
+              Process
+            </button>
+          <% elsif current_user.admin? && @transcript.lines > 0 %>
+            <%= link_to reset_transcript_admin_cms_transcript_path(@transcript), data: {confirm: 'Are you sure you want to reset this item back to its original and uncorrected version? This action cannot be undone.'}, method: :delete do %>
+              <%= fa_icon "trash-o" %>
+              Reset item
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :description %>
+        <%= f.text_area :description, class: "form-control", "data-provider": :summernote %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :speakers %>
+        <%= f.text_field :speakers, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label 'Image file', for: 'transcript_image' %>
+        <%= render 'transcript_file', f: f, transcript: @transcript %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :image_caption %>
+        <%= f.text_area :image_caption, class: "form-control", "data-provider": :summernote %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :image_item_url_title, 'Image item URL title' %>
+        <%= f.text_field :image_item_url_title, class: "form-control" %>
+      </div>
+
+
+      <div class="form-group">
+        <%= f.label :image_catalogue_url, 'Image item URL', for: 'image_catalogue_url' %>
+        <%= f.text_field :image_catalogue_url, class: "form-control" %>
+      </div>
+
+      <div class="hidden-form-fields">
+        <%= f.hidden_field(:collection_id, value: @transcript.collection_id) %>
+      </div>
+
+      <div class="form-check mb-2">
+        <%= f.check_box :publish, {checked: @transcript.published?, class: 'form-check-input' } %>
+        <%= f.label 'Publish item to live site', for: 'transcript_publish', class: 'form-check-label' %>
+      </div>
+
+      <div class="alert-warning mb-2" role="alert">
+        Uploading your audio file may take a few minutes. After clicking the 'Save item' button, do not close your browser or navigate away from this page. When your file upload is complete you will be redirected to the transcript index page.
+      </div>
+
+      <div class="form-group text-center mb-2">
+        <%= f.submit('Save Item', class: 'btn btn-primary') %>
+        <%= link_to "Cancel", admin_cms_collection_path(@transcript.collection.uid) %>
+      </div>
+
+      <div class="form-group">
+        <%= render partial: "admin/cms/shared/stats", locals: { stats_type: 'item', duration: @transcript.duration, usage: @transcript.disk_usage } %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+inherit_gem:
+  reinteractive-style:
+    - default.yml
+Rails/UnknownEnv:
+  Environments:
+    - production
+    - development
+    - test
+    - staging

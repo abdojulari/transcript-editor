@@ -1,0 +1,84 @@
+<%= form_for [:admin, :cms, @collection], html: { multipart: true } do |f| %>
+  <%= render partial: 'layouts/cms_errors', locals: { object: @collection } %>
+
+  <div class="form-group">
+    <%= f.label :uid %>
+    <%= f.text_field :uid, class: "form-control" %>
+    <%= render "uid_note" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label 'Shorthand title', for: 'collection_title' %>
+    <%= f.text_field :title, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label 'Full collection title', for: 'collection_library_catalogue_title' %>
+    <%= f.text_field :library_catalogue_title, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description %>
+    <%= f.text_area :description, class: "form-control", "data-provider": :summernote %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :collection_url_title, "Collection URL title", for: 'collection_collection_url_title' %>
+    <%= f.text_field :collection_url_title, class: "form-control" %>
+  </div>
+
+
+  <div class="form-group">
+    <%= f.label :url, "Collection URL", for: 'collection_url' %>
+    <%= f.text_field :url, class: "form-control" %>
+  </div>
+
+  <%= f.hidden_field :vendor_id, value: Vendor.first.id %>
+
+  <div class="form-group">
+    <%= f.label :institution_id %>
+    <%= f.collection_select(:institution_id, @institutions, :id, :name, { selected: @collection.institution_id }, { class: 'form-control' }) %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label 'themes' %>
+    <%= f.collection_select(:theme_ids, @themes, :name, :name, { selected: @collection.theme_list }, { multiple: true,  class: 'form-control multi-select' }) %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label 'Collection consensus number', for: 'collection_min_lines_for_consensus' %>
+    <%= f.text_field :min_lines_for_consensus, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :image, "Default Collection Image" %>
+
+    <div class="form-control image">
+      <% if @collection.image.present? %>
+        <div><%= image_tag(@collection.image_url(:thumb)) %></div>
+        <br>
+        <% if current_user.admin? || current_user.content_editor? %>
+          <%= check_box_tag "collection[remove_image]" %>
+          <%= label_tag :remove_image %>
+          <br>
+        <% end %>
+      <% end %>
+
+      <%= f.file_field :image, class: "align-bottom" %>
+    </div>
+  </div>
+  <div class="form-check">
+    <%= f.check_box :publish, {checked: @collection.published?, class: 'form-check-input' } %>
+    <%= f.label 'Publish collection to live site', for: 'collection_publish', class: 'form-check-label' %>
+  </div>
+
+
+  <div class="form-group text-center">
+    <%= f.submit "Save", class: "btn btn-primary" %>
+    <%= link_to "Cancel", admin_cms_path %>
+  </div>
+
+  <div class="form-group">
+    <%= render partial: "admin/cms/shared/stats", locals: { stats_type: 'collection', transcript_count: @collection.transcripts.length, duration: @collection.duration, usage: @collection.disk_usage } %>
+  </div>
+<% end %>

@@ -8,10 +8,31 @@
 <% } %>
 <div class="item-info">
   <%= UTIL.formatTimeAlt(duration) %>
+  <% if (users_contributed > 0) { %>
+    <div class="item-contributors">
+      <%= UTIL.formatNumberTiny(users_contributed,0) %> contributor<%= users_contributed == 1 ? '' : 's' %>
+    </div>
+  <% } %>
 </div>
-<% if (percent_completed > 0) { %>
+<% if (percent_edited > 0 || percent_reviewing > 0 || percent_completed > 0) { %>
 <div class="item-status">
-  <div class="item-status-bar" style="width: <%= percent_completed %>%"></div>
-  <div class="item-status-text"><%= percent_completed %>% completed</div>
+  <div class="item-status-bar edited" style="width: <%= percent_edited %>%"></div>
+  <% if (percent_completed > 0) { %>
+    <div class="item-status-bar completed" style="width: <%= percent_completed %>%"></div>
+  <% } %>
+  <% if (percent_reviewing > 0) { %>
+    <div class="item-status-bar reviewing" style="width: <%= percent_reviewing %>%; left: <%= percent_completed %>%;"></div>
+  <% } %>
+</div>
+<div class="item-status-key">
+  <% if (percent_completed > 0) { %>
+    <div class="item-status-text completed"><%= percent_completed %>% reached consensus</div>
+  <% } %>
+  <% if (percent_reviewing > 0) { %>
+    <div class="item-status-text reviewing"><%= percent_reviewing %>% awaiting review</div>
+  <% } %>
+  <% if ((percent_edited-percent_reviewing-percent_completed) > 0) { %>
+    <div class="item-status-text edited"><%= percent_edited - percent_reviewing - percent_completed %>% have edits</div>
+  <% } %>
 </div>
 <% } %>

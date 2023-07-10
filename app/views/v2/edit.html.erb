@@ -1,0 +1,94 @@
+<section class="transcript_hero">
+  <%= button_tag "Show conventions", class: "transcript_hero__button button yellow" %>
+</section>
+<section class="transcript_info">
+  <article class="transcript_info__content">
+    <header class="transcript_info__header">
+      <h1 class="transcript_info__title">
+        Transcript title - Interviewed by a person with a long name
+      </h1>
+    </header>
+    <div class="transcript_info__details">
+      <p><strong>
+        Interview Summary:
+      </strong></p>
+      <p>
+        Collected by the Richmond-Tweed Oral History Group. Recorded in Lismore on 5 May, 1993.
+      </p>
+      <p>
+        Experiences at Jiggi Public School; lunches; caring for her mother; discussion of family members; meeting her husband; experiences as a young woman; losing the land.
+      </p>
+      <p><strong>
+        Image:
+      </strong></p>
+      <p>
+        Roger Marchant, c.1975-1985.
+      </p>
+      <p class="transcript_info__disclaimer">
+        <em>
+          All images used on this platform are drawn from the Library's collections but are not intended to represent individual speakers unless explicitly stated. If you can provide us with further detail about the images and/or audio on this page please
+          <a href="mailto:digital.volunteering@sl.nsw.gov.au">contact us</a>
+        </em>
+      </p>
+      <p class="transcript_info__duration">
+        Duration: 32m
+      </p>
+      <p><em>
+        Participants: Severina Perin, Kerynne Sbrocchi
+      </em></p>
+    </div>
+    <ul class="transcript_info__links">
+      <li><em><%= link_to "View audio in Library catalogue" %> <i class="fas fa-share-square"></i></em></li>
+      <li><em><%= link_to "View image in Library catalogue" %> <i class="fas fa-share-square"></i></em></li>
+      <li><em><%= link_to "Download the transcript" %></em> <i class="fas fa-download"></i></li>
+    </ul>
+
+    <div class="transcript_info__key">
+      <div class="transcript_item__info">
+        6 contributors have edited 212 lines
+      </div>
+      <div class="transcript_item__status">
+        <div class="transcript_item__status-bar edited" style="width: 50%"></div>
+        <div class="transcript_item__status-bar completed" style="width: 12%"></div>
+        <div class="transcript_item__status-bar reviewing" style="width: 39%; left: 12%;"></div>
+      </div>
+      <div class="transcript_item__status-key">
+        <div class="transcript_item__status-text completed">12% of lines reached consensus</div>
+        <div class="transcript_item__status-text reviewing">39% of lines awaiting review</div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<section class="transcript_instruct">
+  <article class="transcript_instruct__content">
+    <header class="transcript_instruct__header">
+      <h2 class="transcript_instruct__title">
+        Instructions
+      </h2>
+    </header>
+    <ul class="transcript_instruct__details">
+      <li>Here you can listen to audio files from the Library's collections. Click the <strong>Play All button</strong> to listen alongside a transcript.</li>
+      <li>The transcript was <strong>computer generated using speech-to-text software</strong> and contains errors.</li>
+      <li>You can use this tool to <strong>edit a transcript line by line</strong> as you listen along.</li>
+      <li><strong>All your edits will be automatically saved</strong> but may not be immediately visible by others. Don't forget to <strong>Track Your Progress</strong> (top right corner) if you want to keep a tally of all your edits</li>
+      <li>Once <strong>three or more</strong> people have transcribed – and agreed – on the text for an individual line it will be visible to all but no longer editable.</li>
+      <li>When a line of the transcript is marked as "completed" (<span class="highlighted green">highlighted in green</span>) this means it has already been corrected by others and can no longer be edited, but you can still listen to them.</li>
+    </ul>
+    <p>
+      <a href="#tutorial" data-modal="tutorial_edit" class="button cyan large modal-invoke tutorial-link" role="button">
+        View Tutorial
+      </a>
+      <span class="separator"> - or - </span>
+      <a href="#start" class="button cyan large start-play" role="button">
+        Start Transcribing
+      </a>
+    </p>
+    <p>
+      <a href="#play-all" class="button cyan large play-all" role="button">
+        <i class="far fa-play-circle"></i> Play All
+      </a>
+    </p>
+  </article>
+</section>
+<%= image_tag "transcript-placeholder", class: "transcript_instruct__placeholder" %>

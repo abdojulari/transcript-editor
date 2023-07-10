@@ -45,6 +45,7 @@
 }
 
 $search-height: 28px;
+$search-height-large: 40px;
 
 .search-form {
 
@@ -87,6 +88,24 @@ $search-height: 28px;
 
     &:hover {
       background: $link-hover-color;
+    }
+  }
+
+  &.large {
+    text-align: center;
+    font-size: 1.6em;
+    margin-bottom: 1em;
+
+    input {
+      width: 500px;
+      margin-right: -3px;
+      height: $search-height-large;
+      line-height: $search-height-large;
+    }
+    .submit {
+      width: $search-height-large + 2px;
+      height: $search-height-large + 2px;
+      line-height: $search-height-large + 2px;
     }
   }
 }

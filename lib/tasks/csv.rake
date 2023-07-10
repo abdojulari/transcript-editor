@@ -19,8 +19,8 @@ namespace :csv do
 
     # retrieve and merge the headers
     headers = []
-    headers << data_a.first.keys if data_a.length > 0
-    headers << data_b.first.keys if data_b.length > 0
+    headers.concat data_a.first.keys if data_a.length > 0
+    headers.concat data_b.first.keys if data_b.length > 0
     headers = headers.uniq
 
     # merge rows

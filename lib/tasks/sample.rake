@@ -21,6 +21,9 @@ namespace :sample do
     # seed lines
     lines = seedLines(transcript)
 
+    # delete flags
+    deleteFlags(transcript)
+
     deleteEdits(transcript)
     if do_edits
       seedEdits(transcript, lines)
@@ -32,6 +35,10 @@ namespace :sample do
   def deleteEdits(transcript)
     TranscriptEdit.where(:transcript_id => transcript.id).destroy_all
     TranscriptSpeakerEdit.where(:transcript_id => transcript.id).destroy_all
+  end
+
+  def deleteFlags(transcript)
+    Flag.where(:transcript_id => transcript.id).destroy_all
   end
 
   def seedEdit(attributes)
@@ -47,6 +54,7 @@ namespace :sample do
   def seedEditsEditing(line)
     # Just one edit
     seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'one_1', text: '[laughter] Oh, really?'})
+    seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'one_2', text: '[laughing] Oh, really?'})
 
     line.recalculate()
   end
@@ -54,7 +62,7 @@ namespace :sample do
   def seedEditsReviewing(line)
     # Many edits, none agree
     seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'two_1', text: 'Oh. April Fourth, two thousand sixteen'})
-    seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'two_2', text: 'On, um, April 4th, 2016'})
+    seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'two_2', text: 'On, um, April fourth, 2016'})
     seedEdit({transcript_id: line.transcript_id, transcript_line_id: line.id, session_id: 'two_3', text: 'On April 4th, 2016'})
 
     line.recalculate()
@@ -80,14 +88,14 @@ namespace :sample do
     puts "Seeding transcript lines..."
 
     lines = []
-    lines << seedLine({transcript_id: transcript.id, sequence: 0, start_time: 2, end_time: 2430, original_text: 'oh really', guess_text: '', text: '', transcript_line_status_id: 1, speaker_id: 0})
-    lines << seedLine({transcript_id: transcript.id, sequence: 1, start_time: 2445, end_time: 4480, original_text: 'and we want live', guess_text: '', text: '', transcript_line_status_id: 1, speaker_id: 0})
-    lines << seedLine({transcript_id: transcript.id, sequence: 2, start_time: 4490, end_time: 8230, original_text: 'In april fourth two thousand and sixteen', guess_text: '', text: '', transcript_line_status_id: 1, speaker_id: 0})
-    lines << seedLine({transcript_id: transcript.id, sequence: 3, start_time: 8604, end_time: 10273, original_text: 'can you tell me more', guess_text: '', text: '', transcript_line_status_id: 1, speaker_id: 0})
-    lines << seedLine({transcript_id: transcript.id, sequence: 4, start_time: 10276, end_time: 14560, original_text: 'yah care to start', guess_text: '', text: '', transcript_line_status_id: 1, speaker_id: 0})
-    lines << seedLine({transcript_id: transcript.id, sequence: 5, start_time: 14793, end_time: 16343, original_text: 'why do want to show', guess_text: '', text: '', transcript_line_status_id: 1, speaker_id: 0})
-    lines << seedLine({transcript_id: transcript.id, sequence: 6, start_time: 16711, end_time: 19168, original_text: 'it\'s a community driven project we start with', guess_text: '', text: '', transcript_line_status_id: 1, speaker_id: 0})
-    lines << seedLine({transcript_id: transcript.id, sequence: 7, start_time: 19110, end_time: 21334, original_text: 'with speeched text generation transcripts', guess_text: '', text: '', transcript_line_status_id: 1, speaker_id: 0})
+    lines << seedLine({transcript_id: transcript.id, sequence: 0, start_time: 2, end_time: 2430, original_text: 'oh really', guess_text: '', text: '', transcript_line_status_id: 1, speaker_id: 0, flag_count: 0})
+    lines << seedLine({transcript_id: transcript.id, sequence: 1, start_time: 2445, end_time: 4480, original_text: 'and we want live', guess_text: '', text: '', transcript_line_status_id: 1, speaker_id: 0, flag_count: 0})
+    lines << seedLine({transcript_id: transcript.id, sequence: 2, start_time: 4490, end_time: 8230, original_text: 'In april fourth two thousand and sixteen', guess_text: '', text: '', transcript_line_status_id: 1, speaker_id: 0, flag_count: 0})
+    lines << seedLine({transcript_id: transcript.id, sequence: 3, start_time: 8604, end_time: 10273, original_text: 'can you tell me more', guess_text: '', text: '', transcript_line_status_id: 1, speaker_id: 0, flag_count: 0})
+    lines << seedLine({transcript_id: transcript.id, sequence: 4, start_time: 10276, end_time: 14560, original_text: 'yah care to start', guess_text: '', text: '', transcript_line_status_id: 1, speaker_id: 0, flag_count: 0})
+    lines << seedLine({transcript_id: transcript.id, sequence: 5, start_time: 14793, end_time: 16343, original_text: 'why do want to show', guess_text: '', text: '', transcript_line_status_id: 1, speaker_id: 0, flag_count: 0})
+    lines << seedLine({transcript_id: transcript.id, sequence: 6, start_time: 16711, end_time: 19168, original_text: 'it\'s a community driven project we start with', guess_text: '', text: '', transcript_line_status_id: 1, speaker_id: 0, flag_count: 0})
+    lines << seedLine({transcript_id: transcript.id, sequence: 7, start_time: 19110, end_time: 21334, original_text: 'with speeched text generation transcripts', guess_text: '', text: '', transcript_line_status_id: 1, speaker_id: 0, flag_count: 0})
     lines
   end
 

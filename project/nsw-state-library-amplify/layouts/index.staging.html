@@ -1,0 +1,104 @@
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title data-title-sitename="<%= project["name"] %>" data-title-template="{{pagename}} | {{sitename}}"><%= project["name"] %></title>
+    <meta name="description" content="<%= project["description"] %>">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Muli">
+    <link rel="stylesheet" href="/assets/css/app.css?a=<%= last_update %>">
+    <link rel="stylesheet" href="/<%= project_key %>/assets/css/styles.css?a=<%= last_update %>">
+    <link rel="shortcut icon" href="/<%= project_key %>/assets/img/favicon.ico?a=<%= last_update %>">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+  </head>
+  <body>
+    <!-- Google Tag Manager -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-N7BSF9" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-N7BSF9');</script>
+    <!-- End Google Tag Manager -->
+
+    <!-- For social media integration. -->
+    <script>
+      var facebookAppId = '<%= env['FACEBOOK_APP_ID'] %>';
+    </script>
+
+    <div class="application-env-indicator">
+      Staging
+    </div>
+
+    <div id="app">
+      <div id="header" class="header edit_page_header">
+        <nav id="primary-navigation" class="navigation primary inverse" role="navigation">
+          <div>
+            <div id="header-title" class="title-container"></div>
+            <div id="header-crumbs" class="crumbs-container"></div>
+            <div id="account-container" class="account-container"></div>
+            <div id="primary-menu-container" class="menu-container"></div>
+          </div>
+        </nav>
+        <nav id="secondary-navigation" class="navigation secondary"></nav>
+        <div id="primary-alert" class="alert" role="alert" aria-atomic="true"></div>
+      </div>
+
+      <div id="main" class="body"></div>
+
+      <footer class="main_footer">
+        <div class="main_footer__content">
+          <div class="main_footer__logos">
+            <img alt="State library of NSW logo" width="100" src="/nsw-state-library-amplify/assets/img/slnsw-175-white.png">
+            <img alt="NSW Government logo" width="75" src="/nsw-state-library-amplify/assets/img/nsw-government-white.png">
+          </div>
+          <p>
+          Amplify was built using New York Public Library’s open source codebase for their own Transcript Editor.
+          <a href="#">Find out more.</a>
+          </p>
+          <p>
+          All images used on this platform are drawn from the Library's collections but are not intended to represent individual speakers unless explicitly stated. If you can provide us with further detail about any of our collections please
+          <a href="https://amplify.sl.nsw.gov.au/page/about">contact us.</a>
+          </p>
+        </div>
+      </footer>
+      <footer class="sub_footer">
+        <nav class="sub_footer__content">
+          <a href="https://www.sl.nsw.gov.au/disclaimer">DISCLAIMER</a> /
+          <a href=" https://www.sl.nsw.gov.au/privacy">PRIVACY</a> /
+          <a href="https://www.sl.nsw.gov.au/copyright">COPYRIGHT</a> /
+          <a href="https://www.sl.nsw.gov.au/right-to-information">RIGHT TO INFORMATION</a> /
+          <a href="https://www.sl.nsw.gov.au/website-accessibility">WEBSITE ACCESSIBILITY</a> /
+          <a href="https://amplify.sl.nsw.gov.au/page/about">CONTACT US</a> /
+          <a href="https://www.sl.nsw.gov.au/feedback">FEEDBACK</a>
+        </nav>
+      </footer>
+    </div>
+
+    <script type="text/javascript">
+      var Amplify = Amplify || {};
+      Amplify.config = <%= Object.keys(frontend_config).length > 0 ? JSON.stringify(frontend_config) : '{}' %>;
+      Amplify.getConfig = function(path, defaultValue) {
+        if (!defaultValue) {
+          defaultValue = null;
+        }
+        var out = path.split('.').reduce(function(prev, curr) {
+          return prev ? prev[curr] : undefined;
+        }, Amplify.config);
+        if (typeof(out) === 'undefined') {
+          return defaultValue;
+        }
+        else {
+          return out;
+        }
+      };
+    </script>
+    <script src="/<%= project_key %>/project.js?a=<%= last_update %>"></script>
+    <script src="/assets/js/templates.js?a=<%= last_update %>"></script>
+    <script src="/assets/js/default.min.js?a=<%= last_update %>"></script>
+    <script src="/<%= project_key %>/assets/js/custom.js?a=<%= last_update %>"></script>
+  </body>
+</html>

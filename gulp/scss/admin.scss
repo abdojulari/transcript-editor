@@ -1,0 +1,86 @@
+@import "mixins";
+@import "variables";
+
+@import "normalize";
+@import "animations";
+
+@import "scaffolds";
+@import "components";
+@import "header";
+@import "footer";
+
+.body {
+  @include clearfix();
+}
+
+.row {
+  @include clearfix();
+  margin-bottom: 20px;
+}
+.col {
+  width: 50%;
+  float: left;
+  padding: 10px;
+  max-height: 90vh;
+  overflow: hidden;
+  overflow-y: auto;
+  @include box-sizing();
+}
+
+.stat {
+  width: 100%;
+  margin: 30px 0;
+
+  .stat-label {
+    text-transform: uppercase;
+    font-size: 1.4em;
+  }
+
+  .sums {
+    margin-top: 20px;
+
+    .sum {
+      text-align: center;
+      display: inline-block;
+      margin: 0 10px 10px 0;
+      padding: 20px 20px 0 20px;
+      background: $indigo;
+      color: $white;
+      @include box-sizing();
+    }
+
+    .sum-label {
+      font-size: 0.9em;
+      text-transform: uppercase;
+    }
+
+    .sum-value {
+      margin-top: 10px;
+      font-size: 2.4em;
+      font-weight: bold;
+    }
+  }
+}
+
+.users-table,
+.flags-table {
+  width: 100%;
+
+  th {
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+    background: #eee;
+  }
+}
+.user-item,
+.flag-item {
+  border-bottom: 1px solid #ccc;
+  margin: 10px 0;
+  padding: 10px 0;
+
+  img {
+    width: 40px;
+    height: auto;
+    vertical-align: middle;
+  }
+}

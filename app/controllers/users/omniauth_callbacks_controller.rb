@@ -1,33 +1,54 @@
-class Users::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksController
+# frozen_string_literal: true
 
-  before_filter :set_user_session
-  after_filter :handle_user_sessions
+class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+  include Devise::Controllers::Rememberable
 
-  def handle_user_sessions
-    # puts "Session After: #{session[:previously_not_logged_in]} , #{session.id}"
+  def facebook
+    @user = User.from_omniauth(request.env["omniauth.auth"])
 
-    # User just signed in
-    if session[:previously_not_logged_in] && user_signed_in?
-
-      # Assume previous session belongs to user
-      TranscriptEdit.updateUserSessions(session.id, current_user.id)
-
-      # Check if user is an admin
-      project = Project.getActive
-      admin_emails = project[:data]["adminEmails"]
-      if admin_emails.include?(current_user.email) && (!current_user.user_role || current_user.user_role.name != "admin")
-        current_user.setRole("admin")
-      end
+    if @user.persisted?
+      remember_me @user
+      sign_in @user, event: :authentication
+      set_flash_message(:notice, :success, kind: "Facebook") if
+        is_navigational_format?
+    else
+      session["devise.facebook_data"] = request.env["omniauth.auth"]
+      redirect_to new_user_registration_url
     end
+
+    redirect_to redirect_url
   end
 
-  def set_user_session
-    # puts "Session Before: #{session[:previously_not_logged_in]} , #{session.id}"
+  def google_oauth2
+    @user = User.from_omniauth(request.env["omniauth.auth"])
 
-    session[:previously_not_logged_in] = false
-    unless user_signed_in?
-      session[:previously_not_logged_in] = true
+    if @user.persisted?
+      remember_me @user
+      sign_in @user, event: :authentication
+      set_flash_message(:notice, :success, kind: "Google") if
+        is_navigational_format?
+    else
+      session["devise.google_data"] = request.env["omniauth.auth"]
+      redirect_to new_user_registration_url
     end
+
+    redirect_to redirect_url
   end
 
+  private
+
+  def redirect_url
+    if params["state"]
+      uid         = params["state"]
+      transcript  = Transcript.find_by uid: uid
+      return "/" unless transcript
+
+      collection  = transcript.collection.uid
+      institution = transcript.collection.institution.slug
+
+      institution_transcript_path(institution: institution, collection: collection, id: transcript.uid)
+    else
+      "/"
+    end
+  end
 end

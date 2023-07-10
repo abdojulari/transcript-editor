@@ -6,18 +6,25 @@ app.views.Dashboard = app.views.Base.extend({
 
   initialize: function(data){
     this.data = data;
-
     this.secondsPerLine = 5;
-
-    this.loadData();
+    this.listenForAuth();
   },
 
-  loadData: function(){
+  listenForAuth: function(){
+    var _this = this;
+
+    // check auth validation
+    PubSub.subscribe('auth.validation.success', function(ev, user) {
+      _this.loadData(user);
+    });
+  },
+
+  loadData: function(user){
     var _this = this;
 
     this.data.transcripts = [];
 
-    $.getJSON("/transcript_edits.json", {user: 1}, function(data) {
+    $.getJSON("/transcript_edits.json", {user_id: user.id}, function(data) {
       if (data.edits && data.edits.length) {
         _this.parseEdits(data.edits, data.transcripts);
       }

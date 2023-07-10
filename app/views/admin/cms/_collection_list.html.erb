@@ -1,0 +1,57 @@
+<% collection.each do |key, value| %>
+  <div class="card">
+    <div class="card-header">
+      <h5><%= Institution.find(key).name %></h5>
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Collection ID</th>
+            <th scope="col">Title</th>
+            <th scope="col">Items</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <% value.each do |collection|
+           collection = collection.decorate
+        %>
+          <tbody>
+            <tr>
+              <td><%= publish_icon(collection.published?)  %></td>
+              <td><%= collection.uid %></td>
+              <td><%= collection.title %></td>
+              <td><%= collection.transcript_items %></td>
+              <td>
+                <%= button_to edit_admin_cms_collection_path(collection),
+                  method: "get",
+                  data: { disable_with: "Loading..." } do
+                %>
+                  <%= fa_icon "edit" %>
+                <% end %>
+              </td>
+              <td>
+                <%= button_to admin_cms_collection_path(collection),
+                  method: "get",
+                  data: { disable_with: "Loading..." } do
+                %>
+                  <%= fa_icon "list" %>
+                <% end %>
+              </td>
+              <td>
+                <% if policy(collection).destroy? %>
+                  <%= button_to admin_cms_collection_path(collection), data: {confirm: 'Are you sure you want to delete this collection and any associated items? This action cannot be undone.'}, method: :delete do %>
+                    <%= fa_icon "trash-o" %>
+                  <% end %>
+                <% end %>
+              </td>
+            </tr>
+          </tbody>
+        <% end %>
+      </table>
+    </div>
+  </div>
+<% end %>

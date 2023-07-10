@@ -1,19 +1,49 @@
 <% if (page_conventions) { %>
 <div id="conventions-page" class="conventions-page sticky">
-  <%= page_conventions %>
-  <a class="tab toggle-active" data-target="#conventions-page" label-active="Hide Conventions" label-inactive="Show Conventions"></a>
+  <div role="tabpanel" aria-labelledby="conventions-link" aria-hidden="true">
+    <div class="transcription_conventions.md page">
+      <table class="table-conventions">
+        <thead>
+          <tr>
+            <th colspan="2">Transcription Conventions</th>
+            <th>Examples</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% _.each(page_conventions, function(convention){ %>
+            <tr>
+              <td><%= convention.convention_key %></td>
+              <td><%= convention.convention_text %></td>
+              <td><%= convention.example %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <nav class="conventions-page__toggle-container">
+    <a id="conventions-link" href="#conventions" class="conventions-page__toggle-button toggle-active conventions-link button large" label-active="Hide Conventions" label-inactive="Show Conventions" role="tab" aria-label="Conventions"></a>
+  </nav>
 </div>
 <% } %>
 
-<div class="transcript-header<%= transcript.image_url ? ' has-image' : '' %>">
-  <% if (transcript.image_url) { %>
-    <div class="image" style="background-image: url(<%= transcript.image_url %>)"></div>
+<div class="transcript-header<%= transcript.image_url ? ' has-image' : '' %>" role="banner">
+  <% if (transcript.image_cropped_thumb_url) { %>
+    <div class="transcript-header-image" style="background-image: url('<%= transcript.image_cropped_thumb_url %>')"></div>
   <% } %>
   <div class="metadata">
+    <% if (!transcript.published_at) { %>
+      <h1 class='preview-tag'>[Preview]</h1>
+    <% } %>
     <h1><%= transcript.title %></h1>
+    <p class="duration">Institution: <%= transcript.institution.name %></p>
 
     <% if (transcript.description) { %>
       <p><%= transcript.description %></p>
+    <% } %>
+
+    <% if (transcript.image_caption) { %>
+      <p>Image:  <%= transcript.image_caption %></p>
     <% } %>
 
     <p class="duration">Duration: <%= UTIL.formatTimeAlt(transcript.duration) %></p>
@@ -21,30 +51,107 @@
     <% if (transcript.speakers.length) { %>
       <p class="speakers">Participants: <%= _.pluck(transcript.speakers, 'name').join(', ') %> </p>
     <% } %>
-  </div>
-  <div class="status-wrapper">
-    <div class="status">
-      <div class="status-bar" style="width: <%= transcript.percent_completed %>%"></div>
-      <div class="status-text">Users have completed <%= transcript.percent_completed %>%</div>
+
+    <% if (transcript.url) { %>
+      <p class="original-link"><a href="<%= transcript.url %>" target="_blank">
+        <%= transcript.audio_item_url_title %>
+      </a></p>
+    <% } %>
+
+    <%if (transcript.image_catalogue_url) { %>
+      <p class="original-link">
+        <a href="<%= transcript.image_catalogue_url %>" target="_blank">
+          <%= transcript.image_item_url_title %>
+        </a>
+      </p>
+    <% } %>
+
+    <% if (transcript.can_download) { %>
+      <p class="download-link"><a href="#download" data-modal="transcript-download" class="modal-invoke">Download this transcript</a></p>
+    <% } %>
+
+    <div class="social">
+      <!-- Start Twitter share button. -->
+      <a href="https://twitter.com/share" class="twitter-share-button" data-text="Listening to <%= transcript.title.length <= 72 ? transcript.title.replace('.', '') : (transcript.title.substring(0, 68) + '...') %> on Amplify via @statelibrarynsw">
+        Tweet
+      </a>
+      <!-- End Twitter share button. -->
+
+      <!-- Start Facebook share button. -->
+      <div class="fb-share-button" data-layout="button_count" data-size="small" data-mobile-iframe="true">
+        <a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?src=sdkpreparse">Share</a>
+      </div>
+      <!-- End Facebook share button. -->
     </div>
   </div>
+  <% if (transcript.percent_edited > 0) { %>
+  <div class="status-wrapper">
+    <% if (transcript.users_contributed > 0) { %>
+      <div class="status-contributors">
+        <%= UTIL.formatNumber(transcript.users_contributed) %> contributor<%= transcript.users_contributed == 1 ? '' : 's' %>
+        <%= transcript.users_contributed == 1 ? 'has' : 'have' %> edited <%= UTIL.formatNumber(transcript.lines_edited) %> line<%= transcript.lines_edited == 1 ? '' : 's' %>
+      </div>
+    <% } %>
+    <div class="item-status">
+      <div class="item-status-bar edited" style="width: <%= transcript.percent_edited %>%"></div>
+      <% if (transcript.percent_completed > 0) { %>
+        <div class="item-status-bar completed" style="width: <%= transcript.percent_completed %>%"></div>
+      <% } %>
+      <% if (transcript.percent_reviewing > 0) { %>
+        <div class="item-status-bar reviewing" style="width: <%= transcript.percent_reviewing %>%; left: <%= transcript.percent_completed %>%;"></div>
+      <% } %>
+    </div>
+    <div class="item-status-key">
+      <% if (transcript.percent_completed > 0) { %>
+        <div class="item-status-text completed"><%= transcript.percent_completed %>% of lines reached consensus</div>
+      <% } %>
+      <% if (transcript.percent_reviewing > 0) { %>
+        <div class="item-status-text reviewing"><%= transcript.percent_reviewing %>% of lines awaiting review</div>
+      <% } %>
+      <% if ((transcript.percent_edited-transcript.percent_reviewing-transcript.percent_completed) > 0) { %>
+        <div class="item-status-text edited"><%= transcript.percent_edited - transcript.percent_reviewing - transcript.percent_completed %>% of lines have edits</div>
+      <% } %>
+    </div>
+  </div>
+  <% } %>
 </div>
 
-<% if (page_content) { %>
-<div class="transcript-page">
-  <%= page_content %>
-</div>
-<% } %>
+<div role="main">
 
-<div id="transcript-user-progress" class="transcript-user-progress">
-  <div class="progress-content"></div>
-  <a class="progress-toggle" title="Toggle Progress Display"></a>
-</div>
+  <div class="transcript-page" role="contentinfo">
+    <div class="transcript_edit.md page">
+      <%= transcript.instructions.content %>
+      <p class="text-center"><a href="/page/tutorial" target="_blank" class="button large cyan" role="button">View Tutorial</a> <span class="separator">- or -</span> <a href="#start" class="button large start-play cyan disabled" role="button">Start Transcribing</a></p>
 
-<div id="transcript-lines" class="transcript-lines<%= transcript.speakers && transcript.speakers.length > 1 ? ' has-speakers' : '' %>"></div>
+      <p class="text-center">
+        <a href="#play-all" class="desktop-only button large play-all disabled cyan" role="button">
+          <i class="fa fa-play-circle" aria-hidden="true">&nbsp;</i>
+          Play All
+        </a>
+        <button class="mobile-only disabled mobile-toggle play button large cyan">
+          <i class="fa fa-play-circle" aria-label="play">&nbsp;</i>
+          Play
+        </button>
+        <button class="mobile-only hidden mobile-toggle pause button large cyan">
+          <i class="fa fa-pause-circle" aria-label="pause">&nbsp;</i>
+          Pause
+        </button>
+      </p>
+    </div>
+  </div>
 
-<% if (completion_content) { %>
-<div id="completion-content" class="completion-content">
-  <%= completion_content %>
+
+  <div id="transcript-user-progress" class="transcript-user-progress">
+    <div class="progress-content"></div>
+    <a href="#toggle" class="progress-toggle" title="Toggle Progress Display"></a>
+  </div>
+
+  <div id="transcript-lines" class="transcript-lines<%= transcript.speakers && transcript.speakers.length > 1 ? ' has-speakers' : '' %>"></div>
+
+  <% if (completion_content) { %>
+  <div id="completion-content" class="completion-content" aria-hidden="true">
+    <%= completion_content %>
+  </div>
+  <% } %>
+
 </div>
-<% } %>

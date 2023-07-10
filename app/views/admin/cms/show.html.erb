@@ -1,0 +1,18 @@
+<%= render partial: 'layouts/admin_side_pane' %>
+<% content_for :cms_heading do %>
+  <div class="row">
+    <div class="col-10">
+      <h3 class="text-center">Collection Management</h3>
+    </div>
+    <div class="col-2 new-collection-panel">
+      <%= button_to "Create a new collection",
+          new_admin_cms_collection_path,
+          method: "get",
+          data: { disable_with: "Loading..." },
+          class: "button cyan pull-right"
+      %>
+    </div>
+  </div>
+<% end %>
+
+<%= render partial: "collection_list", locals: { collection: @collection } %>

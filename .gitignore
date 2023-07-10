@@ -4,21 +4,41 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 
+.DS_Store
+
 # Ignore bundler config.
 /.bundle
+.env
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
 
+# Ignore database snapshots.
+*.pgdump
+*.sql
+*.psql
+
 # Ignore all logfiles and tempfiles.
 /log/*
 !/log/.keep
-/tmp
+!/tmp/.keep
+/tmp/*/*
+
+/public/institutions/*/**
+/public/uploads/*
+/tmp/cache/*/**
+/tmp/*
+
 
 # Project-specific
 /_dev
 .project
+/.ruby-gemset
+/exports/*
+!/exports/.keep
+.byebug_history
+/spec/examples.txt
 
 # Ignore application configuration
 /config/application.yml
@@ -26,8 +46,43 @@
 /config/application.*.yml
 !/config/application.sample.yml
 
-# Ignore downloaded transcripts
+# Ignore downloaded transcripts/audio
 /project/*/transcripts/*/*.json
+/project/*/audio/*
+!/project/*/audio/.keep
 
 # Node
 /node_modules
+
+/public/collections/
+/public/collections_v2/
+
+/project/nsw-state-library-amplify/assets/img/Landing page/
+/public/nsw-state-library-amplify/assets/img/Landing page/
+
+# Ignore all certificates.
+/config/certificates/*
+!/config/certificates/.keep
+
+# Ignore coverage.
+coverage/*
+
+# Ignore uploaded files.
+app/files/uploads/*
+!app/files/uploads/.keep
+
+# Ignore uploaded files in development
+/storage/*
+
+/node_modules
+/yarn-error.log
+
+.byebug_history
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key
+
+# Allow for scratch space.
+/scratch/*
+!/scratch/.keep
+.vscode

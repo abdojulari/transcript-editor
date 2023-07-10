@@ -1,0 +1,80 @@
+/* Env indicator */
+
+.application-env-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: white;
+  z-index: 10001;
+  transform: translateX(-60px) translateY(25px) rotate(-45deg);
+  background: #600;
+  width: 200px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+/* Header */
+
+.header .title-container .header-bar .logo-text {
+  vertical-align: top;
+}
+
+.header .title-container .logo {
+  max-height: inherit;
+  max-width: 200px;
+}
+
+/* Home page. */
+
+.home\.md.page {
+  max-width: none;
+}
+
+.home\.md.page .banner {
+  color: #fff;
+  padding-top: 60px;
+}
+
+.home\.md.page .banner img {
+  width: 9em;
+}
+
+.home\.md.page .container {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.home\.md.page h1 {
+  margin-bottom: 0;
+}
+
+.home\.md.page .sticker {
+  display: block;
+  position: absolute;
+  right: -150px;
+  bottom: -140px;
+}
+
+.home\.md.page .sticker img {
+  width: 140px;
+  height: auto;
+  -ms-transform: rotate(3deg);
+  -webkit-transform: rotate(3deg);
+  transform: rotate(3deg);
+}
+
+/* Footer. */
+
+.footer\.md.page img {
+  max-width: 300px;
+  margin-left: 10px;
+}
+
+/* Disclaimer font */
+
+.disclaimer, .home\.md.page p.disclaimer {
+  font-size: 0.8em;
+  font-style: italic;
+}

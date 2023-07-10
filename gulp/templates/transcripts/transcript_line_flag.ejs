@@ -1,0 +1,41 @@
+<section class="modal <%= active ? 'active': '' %>" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+
+  <div class="modal-inner">
+    <header id="modal-label" class="modal-label"><%= title %> <a href="#toggle" class="control toggle-play" role="button"></a></header>
+    <div class="modal-content">
+      <div id="flag-add" class="flag-content active">
+        <p>The transcribed text: <strong><%= line.text %></strong></p>
+        <div role="menu">
+          <% _.each(flag_types, function(type, i){ %>
+            <a href="#option-<%= type.id %>" class="option <%= type.id == line.user_flag.flag_type_id ? 'active' : '' %>" type-id="<%= type.id %>" title="<%= type.description %>" role="menuitemradio" aria-checked="<%= type.id == line.user_flag.flag_type_id ? 'true' : 'false' %>"><%= type.label %></a>
+          <% }) %>
+        </div>
+        <label for="text">Add a comment (optional):</label>
+        <textarea name="text" class="input-text"><%= line.user_flag.text %></textarea>
+        <div class="message" role="alert" aria-atomic="true" aria-hidden="true"></div>
+      </div>
+      <div id="flag-index" class="flag-content">
+        <p>The transcribed text: <strong><%= line.text %></strong></p>
+        <% _.each(flags, function(flag, i){ %>
+          <div class="flag">
+            <span class="flag-type"><%= flag.flag_type_label %></span><%= flag.text.length ? ': ' + flag.text : '' %>
+            <% if (flag.is_resolved) { %>
+              <em>(resolved)</em>
+            <% } %>
+            <div class="flag-meta">by <%= flag.user_name %> on <%= UTIL.formatDate(flag.created_at) %></div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+    <footer>
+      <% if (flags.length > 0) { %>
+      <a href="#view-all" class="button pull-left content-link view-flags active" role="button">View All Flags</a>
+      <a href="#add" class="button pull-left content-link view-add-flag" role="button">Add A Flag</a>
+      <% } %>
+      <a href="#submit" class="button pull-right submit active" role="button">Submit</a>
+    </footer>
+  </div>
+
+  <a href="#close" class="modal-close modal-dismiss" title="Close this modal" aria-label="Close" role="button">x</a>
+
+</section>

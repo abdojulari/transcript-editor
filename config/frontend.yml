@@ -1,0 +1,6 @@
+development:
+  homepage:
+    search:
+      sort_options:
+        active_sort: completeness
+        active_order: desc

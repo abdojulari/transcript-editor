@@ -2,6 +2,7 @@
 app.views.Transcript = app.views.Base.extend({
 
   current_line_i: -1,
+  play_all: false,
 
   centerOn: function($el){
     var offset = $el.offset().top,
@@ -30,9 +31,26 @@ app.views.Transcript = app.views.Base.extend({
     // user is clicking rapidly; don't animate
     if (timeSinceLastAction < (animationDuration+animationPadding)) {
       $('html, body').scrollTop(scrollOffset);
-    } else {
+    }
+    else {
       $('html, body').animate({scrollTop: scrollOffset}, animationDuration);
     }
+
+  },
+
+  checkForStartTime: function(){
+    if (!this.data.queryParams || !this.data.queryParams.t) return false;
+
+    var seconds = UTIL.getSeconds(this.data.queryParams.t);
+    if (!seconds) return false;
+
+    var select_line_i = 0;
+    _.each(this.data.transcript.lines, function(line, i){
+      var line_seconds = UTIL.getSeconds(UTIL.formatTime(line.start_time/1000));
+      if (line_seconds <= seconds) select_line_i = i;
+    });
+
+    this.lineSelect(select_line_i);
 
   },
 
@@ -58,6 +76,13 @@ app.views.Transcript = app.views.Base.extend({
     if ($input.attr('original-font-size')) {
       $input.css({fontSize: $input.attr('original-font-size') + 'px'});
     }
+  },
+
+  getPageTitle: function() {
+    if (!!this.data.transcript) {
+      return this.data.transcript.title;
+    }
+    return '';
   },
 
   lineNext: function(){
@@ -90,17 +115,29 @@ app.views.Transcript = app.views.Base.extend({
     this.current_line = this.data.transcript.lines[i];
 
     // update UI
+    var $active = $('.line[sequence="' + i + '"]').first();
+    var $input = $active.find('input');
+
     $('.line.active').removeClass('active');
-    var $active = $('.line[sequence="'+i+'"]').first();
     $active.addClass('active');
+
     this.centerOn($active);
 
-    // focus on input
-    var $input = $active.find('input');
-    if ($input.length) $input.first().focus();
+    if (!this.play_all) {
+      // focus on input
+      if ($input.length) $input.first().focus();
+    }
 
     // fit input
     this.fitInput($input);
+
+    // Adjusts mobile button to show pause
+    var playButton   = this.$('.mobile-toggle.play')
+    var pauseButton  = this.$('.mobile-toggle.pause')
+    if (pauseButton.hasClass('hidden')) {
+      playButton.addClass('hidden')
+      pauseButton.removeClass('hidden')
+    }
 
     // play audio
     this.pause_at_time = this.current_line.end_time * 0.001;
@@ -160,7 +197,7 @@ app.views.Transcript = app.views.Base.extend({
     _.each(audio_urls, function(url){
       var ext = url.substr(url.lastIndexOf('.') + 1),
           type = ext;
-      if (ext == 'mp3') type = 'mpeg';
+      if (ext == 'mp3' || ext == 'm4a') type = 'mpeg';
       audio_string += '<source src="'+url+'" type="audio/'+type+'">';
     });
     audio_string += '</audio>';
@@ -252,7 +289,10 @@ app.views.Transcript = app.views.Base.extend({
         line_statuses = this.data.transcript.transcript_line_statuses,
         speakers = this.data.transcript.speakers || [],
         superUserHiearchy = PROJECT.consensus.superUserHiearchy,
-        user_role = this.data.transcript.user_role;
+        user_role = this.data.transcript.user_role,
+        user_flags = this.data.transcript.user_flags,
+        maxLineTimeOverlapMs = PROJECT.maxLineTimeOverlapMs,
+        allowTranscriptDownload = PROJECT.allowTranscriptDownload;
 
     // map edits for easy lookup
     var user_edits_map = _.object(_.map(user_edits, function(edit) {
@@ -267,7 +307,7 @@ app.views.Transcript = app.views.Base.extend({
     // add multiple speaker option
     var speaker_options = _.map(speakers, _.clone);
     if (speakers.length > 1) {
-      speaker_options.push({id: -1, name: "Muliple Speakers"});
+      speaker_options.push({id: -1, name: "Multiple Speakers"});
     }
     this.data.transcript.speaker_options = speaker_options;
 
@@ -277,8 +317,13 @@ app.views.Transcript = app.views.Base.extend({
     }));
     var speaker_ids = _.pluck(speaker_options, 'id');
 
-    // keep track of lines that are being reviewed
-    var lines_reviewing = 0;
+    // map flags for easy lookup
+    var user_flags_map = _.object(_.map(user_flags, function(flag) {
+      return [""+flag.transcript_line_id, flag]
+    }));
+
+    // check to see if download is allowed
+    this.data.transcript.can_download = allowTranscriptDownload && this.data.transcript.can_download;
 
     // process each line
     _.each(lines, function(line, i){
@@ -311,6 +356,8 @@ app.views.Transcript = app.views.Base.extend({
       var is_editable = true;
       // input is locked when reviewing/completed/flagged/archived
       if (_.contains(["reviewing","completed","flagged","archived"], status.name)) is_editable = false;
+      // in review, but user submitted, so may edit
+      if (status.name=="reviewing" && user_text) is_editable = true;
       // admins/mods can always edit
       if (user_role && user_role.hiearchy >= superUserHiearchy) is_editable = true;
       _this.data.transcript.lines[i].is_editable = is_editable;
@@ -320,9 +367,6 @@ app.views.Transcript = app.views.Base.extend({
       // input is available when not completed/archived
       if (_.contains(["completed","archived"], status.name)) is_available = false;
       _this.data.transcript.lines[i].is_available = is_available;
-
-      // keep track of reviewing counts
-      if (status.name=="reviewing") lines_reviewing++;
 
       // check for speaker
       var speaker = false;
@@ -334,20 +378,49 @@ app.views.Transcript = app.views.Base.extend({
       _this.data.transcript.lines[i].speaker = speaker;
       _this.data.transcript.lines[i].speaker_pos = speaker_pos;
       _this.data.transcript.lines[i].has_speakers = speakers.length > 1 ? true : false;
+
+      // check for flag
+      var user_flag = {flag_type_id: 0, text: ""};
+      if (_.has(user_flags_map, ""+line.id)) {
+        user_flag = user_flags_map[""+line.id];
+      }
+      _this.data.transcript.lines[i].user_flag = user_flag;
+
+      // can user resolve a flag
+      var can_resolve = false;
+      if (user_role && user_role.hiearchy >= superUserHiearchy) can_resolve = true;
+      _this.data.transcript.lines[i].can_resolve = can_resolve;
+
+      // adjust timestamps overlap
+      if (maxLineTimeOverlapMs >= 0 && i > 0) {
+        var prevLine = _this.data.transcript.lines[i-1];
+        var overlapMs = prevLine.end_time - line.start_time;
+        // overlap is larger than threshold
+        if (overlapMs > maxLineTimeOverlapMs) {
+          // var adjustMs = Math.round((overlapMs - maxLineTimeOverlapMs) / 2);
+          var paddingMs = 0;
+          _this.data.transcript.lines[i-1].end_time = _this.data.transcript.lines[i].start_time + paddingMs;
+          _this.data.transcript.lines[i].start_time = _this.data.transcript.lines[i].start_time - paddingMs;
+        }
+      }
     });
 
     // add data about lines that are being reviewed
-    this.data.transcript.lines_reviewing = lines_reviewing;
-    if (lines.length > 0) this.data.transcript.percent_reviewing = Math.round(lines_reviewing / lines.length * 100);
     if (this.data.transcript.percent_reviewing > 0) this.data.transcript.hasLinesInReview = true;
     if (this.data.transcript.percent_completed > 0) this.data.transcript.hasLinesCompleted = true;
   },
 
-  playerPause: function(){
+  playerPause: function(options) {
+    if (options === undefined) options = {};
+
     if (this.player.playing) {
       this.player.pause();
       this.message('Paused');
       this.playerState('paused');
+
+      if (this.play_all && (options.trigger == 'end_of_line')) {
+        this.lineNext();
+      }
     }
   },
 
@@ -372,7 +445,7 @@ app.views.Transcript = app.views.Base.extend({
 
   playerToggle: function(){
     if (this.player.playing) {
-      this.playerPause();
+      this.playerPause({trigger: 'manual'});
 
     } else {
       this.playerPlay();
@@ -389,6 +462,12 @@ app.views.Transcript = app.views.Base.extend({
     this.$el.html(this.template(this.data));
     this.renderLines();
     this.loadUserProgress();
+    var pageTitle = this.getPageTitle();
+    if (!!pageTitle.length) {
+      document.title = app.pageTitle(pageTitle);
+    }
+    // Reload social media.
+    // window.app.social.init();
   },
 
   renderLines: function(){
@@ -400,19 +479,51 @@ app.views.Transcript = app.views.Base.extend({
 
     var speakers = this.data.transcript.speaker_options;
     var transcript_id = this.data.transcript.id;
+    var flag_types = this.data.transcript.flag_types;
     _.each(this.data.transcript.lines, function(line) {
       var lineView = new app.views.TranscriptLine({
         transcript_id: transcript_id,
         line: line,
-        speakers: speakers
+        speakers: speakers,
+        flag_types: flag_types
       });
       $lines.append(lineView.$el);
     });
     $container.append($lines);
   },
 
+  mobileToggle: function(){
+    var playButton   = this.$('.mobile-toggle.play')
+    var pauseButton  = this.$('.mobile-toggle.pause')
+
+    if ( pauseButton.hasClass('hidden') ) {
+      // Play button
+      this.play_all = true;
+
+      // If nothing has been selected start at the start
+      if (this.current_line_i < 0) {
+        this.lineSelect(0);
+      } else {
+        this.playerPlay();
+      }
+
+      // Toggle buttons
+      playButton.addClass('hidden')
+      pauseButton.removeClass('hidden')
+
+    } else {
+      // Pause button
+
+      this.playerPause({trigger: 'manual'});
+
+      // Toggle buttons
+      pauseButton.addClass('hidden')
+      playButton.removeClass('hidden')
+    }
+  },
+
   start: function(){
-    this.$('.start-play').addClass('disabled');
+    this.$('.start-play, .play-all').addClass('disabled');
 
     var selectLine = 0,
         lines = this.data.transcript.lines;
@@ -425,7 +536,17 @@ app.views.Transcript = app.views.Base.extend({
       }
     });
 
+    // when `Play All` always select from the first line
+    if (this.play_all) {
+      selectLine = 0;
+    }
     this.lineSelect(selectLine);
+  },
+
+  playAll: function() {
+    this.play_all = true;
+
+    this.start();
   },
 
   submitEdit: function(data){

@@ -1,9 +1,9 @@
 <div sequence="<%= sequence %>" class="line <%= status.name %> <%= is_editable ? '' : 'not-editable' %> <%= user_text ? 'user-edited' : '' %>">
   <div class="time"><%= UTIL.formatTimeMs(start_time) %></div>
   <div class="controls">
-    <a class="control toggle-play" title="toggle play and pause of this line"></a>
+    <a href="#toggle-play" class="control toggle-play" title="toggle play and pause of this line" role="button"></a>
   </div>
-  <div class="status <%= status.name %>">
+  <div class="status <%= status.name %>" aria-label="<%= status.description %>" role="tooltip">
     <div class="status-description" data-description="<%= status.description %>"></div>
   </div>
   <% if (has_speakers) { %>
@@ -11,27 +11,31 @@
       <a class="change-speaker" title="indicate a speaker change"></a>
       <div class="speaker-options">
         <h4>Choose A Speaker<br /><small>(only necessary when speaker changes)</small></h4>
-        <div>
+        <div role="menu" aria-hidden="true">
         <% _.each(speakers, function(s) { %>
-          <a data-id="<%= s.id %>" class="speaker-option<%= s.id == speaker.id ? ' selected' : '' %>"><%= s.name %></a>
+          <a data-id="<%= s.id %>" class="speaker-option<%= s.id == speaker.id ? ' selected' : '' %>" role="menuitemradio" aria-checked="<%= s.id == speaker.id ? 'true' : 'false' %>"><%= s.name %></a>
         <% }); %>
         </div>
       </div>
     </div>
   <% } %>
   <div class="options">
-    <% if (status.name == 'reviewing') { %>
-      <a class="button verify" title="Choose the best submitted edit">Verify</a>
+    <% if (status.name == 'reviewing' && !user_text) { %>
+      <a href="#verify" class="button verify" title="Choose the best submitted edit" role="button">Verify</a>
     <% } else if (status.name == 'completed') { %>
-      <!-- <a class="button flag" title="Flag this line as incorrect"></a> -->
+      <% if (can_resolve && flag_count > 0) { %>
+        <a href="#resolve" class="button resolve" title="Mark this line as resolved" role="button"></a>
+      <% } %>
+      <a href="#flag" class="button flag <%= flag_count > 0 ? 'active' : '' %>" title="Flag this line as incorrect" role="button"></a>
     <% } %>
     <!-- <a class="button star" title="Star this line"></a> -->
   </div>
   <div class="text">
     <% if (is_editable) { %>
-      <input class="text-input" type="text" value="<%= display_text %>" user-value="<%= user_text %>"  />
+      <span class="text-input desktop-only" role="textbox" value="<%= UTIL.escapeInput(display_text) %>" user-value="<%= UTIL.escapeInput(user_text) %>" contenteditable><%= UTIL.escapeInput(display_text) %></span>
     <% } else { %>
-      <input class="text-input not-editable" type="text" value="<%= display_text %>" user-value="<%= user_text %>" disabled="true"  />
+      <span class="text-input not-editable desktop-only" role="textbox" value="<%= UTIL.escapeInput(display_text) %>" user-value="<%= UTIL.escapeInput(user_text) %>"><%= UTIL.escapeInput(display_text) %></span>
     <% } %>
+    <span class="mobile-only mobile-text"><%= UTIL.escapeInput(display_text) %></span>
   </div>
 </div>

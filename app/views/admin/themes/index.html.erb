@@ -1,0 +1,33 @@
+<%= render partial: 'layouts/admin_side_pane' %>
+
+<h1>Themes</h1>
+<% if policy(Theme).new? %>
+  <%= link_to 'New Theme', new_admin_theme_path, class: 'btn btn-primary' %>
+<% end %>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Name</th>
+      <th colspan="2" scope="col"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @themes.each do |theme| %>
+      <tr>
+        <td><%= theme.name %></td>
+        <td>
+          <%= link_to edit_admin_theme_path(theme)  do %>
+            <%= fa_icon "edit" %>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to admin_theme_path(theme), data: {confirm: 'Are you sure?'}, method: :delete do %>
+            <%= fa_icon "trash-o" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>

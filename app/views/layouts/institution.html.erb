@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title data-title-sitename="<%= project_name %>" data-title-template="<%= data_title_template %>"><%= project_name %></title>
+  <meta name="description" content="<%= project_description %>">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <%= stylesheet_link_tag    'application', 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css' %>
+  <%= stylesheet_link_tag    'application', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' %>
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Muli">
+
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+
+  <%= javascript_include_tag 'application' %>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js"></script>
+  <%= yield :javascripts %>
+  <%= favicon_link_tag 'favicon.ico' %>
+
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+</head>
+<body>
+  <% if staging? %>
+  <div class="application-env-indicator">
+    Staging v5
+  </div>
+  <% end %>
+  <div id="app">
+    <div id="header" class="header">
+      <nav id="primary-navigation" class="navigation primary inverse" role="navigation">
+        <div>
+          <div id="header-title" class="title-container">
+            <%= yield :home_banner %>
+          </div>
+          <div id="header-crumbs" class="crumbs-container"></div>
+          <div id="account-container" class="account-container">
+            <%= render partial: 'layouts/account' %>
+          </div>
+          <div id="primary-menu-container" class="menu-container">
+            <%= render partial: 'layouts/navigation' %>
+          </div>
+        </div>
+      </nav>
+      <nav id="secondary-navigation" class="navigation secondary"></nav>
+      <div id="primary-alert" class="alert" role="alert" aria-atomic="true"></div>
+    </div>
+    <div id="main" class="body">
+      <%= yield %>
+    </div>
+    <%= render 'shared/footer' %>
+  </div>
+</body>
+</html>
+

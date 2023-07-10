@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin | Amplify</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application_v2', media: 'all' %>
+    <%= stylesheet_link_tag    'admin_base', media: 'all' %>
+    <%= javascript_include_tag 'admin_base' %>
+    <%= javascript_include_tag 'summernote-cleaner' %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <%= yield :javascripts %>
+    <%= favicon_link_tag 'favicon.ico' %>
+  </head>
+
+  <body>
+    <%= render "shared/staging_notice" %>
+    <%= render "shared/gtm" %>
+    <%= render "shared/header" %>
+    <main id="app">
+      <div id="primary-alert" class="alert" role="alert" aria-atomic="true"></div>
+      <div class="container-fluid">
+        <%= yield :cms_heading %>
+        <div class="row">
+          <div class="col-md-2">
+            <%= yield :side_pane %>
+          </div>
+          <div class="col-md-10">
+            <%= render 'layouts/flash_notice' %>
+            <%= yield %>
+          </div>
+        </div>
+      </div>
+    </main>
+    <%= render 'shared/footer' %>
+  </body>
+</html>

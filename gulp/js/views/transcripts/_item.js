@@ -29,7 +29,7 @@ app.views.TranscriptItem = app.views.Base.extend({
     _.each(audio_urls, function(url){
       var ext = url.substr(url.lastIndexOf('.') + 1),
           type = ext;
-      if (ext == 'mp3') type = 'mpeg';
+      if (ext == 'mp3' || ext == 'm4a') type = 'mpeg';
       audio_string += '<source src="'+url+'" type="audio/'+type+'">';
     });
     audio_string += '</audio>';
@@ -106,9 +106,8 @@ app.views.TranscriptItem = app.views.Base.extend({
     // build title
     var title = transcript.title;
     if (transcript.collection_title) title = transcript.collection_title + ': ' + title;
-    if (transcript.description) title = title + ' - ' + transcript.description;
     this.$el.attr('title', title);
-
+    this.$el.attr('role', 'listitem');
     this.$el.attr('href', transcript.path);
     this.$el.html(this.template(transcript));
     return this;

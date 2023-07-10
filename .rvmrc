@@ -1,0 +1,2 @@
+rvm_trust_rvmrcs_flag=1
+rvm --create use ruby-2.7.2@global

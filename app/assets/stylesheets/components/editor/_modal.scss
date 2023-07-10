@@ -1,0 +1,111 @@
+// @file
+// Modal popup.
+
+.modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  overflow: auto;
+  transform: translate3d(0, 100%, 0);
+  transition: transform 0.25s ease-out;
+
+  @media (min-width: 768px) {
+    overflow: hidden;
+  }
+
+  &.active {
+    transform: none;
+    width: auto;
+    height: auto;
+    z-index: 2000;
+    .modal-inner {
+      z-index: 20;
+      min-height: 100vh;
+      @media (min-width: 768px) {
+        position: absolute;
+        top: 60px;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 650px;
+        min-height: 0;
+      }
+    }
+  }
+
+  .modal-close {
+    display: block;
+    height: 1px;
+    clip: rect(0 0 0 0);
+    margin: -1px;
+    overflow: hidden;
+
+    @media (min-width: 768px) {
+      &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 10;
+        background: rgba(51,51,51,0.9);
+      }
+    }
+
+    &:after {
+      content: "\00d7";
+      position: absolute;
+      top: 0;
+      right: 10px;
+      z-index: 1001;
+      cursor: pointer;
+      font-size: 2em;
+
+      @media (min-width: 768px) {
+        top: 56px;
+        right: 50%;
+        margin-right: -320px;
+      }
+    }
+  }
+  .modal-inner {
+    z-index: -1;
+    width: 100%;
+    overflow-x: hidden;
+    background: white;
+    padding: 20px;
+  }
+
+  .modal-label {
+    font-size: 0.8em;
+    color: #a3a19e;
+    margin-top: -10px;
+
+    .control {
+      font-size: 36px;
+    }
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 5px;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 100px;
+  }
+
+  .button {
+    background: $editor-button-color;
+
+    &:hover, &:focus, &:active {
+      background: darken($editor-button-color, 10%);
+      color: $white;
+      text-decoration: none;
+    }
+  }
+}

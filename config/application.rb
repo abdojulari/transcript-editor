@@ -1,6 +1,6 @@
-require File.expand_path('../boot', __FILE__)
+require_relative "boot"
 
-require 'rails/all'
+require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -8,25 +8,55 @@ Bundler.require(*Rails.groups)
 
 module TranscriptEditor
   class Application < Rails::Application
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration should go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded.
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 5.2
 
-    # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
-    # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-    # config.time_zone = 'Central Time (US & Canada)'
+    # Configuration for the application, engines, and railties goes here.
+    #
+    # These settings can be overridden in specific environments using the files
+    # in config/environments, which are processed later.
+    #
+    # config.time_zone = "Central Time (US & Canada)"
+    # config.eager_load_paths << Rails.root.join("extras")
 
-    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
-
-    # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
+    # Load extra libraries.
+    config.autoload_paths << Rails.root.join('app', 'lib')
+    config.autoload_paths << Rails.root.join('lib', 'voicebase')
 
     # Disable assets
     config.assets.enabled = false
 
+    # using sidekiq as the default queue
+    config.active_job.queue_adapter = :sidekiq
+
     # API
     config.api_only = false
+
+    config.to_prepare do
+      layout = "application_v2"
+      Devise::SessionsController.layout layout
+      Devise::RegistrationsController.layout layout
+      Devise::ConfirmationsController.layout layout
+      Devise::UnlocksController.layout layout
+      Devise::PasswordsController.layout layout
+    end
+
+    config.exception_handler = {
+      dev: true,
+      db: nil,
+      email: nil,
+      exceptions: {
+        all: {
+          layout: 'application_v2',
+          notification: true,
+        },
+        :"4xx" => {
+          layout: 'application_v2',
+          notification: false,
+        }
+      }
+    }
+
+    config.middleware.use Rack::Attack
   end
 end

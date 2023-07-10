@@ -1,0 +1,49 @@
+<section class="modal <%= active ? 'active': '' %>" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+
+  <div class="modal-inner">
+    <header id="modal-label" class="modal-label">Download this transcript</header>
+    <div class="modal-content" role="menu">
+      <h2>Download this transcript<%= transcript ? ': '+transcript.title : '' %></h2>
+      <p class="warning">
+        <% if (transcript && transcript.percent_completed >= 100) { %>
+          Note: though this transcript has reached consensus, it may contain errors
+        <% } else if (transcript && transcript.users_contributed > 0) { %>
+          Note: this transcript contains a mix of computer-generated and user-generated text and may contain errors
+        <% } else if (transcript && transcript.percent_edited <= 0) { %>
+          Note that this is a computer-generated transcript with no edits and probably contains errors
+        <% } else { %>
+          Note that this transcript may contain errors
+        <% } %>
+      </p>
+
+      <form class="download-form">
+        <label>Choose A Format:</label>
+        <input id="format-text" type="radio" name="format" value="text" class="formatOption" checked> <label for="format-text" class="radio-label">Plain Text</label>
+        <input id="format-vtt" type="radio" name="format" value="vtt" class="formatOption"> <label for="format-vtt" class="radio-label">WebVTT (captions)</label>
+        <input id="format-json" type="radio" name="format" value="json" class="formatOption"> <label for="format-json" class="radio-label">JSON</label>
+
+        <div class="format-options active" data-format="text">
+          <input id="format-text-timestamps" type="checkbox" name="timestamps" value="1" checked="checked" /> <label for="format-text-timestamps" class="radio-label">Include timestamps</label> <br />
+          <input id="format-text-speakers" type="checkbox" name="speakers" value="1" checked="checked" /> <label for="format-text-speakers" class="radio-label">Include speakers</label>
+        </div>
+
+        <div class="format-options" data-format="vtt">
+          <input id="format-vtt-speakers" type="checkbox" name="speakers" value="1" checked="checked" /> <label for="format-vtt-speakers" class="radio-label">Include speakers</label>
+        </div>
+
+        <div class="format-options" data-format="json">
+          <input id="format-json-edits" type="checkbox" name="edits" value="1" /> <label for="format-json-edits" class="radio-label">Include edits</label>
+        </div>
+      </form>
+
+      <label for="transcript-download-url">The Download URL</label>
+      <input id="transcript-download-url" type="text" value="" />
+    </div>
+    <footer>
+      <a href="#download" class="button pull-right download" role="button">Download</a>
+    </footer>
+  </div>
+
+  <a href="#close" class="modal-close modal-dismiss" title="Close this modal" aria-label="Close" role="button">x</a>
+
+</section>

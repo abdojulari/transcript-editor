@@ -1,10 +1,10 @@
-<div class="<%= menu_key %>-menu menu">
+<div class="<%= menu_key %>-menu menu" role="menu">
   <% _.each(menu, function(item) { %>
     <% if (!item.validRoutes || item.validRoutes.indexOf(route.route) > -1) { %>
       <% if (item.modal) { %>
-        <a data-modal="<%= item.modal %>" class="menu-item modal-invoke"><%= item.label %></a>
+        <a <%= item.url ? 'href="'+item.url+'"' : '' %> data-modal="<%= item.modal %>" class="menu-item modal-invoke" role="menuitem"><%= item.label %></a>
       <% } else { %>
-        <a href="<%= item.url %>" class="menu-item <%= item.url==route.path ? 'active': '' %>"<%= item.target ? ' target="'+item.target+'"' : '' %>><%= item.label %></a>
+        <a href="<%= item.url %>" class="menu-item <%= item.url==route.path ? 'active': '' %>"<%= item.target ? ' target="'+item.target+'"' : '' %> role="menuitem"><%= item.label %></a>
       <% } %>
     <% } %>
   <% }) %>

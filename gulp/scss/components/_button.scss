@@ -4,18 +4,33 @@
 /* Button */
 .button {
   display: inline-block;
-  padding: 0.2em 0.8em;
-  background: $link-color;
+  padding: 0px 30px;
+  background: $cyan;
   color: $white;
   cursor: pointer;
+  font-family: $font-family;
+  font-weight: bold;
+  border-radius: 0;
+  text-align: center;
+  border: 0;
+  outline: 0;
+  -webkit-appearance: none;
 
   &:hover {
-    background: $link-hover-color;
+    background: $very-dark-cyan;
     color: $white;
   }
-
+  &.cyan {
+    background-color: $cyan;
+  }
+  &.cyan:hover {
+    background-color: $very-dark-cyan;
+  }
   &.large {
     font-size: 1.4em;
+    height: 50px;
+    line-height: 51px;
+    font-size: 1.25rem;
   }
 
   &.list-next {
@@ -30,6 +45,14 @@
     cursor: default;
     opacity: 0.3;
     background: $coolgray-color;
+  }
+
+  &.play-all {
+    background-image: url('/nsw-state-library-amplify/assets/img/play.png');
+    background-size: 1.6em;
+    background-repeat: no-repeat;
+    background-position: 0.7em center;
+    padding-left: 2.9em;
   }
 }
 

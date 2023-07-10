@@ -1,0 +1,19 @@
+<article class="registration__content cms">
+  <h2>Forgot your password?</h2>
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+    <%= devise_error_messages! %>
+    <div class="form-group">
+      <%= f.label :email %><br />
+      <%= f.email_field :email, autofocus: true,
+        autocomplete: "email",
+        value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email),
+        class: 'form-control'
+      %>
+    </div>
+    <br />
+    <button type="submit" class="button cyan">Send me reset password instructions</button>
+  <% end %>
+  <br />
+  <%= render "devise/shared/links" %>
+</article>
+

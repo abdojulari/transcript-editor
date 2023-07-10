@@ -1,0 +1,174 @@
+$mobile-breakpoint:  768px; // 640px48em
+$tablet-breakpoint: 1064px;
+
+@mixin mobile {
+  @media only screen and (max-width: $mobile-breakpoint - 1px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media only screen and (max-width: $tablet-breakpoint) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media only screen and (min-width: $mobile-breakpoint) {
+    @content;
+  }
+}
+
+@mixin grid {
+  @supports (display: grid) {
+    @content;
+  }
+}
+
+@mixin ie {
+  @media screen and (min-width:0\0) {
+    @content;
+  }
+}
+
+@mixin button-background($colour) {
+  background-color: $colour;
+  transition: background-color 0.3s;
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+@mixin progress-background($height, $background, $foreground) {
+  $diameter: calc(#{$height} / 2);
+  $radius:   calc(#{$height} / 4);
+  /* Reset the default appearance */
+  appearance: none;
+  border: none;
+
+  height: $height;
+  border-radius: 10px;
+  border-radius: $diameter;
+  background-color: $background;
+
+  // Thanks IE
+  &::-ms-fill {
+    border: none;
+    border-radius: 10px;
+    color: $foreground;
+  }
+  &::-webkit-progress-bar {
+    background: $background;
+    border-radius: $diameter;
+    border: none;
+  }
+  &::-webkit-progress-value {
+    background: $dot-icon, $foreground;
+    background-position: $radius center, center center;
+    background-repeat: no-repeat;
+    border-radius: $diameter;
+    border: none;
+  }
+  // thanks Firefox
+  &::-moz-progress-bar {
+    background: $dot-icon, $foreground;
+    background-position: $radius center, center center;
+    background-repeat: no-repeat;
+    border-radius: $diameter;
+    border: none;
+  }
+}
+
+@mixin content_wrap {
+  width: 85%;
+  max-width: 1200px;
+  margin: 0 auto;
+  @media only screen and (max-width: $mobile-breakpoint) {
+    width: 95%;
+  }
+}
+
+@mixin hidden_input {
+  position:absolute;
+  clip: rect(0,0,0,0);
+  clip: rect(0 0 0 0);
+  opacity: 0;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+  z-index: -1;
+}
+
+@mixin hidden_class {
+  opacity: 1;
+  visibility: visible;
+  position: inherit;
+  z-index: auto;
+  &.hidden {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+  }
+}
+
+$wysiwyg-left-padding: 32px;
+
+@mixin wysiwyg-element-styles {
+  b {
+    font-weight: bold;
+  }
+  i {
+    font-style: italic;
+  }
+  ul {
+    display: block;
+    padding-left: $wysiwyg-left-padding;
+    li {
+      display: list-item;
+      list-style: disc;
+    }
+    ul {
+      li {
+        list-style: circle;
+      }
+      ul {
+        li {
+          list-style: square;
+        }
+      }
+    }
+  }
+  ol {
+    display: block;
+    padding-left: $wysiwyg-left-padding;
+    li {
+      display: list-item;
+      list-style: decimal;
+    }
+    ol {
+      li {
+        list-style: lower-latin;
+      }
+      ol {
+        li {
+          list-style: lower-roman;
+        }
+      }
+    }
+  }
+  blockquote {
+    border-left: ($wysiwyg-left-padding * 0.2) solid $grey;
+    padding-left: ($wysiwyg-left-padding * 0.8);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    th, td {
+      padding: 10px;
+      border: 1px solid $grey;
+    }
+  }
+}

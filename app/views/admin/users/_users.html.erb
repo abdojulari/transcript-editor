@@ -1,0 +1,45 @@
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">Name</th>
+      <th scope="col">Edits Made</th>
+      <th scope="col">Role</th>
+      <th scope="col">Institution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% users.each do |user| %>
+      <tr class="each-user">
+        <td>
+          <%= image_tag user.avatar_image, class: 'avatar'  %>
+          </th>
+          <td>
+            <%= user.name  %>
+            (<%= user.email  %>)
+            <% if can_delete && current_user.admin? %>
+              <span class="delete-user">
+                <%= button_to admin_user_path(user), method: :delete, remote: true, data: {confirm: 'Are you sure you want to delete this user? This action cannot be undone.'} do %>
+                  <%= fa_icon "trash" %>
+                <% end %>
+              </span>
+            <% end %>
+          </td>
+          <td>
+            <%= user.lines_edited %>
+          </td>
+          <td>
+            <form >
+              <%= collection_select(:user, :role_id, user_roles, :id, :description, { selected: user.user_role_id }, { class: 'user_role', 'data-id' => user.id }) %>
+            </form>
+          </td>
+          <td>
+            <form>
+              <%= collection_select(:user, :institution_id, institutions, :id, :name, {include_blank: '', selected: user.institution_id }, { class: 'user_institution', 'data-id' => user.id }) %>
+            </form>
+          </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

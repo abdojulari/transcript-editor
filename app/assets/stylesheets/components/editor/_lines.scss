@@ -1,0 +1,548 @@
+@import "../../base/editor_mixins";
+@import "../../base/editor_variables";
+
+$transcript-line-height: 56px;
+$transcript-line-speaker-width: 40px;
+$transcript-line-time-width: 80px;
+$transcript-line-status-width: 34px;
+$transcript-line-options-width: 80px;
+$transcript-line-options-reviewing-width: 80px;
+
+$small-transcript-line-time-width: 50px;
+
+.transcript-lines {
+  border-top: 10px solid $coolgray-color;
+  border-bottom: 10px solid $coolgray-color;
+  @include desktop {
+    margin: 0 0 400px 0;
+  }
+  .line {
+    position: relative;
+    width: 100%;
+
+    background: $coolgray-color;
+    color: darken($coolgray-dark-color, 15%);
+    @include clearfix();
+    @include desktop {
+      padding: 5px 0;
+      line-height: $transcript-line-height;
+    }
+
+    .text-input {
+      outline-width: 0;
+    }
+
+    &:hover {
+      background: lighten($coolgray-color, 5%);
+    }
+
+    &.reviewing {
+      background: $orange-dark-color;
+    }
+    &.user-edited {
+      background: rgba($green-color, 0.3);
+    }
+    &.completed {
+      background: rgba($green-color, 0.6);
+    }
+
+    &:hover {
+      &.reviewing {
+        background: lighten($orange-dark-color, 5%);
+      }
+      &.user-edited {
+        background: rgba($green-color, 0.2);
+      }
+      &.completed {
+        background: rgba($green-color, 0.5);
+      }
+    }
+
+    &,
+    input, .text-input {
+      cursor: pointer;
+    }
+
+    input, .text-input {
+      @include transition(font-size 0.4s);
+      @include desktop {
+        font-size: $transcript-line-height - 24px;
+      }
+    }
+
+    &.not-editable input,
+    &.not-editable .text > div {
+      cursor: not-allowed;
+    }
+
+    &.not-editable.reviewing .text > div {
+      cursor: pointer;
+    }
+
+    &.active {
+      cursor: default;
+
+      &,
+      &:hover {
+        color: $black;
+        background: $white;
+      }
+
+      input, .text-input {
+        cursor: text;
+      }
+    }
+  }
+  .time,
+  .controls {
+    width: $transcript-line-time-width;
+    float: left;
+    padding-left: 10px;
+    font-size: $transcript-line-height - 36px;
+    // background: rgba($black, 0.05);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    @include box-sizing();
+    @include mobile {
+      width: $small-transcript-line-time-width;
+    }
+  }
+  .time {
+    @include mobile {
+      text-align: right;
+      font-size: 0.8rem;
+      line-height: $transcript-line-height;
+      padding: 0 5px;
+    }
+  }
+  .controls {
+    display: none;
+    font-size: $transcript-line-height - 20px;
+
+    a {
+      font-size: $transcript-line-height - 20px;
+    }
+
+    .control:before {
+      @include icon("\f144");
+    }
+  }
+  .status {
+    width: $transcript-line-status-width;
+    height: $transcript-line-height;
+    line-height: $transcript-line-height;
+    background: rgba($black, 0.05);
+    float: left;
+    text-align: center;
+    position: relative;
+    @include box-sizing();
+    @include mobile {
+      display: none;
+    }
+
+    &:before {
+      @include icon("\f10c");
+      font-size: 1.5em;
+      vertical-align: middle;
+      color: $coolgray-dark-color;
+    }
+
+    .status-description {
+      display: none;
+      position: absolute;
+      top: -18%;
+      left: 10px - $transcript-line-time-width;
+      text-align: center;
+      background-color: rgba($white, 0.9);
+      padding-left: 5px;
+      padding-right: 5px;
+      font-size: 15px;
+      line-height: 20px;
+      height: 20px;
+      white-space: nowrap;
+      @include mobile {
+        display: none;
+      }
+
+      &:before {
+        content: attr(data-description);
+      }
+      &:after {
+        content: ' ';
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 6px solid rgba($white, 0.9);
+        position: absolute;
+        bottom: -6px;
+        left: $transcript-line-time-width + $transcript-line-status-width / 2 - 16px;
+      }
+    }
+
+    &:hover .status-description {
+      display: block;
+    }
+  }
+  .line.reviewing .status:before {
+    content: "\f042";
+    color: #9b8242;
+  }
+  .line.user-edited .status:before {
+    content: "\f111";
+    color: lighten($green-color, 5%);
+  }
+  .line.completed .status:before {
+    content: "\f058";
+    color: darken($green-color, 5%);
+  }
+  .line.user-edited .status .status-description:before {
+    content: "You have edited this line";
+  }
+  .line.completed .status .status-description:before {
+    content: attr(data-description);
+  }
+  .line.not-editable .status .status-description {
+    background: $highlight-color;
+    &:after {
+      border-top-color: $highlight-color;
+    }
+  }
+  .line:hover .status .status-description {
+    display: block;
+  }
+  .line.active:hover .status .status-description {
+    display: none;
+  }
+  .line.active.not-editable:hover .status .status-description,
+  .line.active:hover .status:hover .status-description {
+    display: block;
+  }
+  .line.active .time {
+    @include desktop {
+      display: none;
+    }
+  }
+  .line.active .controls {
+    @include desktop {
+      display: block;
+    }
+  }
+  .text {
+    margin-left: $transcript-line-time-width + $transcript-line-status-width;
+    margin-right: 0;
+    width: auto;
+    padding-left: 10px;
+    @include box-sizing();
+    @include mobile {
+      margin-left: $small-transcript-line-time-width;
+      padding-left: 0;
+    }
+    .mobile-text {
+      @include mobile {
+        display: inline-block;
+        max-width: 100%;
+        padding: 10px;
+        margin: 0;
+        color: $black;
+      }
+    }
+
+    > div {
+      font-size: $transcript-line-height - 24px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    @include mobile {
+      margin-left: 70px;
+    }
+  }
+  input {
+    display: block;
+    width: 100%;
+    border: none;
+    padding: 0px;
+    font-size: $transcript-line-height - 24px;
+    height: $transcript-line-height;
+    line-height: $transcript-line-height;
+    background: none;
+    @include mobile {
+      font-size: $transcript-line-height - 40px;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+  .options {
+    width: $transcript-line-options-width;
+    float: right;
+    padding-right: 20px;
+    text-align: right;
+    overflow: hidden;
+    white-space: nowrap;
+    @include box-sizing();
+    @include mobile {
+      display: none;
+    }
+
+    .button {
+      padding: 0 0.2em;
+      height: $transcript-line-height / 2;
+      line-height: $transcript-line-height / 2;
+      visibility: hidden;
+
+      &.verify {
+        background: $editor-button-color;
+
+        &:hover, &:focus, &:active {
+          background: darken($editor-button-color, 10%);
+          color: $white;
+          text-decoration: none;
+        }
+      }
+    }
+
+    .verify {
+      padding: 0 0.4em;
+    }
+
+    .star,
+    .flag,
+    .resolve {
+      background: none;
+      font-size: 1.4em;
+      color: $coolgray-dark-color;
+      border: none;
+      &.active {
+        color: $green-dark-color;
+      }
+    }
+
+    .star {
+      &:before {
+        @include icon("\f006");
+      }
+      &:hover:before,
+      &.active:before {
+        content: "\f005";
+      }
+    }
+
+    .flag {
+      &:before {
+        @include icon("\f11d");
+      }
+      &:hover:before,
+      &.active:before {
+        content: "\f024";
+      }
+      &.active {
+        color: $red-color;
+      }
+    }
+
+    .resolve {
+      &:before {
+        @include icon("\f05d");
+      }
+      &:hover:before,
+      &.active:before {
+        content: "\f058";
+        color: $green-dark-color;
+      }
+    }
+  }
+  .line:hover,
+  .line.active {
+    .button {
+      visibility: visible;
+    }
+  }
+  .line .button.active {
+    visibility: visible;
+    opacity: 0.5;
+  }
+  .line:hover,
+  .line.active {
+    .button.active {
+      opacity: 1;
+    }
+  }
+  .line.reviewing .options {
+    width: $transcript-line-options-reviewing-width;
+  }
+  .line.reviewing .text {
+    @include desktop {
+      margin-right: $transcript-line-options-reviewing-width;
+    }
+  }
+  .line.completed .text {
+    @include desktop {
+      margin-right: $transcript-line-options-width;
+    }
+  }
+
+  .speaker {
+    display: none;
+  }
+  // speakers
+  &.has-speakers {
+    .speaker {
+      display: block;
+      position: relative;
+      width: $transcript-line-speaker-width;
+      height: $transcript-line-height;
+      line-height: $transcript-line-height;
+      float: left;
+      text-align: center;
+      font-size: 1.5em;
+    }
+    .change-speaker {
+      font-size: 1.5rem;
+      &:before {
+        @include icon("\f234");
+        color: $coolgray-dark-color;
+      }
+      &.active {
+        + .speaker-options {
+          display: block;
+          z-index: 10;
+        }
+      }
+    }
+    .speaker.selected {
+      .change-speaker:before {
+        content: "\f007";
+        color: $charcoal;
+        opacity: 0.5;
+      }
+    }
+    .speaker.selected.c0 .change-speaker:before { color: $pink; }
+    .speaker.selected.c1 .change-speaker:before { color: $indigo; }
+    .speaker.selected.c2 .change-speaker:before { color: $orange; }
+    .speaker.selected.c3 .change-speaker:before { color: $cyan; }
+    .speaker.selected.c4 .change-speaker:before { color: $red; }
+    .speaker.selected.c5 .change-speaker:before { color: $green; }
+    .speaker.selected.c6 .change-speaker:before { color: $purple; }
+    .speaker.selected.c7 .change-speaker:before { color: $blue; }
+    .speaker-options {
+      position: absolute;
+      left: 0;
+      top: 99%;
+      background: $white;
+      display: none;
+      line-height: normal;
+      text-align: left;
+      padding: 10px 8px 5px;
+      width: 240px;
+      border-top: 1px solid #ccc;
+      @include box-sizing();
+      h4 {
+        font-size: 1rem;
+        margin: 0 0 5px 0;
+        text-transform: uppercase;
+        color: $charcoal;
+        small {
+          font-weight: normal;
+          font-size: 0.75rem;
+          color: $coolgray-dark-color;
+        }
+        @include mobile {
+          display: none;
+        }
+      }
+      .speaker-option {
+        display: block;
+        font-size: 1rem;
+        padding: 5px 0;
+        margin: 0;
+        color: $editor-button-color;
+
+        // Disable changing speaker on mobile
+        @include mobile {
+          pointer-events: none;
+        }
+
+        &:after {
+          content: ' ';
+          display: inline-block;
+          margin-left: 5px;
+          width: 14px;
+          height: 14px;
+          background: $charcoal;
+          vertical-align: middle;
+        }
+        &:first-child:after { background: $pink; }
+        &:nth-child(2):after { background: $indigo; }
+        &:nth-child(3):after { background: $orange; }
+        &:nth-child(4):after { background: $cyan; }
+        &:nth-child(5):after { background: $red; }
+        &:nth-child(6):after { background: $green; }
+        &:nth-child(7):after { background: $purple; }
+        &:nth-child(8):after { background: $blue; }
+        &.selected:before {
+          @include icon("\f00c");
+          margin-right: 4px;
+        }
+      }
+    }
+    .line.active {
+      .speaker:hover,
+      .speaker.selected {
+        .change-speaker:before {
+          content: "\f007";
+          // color: $green-dark-color;
+          opacity: 1;
+        }
+      }
+      .speaker:hover .speaker-options {
+        display: block;
+        z-index: 10;
+      }
+    }
+    .text {
+      margin-left: $transcript-line-time-width + $transcript-line-status-width + $transcript-line-speaker-width;
+      @include mobile {
+        margin-left: $small-transcript-line-time-width + $transcript-line-speaker-width;
+      }
+    }
+  }
+}
+
+.completion-content {
+  text-align: center;
+  margin-top: -360px;
+  margin-bottom: 360px;
+  display: none;
+
+  &.active {
+    display: block;
+  }
+
+  p {
+    font-size: 1.2em;
+  }
+
+  .show-when-finished {
+    max-height: 0px;
+    overflow: hidden;
+    @include transition(max-height 0.5s);
+
+    &.active {
+      max-height: 1000px;
+    }
+  }
+}
+
+// Update controls for player states
+.body[state=playing] .transcript-lines .controls .control:before {
+  content: "\f28b";
+}
+.body[state=buffering] .transcript-lines .controls .control:before {
+  content: "\f110";
+  color: $coolgray-color;
+  @include animation(spin 2s infinite linear);
+}

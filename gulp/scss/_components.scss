@@ -12,12 +12,13 @@ p.text-center {
 
 /* Inverse */
 .inverse {
-  background: $inverse-background-color;
+  background: $background-color;
   color: $white;
   a {
     color: $link-inverse-color;
     &:hover {
-      color: $link-inverse-hover-color;
+      color: $white;
+      text-decoration: underline;
     }
   }
 }
@@ -38,6 +39,17 @@ p.text-center {
     border-radius: 100%;
     @include animation(pulseScaleOut 1.0s infinite ease-in-out);
   }
+}
+
+/* Screenreader only text. */
+.sr-only {
+  position: absolute !important;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0 !important;
+  border: 0 !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden;
 }
 
 @import "components/button";

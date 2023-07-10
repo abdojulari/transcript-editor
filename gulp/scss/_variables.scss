@@ -1,6 +1,5 @@
 
 $red-color: #bf4448;
-$blue-color: #2799C5;
 $green-dark-color: #437529;
 $green-color: #579B34;
 $yellow-dark-color: #FEE24A;
@@ -13,10 +12,35 @@ $coolgray-color: #A3A19E;
 $black: #000000;
 $white: #FFFFFF;
 
+// New layout colors
+// ---------------------
+$very-dark-cyan:    #0A2C33;
+$soft-orange:       #F5C653;
+$dark-red-black:    #231F20;
+$black:             #272727;
+$cyan:              #358B90;
+$bright-orange:     #E2B33B;
+$light-grey:        #E7E8E9;
+$light-grey-orange: #D5D4D2;
+$grey-orange:       #C8C7C5;
+$grey:              #CCCCCC;
+$dark-grey-orange:  #7B7670;
+$dark-grey:         #333333;
+$font-family: 'Muli', sans-serif;
+
+
+$blue-color: $cyan;
+
 $primary-color: $red-color;
 $secondary-color: $blue-color;
 $highlight-dark-color: $yellow-dark-color;
 $highlight-color: $yellow-color;
+$footer-foreground:       $white;
+$footer-background:       $very-dark-cyan;
+$sub-footer-foreground:   $light-grey;
+$sub-footer-background:   $dark-grey;
+
+$footer-height: 250px;
 
 // Material Design Colors
 // https://www.google.com/design/spec/style/color.html#color-color-palette
@@ -26,17 +50,17 @@ $pink: #E91E63;
 $purple: #9C27B0;
 $indigo: #3F51B5;
 $blue: #2196F3;
-$cyan: #00BCD4;
 $green: #4CAF50;
 $orange: #FF9800;
 
 // Component colors
 // -------------------------
+$background-color: $dark-red-black;
 
-$inverse-background-color: $charcoal;
+$inverse-background-color: $dark-red-black;
 $link-color: $secondary-color;
-$link-hover-color: lighten($secondary-color, 10%);
-$link-inverse-color: lighten($secondary-color, 20%);
+$link-hover-color: $bright-orange;
+$link-inverse-color: $soft-orange;
 $link-inverse-hover-color: lighten($secondary-color, 30%);
 
 // Component dimensions
@@ -44,3 +68,8 @@ $link-inverse-hover-color: lighten($secondary-color, 30%);
 
 $header-nav-height: 40px;
 $secondary-header-nav-height: 50px;
+
+// Page dimensions
+// -------------------------
+
+$page-tablet-width: 768px;

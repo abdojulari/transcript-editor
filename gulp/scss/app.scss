@@ -4,64 +4,8 @@
 @import "normalize";
 @import "animations";
 
-html {
-  background: $white;
-  color: $black;
-  font-size: 1em;
-  line-height: 1.4;
-}
 
-::-moz-selection,
-::selection {
-  text-shadow: none;
-}
-
-p {
-  line-height: 1.6;
-}
-ul, li {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-a {
-  color: $link-color;
-  text-decoration: none;
-  cursor: pointer;
-
-  &:hover {
-    color: $link-hover-color;
-  }
-}
-table {
-  border: 1px solid $coolgray-color;
-  margin: 1em 0;
-
-  th {
-    font-weight: bold;
-  }
-
-  td, th {
-    padding: 0.2em 0.6em;
-  }
-}
-
-
-.body {
-  margin: 10px;
-  min-height: 600px;
-
-  audio {
-    display: none;
-  }
-}
-
-.container {
-  position: relative;
-  width: auto;
-  height: auto;
-}
-
+@import "scaffolds";
 @import "components";
 @import "header";
 @import "page";

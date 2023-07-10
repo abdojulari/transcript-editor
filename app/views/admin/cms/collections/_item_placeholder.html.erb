@@ -1,0 +1,16 @@
+<tbody>
+  <tr>
+    <th colspan="7">
+      There are no items for this collection.
+    </th>
+
+    <td class="text-center">
+      <%= link_to "Add Item",
+          new_admin_cms_transcript_path(collection_uid: @collection.uid),
+          method: "get",
+          data: { disable_with: "Loading..." },
+          class: "button cyan"
+      %>
+    </td>
+  </tr>
+</tbody>

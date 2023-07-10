@@ -1,0 +1,41 @@
+// This is a manifest file that'll be compiled into application.js, which will include all the files
+// listed below.
+//
+// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, or any plugin's
+// vendor/assets/javascripts directory can be referenced here using a relative path.
+//
+// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
+// compiled file. JavaScript code in this file should be added after the last require_* statement.
+//
+// Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
+// about supported directives.
+//
+
+//= require jquery
+//= require jquery_ujs
+//= require bootstrap
+//= require popper
+//= require summernote/summernote-bs4.min
+//= require activestorage
+//= require components
+//= require fixed_header
+//= require users
+//= require editor
+//= require mobile_warning
+//= require mobile_transcripts
+//= require jquery.Jcrop.min
+//= require select2
+//= require dashboard
+//= require site_alerts
+
+// Convert legacy thumbnails.
+(function () {
+  window.legacyThumbnails = function () {
+    if (Modernizr && !Modernizr.testProp('objectFit')) {
+      $('img.transcript_item__image').each(function () {
+        var imageSrc = $(this).attr('src');
+        $(this).replaceWith('<div class="transcript_item__image object-fit-compat" style="background-image: url(' + imageSrc + ');"></div>')
+      });
+    }
+  };
+})(jQuery);

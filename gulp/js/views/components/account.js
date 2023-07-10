@@ -6,20 +6,44 @@ app.views.Account = app.views.Base.extend({
 
   events: {
     "click .auth-link": "doAuthFromLink",
+    "click .check-auth-link": "checkAuthForLink",
     "click .sign-out-link": "signOut"
   },
 
   initialize: function(data){
     this.data = data;
-
+    this.data.signedIn = false;
     this.data.score = 0;
-
     this.loadListeners();
+    this.loadUser();
 
     this.render();
   },
 
-  doAuth: function(provider){
+  // this function needs to be refactor later
+  loadUser: function(){
+    var self = this;
+
+    console.log('Logged in user');
+    $.post(API_URL + "/authenticate.json", function(data) {
+      user = data.user;
+
+      if (user.id) {
+        self.data.signedIn = true;
+        self.data.user = user;
+        self.data.score = user.lines_edited;
+        PubSub.publish('auth.validation.success', user)
+      }
+      else {
+        self.data.signedIn = false;
+        self.data.user = null;
+        self.data.score = null;
+
+      }
+    });
+  },
+
+  doAuth: function(provider) {
     $.auth
       .oAuthSignIn({provider: provider})
       .fail(function(resp) {
@@ -33,13 +57,31 @@ app.views.Account = app.views.Base.extend({
     this.doAuth(provider);
   },
 
+  checkAuthForLink: function(e) {
+    e.preventDefault();
+    $.auth.validateToken()
+    .then(function(user) {
+      // Valid, redirect to destination path.
+      console.log('checkAuthForLink success');
+      window.location.href = e.target.href;
+    })
+    .fail(function() {
+      // Failed, report error.
+      console.log('checkAuthForLink failure');
+      $(window).trigger('alert', [
+        'You must log in as admin to access this section.',
+        true,
+      ]);
+    });
+  },
+
   listenForAuth: function(){
     var _this = this;
 
     // check auth sign in
     PubSub.subscribe('auth.oAuthSignIn.success', function(ev, msg) {
       _this.onValidationSuccess($.auth.user);
-      $(window).trigger('alert', ['Successfully signed in as '+$.auth.user.name+'!', true]);
+      $(window).trigger('alert', ['Successfully signed in as '+$.auth.user.name+'!  Refreshing page...', true]);
     });
 
     // check auth validation
@@ -50,7 +92,7 @@ app.views.Account = app.views.Base.extend({
     // check sign out
     PubSub.subscribe('auth.signOut.success', function(ev, msg) {
       _this.onSignOutSuccess();
-      $(window).trigger('alert', ['Successfully signed out!', true]);
+      $(window).trigger('alert', ['Successfully signed out! Refreshing page...', true]);
     });
   },
 
@@ -71,7 +113,9 @@ app.views.Account = app.views.Base.extend({
   onSignOutSuccess: function(){
     this.data.user = {};
     this.data.score = 0;
-    this.render();
+    // this.render();
+    // Redirect to homepage when user logs out.
+    window.history.pushState({}, document.title, '/');
   },
 
   onValidationSuccess: function(user){

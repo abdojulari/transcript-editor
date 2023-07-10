@@ -1,0 +1,83 @@
+// Global variables, brand colours, etc
+
+// Colours
+$mid-green:         #6DC042;
+$cyan:              #358B90;
+$dark-cyan:         #27676B;
+$very-dark-cyan:    #0A2C33;
+$mid-red:           #BF4448;
+$bright-orange:     #E2B33B;
+$soft-orange:       #F5C653;
+$light-yellow:      rgba($soft-orange, 0.4);
+$bright-yellow:     #FEE24A;
+
+// Shades
+$white:             #FFFFFF;
+$very-light-orange: #EEEEED;
+$light-grey:        #E7E8E9;
+$light-grey-orange: #D5D4D2;
+$grey-orange:       #C8C7C5;
+$grey:              #CCCCCC;
+$dark-grey-orange:  #7B7670;
+$dark-grey:         #333333;
+$dark-red-black:    #231F20;
+$black:             #272727;
+
+// Theme and page variables
+$brand-cyan:              $cyan;
+$brand-yellow:            $soft-orange;
+
+$body-background:         $white;
+$body-foreground:         $black;
+$text-link:               $brand-yellow;
+$text-link-dark:          $dark-cyan;
+$highlight-background:    $light-yellow;
+
+$header-background:       $dark-red-black;
+$header-text:             $brand-yellow;
+$header-text-active:      $white;
+
+$hero-forground:          $white;
+$sub-hero-background:     $brand-cyan;
+
+$filter-background:       $very-dark-cyan;
+$filter-foreground:       $white;
+
+$input-background:        $white;
+$input-foreground:        $black;
+$input-border:            $grey-orange;
+$select-background:       $brand-yellow;
+
+$button-foreground:       $white;
+$button-cyan:             $brand-cyan;
+$button-yellow:           $brand-yellow;
+$button-dark:             $very-dark-cyan;
+$button-disabled:         $grey;
+
+$footer-foreground:       $white;
+$footer-background:       $very-dark-cyan;
+$sub-footer-foreground:   $light-grey;
+$sub-footer-background:   $dark-grey;
+
+$list-background:         $white;
+$list-foreground:         $black;
+$list-border:             $grey-orange;
+$list-sub-title:          $mid-red;
+$list-description:        $dark-grey-orange;
+$list-key:                $light-grey;
+
+$progress-background:     $light-grey-orange;
+$progress-edits:          $bright-yellow;
+$progress-awaiting:       $bright-orange;
+$progress-completed:      $mid-green;
+
+$transcript-background:   $very-light-orange;
+
+$auth-email-background: $header-text;
+$auth-email-foreground: $black;
+
+$third-party-facebook-background: #4267b2;
+$third-party-facebook-foreground: $white;
+
+$third-party-google-background: #4285f4;
+$third-party-google-foreground: $white;

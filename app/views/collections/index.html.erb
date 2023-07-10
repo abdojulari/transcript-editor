@@ -1,0 +1,30 @@
+<% content_for :metatags do %>
+  <!-- Facebook Share button meta tags. -->
+  <meta property='og:type' content='website' />
+  <meta property='og:image' content='<%= @app_config.image_url %>' />
+  <meta property='og:image:width' content='1400' />
+  <meta property='og:image:height' content='1063' />
+  <meta property='fb:app_id' content='<%= facebook_app_id %>' />
+<% end %>
+
+<% content_for :javascripts do %>
+  <%= javascript_include_tag 'collections' %>
+<% end %>
+
+<section class="search_results">
+  <div class="search_results__list">
+    <%= raw @page&.display_content %>
+    <div id="transcript-facets" class="transcript-facets">
+      <div class="filter_bar__fieldset collection-select-left-align">
+        <div class="facet" id="collection_search">
+          <%= render partial: 'home/institutions', locals: { institutions: @institutions, selected_id: Institution.state_library_nsw.try(:id).to_i, hide_label: false } %>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="collect-list cms">
+    </div>
+  </div>
+</section>
+
+

@@ -1,0 +1,9 @@
+<%= form_with(model: [:admin, theme], local: true) do |form| %>
+  <%= render partial: 'layouts/cms_errors', locals: { object: theme } %>
+
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+  <%= form.submit 'Save', class: 'btn btn-primary' %>
+<% end %>

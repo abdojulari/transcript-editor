@@ -1,0 +1,32 @@
+<h3>Total number of items: <%= total[:total] %></h3>
+<p>Total duration of items: <%= duration_to_hms duration %></p>
+<table class="table table table-striped">
+  <tbody>
+    <% stats.each do |key, val| %>
+      <tr>
+        <th scope="row"><%= display_name key %></th>
+        <td><%= '%.2f' % val  %> %</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= pie_chart stats %>
+
+<h3>Disk usage</h3>
+<table class="table table table-striped">
+  <tbody>
+    <% disk_usage.each do |key, val| %>
+      <tr>
+        <th scope="row"><%= display_name key %></th>
+        <td><%= number_to_human_size val %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <th scope="row">Total</th>
+      <td scope="row">
+        <%= number_to_human_size disk_usage.values.sum %>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<%= pie_chart disk_usage, colors: ['#003f5c', '#bc5090', '#ffa600'] %>

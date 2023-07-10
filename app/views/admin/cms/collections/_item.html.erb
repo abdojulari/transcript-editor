@@ -1,0 +1,48 @@
+<tr>
+  <th class="text-center">
+    <%= publish_icon(item.published?) %>
+  </th>
+  <th>
+    <%= item.title %>
+  </th>
+  <td>
+    <%= image_tag(item.image_cropped_thumb_url, height: "50", width: "111") if item.image.url.present? %>
+  </td>
+
+  <td>
+    <span><%= item.process_status || :started %></span>
+    <%= button_to sync_admin_cms_transcript_path(item),
+      method: "get",
+      data: { disable_with: "Loading..." } do
+    %>
+    Sync
+    <% end if policy(item).syncable? %>
+  </td>
+  <td class="text-center">
+    <%= link_to transcript_path(item, preview: true),
+      method: "get",
+      target: '_blank' do
+    %>
+      <%= fa_icon "eye" %>
+    <% end %>
+  </td>
+  <td class="text-center">
+    <%= button_to edit_admin_cms_transcript_path(item),
+      method: "get",
+      data: { disable_with: "Loading..." } do
+    %>
+      <%= fa_icon "edit" %>
+    <% end %>
+  </td>
+  <td class="text-center">
+    <% if policy(item).destroy? %>
+      <%= button_to admin_cms_transcript_path(item), data: {confirm: 'Are you sure you want to delete this item? This action cannot be undone.'}, method: :delete do %>
+        <%= fa_icon "trash-o" %>
+      <% end %>
+    <% end %>
+  </td>
+
+  <td class="text-center">
+    <%= check_box_tag "transcript_ids[]", item.uid, nil, class: 'check' %>
+  </td>
+</tr>

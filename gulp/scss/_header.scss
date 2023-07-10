@@ -1,6 +1,7 @@
 @import "mixins";
 @import "variables";
 
+
 body {
   padding-top: $header-nav-height * 2;
   // padding-bottom: $secondary-header-nav-height * 2;
@@ -12,6 +13,17 @@ body {
   top: 0;
   left: 0;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #231F20;
+  color: #F5C653;
+  height: 80px;
+  padding: 10px;
+  top: 0;
+  z-index: 1000;
+  font-size: 1.2rem;
+  font-family: "Muli", sans-serif;
   @include box-sizing();
   @include clearfix();
 
@@ -21,7 +33,6 @@ body {
     clear: both;
 
     &.primary {
-      max-height: $header-nav-height;
       z-index: 2000;
     }
 
@@ -32,7 +43,7 @@ body {
   }
 
   .title-container {
-    float: left;
+    width: 100%;
 
     .title {
       display: block;
@@ -46,9 +57,91 @@ body {
 
     .logo {
       display: block;
-      max-height: $header-nav-height - 10px;
+      height: $header-nav-height - 10px;
       width: auto;
+      position: absolute;
     }
+
+    .home-banner {
+      height: 380px;
+      background: linear-gradient(180deg, #333333 50%, #000000 50%);
+
+      .logo {
+        margin-top: 4px;
+        margin-left: 5px;
+      }
+
+      .banner-main {
+        height: 100%;
+        background-image: url('/nsw-state-library-amplify/assets/img/waveform.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center center;
+        text-align: center;
+
+        .logo {
+          position: static;
+          display: block;
+          margin: 0 auto;
+          width: 100%;
+          max-width: 400px;
+          height: auto;
+        }
+
+        .banner-text {
+          position: relative;
+          top: 50%;
+          -webkit-transform: translateY(-50%);
+          -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+
+          h1, h2 {
+            margin: 0;
+            clear: both;
+            line-height: 1.2;
+          }
+
+          h1 {
+            font-family: 'Muli', Arial, Helvetica, sans-serif;
+            font-size: 5em;
+            letter-spacing: 1px;
+          }
+
+          h2 {
+            font-family: "Times New Roman", Times, serif;
+            font-style: italic;
+            font-size: 2em;
+            font-weight: lighter;
+            letter-spacing: 2px;
+          }
+        }
+      }
+    }
+
+    .header-bar {
+      .title {
+        padding: 0;
+      }
+
+      .logo {
+        position: static;
+        display: inline;
+        margin-top: 4px;
+        margin-left: 5px;
+      }
+
+      .logo-text {
+        display: inline;
+        font-family: 'Muli', Arial, Helvetica, sans-serif;
+        color: #2799c5;
+        line-height: 1;
+        font-size: 2.3em;
+      }
+    }
+  }
+
+  .crumbs-container, .account-container, .menu-container {
+    display: inline;
   }
 
   .crumbs-container {
@@ -89,7 +182,7 @@ body {
   .menu-container {
     float: right;
     padding-right: 10px;
-    background: $inverse-background-color;
+    background: $background-color;
 
     .menu-item {
       height: $header-nav-height;
@@ -97,10 +190,10 @@ body {
       padding-top: 0;
       padding-bottom: 0;
       cursor: pointer;
-      background: $inverse-background-color;
+      background: $background-color;
 
       &:hover {
-        background: lighten($inverse-background-color, 10%);
+        color: $white;
       }
 
       &.active {
@@ -117,9 +210,16 @@ body {
 
     .select .select-options {
       right: 0;
-      left: auto;
+      left: 10px;
       width: auto;
       min-width: 100%;
+      margin-top: 12px;
+      a {
+        &:hover {
+          background: #231F20;
+        }
+      }
+      
     }
 
     .select {
@@ -141,9 +241,40 @@ body {
       margin-right: 3px;
       vertical-align: middle;
 
+      border-radius: 10px;
+      background: $soft-orange;
+      color: $very-dark-cyan;
+      margin-right: 3px;
+      display: inline-block;
+      margin-top: auto;
+
       &.active {
         display: inline-block;
       }
     }
   }
+}
+
+.edit_page_header {
+  display: block;
+}
+.header .title-container .header-bar .logo {
+  width: 150px;
+  height: auto;
+}
+
+.edit_page__header,
+.header .menu-container .menu-item,
+.header .account-container .select {
+  background: #231F20;
+  display: inline-block;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.header-menu {
+  padding-top: 10px;
+}
+.select-active{
+  padding-top: 10px;
 }

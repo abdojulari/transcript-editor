@@ -18,15 +18,38 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     this.$facets = this.$('#transcript-facets');
     this.transcripts = [];
 
+    // Allow config to specify default sort name and order.
+    this.defaultSortName = null;
+    this.defaultSortOrder = null;
+    if (!!Amplify.getConfig('homepage.search.sort_options.active_sort')) {
+      this.sortName = this.defaultSortName = Amplify.getConfig('homepage.search.sort_options.active_sort');
+    }
+    if (!!Amplify.getConfig('homepage.search.sort_options.active_order')) {
+      this.sortOrder = this.defaultSortOrder = Amplify.getConfig('homepage.search.sort_options.active_order');
+    }
+    if (this.data.queryParams) {
+      this.loadParams(this.data.queryParams);
+    }
     this.loadTranscripts();
     this.loadCollections();
     this.loadListeners();
   },
 
-  addList: function(transcripts){
+  addList: function(transcripts) {
     this.transcripts = this.transcripts.concat(transcripts.toJSON());
 
-    this.addListToUI(transcripts.toJSON(), transcripts.hasMorePages(), true, (transcripts.getPage() > 1));
+    if (this.isFaceted()) {
+      this.facet();
+    }
+    else {
+      // Use default sort.
+      if (!!this.defaultSortName) {
+        this.transcripts = this.sortTranscripts(this.transcripts, this.defaultSortName, this.defaultSortOrder);
+      }
+      // Instead of using .toJSON on the original collectiom,
+      // we send the sorted array.
+      this.addListToUI(this.transcripts, transcripts.hasMorePages(), true, (transcripts.getPage() > 1));
+    }
   },
 
   addListToUI: function(transcripts, has_more, append, scroll_to){
@@ -36,11 +59,13 @@ app.views.TranscriptsIndex = app.views.Base.extend({
 
     if (append) {
       this.$transcripts.append($list);
-    } else {
+    }
+    else {
       this.$transcripts.empty();
       if (transcripts.length){
         this.$transcripts.html($list);
-      } else {
+      }
+      else {
         this.$transcripts.html('<p>No transcripts found!</p>');
       }
     }
@@ -60,11 +85,41 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     // we have all the data, so just facet on the client
     if (this.collection.hasAllPages()) {
       this.facetOnClient();
-
+    }
     // we don't have all the data, we must request from server
-    } else {
+    else {
       this.facetOnServer();
     }
+  },
+
+  /**
+   * Sorts transcripts according to a given field name and order.
+   *
+   * A random sort doesn't use a fieldname, just sorts randomly.
+   *
+   * @param array transcripts
+   *   The array of transcripts.
+   * @param string sortName
+   *   The field name to sort on.
+   * @param string sortOrder
+   *   The sort ordering.
+   *
+   * @return array
+   *   The sorted transcripts.
+   */
+  sortTranscripts: function(transcripts, sortName, sortOrder) {
+    var sortedTranscripts = _.sortByNat(transcripts, function(transcript) {
+      if (sortName == 'random') {
+        return Math.floor(Math.random() * transcripts.length);
+      }
+      else {
+        return transcript[sortName];
+      }
+    });
+    if (sortOrder.toLowerCase() == 'desc') {
+      sortedTranscripts = sortedTranscripts.reverse();
+    }
+    return sortedTranscripts;
   },
 
   facetOnClient: function(){
@@ -74,39 +129,39 @@ app.views.TranscriptsIndex = app.views.Base.extend({
         transcripts = _.map(this.transcripts, _.clone);
 
     // do the filters
-    _.each(filters, function(value, key){
-      transcripts = _.filter(transcripts, function(transcript){ return transcript[key]==value; });
+    _.each(filters, function(value, key) {
+      transcripts = _.filter(transcripts, function(transcript) {
+        return !_.has(transcript, key) || transcript[key]==value;
+      });
     });
 
     // do the searching
-    if (keyword.length){
+    if (keyword.length) {
 
       // Use Fuse for fuzzy searching
       var f = new Fuse(transcripts, { keys: ["title", "description"], threshold: 0.2 });
-      var result = f.search(keyword);
 
-      // Search description if fuzzy doesn't work
-      if (!result.length) {
-        transcripts = _.filter(transcripts, function(transcript){
-          return transcript.description.toLowerCase().indexOf(keyword) >= 0;
-        });
-      } else {
-        transcripts = result;
-      }
-
+      // Combine the results of a string match and fuzzy search.
+      transcripts = _.union(
+        _.filter(transcripts, function(transcript) {
+          return (
+            transcript.title.toLowerCase().indexOf(keyword.toLowerCase()) >= 0 ||
+            transcript.description.toLowerCase().indexOf(keyword.toLowerCase()) >= 0
+          );
+        }),
+        f.search(keyword)
+      );
     }
 
-    // do the sorting
-    if (this.sortName){
-      transcripts = _.sortBy(transcripts, function(transcript){ return transcript[_this.sortName]; });
-      if (this.sortOrder=="DESC")
-        transcripts = transcripts.reverse();
+    // Do the sorting.
+    if (this.sortName) {
+      transcripts = this.sortTranscripts(transcripts, this.sortName, this.sortOrder);
     }
 
     this.renderTranscripts(transcripts);
   },
 
-  facetOnServer: function(){
+  facetOnServer: function() {
     // TODO: request from server if not all pages are present
 
     this.facetOnClient();
@@ -118,6 +173,16 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     // omit all filters with value "ALL"
     this.filters = _.omit(this.filters, function(value, key){ return value=='ALL'; });
     this.facet();
+    this.updateUrlParams();
+  },
+
+  isFaceted: function() {
+    return (
+      this.filters ||
+      (!!this.sortName && this.sortName != this.defaultSortName) ||
+      (!!this.sortOrder && this.sortOrder != this.defaultSortOrder) ||
+      this.searchKeyword
+    );
   },
 
   loadCollections: function(){
@@ -151,16 +216,41 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     });
   },
 
+  loadParams: function(params){
+    var _this = this;
+
+    this.filters = this.filters || {};
+
+    _.each(params, function(value, key){
+      // sort name
+      if (key == 'sort_by') {
+        _this.sortName = value;
+      }
+      // sort order
+      else if (key == 'order') {
+        _this.sortOrder = value;
+      }
+      // keyword
+      else if (key == 'keyword') {
+        _this.searchKeyword = value;
+      }
+      // otherwise, assume it's a filter
+      else {
+        _this.filters[key] = value;
+      }
+    });
+  },
+
   loadTranscripts: function(){
     var _this = this;
 
     this.$transcripts.addClass('loading');
 
     this.collection.fetch({
-      success: function(collection, response, options){
+      success: function(collection, response, options) {
         _this.addList(collection);
       },
-      error: function(collection, response, options){
+      error: function(collection, response, options) {
         $(window).trigger('alert', ['Whoops! We seem to have trouble loading our transcripts. Please try again by refreshing your browser or come back later!']);
       }
     });
@@ -174,12 +264,13 @@ app.views.TranscriptsIndex = app.views.Base.extend({
   },
 
   render: function(){
+    this.$el.attr('role', 'main');
     this.$el.html(this.template(this.data));
     return this;
   },
 
   renderFacets: function(collections){
-    this.facetsView = this.facetsView || new app.views.TranscriptFacets({collections: collections});
+    this.facetsView = this.facetsView || new app.views.TranscriptFacets({collections: collections, queryParams: this.data.queryParams});
     this.$facets.html(this.facetsView.render().$el);
   },
 
@@ -196,6 +287,31 @@ app.views.TranscriptsIndex = app.views.Base.extend({
     this.sortName = name;
     this.sortOrder = order;
     this.facet();
+    this.updateUrlParams();
+  },
+
+  updateUrlParams: function(){
+    var data = {};
+    // check for sorting
+    if (this.sortName && this.sortOrder) {
+      data.sort_by = this.sortName;
+      data.order = this.sortOrder;
+    }
+    // check for filters
+    if (this.filters) {
+      _.each(this.filters, function(value, key){
+        data[key] = value;
+      });
+    }
+    // update URL if there's facet data
+    if (_.keys(data).length > 0 && window.history) {
+      var url = '/' + this.data.route.route + '?' + $.param(data);
+      window.history.pushState(data, document.title, url);
+    }
+    else if (window.history) {
+      var url = '/' + this.data.route.route;
+      window.history.pushState(data, document.title, url);
+    }
   }
 
 });

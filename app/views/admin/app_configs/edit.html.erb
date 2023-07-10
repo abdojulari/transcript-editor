@@ -1,0 +1,41 @@
+<%= render partial: 'layouts/admin_side_pane' %>
+<%= form_with(model: [:admin, @app_config], local: true) do |form| %>
+  <h2><%= @app_config.app_name %></h2>
+  <br />
+  <div class="form-check">
+    <%= form.check_box :show_theme, class: 'form-check-input' %>
+    <%= form.label :show_theme, class: 'form-check-label' %>
+  </div>
+  <div class="form-check">
+    <%= form.check_box :show_institutions, class: 'form-check-input' %>
+    <%= form.label :show_institutions, class: 'form-check-label' %>
+  </div>
+  <div class="form-group">
+    <%= form.label :main_title %>
+    <%= form.text_area :main_title, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= form.label :intro_title %>
+    <%= form.text_area :intro_title, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= form.label :intro_text %>
+    <%= form.text_area :intro_text, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :image, "Hero image" %>
+    <div class="form-control">
+      <% if @app_config.image.present? %>
+        <%= image_tag(@app_config.image_url(:thumb)) %>
+      <% end %>
+      <%= form.file_field :image, class: "align-bottom" %>
+    </div>
+  </div>
+
+
+  <br />
+
+
+  <%= form.submit 'Save', class: 'btn btn-primary' %>
+<% end %>

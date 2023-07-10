@@ -1,8 +1,8 @@
 class DefaultController < ApplicationController
+  include IndexTemplate
 
   def index
-    # render the project set in environment
-    render :file => "public/#{ENV['PROJECT_ID']}/index.html"
+    render file: environment_index_file
   end
 
 end

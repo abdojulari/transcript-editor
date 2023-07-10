@@ -1,0 +1,38 @@
+.sum {
+  text-align: center;
+  display: inline-block;
+  margin: 0 10px 10px 0;
+  padding: 20px 20px 0 20px;
+}
+
+.sum-label {
+  font-size: 0.9em;
+  text-transform: uppercase;
+}
+
+.sum-value {
+  margin-top: 10px;
+  font-size: 2.4em;
+  font-weight: bold;
+}
+.avatar {
+  height: 40px;
+  width: 40px;
+}
+
+.heading {
+  color: #fff !important;
+  background-color: #212529 !important;
+  border-color: #32383e !important;
+}
+
+.image-section {
+  margin-top: 100px;
+  padding-bottom: 100px;
+}
+
+#start_date, #end_date {
+  max-width: 450px;
+  display: inline;
+  height: 46px;
+}

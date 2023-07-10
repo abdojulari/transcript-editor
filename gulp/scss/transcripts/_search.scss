@@ -1,0 +1,52 @@
+@import "mixins";
+@import "variables";
+
+$search-item-size: 100px;
+
+.search-item {
+  width: 100%;
+  text-align: left;
+  clear: both;
+  margin-bottom: 20px;
+  margin-left: 10px;
+
+  @include clearfix();
+
+  .item-image {
+    float: left;
+    width: $search-item-size;
+    height: $search-item-size;
+    background: center no-repeat;
+    background-size: cover;
+  }
+
+  .item-details {
+    margin-left: $search-item-size + 10px;
+    width: auto;
+  }
+
+  .item-title {
+    margin-top: 10px;
+  }
+
+  .item-line {
+    margin-top: 10px;
+    font-size: 1.6em;
+    &:before {
+      content: '"...';
+    }
+    &:after {
+      content: '..."';
+    }
+
+    span {
+      background: $highlight-color;
+    }
+  }
+
+  .item-line-type {
+    font-size: 0.8em;
+    color: $coolgray-dark-color;
+  }
+
+}

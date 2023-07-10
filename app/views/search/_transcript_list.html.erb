@@ -1,0 +1,28 @@
+<div class="search_results__list" role="list">
+<% if transcripts.empty? %>
+  <div class="cms">
+    No transcripts found
+  </div>
+<% end %>
+<% transcripts.each do |transcript|
+   transcript = transcript.decorate
+%>
+  <div class="search_item">
+    <% if transcript.image_url %>
+      <div class="search_item__image" style="background-image: url('<%= transcript.image_url %>')"></div>
+    <% else %>
+      <div class="search_item__image"></div>
+    <% end %>
+    <div class="search_item__details">
+      <div class="search_item__title">
+        <%= transcript.title %>
+        <% if transcript.start_time.to_i > 0 %>
+          (<%= time_display(transcript.start_time) %>)
+        <% end %>
+      </div>
+      <%= raw search_text(transcript, @build_params) %>
+      <%= raw item_tag(transcript, @build_params) %>
+    </div>
+  </div>
+<% end %>
+</div>

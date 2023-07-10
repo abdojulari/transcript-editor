@@ -6,43 +6,47 @@
 require 'test_helper'
 
 class TranscriptEditTest < ActiveSupport::TestCase
-
   # called before every single test
   def setup
     # Seed/update the database with test data
+    Vendor.create!(uid: 'voice_base', name: 'VoiceBase')
     seedProject
     seedTranscript
     seedUsers
 
     # Retrieve transcript line statuses
-    @status_editing = TranscriptLineStatus.find_by name: 'editing'
-    @status_reviewing = TranscriptLineStatus.find_by name: 'reviewing'
-    @status_completed = TranscriptLineStatus.find_by name: 'completed'
+    @status_initialized = TranscriptLineStatus.find_or_create_by name: 'initialized'
+    @status_editing = TranscriptLineStatus.find_or_create_by name: 'editing'
+    @status_reviewing = TranscriptLineStatus.find_or_create_by name: 'reviewing'
+    @status_completed = TranscriptLineStatus.find_or_create_by name: 'completed'
   end
 
   # called after every single test
-  def teardown
-  end
+  def teardown; end
 
   def seedProject
     puts "Seeding project..."
-    attributes = {uid: 'test_project', active: false, data: {
+    data = {
       name: 'Test Project',
       description: 'Project used for testing scripts found in ./test',
       consensus: {
         maxLineEdits: 5,
         minLinesForConsensus: 3,
+        minLinesForConsensusNoEdits: 5,
         minPercentConsensus: 0.34,
         superUserHiearchy: 50
       }
-    }}
-    @project = Project.find_or_initialize_by(uid: attributes[:uid])
-    @project.update(attributes)
+    }
+    data = JSON.parse(data.to_json)
+    @project = { uid: 'test_project', data: data }
   end
 
   def seedTranscript
     puts "Seeding transcript..."
-    attributes = {uid: 'lucy', title: 'Lucy in the Sky with Diamonds'}
+    attributes = {
+      uid: 'lucy', title: 'Lucy in the Sky with Diamonds',
+      vendor: Vendor.find_or_create_by(uid: 'voice_base', name: 'VoiceBase')
+    }
     @transcript = Transcript.find_or_initialize_by(uid: attributes[:uid])
     @transcript.update(attributes)
   end
@@ -51,27 +55,34 @@ class TranscriptEditTest < ActiveSupport::TestCase
     puts "Seeding users..."
 
     # registered user
-    user_role = UserRole.find_by name: 'user'
-    @registered_user = User.new(:email => 'registered_user_1@test.com', :password => 'password', :password_confirmation => 'password', user_role_id: user_role.id)
+    user_role = UserRole.find_or_create_by name: 'user', hiearchy: 1
+    @registered_user = User.new(email: 'registered_user_1@test.com', password: 'password', password_confirmation: 'password', user_role_id: user_role.id)
     @registered_user.save
 
     # admin user
-    admin_role = UserRole.find_by name: 'admin'
-    @admin_user = User.new(:email => 'admin_user_1@test.com', :password => 'password', :password_confirmation => 'password', user_role_id: admin_role.id)
+    admin_role = UserRole.find_or_create_by name: 'admin', hiearchy: 5
+    @admin_user = User.new(email: 'admin_user_1@test.com', password: 'password', password_confirmation: 'password', user_role_id: admin_role.id)
     @admin_user.save
   end
 
   def seedLine(attributes)
-    line = TranscriptLine.find_or_initialize_by({transcript_id: attributes[:transcript_id], sequence: attributes[:sequence]})
+    line = TranscriptLine.find_or_initialize_by({ transcript_id: attributes[:transcript_id], sequence: attributes[:sequence] })
     line.update(attributes)
     line
   end
 
+  def seedEdit(attributes)
+    edit = TranscriptEdit.find_or_initialize_by({transcript_line_id: attributes[:transcript_line_id], session_id: attributes[:session_id]})
+    edit.update(attributes)
+    edit
+  end
+
   def seedEdits(edits)
+    the_edits = []
     edits.each do |attributes|
-      edit = TranscriptEdit.find_or_initialize_by({transcript_line_id: attributes[:transcript_line_id], session_id: attributes[:session_id]})
-      edit.update(attributes)
+      the_edits << seedEdit(attributes)
     end
+    the_edits
   end
 
   # Consensus: three edits, all agree
@@ -111,28 +122,28 @@ class TranscriptEditTest < ActiveSupport::TestCase
   test "consensus three" do
     line = seedLine({transcript_id: @transcript.id, sequence: 3, original_text: 'Somebody callz u, u answer kwite slowly', guess_text: '', text: '', transcript_line_status_id: 1})
     seedEdits([
-      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'three_1', text: 'Somebody calls you, you answer quite slowly', user_id: @registered_user.id},
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'three_1', text: 'Somebody calls you, you answer quite slowly.', user_id: @registered_user.id},
       {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'three_2', text: 'somebody calls you you answer quite slowly'},
-      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'three_3', text: 'Somebody calls YOU; you answer quite slowly.'}
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'three_3', text: 'Somebody calls YOU; you answer quite slowly'}
     ])
     line.recalculate(nil, @project)
-    correct_text = "Somebody calls you, you answer quite slowly"
+    correct_text = "Somebody calls you, you answer quite slowly."
 
     assert line.text == correct_text, "Correct text chosen"
     assert line.guess_text == correct_text, "Correct guess chosen"
     assert line.transcript_line_status_id == @status_completed.id, "Correct status: completed"
   end
 
-  # Consensus: three edits, all agree (with normalized text); choose the one with capitalization
+  # Consensus: three edits, all agree (with normalized text); choose the one with capitalization and uhms
   test "consensus four" do
     line = seedLine({transcript_id: @transcript.id, sequence: 4, original_text: 'A gurl with kaleidoscope eyez', guess_text: '', text: '', transcript_line_status_id: 1})
     seedEdits([
-      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'four_1', text: 'A girl with kaleidoscope eyes'},
-      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'four_2', text: 'a girl with kaleidoscope eyes'},
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'four_1', text: 'A girl with kaleidoscope--ummm--eyes'},
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'four_2', text: 'A girl with kaleidoscope eyes'},
       {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'four_3', text: 'a girl with kaleidoscope eyes'}
     ])
     line.recalculate(nil, @project)
-    correct_text = "A girl with kaleidoscope eyes"
+    correct_text = "A girl with kaleidoscope--ummm--eyes"
 
     assert line.text == correct_text, "Correct text chosen"
     assert line.guess_text == correct_text, "Correct guess chosen"
@@ -143,12 +154,12 @@ class TranscriptEditTest < ActiveSupport::TestCase
   test "consensus five" do
     line = seedLine({transcript_id: @transcript.id, sequence: 5, original_text: 'Sellophane flowerz of yellow and green', guess_text: '', text: '', transcript_line_status_id: 1})
     seedEdits([
-      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'five_1', text: 'Cellophane flowers, of yellow and green'},
-      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'five_2', text: 'Cellophane flowers of yellow and green'},
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'five_1', text: 'Cellophane flowers, of yellow and green.'},
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'five_2', text: 'Cellophane flowers, of yellow and green'},
       {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'five_3', text: 'Cellophane flowerz of yellow and green'}
     ])
     line.recalculate(nil, @project)
-    correct_text = "Cellophane flowers, of yellow and green"
+    correct_text = "Cellophane flowers, of yellow and green."
 
     assert line.text == correct_text, "Correct text chosen"
     assert line.guess_text == correct_text, "Correct guess chosen"
@@ -176,12 +187,12 @@ class TranscriptEditTest < ActiveSupport::TestCase
     line = seedLine({transcript_id: @transcript.id, sequence: 7, original_text: 'Look fer the gurl with the son in her eyez', guess_text: '', text: '', transcript_line_status_id: 1})
 
     seedEdits([
-      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'seven_1', text: 'Look for the girl with the sun in her eyes.'},
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'seven_1', text: 'Look for the girl, with the sun in her eyes.'},
       {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'seven_2', text: 'Look fer the girl with the son in her eyez'},
-      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'seven_3', text: 'Look fer the gurl with the sun in her eyes'}
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'seven_3', text: 'Look fer the gurl, with the sun in her eyes'}
     ])
     line.recalculate(nil, @project)
-    correct_text = "Look for the girl with the sun in her eyes."
+    correct_text = "Look for the girl, with the sun in her eyes."
 
     assert line.text.blank?, "Text is not yet final"
     assert line.guess_text == correct_text, "Correct guess chosen"
@@ -267,13 +278,15 @@ class TranscriptEditTest < ActiveSupport::TestCase
     assert line.transcript_line_status_id == @status_editing.id, "Correct status: editing"
   end
 
-  # Consensus: three edits, all are original text; choose the original text
+  # Consensus: five edits, all are original text; choose the original text
   test "consensus eight" do
     line = seedLine({transcript_id: @transcript.id, sequence: 13, original_text: 'That grow so incredibly high', guess_text: '', text: '', transcript_line_status_id: 1})
     seedEdits([
       {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'thirteen_1', text: 'That grow so incredibly high'},
       {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'thirteen_2', text: 'That grow so incredibly high'},
-      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'thirteen_3', text: 'That grow so incredibly high'}
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'thirteen_3', text: 'That grow so incredibly high'},
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'thirteen_4', text: 'That grow so incredibly high'},
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'thirteen_5', text: 'That grow so incredibly high'}
     ])
     line.recalculate(nil, @project)
     correct_text = "That grow so incredibly high"
@@ -297,5 +310,48 @@ class TranscriptEditTest < ActiveSupport::TestCase
     assert line.text == correct_text, "Correct text chosen"
     assert line.guess_text == correct_text, "Correct guess chosen"
     assert line.transcript_line_status_id == @status_completed.id, "Correct status: completed"
+  end
+
+  # Test normalization of text
+  test "normalized text one" do
+    line = seedLine({transcript_id: @transcript.id, sequence: 15, original_text: 'Waiting to take you away', guess_text: '', text: '', transcript_line_status_id: 1})
+    edit = seedEdit({transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'fifteen_1', text: 'Waiting?  to, uhm, um--uhmm TAKE you awayum! '})
+    correct_text = "waiting to take you awayum"
+
+    assert edit.normalizedText == correct_text, "Normalized text correct"
+  end
+
+  # Consensus: two edits, both agree; choose that one (it doesn't matter what the third is)
+  test "consensus ten" do
+    line = seedLine({transcript_id: @transcript.id, sequence: 16, original_text: 'Waiting 2 take u away', guess_text: '', text: '', transcript_line_status_id: 1})
+    seedEdits([
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'sixteen_1', text: 'Waiting to take you away'},
+      {transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'sixteen_2', text: 'Waiting to take you away'}
+    ])
+    line.recalculate(nil, @project)
+    correct_text = "Waiting to take you away"
+
+    assert line.text == correct_text, "Correct text chosen"
+    assert line.guess_text == correct_text, "Correct guess chosen"
+    assert line.transcript_line_status_id == @status_completed.id, "Correct status: completed"
+  end
+
+  # Consensus: three edits, all are original text; no consensus
+  test "consensus eleven" do
+    text = 'Climb in the back with your head in the clouds'
+    line = seedLine({ transcript_id: @transcript.id, sequence: 17, original_text: text, guess_text: '', text: '', transcript_line_status_id: 1 })
+    seedEdits(
+      [
+        { transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'seventeen_1', text: text },
+        { transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'seventeen_2', text: text },
+        { transcript_id: @transcript.id, transcript_line_id: line.id, session_id: 'seventeen_3', text: text }
+      ]
+    )
+    line.recalculate(nil, @project)
+    correct_text = ""
+
+    assert line.text == correct_text, "Correct text chosen"
+    assert line.guess_text == line.original_text, "Correct guess chosen"
+    assert line.transcript_line_status_id == @status_initialized.id, "Correct status: initialized"
   end
 end

@@ -76,16 +76,26 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
 (function() {
   window.UTIL = {};
 
+  UTIL.escapeInput = function(str){
+    return str.replace(/"/g, '&quot;')
+  };
+
+  UTIL.formatDate = function(str) {
+    var d = new Date(str);
+    return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate();
+  };
+
   UTIL.formatNumber = function(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-  UTIL.formatNumberTiny = function(num) {
+  UTIL.formatNumberTiny = function(num, dec) {
+    if (!dec && dec!==0) dec = 1;
     var formatted = num;
-    if (num > 1000000) formatted = UTIL.round(num/1000000, 1) + 'M+';
+    if (num > 1000000) formatted = UTIL.round(num/1000000, dec) + 'M+';
     else if (num == 1000000) formatted = '1M';
     else if (num > 99999) formatted = UTIL.round(num/1000) + 'K+';
-    else if (num > 1000) formatted = UTIL.round(num/1000, 1) + 'K+';
+    else if (num > 1000) formatted = UTIL.round(num/1000, dec) + 'K+';
     else if (num == 1000) formatted = '1K';
     return formatted;
   };
@@ -146,6 +156,13 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
       }
     }
     return UTIL.round(seconds, dec);
+  };
+
+  UTIL.highlightText = function(needle, haystack, open, close) {
+    open = open || '<span>';
+    close = close || '</span>';
+    var regex = new RegExp('('+needle+')', 'ig');
+    return haystack.replace(regex, open+"$1"+close);
   };
 
   // Make a random id

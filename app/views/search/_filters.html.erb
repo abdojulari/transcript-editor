@@ -1,0 +1,54 @@
+<%= form_tag @form_url, method: :get, enforce_utf8: false, class: 'home-form' do %>
+  <section class="search_bar">
+    <article class="search_bar__content">
+      <div class="search_bar__form" id="search-form">
+        <div class="search_field">
+          <%= search_field_tag "search", @build_params[:search], placeholder: "Search all transcripts" %>
+
+          <%= submit_tag "Start", class: "button icon search", name: nil %>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <div id="filters">
+    <section class="filter_bar">
+      <article class="filter_bar__content">
+        <div class="transcripts-wrapper" role="main">
+          <div data-sticky="#transcript-facets" class="sticky-on-scroll" id="fixedHeader">
+            <div id="transcript-facets" class="filter_bar__form transcript-facets filter_bar">
+              <div class="filter_bar__fieldset">
+                <legend class="desktop-only">
+                  Filter by:
+                </legend>
+
+                <div class="facet" id="theme_search">
+                  <%= render partial: 'search/themes', locals: { themes: @themes } %>
+                </div>
+
+                <div class="facet" id="institution_search">
+                  <%= render partial: 'search/institutions', locals: { institutions: @institutions } %>
+                </div>
+
+                <div class="facet" id="collection_search">
+                  <%= render partial: 'search/collection', locals: { collection: @collection } %>
+                </div>
+
+                <div class="search_field">
+                  <%= submit_tag "Apply filters", class: "button icon search", id: "filters-submit", name: nil %>
+                </div>
+
+                <div>
+                  <%= link_to @form_url, id: 'reset'  do %>
+                    <%= fa_icon "refresh" %>
+                    Reset
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+  </div>
+<% end %>

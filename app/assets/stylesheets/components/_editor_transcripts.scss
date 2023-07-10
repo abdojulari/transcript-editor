@@ -1,0 +1,24 @@
+@import "../base/editor_mixins";
+@import "../base/editor_variables";
+
+@import "editor/modal";
+@import "editor/conventions";
+@import "editor/facets";
+@import "editor/list";
+@import "editor/show";
+@import "editor/lines";
+@import "editor/toolbar";
+@import "editor/verify";
+@import "editor/progress";
+@import "editor/flag";
+@import "editor/download";
+@import "editor/search";
+
+.transcripts-wrapper {
+  min-height: 400px;
+  margin: 50px -10px 0;
+  padding: 0 10px 30px;
+  background: #f1f1f1;
+  border-top: 1px solid lighten($coolgray-color, 25%);
+  border-bottom: 1px solid lighten($coolgray-color, 25%);
+}

@@ -1,0 +1,32 @@
+<%= link_to v2_edit_path, class: "transcript_item",
+      title: "Title - Interviewed by Person",
+      role: "listitem" do
+%>
+  <div
+    class="transcript_item__image"
+    style="background-image: url(https://oral-history.s3.amazonaws.com/images/interview/image/356/thumb_FullSizeRender.jpg)">
+  </div>
+  <div class="transcript_item__subtitle">
+    Bridging Our Stories
+  </div>
+  <div class="transcript_item__title">
+    Jane Doe
+  </div>
+  <div class="transcript_item__description">
+    Interviewed by a Person
+  </div>
+  <div class="transcript_item__info">
+    1h 7m
+    <div class="transcript_item__contributors">
+      108 contributors
+    </div>
+  </div>
+  <div class="transcript_item__status">
+    <div class="transcript_item__status-bar edited" style="width: 17%"></div>
+    <div class="transcript_item__status-bar completed" style="width: <%= completed %>%"></div>
+  </div><div class="transcript_item__status-key">
+    <div class="transcript_item__status-text completed">
+      <%= completed %>% reached consensus
+    </div>
+  </div>
+<% end %>

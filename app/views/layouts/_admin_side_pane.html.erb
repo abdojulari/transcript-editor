@@ -1,0 +1,12 @@
+<% content_for :side_pane do %>
+  <ul class="list-group">
+    <% side_menu.each do |menu| %>
+      <li class="list-group-item">
+        <%= link_to menu.path do %>
+          <%= fa_icon menu.icon, text: menu.text %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+

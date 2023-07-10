@@ -1,4 +1,8 @@
 class TranscriptEditsController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: [:create]
+  before_action :authenticate_user, only: [:create]
+
+
   before_action :set_transcript_edit, only: [:show, :update, :destroy]
 
   # GET /transcript_edits.json?transcript_line_id=1
@@ -8,6 +12,10 @@ class TranscriptEditsController < ApplicationController
 
     if params[:transcript_line_id]
       @transcript_edits = TranscriptEdit.getByLineForDisplay(params[:transcript_line_id])
+
+    elsif params[:user_id]
+      @transcript_edits = TranscriptEdit.getByUser(params[:user_id])
+      @transcripts = Transcript.getByUserEdited(params[:user_id])
 
     elsif user_signed_in?
       @transcript_edits = TranscriptEdit.getByUser(current_user.id)
@@ -22,10 +30,10 @@ class TranscriptEditsController < ApplicationController
   # POST /transcript_edits.json
   def create
     @transcript_edit = nil
-    params[:transcript_edit][:session_id] = session.id
+    params[:transcript_edit][:session_id] = session.id.to_s
     t = params[:transcript_edit]
     line = TranscriptLine.find t[:transcript_line_id]
-    project = Project.getActive
+    project = Project.getActive(line.transcript.collection_id)
 
     unless line
       head :no_content

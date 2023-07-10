@@ -1,0 +1,16 @@
+
+<% _.each(stats, function(stat){ %>
+
+  <div class="stat">
+    <h2><%= stat.label %></h2>
+    <div class="sums">
+      <% _.each(stat.sums, function(sum){ %>
+        <div class="sum">
+          <div class="sum-label"><%= sum.label %></div>
+          <div class="sum-value"><%= UTIL.formatNumberTiny(sum.value) %></div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+<% }) %>

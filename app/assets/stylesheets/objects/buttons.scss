@@ -1,0 +1,93 @@
+.button {
+  height: 40px;
+  line-height: 40px;
+  font-family: $body-font;
+  font-weight: bold;
+  font-size: rem-calc(16);
+  border-radius: 0;
+  text-align: center;
+  padding: 0px 30px;
+  display: inline-block;
+  cursor: pointer;
+  border: 0;
+  outline: 0;
+  -webkit-appearance: none;
+  color: $button-foreground;
+  &.cyan {
+    @include button-background($button-cyan);
+  }
+  &.yellow {
+    @include button-background($button-yellow);
+    color: $body-foreground;
+    &:hover, &:focus {
+      color: $body-foreground;
+    }
+  }
+  &.dark {
+    @include button-background($button-dark);
+  }
+  &:disabled, &.disabled {
+    cursor: default;
+    background: $button-disabled;
+    &:hover, &:focus {
+      background: $button-disabled;
+    }
+  }
+  &.inline {
+    @include desktop {
+      display: inline-block;
+    }
+  }
+  &.large {
+    height: 50px;
+    line-height: 51px;
+    font-size: rem-calc(20);
+  }
+  &.small {
+    height: 26px;
+    line-height: 24px;
+    font-size: rem-calc(12);
+    padding: 3px 10px 0;
+  }
+  &.play-all {
+    .fa-play-circle {
+      position: relative;
+      right: 10px;
+      font-size: rem-calc(20);
+    }
+  }
+  &.icon {
+    height: 40px;
+    width: 40px;
+    padding: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-size: 1px;
+    color: transparent;
+    transition: background-image 0.5s;
+    &.menu {
+      background-image: $menu-icon;
+      background-size: 20px 20px;
+      cursor: pointer;
+    }
+    &.cross {
+      background-image: $cross-icon;
+      background-size: 20px 20px;
+      cursor: pointer;
+    }
+    &.cross-black {
+      background-image: $cross-icon-black;
+      background-size: 20px 20px;
+      cursor: pointer;
+    }
+    &.search {
+      @include button-background($button-yellow);
+      background-image: $search-icon;
+      background-size: 20px 20px;
+      cursor: pointer;
+      &:hover {
+        background-color: #eead0e;
+      }
+    }
+  }
+}

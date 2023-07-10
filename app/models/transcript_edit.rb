@@ -1,5 +1,5 @@
-class TranscriptEdit < ActiveRecord::Base
-
+class TranscriptEdit < ApplicationRecord
+  has_paper_trail
   belongs_to :transcript
   belongs_to :transcript_line
 
@@ -10,8 +10,8 @@ class TranscriptEdit < ActiveRecord::Base
   # validates :text, presence: true
 
   def normalizedText
-    # downcase; remove punctuation; remove extra whitespace; trim
-    text.downcase.gsub(/[^0-9a-z ]/i, '').gsub(/\s+/, ' ').strip
+    # downcase; remove punctuation; remove extra whitespace; remove umm's/uhh's/uhm's, trim
+    text.downcase.gsub(/[^0-9a-z ]/i, ' ').gsub(/\bu+h+m*\b|\bu+m+\b/, ' ').gsub(/\s+/, ' ').strip
   end
 
   def self.getByLine(transcript_line_id)
@@ -29,12 +29,25 @@ class TranscriptEdit < ActiveRecord::Base
     TranscriptEdit.where(transcript_line_id: transcript_line_id, is_deleted: 0)
   end
 
+  def self.getByTranscript(transcript_id)
+    TranscriptEdit.where(transcript_id: transcript_id, is_deleted: 0)
+  end
+
   def self.getByTranscriptSession(transcript_id, session_id)
     TranscriptEdit.where(transcript_id: transcript_id, session_id: session_id, is_deleted: 0)
   end
 
   def self.getByTranscriptUser(transcript_id, user_id)
     TranscriptEdit.where(transcript_id: transcript_id, user_id: user_id, is_deleted: 0)
+  end
+
+  def self.getStatsByDay
+    Rails.cache.fetch("#{ENV['PROJECT_ID']}/transcript_edits/stats", expires_in: 10.minutes) do
+      TranscriptEdit
+        .select('DATE(created_at) AS date, COUNT(*) AS count')
+        .group('DATE(created_at)')
+        .order('DATE(created_at)')
+    end
   end
 
   def self.updateUserSessions(session_id, user_id)
@@ -44,5 +57,4 @@ class TranscriptEdit < ActiveRecord::Base
     user = User.find(user_id)
     user.incrementLinesEdited(edits.length) if user && edits.length > 0
   end
-
 end

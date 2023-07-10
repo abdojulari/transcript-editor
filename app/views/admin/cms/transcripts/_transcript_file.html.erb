@@ -1,0 +1,43 @@
+<div class="row transcript-file-upload">
+  <div class="col-md-12">
+    <% if transcript.image.present? %>
+      <h5>
+        Current Image
+      </h5>
+      <div class="form-group dotted-border-container">
+        <%= image_tag transcript.image_cropped_thumb_url, class: 'img-fluid', id:"cropbox", src:"#", data: { crop_x: transcript.crop_x, crop_y: transcript.crop_y, crop_w: transcript.crop_w, crop_h: transcript.crop_h } %>
+      </div>
+      <br>
+      <% if current_user.admin? || current_user.content_editor? %>
+        <%= check_box_tag "transcript[remove_image]" %>
+        <%= label_tag :remove_image %>
+        <br>
+      <% end %>
+    <% else %>
+      <img id="cropbox">
+    <% end %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <h5>
+      Upload a New Image
+    </h5>
+    <div class="alert-warning mb-2" role="alert">
+      Please make sure your image dimensions are at least 1000x450.
+    </div>
+
+    <div class="form-group actions">
+      <%= f.file_field :image, class:"btn btn-primary btn-inverse upload-image", type:'file' %>
+
+      <% if transcript.image.present? %>
+        <button type="button" name="button" class="btn btn-success recrop-original" data-original-url="<%= transcript.image_url %>">
+          Re-crop original image
+        </button>
+      <% end %>
+    </div>
+  </div>
+</div>
+<% %w[x y w h].each do |attribute| %>
+  <%= f.hidden_field "crop_#{attribute}" %>
+<% end %>

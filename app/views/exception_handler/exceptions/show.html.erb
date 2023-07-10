@@ -1,0 +1,20 @@
+<section class="search_results">
+  <div class="search_results__list">
+    <div class="cms wysiwyg-reset">
+      <%= content_tag :div, class: "exception", data: { status: @exception.status, response: @exception.response.to_s.humanize, rails: Rails.version } do %>
+        <h1>Error <%= @exception.status %> <%=  @exception.response.to_s.humanize %></h1>
+        <%= content_tag :span, @exception.description.html_safe %>
+        <p>
+          Sorry about the inconvenience.
+          <br />
+          To help you get back on track, try
+          <a href="/">returning to the home page</a>, or
+          <a href="/search">searching for a transcript</a>.
+          <br />
+          If you're still having problems, please
+          <a href="/page/about">contact us</a>.
+        </p>
+      <% end %>
+    </div>
+  </div>
+</section>

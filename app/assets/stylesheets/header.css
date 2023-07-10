@@ -1,0 +1,31 @@
+body { padding: 0; }    
+.header { position: static; }    
+.header .title-container { float: left; }    
+@media (min-width: 768px) {
+  .header .navigation .menu-container {
+    position: absolute;
+    top: 0;
+    left: 174;
+  }
+}
+.header .account-container {      
+    position: absolute;      
+    right: 0;    
+}    
+.header .menu-container {      
+    position: absolute;      
+    right: 210px;    
+}    
+.sticky {  top: 0;  }  
+
+.top_header__profile {
+  position: relative;
+  display: inline-flex;
+  &:hover .top_header__toggle_list {
+    display: block;
+  }
+}
+
+.header .secondary-navigation {      
+    position: absolute;   
+}

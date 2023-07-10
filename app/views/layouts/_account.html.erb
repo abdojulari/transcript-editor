@@ -1,0 +1,25 @@
+<div class="select">
+  <% if user_signed_in? and current_user %>
+    <div class="select-active" title="Signed in as <%= current_user.name %>">
+      <%= raw current_user_edits %>
+      <%= current_user.name %>
+    </div>
+    <div class="select-options account-menu menu" role="menu" aria-hidden="true" aria-label="User account menu">
+      <a href="/dashboard" class="select-option menu-item" role="menuitem">Dashboard</a>
+      <% if current_user.staff? %>
+        <a href="/admin" class="check-auth-link select-option menu-item" role="menuitem">Admin Portal</a>
+      <% end %>
+      <%= link_to 'Sign out', destroy_user_session_path, class: 'select-option menu-item' %>
+    </div>
+  <% else %>
+    <div class="select-active">
+      <span class="score">0</span>
+      <span id="sign-in-label" class="sign-in-copy">Track My Progress</span>
+    </div>
+    <div class="select-options account-menu menu" role="menu" aria-hidden="true" aria-labelledby="sign-in-label">
+      <a href="/users/sign_in" class="auth-link select-option menu-item" data-active="Signing In..." role="menuitem">Sign in w/ Email</a>
+      <a href="/users/auth/google_oauth2" data-provider="google" class="auth-link select-option menu-item" data-active="Signing In..." role="menuitem">Sign in w/ Google</a>
+      <a href="/users/auth/facebook" data-provider="facebook" class="auth-link select-option menu-item" data-active="Signing In..." role="menuitem">Sign in w/ Facebook</a>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,8 @@
+<p>Hello <%= @resource.name %>!</p>
+
+<p>
+  Thank you for signing up for Amplify. Please confirm your account by clicking on the link below:
+</p>
+<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+<p>Happy transcribing!</p>
+

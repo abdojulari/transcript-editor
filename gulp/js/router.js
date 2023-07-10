@@ -1,10 +1,15 @@
 app.routers.DefaultRouter = Backbone.Router.extend({
 
   routes: {
-    "":                     "index",
-    "transcripts/:id":      "transcriptEdit",
-    "page/:id":             "pageShow",
-    "dashboard":            "dashboard"
+    "":                             			"index",
+    "?*queryString":                			"index",
+    "transcripts/:institution/:collection/:id":  			"transcriptEdit",
+    "transcripts/:institution/:collection/:id?*queryString": "transcriptEdit",
+    "page/:id":                     			"pageShow",
+    "dashboard":                    			"dashboard",
+    "search":                       			"search",
+    "search?*queryString":          			"search",
+    "collections":                  			"collections",
   },
 
   before: function( route, params ) {
@@ -20,10 +25,12 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var header = new app.views.Header(data);
     var main = new app.views.Dashboard(data);
     var footer = new app.views.Footer(data);
+    main.$el.attr('role', 'main');
   },
 
-  index: function() {
+  index: function(queryString) {
     var data = this._getData(data);
+    if (queryString) data.queryParams = deparam(queryString);
     var header = new app.views.Header(data);
     var main = new app.views.Home(data);
     var footer = new app.views.Footer(data);
@@ -34,11 +41,27 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var header = new app.views.Header(data);
     var main = new app.views.Page(_.extend({}, data, {el: '#main', page_key: id}));
     var footer = new app.views.Footer(data);
-    main.$el.removeClass('loading');
+    main.$el.removeClass('loading').attr('role', 'main');
   },
 
-  transcriptEdit: function(id) {
+  search: function(queryString) {
     var data = this._getData(data);
+    if (queryString) data.queryParams = deparam(queryString);
+    var header = new app.views.Header(data);
+    var main = new app.views.Search(data);
+    var footer = new app.views.Footer(data);
+  },
+
+  collections: function() {
+    var data = this._getData(data);
+    var header = new app.views.Header(data);
+    var main = new app.views.Collections(data);
+    var footer = new app.views.Footer(data);
+  },
+
+  transcriptEdit: function(_institution, _collection, id, queryString) {
+    var data = this._getData(data);
+    if (queryString) data.queryParams = deparam(queryString);
     var header = new app.views.Header(data);
     var toolbar = new app.views.TranscriptToolbar(_.extend({}, data, {el: '#secondary-navigation', menu: 'transcript_edit'}));
     var modals = new app.views.Modals(data);
@@ -47,6 +70,12 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var verifyView = new app.views.TranscriptLineVerify(data);
     modals.addModal(verifyView.$el);
 
+    var flagView = new app.views.TranscriptLineFlag(data);
+    modals.addModal(flagView.$el);
+
+    var downloadView = new app.views.TranscriptDownload(_.extend({}, data, {transcript_id: id}));
+    modals.addModal(downloadView.$el);
+
     var transcript_model = new app.models.Transcript({id: id});
     var main = new app.views.TranscriptEdit(_.extend({}, data, {el: '#main', model: transcript_model}));
   },
@@ -54,7 +83,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
   _getData: function(data){
 
     var user = {};
-    if ($.auth.user && $.auth.user.signedIn) {
+    if ($.auth && $.auth.user && $.auth.user.signedIn) {
       user = $.auth.user;
     }
 

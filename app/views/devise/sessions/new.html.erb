@@ -1,0 +1,47 @@
+<article class="registration__content cms">
+
+  <h3>Sign in</h3>
+  <br />
+
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name, { return_to: params[:return_to]})) do |f| %>
+    <%- unless flash[:alert].blank? -%>
+      <%= content_tag :div, flash[:alert], :id => "flash_#{flash[:alert]}", class: "alert alert-danger",
+        id: "error_explanation" %>
+    <%- end -%>
+
+    <div class="form-group">
+      <%= f.label :email, class: 'sr-only' %>
+      <%= f.email_field :email,
+        autofocus: true,
+        class: 'form-control signup',
+        id: 'login_email',
+        autocomplete: 'email',
+        placeholder: 'Email address'
+      %>
+    </div>
+
+    <br />
+
+    <div class="form-group">
+      <%= f.label :password, class: 'sr-only' %>
+      <%= f.password_field :password,
+        autocomplete: 'off',
+        class: 'form-control',
+        id: 'login_password',
+        placeholder: 'Enter your password'
+      %>
+    </div>
+
+    <%= f.hidden_field :remember_me, value: 1 %>
+
+    <%= invisible_captcha %>
+
+    <br />
+
+    <div class="form-group">
+      <%= f.submit "Sign in", class: 'button cyan' %>
+    </div>
+  <% end %>
+  <br />
+  <%= render "devise/shared/links" %>
+</article>

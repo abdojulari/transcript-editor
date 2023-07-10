@@ -1,0 +1,9 @@
+<%= render "v2/shared/filter_hero" %>
+
+<section class="search_results">
+  <div class="search_results__list" role="list">
+    <% (0..10).each do |i| %>
+      <%= render "v2/shared/search_preview" %>
+    <% end %>
+  </div>
+</section>

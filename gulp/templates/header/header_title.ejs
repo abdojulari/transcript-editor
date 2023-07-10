@@ -1,5 +1,60 @@
-<% if (project.logo) { %>
-  <a href="/" title="<%= project.name %>" class="title" aria-label="Click to return to homepage" title="Click to return to homepage"><img src="<%= project.logo %>" alt="Logo" class="logo" /></a>
+<% if (Backbone.history.getFragment() === '') { %>
+  <style type="text/css">
+    body {
+      padding: 0;
+    }
+
+    .header {
+      position: static;
+    }
+
+    .header .title-container {
+      float: left;
+    }
+
+    @media (min-width: 768px) {
+      .header .navigation .menu-container {
+        position: absolute;
+        top: 0;
+        right: 173px;
+      }
+    }
+
+    .header .account-container {
+      position: absolute;
+      right: 0;
+    }
+
+    .sticky {
+      top: 0;
+    }
+  </style>
+
+  <div class="home-banner">
+    <div class="banner-main">
+      <div class="banner-text">
+        <h1>
+          <span class="sr-only">Amplify</span>
+          <img src="/nsw-state-library-amplify/assets/img/Amplify_logo_WHITE_COLOUR.svg" alt="Amplify logo" class="logo" />
+        </h1>
+        <h2>Listen to our sound archive, help us transcribe and enrich our stories.</h2>
+      </div>
+    </div>
+  </div>
 <% } else { %>
-  <h1 class="title" aria-label="Click to return to homepage" title="Click to return to homepage"><a href="/"><%= project.name %></a></h1>
+  <style type="text/css">
+    .header .title-container {
+      width: auto;
+      float: left;
+    }
+  </style>
+
+  <div class="header-bar">
+    <a href="/" title="<%= project.name %>" class="title" aria-label="Click to return to homepage" title="Click to return to homepage">
+      <p class="logo-text">
+        <span class="sr-only">Amplify</span>
+        <img src="/nsw-state-library-amplify/assets/img/Amplify_logo_WHITE_COLOUR.svg" alt="Amplify logo" class="logo" />
+      </p>
+    </a>
+  </div>
 <% } %>

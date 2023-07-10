@@ -1,0 +1,12 @@
+<section class="search_results">
+  <div class="search_results__list">
+    <div class="cms">
+      <h3>Your Recent Activity</h3>
+      <% if @transcript_edits.empty? %>
+             <p class="highlight">You don't have any transcript edits yet!</p>
+      <% else %>
+        <%= render partial: 'transcript_edits', locals: { edits: @transcript_edits } %>
+      <% end %>
+    </div>
+  </div>
+</section>

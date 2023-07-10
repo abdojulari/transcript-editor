@@ -5,6 +5,10 @@
   max-width: 800px;
   margin: 0 auto;
 
+  p {
+    font-family: $font-family;
+  }
+
   img {
     width: 100%;
     height: auto;
@@ -55,10 +59,47 @@
   .completed {
     background: rgba($green-color, 0.6);
   }
+
+  .logo-strip {
+    text-align: center;
+    @media screen and (min-width: $page-tablet-width) {
+      display: flex;
+      align-items: center;
+    }
+
+    img {
+      width: auto;
+      max-width: 100%;
+      box-sizing: border-box;
+      @media screen and (min-width: $page-tablet-width) {
+        flex: 0 1 auto;
+        padding: 0 1em;
+      }
+
+      &.lock-size {
+        width: 150px;
+        height: auto;
+      }
+    }
+
+    a {
+      &:first-child {
+        img {
+          padding-left: 0;
+        }
+      }
+      &:last-child {
+        img {
+          padding-right: 0;
+        }
+      }
+    }
+  }
 }
 
 .home\.md.page {
   text-align: center;
+  font-family: "Times New Roman", Georgia, Serif;;
 
   h1 {
     font-size: 2.6em;
@@ -66,6 +107,7 @@
 
   p {
     font-size: 1.5em;
+    line-height: 1.3;
 
     &.caption {
       font-size: 0.8em;
@@ -163,7 +205,6 @@
     tbody {
       overflow: hidden;
       overflow-y: auto;
-      height: 25vh;
       min-height: 80px;
       max-height: 300px;
     }
@@ -179,6 +220,7 @@
     max-height: 0;
     overflow: hidden;
     @include transition(max-height 0.5s);
+    font-family: 'Muli', sans-serif;
 
     .table-conventions {
       display: table;
@@ -190,15 +232,17 @@
     height: 28px;
     line-height: 28px;
     position: absolute;
-    bottom: -28px;
+    bottom: -35px;
     left: 50%;
     margin-left: -100px;
     text-align: center;
-    background: $link-color;
-    color: $white;
+    background: $link-inverse-color;
+    color: $black;
     cursor: pointer;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
+    border-radius: 0 0 3px 3px;
+    box-shadow: 0 2px 4px rgba($black,0.4);
     @include box-shadow(0 2px 4px rgba(0,0,0,.4));
     @include animation(fadeInDown 1s);
     @include animation-delay(1s);

@@ -2,13 +2,15 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
 
   template: _.template(TEMPLATES['transcript_edit.ejs']),
 
+  events: {
+    'click #conventions-link': 'showConventions'
+  },
+
   initialize: function(data){
+
     this.data = data;
 
-    this.loadConventions();
     this.loadTranscript();
-    this.loadCompletionContent();
-    // this.loadTutorial();
     this.listenForAuth();
   },
 
@@ -16,6 +18,10 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.$('.transcript-finished').addClass('disabled');
     this.$('.show-when-finished').addClass('active');
     $(window).trigger('scroll-to', [$('#completion-content'), 100]);
+  },
+
+  showConventions: function(){
+    this.$('.conventions-page').toggleClass('active');
   },
 
   lineEditDelete: function(i){
@@ -26,7 +32,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     var line = this.data.transcript.lines[i];
 
     // display the original text
-    $input.val(line.display_text);
+    $input.text(line.display_text);
 
     // update UI
     $input.attr('user-value', '');
@@ -43,12 +49,18 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     if (!$input.length) return false;
 
     var line = this.data.transcript.lines[i];
-    var text = $input.val();
+    var text = $input.text();
     var userText = $input.attr('user-value');
 
     // implicit save; save even when user has not edited original text
     // only save if line is editable
     if (text != userText && line.is_editable) {
+      // Don't save if user is in read only mode (mobile view)
+      // Don't save if the user is in Play All mode and hasn't changed the text.
+      if (($(window).width() < 768) || ((this.play_all) && (line.display_text == text))) {
+        return;
+      }
+
       var is_new = !$input.closest('.line').hasClass('user-edited');
 
       // update UI
@@ -69,7 +81,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     var is_new = !$input.closest('.line').hasClass('user-edited');
 
     // update UI
-    $input.val(text);
+    $input.text(text);
     $input.attr('user-value', text);
     $input.closest('.line').addClass('user-edited');
 
@@ -77,22 +89,27 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.submitEdit({transcript_id: this.data.transcript.id, transcript_line_id: line.id, text: text, is_deleted: 0, is_new: is_new});
   },
 
+  loadAnalytics: function(){
+    this.$el.on('click', '.conventions-link', function(){
+      ANALYTICS.event('transcript', 'invoke-conventions');
+    });
+
+    this.$el.on('click', '.tutorial-link', function(){
+      ANALYTICS.event('transcript', 'invoke-tutorial');
+    });
+  },
+
   loadCompletionContent: function(){
     this.data.completion_content = '';
 
     if (this.data.project.pages['transcript_finished.md']) {
-      var page = new app.views.Page(_.extend({}, this.data, {page_key: 'transcript_finished.md'}))
+      var page = new app.views.Page(_.extend({}, {project: this.data.project, page_key: 'transcript_finished.md'}))
       this.data.completion_content = page.toString();
     }
   },
 
   loadConventions: function(){
-    this.data.page_conventions = '';
-
-    if (this.data.project.pages['transcription_conventions.md']) {
-      var page = new app.views.Page(_.extend({}, this.data, {page_key: 'transcription_conventions.md'}))
-      this.data.page_conventions = page.toString();
-    }
+    this.data.page_conventions = this.data.transcript.conventions
   },
 
   loadListeners: function(){
@@ -107,6 +124,11 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     // PubSub.unsubscribe('transcript.line.verify');
     // PubSub.unsubscribe('transcript.edit.delete');
     // this.$el.off('click.transcript', '.start-play');
+
+    PubSub.subscribe('transcript.play_all', function(ev, setting) {
+      _this.play_all = setting;
+      console.log('Set play all to', _this.play_all);
+    });
 
     // add link listeners
     $('.control').on('click.transcript', function(e){
@@ -173,13 +195,25 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
       e.preventDefault();
       _this.finished();
     });
+
+    this.$el.on('click.transcript', '.play-all', function(e) {
+      e.preventDefault();
+      _this.playAll();
+    });
+
+    this.$el.on('click.transcript', '.mobile-toggle', function(e) {
+      e.preventDefault();
+      _this.mobileToggle();
+    });
+
+    this.loadAnalytics();
   },
 
   loadPageContent: function(){
     this.data.page_content = '';
 
     if (this.data.project.pages['transcript_edit.md']) {
-      var page = new app.views.Page(_.extend({}, this.data, {page_key: 'transcript_edit.md'}))
+      var page = new app.views.Page(_.extend({}, {transcript: this.data.transcript, project: this.data.project, page_key: 'transcript_edit.md'}))
       this.data.page_content = page.toString();
     }
   },
@@ -206,12 +240,13 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
 
     this.render();
     this.$el.removeClass('loading');
-    this.$('.start-play').removeClass('disabled');
+    this.$('.start-play, .play-all').removeClass('disabled');
     this.loadListeners();
     this.message('Loaded transcript');
     if (!this.loaded) this.loaded = true;
     if (this.queue_start) this.start();
     this.queue_start = false;
+    this.checkForStartTime();
   },
 
   onTranscriptFinished: function(){
@@ -230,13 +265,15 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     this.data.transcript = transcript.toJSON();
     this.parseTranscript();
     this.loadPageContent();
+    this.loadCompletionContent();
+    this.loadConventions()
     this.loadAudio();
   },
 
   onTimeUpdate: function(){
     if (this.player.playing) this.playerState('playing');
     if (this.pause_at_time !== undefined && this.player.currentTime >= this.pause_at_time) {
-      this.playerPause();
+      this.playerPause({trigger: 'end_of_line'});
     }
   },
 
@@ -253,7 +290,7 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     // remove multiple spaces
     if (text.length != input.value.length) {
       var cursorPos = $input.getInputSelection().start;
-      $input.val(text);
+      $input.text(text);
       $input.setInputPosition(cursorPos);
     }
 
