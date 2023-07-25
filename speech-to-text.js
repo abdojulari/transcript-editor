@@ -25,7 +25,7 @@
 
       <path_to_wav_file>: required. it's the path to the wav file to be transcribed.
       <language>: optional. e.g. en-US
-        Language may be inferred from filename if it contains text mathcing locale-(locale).
+        Language may be inferred from filename if it contains text matching locale-(locale).
     `);
   }
 
