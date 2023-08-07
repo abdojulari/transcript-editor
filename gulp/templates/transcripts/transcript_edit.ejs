@@ -7,12 +7,14 @@
 </div>
 <% } %>
 
-<div class="transcript-header<%= transcript.image_url ? ' has-image' : '' %>" role="banner">
+<div id="transcript-header" class="transcript-header<%= transcript.image_url ? ' has-image' : '' %>" role="banner">
   <% if (transcript.image_url) { %>
     <div class="image" style="background-image: url(<%= transcript.image_url %>)"></div>
   <% } %>
 
-  <div id="video-player"></div>
+  <div id="video-player">
+    <div id="minmax">▾</div>
+  </div>
 
   <div class="metadata">
     <% if (transcript.percent_completed == 100) { %>

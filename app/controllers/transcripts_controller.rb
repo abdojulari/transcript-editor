@@ -28,6 +28,10 @@ class TranscriptsController < ApplicationController
   # GET /transcripts/the-uid
   # GET /transcripts/the-uid.json
   def show
+    if !@transcript && params[:id] && params[:id].start_with?("cpb-aacip_")
+      redirect_to "/transcripts/#{params[:id].gsub("_", "-")}" and return
+    end
+
     respond_to do |format|
       format.html {
         if @transcript

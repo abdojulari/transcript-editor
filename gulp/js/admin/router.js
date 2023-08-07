@@ -31,6 +31,9 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var flags = new app.views.AdminFlags(data);
     var footer = new app.views.Footer(data);
 
+    var demo = new app.views.AdminDashboard(data)
+
+
     var $row1 = $('<div class="row"></div>');
     var $col1 = $('<div class="col"></div>');
     var $col2 = $('<div class="col"></div>');

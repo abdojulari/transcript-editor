@@ -1,21 +1,113 @@
-app.views.TranscriptEdit = app.views.Transcript.extend({
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
 
+function setCookie(cname, cvalue) {
+  const d = new Date();
+  d.setTime(d.getTime() + (100 * 24 * 60 * 60 * 1000));
+  let expires = "expires="+d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+app.views.TranscriptEdit = app.views.Transcript.extend({
   template: _.template(TEMPLATES['transcript_edit.ejs']),
 
   initialize: function(data){
-    console.log( 'initialize edit page' )
     this.data = data;
 
     this.loadConventions();
     this.loadTranscript();
     // this.loadTutorial();
     this.listenForAuth();
+
+    this.addPipListener()
   },
 
   finished: function(){
     this.$('.transcript-finished').addClass('disabled');
     this.$('.show-when-finished').addClass('active');
     $(window).trigger('scroll-to', [$('#completion-content'), 100]);
+  },
+
+  addPipListener: function(){
+    document.addEventListener("scroll", (e) => {
+
+      const rect = document.getElementById("transcript-header").getBoundingClientRect();
+
+      const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
+      const windowWidth = (window.innerWidth || document.documentElement.clientWidth);
+
+      const vertInView = (rect.top <= windowHeight) && ((rect.top + rect.height) >= 0);
+      const horInView = (rect.left <= windowWidth) && ((rect.left + rect.width) >= 0);
+
+      if(vertInView && horInView){
+        // player in view
+        // document.getElementById("video")
+        // console.log( 'can see!' )
+        // if(document.pictureInPictureElement){
+        //   document.exitPictureInPicture()
+        // }
+        document.getElementById("video-player").classList.remove("pip")
+      } else {
+        // palyer not in view
+        // document.getElementById("video")
+        // console.log( 'cant see!' )
+        // document.getElementById("video-player").children[0].requestPictureInPicture()
+        document.getElementById("video-player").classList.add("pip")
+      }
+
+    })
+  },
+
+  addMinmaxClick: function(){
+    var minmax = document.getElementById("minmax")
+    if(minmax){
+      var p = document.getElementById("video-player")
+      minmax.addEventListener("click", function(){
+        let arrow = minmax.innerHTML
+
+        if(arrow == "▾"){
+          arrow = "▴"
+          p.classList.add("min")
+        } else {
+          arrow = "▾"
+          p.classList.remove("min")
+        }
+
+        minmax.innerHTML = arrow
+      })      
+    }    
+  },
+
+  addAutoplayClick: function(){
+    var autoplayButton = document.getElementById("autoplay")
+    autoplayButton.addEventListener("click", function(e){
+      var autoplay = getCookie("fixit-autoplay")
+      if(!autoplay || autoplay == "n"){
+        autoplayButton.value = "on"
+        setCookie("fixit-autoplay", "y")
+      } else {
+        autoplayButton.value = "off"
+        setCookie("fixit-autoplay", "n")
+      }
+      // console.log( 'hee hee!', _this )
+      // $.getJSON("/autoplay?user_id=", {}, function(data){
+
+      //   console.log( 'lol duh !!! ', data )
+      // })
+    })
   },
 
   lineEditDelete: function(i){
@@ -225,9 +317,18 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
     if (this.queue_start) this.start();
     this.queue_start = false;
     this.checkForStartTime();
-    
+
+    // this.player.playbackRate = 5.0
     document.getElementById("video-player").appendChild(this.player)
-    console.log( 'wahhh',document.getElementById("video-player") )
+
+    $(".playback-rate-button").click(function(e) {
+
+      var button = document.getElementById(e.target.id)
+      $(".playback-rate-button").removeClass("highlight")
+      button.classList.add("highlight")
+      // console.log( 'help', document.getElementById(e.target.id).checked )
+      document.getElementById("video").playbackRate = button.textContent
+    })
   },
 
   onTranscriptFinished: function(){
@@ -253,7 +354,12 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
   onTimeUpdate: function(){
     if (this.player.playing) this.playerState('playing');
     if (this.pause_at_time !== undefined && this.player.currentTime >= this.pause_at_time) {
-      this.playerPause();
+      
+      // HERHERHERHEHREH
+      var autoplay = getCookie("fixit-autoplay")
+      if(!autoplay || autoplay == "n"){
+        this.playerPause();
+      }
     }
   },
 
