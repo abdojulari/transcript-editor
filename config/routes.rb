@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     resources :flags, only: [:index]
   end
   match 'stats.json' => 'admin/stats#index', :via => [:get]
+  match 'dashboard.json' => 'admin/stats#dashboard', :via => [:get]
 
   # load layouts
   match 'admin' => 'default#admin', :via => [:get]

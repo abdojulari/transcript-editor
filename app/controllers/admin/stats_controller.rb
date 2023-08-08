@@ -13,5 +13,11 @@ class Admin::StatsController < ApplicationController
       }
     end
   end
-
+  def dashboard
+    respond_to do |format|
+      format.json {
+        return {data: "cooL!"}.to_json
+      }
+    end
+  end
 end

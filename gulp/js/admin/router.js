@@ -31,16 +31,18 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var flags = new app.views.AdminFlags(data);
     var footer = new app.views.Footer(data);
 
-    var demo = new app.views.AdminDashboard(data)
+    var dashboard = new app.views.AdminDashboard(data)
 
 
     var $row1 = $('<div class="row"></div>');
     var $col1 = $('<div class="col"></div>');
     var $col2 = $('<div class="col"></div>');
     var $row2 = $('<div class="row"></div>');
-    $col1.append(stats.$el);
-    $col2.append(users.$el);
-    $row1.append($col1).append($col2);
+    // $col1.append(stats.$el);
+    // $col2.append(users.$el);
+    // $row1.append($col1).append($col2);
+
+    $row1.append(dashboard.$el)
     $row2.append(flags.$el);
     $('#main').append($row1).append($row2);
   },
