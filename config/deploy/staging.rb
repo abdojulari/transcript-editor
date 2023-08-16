@@ -58,3 +58,5 @@ set :branch, ENV['BRANCH'] || 'develop'
 #     auth_methods: %w(publickey password)
 #     # password: 'please use keys'
 #   }
+
+ssh_options[:keys] ||= ENV['DEPLOY_SSH_KEY'] if ENV['DEPLOY_SSH_KEY']

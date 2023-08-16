@@ -59,3 +59,5 @@ set :bundler_path, '/home/deploy/.rvm/wrappers/ruby-2.7.2@global/bundle'
 #     auth_methods: %w(publickey password)
 #     # password: 'please use keys'
 #   }
+
+ssh_options[:keys] ||= ENV['DEPLOY_SSH_KEY'] if ENV['DEPLOY_SSH_KEY']
