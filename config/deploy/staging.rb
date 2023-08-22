@@ -60,7 +60,7 @@ set :branch, ENV['BRANCH'] || 'develop'
 #   }
 
 ssh_keys = []
-ssh_keys.push!(ENV['DEPLOY_SSH_KEY']) if ENV['DEPLOY_SSH_KEY']
+ssh_keys = ssh_keys.push(ENV['DEPLOY_SSH_KEY']) if ENV['DEPLOY_SSH_KEY']
 set :ssh_options, {
   keys: ssh_keys,
   forward_agent: false,
