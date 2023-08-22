@@ -2,7 +2,7 @@ server 'amplify.sl.nsw.gov.au', user: 'deploy', roles: %w{web app db}
 
 set :rails_env, 'production'
 set :branch, ENV['BRANCH'] || 'master'
-set :bundler_path, '/home/deploy/.rvm/wrappers/ruby-2.5.3@rails5/bundle'
+set :bundler_path, '/home/deploy/.rvm/wrappers/ruby-3.0.0@global/bundle'
 
 # server-based syntax
 # ======================
@@ -59,3 +59,5 @@ set :bundler_path, '/home/deploy/.rvm/wrappers/ruby-2.5.3@rails5/bundle'
 #     auth_methods: %w(publickey password)
 #     # password: 'please use keys'
 #   }
+
+ssh_options[:keys] ||= ENV['DEPLOY_SSH_KEY'] if ENV['DEPLOY_SSH_KEY']

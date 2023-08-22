@@ -5,7 +5,7 @@ class TranscriptLine < ApplicationRecord
   pg_search_scope :search_by_all_text, :against => [:guess_text, :original_text] # User text weighted more than original text
   pg_search_scope :search_by_original_text, :against => :original_text
   pg_search_scope :search_by_guess_text, :against => :guess_text
-
+  pg_search_scope :fuzzy_search, :against => [:guess_text, :original_text], using: { dmetaphone: {} }
   belongs_to :transcript_line_status, optional: true
   belongs_to :transcript, optional: true,touch: true
   has_many :transcript_edits
@@ -20,15 +20,15 @@ class TranscriptLine < ApplicationRecord
 
   def incrementFlag
     new_flag_count = flag_count + 1
-    update_attributes(flag_count: new_flag_count)
+    update(flag_count: new_flag_count)
   end
 
   def resolve
-    update_attributes(flag_count: 0)
+    update(flag_count: 0)
   end
 
   def reset
-    update_attributes({
+    update({
       transcript_line_status_id: 1,
       guess_text: '',
       flag_count: 0,
@@ -161,7 +161,7 @@ class TranscriptLine < ApplicationRecord
     status_changed = (status_id != transcript_line_status_id)
     old_status_id = transcript_line_status_id
     if status_changed || best_guess_text != guess_text
-      update_attributes(transcript_line_status_id: status_id, guess_text: best_guess_text, text: final_text)
+      update(transcript_line_status_id: status_id, guess_text: best_guess_text, text: final_text)
 
       # Update transcript if line status has changed
       if status_changed
@@ -195,7 +195,7 @@ class TranscriptLine < ApplicationRecord
       best_speaker_id = groups[0][:speaker_id]
     end
 
-    update_attributes(speaker_id: best_speaker_id) if best_speaker_id != speaker_id
+    update(speaker_id: best_speaker_id) if best_speaker_id != speaker_id
   end
 
   private
