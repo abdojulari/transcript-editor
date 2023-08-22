@@ -41,13 +41,32 @@ class User < ActiveRecord::Base
     User.order("lines_edited DESC").limit(1000)
   end
 
-  def self.getStatsByDay
-    Rails.cache.fetch("#{ENV['PROJECT_ID']}/users/stats", expires_in: 10.minutes) do
-      User
-        .select('DATE(created_at) AS date, COUNT(*) AS count')
-        .group('DATE(created_at)')
-        .order('DATE(created_at)')
-    end
-  end
+  def self.numberTranscriptEditsByUser(start_date=Time.new(2000,1,1), end_date=Time.now)
+    users = {}
+    User.all.each do |user|
+      transcript_edit_window = TranscriptEdit.where(user_id: user.id).where('created_at >= ?', start_date).where('created_at <= ?', end_date)
+      last_edit = transcript_edit_window.order(created_at: :desc).first
 
+      if last_edit
+        users[user.id] = {
+          name: user.name,
+          number_edits: transcript_edit_window.count,
+          last_edited_record: last_edit.transcript.uid,
+          last_edit_date: last_edit.created_at
+        }
+      else
+        # no transcript edit found in specified timeframe
+        users[user.id] = {
+          name: user.name,
+          number_edits: 0,
+          last_edited_record: "N/A",
+          last_edit_date: "N/A"
+        }
+
+      end
+
+    end
+
+    users
+  end
 end

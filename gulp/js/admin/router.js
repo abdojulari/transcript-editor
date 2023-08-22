@@ -26,9 +26,11 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     var data = this._getData(data);
     var header = new app.views.Header(data);
     // THIS IS WHERE ADMIN VIEWS GET CALLED AS PARTIALS FOR ADMIN DASHBOARD v NOTE THE app.views.CLASS NAMES
-    var stats = new app.views.AdminStats(data);
-    var users = new app.views.AdminUsers(data);
-    var flags = new app.views.AdminFlags(data);
+    // var stats = new app.views.AdminStats(data);
+    // var users = new app.views.AdminUsers(data);
+    // var flags = new app.views.AdminFlags(data);
+
+    var stats, users, flags = ""
     var footer = new app.views.Footer(data);
 
     var dashboard = new app.views.AdminDashboard(data)

@@ -1,4 +1,4 @@
-class CreateTranscriptLineStatus < ActiveRecord::Migration
+class CreateTranscriptLineStatus < ActiveRecord::Migration[4.2]
   def change
     create_table :transcript_line_statuses do |t|
       t.string :name, :null => false, :default => ""

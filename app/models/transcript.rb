@@ -394,4 +394,67 @@ class Transcript < ActiveRecord::Base
     end
   end
 
+  def self.transcriptsCompleted(start_date=Time.new(2000,1,1), end_date=Time.now)
+    transcripts = {}
+    Transcript.where("percent_completed >= 99").where('updated_at >= ?', start_date).where('updated_at <= ?', end_date).all.each do |transcript|
+
+      # get all completed ts updated inside time window
+
+      most_edits_user = nil
+      transcript_completed_at = transcript.transcript_lines.order(updated_at: :desc).first.updated_at
+
+      # how does a 99 complete ts have no edits???????????
+      # next unless transcript.transcript_edits.count > 0
+
+      user_edit_counts = {}
+   
+      ts_users = transcript.transcript_edits.select(:user_id).distinct.map(&:user)
+      ts_users.each do |user|
+        user_edit_counts[user.id] = transcript.transcript_edits.where(user_id: user.id).count
+
+        # dont give win to anon edits 
+        next if user.id == 0
+
+        if !most_edits_user_id || user_edit_counts[user.id] > user_edit_counts[most_edits_user.id]
+          most_edits_user = user
+        end
+      end
+
+      transcripts[transcript.uid] = {
+        title: transcript.title,
+        completed_at: transcript_completed_at,
+        most_edits_user_email: most_edits_user.email,
+        most_edits_user_count: ts_users[most_edits_user.id]
+      }
+    end
+
+    transcripts
+  end
+
+  def self.editActivity(start_date=Time.new(2000,1,1), end_date=Time.now)
+    transcripts = {}
+
+    Transcript.where('updated_at >= ?', start_date).where('updated_at <= ?', end_date).all.each do |transcript|
+
+      if transcript.transcript_edits.count > 0
+        puts start_date
+        puts end_date
+        lines_query = transcript.transcript_edits.where('created_at >= ?', start_date).where('created_at <= ?', end_date)
+
+        new_edits_count = lines_query.count
+        last_edit_date = lines_query.order(created_at: :desc).first.created_at.to_s
+      else
+        new_edits_count = 0
+        last_edit_date = "N/A"
+      end
+
+      transcripts[transcript.uid] = {
+        title: transcript.title,
+        edit_count: new_edits_count,
+        last_edit_date: last_edit_date
+      }
+    end
+
+    transcripts
+  end
 end

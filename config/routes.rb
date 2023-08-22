@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth', controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
 
   match 'page/:id' => 'default#index', :via => [:get]
-  match 'dashboard' => 'default#index', :via => [:get]
+  # match 'dashboard' => 'default#index', :via => [:get]
   match 'transcript_lines/:id/resolve' => 'transcript_lines#resolve', :via => [:post]
   match 'search' => 'transcripts#search', :via => [:get]
 
@@ -27,8 +27,10 @@ Rails.application.routes.draw do
     resources :transcripts, only: [:index]
     resources :flags, only: [:index]
   end
-  match 'stats.json' => 'admin/stats#index', :via => [:get]
-  match 'dashboard.json' => 'admin/stats#dashboard', :via => [:get]
+  match 'stats' => 'admin/stats#index', :via => [:get]
+  match 'user_data' => 'admin/stats#user_data', :via => [:get]
+  match 'transcripts_completed_data' => 'admin/stats#transcripts_completed_data', :via => [:get]
+  match 'edit_activity_data' => 'admin/stats#edit_activity_data', :via => [:get]
 
   # load layouts
   match 'admin' => 'default#admin', :via => [:get]

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_02_152037) do
+ActiveRecord::Schema.define(version: 2019_11_04_181458) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,11 +58,11 @@ ActiveRecord::Schema.define(version: 2023_08_02_152037) do
 
   create_table "pg_search_documents", id: :serial, force: :cascade do |t|
     t.text "content"
-    t.integer "searchable_id"
     t.string "searchable_type"
+    t.integer "searchable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id"
+    t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable"
   end
 
   create_table "speakers", id: :serial, force: :cascade do |t|
@@ -168,7 +168,7 @@ ActiveRecord::Schema.define(version: 2023_08_02_152037) do
     t.datetime "transcript_processed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.jsonb "vendor_audio_urls", default: [], null: false
+    t.jsonb "vendor_audio_urls", default: "[]", null: false
     t.string "project_uid", default: "", null: false
     t.integer "percent_completed", default: 0, null: false
     t.integer "lines_completed", default: 0, null: false

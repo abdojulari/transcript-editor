@@ -327,7 +327,9 @@ app.views.TranscriptEdit = app.views.Transcript.extend({
       $(".playback-rate-button").removeClass("highlight")
       button.classList.add("highlight")
       // console.log( 'help', document.getElementById(e.target.id).checked )
-      document.getElementById("video").playbackRate = button.textContent
+
+      // document.getElementById("video").playbackRate = button.textContent
+      document.getElementById("video").playbackRate = button.getAttribute("data-playback-rate")
     })
   },
 

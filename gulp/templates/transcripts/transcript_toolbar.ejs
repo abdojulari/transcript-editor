@@ -8,13 +8,13 @@
     <% }) %>
 
     <div class="control" aria-label="Playback Speed" title="Radio buttons to control the playback speed" style="width: <%= control_width_percent %>%" role="menuitem">
-      <div class="label" data-label="Playback" aria-label="Playback Speed"></div>
+      <div class="label" data-label="Auto" aria-label="Playback Speed"></div>
 
       <input id="autoplay" type="button" value="<%= getCookie("fixit-autoplay") == "y" ? "on" : "off" %>" >
-      <button id="speed0" class="playback-rate-button">0.25</button>
-      <button id="speed1" class="playback-rate-button">0.5</button>
-      <button id="speed2" class="playback-rate-button highlight">1</button>
-      <button id="speed3" class="playback-rate-button">2</button>
+      <button id="speed0" class="playback-rate-button" data-playback-rate="0.25">¼</button>
+      <button id="speed1" class="playback-rate-button" data-playback-rate="0.5">½</button>
+      <button id="speed2" class="playback-rate-button highlight"  data-playback-rate="1">1</button>
+      <button id="speed3" class="playback-rate-button" data-playback-rate="2">2</button>
     </div>
 
   </div>

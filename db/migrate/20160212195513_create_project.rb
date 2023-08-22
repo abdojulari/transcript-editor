@@ -1,4 +1,4 @@
-class CreateProject < ActiveRecord::Migration
+class CreateProject < ActiveRecord::Migration[4.2]
   def change
     create_table :projects do |t|
       t.string :uid, :null => false, :default => ""
