@@ -6,7 +6,7 @@
 
 <%= link_to "CSV", users_admin_reports_path(format: :csv) %>
 
-<table>
+<table class="report-table">
     <thead>
         <tr>
             <th scope="col">Username</th>
@@ -27,7 +27,7 @@
                 <td><%= u[:transcripts] %></td>
                 <td><%= u[:collections] %></td>
                 <td><%= u[:institutions] %></td>
-                <td><%= display_time(u[:time]) %></td>
+                <td><%= display_time u[:time] %></td>
             </tr>
         <% end%>
     </tbody>
