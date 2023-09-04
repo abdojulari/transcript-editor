@@ -130,7 +130,7 @@ class User < ApplicationRecord
     transcripts = lines.map { |l| l.transcript }.compact.uniq
     collections = transcripts.map { |t| t.collection }.compact.uniq
     institutions = collections.map { |c| c.institution }.compact.uniq
-    time = ApplicationController.helpers.display_time(edits.count * Transcript.seconds_per_line)
+    time = edits.count * Transcript.seconds_per_line
     {
       name: name,
       lines: lines.count,
