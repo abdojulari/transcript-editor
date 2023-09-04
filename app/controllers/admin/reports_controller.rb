@@ -17,7 +17,8 @@ class Admin::ReportsController < AdminController
 
   # GET /reports/users.json
   def users
-    @users = User.getReport()
+    params[:page] ||= 1
+    @users = User.getReport(page: params[:page], per_page: 20)
   end
 
   private

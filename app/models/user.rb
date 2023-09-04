@@ -110,19 +110,35 @@ class User < ApplicationRecord
     user
   end
 
-  def self.getReport()
-    User.all.map { |u|
-      edits = TranscriptEdit.where(user_id: u.id)
-      lines = edits.map { |e| e.transcript_line }.uniq
-      collections = lines.map { |l| l.transcript.collection }.uniq
-      institutions = collections.map { |c| c.institution }.uniq
-      {
-        name: u.name,
-        lines: lines.count,
-        edits: edits.count,
-        collections: collections.count,
-        institutions: institutions.count
-      }
+  def self.getReport(params)
+    users = User.all
+    if (params[:page])
+      params[:per_page] ||= 20
+      users = users.paginate(page: params[:page], per_page: params[:per_page])
+    end
+    {
+      page_count: users.count,
+      total_items: User.all.count,
+      total_pages: (User.all.count / (params[:per_page] || 1)).ceil,
+      results: users.map { |u| u.getUserReport }
+    }
+  end
+
+  def getUserReport
+    edits = TranscriptEdit.where(user_id: id)
+    lines = edits.map { |e| e.transcript_line }.compact.uniq
+    transcripts = lines.map { |l| l.transcript }.compact.uniq
+    collections = transcripts.map { |t| t.collection }.compact.uniq
+    institutions = collections.map { |c| c.institution }.compact.uniq
+    time = ApplicationController.helpers.display_time(edits.count * Transcript.seconds_per_line)
+    {
+      name: name,
+      lines: lines.count,
+      edits: edits.count,
+      transcripts: transcripts.count,
+      collections: collections.count,
+      institutions: institutions.count,
+      time: time,
     }
   end
 end

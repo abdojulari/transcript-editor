@@ -2,24 +2,30 @@
 
 <h1>Users</h1>
 
+<p>Found <%= @users[:total_items] %> users</p>
+
 <table>
     <thead>
         <tr>
             <th scope="col">Username</th>
             <th scope="col">Lines</th>
             <th scope="col">Edits</th>
+            <th scope="col">Transcripts</th>
             <th scope="col">Collections</th>
             <th scope="col">Institutions</th>
+            <th scope="col">Time</th>
         </tr>
     </thead>
     <tbody>
-        <% @users.each do |u| %>
+        <% @users[:results].each do |u| %>
             <tr>
                 <td><%= u[:name] %></td>
                 <td><%= u[:lines] %></td>
                 <td><%= u[:edits] %></td>
+                <td><%= u[:transcripts] %></td>
                 <td><%= u[:collections] %></td>
                 <td><%= u[:institutions] %></td>
+                <td><%= u[:time] %></td>
             </tr>
         <% end%>
     </tbody>
