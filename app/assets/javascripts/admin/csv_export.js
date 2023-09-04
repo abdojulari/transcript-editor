@@ -10,6 +10,7 @@
         go() {
             this.stopped = true;
             this.page = 1;
+            this.pages = [];
             this.doGo();
             this.doPage();
         }
@@ -42,9 +43,36 @@
         }
 
         doStopped() {
-            console.log(this.pages);
+            this.button.innerText = this.button.getAttribute('data-orig-text') + ` (downloading)`;
+            this.downloadContent();
+            this.doFinished();
+        }
+
+        doFinished() {
             this.button.removeAttribute('disabled');
             this.button.innerText = this.button.getAttribute('data-orig-text');
+        }
+
+        compileCsv() {
+            // @todo trim headers off
+            return this.pages.join("\n");
+        }
+
+        downloadContent() {
+            const blob = new Blob([this.compileCsv()], {
+                type: "text/csv",
+            });
+            const blobUrl = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = blobUrl;
+            link.download = "users-report.csv";
+            link.innerHTML = "Click here to download the report";
+            document.body.appendChild(link);
+            link.click();
+            setTimeout(() => {
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(blobUrl);
+            }, 1000);
         }
     }
     
