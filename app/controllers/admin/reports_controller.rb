@@ -20,7 +20,18 @@ class Admin::ReportsController < AdminController
   # GET /reports/users.json
   def users
     params[:page] ||= 1
-    @users = User.getReport(page: params[:page], per_page: 20)
+    @users = User.getReport(
+      page: params[:page],
+      per_page: @per_page,
+      start_date: @start_date,
+      end_date: @end_date
+    )
+
+    @start_date_str = ""
+    @start_date_str = @start_date.strftime('%Y-%m-%d') if @start_date
+
+    @end_date_str = ""
+    @end_date_str = @end_date.strftime('%Y-%m-%d') if @end_date
 
     respond_to do |wants|
       wants.html
@@ -34,12 +45,21 @@ class Admin::ReportsController < AdminController
 
     def get_date_params
       # default to all time
-      @start_date = 10.years.ago
-      @end_date = DateTime.now
+      @start_date = 10.years.ago.in_time_zone('Australia/Sydney').midnight
+      @end_date = DateTime.now.in_time_zone('Australia/Sydney').end_of_day
+      @per_page = 20
 
       # look for parameters
-      @start_date = params[:start].to_datetime unless params[:start].blank?
-      @end_date = params[:end].to_datetime unless params[:end].blank?
+      @start_date = params['start_date'].to_datetime.in_time_zone('Australia/Sydney').midnight unless params['start_date'].blank?
+      @end_date = params['end_date'].to_datetime.in_time_zone('Australia/Sydney').end_of_day unless params['end_date'].blank?
+      @per_page = params['per_page'].to_i unless params['per_page'].blank?
+
+      @per_page_options = [
+        [20, 20],
+        [50, 50],
+        [100, 100],
+        ['All', 99999999]
+      ]
     end
 
     def render_csv(filename = nil)

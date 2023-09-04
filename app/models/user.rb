@@ -117,15 +117,23 @@ class User < ApplicationRecord
       users = users.paginate(page: params[:page], per_page: params[:per_page])
     end
     {
+      params: params,
       page_count: users.count,
       total_items: User.all.count,
       total_pages: (User.all.count / (params[:per_page] || 1)).ceil,
-      results: users.map { |u| u.getUserReport }
+      results: users.map { |u|
+        u.getUserReport({
+          start_date: params[:start_date],
+          end_date: params[:end_date]
+        })
+      }
     }
   end
 
-  def getUserReport
+  def getUserReport(params)
     edits = TranscriptEdit.where(user_id: id)
+    edits = edits.where("transcript_edits.updated_at >= ?", params[:start_date]) if (params[:start_date])
+    edits = edits.where("transcript_edits.updated_at <= ?", params[:end_date]) if (params[:end_date])
     lines = edits.map { |e| e.transcript_line }.compact.uniq
     transcripts = lines.map { |l| l.transcript }.compact.uniq
     collections = transcripts.map { |t| t.collection }.compact.uniq

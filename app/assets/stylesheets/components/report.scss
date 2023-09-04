@@ -12,9 +12,10 @@
         tr {
             &:nth-child(2n + 1) {
                 background-color: #eee;
-                td {
-                    padding: 0.5rem;
-                }
+            }
+
+            td {
+                padding: 0.5rem;
             }
         }
     }
