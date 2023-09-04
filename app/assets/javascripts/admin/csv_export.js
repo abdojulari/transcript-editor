@@ -3,6 +3,7 @@
         constructor(button) {
             this.button = button;
             this.page = 1;
+            this.limit = 2;
             this.stopped = true;
             this.pages = [];
         }
@@ -23,13 +24,16 @@
         doPage() {
             // @todo get params in here eh
             this.button.innerText = this.button.getAttribute('data-orig-text') + ` (fetching page ${this.page})`;
-            fetch(`${this.button.getAttribute('data-csv-export-path')}?page=${this.page}`)
+
+            const fetchURL = new URL(this.button.getAttribute('data-csv-export-path'), `${window.location.protocol}//${window.location.host}`)
+            fetchURL.searchParams.set('page', this.page);
+
+            fetch(fetchURL.toString())
                 .then((result) => result.text())
                 .then((text) => {
                     this.pages.push(text);
                     const lines = text.split("\n").filter(x => x && x.length).length;
-                    if (lines <= 1) {
-                        this.stopped = true;
+                    if (lines <= 1 || this.page >= this.limit) {
                         this.doStopped();
                     } else {
                         this.page += 1;
@@ -38,11 +42,12 @@
                 })
                 .catch((e) => {
                     console.error(e);
-                    this.stopped = true;
+                    this.doStopped();
                 });
         }
 
         doStopped() {
+            this.stopped = true;
             this.button.innerText = this.button.getAttribute('data-orig-text') + ` (downloading)`;
             this.downloadContent();
             this.doFinished();
