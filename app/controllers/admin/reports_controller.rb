@@ -19,9 +19,8 @@ class Admin::ReportsController < AdminController
 
   # GET /reports/users.json
   def users
-    params[:page] ||= 1
     @users = User.getReport(
-      page: params[:page],
+      page: @page,
       per_page: @per_page,
       start_date: @start_date,
       end_date: @end_date
@@ -47,18 +46,20 @@ class Admin::ReportsController < AdminController
       # default to all time
       @start_date = 10.years.ago.in_time_zone('Australia/Sydney').midnight
       @end_date = DateTime.now.in_time_zone('Australia/Sydney').end_of_day
+      @page = 1
       @per_page = 20
 
       # look for parameters
       @start_date = params['start_date'].to_datetime.in_time_zone('Australia/Sydney').midnight unless params['start_date'].blank?
       @end_date = params['end_date'].to_datetime.in_time_zone('Australia/Sydney').end_of_day unless params['end_date'].blank?
+      @page = params['page'].to_i unless params['page'].blank?
       @per_page = params['per_page'].to_i unless params['per_page'].blank?
 
       @per_page_options = [
         [20, 20],
         [50, 50],
         [100, 100],
-        ['All', 99999999]
+        ['All (warning: will take ages)', 99999999]
       ]
     end
 

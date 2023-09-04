@@ -25,6 +25,11 @@
     <%= submit_tag 'Filter' %>
 <% end %>
 
+<button type="button" data-csv-export-path="<%= users_admin_reports_path(format: :csv) %>">
+    Export all as CSV
+</button>
+<%= javascript_include_tag 'admin/csv_export' %>
+
 <p>
     Found <%= @users[:total_items] %> users
     with parameters <%= @users[:params] %>
