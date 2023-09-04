@@ -1,16 +1,19 @@
-class Admin::ReportsController < ApplicationController
+class Admin::ReportsController < AdminController
   before_action :authenticate_admin!
   before_action :get_date_params
 
-  # GET /reports/edits.json
-  def edits
-    @edits = TranscriptEdit.getReport(@start_date, @end_date)
+  def index
   end
 
+  # GET /reports/edits.json
+  # def edits
+  #   @edits = TranscriptEdit.getReport(@start_date, @end_date)
+  # end
+
   # GET /reports/transcripts.json
-  def transcripts
-    @transcripts = Transcript.getReport()
-  end
+  # def transcripts
+  #   @transcripts = Transcript.getReport()
+  # end
 
   # GET /reports/users.json
   def users

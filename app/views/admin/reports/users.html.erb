@@ -1,0 +1,26 @@
+<%= render partial: 'layouts/admin_side_pane' %>
+
+<h1>Users</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Lines</th>
+            <th scope="col">Edits</th>
+            <th scope="col">Collections</th>
+            <th scope="col">Institutions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @users.each do |u| %>
+            <tr>
+                <td><%= u[:name] %></td>
+                <td><%= u[:lines] %></td>
+                <td><%= u[:edits] %></td>
+                <td><%= u[:collections] %></td>
+                <td><%= u[:institutions] %></td>
+            </tr>
+        <% end%>
+    </tbody>
+</table>

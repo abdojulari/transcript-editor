@@ -109,4 +109,20 @@ class User < ApplicationRecord
     end
     user
   end
+
+  def self.getReport()
+    User.all.map { |u|
+      edits = TranscriptEdit.where(user_id: u.id)
+      lines = edits.map { |e| e.transcript_line }.uniq
+      collections = lines.map { |l| l.transcript.collection }.uniq
+      institutions = collections.map { |c| c.institution }.uniq
+      {
+        name: u.name,
+        lines: lines.count,
+        edits: edits.count,
+        collections: collections.count,
+        institutions: institutions.count
+      }
+    }
+  end
 end
