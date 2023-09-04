@@ -4,6 +4,8 @@
 
 <p>Found <%= @users[:total_items] %> users</p>
 
+<%= link_to "CSV", users_admin_reports_path(format: :csv) %>
+
 <table>
     <thead>
         <tr>
