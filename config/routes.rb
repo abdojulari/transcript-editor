@@ -31,9 +31,10 @@ Rails.application.routes.draw do
   match 'user_data' => 'admin/stats#user_data', :via => [:get]
   match 'transcripts_completed_data' => 'admin/stats#transcripts_completed_data', :via => [:get]
   match 'edit_activity_data' => 'admin/stats#edit_activity_data', :via => [:get]
+  match 'graph_data' => 'admin/stats#graph_data', :via => [:get]
 
   # load layouts
-  match 'admin' => 'default#admin', :via => [:get]
+  match 'dashboard' => 'default#admin', :via => [:get]
   match 'admin/users' => 'default#admin', :via => [:get]
   match 'moderator/flags' => 'default#admin', :via => [:get]
   match 'transcripts/:id' => 'default#index', :via => [:get]

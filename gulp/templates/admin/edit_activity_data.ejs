@@ -1,0 +1,53 @@
+<h2>Editing Activity</h2>
+<div class="nav-tabs">
+  <div id="editActivityData-day" class="timeframe" data-timeframe="day">
+    Day
+  </div>
+  <div id="editActivityData-week" class="timeframe" data-timeframe="week">
+    Week
+  </div>
+  <div id="editActivityData-month" class="timeframe" data-timeframe="month">
+    Month
+  </div>
+  <div id="editActivityData-year" class="timeframe" data-timeframe="year">
+    Year
+  </div>
+  <div id="editActivityData-all" class="active timeframe" data-timeframe="all">
+    All
+  </div>
+</div>
+
+<table class="dashboard-table">
+  <tr class="dashboard-table-header">
+    <td>Transcript ID</td>
+    <td>Title</td>
+    <td>Number of Edits</td>
+    <td>Last Edit Date</td>
+  </tr>
+
+  <% if(editActivityData.transcripts && Object.keys(editActivityData.transcripts).length > 0) { %>
+    <% Object.keys(editActivityData.transcripts).forEach((guid) => { %>
+      <tr>
+        <td><%= guid %></td>
+        <td class="long"><a href="/transcripts/<%= guid %>"><%= editActivityData.transcripts[guid].title %></a></td>
+        <td><%= editActivityData.transcripts[guid].edit_count %></td>
+        <td><%= editActivityData.transcripts[guid].last_edit_date %></td>
+      </tr>
+    <% }) %>
+  <% } else { %>
+
+    <tr><td>No results for timeframe</td></tr>
+  <% } %>
+</table>
+
+<div class="paging">
+  <% if(page != 0){ %>
+    <div data-page=0>First</div>
+    <div data-page=<%= page-1 > 0 ? page-1 : 0 %>>Prev</div>
+  <% } %>
+
+  <% if(page+1 <= Math.floor(editActivityData.total/16)){ %>
+    <div data-page=<%= page+1 %>>Next</div>
+    <div data-page=<%= Math.floor(editActivityData.total/16) %>>Last</div>
+  <% } %>
+</div>

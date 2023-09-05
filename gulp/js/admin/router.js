@@ -1,7 +1,7 @@
 app.routers.DefaultRouter = Backbone.Router.extend({
 
   routes: {
-    "admin":                "stats",
+    "dashboard":            "dashboard",
     "moderator":            "flags"
   },
 
@@ -22,31 +22,159 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     $('#main').append(flags.$el);
   },
 
-  stats: function(){
-    var data = this._getData(data);
-    var header = new app.views.Header(data);
-    // THIS IS WHERE ADMIN VIEWS GET CALLED AS PARTIALS FOR ADMIN DASHBOARD v NOTE THE app.views.CLASS NAMES
-    // var stats = new app.views.AdminStats(data);
-    // var users = new app.views.AdminUsers(data);
-    // var flags = new app.views.AdminFlags(data);
+  dashboard: function(){
+    // var data = this._getData(data);
+    // var header = new app.views.Header(data);
+    // // THIS IS WHERE ADMIN VIEWS GET CALLED AS PARTIALS FOR ADMIN DASHBOARD v NOTE THE app.views.CLASS NAMES
+    // // var stats = new app.views.AdminStats(data);
+    // // var users = new app.views.AdminUsers(data);
+    // // var flags = new app.views.AdminFlags(data);
 
-    var stats, users, flags = ""
-    var footer = new app.views.Footer(data);
+    // var stats, users, flags = ""
+    // var footer = new app.views.Footer(data);
 
+    // render containers for reports
     var dashboard = new app.views.AdminDashboard(data)
 
 
-    var $row1 = $('<div class="row"></div>');
-    var $col1 = $('<div class="col"></div>');
-    var $col2 = $('<div class="col"></div>');
-    var $row2 = $('<div class="row"></div>');
-    // $col1.append(stats.$el);
-    // $col2.append(users.$el);
-    // $row1.append($col1).append($col2);
+    // var $row1 = $('<div class="row"></div>');
+    // var $col1 = $('<div class="col"></div>');
+    // var $col2 = $('<div class="col"></div>');
+    // var $row2 = $('<div class="row"></div>');
+    // // $col1.append(stats.$el);
+    // // $col2.append(users.$el);
+    // // $row1.append($col1).append($col2);
 
-    $row1.append(dashboard.$el)
-    $row2.append(flags.$el);
-    $('#main').append($row1).append($row2);
+    // $row1.append(dashboard.$el)
+    // $row2.append(flags.$el);
+    // $('#main').append($row1).append($row2);
+
+    // doesnt really *get* anything v
+    var data = this._getData(data);
+    var header = new app.views.Header(data)
+
+    // var dashboard = new app.views.AdminDashboard(data)
+
+    var $container = document.createElement("div")
+    var footer = new app.views.Footer(data)
+
+
+    $('#main').append(dashboard.$el)
+
+    this._updateReport("userData")
+    this._updateReport("transcriptsCompletedData")
+    this._updateReport("editActivityData")
+
+    var chartData = JSON.parse($.ajax({async: false, method: "GET", url: "/graph_data.json"}).responseText).data
+
+    console.log( 'here', chartData )
+    const chart = new Chart("chart", {
+      type: "line",
+      data: this.chartFormat(chartData),
+      options: {
+        responsive: true,
+        // aspectRatio: 16/9,
+        maintainAspectRatio: false
+
+      }
+    })
+
+    // use *this* this as this in this v
+    this.addTimeframesClick = this.addTimeframesClick.bind(this)
+
+    // div.timeframes don't exist until these ^ are called
+    this.addTimeframesClick()
+    this.addPagingClick()
+  },
+
+  chartFormat: function(chartData){
+    var data = {
+      labels: chartData.labels,
+      datasets: [
+        this.chartDataset("Total Edits Per Month", chartData.data),
+        // this.chartDataset("Transcript Edit Activity", editActivityData),
+        // this.chartDataset("Transcripts Completed", transcriptsCompletedData),
+      ]
+    };
+
+    return data
+  },
+
+  chartDataset: function(title, data) {
+    return {
+      label: title,
+      data: data,
+      fill: false,
+      borderColor: '#6fc3e3',
+      tension: 0.1
+    }
+  },
+
+  addTimeframesClick: function(){
+    var dis = this
+    $("div.timeframe").click(function(e){
+      
+      var selectedTimeframe = $(this).attr("data-timeframe")
+      // which report are we re-running
+      var selectedReport = $(this).parent().parent().attr("id")
+      dis._updateReport(selectedReport, selectedTimeframe)
+
+      // old elements disappear, so need to reattach click event
+      $("#" + selectedReport + " div.timeframe").removeClass("active")
+      $("#" + e.target.id).addClass("active")
+
+      dis.addTimeframesClick()
+      dis.addPagingClick()
+    })
+
+  },
+
+  addPagingClick: function(){
+    var dis = this
+    $("div.paging div").click(function(e){
+      
+      var selectedPage = parseInt($(this).attr("data-page"))
+      // which report are we re-running
+      var selectedReport = $(this).parent().parent().attr("id")
+
+      // look for which timeframe tab is active within this report
+      var selectedTimeframe = $("#"+selectedReport + " div.timeframe.active").attr("data-timeframe")
+      dis._updateReport(selectedReport, selectedTimeframe, selectedPage)
+
+      // old elements disappear, so need to reattach click event
+      $("#" + selectedReport + " div.timeframe").removeClass("active")
+      $("#" + selectedReport + "-" + selectedTimeframe).addClass("active")
+
+      dis.addTimeframesClick()
+      dis.addPagingClick()
+    })
+
+  },
+
+  _updateReport: function(reportName, timeframe="all", page=0){
+    // userData => UserData
+    var reportPartialClass = reportName.charAt(0).toUpperCase() + reportName.slice(1)
+
+      // get data from API, render partial, add  partial element
+    var data = {}
+    data[reportName] = this._pullReport(reportName, timeframe, page)
+    data["page"] = page
+    var reportPartial = new app.views[reportPartialClass](data)
+    document.getElementById(reportName).innerHTML = reportPartial.$el[0].innerHTML
+  },
+
+  _pullReport: function(reportName, timeframe, page){
+    timeframe = "?timeframe=" + timeframe
+    var pageQuery = "&page=" + page
+
+    if(reportName == "userData"){
+      return JSON.parse($.ajax({async: false, method: "GET", url: "/user_data.json" + timeframe + pageQuery}).responseText).data
+    } else if(reportName == "transcriptsCompletedData"){
+      return JSON.parse($.ajax({async: false, method: "GET", url: "/transcripts_completed_data.json" + timeframe + pageQuery}).responseText).data
+
+    } else if(reportName == "editActivityData"){
+      return JSON.parse($.ajax({async: false, method: "GET", url: "/edit_activity_data.json" + timeframe + pageQuery}).responseText).data
+    }
   },
 
   _getData: function(data){

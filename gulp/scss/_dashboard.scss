@@ -104,22 +104,16 @@ table.dashboard-table tr td.long {
 
 div.nav-tabs {
   position: relative;
-  width: 90%;
-  margin-left: 5%;
   margin-right: 5%;
 /*  right: 0;*/
-/*  float: right;*/
-}
-
-div.nav-tabs div:first-child {
-  margin-left: 18%;
+  float: right;
 }
 
 div.nav-tabs div {
   margin-right: 0;
   display: inline-block;
   border-radius: 12px 12px 0 0;
-  width: 18%;
+  width: 9vw;
   color: #6fc3e3;
   background-color: #000;
   text-align: center;
@@ -130,13 +124,26 @@ div.nav-tabs div.active {
   background-color: #ddd;
 }
 
-
-
 div.dashboard-section {
   display: block;
   margin-bottom: 4em;
 }
 
 div.dashboard-section h2 {
+  margin-left: 5%;
+}
+
+div.paging div {
+  margin-left: 5%;
+  width: 8%;
+  display: inline-block;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  padding: 8px;
+  border-radius: 12px;
+}
+
+#chart {
   margin-left: 5%;
 }

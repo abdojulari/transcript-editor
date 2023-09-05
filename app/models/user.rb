@@ -41,9 +41,10 @@ class User < ActiveRecord::Base
     User.order("lines_edited DESC").limit(1000)
   end
 
-  def self.numberTranscriptEditsByUser(start_date=Time.new(2000,1,1), end_date=Time.now)
+  def self.numberTranscriptEditsByUser(start_date=Time.new(2000,1,1), end_date=Time.now, page)
+    data = {total: User.count}
     users = {}
-    User.all.each do |user|
+    User.order(created_at: :desc).offset(page * 16).limit(16).each do |user|
       transcript_edit_window = TranscriptEdit.where(user_id: user.id).where('created_at >= ?', start_date).where('created_at <= ?', end_date)
       last_edit = transcript_edit_window.order(created_at: :desc).first
 
@@ -64,9 +65,9 @@ class User < ActiveRecord::Base
         }
 
       end
-
     end
 
-    users
+    data[:users] = users
+    data
   end
 end

@@ -394,9 +394,13 @@ class Transcript < ActiveRecord::Base
     end
   end
 
-  def self.transcriptsCompleted(start_date=Time.new(2000,1,1), end_date=Time.now)
+  def self.transcriptsCompleted(start_date=Time.new(2000,1,1), end_date=Time.now, page)
+    transcriptQuery = Transcript.where("percent_completed >= 99").where('updated_at >= ?', start_date).where('updated_at <= ?', end_date)
+
+    data = { total: transcriptQuery.count }
+    
     transcripts = {}
-    Transcript.where("percent_completed >= 99").where('updated_at >= ?', start_date).where('updated_at <= ?', end_date).all.each do |transcript|
+    transcriptQuery.offset(page * 16).limit(16).each do |transcript|
 
       # get all completed ts updated inside time window
 
@@ -428,13 +432,18 @@ class Transcript < ActiveRecord::Base
       }
     end
 
-    transcripts
+    data[:transcripts] = transcripts
+    data
   end
 
-  def self.editActivity(start_date=Time.new(2000,1,1), end_date=Time.now)
+  def self.editActivity(start_date=Time.new(2000,1,1), end_date=Time.now, page)
+
+    transcriptQuery = Transcript.where('updated_at >= ?', start_date).where('updated_at <= ?', end_date)
+
+    data = { total: transcriptQuery.count }
     transcripts = {}
 
-    Transcript.where('updated_at >= ?', start_date).where('updated_at <= ?', end_date).all.each do |transcript|
+    transcriptQuery.offset(page * 16).limit(16).each do |transcript|
 
       if transcript.transcript_edits.count > 0
         puts start_date
@@ -455,6 +464,33 @@ class Transcript < ActiveRecord::Base
       }
     end
 
-    transcripts
+    data[:transcripts] = transcripts
+    data
+  end
+
+  def self.transcriptGraphData(start_date=Time.new(2000,1,1), division="month")
+    data = {}
+    data[:data] = []
+    data[:labels] = []
+
+    if division == "month"
+
+      while start_date < Time.now
+        # count of TEs for each month of timeframe
+        data[:data] << TranscriptEdit.where('created_at >= ?', start_date).where('created_at <= ?', start_date + 1.month).count
+
+        if start_date.month == 1
+          data[:labels] << "#{Date::MONTHNAMES[start_date.month]} #{start_date.year}"
+
+        else
+          data[:labels] << "#{Date::MONTHNAMES[start_date.month]}"
+
+        end
+          
+        start_date = start_date + 1.month
+      end
+    end
+
+    data    
   end
 end
