@@ -25,4 +25,35 @@ class Collection < ActiveRecord::Base
       {vendor_id: vendor[:id], empty: "", project_uid: project_uid}).all
   end
 
+  def self.percentCompleted(page)
+
+    collections = Collection.order(title: :desc).offset(page * 8).limit(8)
+    data = {
+      total: Collection.count,
+      collections: {}
+    }
+    collections.each do |collection|
+      incomplete_transcripts = collection.transcripts.where("percent_completed <= 99")
+
+      data[:collections][collection.id] = {
+        title: collection.title,
+        percent_completed: %(#{ (incomplete_transcripts.count / collection.transcripts.count * 100).round }%),
+        # only show the download link if there are incomplete ts
+        show_guids_link: incomplete_transcripts.count > 0
+      }
+    end
+
+    data
+  end
+
+  def incompleteGuids
+    ts = transcripts.where("percent_completed <= 99")
+
+    if ts.count > 0
+      ts.all.map(&:uid).join("\n") + "\n"
+    else
+      # none found!
+      false
+    end
+  end
 end

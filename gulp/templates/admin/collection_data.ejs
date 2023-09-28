@@ -1,0 +1,56 @@
+<h2>Station Progress</h2>
+
+<table class="dashboard-table">
+  <tbody>
+    <tr class="dashboard-table-header">
+      <td>Station Name</td>
+      <td>Percentage of Transcripts Completed</td>
+      <td>Unfinished Guids</td>
+    </tr>
+
+    <% if(collectionData.collections && Object.keys(collectionData.collections).length > 0) { %>
+      <% Object.keys(collectionData.collections).forEach((collectionId) => { %>
+        <tr>
+          <td><%= collectionData.collections[collectionId].title %></td>
+          <td><%= collectionData.collections[collectionId].percent_completed %></td>
+
+          <% if(collectionData.collections[collectionId].show_guids_link) { %>
+            <td><a href="/collection_guids?id=<%= collectionId %>" target="_blank">⤓</a></td>
+          <% } else { %>
+            <td></td>
+          <% } %>
+
+        </tr>
+      <% }) %>
+    <% } else { %>
+
+      <tr><td>No results for timeframe</td></tr>
+    <% } %>
+  </tbody>
+</table>
+
+<div class="paging">
+  <div class="prev">
+    <% if(page != 0){ %>
+      <div class="enabled" data-page=0>First</div>
+      <div class="enabled" data-page=<%= page-1 > 0 ? page-1 : 0 %>>Prev</div>
+    <% } else { %>
+      <div class="disabled">First</div>
+      <div class="disabled">Prev</div>
+    <% } %>
+  </div>
+
+  <div class="paging-numbers">
+    <%= (page) * 8 + 1 %> - <%= collectionData.total < (page+1)*8 ? collectionData.total : (page+1)*8 %>
+  </div>
+
+  <div class="next">
+    <% if(page+1 <= Math.floor(collectionData.total/16)){ %>
+      <div class="enabled" data-page=<%= page+1 %>>Next</div>
+      <div class="enabled" data-page=<%= Math.floor(collectionData.total/16) %>>Last</div>
+    <% } else { %>
+      <div class="disabled">Next</div>
+      <div class="disabled">Last</div>
+    <% } %>
+  </div>
+</div>

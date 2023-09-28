@@ -88,6 +88,10 @@ table.dashboard-table {
   border: 0;
 }
 
+/*table.dashboard-table tr, table.dashboard-table td {
+  min-height: default;
+}*/
+
 .dashboard-table tr.dashboard-table-header {
   background-color: #ddd;
 }
@@ -127,21 +131,48 @@ div.nav-tabs div.active {
 div.dashboard-section {
   display: block;
   margin-bottom: 4em;
+  min-height: 20em;
+  max-height: 20em;
+  overflow: hidden;
 }
+
 
 div.dashboard-section h2 {
   margin-left: 5%;
 }
 
-div.paging div {
-  margin-left: 5%;
-  width: 8%;
+div.paging div div {
+  font-size: 12px;
+  margin-left: 1vw;
+  width: 4vw;
   display: inline-block;
   background-color: #000;
   color: #fff;
   text-align: center;
   padding: 8px;
-  border-radius: 12px;
+  border-radius: 6px;
+}
+
+div.paging div.paging-numbers {
+  color: #000;
+  position: absolute;
+  margin-left: 48vw;
+}
+
+div.paging div div.disabled {
+  background-color: #eee;
+}
+
+div.paging div.prev {
+  position: absolute;
+  min-height: 1px;
+  margin-left: 30vw;
+}
+
+div.paging div.next {
+  position: absolute;
+  min-height: 1px;
+  margin-left: 55vw;
 }
 
 #chart {

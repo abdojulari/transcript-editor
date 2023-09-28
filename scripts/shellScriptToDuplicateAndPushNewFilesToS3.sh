@@ -49,13 +49,14 @@ arg=$1;
 		fileName=$(basename "$arg");
 		guid=$(echo "$fileName" | cut -f1-4 -d \- ) ;
 
-				# sanity checks for GUID-ness, but does crash if you have an extra hyphen in your path.
-		if [ "$(echo "$fileName" | tr -dC '-' | wc -c | tr -dC '[0-9]')" != 4 ] ; then
-			errString=$(echo "$errString '$arg' file name must have 5 hyphenated parts") ;
-		fi
-		if [ "$(echo "$fileName" | cut -f1 -d \- )" != 'cpb' -o "$(echo "$fileName" | cut -f2 -d \- )" != 'aacip' -o ! -z "$(echo "$fileName" | cut -f3 -d \- | tr -d '[0-9]')" -o "$(echo "$fileName" | cut -f5 -d \- )" != 'transcript.json' ] ; then
-			errString=$(echo "$errString '$arg'"' file name hypenated part(s) must resemble "cpb-aacip-[:digit:]-[:alnum:]-transcript.json"') ;
-		fi
+
+				# sanity checks for GUID-ness, duplicated tests for handling AMS2 guids
+		# if [ "$(echo "$fileName" | tr -dC '-' | wc -c | tr -dC '[0-9]')" != 4 ] && [ "$(echo "$fileName" | tr -dC '-' | wc -c | tr -dC '[0-9]')" != 3 ] ; then
+		# 	errString=$(echo "$errString '$arg' file name must have 5 hyphenated parts") ;
+		# fi
+		# if [ "$(echo "$fileName" | cut -f1 -d \- )" != 'cpb' -o "$(echo "$fileName" | cut -f2 -d \- )" != 'aacip' -o ! -z "$(echo "$fileName" | cut -f3 -d \- | tr -d '[0-9]')" -o "$(echo "$fileName" | cut -f5 -d \- )" != 'transcript.json' ] && [ "$(echo "$fileName" | cut -f1 -d \- )" != 'cpb' -o "$(echo "$fileName" | cut -f2 -d \- )" != 'aacip' -o ! -z "$(echo "$fileName" | cut -f3 -d \- | tr -d '[0-9]')" -o "$(echo "$fileName" | cut -f4 -d \- )" != 'transcript.json' ] ; then
+		# 	errString=$(echo "$errString '$arg'"' file name hypenated part(s) must resemble "cpb-aacip-[:digit:]-[:alnum:]-transcript.json"') ;
+		# fi
 		if [ -z "$errString" ]; then
 			echo "checking for previous copies" ;
 			copyVersion=$(aws s3api list-objects --profile "$profileName" --bucket "$bucketName" --prefix "transcripts/ORIGINAL-$guid/" --query 'Contents[].Key' | grep -c \" | tr -dC '[0-9]') ;
@@ -129,4 +130,3 @@ else
 fi
 
 exit ;
-

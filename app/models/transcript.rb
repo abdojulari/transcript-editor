@@ -400,7 +400,7 @@ class Transcript < ActiveRecord::Base
     data = { total: transcriptQuery.count }
     
     transcripts = {}
-    transcriptQuery.offset(page * 16).limit(16).each do |transcript|
+    transcriptQuery.offset(page * 8).limit(8).each do |transcript|
 
       # get all completed ts updated inside time window
 
@@ -443,11 +443,9 @@ class Transcript < ActiveRecord::Base
     data = { total: transcriptQuery.count }
     transcripts = {}
 
-    transcriptQuery.offset(page * 16).limit(16).each do |transcript|
+    transcriptQuery.offset(page * 8).limit(8).each do |transcript|
 
       if transcript.transcript_edits.count > 0
-        puts start_date
-        puts end_date
         lines_query = transcript.transcript_edits.where('created_at >= ?', start_date).where('created_at <= ?', end_date)
 
         new_edits_count = lines_query.count
@@ -479,13 +477,11 @@ class Transcript < ActiveRecord::Base
         # count of TEs for each month of timeframe
         data[:data] << TranscriptEdit.where('created_at >= ?', start_date).where('created_at <= ?', start_date + 1.month).count
 
-        if start_date.month == 1
+        # if start_date.month == 1
           data[:labels] << "#{Date::MONTHNAMES[start_date.month]} #{start_date.year}"
-
-        else
-          data[:labels] << "#{Date::MONTHNAMES[start_date.month]}"
-
-        end
+        # else
+        #   data[:labels] << "#{Date::MONTHNAMES[start_date.month]}"
+        # end
           
         start_date = start_date + 1.month
       end

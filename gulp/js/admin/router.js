@@ -64,10 +64,10 @@ app.routers.DefaultRouter = Backbone.Router.extend({
     this._updateReport("userData")
     this._updateReport("transcriptsCompletedData")
     this._updateReport("editActivityData")
+    this._updateReport("collectionData")
 
     var chartData = JSON.parse($.ajax({async: false, method: "GET", url: "/graph_data.json"}).responseText).data
 
-    console.log( 'here', chartData )
     const chart = new Chart("chart", {
       type: "line",
       data: this.chartFormat(chartData),
@@ -131,20 +131,20 @@ app.routers.DefaultRouter = Backbone.Router.extend({
 
   addPagingClick: function(){
     var dis = this
-    $("div.paging div").click(function(e){
+    $("div.paging div div.enabled").click(function(e){
       
       var selectedPage = parseInt($(this).attr("data-page"))
       // which report are we re-running
-      var selectedReport = $(this).parent().parent().attr("id")
+      var selectedReport = $(this).parent().parent().parent().attr("id")
 
       // look for which timeframe tab is active within this report
       var selectedTimeframe = $("#"+selectedReport + " div.timeframe.active").attr("data-timeframe")
       dis._updateReport(selectedReport, selectedTimeframe, selectedPage)
 
-      // old elements disappear, so need to reattach click event
       $("#" + selectedReport + " div.timeframe").removeClass("active")
       $("#" + selectedReport + "-" + selectedTimeframe).addClass("active")
 
+      // old elements disappear, so need to reattach click events
       dis.addTimeframesClick()
       dis.addPagingClick()
     })
@@ -153,6 +153,7 @@ app.routers.DefaultRouter = Backbone.Router.extend({
 
   _updateReport: function(reportName, timeframe="all", page=0){
     // userData => UserData
+    console.log( 'its supposed to be ', reportName )
     var reportPartialClass = reportName.charAt(0).toUpperCase() + reportName.slice(1)
 
       // get data from API, render partial, add  partial element
@@ -174,6 +175,8 @@ app.routers.DefaultRouter = Backbone.Router.extend({
 
     } else if(reportName == "editActivityData"){
       return JSON.parse($.ajax({async: false, method: "GET", url: "/edit_activity_data.json" + timeframe + pageQuery}).responseText).data
+    } else if(reportName == "collectionData"){
+      return JSON.parse($.ajax({async: false, method: "GET", url: "/collection_data.json" + timeframe + pageQuery}).responseText).data
     }
   },
 

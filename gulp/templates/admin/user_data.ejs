@@ -42,13 +42,31 @@
 </table>
 
 <div class="paging">
-  <% if(page != 0){ %>
-    <div data-page=0>First</div>
-    <div data-page=<%= page-1 > 0 ? page-1 : 0 %>>Prev</div>
-  <% } %>
 
-  <% if(page+1 <= Math.floor(userData.total/16)){ %>
-    <div data-page=<%= page+1 %>>Next</div>
-    <div data-page=<%= Math.floor(userData.total/16) %>>Last</div>
-  <% } %>
+  
+  <div class="prev">
+    <% if(page != 0){ %>
+      <div class="enabled" data-page=0>First</div>
+      <div class="enabled" data-page=<%= page-1 > 0 ? page-1 : 0 %>>Prev</div>
+    <% } else { %>
+      <div class="disabled">First</div>
+      <div class="disabled">Prev</div>
+    <% } %>
+  </div>
+
+  <div class="paging-numbers">
+    <%= (page) * 8 + 1 %> - <%= userData.total < (page+1)*8 ? userData.total : (page+1)*8 %>
+  </div>
+  
+
+  <div class="next">
+    <% if(page+1 <= Math.floor(userData.total/16)){ %>
+      <div class="enabled" data-page=<%= page+1 %>>Next</div>
+      <div class="enabled" data-page=<%= Math.floor(userData.total/16) %>>Last</div>
+    <% } else { %>
+      <div class="disabled">Next</div>
+      <div class="disabled">Last</div>
+    <% } %>
+  </div>
+  
 </div>

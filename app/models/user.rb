@@ -44,10 +44,10 @@ class User < ActiveRecord::Base
   def self.numberTranscriptEditsByUser(start_date=Time.new(2000,1,1), end_date=Time.now, page)
     data = {total: User.count}
     users = {}
-    User.order(created_at: :desc).offset(page * 16).limit(16).each do |user|
+    User.order(created_at: :desc).offset(page * 8).limit(8).each do |user|
       transcript_edit_window = TranscriptEdit.where(user_id: user.id).where('created_at >= ?', start_date).where('created_at <= ?', end_date)
       last_edit = transcript_edit_window.order(created_at: :desc).first
-
+      puts "NOW ITS #{user.name}"
       if last_edit
         users[user.id] = {
           name: user.name,

@@ -74,8 +74,24 @@ class Admin::StatsController < ApplicationController
     data = Transcript.transcriptGraphData(Time.now - 36.months)
     respond_to do |format|
       format.json {
-        render json: {data: data}      
+        render json: {data: data}  
       }
     end
+  end
+
+  def collection_data
+    data = Collection.percentCompleted(@page)
+    respond_to do |format|
+      format.json {
+        render json: {data: data}  
+      }
+    end
+  end
+
+  def collection_guids
+    collection = Collection.find(params[:id])
+    raise ActiveRecord::NotFound unless collection
+    @data = collection.incompleteGuids
+    render 'admin/stats/collection_guids'
   end
 end
