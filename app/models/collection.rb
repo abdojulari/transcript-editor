@@ -35,9 +35,12 @@ class Collection < ActiveRecord::Base
     collections.each do |collection|
       incomplete_transcripts = collection.transcripts.where("percent_completed <= 99")
 
+      incomplete_count = incomplete_transcripts.count
+      total_count = collection.transcripts.count
+
       data[:collections][collection.id] = {
         title: collection.title,
-        percent_completed: %(#{ (incomplete_transcripts.count / collection.transcripts.count * 100).round }%),
+        percent_completed: %(#{ (incomplete_count / total_count * 100).round }% (#{incomplete_count/total_count})),
         # only show the download link if there are incomplete ts
         show_guids_link: incomplete_transcripts.count > 0
       }
